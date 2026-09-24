@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+{{head}}
+<title>What If AI | Lewis University Library</title>
+<meta name="description" content="Answer a few questions about your teaching, research or administrative work and find openly licensed activities that use — or deliberately leave out — generative AI."/>
+{{styles}}
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+{{partial:icons.svg}}
+<div id="progress"></div>
+
+<nav class="topbar" aria-label="Site">
+  <div class="topbar__side">
+    <a class="topbar__back" href="register.html"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-crt"/></svg> The Register</a>
+  </div>
+  <div class="topbar__side">
+    <button type="button" class="btn btn--sm saved-btn" data-open-saved aria-haspopup="dialog">
+      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4.5L5 21V4a1 1 0 0 1 1-1z" fill="currentColor"/></svg>
+      Saved activities <span class="count" data-saved-count>0</span>
+    </button>
+  </div>
+  <span class="current current--top" aria-hidden="true"></span>
+</nav>
+
+<div class="app">
+<header class="hdr hdr--compact hdr--lab">
+  <a class="hdr__link" href="https://www.lewisu.edu/academics/library/" target="_blank" rel="noopener noreferrer"
+     aria-label="Lewis University Library homepage (opens in a new tab)">
+    <div class="hdr__logo"><img src="{{asset:img/logo.png}}" alt="Lewis University Library"/></div>
+  </a>
+  <div class="hdr__identity">
+      <div class="hdr__kicker">Lewis University Library · Faculty AI Resource</div>
+      <h1 class="hdr__title">What If <span>AI</span></h1>
+      <p class="hdr__tagline">A few questions about your work. No AI required to answer any of them.</p>
+      <nav class="hdr__utility" aria-label="Related resources">
+        <button type="button" class="hdr-cta hdr-cta--secondary" data-open-tour aria-haspopup="dialog"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-manual"/></svg> How to use What If AI</button>
+        <a class="hdr-cta hdr-cta--secondary" href="register.html"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-crt"/></svg> The Register: browse every activity</a>
+        <a class="hdr-cta hdr-cta--secondary" href="https://lewisu.libguides.com/genaifacultystaff" target="_blank" rel="noopener noreferrer"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-robot"/></svg> Gen AI Faculty &amp; Staff Guide<span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="hdr-cta hdr-cta--secondary" href="https://lewisu.libwizard.com/f/Faculty-AI-Eval-Tool-feedback" target="_blank" rel="noopener noreferrer"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-chat"/></svg> Feedback<span class="sr-only"> (opens in a new tab)</span></a>
+      </nav>
+  </div>
+  <p class="hdr__lede">Describe what you are working on and find openly licensed activities that fit. Some use generative AI and some deliberately leave it out; each one lists its source, license and what to consider before using it. Save the ones you want to keep and print them as a set.</p>
+  <span class="current current--hdr" aria-hidden="true"></span>
+</header>
+
+<div class="layout">
+  <nav class="rail" aria-label="Questions and results" id="rail">
+    <div class="rail__label">Your answers</div>
+  </nav>
+  <main id="main" tabindex="-1">
+    <p class="boot-msg" id="boot-msg" role="status">Loading activities…</p>
+    <section id="wizard" aria-live="off"></section>
+    <section id="plan" hidden></section>
+    <noscript><div class="empty"><strong>This page needs JavaScript to match activities to your answers.</strong>
+      <p>Every activity is also listed in <a href="register.html">The Register</a>.</p></div></noscript>
+  </main>
+</div>
+</div>
+
+{{partial:footer.html}}
+{{partial:dialogs.html}}
+{{partial:tour.html}}
+{{partial:help.html}}
+
+{{scripts}}
+</body>
+</html>

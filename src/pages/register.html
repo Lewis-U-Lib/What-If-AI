@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+{{head}}
+<title>The Register | Lewis University Library</title>
+<meta name="description" content="Every activity in What If AI, with its source and license; a platform-neutral guide to types of AI systems; examples of course AI policies; and the works the activities draw on."/>
+{{styles}}
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+{{partial:icons.svg}}
+<div id="progress"></div>
+
+<nav class="topbar" aria-label="Site">
+  <div class="topbar__side">
+    <a class="topbar__back" href="what-if-ai.html"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-bulb"/></svg> What If AI</a>
+  </div>
+  <div class="topbar__side">
+    <button type="button" class="btn btn--sm saved-btn" data-open-saved aria-haspopup="dialog">
+      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4.5L5 21V4a1 1 0 0 1 1-1z" fill="currentColor"/></svg>
+      Saved activities <span class="count" data-saved-count>0</span>
+    </button>
+  </div>
+  <span class="current current--top" aria-hidden="true"></span>
+</nav>
+
+<div class="app">
+<header class="hdr hdr--compact hdr--lab">
+  <a class="hdr__link" href="https://www.lewisu.edu/academics/library/" target="_blank" rel="noopener noreferrer"
+     aria-label="Lewis University Library homepage (opens in a new tab)">
+    <div class="hdr__logo"><img src="{{asset:img/logo.png}}" alt="Lewis University Library"/></div>
+  </a>
+  <div class="hdr__identity">
+      <div class="hdr__kicker">Lewis University Library · Faculty AI Resource</div>
+      <h1 class="hdr__title">The <span>Register</span></h1>
+      <p class="hdr__tagline">Every activity in What If AI, the kinds of AI systems they involve, course policy examples, and the works behind them.</p>
+      <nav class="hdr__utility" aria-label="Related resources">
+        <a class="hdr-cta hdr-cta--secondary" href="what-if-ai.html"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-bulb"/></svg> What If AI: find activities by answering a few questions</a>
+        <a class="hdr-cta hdr-cta--secondary" href="https://lewisu.libguides.com/genaifacultystaff" target="_blank" rel="noopener noreferrer"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-robot"/></svg> Gen AI Faculty &amp; Staff Guide<span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="hdr-cta hdr-cta--secondary" href="https://lewisu.libwizard.com/f/Faculty-AI-Eval-Tool-feedback" target="_blank" rel="noopener noreferrer"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-chat"/></svg> Feedback<span class="sr-only"> (opens in a new tab)</span></a>
+      </nav>
+  </div>
+  <span class="current current--hdr" aria-hidden="true"></span>
+</header>
+
+<nav aria-label="Sections of The Register">
+  <ul class="secnav" id="secnav">
+    <li><a href="#activities" data-sec="activities"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-clipboard"/></svg> Activities <span class="n" data-count="activities"></span></a></li>
+    <li><a href="#ai-types" data-sec="ai-types"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-robot"/></svg> Types of AI systems</a></li>
+    <li><a href="#policies" data-sec="policies"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-columns"/></svg> Course AI policies</a></li>
+    <li><a href="#sources" data-sec="sources"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-books"/></svg> Sources <span class="n" data-count="works"></span></a></li>
+    <li><a href="#about" data-sec="about"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-manual"/></svg> How to use</a></li>
+  </ul>
+</nav>
+<div class="gsearch" role="search">
+  <label class="sr-only" for="gq">Search activities and sources</label>
+  <input class="input" id="gq" type="search" placeholder="Search activities and sources…" autocomplete="off"/>
+</div>
+
+<main id="main" tabindex="-1">
+  <p class="boot-msg" id="boot-msg" role="status">Loading the collection…</p>
+  <section class="rsec" id="activities" aria-labelledby="h-activities"></section>
+  <section class="rsec" id="ai-types" aria-labelledby="h-ai-types"></section>
+  <section class="rsec" id="policies" aria-labelledby="h-policies"></section>
+  <section class="rsec" id="sources" aria-labelledby="h-sources"></section>
+  <section class="rsec" id="about" aria-labelledby="h-about"></section>
+  <noscript><div class="empty"><strong>This page needs JavaScript to display the collection.</strong></div></noscript>
+</main>
+</div>
+
+{{partial:footer.html}}
+{{partial:dialogs.html}}
+{{partial:help.html}}
+
+{{scripts}}
+</body>
+</html>

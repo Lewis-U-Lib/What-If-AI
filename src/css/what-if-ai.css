@@ -1,0 +1,57 @@
+/* ════ What If AI · questions ════ */
+.qpanel .panel__body{padding-top:16px;}
+.qstep{font-family:var(--font-h);font-size:15px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);}
+.qbar{display:flex;gap:6px;margin:0 0 4px;}
+.qbar span{flex:1;height:5px;border-radius:3px;background:rgba(255,255,255,.14);}
+.qbar span.on{background:var(--gold);}
+.qbar span.done{background:rgba(222,187,112,.55);}
+fieldset.opts{border:0;margin:0;padding:0;min-width:0;}
+fieldset.opts legend{font-family:var(--font-h);font-size:17px;font-weight:700;color:var(--gold);letter-spacing:.04em;margin-bottom:10px;padding:0;}
+.optgrid{display:grid;grid-template-columns:1fr;gap:10px;}
+.optgrid.two{grid-template-columns:repeat(2,minmax(0,1fr));}
+.opt{position:relative;display:flex;align-items:center;gap:14px;min-height:60px;padding:12px 16px;border-radius:12px;
+  border:1.5px solid var(--line);background:rgba(20,2,8,.22);cursor:pointer;transition:border-color var(--ease),background var(--ease);}
+.opt:hover{border-color:var(--gold);background:rgba(222,187,112,.10);}
+.opt input{position:absolute;opacity:0;width:1px;height:1px;}
+.opt__mark{flex:none;width:24px;height:24px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;}
+.opt.is-check .opt__mark{border-radius:6px;}
+.opt__main{display:flex;flex-direction:column;min-width:0;flex:1;}
+.opt__label{font-size:17.5px;font-weight:600;color:var(--ink);line-height:1.3;}
+.opt__desc{font-size:15px;color:var(--ink-2);line-height:1.4;margin-top:2px;}
+.opt__n{flex:none;font-size:14.5px;font-weight:600;color:var(--gold);white-space:nowrap;}
+.opt:has(input:checked){border-color:var(--gold);background:rgba(222,187,112,.18);box-shadow:inset 0 0 0 1px var(--gold);}
+.opt input:checked + .opt__mark{background:var(--gold);}
+.opt input:checked + .opt__mark::after{content:'';width:8px;height:13px;border:solid #2a0610;border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-1px);}
+.opt:has(input:focus-visible){outline:3px solid var(--focus);outline-offset:3px;box-shadow:0 0 0 7px rgba(20,2,8,.75);}
+.qnote{margin-top:12px;color:var(--ink-2);font-size:15.5px;}
+.qmore{margin-top:16px;border-top:1px solid var(--line);padding-top:12px;}
+.qmore summary{cursor:pointer;font-family:var(--font-h);font-size:18px;font-weight:700;color:var(--gold);min-height:var(--tap-min);
+  display:flex;align-items:center;gap:8px;}
+.qmore summary::marker{color:var(--gold);}
+.qmore .optgrid{margin-top:10px;}
+.qmore fieldset + fieldset{margin-top:14px;}
+.qnav{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:20px;padding-top:16px;border-top:1px solid var(--line);}
+.qnav .spacer{flex:1;}
+.noai{margin-top:14px;}
+
+/* ════ What If AI · results ════ */
+.rhead{margin-bottom:18px;}
+.rhead h2{font-size:clamp(30px,3.6vw,40px);font-weight:800;margin:4px 0 8px;}
+.answers{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;padding:0;list-style:none;}
+.answers li{max-width:none;}
+.answer{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:6px 12px;border-radius:999px;border:1.5px solid var(--line-strong);
+  background:rgba(20,2,8,.25);color:var(--ink);font:inherit;font-size:15.5px;cursor:pointer;}
+.answer:hover{border-color:var(--gold);background:rgba(222,187,112,.12);}
+.answer .k{color:var(--gold);font-weight:600;}
+.answer .ed{font-size:13px;color:var(--gold);text-decoration:underline;}
+.ractions{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 6px;}
+.band{margin-top:28px;}
+.band__h{font-size:clamp(22px,2.4vw,27px);font-weight:800;margin:0 0 4px;}
+.band__note{color:var(--ink-2);margin:0 0 14px;}
+.browse{margin-top:28px;padding:16px 20px;border:1.5px solid var(--line);border-radius:var(--r);background:rgba(0,0,0,.14);}
+@media(max-width:760px){
+  .optgrid.two{grid-template-columns:1fr;}
+  .opt{padding:10px 12px;}
+  .qnav .btn{flex:1 1 auto;}
+  .qnav .spacer{display:none;}
+}

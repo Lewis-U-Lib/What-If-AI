@@ -1,0 +1,29 @@
+<dialog class="dlg" id="actDialog" aria-labelledby="actDialogTitle">
+  <div class="dlg__head">
+    <div>
+      <div class="kicker" data-dlg-kicker></div>
+      <h2 id="actDialogTitle" data-dlg-title>Activity</h2>
+    </div>
+    <button type="button" class="dlg__close" data-close aria-label="Close activity details"><span aria-hidden="true">✕</span></button>
+  </div>
+  <div class="dlg__body"></div>
+  <div class="dlg__foot"></div>
+</dialog>
+
+<dialog class="dlg drawer" id="savedDrawer" aria-labelledby="savedTitle">
+  <div class="dlg__head">
+    <div>
+      <div class="kicker">Your selection</div>
+      <h2 id="savedTitle" data-dlg-title>Saved activities</h2>
+    </div>
+    <button type="button" class="dlg__close" data-close aria-label="Close saved activities"><span aria-hidden="true">✕</span></button>
+  </div>
+  <div class="dlg__body" id="savedBody"></div>
+  <div class="dlg__foot" id="savedFoot" hidden>
+    <button type="button" class="btn btn--sm btn--primary" id="printSaved">Print or save as PDF</button>
+    <button type="button" class="btn btn--sm" id="clearSaved">Clear all</button>
+  </div>
+</dialog>
+
+<div id="printRoot" aria-hidden="true"></div>
+<div id="srStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>

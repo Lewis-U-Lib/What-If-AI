@@ -1,0 +1,23 @@
+{
+  "name": "what-if-ai-the-register",
+  "version": "0.1.0",
+  "private": true,
+  "description": "What If AI and The Register (Lewis University Library). Building needs only Python 3; Node is used for the local preview server and the browser tests.",
+  "scripts": {
+    "build": "python3 tools/build.py",
+    "check:release": "python3 tools/check_release.py",
+    "serve": "node tests/serve.js",
+    "test": "npm run check:release && npm run build && npm run test:site && npm run test:pages && npm run test:a11y && npm run test:contrast",
+    "test:site": "node tests/site.test.js",
+    "test:pages": "node tests/pages.test.js",
+    "test:a11y": "node tests/a11y.test.js",
+    "test:contrast": "node tests/contrast.test.js"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "playwright": "1.56.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

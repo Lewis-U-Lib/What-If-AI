@@ -1,0 +1,69 @@
+# Build, test, and (on main) deploy to GitHub Pages.
+# One-time setting, done by a repository admin: Settings → Pages → Source: "GitHub Actions".
+name: Build, test and deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Check the data release
+        run: python3 tools/check_release.py
+      - name: Build
+        run: python3 tools/build.py
+
+      - name: Install test tools
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Site checks (fingerprints, CSP, loading states, determinism)
+        run: node tests/site.test.js
+      - name: Page behavior
+        run: node tests/pages.test.js
+      - name: Accessibility (axe, WCAG 2.2 A/AA)
+        run: node tests/a11y.test.js
+      - name: Contrast over textured surfaces
+        run: node tests/contrast.test.js
+
+      - name: Upload the site
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    # only a push to main publishes; pull requests stop after the tests
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,201 @@
+/* ════════════════════════════════════════════════════════════
+   LAB · retro robotics layer (What If AI + The Register)
+   Sits on the crimson-plate base (theme-plate.css). Adds the robot/terminal
+   motifs: line icons, indicator lamps, terminal readouts, the occasional pulse
+   of current along a seam, the header with the logo upper-left, field tags,
+   collapsible AI-system cards, the operating-principles console and the
+   walkthrough. Built from the house tokens; decoration never sits behind text.
+════════════════════════════════════════════════════════════ */
+
+:root{
+  --lamp-amber:#ffc95c; --lamp-green:#8fe09a; --lamp-red:#ff8f8f; --lamp-off:#5a2330;
+  --glass:#140306;       /* terminal glass: cream text on it is 17:1 */
+  --glass-ink:#f7e8c9;
+  --paper:#fbf3e4;       /* the walkthrough's drawing paper */
+}
+
+/* ═══ icons ═══ */
+.ico{width:1.2em;height:1.2em;flex:none;vertical-align:-.22em;}
+.btn .ico,.hdr-cta .ico,.topbar__back .ico{width:20px;height:20px;}
+.secnav .ico svg,.secnav svg.ico{width:22px;height:22px;}
+.fab-item__icon .ico{width:19px;height:19px;vertical-align:-.25em;}
+.site-foot__links .ico{width:17px;height:17px;margin-right:5px;vertical-align:-.2em;}
+
+/* ═══ header: logo in the upper-left of the plate, identity centered on the page ═══ */
+.hdr--lab .hdr__link{position:absolute;top:22px;left:26px;z-index:2;margin:0;}
+.hdr--lab .hdr__logo img{max-width:10.2rem;max-height:4.9rem;}
+.hdr--lab .hdr__identity{padding:0 196px;text-align:center;}
+.hdr--lab .hdr__utility{justify-content:center;}
+.hdr--lab .hdr__lede{position:relative;z-index:1;}
+.hdr-cta{display:inline-flex;align-items:center;gap:8px;}
+button.hdr-cta{font:inherit;font-family:var(--font-h);font-weight:700;letter-spacing:.04em;cursor:pointer;
+  font-size:clamp(.9rem,.82rem + .25vw,1rem);line-height:1.15;}
+@media(max-width:1100px){
+  .hdr--lab .hdr__logo img{max-width:8.2rem;max-height:3.9rem;}
+  .hdr--lab .hdr__identity{padding:0 150px;}
+}
+@media(max-width:980px){
+  /* too narrow for the logo beside a centered title: the logo keeps its corner and the centered
+     identity starts below it, so the two never overlap at any zoom */
+  .hdr--lab .hdr__link{top:14px;left:16px;}
+  .hdr--lab .hdr__logo img{max-width:7.4rem;max-height:3.5rem;}
+  .hdr--lab .hdr__identity{padding:4.1rem 0 0;}
+}
+@media(max-width:760px){
+  .hdr--lab .hdr__logo img{max-width:6.6rem;max-height:3.1rem;}
+  .hdr--lab .hdr__identity{padding-top:3.7rem;}
+}
+
+/* ═══ current: a short pulse of light that now and then runs along a seam ═══
+   Absolutely positioned (no layout shift), animates transform + opacity only,
+   runs for ~1.5s once every 14–30s (timing set per element at load), low opacity,
+   never behind text. Off under reduced motion, more contrast, forced colors and print. */
+.current{position:absolute;left:0;right:0;height:6px;overflow:hidden;pointer-events:none;z-index:3;}
+.current::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;
+  background:linear-gradient(90deg,rgba(255,226,150,0),rgba(255,226,150,.7) 55%,rgba(255,250,235,.95) 72%,rgba(255,226,150,0)) 0 50%/150px 2px no-repeat;
+  filter:drop-shadow(0 0 2.5px rgba(255,205,110,.85));
+  opacity:0;transform:translateX(-160px);will-change:transform,opacity;
+  animation:lab-current var(--cur-dur,21s) cubic-bezier(.42,0,.58,1) var(--cur-delay,4s) infinite;}
+@keyframes lab-current{
+  0%{transform:translateX(-160px);opacity:0;}
+  .8%{opacity:.85;}
+  7%{opacity:.85;}
+  7.6%{transform:translateX(100%);opacity:0;}
+  100%{transform:translateX(100%);opacity:0;}
+}
+.topbar .current--top{bottom:-2px;}
+.current--hdr{bottom:25px;}
+@media(max-width:760px){.current--hdr{bottom:19px;}}
+.site-foot .current--foot{top:-1px;}
+.current--dlg{bottom:-3px;}
+.current--console{top:-3px;left:18px;right:18px;}
+
+/* ═══ question panel icon ═══ */
+.panel__icon{color:var(--gold);}
+.panel__icon .ico{width:28px;height:28px;}
+
+/* ═══ the way into The Register at the foot of an activity's details ═══ */
+.detail .idline a{display:inline-flex;align-items:center;gap:7px;min-height:var(--tap-min);font-size:16px;}
+
+/* ═══ indicator lamps ═══ */
+.lamp{display:inline-block;flex:none;width:9px;height:9px;border-radius:50%;background:var(--lamp-off);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.25),0 0 0 1.5px rgba(10,1,3,.7);}
+.lamp--on{background:radial-gradient(circle at 40% 35%,#fff4d1,var(--lamp-amber) 60%);box-shadow:0 0 0 1.5px rgba(10,1,3,.7),0 0 6px rgba(255,201,92,.75);}
+.lamp--green{background:radial-gradient(circle at 40% 35%,#eaffe9,var(--lamp-green) 60%);box-shadow:0 0 0 1.5px rgba(10,1,3,.7),0 0 5px rgba(143,224,154,.6);}
+.lamps{position:absolute;top:14px;right:34px;display:flex;gap:7px;z-index:2;}
+.rail [aria-current="step"]::after{content:'';flex:none;margin-left:auto;width:9px;height:9px;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,#fff4d1,var(--lamp-amber) 60%);box-shadow:0 0 0 1.5px rgba(10,1,3,.7),0 0 6px rgba(255,201,92,.75);}
+
+/* ═══ terminal readouts (result counts) ═══ */
+.countline,.readout{display:block;max-width:none;margin:14px 0;padding:10px 14px 10px 36px;position:relative;border-radius:6px;
+  background:var(--glass);color:var(--glass-ink);font-family:var(--font-m);font-size:15px;line-height:1.55;letter-spacing:.01em;
+  box-shadow:inset 0 0 0 1px rgba(222,187,112,.28),inset 0 2px 10px rgba(0,0,0,.7),0 1px 0 rgba(255,230,234,.08);}
+.countline::before,.readout::before{content:'';position:absolute;left:14px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,#eaffe9,var(--lamp-green) 60%);box-shadow:0 0 0 1.5px rgba(10,1,3,.7),0 0 5px rgba(143,224,154,.55);}
+.countline strong,.readout strong{color:#ffe08a;font-weight:600;}
+.countline a{color:#ffe08a;}
+.countline .btn{margin-left:6px;}
+
+/* ═══ field tags on activity cards ═══ */
+.ftags{display:flex;flex-wrap:wrap;gap:6px;margin:-2px 0 10px;padding:0;list-style:none;}
+.ftags li{max-width:none;}
+.ftag{display:inline-flex;align-items:center;gap:6px;padding:2px 9px 2px 8px;border-radius:4px;font-size:13.5px;font-weight:600;
+  line-height:1.45;color:var(--cream-lt);background:rgba(10,1,3,.42);border:1px solid rgba(222,187,112,.42);letter-spacing:.01em;}
+.ftag::before{content:'';flex:none;width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 1px rgba(10,1,3,.6);}
+.ftag--none{color:var(--ink-2);font-weight:500;border-style:dashed;border-color:rgba(222,187,112,.3);}
+.ftag--none::before{background:transparent;box-shadow:inset 0 0 0 1px var(--ink-3);}
+
+/* ═══ types of AI systems: collapsed by default, primary description always visible ═══ */
+.type__icon{color:var(--gold);}
+.type__icon .ico{width:28px;height:28px;}
+.type__more{margin-top:auto;}
+.type__more > summary{list-style:none;display:flex;align-items:center;gap:10px;min-height:var(--tap-min);padding:8px 14px;
+  border-radius:var(--r);cursor:pointer;font-family:var(--font-h);font-size:17px;font-weight:700;letter-spacing:.03em;color:var(--gold);
+  background:rgba(10,1,3,.4);border:1px solid rgba(222,187,112,.4);box-shadow:inset 0 1px 3px rgba(0,0,0,.4);}
+.type__more > summary::-webkit-details-marker{display:none;}
+.type__more > summary:hover{border-color:var(--gold);background:rgba(10,1,3,.58);color:var(--cream-lt);}
+.type__more > summary .ico{margin-left:auto;width:20px;height:20px;transition:transform .2s ease;}
+.type__more[open] > summary .ico{transform:rotate(180deg);}
+.type__more[open] > summary .lamp{background:radial-gradient(circle at 40% 35%,#fff4d1,var(--lamp-amber) 60%);box-shadow:0 0 0 1.5px rgba(10,1,3,.7),0 0 6px rgba(255,201,92,.75);}
+.type__more .when-open{display:none;}
+.type__more[open] .when-open{display:inline;}
+.type__more[open] .when-closed{display:none;}
+.type__detail{padding:6px 2px 0;}
+.type__detail dl{margin-top:4px;}
+.type p.what{margin-bottom:14px;}
+
+/* ═══ “Whatever the tool”: a system-wide console, not another card ═══ */
+.protocols{position:relative;margin-top:28px;padding:18px 18px 20px;border-radius:var(--r);border:1px solid rgba(0,0,0,.6);
+  background-color:var(--steel-3);background-image:var(--plate);
+  background-size:340px 340px,520px 520px,520px 520px,900px 900px,100% 100%,100% 100%;
+  box-shadow:inset 0 1px 0 rgba(255,230,234,.12),0 10px 28px rgba(0,0,0,.45);}
+.protocols::before{content:'';position:absolute;inset:7px;pointer-events:none;
+  background:var(--rivet-sm),var(--rivet-sm),var(--rivet-sm),var(--rivet-sm);background-repeat:no-repeat;background-size:11px 11px;
+  background-position:0 0,100% 0,0 100%,100% 100%;}
+.protocols__head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:0 14px 14px;}
+.protocols__head h3{font-size:clamp(24px,2.6vw,30px);font-weight:800;margin:0;color:var(--ink);
+  text-shadow:0 -1px 0 rgba(0,0,0,.55),0 1px 0 rgba(255,230,234,.1);}
+.protocols__head .ico{width:30px;height:30px;color:var(--gold);}
+.protocols__tag{margin-left:auto;font-family:var(--font-h);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  padding:4px 12px;border-radius:3px;color:var(--brass-ink);background:linear-gradient(180deg,var(--brass-hi),var(--brass) 45%,var(--brass-lo));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 2px 4px rgba(0,0,0,.4);}
+.protocols__screen{margin:0 8px;padding:16px 20px;border-radius:10px;background:var(--glass);
+  box-shadow:inset 0 0 0 2px #2a0a10,inset 0 0 0 5px rgba(222,187,112,.18),inset 0 4px 18px rgba(0,0,0,.8);}
+.protocols__list{list-style:none;margin:0;padding:0;display:grid;gap:10px;}
+.protocols__list li{display:flex;gap:12px;align-items:baseline;max-width:none;color:var(--glass-ink);font-size:16.5px;line-height:1.55;}
+.protocols__list .lamp{position:relative;top:1px;}
+
+/* ═══ the walkthrough ═══ */
+.tour{width:min(900px,calc(100vw - 24px));}
+.tour .dlg__head{position:relative;}
+.tour__slide{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:24px;align-items:center;}
+.tour__slide[hidden]{display:none;}
+.tour__art{padding:10px;border-radius:10px;background:var(--paper);
+  box-shadow:0 0 0 5px #3d0a15,0 0 0 6px rgba(222,187,112,.35),0 10px 24px rgba(0,0,0,.45);}
+.tour__art svg{display:block;width:100%;height:auto;}
+.tour__text h3{font-size:clamp(24px,2.6vw,29px);font-weight:800;color:var(--gold);margin:0 0 10px;}
+.tour__text p{color:var(--ink);font-size:17px;margin:0 0 10px;}
+.tour__foot{align-items:center;gap:10px 14px;}
+.tour__pos{margin:0 auto 0 4px;padding:6px 12px 6px 30px;font-size:14.5px;}
+.tour__pos::before{left:11px;}
+.tour__dots{display:flex;gap:4px;}
+.tour__dot{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;padding:0;border:0;border-radius:50%;
+  background:none;cursor:pointer;}
+.tour__dot .lamp{width:11px;height:11px;}
+.tour__dot[aria-current="step"] .lamp{background:radial-gradient(circle at 40% 35%,#fff4d1,var(--lamp-amber) 60%);box-shadow:0 0 0 1.5px rgba(10,1,3,.7),0 0 6px rgba(255,201,92,.75);}
+.tour__dot:hover .lamp{box-shadow:0 0 0 2px var(--gold);}
+.tour-cta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:0 0 14px;color:var(--ink-2);font-size:15.5px;}
+.tour-cta .btn{min-height:40px;}
+@media(max-width:760px){
+  .tour__slide{grid-template-columns:1fr;gap:16px;}
+  .tour__art{max-width:380px;width:100%;margin:6px auto 0;}
+  .tour__dots{display:none;}
+  .tour__pos{margin:0 auto;}
+  .lamps{right:24px;top:10px;}
+}
+
+/* the floating help button sits under any open dialog anyway (dialogs are modal); hide it so it never
+   appears to cover a dialog's own controls */
+body:has(dialog[open]) .fab-wrap{visibility:hidden;}
+
+/* ═══ motion, contrast, forced colors, print ═══ */
+@media(prefers-reduced-motion:reduce){
+  .current{display:none;}
+  .type__more > summary .ico{transition:none;}
+}
+@media(prefers-contrast:more){
+  .current,.lamps{display:none;}
+  .protocols{background-image:none;background-color:#44091a;}
+  .protocols::before{display:none;}
+  .countline{box-shadow:inset 0 0 0 2px var(--gold);}
+}
+@media(forced-colors:active){
+  .current,.lamps,.protocols::before,.countline::before,.readout::before{display:none;}
+  .ftag::before,.lamp{forced-color-adjust:auto;}
+}
+@media print{
+  .current,.lamps,.tour,.tour-cta,.protocols::before{display:none !important;}
+  .countline{background:none !important;box-shadow:none !important;color:#111 !important;padding-left:0 !important;}
+  .countline::before{display:none !important;}
+  .ftag{color:#111 !important;background:none !important;border-color:#999 !important;}
+}

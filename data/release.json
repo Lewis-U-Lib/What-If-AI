@@ -1,0 +1,30 @@
+{
+ "contract": 1,
+ "release": "66661c47c06b",
+ "built": "2026-09-24",
+ "source": {
+  "repo": "Lewis-U-Lib/Faculty-AI-Evaluation-Tool",
+  "branch": "release-export",
+  "commit": "aab8197ee43a9382a03c4666095ae495b35dadfc",
+  "clean": true
+ },
+ "counts": {
+  "activities": 745,
+  "works": 249,
+  "withheld_not_exported": 198
+ },
+ "files": {
+  "acts.json": {
+   "bytes": 2342534,
+   "sha256": "05495034da5676e4691c32be810e96b7a0bdbd4ad6e1b96619dc79a5f89d0687"
+  },
+  "register.json": {
+   "bytes": 233390,
+   "sha256": "3aa27a9083a388fd313a550553dda0933e6a510075f3c4bdae130f41a9775105"
+  },
+  "guide.json": {
+   "bytes": 8327,
+   "sha256": "22dbfe42766273bbf490c52711d20ef97df9cb3c5b45ac3e08495684db13b4eb"
+  }
+ }
+}

@@ -1,0 +1,104 @@
+<!-- ══ icon set (retro lab) · 24×24 line icons that inherit currentColor; always used aria-hidden ══ -->
+<svg class="icon-sprite" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- a friendly retro robot: antenna, boxy head, round eyes, grille mouth, ear bolts -->
+    <symbol id="i-robot" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3.6v2.3"/><circle cx="12" cy="2.6" r="1.1" fill="currentColor" stroke="none"/>
+      <rect x="5.2" y="5.9" width="13.6" height="10.6" rx="2.4"/>
+      <rect x="2.6" y="9" width="2.6" height="4.4" rx="1"/><rect x="18.8" y="9" width="2.6" height="4.4" rx="1"/>
+      <circle cx="9.3" cy="10.3" r="1.6"/><circle cx="14.7" cy="10.3" r="1.6"/>
+      <path d="M9.2 13.9h5.6M10.6 13.9v1.2M12 13.9v1.2M13.4 13.9v1.2"/>
+      <path d="M10 16.5v2h4v-2M6.5 21.4c.6-1.8 2.4-2.9 5.5-2.9s4.9 1.1 5.5 2.9"/></g></symbol>
+    <!-- robot with a slash: activities that use no AI tool -->
+    <symbol id="i-robot-off" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3.6v2.3"/><circle cx="12" cy="2.6" r="1.1" fill="currentColor" stroke="none"/>
+      <rect x="5.2" y="5.9" width="13.6" height="10.6" rx="2.4"/>
+      <circle cx="9.3" cy="10.3" r="1.6"/><circle cx="14.7" cy="10.3" r="1.6"/>
+      <path d="M9.2 13.9h5.6M10 16.5v2h4v-2"/><path d="M3.2 3.2l17.6 17.6" stroke-width="2.2"/></g></symbol>
+    <!-- CRT terminal: The Register, detail and data views -->
+    <symbol id="i-crt" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2.4" y="3.4" width="19.2" height="14" rx="2.6"/><rect x="4.9" y="5.9" width="11" height="9" rx="1.6"/>
+      <path d="M7 9h4.2M7 11.8h6"/><circle cx="18.6" cy="13.9" r=".95" fill="currentColor" stroke="none"/><path d="M18 7.2h1.4"/>
+      <path d="M9.2 17.4l-.9 3.2h7.4l-.9-3.2"/></g></symbol>
+    <!-- light bulb: an idea, guidance; What If AI -->
+    <symbol id="i-bulb" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2.8a6.2 6.2 0 0 0-3.7 11.2c.8.6 1.2 1.4 1.2 2.3v.8h5v-.8c0-.9.4-1.7 1.2-2.3A6.2 6.2 0 0 0 12 2.8z"/>
+      <path d="M9.7 19.6h4.6M10.6 21.6h2.8M10.4 12.6l1.6-2.2 1.6 2.2"/></g></symbol>
+    <!-- lightning bolt: power, activation -->
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13.4 2.4 5 13.6h6.1l-1.1 8 8.4-11.3h-6.2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <!-- gear: a task, the work to do -->
+    <symbol id="i-gear" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round">
+      <circle cx="12" cy="12" r="5.3" stroke-width="1.8"/><circle cx="12" cy="12" r="1.9" stroke-width="1.8"/>
+      <path d="M12 3v2.3M12 18.7V21M3 12h2.3M18.7 12H21M5.6 5.6l1.6 1.6M16.8 16.8l1.6 1.6M5.6 18.4l1.6-1.6M16.8 7.2l1.6-1.6" stroke-width="2.6"/></g></symbol>
+    <!-- mortarboard: field or discipline -->
+    <symbol id="i-cap" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2.5 9.2 12 4.6l9.5 4.6L12 13.8z"/><path d="M6.4 11.1v4.6c1.5 1.5 3.4 2.2 5.6 2.2s4.1-.7 5.6-2.2v-4.6"/><path d="M21.5 9.2v5.2"/></g></symbol>
+    <!-- gauge: scale -->
+    <symbol id="i-gauge" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3.6 17.4a8.8 8.8 0 1 1 16.8 0z"/><path d="M12 15.6l3.6-4.8"/><circle cx="12" cy="15.6" r="1.2" fill="currentColor" stroke="none"/>
+      <path d="M6.3 12.2l1.2.6M12 7.3v1.3M17.7 12.2l-1.2.6"/></g></symbol>
+    <!-- toggle switch: limits, what is ruled out -->
+    <symbol id="i-switch" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2.4" y="7.2" width="19.2" height="9.6" rx="4.8"/><circle cx="16.8" cy="12" r="2.9" fill="currentColor" stroke="none"/><path d="M6.6 12h3"/></g></symbol>
+    <!-- speech bubble: feedback, conversation -->
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 4.8h16a1.2 1.2 0 0 1 1.2 1.2v9a1.2 1.2 0 0 1-1.2 1.2H10l-5 4v-4H4A1.2 1.2 0 0 1 2.8 15V6A1.2 1.2 0 0 1 4 4.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chat-dots" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+      <path d="M4 4.8h16a1.2 1.2 0 0 1 1.2 1.2v9a1.2 1.2 0 0 1-1.2 1.2H10l-5 4v-4H4A1.2 1.2 0 0 1 2.8 15V6A1.2 1.2 0 0 1 4 4.8z"/></g>
+      <g fill="currentColor"><circle cx="8" cy="10.5" r="1.2"/><circle cx="12" cy="10.5" r="1.2"/><circle cx="16" cy="10.5" r="1.2"/></g></symbol>
+    <!-- calendar: appointments -->
+    <symbol id="i-calendar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3.2" y="5" width="17.6" height="15.6" rx="2"/><path d="M3.2 9.6h17.6M8 3v4M16 3v4M7.4 13.4h2M11 13.4h2M14.6 13.4h2M7.4 16.8h2M11 16.8h2"/></g></symbol>
+    <!-- clipboard: the activities list -->
+    <symbol id="i-clipboard" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4.6" y="4.4" width="14.8" height="17" rx="2"/><rect x="8.6" y="2.6" width="6.8" height="3.6" rx="1"/><path d="M8.2 11h7.6M8.2 14.4h7.6M8.2 17.8h4.6"/></g></symbol>
+    <!-- columns: course policies -->
+    <symbol id="i-columns" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9.2 12 4l9 5.2z"/><path d="M5.4 10.6v7.2M9.8 10.6v7.2M14.2 10.6v7.2M18.6 10.6v7.2M3 20.4h18"/></g></symbol>
+    <!-- books: sources -->
+    <symbol id="i-books" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3.4" y="4" width="4.4" height="16.4" rx=".8"/><rect x="7.8" y="6.4" width="4.4" height="14" rx=".8"/>
+      <path d="m13.6 7.4 3.9-1.3 3.4 13.8-3.9 1.2z"/><path d="M3.4 8.2h4.4M7.8 10h4.4"/></g></symbol>
+    <!-- open manual: how to use -->
+    <symbol id="i-manual" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2.8 5.4c3.2-1.2 6.2-1 9.2 1.2 3-2.2 6-2.4 9.2-1.2v13.4c-3.2-1.2-6.2-1-9.2 1.2-3-2.2-6-2.4-9.2-1.2z"/><path d="M12 6.6v13.4"/></g></symbol>
+    <!-- document: works from documents you supply -->
+    <symbol id="i-doc" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 2.8h8.4l4.6 4.6v13.8H6z"/><path d="M14.2 2.8v4.8H19M8.8 12h6.4M8.8 15.2h6.4M8.8 18.2h4"/></g></symbol>
+    <!-- magnifier: search -->
+    <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.4" cy="10.4" r="6.4"/><path d="m15.2 15.2 5.6 5.6" stroke-width="2.4"/></g></symbol>
+    <!-- eye: reads images -->
+    <symbol id="i-eye" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+      <path d="M2.2 12s3.6-6.4 9.8-6.4 9.8 6.4 9.8 6.4-3.6 6.4-9.8 6.4S2.2 12 2.2 12z"/><circle cx="12" cy="12" r="3"/></g></symbol>
+    <!-- picture: image generation -->
+    <symbol id="i-image" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2.8" y="4.2" width="18.4" height="15.6" rx="2"/><circle cx="8.4" cy="9.4" r="1.7"/><path d="m3.4 18.4 5.4-5.2 3.8 3.4 3-2.8 5.2 4.6"/></g></symbol>
+    <!-- film: video generation -->
+    <symbol id="i-film" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2.8" y="4.2" width="18.4" height="15.6" rx="2"/><path d="M7.2 4.2v15.6M16.8 4.2v15.6M2.8 9.4h4.4M2.8 14.6h4.4M16.8 9.4h4.4M16.8 14.6h4.4"/></g></symbol>
+    <!-- microphone: speech and audio -->
+    <symbol id="i-mic" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="8.6" y="2.8" width="6.8" height="11.6" rx="3.4"/><path d="M5.2 11.4a6.8 6.8 0 0 0 13.6 0M12 18.2v3M8.8 21.2h6.4"/></g></symbol>
+    <!-- code brackets: code and data -->
+    <symbol id="i-code" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.6 4.6l-3.2 14.8"/></g></symbol>
+    <!-- circuit: agentic and workflow systems -->
+    <symbol id="i-circuit" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="5" cy="5.4" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="5" cy="18.6" r="2"/>
+      <path d="M7 5.4h4.2l3.4 6.6H17M7 18.6h4.2l3.4-6.6"/></g></symbol>
+    <!-- server rack: institutionally hosted AI -->
+    <symbol id="i-server" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3.4" y="3.4" width="17.2" height="7.2" rx="1.6"/><rect x="3.4" y="13.4" width="17.2" height="7.2" rx="1.6"/>
+      <path d="M7 7h.01M7 17h.01M11 7h6M11 17h6" stroke-width="2.2"/></g></symbol>
+    <!-- flask: discipline-specific machine learning -->
+    <symbol id="i-flask" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9.4 2.8h5.2M10.2 2.8v6.4L4.6 18.6a1.8 1.8 0 0 0 1.6 2.6h11.6a1.8 1.8 0 0 0 1.6-2.6l-5.6-9.4V2.8"/><path d="M7.2 14.6h9.6"/></g></symbol>
+    <!-- disclosure chevron -->
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6.5 9 5.5 5.5L17.5 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <!-- arrows for the walkthrough -->
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5.5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h13.5M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <!-- printer -->
+    <symbol id="i-print" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6.4 8.6V3.2h11.2v5.4"/><rect x="2.8" y="8.6" width="18.4" height="8.4" rx="1.8"/><path d="M6.4 14.2h11.2v6.6H6.4z"/><path d="M17.4 11.6h.01" stroke-width="2.4"/></g></symbol>
+  </defs>
+</svg>

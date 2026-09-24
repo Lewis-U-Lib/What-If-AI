@@ -1,0 +1,173 @@
+<!-- ══ walkthrough: How to use What If AI (optional, never opens by itself) ══ -->
+<svg class="icon-sprite" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- a slight wobble on every shape so the drawings read as painted, not plotted -->
+    <filter id="wc" x="-4%" y="-4%" width="108%" height="108%">
+      <feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <radialGradient id="wcGold" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#f6db94"/><stop offset=".7" stop-color="#e2b554"/><stop offset="1" stop-color="#c8963a"/></radialGradient>
+    <radialGradient id="wcRed" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#d14a60"/><stop offset=".7" stop-color="#b02a42"/><stop offset="1" stop-color="#861c30"/></radialGradient>
+    <radialGradient id="wcSteel" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#c9ced6"/><stop offset=".7" stop-color="#a2a9b3"/><stop offset="1" stop-color="#7c848f"/></radialGradient>
+    <radialGradient id="wcCream" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#f4efe6"/><stop offset="1" stop-color="#d9d0c3"/></radialGradient>
+    <radialGradient id="wcScreen" cx="45%" cy="40%" r="75%"><stop offset="0" stop-color="#a9cfa6"/><stop offset="1" stop-color="#6f9a73"/></radialGradient>
+    <radialGradient id="wcSky" cx="40%" cy="35%" r="80%"><stop offset="0" stop-color="#e6f0f5"/><stop offset="1" stop-color="#9fc0d0"/></radialGradient>
+  </defs>
+</svg>
+
+<dialog class="dlg tour" id="tourDialog" aria-labelledby="tourTitle">
+  <div class="dlg__head">
+    <div>
+      <div class="kicker">Walkthrough</div>
+      <h2 id="tourTitle" data-dlg-title>How to use What If AI</h2>
+    </div>
+    <button type="button" class="dlg__close" data-close aria-label="Close the walkthrough"><span aria-hidden="true">✕</span></button>
+    <span class="current current--dlg" aria-hidden="true"></span>
+  </div>
+  <div class="dlg__body tour__body">
+    <section class="tour__deck" aria-roledescription="carousel" aria-label="How to use What If AI">
+      <div class="tour__slides" id="tourSlides" aria-live="polite">
+
+        <div class="tour__slide" role="group" aria-roledescription="slide" aria-label="1 of 7" data-slide>
+          <div class="tour__art" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><g filter="url(#wc)">
+            <circle cx="238" cy="58" r="26" fill="url(#wcGold)" stroke="#b07f2c" stroke-width="2"/><path d="M226 84h24v10h-24z" fill="url(#wcSteel)" stroke="#6d7580" stroke-width="1.6"/>
+            <path d="M231 70l7-9 7 9" fill="none" stroke="#9a6a1e" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M238 20v-10M272 34l8-6M204 34l-8-6M282 62h10M194 62h-10" stroke="#e2b554" stroke-width="3.4" stroke-linecap="round"/>
+            <path d="M118 36v-12" stroke="#7c848f" stroke-width="3"/><circle cx="118" cy="20" r="6" fill="#e2b554" stroke="#b07f2c" stroke-width="1.6"/>
+            <rect x="86" y="36" width="64" height="48" rx="8" fill="url(#wcGold)" stroke="#b07f2c" stroke-width="2"/>
+            <rect x="76" y="50" width="10" height="20" rx="4" fill="url(#wcRed)"/><rect x="150" y="50" width="10" height="20" rx="4" fill="url(#wcRed)"/>
+            <circle cx="104" cy="58" r="9" fill="#fbf6ec" stroke="#7e1a2d" stroke-width="2"/><circle cx="132" cy="58" r="9" fill="#fbf6ec" stroke="#7e1a2d" stroke-width="2"/>
+            <circle cx="105" cy="59" r="3.6" fill="#3a5f6a"/><circle cx="133" cy="59" r="3.6" fill="#3a5f6a"/>
+            <path d="M106 71q12 9 24 0" fill="none" stroke="#7e1a2d" stroke-width="3" stroke-linecap="round"/>
+            <rect x="110" y="84" width="16" height="8" fill="url(#wcSteel)"/>
+            <rect x="78" y="92" width="80" height="62" rx="8" fill="url(#wcRed)" stroke="#7e1a2d" stroke-width="2"/>
+            <rect x="96" y="104" width="44" height="26" rx="3" fill="#e9d9c8" stroke="#e2b554" stroke-width="4"/>
+            <path d="M100 140h36" stroke="#e2b554" stroke-width="4" stroke-dasharray="4 3"/>
+            <path d="M78 100c-14 4-22 14-24 28" stroke="#b02a42" stroke-width="11" stroke-linecap="round" fill="none"/>
+            <path d="M158 100c14-4 22-20 22-36" stroke="#b02a42" stroke-width="11" stroke-linecap="round" fill="none"/>
+            <path d="M173 58a8 8 0 1 1 13 4" stroke="#e2b554" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <path d="M47 134a8 8 0 1 0 13 4" stroke="#e2b554" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <rect x="92" y="154" width="14" height="24" fill="url(#wcSteel)"/><rect x="130" y="154" width="14" height="24" fill="url(#wcSteel)"/>
+            <path d="M84 186h30v-8H84zM122 186h30v-8h-30z" fill="url(#wcRed)"/>
+          </g></svg></div>
+          <div class="tour__text">
+            <h3>What the tool does</h3>
+            <p>What If AI suggests openly licensed activities for your teaching, research or administrative work. You answer up to five short questions about what you are working on, and it matches activities from the collection to your answers.</p>
+            <p>Some activities use generative AI and some deliberately leave it out. Every one lists its source and license.</p>
+          </div>
+        </div>
+
+        <div class="tour__slide" role="group" aria-roledescription="slide" aria-label="2 of 7" data-slide hidden>
+          <div class="tour__art" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><g filter="url(#wc)">
+            <path d="M34 60h252l18 110H16z" fill="url(#wcSteel)" stroke="#6d7580" stroke-width="2"/>
+            <rect x="34" y="42" width="252" height="22" rx="4" fill="url(#wcRed)" stroke="#7e1a2d" stroke-width="2"/>
+            <g stroke="#7e1a2d" stroke-width="1.6">
+              <circle cx="72" cy="53" r="6" fill="#f3cf6e"/><circle cx="116" cy="53" r="6" fill="#f3cf6e"/><circle cx="160" cy="53" r="6" fill="#7e3a44"/><circle cx="204" cy="53" r="6" fill="#7e3a44"/><circle cx="248" cy="53" r="6" fill="#7e3a44"/></g>
+            <g fill="#4f5660"><rect x="62" y="96" width="20" height="48" rx="6"/><rect x="106" y="96" width="20" height="48" rx="6"/><rect x="150" y="96" width="20" height="48" rx="6"/><rect x="194" y="96" width="20" height="48" rx="6"/><rect x="238" y="96" width="20" height="48" rx="6"/></g>
+            <g fill="url(#wcGold)" stroke="#b07f2c" stroke-width="1.6"><circle cx="72" cy="104" r="9"/><circle cx="116" cy="104" r="9"/><circle cx="160" cy="136" r="9"/><circle cx="204" cy="136" r="9"/><circle cx="248" cy="136" r="9"/></g>
+            <g stroke="#e2b554" stroke-width="3" stroke-linecap="round"><path d="M64 160h16M108 160h16M152 160h16M196 160h16M240 160h16"/></g>
+            <circle cx="286" cy="26" r="16" fill="url(#wcCream)" stroke="#6d7580" stroke-width="2"/><path d="M286 26l8-8" stroke="#b02a42" stroke-width="3" stroke-linecap="round"/>
+          </g></svg></div>
+          <div class="tour__text">
+            <h3>Describe your work</h3>
+            <p>The questions ask about your work, not about AI products: what you are working on, what you would like to do, your field, how large a piece of work you have in mind, and anything that is off the table, such as using no AI tool or keeping student work out of AI tools.</p>
+            <p>You can skip any question. Use <strong>Back</strong>, the browser’s back button, or your list of answers to change an answer at any time.</p>
+          </div>
+        </div>
+
+        <div class="tour__slide" role="group" aria-roledescription="slide" aria-label="3 of 7" data-slide hidden>
+          <div class="tour__art" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><g filter="url(#wc)">
+            <rect x="46" y="18" width="228" height="150" rx="18" fill="url(#wcCream)" stroke="#9a8f80" stroke-width="2"/>
+            <rect x="64" y="34" width="176" height="116" rx="12" fill="url(#wcScreen)" stroke="#4f7d58" stroke-width="2"/>
+            <g fill="#2f4d35" opacity=".9"><rect x="76" y="46" width="46" height="92" rx="4"/><rect x="129" y="46" width="46" height="92" rx="4"/><rect x="182" y="46" width="46" height="92" rx="4"/></g>
+            <g fill="#e8f3df"><rect x="82" y="54" width="34" height="6" rx="2"/><rect x="135" y="54" width="34" height="6" rx="2"/><rect x="188" y="54" width="34" height="6" rx="2"/></g>
+            <g fill="#f3cf6e"><rect x="82" y="66" width="20" height="7" rx="3.5"/><rect x="135" y="66" width="26" height="7" rx="3.5"/><rect x="188" y="66" width="16" height="7" rx="3.5"/><rect x="207" y="66" width="16" height="7" rx="3.5"/></g>
+            <g stroke="#b9dab4" stroke-width="3" stroke-linecap="round"><path d="M82 84h32M82 92h28M82 100h30M135 84h32M135 92h26M135 100h30M188 84h32M188 92h30M188 100h24"/></g>
+            <circle cx="256" cy="140" r="5" fill="#8fbf96" stroke="#4f7d58" stroke-width="1.6"/><path d="M252 52h10M252 60h10" stroke="#9a8f80" stroke-width="3" stroke-linecap="round"/>
+            <path d="M128 168l-6 18h76l-6-18" fill="url(#wcCream)" stroke="#9a8f80" stroke-width="2"/>
+          </g></svg></div>
+          <div class="tour__text">
+            <h3>Review the activities that fit</h3>
+            <p>Results are grouped by how closely each activity fits your answers. Each card shows its theme and title, the fields it comes from, a short summary, who does it, the scale, the kind of AI tool, and the cost.</p>
+            <p>Choose <strong>View details</strong> to read the whole activity.</p>
+          </div>
+        </div>
+
+        <div class="tour__slide" role="group" aria-roledescription="slide" aria-label="4 of 7" data-slide hidden>
+          <div class="tour__art" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><g filter="url(#wc)">
+            <rect x="70" y="16" width="150" height="172" rx="8" fill="#fbf6ec" stroke="#9a8f80" stroke-width="2"/>
+            <rect x="84" y="30" width="96" height="10" rx="3" fill="url(#wcRed)"/>
+            <g stroke="#c9b9a3" stroke-width="4" stroke-linecap="round"><path d="M84 54h118M84 64h110M84 74h116"/><path d="M84 98h112M84 108h96"/><path d="M84 132h116M84 142h104M84 152h110M84 166h70"/></g>
+            <g fill="#e2b554"><rect x="84" y="86" width="42" height="6" rx="2"/><rect x="84" y="120" width="54" height="6" rx="2"/></g>
+            <circle cx="224" cy="112" r="40" fill="#e6f0f5" fill-opacity=".55" stroke="#7c848f" stroke-width="7"/>
+            <path d="M252 142l34 34" stroke="#b02a42" stroke-width="13" stroke-linecap="round"/>
+            <path d="M206 96a22 22 0 0 1 20-8" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none" opacity=".8"/>
+          </g></svg></div>
+          <div class="tour__text">
+            <h3>Look inside an activity</h3>
+            <p>The details open with the activity itself and a summary at a glance. They then explain how people and the AI tool divide the work, and what to consider before using it: data, the course AI policy it assumes, disclosure and risks.</p>
+            <p>They also give a route without AI, notes on adapting it, what the source reports, and the source, license and attribution to keep when you reuse it.</p>
+          </div>
+        </div>
+
+        <div class="tour__slide" role="group" aria-roledescription="slide" aria-label="5 of 7" data-slide hidden>
+          <div class="tour__art" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><g filter="url(#wc)">
+            <rect x="40" y="96" width="240" height="86" rx="8" fill="url(#wcSteel)" stroke="#6d7580" stroke-width="2"/>
+            <rect x="58" y="112" width="204" height="54" rx="5" fill="#4f5660"/><rect x="138" y="132" width="44" height="12" rx="6" fill="url(#wcGold)" stroke="#b07f2c" stroke-width="1.6"/>
+            <g transform="rotate(-8 150 60)"><rect x="90" y="18" width="120" height="90" rx="6" fill="#fbf6ec" stroke="#9a8f80" stroke-width="2"/>
+              <rect x="102" y="30" width="70" height="8" rx="3" fill="url(#wcRed)"/>
+              <g stroke="#c9b9a3" stroke-width="4" stroke-linecap="round"><path d="M102 52h90M102 62h80M102 72h86M102 82h60"/></g>
+              <path d="M184 16v42l11-9 11 9V16z" fill="url(#wcRed)" stroke="#7e1a2d" stroke-width="1.6"/></g>
+            <circle cx="268" cy="108" r="6" fill="#f3cf6e" stroke="#b07f2c" stroke-width="1.6"/>
+          </g></svg></div>
+          <div class="tour__text">
+            <h3>Save the ones you want</h3>
+            <p>Select <strong>Save</strong> on a card or in an activity’s details. Open <strong>Saved activities</strong> from the top bar to review or remove your selection. It is the same list here and in The Register.</p>
+            <p>Your selection is kept in this browser only. There is no account, and nothing is sent anywhere.</p>
+          </div>
+        </div>
+
+        <div class="tour__slide" role="group" aria-roledescription="slide" aria-label="6 of 7" data-slide hidden>
+          <div class="tour__art" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><g filter="url(#wc)">
+            <rect x="108" y="12" width="104" height="70" rx="3" fill="#fbf6ec" stroke="#9a8f80" stroke-width="2"/>
+            <rect x="60" y="64" width="200" height="74" rx="12" fill="url(#wcSteel)" stroke="#6d7580" stroke-width="2"/>
+            <rect x="84" y="80" width="152" height="10" rx="4" fill="#4f5660"/><circle cx="238" cy="112" r="6" fill="#8fbf96" stroke="#4f7d58" stroke-width="1.6"/><circle cx="220" cy="112" r="6" fill="#f3cf6e" stroke="#b07f2c" stroke-width="1.6"/>
+            <path d="M96 138h128l10 30H86z" fill="url(#wcRed)" stroke="#7e1a2d" stroke-width="2"/>
+            <path d="M110 150h100l6 42H104z" fill="#fbf6ec" stroke="#9a8f80" stroke-width="2"/>
+            <g stroke="#c9b9a3" stroke-width="3.4" stroke-linecap="round"><path d="M118 162h70M118 171h84M118 180h60"/><path d="M122 30h64M122 40h76M122 50h56"/></g>
+          </g></svg></div>
+          <div class="tour__text">
+            <h3>Print or save your collection</h3>
+            <p>In <strong>Saved activities</strong>, choose <strong>Print or save as PDF</strong>. The printout contains only your saved activities, one to a page, each with its full description, citation, license and attribution.</p>
+          </div>
+        </div>
+
+        <div class="tour__slide" role="group" aria-roledescription="slide" aria-label="7 of 7" data-slide hidden>
+          <div class="tour__art" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><g filter="url(#wc)">
+            <rect x="20" y="40" width="112" height="92" rx="14" fill="url(#wcCream)" stroke="#9a8f80" stroke-width="2"/>
+            <rect x="32" y="52" width="76" height="64" rx="9" fill="url(#wcScreen)" stroke="#4f7d58" stroke-width="2"/>
+            <g stroke="#e8f3df" stroke-width="3" stroke-linecap="round"><path d="M42 66h22M42 76h40M42 86h30M42 96h36"/></g>
+            <path d="M52 132l-4 14h48l-4-14" fill="url(#wcCream)" stroke="#9a8f80" stroke-width="2"/>
+            <path d="M196 30l104-10v106l-104-4z" fill="url(#wcSteel)" stroke="#5f6771" stroke-width="2"/>
+            <path d="M204 38l88-8v88l-88-4z" fill="url(#wcSky)"/><path d="M216 100l60-50" stroke="#fff" stroke-width="3" opacity=".6"/>
+            <path d="M248 124v28M226 156h46" stroke="#6d7580" stroke-width="7" stroke-linecap="round"/>
+            <path d="M96 146c30 34 90 30 108-14" fill="none" stroke="#7a5a4c" stroke-width="5" stroke-linecap="round"/>
+            <path d="M162 70l-16 26h13l-6 22 20-30h-13l8-18z" fill="url(#wcGold)" stroke="#b07f2c" stroke-width="1.6"/>
+          </g></svg></div>
+          <div class="tour__text">
+            <h3>Go deeper in The Register</h3>
+            <p><strong>Open in The Register</strong>, at the foot of an activity’s details, opens the same activity in The Register, the reference companion to What If AI.</p>
+            <p>There you can search and filter the whole collection, read about types of AI systems and course AI policy positions, and browse every source the activities draw on.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+  <div class="dlg__foot tour__foot">
+    <button type="button" class="btn btn--sm" id="tourPrev"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-arrow-left"/></svg> Previous</button>
+    <p class="tour__pos readout" id="tourPos">1 of 7</p>
+    <div class="tour__dots" role="group" aria-label="Go to a step"></div>
+    <button type="button" class="btn btn--sm btn--primary" id="tourNext"><span class="tour__nextlabel">Next</span> <svg class="ico" aria-hidden="true" focusable="false"><use href="#i-arrow-right"/></svg></button>
+  </div>
+</dialog>

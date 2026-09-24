@@ -1,0 +1,32 @@
+{
+ "title": "What If AI & The Register",
+ "org": "Lewis University Library",
+ "base_url": "https://lewis-u-lib.github.io/What-If-AI/",
+ "_note_base_url": "Used for canonical links, the sitemap and the 404 page. Change it here (and only here) if the site moves to a custom domain.",
+ "bundles": {
+  "css": {
+   "base": ["fonts.css", "lul-core.css", "site.css", "shell.css"],
+   "what-if-ai": ["what-if-ai.css"],
+   "register": ["register.css"],
+   "theme": ["theme-plate.css", "lab.css", "inline-moved.css"]
+  },
+  "js": {
+   "boot": ["boot.js"],
+   "core": ["linkify.js", "shared.js"],
+   "what-if-ai": ["what-if-ai.js"],
+   "register": ["register.js"],
+   "engines": ["lul-core.js"]
+  }
+ },
+ "_note_bundles": "Order matters. CSS: base, then the page's own rules, then the theme layers (as in the single-file pages). JS runs in list order after the data has loaded.",
+ "pages": [
+  {"src": "index.html", "out": "index.html", "css": ["base", "theme"]},
+  {"src": "what-if-ai.html", "out": "what-if-ai.html", "css": ["base", "what-if-ai", "theme"],
+   "data": ["acts", "guide"], "scripts": ["core", "what-if-ai", "engines"]},
+  {"src": "register.html", "out": "register.html", "css": ["base", "register", "theme"],
+   "data": ["acts", "register", "guide"], "scripts": ["core", "register", "engines"]},
+  {"src": "404.html", "out": "404.html", "css": ["base", "theme"], "absolute": true, "sitemap": false}
+ ],
+ "csp": "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests",
+ "_note_csp": "Delivered as a <meta> tag (GitHub Pages cannot set headers). No inline scripts or style attributes are allowed; the page data is JSON, fetched from the same origin."
+}

@@ -1,0 +1,253 @@
+/* ════════════════════════════════════════════════════════════
+   THEME · CRIMSON PLATE  (base machine layer, loaded after lul-core + site + page CSS; lab.css builds on it)
+   Brushed crimson steel, riveted seams, brass fittings. Structural surfaces
+   (top bar, header, panel heads, dialog heads, footer) carry the texture;
+   reading surfaces (cards, panel bodies, dialog bodies) stay calm and near-solid.
+
+   Everything is procedural (inline SVG noise + CSS gradients): no photograph is
+   embedded, so the pages carry no third-party image rights.
+
+   Contrast budget: every textured surface is built from a base no lighter than
+   --steel-3 plus at most ~7% white brushing, which keeps gold (#debb70) at ≥5:1
+   and white at ≥9:1. Stains and specks only darken. tests/contrast.test.js
+   measures the rendered pixels behind text to confirm it.
+════════════════════════════════════════════════════════════ */
+
+:root{
+  --steel-0:#22040b;   /* grooves, deepest shadow */
+  --steel-1:#3b0913;   /* page ground */
+  --steel-2:#4f0e1b;   /* calm reading surface */
+  --steel-3:#6c1221;   /* plate, lightest base */
+  --brass-hi:#f3dc9e; --brass:var(--gold); --brass-lo:#b8914a; --brass-ink:#2a0610;
+
+  /* fine horizontal brushing: light strokes, then dark strokes */
+  --tx-brush-lt:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='520'><filter id='f' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='.0035 .82' numOctaves='3' seed='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .6  0 0 0 0 .64  .16 0 0 0 -.06'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>");
+  --tx-brush-dk:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='520' height='520'><filter id='f' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='.005 .6' numOctaves='2' seed='9' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .08  0 0 0 0 0  0 0 0 0 .02  -.3 0 0 0 .17'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>");
+  /* long vertical weathering streaks, the soot-dark runs in the reference */
+  --tx-stain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='900'><filter id='f' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='.012 .0028' numOctaves='3' seed='21' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .08  0 0 0 0 0  0 0 0 0 .02  1.5 0 0 0 -.6'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>");
+  /* pits and specks */
+  --tx-speck:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='340' height='340'><filter id='f' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='1' seed='5' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .05  0 0 0 0 0  0 0 0 0 .01  9 0 0 0 -6.3'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>");
+  /* a broad, faint sheen, lighter toward the upper right as in the reference */
+  --tx-sheen:linear-gradient(104deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.028) 38%,rgba(255,255,255,0) 58%,rgba(255,255,255,.035) 86%,rgba(255,255,255,.01) 100%);
+
+  --plate:var(--tx-speck),var(--tx-brush-lt),var(--tx-brush-dk),var(--tx-stain),var(--tx-sheen),
+          linear-gradient(180deg,var(--steel-3),#5e0f1c 70%,#570d1a);
+
+  /* rivets: a domed snap-head (above a seam) and a hollow pop-rivet (below one) */
+  --rivet-dome:radial-gradient(circle at 42% 38%,#f7e2e5 0 .9px,#d9a6ae 1.8px,#a9646f 3.5px,#7a2c38 5.3px,#3a0913 6.4px,rgba(20,2,6,.55) 7.3px,rgba(20,2,6,0) 8.3px);
+  --rivet-hollow:radial-gradient(circle at 50% 50%,#140206 0 1.8px,#5d1e29 2.4px,#ecc7cc 3.3px,#b67a85 4.4px,#702431 5.9px,#25050c 6.9px,rgba(20,2,6,.45) 7.7px,rgba(20,2,6,0) 8.7px);
+  --rivet-sm:radial-gradient(circle at 42% 38%,#f2d9dd 0 .6px,#c98f99 1.3px,#8d4450 2.5px,#521520 3.8px,#22040b 4.5px,rgba(20,2,6,0) 5.4px);
+  /* a lap seam: dark groove with a lit lower lip */
+  --seam:linear-gradient(180deg,rgba(0,0,0,0) 0,rgba(10,1,3,.85) 1px,rgba(10,1,3,.85) 3px,rgba(255,225,230,.13) 3px,rgba(255,225,230,.13) 4px,rgba(0,0,0,0) 4px);
+
+  --panel:linear-gradient(180deg,#541020,var(--steel-2));
+  --line:rgba(222,187,112,.24);
+  --line-strong:rgba(222,187,112,.55);
+  --bevel:inset 0 1px 0 rgba(255,230,234,.09),inset 0 -1px 0 rgba(0,0,0,.45);
+  --r:8px; --r-sm:5px;
+}
+
+/* ═══ page ground ═══ */
+body{background:var(--steel-1);}
+body::before{
+  background:var(--tx-speck),var(--tx-brush-dk),var(--tx-stain),
+    radial-gradient(ellipse 80% 50% at 80% 0%,rgba(122,27,43,.45),rgba(122,27,43,0) 70%),
+    linear-gradient(180deg,#420a16,var(--steel-1) 40%,#34070f);
+  background-size:520px 520px,520px 520px,900px 900px,100% 100%,100% 100%;
+}
+#progress{background:linear-gradient(90deg,var(--brass-lo),var(--brass-hi));height:5px;}
+
+/* ═══ reusable plate + bolt helpers ═══ */
+.topbar,.hdr.hdr--compact,.panel__head,.dlg__head,.site-foot,.polpanel,.qpanel .panel__head{
+  background-color:var(--steel-3);
+  background-image:var(--plate);
+  background-size:340px 340px,520px 520px,520px 520px,900px 900px,100% 100%,100% 100%;
+}
+
+/* ═══ top bar: a bolted strip ═══ */
+.topbar{border-bottom:0;backdrop-filter:none;padding-left:40px;padding-right:40px;
+  box-shadow:0 1px 0 rgba(255,225,230,.12),0 6px 18px rgba(0,0,0,.45);}
+.topbar::before{content:'';position:absolute;left:0;right:0;bottom:-1px;height:4px;background:var(--seam);pointer-events:none;}
+.topbar::after{content:'';position:absolute;inset:0;pointer-events:none;
+  background:var(--rivet-sm),var(--rivet-sm),var(--rivet-sm),var(--rivet-sm);
+  background-repeat:no-repeat;background-size:11px 11px;
+  background-position:14px 9px,14px calc(100% - 11px),calc(100% - 14px) 9px,calc(100% - 14px) calc(100% - 11px);}
+.topbar a.topbar__back{border-radius:var(--r);background:rgba(16,2,5,.42);border-color:var(--line-strong);box-shadow:var(--bevel);}
+.topbar a.topbar__back:hover{background:rgba(16,2,5,.6);border-color:var(--gold);}
+
+/* ═══ header: the riveted plate from the reference ═══ */
+.hdr.hdr--compact{position:relative;margin:18px 0 1.4rem;padding:24px 28px 0;border-radius:6px;overflow:hidden;
+  border:1px solid rgba(0,0,0,.55);
+  box-shadow:inset 0 1px 0 rgba(255,230,234,.12),0 10px 30px rgba(0,0,0,.45);}
+/* seam band: domed rivets above the lap, hollow rivets below it, staggered */
+.hdr.hdr--compact::after{content:'';display:block;width:auto;height:52px;margin:22px -28px 0;
+  background:var(--rivet-dome),var(--rivet-hollow),var(--seam),
+    linear-gradient(180deg,rgba(0,0,0,0) 0 25px,rgba(0,0,0,.12) 25px,rgba(0,0,0,.05));
+  background-repeat:repeat-x,repeat-x,no-repeat,no-repeat;
+  background-size:260px 17px,260px 18px,100% 4px,100% 100%;
+  background-position:176px 2px,48px 30px,0 22px,0 0;}
+.hdr__kicker{color:var(--gold);text-shadow:0 1px 0 rgba(0,0,0,.55);}
+.hdr__title{color:var(--muted);text-shadow:0 -1px 0 rgba(0,0,0,.55),0 1px 0 rgba(255,230,234,.12),0 3px 14px rgba(0,0,0,.4);}
+.hdr__title span{color:var(--cream-lt);text-shadow:0 -1px 0 rgba(0,0,0,.5),0 1px 0 rgba(255,240,210,.18),0 3px 14px rgba(0,0,0,.4);}
+.hdr__tagline,.hdr__lede{color:var(--ink-2);}
+.hdr__lede{text-shadow:0 1px 1px rgba(0,0,0,.35);}
+/* header links become recessed fittings, so gold text always sits on a dark well */
+.hdr-cta--secondary,.hdr-cta--primary{border-radius:var(--r);background:rgba(16,2,5,.5);border:1.5px solid var(--line-strong);
+  color:var(--gold);box-shadow:inset 0 2px 5px rgba(0,0,0,.45),0 1px 0 rgba(255,230,234,.1);}
+.hdr-cta--secondary:hover,.hdr-cta--primary:hover{background:rgba(16,2,5,.7);border-color:var(--gold);color:var(--cream-lt);}
+
+/* ═══ nameplates: section eyebrows become small brass plates ═══ */
+.sec-eyebrow{display:inline-flex;align-items:center;gap:0;padding:4px 20px;border-radius:3px;
+  background:linear-gradient(180deg,var(--brass-hi),var(--brass) 45%,var(--brass-lo));color:var(--brass-ink);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -1px 0 rgba(0,0,0,.25),0 2px 4px rgba(0,0,0,.4);
+  background-image:radial-gradient(circle at 50% 50%,#5a4420 0 1.2px,rgba(90,68,32,0) 2.2px),radial-gradient(circle at 50% 50%,#5a4420 0 1.2px,rgba(90,68,32,0) 2.2px),
+    linear-gradient(180deg,var(--brass-hi),var(--brass) 45%,var(--brass-lo));
+  background-repeat:no-repeat;background-size:6px 6px,6px 6px,100% 100%;background-position:6px 50%,calc(100% - 6px) 50%,0 0;}
+.rail__label,.kicker,.acard__kicker,.qstep{text-shadow:0 1px 0 rgba(0,0,0,.55);}
+
+/* ═══ buttons: machined, with brass for the primary action ═══ */
+.btn{border-radius:var(--r);border-width:1.5px;
+  background:linear-gradient(180deg,rgba(255,235,238,.07),rgba(0,0,0,.14));
+  box-shadow:inset 0 1px 0 rgba(255,230,234,.12),0 2px 0 rgba(0,0,0,.35);}
+.btn:hover{background:linear-gradient(180deg,rgba(222,187,112,.2),rgba(222,187,112,.08));transform:none;}
+.btn:active{box-shadow:inset 0 2px 4px rgba(0,0,0,.45);}
+.btn--primary,.save[aria-pressed="true"]{background:linear-gradient(180deg,var(--brass-hi),var(--brass) 48%,var(--brass-lo));
+  border-color:#8f6d31;color:var(--brass-ink);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 2px 0 rgba(0,0,0,.4);}
+.btn--primary:hover,.save[aria-pressed="true"]:hover{background:linear-gradient(180deg,#fff0c4,var(--brass-hi) 50%,var(--brass));color:var(--brass-ink);}
+.btn--quiet{background:none;box-shadow:none;}
+.saved-btn .count{border-radius:4px;background:linear-gradient(180deg,var(--brass-hi),var(--brass-lo));box-shadow:inset 0 1px 0 rgba(255,255,255,.5);}
+
+/* ═══ rail and section tabs: stamped steel tabs ═══ */
+.rail a,.rail button.railitem,.secnav a{border-radius:var(--r);border:1px solid rgba(0,0,0,.55);
+  background:linear-gradient(180deg,#5a1020,#4a0c18);box-shadow:var(--bevel),0 2px 6px rgba(0,0,0,.3);}
+.rail a:hover,.rail button.railitem:hover,.secnav a:hover{background:linear-gradient(180deg,#65182a,#541020);border-color:var(--line-strong);}
+.rail [aria-current="page"],.rail [aria-current="step"]{background:linear-gradient(180deg,#65182a,#541020);border-color:var(--gold);
+  box-shadow:inset 5px 0 0 var(--gold),var(--bevel);}
+.rail .railitem__n,.pos__dot{box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 1px 2px rgba(0,0,0,.5);}
+.rail .railitem.is-done .railitem__n{background:radial-gradient(circle at 40% 35%,var(--brass-hi),var(--brass) 55%,var(--brass-lo));}
+.secnav a[aria-current="page"]{background:linear-gradient(180deg,var(--brass-hi),var(--brass) 48%,var(--brass-lo));color:var(--brass-ink);
+  border-color:#8f6d31;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 2px 0 rgba(0,0,0,.4);}
+.secnav a[aria-current="page"] .n{background:var(--brass-ink);color:var(--gold);}
+
+/* ═══ panels: textured, bolted head; calm body ═══ */
+.panel{position:relative;border-radius:var(--r);border:1px solid rgba(0,0,0,.6);background:var(--panel);
+  box-shadow:inset 0 1px 0 rgba(255,230,234,.08),0 8px 24px rgba(0,0,0,.4);overflow:hidden;}
+.panel__head{position:relative;border-bottom:0;padding-left:32px;padding-right:32px;}
+.panel__head::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:4px;background:var(--seam);pointer-events:none;}
+.panel__head::before,.panel::after{content:'';position:absolute;left:0;right:0;height:14px;pointer-events:none;
+  background:var(--rivet-sm),var(--rivet-sm);background-repeat:no-repeat;background-size:11px 11px;
+  background-position:9px 50%,calc(100% - 9px) 50%;}
+.panel__head::before{top:4px;}
+.panel::after{bottom:4px;}
+.panel__icon{background:rgba(16,2,5,.5);box-shadow:inset 0 2px 5px rgba(0,0,0,.5);}
+.qbar span{border-radius:2px;background:rgba(10,1,3,.55);box-shadow:inset 0 1px 2px rgba(0,0,0,.6);}
+.qbar span.on{background:linear-gradient(180deg,var(--brass-hi),var(--brass-lo));}
+.qbar span.done{background:rgba(222,187,112,.6);}
+.opt{border-radius:var(--r);background:rgba(16,2,5,.32);border-color:rgba(222,187,112,.3);box-shadow:inset 0 1px 3px rgba(0,0,0,.35);}
+.opt:hover{background:rgba(16,2,5,.46);}
+.opt:has(input:checked){background:rgba(222,187,112,.16);}
+.opt__mark{box-shadow:inset 0 1px 2px rgba(0,0,0,.5);}
+.opt input:checked + .opt__mark{background:radial-gradient(circle at 40% 35%,var(--brass-hi),var(--brass) 55%,var(--brass-lo));}
+
+/* ═══ reading surfaces: calm, machined, four small bolts ═══ */
+.acard,.type,.aside-card,.about .card{position:relative;border-radius:var(--r);border:1px solid rgba(0,0,0,.6);
+  background:linear-gradient(180deg,#56101f,#4a0d19);box-shadow:var(--bevel),0 6px 18px rgba(0,0,0,.32);}
+.acard::before,.type::before{content:'';position:absolute;inset:6px;pointer-events:none;
+  background:var(--rivet-sm),var(--rivet-sm),var(--rivet-sm),var(--rivet-sm);background-repeat:no-repeat;background-size:9px 9px;
+  background-position:0 0,100% 0,0 100%,100% 100%;opacity:.9;}
+.acard:hover{border-color:rgba(222,187,112,.45);}
+.acard.is-saved{border-color:var(--gold);box-shadow:inset 0 3px 0 var(--gold),var(--bevel),0 6px 18px rgba(0,0,0,.32);}
+.acard__foot,.type__foot{border-top:0;position:relative;}
+.acard__foot::before,.type__foot::before{content:'';position:absolute;left:-20px;right:-20px;top:-2px;height:4px;background:var(--seam);opacity:.8;}
+.answer,.tag{box-shadow:inset 0 1px 2px rgba(0,0,0,.35);}
+.answer{background:rgba(16,2,5,.4);}
+.note{border-radius:0 var(--r) var(--r) 0;background:rgba(16,2,5,.32);}
+.empty{border-radius:var(--r);border-style:solid;border-color:rgba(0,0,0,.55);background:rgba(16,2,5,.3);box-shadow:inset 0 2px 8px rgba(0,0,0,.45);}
+.browse{border-radius:var(--r);background:rgba(16,2,5,.32);border-color:rgba(0,0,0,.55);box-shadow:inset 0 2px 8px rgba(0,0,0,.4);}
+
+/* ═══ register: filters well, spectrum rail, policy plate, sources ═══ */
+.filters{border-radius:var(--r);border:1px solid rgba(0,0,0,.6);background:linear-gradient(180deg,#3f0a15,#360811);
+  box-shadow:inset 0 2px 10px rgba(0,0,0,.5),0 1px 0 rgba(255,230,234,.07);}
+.input,.select{border-radius:var(--r-sm);background:rgba(10,1,3,.55);box-shadow:inset 0 2px 4px rgba(0,0,0,.55);}
+.fchip{border-radius:var(--r-sm);}
+.spectrum__track::before{height:12px;top:24px;border-radius:3px;
+  background:linear-gradient(90deg,rgba(199,72,95,.9),rgba(222,187,112,.9)) 0 0/100% 3px no-repeat,
+    linear-gradient(180deg,#5a1020,#2c060e);
+  box-shadow:inset 0 1px 0 rgba(255,230,234,.14),inset 0 -1px 0 rgba(0,0,0,.6),0 2px 4px rgba(0,0,0,.45);}
+.pos__dot{border:0;background:radial-gradient(circle at 40% 35%,#e7b7be,#a9646f 45%,#5b1a26 80%,#2a060d);color:#fff;
+  text-shadow:0 1px 1px rgba(0,0,0,.7);}
+.pos[aria-selected="true"] .pos__dot{background:radial-gradient(circle at 40% 35%,var(--brass-hi),var(--brass) 55%,var(--brass-lo));color:var(--brass-ink);text-shadow:none;}
+.pos{border-radius:var(--r);}
+.pos[aria-selected="true"]{background:rgba(16,2,5,.35);}
+.polpanel{position:relative;border-radius:var(--r);border:1px solid rgba(0,0,0,.6);
+  box-shadow:inset 0 1px 0 rgba(255,230,234,.12),0 8px 24px rgba(0,0,0,.4);}
+.polpanel::before{content:'';position:absolute;inset:7px;pointer-events:none;
+  background:var(--rivet-sm),var(--rivet-sm),var(--rivet-sm),var(--rivet-sm);background-repeat:no-repeat;background-size:11px 11px;
+  background-position:0 0,100% 0,0 100%,100% 100%;}
+.polpanel .quotes li,.polpanel blockquote{background:rgba(16,2,5,.4);}
+.srclist > li{border-radius:var(--r);}
+.letters a{border-radius:var(--r-sm);}
+
+/* ═══ dialogs and the saved drawer ═══ */
+.dlg{border:1px solid #140206;border-radius:var(--r);background:linear-gradient(180deg,#4a0d19,#420b16);
+  box-shadow:0 0 0 1px rgba(222,187,112,.35),0 30px 80px rgba(0,0,0,.65);}
+.dlg__head{position:relative;border-bottom:0;padding-left:30px;}
+.dlg__head::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:4px;background:var(--seam);pointer-events:none;}
+.dlg__head::before{content:'';position:absolute;inset:6px;pointer-events:none;
+  background:var(--rivet-sm),var(--rivet-sm);background-repeat:no-repeat;background-size:10px 10px;background-position:0 0,0 100%;}
+.dlg__close{border-radius:var(--r);background:rgba(16,2,5,.5);box-shadow:inset 0 2px 4px rgba(0,0,0,.5);}
+.dlg__foot{background:rgba(10,1,3,.35);border-top:0;box-shadow:inset 0 2px 0 rgba(10,1,3,.8),inset 0 3px 0 rgba(255,225,230,.08);}
+.drawer{border-radius:0;box-shadow:0 0 0 1px rgba(222,187,112,.35),-20px 0 60px rgba(0,0,0,.6);}
+.saved-item{border-radius:var(--r);background:linear-gradient(180deg,#56101f,#4a0d19);border-color:rgba(0,0,0,.55);box-shadow:var(--bevel);}
+.detail .cite-block{border-radius:var(--r);background:rgba(10,1,3,.4);box-shadow:inset 0 2px 5px rgba(0,0,0,.45);}
+.detail h3{border-top:0;position:relative;}
+.detail h3::before{content:'';position:absolute;left:0;right:0;top:-2px;height:4px;background:var(--seam);opacity:.75;}
+.detail > section:first-child h3::before,.detail h3:first-child::before{display:none;}
+
+/* ═══ footer: the lower plate, hollow rivets under a seam ═══ */
+.site-foot{border-top:0;padding-top:52px;
+  background-image:var(--rivet-hollow),var(--seam),var(--plate);
+  background-repeat:repeat-x,no-repeat,repeat,repeat,repeat,repeat,no-repeat,no-repeat;
+  background-size:260px 18px,100% 4px,340px 340px,520px 520px,520px 520px,900px 900px,100% 100%,100% 100%;
+  background-position:48px 20px,0 0,0 0,0 0,0 0,0 0,0 0,0 0;
+  box-shadow:0 -1px 0 rgba(255,225,230,.1);}
+.hcai{border-radius:var(--r);background:rgba(10,1,3,.5);border-color:rgba(0,0,0,.6);box-shadow:inset 0 2px 8px rgba(0,0,0,.5);}
+
+/* ═══ help button: a brass dome ═══ */
+.fab-toggle{border:1px solid #6d5224;background:radial-gradient(circle at 38% 32%,#fff3cf,var(--brass-hi) 22%,var(--brass) 52%,var(--brass-lo) 80%,#6d5224);
+  color:var(--brass-ink);box-shadow:inset 0 -3px 6px rgba(0,0,0,.25),0 6px 18px rgba(0,0,0,.5);}
+.fab-toggle__icon{color:var(--brass-ink);}
+.fab-item{border-radius:var(--r);background:linear-gradient(180deg,#5a1020,#4a0c18);box-shadow:var(--bevel),0 4px 16px rgba(0,0,0,.45);}
+
+/* ═══ phones: smaller hardware, fewer bolts ═══ */
+@media(max-width:760px){
+  .topbar{padding-left:12px;padding-right:12px;}
+  .topbar::after{display:none;}
+  .hdr.hdr--compact{padding:18px 16px 0;margin-top:12px;}
+  .hdr.hdr--compact::after{margin:18px -16px 0;height:42px;
+    background-size:180px 13px,180px 14px,100% 4px,100% 100%;background-position:120px 3px,30px 25px,0 18px,0 0;
+    background-image:radial-gradient(circle at 42% 38%,#f7e2e5 0 .7px,#d9a6ae 1.4px,#a9646f 2.7px,#7a2c38 4px,#3a0913 4.8px,rgba(20,2,6,0) 6px),
+      radial-gradient(circle at 50% 50%,#140206 0 1.4px,#5d1e29 1.9px,#ecc7cc 2.6px,#b67a85 3.4px,#702431 4.5px,#25050c 5.3px,rgba(20,2,6,0) 6.4px),
+      var(--seam),linear-gradient(180deg,rgba(0,0,0,0) 0 20px,rgba(0,0,0,.12) 20px,rgba(0,0,0,.05));}
+  .panel__head{padding-left:24px;padding-right:24px;}
+  .site-foot{padding-top:44px;background-size:180px 18px,100% 4px,340px 340px,520px 520px,520px 520px,900px 900px,100% 100%,100% 100%;}
+}
+
+/* ═══ when a reader asks for more contrast: plain surfaces, no texture ═══ */
+@media(prefers-contrast:more){
+  body::before{background:var(--steel-1);}
+  .topbar,.hdr.hdr--compact,.panel__head,.dlg__head,.site-foot,.polpanel,.qpanel .panel__head{background-image:none;background-color:#44091a;}
+  .topbar::after,.panel__head::before,.panel::after,.acard::before,.type::before,.polpanel::before,.dlg__head::before{display:none;}
+  .hdr.hdr--compact::after{background:var(--seam) 0 22px/100% 4px no-repeat;}
+}
+@media(forced-colors:active){
+  .topbar::after,.panel__head::before,.panel::after,.acard::before,.type::before,.polpanel::before,.dlg__head::before,.hdr.hdr--compact::after{display:none;}
+}
+
+/* ═══ print: hardware off ═══ */
+@media print{
+  body::before,.topbar::after,.topbar::before,.panel__head::before,.panel__head::after,.panel::after,.acard::before,.type::before,
+  .polpanel::before,.dlg__head::before,.hdr.hdr--compact::after,.acard__foot::before,.type__foot::before,.detail h3::before{display:none !important;}
+  .hdr.hdr--compact,.site-foot{background:none !important;box-shadow:none !important;border:0 !important;}
+  .sec-eyebrow{background:none !important;box-shadow:none !important;padding:0 !important;color:#7a0526 !important;}
+}

@@ -1,0 +1,8 @@
+/* ════ Former inline style attributes (moved here so the Content-Security-Policy can forbid inline styles).
+   Loaded last, so these win as the inline attributes did. ════ */
+.icon-sprite{position:absolute;width:0;height:0;overflow:hidden;}
+.field--bare{border:0;padding:0;margin:0;}
+.pol-examples-h{font-size:19px;margin-top:14px;}
+.card--origins{padding:18px 22px;}
+.card--origins__sum{cursor:pointer;font-family:var(--font-h);font-size:20px;font-weight:700;color:var(--gold);}
+.muted{color:var(--ink-2);}
