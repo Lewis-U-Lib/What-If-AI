@@ -139,11 +139,13 @@ activity data is 2.29 MB (464 KB gzipped).
 
 - The Content-Security-Policy (a `<meta>` tag, because Pages cannot set headers) reads:
   `default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:;
-  connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';
+  connect-src 'self'; frame-src https://lewisu.libanswers.com; object-src 'none'; base-uri 'self'; form-action 'self';
   upgrade-insecure-requests`.
 - There are no inline scripts, inline styles or event-handler attributes; the tests enforce
   this. The only inline `<script>` blocks are `type="application/json"`, which never runs.
-- No third-party requests: the fonts are self-hosted, and there are no analytics. Links out
+- No third-party requests until the reader opens **Ask Us**. That action loads the Lewis
+  Library LibAnswers widget inside its iframe; `frame-src` permits only
+  `https://lewisu.libanswers.com`. The fonts are self-hosted, and there are no analytics. Links out
   (the Faculty Guide, the feedback form, sources) are ordinary links with `rel="noopener
   noreferrer"`.
 - Referrer policy: `strict-origin-when-cross-origin`.

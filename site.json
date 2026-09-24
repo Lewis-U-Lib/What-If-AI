@@ -27,6 +27,6 @@
    "data": ["acts", "register", "guide"], "scripts": ["core", "register", "engines"]},
   {"src": "404.html", "out": "404.html", "css": ["base", "theme"], "absolute": true, "sitemap": false}
  ],
- "csp": "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests",
- "_note_csp": "Delivered as a <meta> tag (GitHub Pages cannot set headers). No inline scripts or style attributes are allowed; the page data is JSON, fetched from the same origin."
+ "csp": "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; frame-src https://lewisu.libanswers.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests",
+ "_note_csp": "Delivered as a <meta> tag (GitHub Pages cannot set headers). No inline scripts or style attributes are allowed; the page data is JSON, fetched from the same origin. The Ask Us iframe may load Lewis Library's LibAnswers chat service only, after the reader opens it."
 }

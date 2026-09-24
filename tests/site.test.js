@@ -68,7 +68,7 @@ const html = f => fs.readFileSync(path.join(SITE, f), 'utf8');
     await page.goto(srv.url(f)); await page.waitForTimeout(1200);
     const csp = await page.evaluate(() => window.__csp || []); violations.push(...csp.map(c => (f || 'index') + ': ' + c));
   }
-  check('no request leaves the site (fonts and everything else are self-hosted)', foreign.length === 0, foreign.slice(0, 3).join(' '));
+  check('no request leaves the site before Ask Us is opened', foreign.length === 0, foreign.slice(0, 3).join(' '));
   check('no Content-Security-Policy violations while using the pages', violations.length === 0, violations.slice(0, 3).join(' | '));
   check('no console errors', errors.length === 0, errors.slice(0, 3).join(' | '));
 
@@ -118,6 +118,43 @@ const html = f => fs.readFileSync(path.join(SITE, f), 'utf8');
   await wc.close(); await ws.close();
   console.log(`      What If AI, first visit: ${(first / 1e6).toFixed(2)} MB · then The Register: ${(second / 1e3).toFixed(0)} KB (${again.join(', ')})`);
   check('opening the second tool reuses the cached activity data and shared files', !again.some(p => /^data\/acts\.|assets\/css\/base\.|assets\/js\/core\./.test(p)), again.length + ' files fetched');
+
+  // Ask Us: exercise the iframe under the real page CSP without depending on live chat
+  // availability or opening a conversation with library staff during automated tests.
+  const chatURL = 'https://lewisu.libanswers.com/chat/widget/9834cecf0f3b65300e275b111a06f48909feee517a3cfe2daedf5b9229fe58cc';
+  for (const file of ['what-if-ai.html', 'register.html']) {
+    const chatCtx = await browser.newContext();
+    const chatPage = await chatCtx.newPage();
+    let requests = 0, otherRequests = 0;
+    await chatPage.route(chatURL, route => {
+      requests++;
+      return route.fulfill({ contentType: 'text/html', body: '<!doctype html><html lang="en"><title>Chat fixture</title><h1>Library chat loaded</h1></html>' });
+    });
+    await chatPage.route('https://unrelated.example/chat', route => {
+      otherRequests++;
+      return route.fulfill({ contentType: 'text/html', body: 'Unapproved frame' });
+    });
+    await chatPage.addInitScript(() => {
+      window.__frameViolations = [];
+      document.addEventListener('securitypolicyviolation', e => {
+        if (e.effectiveDirective === 'frame-src') window.__frameViolations.push(e.blockedURI);
+      });
+    });
+    await chatPage.goto(srv.url(file));
+    await chatPage.waitForSelector('html[data-ready]', { state: 'attached' });
+    check(file + ': Ask Us does not contact chat before opening', requests === 0 && !(await chatPage.getAttribute('#chatFrame', 'src')));
+    await chatPage.getByRole('button', { name: 'Help and support menu', exact: true }).click();
+    await chatPage.getByRole('button', { name: 'Ask Us — Lewis University Library Chat', exact: true }).click();
+    const loaded = await chatPage.frameLocator('#chatFrame').getByRole('heading', { name: 'Library chat loaded' })
+      .waitFor({ state: 'visible', timeout: 3000 }).then(() => true, () => false);
+    check(file + ': Ask Us loads the library widget inside its iframe', loaded && requests === 1 && await chatPage.isVisible('#chatModal'));
+    check(file + ': the library chat iframe is permitted by CSP', (await chatPage.evaluate(() => window.__frameViolations)).length === 0);
+    await chatPage.$eval('#chatFrame', frame => { frame.src = 'https://unrelated.example/chat'; });
+    const blocked = await chatPage.waitForFunction(() => window.__frameViolations.some(u => u.startsWith('https://unrelated.example')), { }, { timeout: 3000 })
+      .then(() => true, () => false);
+    check(file + ': CSP still blocks iframe content from unrelated services', blocked && otherRequests === 0);
+    await chatCtx.close();
+  }
 
   await browser.close(); await srv.close();
   const failed = results.filter(r => !r.ok).length;
