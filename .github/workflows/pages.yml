@@ -42,6 +42,8 @@ jobs:
         run: node tests/site.test.js
       - name: Page behavior
         run: node tests/pages.test.js
+      - name: Activity feedback
+        run: node tests/feedback.test.js
       - name: Accessibility (axe, WCAG 2.2 A/AA)
         run: node tests/a11y.test.js
       - name: Contrast over textured surfaces

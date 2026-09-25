@@ -321,7 +321,10 @@ function drawAbout(){
     'Descriptions of what a source reports are kept separate from the library’s editorial additions, and suggested adaptations are labeled as suggestions.</p>'+
     '<p>Only activities whose sources are published under a Creative Commons license or another open license are included. The library keeps a full record of sources, licenses and editorial decisions for the collection.</p></div>';
   h += '<div class="card"><h3>Saving and printing</h3><p>Use <strong>Save</strong> on any activity, here or in What If AI, to collect it. Open <strong>Saved activities</strong> from the top of the page to review your selection, remove items, or print the set or save it as a PDF.</p>'+
-    '<p>Your selection is kept in this browser only; there is no account and nothing is sent anywhere.</p></div>';
+    '<p>Your saved selection stays in this browser and is not sent to the library.</p></div>';
+  h += '<div class="card"><h3>Activity feedback</h3><p>Open an activity and choose <strong>Give feedback</strong> to share whether you are exploring it, considering it, planning to use it, have used it, or find it unsuitable for your needs. '+
+    'A short follow-up lets you say how it went or why it was not a fit. Every response is optional, and no name or email is collected.</p>'+
+    '<p>Choose <strong>Send feedback</strong> when you are ready. This browser remembers your submitted answer, and you can update it later.</p></div>';
   h += '<div class="card"><h3>Corrections and questions</h3><p>If a link has broken, a license or attribution looks wrong, or you have used an activity and want to share how it went, please '+
     '<a href="https://lewisu.libwizard.com/f/Faculty-AI-Eval-Tool-feedback" target="_blank" rel="noopener noreferrer">send feedback<span class="sr-only"> (opens in a new tab)</span></a>. '+
     'For help finding sources or planning an activity, use <strong>Ask Us</strong> from the ✦ help button.</p></div>';

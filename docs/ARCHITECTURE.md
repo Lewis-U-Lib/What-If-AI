@@ -149,10 +149,25 @@ activity data is 2.29 MB (464 KB gzipped).
   `80635adb-f2b4-41bc-9f59-15376ca0b5e8`, preserving the existing account and history.
   `data-domains` restricts reporting to the hostname in `base_url`; local previews do not
   report visits. Query strings and fragments are excluded, so filter and search selections
-  are not included in analytics URLs or counted as separate pageviews. No custom events,
-  session replay, performance tracking or visitor identification are enabled.
+  are not included in analytics URLs or counted as separate pageviews. Session replay, performance tracking and visitor identification are not enabled.
   In Umami, filter Path / URL by **contains `/What-If-AI/`**, or Tag by **`what-if-ai`**,
   to separate these visits from the old Faculty AI Evaluation Tool.
+- Activity pop-ups include optional radio-button feedback, shared by both tools. Nothing
+  is sent on selection alone: the reader must choose **Send feedback**. Only **Already
+  used** and **Not a fit** reveal an optional follow-up; changing the main answer clears
+  the hidden follow-up. The form is excluded from printed activities.
+  Acknowledged responses are remembered under `lul-whatifai-feedback-v1` in localStorage
+  by activity ID. Identical answers are suppressed in the same browser; changed answers
+  remain possible. With storage unavailable, suppression lasts for the current page.
+  Feedback uses the configured Umami intake endpoint with the same domain and opt-out
+  restrictions, and requires a successful response before showing a sent message. A
+  blocked tracker, service rejection or connection failure leaves the form retryable.
+  In **Events**, look for `activity-feedback` (initial responses) and
+  `activity-feedback-updated` (changes). Properties are `activity_id`, `surface`,
+  `response`, optional `outcome` or `reason`, and `previous_response` for updates. The
+  standard `what-if-ai` tag applies. No names, contact information, free text or custom
+  visitor IDs are sent. These are voluntary response events, not unique faculty counts
+  or verified classroom adoption; repeat suppression is best effort within one browser.
 - **Ask Us** loads the Lewis Library LibAnswers widget inside its iframe only when opened;
   `frame-src` permits only `https://lewisu.libanswers.com`. Fonts are self-hosted. Links out
   (the Faculty Guide, the feedback form, sources) are ordinary links with `rel="noopener
@@ -170,7 +185,7 @@ activity data is 2.29 MB (464 KB gzipped).
   Then open `http://localhost:8080/What-If-AI/`.
 - **Tests:** `npm ci`, then `npx playwright install chromium`, then `npm test`.
 - **CI** (`.github/workflows/pages.yml`):
-  - Every push and pull request runs the release check, the build and all four test suites.
+  - Every push and pull request runs the release check, the build and all five test suites.
   - A push to `main` also uploads `_site/` and deploys it.
   - Pull requests never deploy.
   - A repository admin must set **Settings → Pages → Source: GitHub Actions** once.

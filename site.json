@@ -5,14 +5,14 @@
  "_note_base_url": "Used for canonical links, the sitemap and the 404 page. Change it here (and only here) if the site moves to a custom domain.",
  "bundles": {
   "css": {
-   "base": ["fonts.css", "lul-core.css", "site.css", "shell.css"],
+   "base": ["fonts.css", "lul-core.css", "site.css", "shell.css", "activity-feedback.css"],
    "what-if-ai": ["what-if-ai.css"],
    "register": ["register.css"],
    "theme": ["theme-plate.css", "lab.css", "inline-moved.css"]
   },
   "js": {
    "boot": ["boot.js"],
-   "core": ["linkify.js", "shared.js"],
+   "core": ["linkify.js", "activity-feedback.js", "shared.js"],
    "what-if-ai": ["what-if-ai.js"],
    "register": ["register.js"],
    "engines": ["lul-core.js"]
@@ -33,7 +33,7 @@
   "website_id": "80635adb-f2b4-41bc-9f59-15376ca0b5e8",
   "tag": "what-if-ai"
  },
- "_note_analytics": "Reuses the existing lewis-u-lib.github.io Umami website. Reports pageviews only on the base_url hostname, excludes query strings and fragments, and tags visits what-if-ai. The public website ID is not a secret.",
+ "_note_analytics": "Reuses the existing lewis-u-lib.github.io Umami website. Reports pageviews and explicitly submitted activity feedback only on the base_url hostname, excludes query strings and fragments, and tags visits what-if-ai. The public website ID is not a secret.",
  "csp": "default-src 'self'; script-src 'self' https://cloud.umami.is/script.js; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://gateway.umami.is/api/send; frame-src https://lewisu.libanswers.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests",
  "_note_csp": "Delivered as a <meta> tag (GitHub Pages cannot set headers). No inline scripts or style attributes are allowed; the page data is JSON, fetched from the same origin. Umami loads its tracker and sends pageviews to the named endpoint. The Ask Us iframe may load Lewis Library's LibAnswers chat service only, after the reader opens it."
 }

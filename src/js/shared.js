@@ -302,10 +302,12 @@ function openActivity(id, opener){
   var dlg = document.getElementById('actDialog'); if(!dlg) return false;
   dlg.querySelector('[data-dlg-kicker]').textContent = kickerOf(a);
   dlg.querySelector('[data-dlg-title]').textContent = a.t;
-  dlg.querySelector('.dlg__body').innerHTML = detailHTML(a, {inRegister: CTX.page==='register'});
+  dlg.querySelector('.dlg__body').innerHTML = detailHTML(a, {inRegister: CTX.page==='register'}) + ActivityFeedback.render(a.id, CTX.page);
+  ActivityFeedback.mount(dlg.querySelector('.activity-feedback'));
   dlg.querySelector('.dlg__body').scrollTop = 0;
   var foot = dlg.querySelector('.dlg__foot');
   foot.innerHTML = saveButton(a) +
+    '<button type="button" class="btn btn--sm" data-give-feedback>Give feedback</button>'+
     (CTX.page==='register'
       ? '<button type="button" class="btn btn--sm" data-copy-act="'+esc(a.id)+'">Copy a link to this activity</button>'
       : '<a class="btn btn--sm" href="register.html#act='+encodeURIComponent(a.id)+'">'+icon('i-crt')+' Open in The Register</a>') +
@@ -397,6 +399,16 @@ function init(ctx){
   if(sd) wireDialog(sd);
   document.addEventListener('click', function(e){
     var t = e.target;
+    if(t.closest('[data-give-feedback]')){
+      var feedback = ad.querySelector('.activity-feedback');
+      if(feedback){
+        var input = feedback.querySelector('.activity-feedback__main input:checked') || feedback.querySelector('.activity-feedback__main input');
+        input.focus({preventScroll:true});
+        var body = ad.querySelector('.dlg__body'), zoom = parseFloat(getComputedStyle(document.body).zoom) || 1;
+        body.scrollTop += (feedback.getBoundingClientRect().top - body.getBoundingClientRect().top) / zoom;
+      }
+      return;
+    }
     var sv = t.closest('button[data-save]');
     if(sv){
       var id = sv.getAttribute('data-save'), a = BYID[id];
