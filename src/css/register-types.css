@@ -9,7 +9,8 @@
 .type-example:focus-visible{outline:2px solid var(--gold);outline-offset:4px;}
 
 /* ════ Compact type cards and a fixed-size detail window ════ */
-html{scrollbar-gutter:stable;}
+/* Reserve equal space on both sides for classic scrollbars, keeping titles centered. */
+html{scrollbar-gutter:stable both-edges;}
 html.type-dialog-open{overflow:hidden;}
 .type-grid-guide{margin:0 0 18px;padding:10px 0 10px 15px;border-left:3px solid var(--gold);color:var(--ink-2);font-size:16px;max-width:none;}
 .types--compact{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;}
