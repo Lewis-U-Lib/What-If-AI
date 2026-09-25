@@ -191,26 +191,100 @@ function syncFilterControls(){
 function resetF(){ var s = F.sort; F = {q:'', focus:'', task:'', theme:'', disc:'', cap:'', pol:'', role:'', move:'', cost:false, noai:false, nostudent:false, type:'', sort:s}; }
 
 /* ═════════════ types of AI systems ═════════════ */
+/* Compact type cards share one modal; the page grid stays in place. */
+var TYPE_PREVIEWS = {
+  conversational:'Text conversations for drafting, explaining, and exploring ideas.',
+  grounded:'Questions and answers grounded in documents you supply.',
+  search:'Web and scholarly search with synthesized, source-linked answers.',
+  multimodal:'Systems that interpret photos, charts, scans, and other visual inputs.',
+  image:'New images and visual variations from prompts or reference images.',
+  video:'Generated video clips, animated scenes, and synthetic presenters.',
+  audio:'Transcription, spoken narration, synthetic voices, and music.',
+  code:'Help writing code, analyzing datasets, and producing charts.',
+  agentic:'Multi-step tasks that connect tools, files, and applications.',
+  institutional:'AI accessed through an institution or hosted on controlled infrastructure.',
+  discipline:'Specialized models for research, prediction, and domain-specific analysis.',
+  noai:'Activities for examining or discussing AI without using an AI tool.'
+};
+var typeDialog = document.getElementById('aiTypeDialog');
+var typeReturn = null;
+var typeNavigating = false;
+S_.wireDialog(typeDialog);
+typeDialog.addEventListener('keydown', function(e){
+  if(e.key!=='Tab') return;
+  var stops = [].filter.call(typeDialog.querySelectorAll('button:not([disabled]), a[href], summary, [tabindex="0"]'), function(n){return n.getClientRects().length>0;});
+  var first = stops[0], last = stops[stops.length-1];
+  if(e.shiftKey && (document.activeElement===first || document.activeElement.hasAttribute('data-dlg-title'))){e.preventDefault();last.focus();}
+  else if(!e.shiftKey && document.activeElement===last){e.preventDefault();first.focus();}
+});
+typeDialog.addEventListener('close', function(){
+  document.documentElement.classList.remove('type-dialog-open');
+  if(typeReturn && !typeNavigating){
+    window.scrollTo({left:typeReturn.x,top:typeReturn.y,behavior:'instant'});
+  }
+  typeReturn = null;
+  typeNavigating = false;
+});
+
+function typeActivityLink(t){
+  if(t.key==='noai') return '<a class="btn btn--sm" data-type-activities href="#activities?noai=1">See activities that work without AI</a>';
+  if(t.ids && t.ids.length) return '<a class="btn btn--sm" data-type-activities href="#activities?type='+t.key+'">See '+t.n+' related activit'+(t.n===1?'y':'ies')+'</a>';
+  if(t.caps && t.caps.length && t.n) return '<a class="btn btn--sm" data-type-activities href="#activities?cap='+t.caps[0]+'">See '+t.n+' related activit'+(t.n===1?'y':'ies')+'</a>';
+  return '';
+}
+function typeExampleDisclosure(t){
+  var examples = window.REGISTER_TYPE_EXAMPLES;
+  var items = examples.types[t.key] || [];
+  if(!items.length) return '';
+  var arrow = '<svg class="type-example__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  return '<details class="type-example-disclosure"><summary><span class="lamp" aria-hidden="true"></span><span class="type-example-disclosure__title">Current examples</span><span class="type-example-disclosure__count">'+items.length+' tools</span>'+icon('i-chevron')+'</summary>'+
+    '<div class="type-example-disclosure__content"><p class="type-example-disclosure__note">Examples may span several types. Inclusion does not indicate Lewis access or approval.</p><ul>'+items.map(function(x){
+      return '<li><a class="type-example" href="'+esc(x[2])+'" target="_blank" rel="noopener noreferrer"><span class="type-example__name">'+esc(x[0])+'</span><span class="type-example__desc">'+esc(x[1])+'</span>'+arrow+'<span class="sr-only"> (opens in a new tab)</span></a></li>';
+    }).join('')+'</ul><p class="type-example-disclosure__date">Official sources · Examples checked <time datetime="'+esc(examples.checked)+'">'+esc(examples.checkedLabel)+'</time></p></div></details>';
+}
+function openType(key, opener){
+  var t = R.types.types.filter(function(x){return x.key===key;})[0];
+  if(key==='noai') t = {key:'noai',name:R.types.no_ai.name,icon:'i-robot-off',what:R.types.no_ai.text};
+  if(!t) return;
+  typeReturn = {x:window.scrollX,y:window.scrollY};
+  typeNavigating = false;
+  document.documentElement.classList.add('type-dialog-open');
+  typeDialog.setAttribute('data-type', key);
+  typeDialog.querySelector('[data-type-icon]').innerHTML = icon(t.icon);
+  typeDialog.querySelector('[data-dlg-title]').textContent = t.name;
+  var h = '<p class="type-dialog__description">'+esc(t.what)+'</p>';
+  if(key!=='noai'){
+    h += '<section class="type-info" aria-labelledby="typeMoreHeading"><h3 id="typeMoreHeading">More about this type</h3><dl>'+
+      [['What it does',t.does],['Inputs and outputs',t.io],['Where faculty encounter it',t.why],['Limitations and considerations',t.limits]].map(function(row){
+        return '<div class="type-info__row"><dt>'+esc(row[0])+'</dt><dd>'+esc(row[1])+'</dd></div>';
+      }).join('')+'</dl></section>'+typeExampleDisclosure(t);
+  }
+  typeDialog.querySelector('.dlg__body').innerHTML = h;
+  typeDialog.querySelector('.dlg__foot').innerHTML = typeActivityLink(t)+'<button type="button" class="btn btn--sm btn--quiet" data-close>Back to types</button>';
+  S_.openDialog(typeDialog, opener);
+  typeDialog.querySelector('.dlg__body').scrollTop = 0;
+}
+document.addEventListener('click', function(e){
+  var opener = e.target.closest('[data-open-type]');
+  if(opener){ openType(opener.getAttribute('data-open-type'),opener); return; }
+  if(e.target.closest('[data-type-activities]')){
+    typeNavigating = true;
+    S_.closeDialog(typeDialog);
+  }
+});
+
+function typeCard(t){
+  return '<article class="type type--compact" aria-labelledby="ty-'+t.key+'"><div class="type__head"><div class="type__icon" aria-hidden="true">'+icon(t.icon)+'</div>'+
+    '<h3 id="ty-'+t.key+'"><button type="button" class="type-launch" data-open-type="'+t.key+'" aria-haspopup="dialog" aria-controls="aiTypeDialog" aria-describedby="ty-desc-'+t.key+'">'+esc(t.name)+'</button></h3></div>'+
+    '<p id="ty-desc-'+t.key+'" class="type-preview">'+esc(TYPE_PREVIEWS[t.key] || t.what || '')+'</p><div class="type-launch-hint" aria-hidden="true">Explore this type <span>↗</span></div></article>';
+}
 function drawTypes(){
   var T = R.types;
   var h = '<div class="sec-head"><div class="sec-eyebrow">Platform-neutral</div><h2 id="h-ai-types" tabindex="-1">Types of AI systems</h2>'+
     T.intro.map(function(p){ return '<p>'+esc(p)+'</p>'; }).join('')+'</div>';
-  h += '<div class="types">';
-  T.types.forEach(function(t){
-    var link = '';
-    if(t.ids && t.ids.length) link = '<a class="btn btn--sm" href="#activities?type='+t.key+'">See '+t.n+' related activit'+(t.n===1?'y':'ies')+'</a>';
-    else if(t.caps && t.caps.length && t.n) link = '<a class="btn btn--sm" href="#activities?cap='+t.caps[0]+'">See '+t.n+' activit'+(t.n===1?'y':'ies')+' that use this kind of tool</a>';
-    /* the name and the primary description always show; everything else is behind a native disclosure */
-    h += '<article class="type" aria-labelledby="ty-'+t.key+'"><div class="type__head"><div class="type__icon" aria-hidden="true">'+icon(t.icon)+'</div>'+
-      '<h3 id="ty-'+t.key+'">'+esc(t.name)+'</h3></div><p class="what">'+esc(t.what)+'</p>'+
-      '<details class="type__more"><summary><span class="lamp" aria-hidden="true"></span><span class="when-closed">More about this type</span>'+
-      '<span class="when-open">Fewer details</span><span class="sr-only">: '+esc(t.name)+'</span>'+icon('i-chevron')+'</summary>'+
-      '<div class="type__detail"><dl><dt>What it does</dt><dd>'+esc(t.does)+'</dd><dt>Inputs and outputs</dt><dd>'+esc(t.io)+'</dd>'+
-      '<dt>Where faculty encounter it</dt><dd>'+esc(t.why)+'</dd><dt>Limitations and considerations</dt><dd>'+esc(t.limits)+'</dd></dl>'+
-      (link ? '<div class="type__foot">'+link+'</div>' : '')+'</div></details></article>';
-  });
-  h += '<article class="type" aria-labelledby="ty-noai"><div class="type__head"><div class="type__icon" aria-hidden="true">'+icon('i-robot-off')+'</div><h3 id="ty-noai">'+esc(T.no_ai.name)+'</h3></div>'+
-    '<p class="what">'+esc(T.no_ai.text)+'</p><div class="type__foot"><a class="btn btn--sm" href="#activities?noai=1">See activities that work without AI</a></div></article>';
+  h += '<p class="type-grid-guide">Choose a type to see what it does, where faculty encounter it, and current examples.</p>';
+  h += '<div class="types types--compact">'+T.types.map(typeCard).join('');
+  h += typeCard({key:'noai',name:T.no_ai.name,icon:'i-robot-off'});
   h += '</div>';
   h += '<section class="protocols" aria-labelledby="h-protocols"><span class="current current--console" aria-hidden="true"></span>'+
     '<div class="protocols__head">'+icon('i-bolt')+'<h3 id="h-protocols">Whatever the tool</h3><span class="protocols__tag">Applies to every type</span></div>'+
@@ -218,6 +292,7 @@ function drawTypes(){
     T.general.map(function(g){ return '<li><span class="lamp lamp--on" aria-hidden="true"></span><span>'+esc(g)+'</span></li>'; }).join('')+'</ul></div></section>';
   document.getElementById('ai-types').innerHTML = h;
 }
+
 
 /* ═════════════ course AI policies ═════════════ */
 var polSel = null;
@@ -356,6 +431,9 @@ function applyQuery(qs){
    never re-renders (or steals focus from) the list underneath */
 function route(first){
   if(!first && location.hash === routed) return;
+  if(typeDialog.open && location.hash !== '#ai-types'){
+    typeNavigating = true; S_.closeDialog(typeDialog);
+  }
   routed = location.hash;
   var hsh = (location.hash||'').replace(/^#/,'');
   var m, dlg = document.getElementById('actDialog');

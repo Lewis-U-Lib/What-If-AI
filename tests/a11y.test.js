@@ -32,8 +32,11 @@ const STATES = [
   ['The Register · activities filtered', 'register.html#activities?cap=text_chat&pol=open', async p => {}],
   ['The Register · activity details open', 'register.html#activities', async p => { await p.click('#activities [data-open]'); }],
   ['The Register · types of AI systems', 'register.html#ai-types', async p => {}],
-  ['The Register · AI-system details expanded', 'register.html#ai-types', async p => {
-    await p.$$eval('#ai-types details.type__more', ds => ds.slice(0, 3).forEach(d => d.open = true)); }],
+  ['The Register · AI-system details dialog', 'register.html#ai-types', async p => {
+    await p.click('[data-open-type="conversational"]'); }],
+  ['The Register · AI-system examples expanded', 'register.html#ai-types', async p => {
+    await p.click('[data-open-type="conversational"]'); await p.click('.type-example-disclosure > summary');
+    await p.$eval('#aiTypeDialog .dlg__body', e => e.scrollTop = e.scrollHeight); }],
   ['The Register · course AI policies', 'register.html#policies', async p => {}],
   ['The Register · sources, one opened', 'register.html#sources', async p => { await p.$$eval('#sources details', ds => ds.slice(0, 3).forEach(d => d.open = true)); }],
   ['The Register · how to use', 'register.html#about', async p => {}],

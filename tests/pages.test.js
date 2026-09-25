@@ -345,22 +345,26 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   const types = await page.$$('#ai-types article.type');
   check('The Register: platform-neutral AI system types replace the platform catalog', types.length === REGD.types.types.length + 1, types.length + ' types');
   const typeText = await page.textContent('#ai-types');
-  check('The Register: AI system types name no products', !/ChatGPT|Claude|Gemini|Copilot|Perplexity|NotebookLM|Midjourney|ElevenLabs/.test(typeText));
-  const typeState = await page.$$eval('#ai-types article.type', as => as.map(a => ({ what: !!a.querySelector('p.what') && a.querySelector('p.what').offsetHeight > 0,
-    d: a.querySelector('details.type__more'), })).map(x => x));
-  const collapsed = await page.$$eval('#ai-types details.type__more', ds => ds.map(d => ({ open: d.open, dlHidden: !d.querySelector('dl').checkVisibility(), sum: d.querySelector('summary').textContent.replace(/\s+/g, ' ').trim() })));
-  check('The Register: every AI-system card shows its primary description', typeState.every(t => t.what));
-  check('The Register: AI-system details start collapsed behind "More about this type"', collapsed.length === REGD.types.types.length && collapsed.every(c => !c.open && c.dlHidden && /^More about this type/.test(c.sum)), collapsed.length + ' disclosures');
-  await page.focus('#ai-types details.type__more summary'); await page.keyboard.press('Enter');
-  const opened = await page.$eval('#ai-types details.type__more', d => ({ open: d.open, shown: d.querySelector('dl').checkVisibility(), label: d.querySelector('summary').innerText.replace(/\s+/g, ' ').trim() }));
-  check('The Register: a disclosure opens from the keyboard and says so', opened.open && opened.shown && /Fewer details/.test(opened.label), opened.label);
-  await page.keyboard.press('Space');
-  check('The Register: it closes again', !(await page.$eval('#ai-types details.type__more', d => d.open)));
+  check('The Register: type cards stay platform-neutral; products are inside their dialogs', !/ChatGPT|Claude|Gemini|Copilot|Perplexity|NotebookLM|Midjourney|ElevenLabs/.test(typeText));
+  const typeState = await page.$$eval('#ai-types article.type', cards => cards.map(card => ({
+    preview: !!card.querySelector('.type-preview')?.checkVisibility(),
+    button: !!card.querySelector('button[data-open-type][aria-haspopup="dialog"]'),
+    inlineDetails: !!card.querySelector('details')
+  })));
+  check('The Register: type cards show compact descriptions and open a dialog', typeState.every(t => t.preview && t.button && !t.inlineDetails));
+  await page.focus('[data-open-type="conversational"]'); await page.keyboard.press('Enter');
+  check('The Register: a type opens from the keyboard with full details visible',
+    await page.isVisible('#aiTypeDialog .type-info dl') && await page.textContent('#aiTypeDialogTitle') === REGD.types.types[0].name);
+  check('The Register: current examples start collapsed in the type dialog',
+    !(await page.$eval('#aiTypeDialog details', d => d.open)) && !(await page.isVisible('#aiTypeDialog .type-example')));
+  await page.keyboard.press('Escape'); await page.waitForTimeout(60);
+  check('The Register: closing a type restores focus to its card',
+    !(await page.$eval('#aiTypeDialog', d => d.open)) && (await page.evaluate(() => document.activeElement.getAttribute('data-open-type'))) === 'conversational');
   const navIcon = await page.$eval('#secnav a[data-sec="ai-types"] use', u => u.getAttribute('href'));
   check('The Register: Types of AI systems uses the robot icon', navIcon === '#i-robot', navIcon);
   check('The Register: "Whatever the tool" is a console panel separate from the cards', !!(await page.$('#ai-types .protocols #h-protocols')) && (await page.textContent('#h-protocols')) === 'Whatever the tool' && (await page.$$('#ai-types .protocols__list li')).length === REGD.types.general.length);
-  await page.$$eval('#ai-types details.type__more', ds => ds.forEach(d => d.open = true));
-  await page.click('#ai-types a[href="#activities?cap=image_generation"]');
+  await page.click('[data-open-type="image"]');
+  await page.click('#aiTypeDialog a[href="#activities?cap=image_generation"]');
   await page.waitForTimeout(80);
   check('The Register: "see activities" from a type lands on the filtered list', (await page.textContent('#actCount')).includes('of ' + want));
   // policies

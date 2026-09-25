@@ -7,9 +7,10 @@
     "build": "python3 tools/build.py",
     "check:release": "python3 tools/check_release.py",
     "serve": "node tests/serve.js",
-    "test": "npm run check:release && npm run build && npm run test:site && npm run test:pages && npm run test:feedback && npm run test:a11y && npm run test:contrast",
+    "test": "npm run check:release && npm run build && npm run test:site && npm run test:pages && npm run test:types && npm run test:feedback && npm run test:a11y && npm run test:contrast",
     "test:site": "node tests/site.test.js",
     "test:pages": "node tests/pages.test.js",
+    "test:types": "node tests/types.test.js",
     "test:feedback": "node tests/feedback.test.js",
     "test:a11y": "node tests/a11y.test.js",
     "test:contrast": "node tests/contrast.test.js"

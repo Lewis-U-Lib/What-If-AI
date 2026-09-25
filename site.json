@@ -8,13 +8,14 @@
    "base": ["fonts.css", "lul-core.css", "site.css", "shell.css", "activity-feedback.css"],
    "what-if-ai": ["what-if-ai.css"],
    "register": ["register.css"],
+   "register-types": ["register-types.css"],
    "theme": ["theme-plate.css", "lab.css", "inline-moved.css"]
   },
   "js": {
    "boot": ["boot.js"],
    "core": ["linkify.js", "activity-feedback.js", "shared.js"],
    "what-if-ai": ["what-if-ai.js"],
-   "register": ["register.js"],
+   "register": ["register-type-examples.js", "register.js"],
    "engines": ["lul-core.js"]
   }
  },
@@ -23,7 +24,7 @@
   {"src": "index.html", "out": "index.html", "css": ["base", "theme"]},
   {"src": "what-if-ai.html", "out": "what-if-ai.html", "css": ["base", "what-if-ai", "theme"],
    "data": ["acts", "guide"], "scripts": ["core", "what-if-ai", "engines"]},
-  {"src": "register.html", "out": "register.html", "css": ["base", "register", "theme"],
+  {"src": "register.html", "out": "register.html", "css": ["base", "register", "theme", "register-types"],
    "data": ["acts", "register", "guide"], "scripts": ["core", "register", "engines"]},
   {"src": "404.html", "out": "404.html", "css": ["base", "theme"], "absolute": true, "sitemap": false}
  ],

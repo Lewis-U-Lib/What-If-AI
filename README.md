@@ -43,6 +43,17 @@ npx playwright install chromium
 npm test        # release check, build, site checks, page behavior, accessibility (axe), contrast
 ```
 
+## Update the AI-system examples
+
+`src/js/register-type-examples.js` holds the illustrative product names, short capability
+notes, official source links, and their checked date. Review those links when updating
+examples. These are editorial additions to the type guide, separate from the exported
+corpus release. Type descriptions and related-activity counts still come from that release.
+
+The Register shows compact type cards. Opening a card displays the full description and
+details in a fixed-size dialog; current examples start collapsed. The type-dialog test checks
+keyboard focus, scroll-position restoration, content preservation, and narrow screens.
+
 ## Update the activities
 
 1. In the pipeline repo, run `python3 scripts/corpus_pages.py`, then
