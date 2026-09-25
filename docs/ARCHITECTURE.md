@@ -15,7 +15,7 @@ changes how they are delivered.
 | Activity data | Embedded twice (once per page) | One file, downloaded once and cached for both pages |
 | Fonts | Google Fonts, requested from Google | Self-hosted from the site (OFL); no third-party requests |
 | Cache safety | Every change replaces the whole page | Every asset name carries a content hash, so a new release never mixes with old files |
-| Security | No policy | A Content-Security-Policy allowing only same-origin scripts, styles, fonts and data, and no inline code |
+| Security | No policy | A Content-Security-Policy with narrow exceptions for Umami analytics and the Ask Us iframe, and no inline code |
 | Entry point | None | Landing page, plus a 404 page that works at any depth |
 | Deploy | Not set up | GitHub Actions builds, runs every test, and deploys only if all of them pass |
 
@@ -138,14 +138,23 @@ activity data is 2.29 MB (464 KB gzipped).
 ## 6. Security and privacy
 
 - The Content-Security-Policy (a `<meta>` tag, because Pages cannot set headers) reads:
-  `default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:;
-  connect-src 'self'; frame-src https://lewisu.libanswers.com; object-src 'none'; base-uri 'self'; form-action 'self';
+  `default-src 'self'; script-src 'self' https://cloud.umami.is/script.js; style-src 'self'; font-src 'self'; img-src 'self' data:;
+  connect-src 'self' https://gateway.umami.is/api/send; frame-src https://lewisu.libanswers.com; object-src 'none'; base-uri 'self'; form-action 'self';
   upgrade-insecure-requests`.
 - There are no inline scripts, inline styles or event-handler attributes; the tests enforce
   this. The only inline `<script>` blocks are `type="application/json"`, which never runs.
-- No third-party requests until the reader opens **Ask Us**. That action loads the Lewis
-  Library LibAnswers widget inside its iframe; `frame-src` permits only
-  `https://lewisu.libanswers.com`. The fonts are self-hosted, and there are no analytics. Links out
+- Umami pageview analytics loads `https://cloud.umami.is/script.js` on every page and sends
+  visits to `https://gateway.umami.is/api/send`. Configuration lives in `site.json → analytics`
+  and the shared build adds the tracker once per page. It reuses website ID
+  `80635adb-f2b4-41bc-9f59-15376ca0b5e8`, preserving the existing account and history.
+  `data-domains` restricts reporting to the hostname in `base_url`; local previews do not
+  report visits. Query strings and fragments are excluded, so filter and search selections
+  are not included in analytics URLs or counted as separate pageviews. No custom events,
+  session replay, performance tracking or visitor identification are enabled.
+  In Umami, filter Path / URL by **contains `/What-If-AI/`**, or Tag by **`what-if-ai`**,
+  to separate these visits from the old Faculty AI Evaluation Tool.
+- **Ask Us** loads the Lewis Library LibAnswers widget inside its iframe only when opened;
+  `frame-src` permits only `https://lewisu.libanswers.com`. Fonts are self-hosted. Links out
   (the Faculty Guide, the feedback form, sources) are ordinary links with `rel="noopener
   noreferrer"`.
 - Referrer policy: `strict-origin-when-cross-origin`.

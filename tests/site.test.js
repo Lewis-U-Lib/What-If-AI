@@ -4,6 +4,7 @@
  *   node tests/site.test.js            (after python3 tools/build.py)
  */
 const { chromium } = require('playwright');
+const { createContext } = require('./browser');
 const { AxeBuilder } = require('@axe-core/playwright');
 const { execFileSync } = require('child_process');
 const crypto = require('crypto');
@@ -20,6 +21,8 @@ const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 function walk(d, base = d) { return fs.readdirSync(d, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(path.join(d, e.name), base) : [path.relative(base, path.join(d, e.name))]); }
 const PAGES = ['index.html', 'what-if-ai.html', 'register.html', '404.html'];
 const html = f => fs.readFileSync(path.join(SITE, f), 'utf8');
+const CFG = require('../site.json');
+const ANALYTICS = CFG.analytics;
 
 (async () => {
   // ── static
@@ -56,7 +59,7 @@ const html = f => fs.readFileSync(path.join(SITE, f), 'utf8');
   // ── in the browser
   const srv = await start({ dir: SITE });
   const browser = await chromium.launch();
-  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const ctx = await createContext(browser, { viewport: { width: 1440, height: 900 } });
   const page = await ctx.newPage();
   const foreign = [], violations = [], errors = [];
   page.on('request', r => { const u = new URL(r.url()); if (u.origin !== new URL(srv.origin).origin && !/^(data|about):/.test(r.url())) foreign.push(r.url()); });
@@ -68,9 +71,64 @@ const html = f => fs.readFileSync(path.join(SITE, f), 'utf8');
     await page.goto(srv.url(f)); await page.waitForTimeout(1200);
     const csp = await page.evaluate(() => window.__csp || []); violations.push(...csp.map(c => (f || 'index') + ': ' + c));
   }
-  check('no request leaves the site before Ask Us is opened', foreign.length === 0, foreign.slice(0, 3).join(' '));
+  const unexpected = foreign.filter(u => u !== ANALYTICS.script_url);
+  check('only the Umami tracker is requested externally before Ask Us is opened', unexpected.length === 0 && foreign.includes(ANALYTICS.script_url), unexpected.slice(0, 3).join(' '));
   check('no Content-Security-Policy violations while using the pages', violations.length === 0, violations.slice(0, 3).join(' | '));
   check('no console errors', errors.length === 0, errors.slice(0, 3).join(' | '));
+
+  // Use a fixture to verify the real page's script/connect CSP exceptions without
+  // sending test visits to Umami or requiring the service to be available in CI.
+  const analyticsCtx = await createContext(browser);
+  const analyticsPage = await analyticsCtx.newPage();
+  const reports = [];
+  const endpoint = ANALYTICS.host_url + '/api/send';
+  await analyticsPage.route(ANALYTICS.script_url, route => route.fulfill({
+    contentType: 'application/javascript',
+    body: `const tracker = document.currentScript;
+      fetch(tracker.dataset.hostUrl + '/api/send', { method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ website: tracker.dataset.websiteId })
+      }).then(r => r.json()).then(() => { window.__analyticsSent = true; });`,
+  }));
+  await analyticsPage.route(endpoint, route => {
+    reports.push(route.request().postDataJSON());
+    return route.fulfill({ contentType: 'application/json', body: '{}', headers: { 'Access-Control-Allow-Origin': '*' } });
+  });
+  for (const file of PAGES) {
+    await analyticsPage.goto(srv.url(file));
+    const trackers = await analyticsPage.$$eval('script[data-website-id]', ss => ss.map(s => ({ src: s.src, defer: s.defer, ...s.dataset })));
+    const tracker = trackers[0] || {};
+    check(file + ': one tracker uses the existing website ID and excludes filter URLs', trackers.length === 1 && tracker.defer &&
+      tracker.src === ANALYTICS.script_url && tracker.websiteId === ANALYTICS.website_id &&
+      tracker.hostUrl === ANALYTICS.host_url && tracker.domains === new URL(CFG.base_url).hostname &&
+      tracker.excludeHash === 'true' && tracker.excludeSearch === 'true' && tracker.tag === 'what-if-ai');
+    const sent = await analyticsPage.waitForFunction(() => window.__analyticsSent, null, { timeout: 3000 }).then(() => true, () => false);
+    check(file + ': CSP permits the tracker and reporting endpoint', sent && reports.length === PAGES.indexOf(file) + 1 && reports.at(-1)?.website === ANALYTICS.website_id);
+  }
+  let unrelatedRequests = 0;
+  await analyticsPage.route('https://unrelated.example/**', route => {
+    unrelatedRequests++;
+    return route.fulfill({ body: '', headers: { 'Access-Control-Allow-Origin': '*' } });
+  });
+  await analyticsPage.evaluate(() => {
+    window.__blockedAnalytics = [];
+    document.addEventListener('securitypolicyviolation', e => window.__blockedAnalytics.push(e.effectiveDirective));
+  });
+  await analyticsPage.addScriptTag({ url: 'https://unrelated.example/tracker.js' }).catch(() => {});
+  await analyticsPage.evaluate(() => fetch('https://unrelated.example/api/send').catch(() => {}));
+  await analyticsPage.waitForFunction(() => window.__blockedAnalytics.length >= 2);
+  const blockedDirectives = await analyticsPage.evaluate(() => window.__blockedAnalytics);
+  check('CSP still blocks scripts from unrelated services', unrelatedRequests === 0 && blockedDirectives.includes('script-src-elem'));
+  check('CSP still blocks connections to unrelated services', unrelatedRequests === 0 && blockedDirectives.includes('connect-src'));
+  await analyticsCtx.close();
+
+  const blockedCtx = await createContext(browser);
+  const blockedPage = await blockedCtx.newPage();
+  await blockedPage.route(ANALYTICS.script_url, route => route.abort('blockedbyclient'));
+  await blockedPage.goto(srv.url('what-if-ai.html'));
+  await blockedPage.waitForSelector('html[data-ready]', { state: 'attached' });
+  check('the activity finder works when analytics is blocked', await blockedPage.isVisible('#wizard'));
+  await blockedCtx.close();
 
   // landing page
   await page.goto(srv.url(''));
@@ -85,7 +143,7 @@ const html = f => fs.readFileSync(path.join(SITE, f), 'utf8');
   check('404 page is styled at any depth, with its logo and absolute links into the site', nf.css === 'flex' && nf.logo > 0 && nf.links.every(h => h.startsWith(BASE)), JSON.stringify(nf.links));
 
   // loading state and failure state
-  const slow = await browser.newContext({ viewport: { width: 1440, height: 900 } }); const sp = await slow.newPage();
+  const slow = await createContext(browser, { viewport: { width: 1440, height: 900 } }); const sp = await slow.newPage();
   await sp.route('**/data/acts.*.json', async route => { await new Promise(r => setTimeout(r, 1500)); await route.continue(); });
   await sp.goto(srv.url('register.html'));
   const loading = await sp.evaluate(() => ({ msg: (document.getElementById('boot-msg') || {}).textContent, role: (document.getElementById('boot-msg') || { getAttribute: () => '' }).getAttribute('role'), busy: document.getElementById('main').getAttribute('aria-busy') }));
@@ -93,7 +151,7 @@ const html = f => fs.readFileSync(path.join(SITE, f), 'utf8');
   await sp.waitForSelector('html[data-ready]', { state: 'attached' });
   check('when the data arrives the message goes and the page is no longer busy', !(await sp.$('#boot-msg')) && (await sp.getAttribute('#main', 'aria-busy')) === null);
   await slow.close();
-  const bad = await browser.newContext({ viewport: { width: 1440, height: 900 } }); const bp = await bad.newPage();
+  const bad = await createContext(browser, { viewport: { width: 1440, height: 900 } }); const bp = await bad.newPage();
   await bp.route('**/data/acts.*.json', route => route.fulfill({ status: 503, body: 'down' }));
   await bp.goto(srv.url('what-if-ai.html')); await bp.waitForSelector('.boot-msg--error');
   const fail = await bp.evaluate(() => ({ role: document.getElementById('boot-msg').getAttribute('role'), text: document.getElementById('boot-msg').textContent, retry: !!document.getElementById('boot-retry') }));
@@ -101,7 +159,7 @@ const html = f => fs.readFileSync(path.join(SITE, f), 'utf8');
   const ax = await new AxeBuilder({ page: bp }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
   check('the failure message passes axe', ax.violations.length === 0, ax.violations.map(v => v.id).join(' '));
   await bad.close();
-  const fc = await browser.newContext(); const fp = await fc.newPage();
+  const fc = await createContext(browser); const fp = await fc.newPage();
   await fp.goto('file://' + path.join(SITE, 'register.html')); await fp.waitForSelector('.boot-msg--error', { timeout: 5000 }).catch(() => {});
   check('opened as a local file, the page explains that it needs to be served', /run a local server/.test(await fp.textContent('#boot-msg').catch(() => '')));
   await fc.close();
@@ -111,6 +169,11 @@ const html = f => fs.readFileSync(path.join(SITE, f), 'utf8');
   const log = [], ws = await start({ dir: SITE, log });
   const served = () => log.reduce((n, x) => n + x.bytes, 0);
   const wc = await browser.newContext(); const wp = await wc.newPage();
+  // Playwright routing disables HTTP caching. Block only the analytics URL through
+  // Chromium here, preserving the normal browser cache for the shared-file check.
+  const cacheSession = await wc.newCDPSession(wp);
+  await cacheSession.send('Network.enable');
+  await cacheSession.send('Network.setBlockedURLs', { urls: [ANALYTICS.script_url] });
   await wp.goto(ws.url('what-if-ai.html')); await wp.waitForSelector('html[data-ready]', { state: 'attached' }); await wp.waitForTimeout(400);
   const first = served(); const n0 = log.length;
   await wp.goto(ws.url('register.html')); await wp.waitForSelector('html[data-ready]', { state: 'attached' }); await wp.waitForTimeout(400);
@@ -123,7 +186,7 @@ const html = f => fs.readFileSync(path.join(SITE, f), 'utf8');
   // availability or opening a conversation with library staff during automated tests.
   const chatURL = 'https://lewisu.libanswers.com/chat/widget/9834cecf0f3b65300e275b111a06f48909feee517a3cfe2daedf5b9229fe58cc';
   for (const file of ['what-if-ai.html', 'register.html']) {
-    const chatCtx = await browser.newContext();
+    const chatCtx = await createContext(browser);
     const chatPage = await chatCtx.newPage();
     let requests = 0, otherRequests = 0;
     await chatPage.route(chatURL, route => {

@@ -3,6 +3,7 @@
  *   npm run test:a11y   (or node tests/a11y.test.js [distDir])
  * Exits non-zero on any violation. Automated checks cover part of WCAG only; see docs for manual checks. */
 const { chromium } = require('playwright');
+const { createContext } = require('./browser');
 const { AxeBuilder } = require('@axe-core/playwright');
 const path = require('path');
 const SITE = path.resolve(process.argv[2] || path.join(__dirname, '..', '_site'));
@@ -46,7 +47,7 @@ const STATES = [
   let total = 0;
   for (const [name, file, act] of STATES) {
     for (const vp of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
-      const ctx = await browser.newContext({ viewport: vp }); const page = await ctx.newPage();
+      const ctx = await createContext(browser, { viewport: vp }); const page = await ctx.newPage();
       await page.goto(URL(file)); await page.waitForTimeout(150); await ready(page);
       if (vp.width < 800 && file.startsWith('register.html#activities')) await page.click('#filtersToggle');
       await act(page); await page.waitForTimeout(200);

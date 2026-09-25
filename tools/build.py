@@ -19,6 +19,7 @@ Usage:
     python3 tools/build.py --out DIR
 """
 import argparse, gzip, hashlib, html, json, pathlib, re, shutil, subprocess, sys
+from urllib.parse import urlsplit
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
@@ -117,6 +118,18 @@ def build(out):
         if page.get("sitemap", True):
             head.append(f'<link rel="canonical" href="{canonical}"/>')
         head.append(f'<link rel="icon" type="image/png" href="{a("img/logo.png")}"/>')
+        analytics = CFG.get("analytics")
+        if analytics:
+            attrs = {
+                "src": analytics["script_url"],
+                "data-website-id": analytics["website_id"],
+                "data-host-url": analytics["host_url"],
+                "data-domains": urlsplit(base_url).hostname,
+                "data-tag": analytics["tag"],
+                "data-exclude-search": "true",
+                "data-exclude-hash": "true",
+            }
+            head.append('<script defer ' + ' '.join(f'{k}="{html.escape(v, quote=True)}"' for k, v in attrs.items()) + '></script>')
         styles = []
         for f in ("barlow-400-latin.woff2", "barlow-condensed-700-latin.woff2"):
             styles.append(f'<link rel="preload" href="{a("fonts/" + f)}" as="font" type="font/woff2" crossorigin/>')

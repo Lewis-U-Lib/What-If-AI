@@ -27,6 +27,13 @@
    "data": ["acts", "register", "guide"], "scripts": ["core", "register", "engines"]},
   {"src": "404.html", "out": "404.html", "css": ["base", "theme"], "absolute": true, "sitemap": false}
  ],
- "csp": "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; frame-src https://lewisu.libanswers.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests",
- "_note_csp": "Delivered as a <meta> tag (GitHub Pages cannot set headers). No inline scripts or style attributes are allowed; the page data is JSON, fetched from the same origin. The Ask Us iframe may load Lewis Library's LibAnswers chat service only, after the reader opens it."
+ "analytics": {
+  "script_url": "https://cloud.umami.is/script.js",
+  "host_url": "https://gateway.umami.is",
+  "website_id": "80635adb-f2b4-41bc-9f59-15376ca0b5e8",
+  "tag": "what-if-ai"
+ },
+ "_note_analytics": "Reuses the existing lewis-u-lib.github.io Umami website. Reports pageviews only on the base_url hostname, excludes query strings and fragments, and tags visits what-if-ai. The public website ID is not a secret.",
+ "csp": "default-src 'self'; script-src 'self' https://cloud.umami.is/script.js; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://gateway.umami.is/api/send; frame-src https://lewisu.libanswers.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests",
+ "_note_csp": "Delivered as a <meta> tag (GitHub Pages cannot set headers). No inline scripts or style attributes are allowed; the page data is JSON, fetched from the same origin. Umami loads its tracker and sends pageviews to the named endpoint. The Ask Us iframe may load Lewis Library's LibAnswers chat service only, after the reader opens it."
 }

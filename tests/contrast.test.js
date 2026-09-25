@@ -7,6 +7,7 @@
  *   node tests/contrast-plate.test.js [distDir]      (default dist)
  * Exits non-zero on any failure. */
 const { chromium } = require('playwright');
+const { createContext } = require('./browser');
 const path = require('path');
 const SITE = path.resolve(process.argv[2] || path.join(__dirname, '..', '_site'));
 const { start } = require('./serve');
@@ -43,7 +44,7 @@ const ratio = (a, b) => { const [hi, lo] = a > b ? [a, b] : [b, a]; return (hi +
   for (const [name, file, act] of STATES) {
     for (const vp of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
       // bypassCSP: the test injects a style tag to freeze motion; the site's own policy forbids inline styles
-      const ctx = await browser.newContext({ viewport: vp, bypassCSP: true }); const page = await ctx.newPage();
+      const ctx = await createContext(browser, { viewport: vp, bypassCSP: true }); const page = await ctx.newPage();
       await page.goto('about:blank'); await page.goto(URL(file)); await ready(page);
       await page.addStyleTag({ content: 'html{scroll-behavior:auto !important}*{transition:none !important;animation:none !important}' });
       await page.waitForTimeout(200); await act(page); await page.waitForTimeout(900);   // let the page's own smooth scrolling settle

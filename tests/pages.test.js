@@ -4,6 +4,7 @@
  * Exits non-zero if any check fails. Every check prints PASS/FAIL with a reason.
  */
 const { chromium } = require('playwright');
+const { createContext } = require('./browser');
 const fs = require('fs');
 const path = require('path');
 
@@ -54,7 +55,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   }
 
   const browser = await chromium.launch();
-  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const ctx = await createContext(browser, { viewport: { width: 1440, height: 900 } });
   const page = await ctx.newPage();
   const errors = [];
   page.on('pageerror', e => errors.push(e.message));
@@ -410,7 +411,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   check('The Register: activities can be saved here too', (await page.textContent('.topbar [data-saved-count]')) === '1');
 
   // ══════════════ phones ══════════════
-  const m = await browser.newContext({ viewport: { width: 390, height: 844 } }); const mp = await m.newPage();
+  const m = await createContext(browser, { viewport: { width: 390, height: 844 } }); const mp = await m.newPage();
   mp.on('pageerror', e => errors.push(e.message));
   for (const [label, u] of [['What If AI questions', 'what-if-ai.html'], ['What If AI results', 'what-if-ai.html#a=focus:teaching;task:design'],
                             ['Register activities', 'register.html#activities'], ['Register AI types', 'register.html#ai-types'],
@@ -437,7 +438,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   await m.close();
 
   // ══════════════ 200% zoom (reflow) ══════════════
-  const z = await browser.newContext({ viewport: { width: 640, height: 450 } }); const zp = await z.newPage();
+  const z = await createContext(browser, { viewport: { width: 640, height: 450 } }); const zp = await z.newPage();
   for (const u of ['what-if-ai.html', 'register.html#activities', 'register.html#policies', 'register.html#ai-types', 'what-if-ai.html#tour']) {
     await go(zp, u); await zp.waitForTimeout(100);
     const o = await overflow(zp);
@@ -469,11 +470,11 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
     // the pulse of current: sparse, transform/opacity only, gone with reduced motion
   const cur = await page.evaluate(() => [...document.querySelectorAll('.current')].map(c => { const s = getComputedStyle(c, '::before'); return { anim: s.animationName, dur: parseFloat(s.animationDuration), pos: getComputedStyle(c).position }; }));
   check('Current pulses are few, slow and positioned out of flow', cur.length > 0 && cur.length <= 6 && cur.every(c => c.anim === 'lab-current' && c.dur >= 14 && c.pos === 'absolute'), JSON.stringify(cur.map(c => c.dur)));
-  const rm = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' }); const rp = await rm.newPage();
+  const rm = await createContext(browser, { viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' }); const rp = await rm.newPage();
   await go(rp, 'what-if-ai.html');
   check('Reduced motion removes the moving light', await rp.$$eval('.current', cs => cs.every(c => getComputedStyle(c).display === 'none')));
   await rm.close();
-  const hc = await browser.newContext({ viewport: { width: 1440, height: 900 } }); const hp = await hc.newPage();
+  const hc = await createContext(browser, { viewport: { width: 1440, height: 900 } }); const hp = await hc.newPage();
   await hp.emulateMedia({ contrast: 'more' }); await go(hp, 'register.html#ai-types');
   check('More-contrast mode removes the decoration', await hp.$$eval('.current, .lamps', cs => cs.every(c => getComputedStyle(c).display === 'none')));
   await hc.close();
