@@ -25,6 +25,11 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the design, the data contract and the
 decisions still open.
 
+The Finder's [matching contract](docs/MATCHING.md) explains exact and compatible
+preferences, recovery when there are no close matches, and the separate group for
+activities whose selected requirements still need checking. Matching tests run on
+every deployment; unknown requirements never count as confirmed matches.
+
 ## Run it locally
 
 ```

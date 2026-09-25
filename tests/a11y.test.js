@@ -21,6 +21,10 @@ const STATES = [
   ['What If AI · limits', 'what-if-ai.html', async p => {
     await p.check('input[value="teaching"]'); for (let i = 0; i < 4; i++) await p.click('#next'); }],
   ['What If AI · results', 'what-if-ai.html#a=focus:teaching;task:design;lim:nopaid', async p => {}],
+  ['What If AI · compatible results', 'what-if-ai.html#a=focus:research_own;task:qualitative;disc:education;mod:online', async p => {}],
+  ['What If AI · broader recovery', 'what-if-ai.html#a=focus:teaching;task:qualitative;disc:arts;depth:research_phase;lvl:grad;mod:hybrid;lim:nopaid', async p => {}],
+  ['What If AI · unconfirmed requirements', 'what-if-ai.html#a=focus:teaching;task:design;lim:noaccount+nodisclose', async p => {
+    await p.click('.requirement-checks > summary'); }],
   ['What If AI · activity details open', 'what-if-ai.html#a=focus:teaching;task:design', async p => { await p.click('#plan [data-open]'); }],
   ['What If AI · saved drawer with items', 'what-if-ai.html#a=focus:teaching;task:design', async p => {
     const s = await p.$$('#plan button[data-save]'); await s[0].click(); await s[1].click(); await p.click('.topbar [data-open-saved]'); }],

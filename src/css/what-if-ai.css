@@ -49,6 +49,17 @@ fieldset.opts legend{font-family:var(--font-h);font-size:17px;font-weight:700;co
 .band__h{font-size:clamp(22px,2.4vw,27px);font-weight:800;margin:0 0 4px;}
 .band__note{color:var(--ink-2);margin:0 0 14px;}
 .browse{margin-top:28px;padding:16px 20px;border:1.5px solid var(--line);border-radius:var(--r);background:rgba(0,0,0,.14);}
+/* Matching explanations use the existing card and disclosure palette. */
+.match-note{margin:14px 0 0;padding:12px 0;border-top:1px solid var(--line);color:var(--ink-2);font-size:15px;line-height:1.5;}
+.match-note p{margin:0;max-width:none;}
+.match-note p+p{margin-top:8px;}
+.match-note strong{color:var(--gold);}
+.requirement-checks{margin-top:28px;border:1.5px solid var(--line-strong);border-radius:var(--r);background:rgba(0,0,0,.14);}
+.requirement-checks>summary{padding:16px 20px;min-height:var(--tap-min);cursor:pointer;color:var(--gold);font-family:var(--font-h);font-size:22px;font-weight:700;}
+.requirement-checks__body{padding:0 20px 20px;}
+.requirement-checks .band{margin-top:8px;}
+.requirement-checks>summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px;}
+.empty .ractions .btn{white-space:normal;text-align:left;}
 @media(max-width:760px){
   .optgrid.two{grid-template-columns:1fr;}
   .opt{padding:10px 12px;}

@@ -40,6 +40,8 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Site checks (fingerprints, CSP, loading states, determinism)
         run: node tests/site.test.js
+      - name: Matching rules and recovery
+        run: npm run test:matching
       - name: Page behavior
         run: node tests/pages.test.js
       - name: AI-system type dialogs

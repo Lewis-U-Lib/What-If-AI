@@ -14,7 +14,7 @@
   "js": {
    "boot": ["boot.js"],
    "core": ["linkify.js", "activity-feedback.js", "shared.js"],
-   "what-if-ai": ["what-if-ai.js"],
+   "what-if-ai": ["matching.js", "what-if-ai.js"],
    "register": ["register-type-examples.js", "register.js"],
    "engines": ["lul-core.js"]
   }

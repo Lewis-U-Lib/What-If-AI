@@ -1,9 +1,8 @@
 /* ════════════════════════════════════════════════════════════
    WHAT IF AI · questions → matching activities
-   Matching is unchanged from the approved design: focus is a gate, then
-   task +8, discipline +4, scale +3, level +2, setting +1; results are grouped
-   by how many of the reader's answers they satisfy, and a group that lets an
-   answer go says which one.
+   Matching uses the pure FINDER_MATCH rules: focus and known limits are gates.
+   Exact, compatible, and close matches stay distinct; unknown requirements
+   are shown separately and never counted as confirmed matches.
 
    Every view has an address, so the browser's Back and Forward move between
    questions and results:  (none) = first question · #q=task&a=focus:teaching
@@ -20,60 +19,11 @@ S_.init({page:'finder'});
 
 function blank(){ return {focus:null, task:null, disc:null, lvl:null, mod:null, depth:null, limits:{}}; }
 var S = blank();
-var step = 0, exactShown = 9;
-
-/* ─────────── limits: what a record must satisfy ─────────── */
-var LP = {
-  noai:function(a){ return a.cap.indexOf('none_required')>=0 || !!a.na; },
-  /* only records that state nothing student-authored goes in pass; an unstated record is not assumed safe */
-  nostudent:function(a){ return ['none','student_derived_deidentified','research_participant_deidentified'].indexOf(a.sen)>=0; },
-  nopaid:function(a){ return ['no_tool_needed','free_tier','institution_provided'].indexOf(a.eq)>=0; },
-  noaccount:function(a){ return a.pc!=='account_verification'; },
-  nokit:function(a){ return ['equipment_required','travel_or_attendance','purchased_material'].indexOf(a.pc)<0; },
-  nodisclose:function(a){ return a.dis!=='formal_statement'; },
-  noapproval:function(a){ return a.pc!=='institutional_approval_required'; }
-};
-function passes(a){
-  for(var k in S.limits){ if(S.limits[k] && !LP[k](a)) return false; }
-  /* an activity whose assessed move is only active or passive does not meet the collection's admission test */
-  if(a.icap==='active' || a.icap==='passive') return false;
-  return true;
-}
-function score(a){
-  if(S.focus && a.focus!==S.focus) return -1;
-  var s = 0;
-  if(S.task && a.task.indexOf(S.task)>=0) s += 8;
-  if(S.disc){ if(a.disc===S.disc) s += 4; else if(!a.disc) s += 1; }
-  if(S.depth && a.depth===S.depth) s += 3;
-  if(S.lvl){ if(a.lvl.indexOf(S.lvl)>=0) s += 2; else if(a.lvl.indexOf('any')>=0) s += 1; }
-  if(S.mod && a.mod.indexOf(S.mod)>=0) s += 1;
-  return s;
-}
-function satisfies(a){
-  return {task: !S.task || a.task.indexOf(S.task)>=0, disc: !S.disc || a.disc===S.disc,
-          depth: !S.depth || a.depth===S.depth, lvl: !S.lvl || a.lvl.indexOf(S.lvl)>=0,
-          mod: !S.mod || a.mod.indexOf(S.mod)>=0};
-}
-var ASK = ['task','disc','depth','lvl','mod'];
-function asked(){ var n=0; ASK.forEach(function(k){ if(S[k]) n++; }); return n; }
-function metCount(a){ var m=satisfies(a), n=0; ASK.forEach(function(k){ if(S[k]&&m[k]) n++; }); return n; }
-function results(){
-  var p = A.filter(passes).filter(function(a){ return score(a)>=0; });
-  p.forEach(function(a,i){ a._s=score(a); a._i=i; a._m=metCount(a); });
-  /* ties go to the record whose descriptors were read off its source rather than worked out (gr) */
-  p.sort(function(x,y){ return (y._s-x._s) || ((y.gr||0)-(x.gr||0)) || (x._i-y._i); });
-  return p;
-}
-/* which values of a question still lead somewhere, given the focus and the limits. Counts are
-   used only to decide what is offered; they are not shown beside the options. */
-function viable(key){
-  var save=S[key]; S[key]=null;
-  var pool=A.filter(function(a){ return passes(a) && score(a)>=0; });
-  S[key]=save;
-  var seen={};
-  pool.forEach(function(a){ var v=a[key]; (Array.isArray(v)?v:[v]).forEach(function(x){ if(x) seen[x]=(seen[x]||0)+1; }); });
-  return seen;
-}
+var M = window.FINDER_MATCH;
+var step = 0, shown = {exact:9,compatible:9,close:9,broader:6,unknown:6};
+function resetShown(){ shown={exact:9,compatible:9,close:9,broader:6,unknown:6}; }
+function results(){ return M.search(A,S); }
+function viable(key){ return M.viable(A,S,key,IN[key]); }
 
 /* ─────────── the questions ─────────── */
 var STEPS = [
@@ -110,8 +60,8 @@ function answerText(key){
   return '';
 }
 function hasAnswer(){ return !!(S.focus||S.task||S.disc||S.depth||S.lvl||S.mod||Object.keys(S.limits).some(function(k){return S.limits[k];})); }
-/* after the focus or a limit changes, a later answer that no longer leads anywhere would sit hidden and
-   silently empty the results: clear it, and say so */
+/* A changed work focus can invalidate a task. Limits never clear preferences;
+   the results explain conflicts and let the reader decide what to adjust. */
 var RAIL = {task:'The task', disc:'Your field', lvl:'Level', mod:'Setting', depth:'Scale'};
 function prune(){
   var gone=[];
@@ -133,7 +83,7 @@ function drawRail(){
   });
   h += '<button type="button" class="railitem" data-goto="plan"'+(onPlan?' aria-current="step"':'')+'>'+
     '<span class="railitem__n" aria-hidden="true">✓</span><span class="railitem__txt"><span>Results</span>'+
-    '<span class="railitem__ans">'+results().length+' activities fit</span></span></button>';
+    '<span class="railitem__ans">'+results().near+' matches to explore</span></span></button>';
   document.getElementById('rail').innerHTML = h;
 }
 
@@ -145,12 +95,12 @@ function optionHTML(name, v, label, checked, type){
 }
 function group(key, legend, list, two, sr){
   var can = viable(key);
-  var shown = list.filter(function(o){ return can[o[0]]; });
+  var shown = list.filter(function(o){ return can[o[0]] || S[key]===o[0]; });
   var hidden = list.length - shown.length;
   var h = '<fieldset class="opts"><legend'+(sr?' class="sr-only"':'')+'>'+esc(legend)+'</legend><div class="optgrid'+(two?' two':'')+'">';
   h += shown.map(function(o){ return optionHTML('q-'+key, o[0], o[1], S[key]===o[0]); }).join('');
   h += '</div></fieldset>';
-  if(hidden) h += '<p class="qnote">'+hidden+' option'+(hidden===1?' is':'s are')+' not shown because nothing in the collection matches '+(hidden===1?'it':'them')+' alongside your earlier answers.</p>';
+  if(hidden) h += '<p class="qnote">'+hidden+' option'+(hidden===1?' is':'s are')+' not represented in the current pool for your work and limits. Your other preferences affect the result groups.</p>';
   return h;
 }
 function drawWizard(focusTitle){
@@ -167,14 +117,14 @@ function drawWizard(focusTitle){
   if(st.key==='limits'){
     h += '<fieldset class="opts"><legend class="sr-only">'+esc(st.q)+'</legend><div class="optgrid">';
     h += LIM.map(function(l){ return optionHTML('q-limits', l[0], l[1]+(l[2]?' — '+l[2]:''), !!S.limits[l[0]], 'checkbox'); }).join('');
-    h += '</div></fieldset>';
+    h += '</div></fieldset><p class="qnote">When a requirement is not established, the activity appears separately under “Check requirements before considering,” with what you need to confirm.</p>';
     h += '<p class="note noai"><strong>On the first option.</strong> Some activities are built so that no AI tool is used, and others describe a route that works without one. You can build a list entirely from those.</p>';
   } else {
     h += group(st.key, st.q, opts(st.key), st.two, true);
     if(st.key==='disc'){
       var open = S.lvl||S.mod;
       h += '<details class="qmore"'+(open?' open':'')+'><summary>Optional: level and setting</summary>'+
-        '<p class="qnote">Most sources do not state a level; those activities appear at every level.</p>'+
+        '<p class="qnote">Activities without a specific level or setting remain possible fits, with a note to check suitability.</p>'+
         group('lvl','Who is in the room?', IN.lvl, true) + group('mod','Where does it happen?', IN.mod, false) + '</details>';
     }
   }
@@ -187,8 +137,6 @@ function drawWizard(focusTitle){
 }
 
 /* ─────────── results ─────────── */
-var FACETS=[['mod','the setting you chose'],['lvl','the level you chose'],['depth','the scale you chose'],
-            ['disc','your field'],['task','the task you chose']];
 function answersHTML(){
   var h='<ul class="answers" aria-label="Your answers">';
   var any=false;
@@ -201,56 +149,66 @@ function answersHTML(){
     h+='<li><button type="button" class="answer" data-goto="'+STEP_OF.disc+'"><span class="k">'+(k==='lvl'?'Level':'Setting')+':</span> '+
       esc(split(k==='lvl'?S_.lvlLabel(S[k]):S_.modLabel(S[k]))[0])+' <span class="ed">Change</span></button></li>';
   });
-  return any ? h+'</ul>' : '<p class="countline">No answers given, so every activity is shown.</p>';
+  return any ? h+'</ul>' : '<p class="qnote">No preferences selected. Explore the collection below.</p>';
 }
-function band(title, note, list){
+var REQUIREMENT_LABELS={noai:'a usable route without AI',nostudent:'whether student-authored work goes into a tool',nopaid:'whether the activity can be completed without payment',noaccount:'whether personal account or phone verification is needed',nokit:'whether equipment, travel, or purchases are needed',nodisclose:'whether a formal disclosure statement is needed',noapproval:'whether ethics or institutional approval is needed'};
+var PREFERENCE_LABELS={task:'task',disc:'field',depth:'scale',lvl:'level',mod:'setting'};
+function preferenceLabel(k){ var v=S[k], list=opts(k); for(var i=0;i<list.length;i++) if(list[i][0]===v) return split(list[i][1])[0]; return v; }
+function matchCard(row){
+  var notes=[];
+  if(row.unknown.length) notes.push('<strong>Check first:</strong> The record does not establish '+row.unknown.map(function(k){return esc(REQUIREMENT_LABELS[k]);}).join('; ')+'.');
+  if(row.mismatch.length) notes.push('<strong>Different from your preferences:</strong> '+row.mismatch.map(function(k){return esc(PREFERENCE_LABELS[k]+' ('+preferenceLabel(k)+')');}).join('; ')+'.');
+  if(row.compatible.length){
+    var unspecified=row.compatible.filter(function(k){return k!=='disc';});
+    notes.push('<strong>Check suitability:</strong> '+(row.compatible.indexOf('disc')>=0?'Consider how this activity fits your field. ':'')+
+      (unspecified.length?'No specific '+unspecified.map(function(k){return esc(PREFERENCE_LABELS[k]);}).join(' or ')+' is recorded for this activity.':''));
+  }
+  var note=notes.length?'<div class="match-note">'+notes.map(function(n){return '<p>'+n+'</p>';}).join('')+'</div>':'';
+  // Keep the explanation inside its activity card, before the existing controls.
+  return S_.cardHTML(row.activity,{h:4}).replace('<div class="acard__foot',note+'<div class="acard__foot');
+}
+function band(key,title,note,list){
   if(!list.length) return '';
-  return '<section class="band" aria-labelledby="b-'+list[0].id+'"><h3 class="band__h" id="b-'+list[0].id+'">'+esc(title)+'</h3>'+
-    '<p class="band__note">'+esc(note)+'</p><div class="cards">'+list.map(function(a){ return S_.cardHTML(a,{h:4}); }).join('')+'</div></section>';
+  var visible=list.slice(0,shown[key]);
+  return '<section class="band" data-match-group="'+key+'" aria-labelledby="b-'+key+'"><h3 class="band__h" id="b-'+key+'">'+esc(title)+'</h3>'+
+    '<p class="band__note">'+esc(note)+'</p><div class="cards">'+visible.map(matchCard).join('')+'</div>'+
+    (list.length>visible.length?'<div class="more no-print"><button type="button" class="btn" '+(key==='exact'?'id="moreExact" ':'')+'data-more-matches="'+key+'">Show more '+(key==='unknown'?'activities to check':'matches')+' ('+(list.length-visible.length)+' more)</button></div>':'')+'</section>';
+}
+function recoveryHTML(){
+  var h='<div class="empty"><strong>No close matches for those preferences</strong><p>Try adjusting a preference. Any broader starting points below keep your selected limits and name every preference they miss.</p><div class="ractions">';
+  M.keys.forEach(function(k){
+    if(!S[k]) return;
+    h+='<button type="button" class="btn btn--sm" data-relax="'+k+'">Skip '+esc(PREFERENCE_LABELS[k])+': '+esc(preferenceLabel(k))+'</button>';
+  });
+  return h+'</div></div>';
 }
 function drawPlan(focusTitle){
-  var p = results();
-  var h = '<div class="rhead"><div class="kicker">Your results</div><h2 id="rTitle" tabindex="-1">'+
-    (p.length ? 'Activities that fit' : 'Nothing fits all of those answers')+'</h2>'+answersHTML()+
+  var p=results(), n=M.keys.filter(function(k){return S[k];}).length;
+  var title=p.near?'Activities to explore':p.confirmed?'Broader starting points':p.unknown.length?'Some requirements need checking':'No activities meet these limits';
+  var h='<div class="rhead"><div class="kicker">Your results</div><h2 id="rTitle" tabindex="-1">'+title+'</h2>'+answersHTML()+
     '<div class="ractions no-print"><button type="button" class="btn" id="redo">Change my answers</button>'+
     '<button type="button" class="btn" id="copylink">Copy a link to these results</button>'+
     '<button type="button" class="btn" data-open-saved aria-haspopup="dialog">View saved activities (<span data-saved-count>0</span>)</button></div></div>';
-  if(!p.length){
-    h += '<div class="empty"><strong>No activities match that combination</strong><p>That reflects what the collection holds, not a mistake in your answers. '+
-      'Try removing a limit or skipping the scale question.</p><button type="button" class="btn" data-goto="'+STEP_OF.limits+'">Review the limits</button></div>';
-    document.getElementById('plan').innerHTML = h; afterDraw(focusTitle); return;
+  h+='<p class="countline"><strong>'+p.exact.length+'</strong> '+(n?'exact matches':'activities to explore')+
+    '; <strong>'+p.compatible.length+'</strong> possible fits to check; <strong>'+p.close.length+'</strong> close matches.'+
+    (p.unknown.length?' <strong>'+p.unknown.length+'</strong> additional activities have requirements to check.':'')+'</p>';
+  if(!p.confirmed){
+    h+='<div class="empty"><strong>No activities have all selected limits confirmed.</strong><p>'+
+      (p.unknown.length?'You can inspect the separate group below to see what needs checking. Those activities are not confirmed matches.':'The collection does not currently establish a fit for these limits. Review them if you want to change your selection.')+
+      '</p><button type="button" class="btn" data-goto="'+STEP_OF.limits+'">Review the limits</button></div>';
+  } else {
+    h+=band('exact',n?'Matches your stated preferences':'Activities to explore','These match the recorded details'+(Object.keys(S.limits).some(function(k){return S.limits[k];})?' and have no unresolved selected limits.':'.'),p.exact);
+    h+=band('compatible','Possible fits: check suitability','These have no known preference mismatch. Check the notes on each activity for details that need your judgment.',p.compatible);
+    h+=band('close','Close matches: one preference to adjust','Each activity names the preference it misses. Selected limits remain in force.',p.close);
+    if(!p.near){ h+=recoveryHTML();h+=band('broader','Broader starting points','These miss more than one preference. Review the differences before choosing an activity.',p.broader); }
   }
-  var n = asked();
-  var exact = p.filter(function(a){ return a._m===n; });
-  var rest = p.filter(function(a){ return a._m<n; });
-  h += '<p class="countline"><strong>'+p.length+'</strong> activities are open to you'+
-    (n ? '; <strong>'+exact.length+'</strong> match everything you asked for.' : '.')+'</p>';
-  var used = {};
-  var shownExact = exact.slice(0, exactShown);
-  shownExact.forEach(function(a){ used[a.id]=1; });
-  h += band(n ? 'Matches everything you asked for' : 'Activities open to you',
-            n ? 'Ordered by how closely each one fits.' : 'Answer a question or two to narrow these down.', shownExact);
-  if(exact.length > exactShown)
-    h += '<div class="more no-print"><button type="button" class="btn" id="moreExact">Show more matches ('+(exact.length-exactShown)+' more)</button></div>';
-
-  var budget = 9;
-  FACETS.forEach(function(f){
-    if(!S[f[0]] || budget<=0) return;
-    var grp = rest.filter(function(a){
-      if(used[a.id]) return false;
-      var m=satisfies(a); if(m[f[0]]) return false;
-      for(var i=0;i<FACETS.length;i++){ var g=FACETS[i][0]; if(g!==f[0] && S[g] && !m[g]) return false; }
-      return true;
-    }).slice(0, Math.min(3,budget));
-    grp.forEach(function(a){ used[a.id]=1; }); budget -= grp.length;
-    h += band('Close matches: everything except '+f[1],
-      f[0]==='disc' ? 'These fit your other answers. The pedagogy travels; the examples come from another field.'
-                    : 'These fit your other answers. Worth a look if that one is flexible.', grp);
-  });
-  h += '<div class="browse no-print"><p>Want to look further? <a href="register.html#activities">'+icon('i-crt')+' Browse all '+A.length+
+  if(p.unknown.length){
+    h+='<details class="requirement-checks"><summary>Check requirements before considering ('+p.unknown.length+')</summary><div class="requirement-checks__body">'+
+      band('unknown','Requirements not yet confirmed','These are outside the confirmed results. Each card names the requirement to verify and any preference differences. Known conflicts with your limits are excluded.',p.unknown)+'</div></details>';
+  }
+  h+='<div class="browse no-print"><p>Want to look further? <a href="register.html#activities">'+icon('i-crt')+' Browse all '+A.length+
     ' activities in The Register</a>, where you can search and filter the whole collection.</p></div>';
-  document.getElementById('plan').innerHTML = h;
-  afterDraw(focusTitle);
+  document.getElementById('plan').innerHTML=h;afterDraw(focusTitle);
 }
 function afterDraw(focusTitle){
   if(focusTitle){ var t=document.getElementById('rTitle'); if(t) t.focus(); }
@@ -277,7 +235,7 @@ function parseAnswers(hsh, into){
   var any=false;
   decodeURIComponent(m[1]).split(';').forEach(function(p){
     var kv=p.split(':'), k=kv[0], v=kv.slice(1).join(':');
-    if(k==='lim'){ v.split('+').forEach(function(x){ if(LP[x]){ into.limits[x]=true; any=true; } }); }
+    if(k==='lim'){ v.split('+').forEach(function(x){ if(M.limits.indexOf(x)>=0){ into.limits[x]=true; any=true; } }); }
     else if(KEYS.indexOf(k)>=0 && known(k,v)){ into[k]=v; any=true; }
   });
   return any;
@@ -308,13 +266,13 @@ function go(push){
 }
 function goto(target){
   step = target==='plan' ? STEPS.length : +target;
-  exactShown = 9;
+  resetShown();
   go(true);
 }
 document.addEventListener('change', function(e){
   var t=e.target; if(!t.name || t.name.indexOf('q-')!==0) return;
   var key=t.name.slice(2);
-  if(key==='limits'){ S.limits[t.value]=t.checked; prune(); drawRail(); record(false); return; }
+  if(key==='limits'){ S.limits[t.value]=t.checked; drawRail(); record(false); return; }
   S[key]=t.value;
   if(key==='focus') prune();
   /* later questions depend on this answer, so redraw them; keep focus on the option */
@@ -326,15 +284,25 @@ document.addEventListener('click', function(e){
   var t=e.target;
   if(t.closest('[data-open-tour]')){ openTour(t.closest('[data-open-tour]')); return; }
   var g=t.closest('[data-goto]'); if(g){ goto(g.getAttribute('data-goto')); return; }
-  if(t.closest('#next')){ advance(1); exactShown=9; go(true); return; }
+  if(t.closest('#next')){ advance(1); resetShown(); go(true); return; }
   if(t.closest('#back')){ advance(-1); go(true); return; }
   if(t.closest('#skip')){
     var st=STEPS[step];
     if(st.key==='limits'){ S.limits={}; } else { S[st.key]=null; if(st.key==='disc'){ S.lvl=null; S.mod=null; } }
-    advance(1); exactShown=9; go(true); return;
+    advance(1); resetShown(); go(true); return;
   }
   if(t.closest('#redo')){ step=0; go(true); return; }
-  if(t.closest('#moreExact')){ exactShown+=9; drawPlan(false); var mb=document.getElementById('moreExact'); if(mb) mb.focus(); return; }
+  var relax=t.closest('[data-relax]');
+  if(relax){ S[relax.getAttribute('data-relax')]=null; resetShown(); go(true); return; }
+  var more=t.closest('[data-more-matches]');
+  if(more){
+    var key=more.getAttribute('data-more-matches'), old=shown[key], pending=document.querySelector('.requirement-checks'), wasOpen=pending && pending.open;
+    shown[key]+=9; drawPlan(false);
+    var again=document.querySelector('.requirement-checks'); if(again) again.open=wasOpen;
+    var cards=document.querySelectorAll('[data-match-group="'+key+'"] [data-open]');
+    if(cards[old]) cards[old].focus();
+    return;
+  }
   if(t.closest('#copylink')){ S_.copyText(location.href.split('#')[0]+'#'+answersHash(), 'Link to these results copied.'); return; }
 });
 
@@ -359,7 +327,7 @@ function route(first){
   }
   closeDialogs();
   var next = blank(), any = parseAnswers(hsh, next), q = /^#q=([a-z]+)/.exec(hsh);
-  S = next; exactShown = 9;
+  S = next; resetShown();
   if(q && STEP_OF[q[1]]!=null){ step = STEP_OF[q[1]]; if(isSkipped(step)) advance(1); }
   /* results: any valid answers, or an explicit empty answer set (#a=, "show everything"); a link whose
      answers are all unrecognized falls back to the first question */

@@ -15,12 +15,17 @@ let SRV = null;
 const URL = f => SRV.url(f);
 /* pages with data are ready once boot.js has loaded it; the landing and 404 pages have none */
 async function ready(page) { await page.waitForFunction(() => document.documentElement.hasAttribute('data-ready') || !document.getElementById('site-manifest'), null, { timeout: 15000 }); }
-const SURFACES = '.topbar, .hdr, .panel__head, .dlg__head, .site-foot, .polpanel, .sec-eyebrow, .btn--primary, .secnav a, .save, .rail .railitem, .protocols, .countline, .readout, .ftag, .type--compact, .type-dialog, .type-example-disclosure > summary, .tour__text, .activity-feedback';
+const SURFACES = '.topbar, .hdr, .panel__head, .dlg__head, .site-foot, .polpanel, .sec-eyebrow, .btn--primary, .secnav a, .save, .rail .railitem, .protocols, .countline, .readout, .ftag, .type--compact, .type-dialog, .type-example-disclosure > summary, .tour__text, .activity-feedback, .match-note, .requirement-checks > summary';
 const PCT = 0.9;   // background percentile compared (0.9 = brighter than 90% of the pixels behind the text)
 
 const STATES = [
   ['finder, first question', 'what-if-ai.html', async p => {}],
   ['finder, results', 'what-if-ai.html#a=focus:teaching;task:feedback', async p => {}],
+  ['finder, compatibility notes', 'what-if-ai.html#a=focus:research_own;task:qualitative;disc:education;mod:online', async p => {
+    await p.$eval('.match-note', e=>e.scrollIntoView({block:'center'})); }],
+  ['finder, requirement notes', 'what-if-ai.html#a=focus:teaching;task:design;lim:noaccount+nodisclose', async p => {
+    await p.click('.requirement-checks > summary');
+    await p.$eval('[data-match-group="unknown"] .match-note', e=>e.scrollIntoView({block:'center'})); }],
   ['finder, details open', 'what-if-ai.html#a=focus:teaching;task:feedback', async p => { await p.click('#plan [data-open]'); }],
   ['finder, activity feedback', 'what-if-ai.html#a=focus:teaching;task:feedback', async p => {
     await p.click('#plan [data-open]'); await p.click('[data-give-feedback]');
