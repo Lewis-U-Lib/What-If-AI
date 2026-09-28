@@ -16,7 +16,12 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
   (`Lewis-U-Lib/Faculty-AI-Evaluation-Tool`, `scripts/export_release.py`). It holds only
   published activities and public fields. Don't edit it by hand: the build checks every file
   against `data/release.json`.
-- `content/editorial-corrections.json` records reviewed text corrections to that release.
+- The September 28 release is a documented **manual supplement** to that pipeline
+  export: 81 additional activities and 75 sources. Its manifest retains the original
+  pipeline commit, explicitly describes the supplement, and sets `clean: false`.
+  See [the import review](docs/DATA-UPDATE-2026-09-28.md). It is not a new pipeline export.
+- `content/editorial-corrections.json` records reviewed text corrections and an explicitly
+  evidenced scale correction to that release.
   The build applies them to the public data shared by both tools and checks the expected
   output hashes. The imported release stays intact, and `version.json` identifies both
   its provenance and the applied editorial revision.
@@ -74,6 +79,12 @@ remove corrections already incorporated upstream, review any remaining targets, 
 update the base release and reviewed output hashes. A mismatched release, target text,
 occurrence count, or output hash fails the build rather than silently dropping or
 misapplying corrections. See [the editorial correction record](docs/EDITORIAL-CORRECTIONS.md).
+
+For a data supplement, also update the reviewed import fixture after comparing every
+retained record. `tests/data-integration.test.js` verifies the prior collection is intact,
+checks labels and source/count consistency, and proves selectable, zero-mismatch matcher
+paths for every new activity. Browser checks follow those paths through pagination and
+verify the same activity details in both tools. Matching tests read the built public data.
 
 ## Licenses
 

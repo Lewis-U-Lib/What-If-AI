@@ -408,6 +408,24 @@ function drawAbout(){
 }
 
 /* ═════════════ routing ═════════════ */
+/* Bring the section menu into view just below the sticky top bar (html scroll-padding-top). Deferred one frame so it
+   runs after the browser's own jump to the #section anchor, which would otherwise leave the menu under the bar. */
+function navIntoView(heading){
+  var nav = document.getElementById('secnav'); if(!nav) return;
+  var hash = location.hash;
+  function settle(){
+    (window.requestAnimationFrame || setTimeout)(function(){
+      if(location.hash === hash){
+        if(heading) heading.focus({preventScroll:true});
+        nav.scrollIntoView({block:'start',behavior:'instant'});
+      }
+    });
+  }
+  // Initial fragment navigation may run at load, after the asynchronously
+  // rendered sections exist. Wait for that jump as well as layout.
+  if(document.readyState === 'complete') settle();
+  else window.addEventListener('load', settle, {once:true});
+}
 function show(sec, focus){
   if(SECTIONS.indexOf(sec)<0) sec = 'activities';
   current = sec;
@@ -415,7 +433,7 @@ function show(sec, focus){
   [].forEach.call(document.querySelectorAll('#secnav a'), function(a){
     if(a.getAttribute('data-sec')===sec) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
   document.title = TITLES[sec] + ' · The Register | Lewis University Library';
-  if(focus){ var h = document.getElementById('h-'+sec); if(h){ h.focus({preventScroll:true}); var nav=document.getElementById('secnav'); if(nav) nav.scrollIntoView({block:'start'}); } }
+  if(focus){ var h = document.getElementById('h-'+sec); if(h) navIntoView(h); }
 }
 function applyQuery(qs){
   resetF();
@@ -466,9 +484,11 @@ function route(first){
   }
   var sec = OLD[hsh] || hsh || 'activities';
   if(SECTIONS.indexOf(sec)<0) sec = 'activities';
-  show(sec, !first && SECTIONS.indexOf(OLD[hsh] || hsh)>=0);
-  base = sec==='activities' ? filterHash() : '#'+sec;
   if(OLD[hsh]){ try { history.replaceState({reg:1}, '', '#'+sec); } catch(_){} routed = location.hash; }
+  show(sec, !first && SECTIONS.indexOf(OLD[hsh] || hsh)>=0);
+  /* a link straight to a section lands with the section menu in view, clear of the sticky top bar, as a click on the menu does */
+  if(first && hsh && SECTIONS.indexOf(OLD[hsh] || hsh)>=0) navIntoView();
+  base = sec==='activities' ? filterHash() : '#'+sec;
 }
 
 /* ═════════════ events ═════════════ */
@@ -489,6 +509,17 @@ document.getElementById('gq').addEventListener('input', function(e){
 });
 document.addEventListener('click', function(e){
   var t = e.target;
+  var sectionLink = t.closest('#secnav a[data-sec]');
+  if(sectionLink && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey && e.button===0){
+    // Handle section links here so even clicking the current section cannot
+    // start a competing native anchor scroll. Modified clicks keep link behavior.
+    e.preventDefault();
+    var section = sectionLink.getAttribute('data-sec');
+    if(location.hash !== '#'+section){ try { history.pushState({reg:1}, '', '#'+section); } catch(_){} }
+    routed = location.hash;
+    base = section==='activities' ? filterHash() : '#'+section;
+    show(section, true); return;
+  }
   var c = t.closest('[data-clear]');
   if(c){ var k = c.getAttribute('data-clear'); F[k] = (typeof F[k]==='boolean') ? false : ''; shown = PAGE; syncFilterControls(); refreshResults(true); if(k==='q') drawSources();
          var next = document.querySelector('#actResults .fchip') || document.getElementById('h-activities'); if(next) next.focus(); return; }

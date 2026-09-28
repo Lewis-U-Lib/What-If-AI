@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "base_release": "66661c47c06b",
+  "base_release": "25ec48b9d88c",
   "reviewed": "2026-09-28",
-  "note": "Approved American-English editorial corrections and two citation transcription repairs. Original source titles, quotations, names, licenses, source-defined terms, and machine-readable values remain unchanged. Reconcile this file when the upstream release changes.",
+  "note": "Reviewed corrections to the imported release. Retains all 23 previously approved spelling/transcription replacements and adds six reviewed field corrections: one scale classification, two clarifications of the free nursing activity, and three license-verification notes. Source titles, quotations, names, and all other matching metadata remain unchanged. Reconcile on every new release.",
   "activities": [
     {
       "id": "CAN-A1-EQ-058",
@@ -150,6 +150,60 @@
       "before": "Analysing the Grammar of AI-Transformed Texts",
       "after": "Analyzing the Grammar of AI-Transformed Texts",
       "count": 1
+    },
+    {
+      "id": "CAN-L-040",
+      "field": "depth",
+      "before": "module",
+      "after": "quick",
+      "count": 1,
+      "reason": "The publisher describes a single 60-minute session; the site reserves module for a unit over several weeks.",
+      "source": "https://doi.org/10.15766/mep_2374-8265.11412"
+    },
+    {
+      "id": "CAN-L-034",
+      "field": "sum",
+      "before": "Senior baccalaureate nursing students preparing for a primary care telehealth practicum complete a self-paced orientation before they speak with live patients by phone. As part of it, each student holds at least two telehealth conversations in which a chatbot is asked to role-play a patient, choosing from faculty-written scenarios (a medication refill request, a question about advance directives, a parent managing a child's asthma) or writing their own. The student conducts the call as the nurse, triaging, assessing and teaching, then checks the information exchanged for accuracy and uploads the transcripts. Alongside the chatbot calls, students complete commercial telehealth simulations that return motivational-interviewing feedback and write a reflection on that feedback. Faculty then observe students during the live practicum with clinic nurses. The products are the conversation transcripts and a motivational-interviewing reflection.",
+      "after": "Senior baccalaureate nursing students preparing for a primary care telehealth practicum complete a self-paced orientation before they speak with live patients by phone. As part of it, each student holds at least two telehealth conversations in which a chatbot is asked to role-play a patient, choosing from faculty-written scenarios (a medication refill request, a question about advance directives, a parent managing a child's asthma) or writing their own. The student conducts the call as the nurse, triaging, assessing and teaching, then checks the information exchanged for accuracy and uploads the transcripts. This activity covers the chatbot role-play and the checked conversation transcripts. In the source study, the broader orientation also included commercial telehealth simulations with motivational-interviewing feedback and a reflection, followed by faculty observation during a live practicum with clinic nurses. Those commercial simulations and the practicum are context for the study, not requirements of this free chatbot activity.",
+      "count": 1,
+      "reason": "Align the summary with the supplied adaptation note, which explicitly narrows the activity to the free chatbot role-play. Preserve the full-study context and its evidence boundary.",
+      "source": "https://doi.org/10.18103/mra.v13i7.6786"
+    },
+    {
+      "id": "CAN-L-034",
+      "field": "dl",
+      "before": "At least two chatbot role-play transcripts checked for accuracy, and a motivational-interviewing reflection.",
+      "after": "At least two chatbot role-play transcripts checked for accuracy. The broader study also collected a motivational-interviewing reflection from separate commercial simulations.",
+      "count": 1,
+      "reason": "Keep the required output of the free chatbot activity distinct from the commercial simulation component of the source study.",
+      "source": "https://doi.org/10.18103/mra.v13i7.6786"
+    },
+    {
+      "id": "CAN-L-063",
+      "field": "licn",
+      "before": "Direct access to the publisher page was blocked for this extraction; the license and content were read through a text-extraction fetch of the article page, which reported CC BY-NC 4.0. Confirm the license line on the article PDF before publishing.",
+      "after": "The publisher's article page explicitly states CC BY-NC 4.0 in its Rights and permissions section, verified September 28, 2026. NonCommercial terms apply.",
+      "count": 1,
+      "reason": "Resolve the package's pending publication-license check using the publisher's own statement.",
+      "source": "https://journals.sagepub.com/doi/10.1177/16094069261425173"
+    },
+    {
+      "id": "CAN-L-065",
+      "field": "licn",
+      "before": "Direct access to the publisher page was blocked for this extraction; the license and content were read through a text-extraction fetch, which reported CC BY-NC 4.0. Confirm on the article PDF. The abstract describes 20 questions while the framework tables as extracted show items T1–T15, so no count is stated in this record.",
+      "after": "The publisher's article page explicitly states CC BY-NC 4.0 in its Rights and permissions section, verified September 28, 2026. NonCommercial terms apply. The abstract describes 20 questions while the supplied extraction of the framework tables lists T1–T15, so this record does not state a count.",
+      "count": 1,
+      "reason": "Resolve the pending license check while preserving the reported extraction uncertainty.",
+      "source": "https://journals.sagepub.com/doi/10.1177/16094069251404329"
+    },
+    {
+      "id": "CAN-L-078",
+      "field": "licn",
+      "before": "Book-level license 'except where otherwise noted'; the page was read through a page-summary tool because direct download was blocked, so chapter-level exceptions and screenshots were not inspected. Adaptations must stay CC BY-NC-SA 4.0.",
+      "after": "The chapter page states CC BY-NC-SA 4.0, except where otherwise noted, verified September 28, 2026. The activity paraphrases the procedure; screenshots and linked third-party instructions are not reproduced. Adaptations must retain the stated license conditions.",
+      "count": 1,
+      "reason": "Confirm the chapter-level license directly and retain the boundary for third-party material.",
+      "source": "https://pressbooks.bccampus.ca/accessibilityhandbook/chapter/closed-captions-3/"
     }
   ],
   "policy_rules": [
@@ -162,8 +216,8 @@
     }
   ],
   "output_sha256": {
-    "acts.json": "7e23bd9f2db8672d17b26017dd20d200f601577b54965356ccc2a71e4b58889f",
-    "register.json": "c03479bcea4e6e647e3f149e37b2ea2c5c9a405b9e4461e7bc5384d77c2d3565",
+    "acts.json": "80ceecfbbeac44639509061e344e32fbea24a8a1ea5d0fc0363ec71806d3bf62",
+    "register.json": "46461017099c0a5294e12917e6aaf085e1d3bd52ef0fa38da95e2e504c853761",
     "guide.json": "22dbfe42766273bbf490c52711d20ef97df9cb3c5b45ac3e08495684db13b4eb"
   }
 }

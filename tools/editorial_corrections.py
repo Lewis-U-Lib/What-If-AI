@@ -1,4 +1,4 @@
-"""Apply reviewed text-only errata without altering the imported corpus release.
+"""Apply reviewed errata without altering the imported corpus release.
 
 The input release, target fields, occurrence counts, and output hashes are pinned.
 A new upstream release must be reconciled with these corrections before building.
@@ -7,7 +7,7 @@ import copy
 import hashlib
 import json
 
-ACTIVITY_FIELDS = {"t", "sum", "chg", "cit", "attr", "dl", "gate", "rf"}
+ACTIVITY_FIELDS = {"t", "sum", "chg", "cit", "attr", "dl", "gate", "rf", "licn"}
 
 
 def apply_corrections(source, release, corrections):
@@ -17,7 +17,7 @@ def apply_corrections(source, release, corrections):
     activities = {a["id"]: a for a in result["acts.json"]["acts"]}
     policies = {p["key"]: p for p in result["register.json"]["policy"]["tiers"]}
     seen = set()
-    for section, records, allowed in [("activities", activities, ACTIVITY_FIELDS), ("policy_rules", policies, {"rule"})]:
+    for section, records, allowed in [("activities", activities, ACTIVITY_FIELDS | {"depth"}), ("policy_rules", policies, {"rule"})]:
         for edit in corrections[section]:
             key, field = edit["id"], edit["field"]
             target = (section, key, field)
@@ -26,6 +26,12 @@ def apply_corrections(source, release, corrections):
             seen.add(target)
             value = records[key].get(field)
             before, after, count = edit["before"], edit["after"], edit["count"]
+            # Scale is a reviewed classification, never a substring replacement.
+            # Other matching metadata remains outside the prose correction path.
+            if field == "depth" and (before != value or count != 1
+                    or after not in {v[0] for v in result["acts.json"]["intake"]["depth"]}
+                    or not edit.get("reason") or not edit.get("source")):
+                raise ValueError(f"Invalid reviewed scale correction: {target}")
             if (not isinstance(value, str) or not isinstance(before, str) or not before
                     or not isinstance(after, str) or before == after
                     or type(count) is not int or count < 1 or value.count(before) != count):

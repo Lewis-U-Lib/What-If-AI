@@ -46,13 +46,26 @@ class EditorialCorrectionsTests(unittest.TestCase):
         self.assertIn("Professor in Counselling", acts["CAN-B-CASE-03"]["attr"])
         self.assertIn("Analysing the grammar", acts["CAN-B-STYL-14"]["cit"])
         for before, after in zip(original["acts.json"]["acts"], fixed["acts.json"]["acts"]):
-            for field in before.keys() - {"t", "sum", "chg", "cit", "attr", "dl", "gate", "rf"}:
+            approved = {e["field"] for e in self.edits["activities"] if e["id"] == before["id"]}
+            for field in before.keys() - approved:
                 self.assertEqual(before[field], after[field], (before["id"], field))
+
+    def test_scale_requires_exact_target_valid_label_and_evidence(self):
+        edit = {"id": "CAN-L-040", "field": "depth", "before": "module", "after": "quick", "count": 1,
+                "reason": "One 60-minute session", "source": "https://doi.org/10.15766/mep_2374-8265.11412"}
+        self.edits["activities"] = [edit]
+        for field, bad in [("before", "mod"), ("after", "short"), ("reason", ""), ("source", "")]:
+            broken = copy.deepcopy(self.edits)
+            broken["activities"][0][field] = bad
+            with self.assertRaisesRegex(ValueError, "Invalid reviewed scale"):
+                apply_corrections(self.source, self.release, broken)
+        fixed = apply_corrections(self.source, self.release, self.edits)
+        self.assertEqual(next(a for a in fixed["acts.json"]["acts"] if a["id"] == edit["id"])["depth"], "quick")
 
     def test_output_matches_reviewed_hashes(self):
         output, _, metadata = corrected_files(ROOT / "data", self.release, ROOT / "content/editorial-corrections.json")
         self.assertEqual(output["guide.json"], (ROOT / "data/guide.json").read_bytes())
-        self.assertEqual(metadata["replacements"], 23)
+        self.assertEqual(metadata["replacements"], sum(e["count"] for group in ["activities", "policy_rules"] for e in self.edits[group]))
 
 
 if __name__ == "__main__":
