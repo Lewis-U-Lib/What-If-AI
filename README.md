@@ -2,7 +2,7 @@
 
 Two faculty resources from Lewis University Library:
 
-- **What If AI.** Answer a few questions about your teaching, research or administrative work, and
+- **What If AI.** Answer a few questions about your teaching, research, or administrative work, and
   find openly licensed activities that use, or deliberately leave out, generative AI.
 - **The Register.** Every activity in What If AI with its source and license, a platform-neutral
   guide to types of AI systems, examples of course AI policies, and the works the activities
@@ -32,7 +32,12 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
   Both tools share this filtered, corrected data. Original records remain in `data/`;
   every decision and evidence reference is retained. `version.json` identifies the
   publication revision and public counts. See [the full-text review](docs/FULL-TEXT-REVIEW-2026-09-28.md).
-- `src/` holds the pages, partials, CSS, JS, fonts and images.
+- `content/serial-comma-corrections.json` applies the reviewed Oxford-comma style to the
+  published prose after the editorial and publication stages. It pins every input,
+  target, insertion, and output; it preserves source quotations and matching codes.
+  `version.json` records this punctuation revision separately. See
+  [the punctuation review](docs/SERIAL-COMMAS-2026-09-28.md).
+- `src/` holds the pages, partials, CSS, JS, fonts, and images.
 - `tools/build.py` turns `src/` and `data/` into `_site/`, fingerprinting every asset. It needs
   only Python 3.
 - `.github/workflows/pages.yml` builds and tests every push and pull request, and deploys `main`
@@ -95,8 +100,8 @@ all nine steps at six widths, and printing; accessibility checks cover every ste
    `python3 scripts/export_release.py --out ../What-If-AI/data`.
 2. Here, run `npm test`, then open a pull request. Merging to `main` deploys.
 
-Before building a new upstream release, reconcile both `content/editorial-corrections.json`
-and `content/publication-review.json`:
+Before building a new upstream release, reconcile `content/editorial-corrections.json`,
+`content/publication-review.json`, and `content/serial-comma-corrections.json`:
 remove corrections already incorporated upstream, review any remaining targets, and
 update the base release and reviewed output hashes. A mismatched release, target text,
 occurrence count, or output hash fails the build rather than silently dropping or

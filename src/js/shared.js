@@ -20,7 +20,7 @@ function lab(list, v){ for(var i=0;i<(list||[]).length;i++) if(list[i][0]===v) r
 
 /* ─────────── plain-language labels ─────────── */
 var L = {
-  focus: {teaching:'Teaching', research_own:'Your own research or writing', admin:'Program, committee or administrative work'},
+  focus: {teaching:'Teaching', research_own:'Your own research or writing', admin:'Program, committee, or administrative work'},
   actor: {'student':'Students', 'instructor-pedagogical':'You, as the instructor', 'instructor-scholarly':'You, as a researcher',
           'instructor-service':'You, in a service or committee role', 'library-staff':'Library staff'},
   scale: {individual:'individually', pair:'in pairs', small_group:'in small groups', whole_class:'as a whole class',
@@ -31,7 +31,7 @@ var L = {
           image_understanding:'Reads images', external_retrieval:'Searches for current information',
           workflow_automation:'Multi-step automation', video_generation:'Video generation', none_required:'No AI tool'},
   capLong:{text_chat:'a conversational AI tool that reads and writes text',
-          image_generation:'a tool that generates images', audio_or_voice:'a speech, transcription or audio tool',
+          image_generation:'a tool that generates images', audio_or_voice:'a speech, transcription, or audio tool',
           code_execution:'a tool that writes or runs code', retrieval_grounded:'a tool that answers from documents you supply',
           image_understanding:'a tool that can read an image you supply', external_retrieval:'a tool that searches for current information',
           workflow_automation:'a tool that carries out steps across applications', video_generation:'a tool that generates video',
@@ -68,7 +68,21 @@ function discLabel(v){ return lab(IN.disc, v) || ''; }
 function lvlLabel(v){ return v==='any' ? 'Any level' : (lab(IN.lvl, v) || pretty(v)); }
 function modLabel(v){ return v==='any' ? 'Any setting' : (lab(IN.mod, v) || pretty(v)); }
 function capsShort(a){ return (a.cap||[]).map(function(c){ return L.cap[c]||pretty(c); }).join(', '); }
-function kickerOf(a){ return a.f || taskLabel((a.task||[])[0], a.focus); }
+// Keep theme filter values stable while applying the site's punctuation style to labels.
+var FAMILY_LABELS = {
+  "Auditing AI Outputs for Bias, Defaults and Influence": "Auditing AI Outputs for Bias, Defaults, and Influence",
+  "AI Ethics, Governance, Privacy and Public Discourse": "AI Ethics, Governance, Privacy, and Public Discourse",
+  "Academic Integrity, Authorship and Course AI Policy": "Academic Integrity, Authorship, and Course AI Policy",
+  "Using AI to Read, Explain and Understand": "Using AI to Read, Explain, and Understand",
+  "Simulations, Personas and AI Role-Play": "Simulations, Personas, and AI Role-Play",
+  "Study Support, Tutoring and Practice": "Study Support, Tutoring, and Practice",
+  "Style, Genre and Language Through AI Imitation": "Style, Genre, and Language Through AI Imitation",
+  "Verifying AI Output: Facts, Sources and Fabrication": "Verifying AI Output: Facts, Sources, and Fabrication",
+  "Visual, Multimodal and Performance Making": "Visual, Multimodal, and Performance Making",
+  "AI in the Writing Process: Invention, Feedback and Revision": "AI in the Writing Process: Invention, Feedback, and Revision"
+};
+function familyLabel(key){ return FAMILY_LABELS[key] || key; }
+function kickerOf(a){ return a.f ? familyLabel(a.f) : taskLabel((a.task||[])[0], a.focus); }
 function scaleText(a){
   var d = depthLabel(a.depth), g = (a.sc||[]).filter(function(v){return L.scale[v];}).map(function(v){return L.scale[v];});
   return d + (g.length ? ' · done ' + g.join(' or ') : '');
@@ -456,7 +470,7 @@ function copyText(text, okMsg){
 }
 
 window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, esc:esc, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
-  taskLabel:taskLabel, depthLabel:depthLabel, discLabel:discLabel, lvlLabel:lvlLabel, modLabel:modLabel,
+  taskLabel:taskLabel, depthLabel:depthLabel, discLabel:discLabel, lvlLabel:lvlLabel, modLabel:modLabel, familyLabel:familyLabel,
   cardHTML:cardHTML, detailHTML:detailHTML, openActivity:openActivity, openDialog:openDialog, closeDialog:closeDialog, wireDialog:wireDialog,
   Saved:Saved, announce:announce, printSaved:printSaved, copyText:copyText, howItWorks:howItWorks, init:init, kickerOf:kickerOf};
 })();
