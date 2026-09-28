@@ -40,8 +40,8 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   const REGD = JSON.parse(siteFile(m2.data.register));
   const RELEASE = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'release.json'), 'utf8'));
   const ids = new Set(ACTS.acts.map(a => a.id));
-  check('the page store holds exactly the released activities', ids.size === RELEASE.counts.activities && ACTS.acts.length === ids.size, ids.size + ' activities');
-  check('the served data matches the reviewed editorial release, byte for byte', require('crypto').createHash('sha256').update(fs.readFileSync(path.join(SITE, m1.data.acts))).digest('hex') === require('../content/editorial-corrections.json').output_sha256['acts.json'], RELEASE.release);
+  check('the page store holds exactly the approved public activities', ids.size === require('../content/publication-review.json').expected_counts.activities && ACTS.acts.length === ids.size, ids.size + ' activities');
+  check('the served data matches the reviewed publication, byte for byte', require('crypto').createHash('sha256').update(fs.readFileSync(path.join(SITE, m1.data.acts))).digest('hex') === require('../content/publication-review.json').output_sha256['acts.json'], RELEASE.release);
   const internalKeys = ['rq', 'vs', 'nf', 'ibasis', 'org', 'capb', 'fl', 'rs', 'cell', 'adm', 'gateb'];
   check('activity records carry no review or build fields', ACTS.acts.every(a => internalKeys.every(k => !(k in a))), internalKeys.join(', '));
   const regInternal = ['held', 'retired', 'xw', 'queues', 'audit', 'decisions', 'schema_map', 'schema_gaps', 'recon', 'rules', 'platforms'];

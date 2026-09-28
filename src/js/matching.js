@@ -29,7 +29,7 @@
     if(key==='nopaid'){
       v=a.eq;
       if(has(['no_tool_needed','free_tier','institution_provided'],v)) return 'confirmed';
-      return v==='paid_with_stated_alternative'?'excluded':'unknown';
+      return ['paid_required','paid_with_stated_alternative'].includes(v)?'excluded':'unknown';
     }
     if(key==='nodisclose'){
       v=a.dis;

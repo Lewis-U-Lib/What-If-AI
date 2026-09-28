@@ -1,5 +1,9 @@
 # September 28, 2026 activity update review
 
+> **Historical import review.** The subsequent [full-text review](FULL-TEXT-REVIEW-2026-09-28.md)
+> supersedes the publication decision below: 70 additions are approved and 11 are held.
+> The original import remains intact for provenance; the live collection has 815 activities and 315 sources.
+
 ## Decision and scope
 
 Accept all 81 supplied activities (`CAN-L-001` through `CAN-L-081`) and 75 source works

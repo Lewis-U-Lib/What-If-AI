@@ -36,7 +36,7 @@ requirements before considering” group. Its card names each requirement to che
 |---|---|---|---|
 | No AI | `none_required` capability or existing nonempty `na` route | Neither is recorded | — |
 | No student-authored input | `none`, `student_derived_deidentified`, `research_participant_deidentified` sensitivity | Other recorded sensitivity categories | Missing or `not_specified` sensitivity |
-| No payment | `no_tool_needed`, `free_tier`, `institution_provided` | `paid_with_stated_alternative` under the existing route contract | Missing, unspecified, or unrecognized cost |
+| No payment | `no_tool_needed`, `free_tier`, `institution_provided` | `paid_required`; `paid_with_stated_alternative` under the existing route contract | Missing, unspecified, or unrecognized cost |
 | No account | `pc: none` | `account_verification` | Every other prerequisite category |
 | No equipment/travel/purchases | `pc: none` | `equipment_required`, `travel_or_attendance`, `purchased_material` | Every other prerequisite category |
 | No formal disclosure | `none_required`, `informal_acknowledgement`, `documented_log`, `anonymity_by_design` | `formal_statement` | Missing, unspecified, or unrecognized disclosure |
@@ -70,7 +70,11 @@ a regression grid, not a measurement of visitor behavior or faculty relevance.
 `tests/data-integration.test.js` also validates every public matching label, source link,
 and catalog count; preserves the prior release's records by an independent snapshot hash;
 and tests every supported task/level/setting combination for each addition. For the
-September 28 supplement, all 81 additions have zero-mismatch results across 590 combinations.
+September 28 supplement, the 70 approved additions have zero-mismatch results across 500 combinations.
+The 11 held additions are removed before either page loads its data. Two reviewed
+workflows, CAN-L-038 and CAN-L-039, require a paid tier: they display that cost
+and are excluded from every result group when the no-payment limit is selected.
+See [the publication review](FULL-TEXT-REVIEW-2026-09-28.md).
 `tests/integration-browser.test.js` follows a selected witness for each addition through
 visible results and pagination, opens it in both tools, compares detail content, and
 checks full wizard paths across all three work focuses. These checks demonstrate

@@ -8,6 +8,14 @@ public-data fingerprinting; see [Editorial corrections](EDITORIAL-CORRECTIONS.md
 upstream pipeline. The manifest describes the manual supplement and marks it unclean;
 the original pipeline commit is lineage, not evidence that it contains these additions.
 The import and matcher checks are recorded in [the data review](DATA-UPDATE-2026-09-28.md).
+**Publication review, 2026-09-28:** the later full-text audit approves 70 of those 81
+additions and holds 11. `tools/publication_review.py` runs after editorial corrections
+and before fingerprinting. It preserves the imported release, applies exact reviewed
+field updates, filters both datasets, recalculates catalog counts, and validates pinned
+inputs and outputs. Both tools serve 815 activities / 315 sources. `version.json`
+separately names the imported release, editorial revision, and publication revision.
+See [the full-text review](FULL-TEXT-REVIEW-2026-09-28.md).
+
 **Repository:** `Lewis-U-Lib/What-If-AI`. It publishes to GitHub Pages at
 `https://lewis-u-lib.github.io/What-If-AI/`.
 

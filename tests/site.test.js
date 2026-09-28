@@ -42,17 +42,22 @@ const ANALYTICS = CFG.analytics;
   check('no inline style attributes in pages or generated markup', styleAttrs.length === 0, styleAttrs.join(' '));
   check('every page declares the Content-Security-Policy', PAGES.every(p => /<meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27;/.test(html(p))));
   const release = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'release.json'), 'utf8'));
-  const editorial = require('../content/editorial-corrections.json');
+  const publication = require('../content/publication-review.json');
   check('the imported data release remains unchanged', Object.entries(release.files).every(([name, meta]) =>
     sha(fs.readFileSync(path.join(ROOT, 'data', name))) === meta.sha256));
-  check('public data matches the reviewed editorial output hashes', ['acts', 'register', 'guide'].every(n => {
-    const f = files.find(x => x.startsWith('data/' + n + '.')); return f && sha(fs.readFileSync(path.join(SITE, f))) === editorial.output_sha256[n + '.json']; }));
+  check('public data matches the reviewed publication output hashes', ['acts', 'register', 'guide'].every(n => {
+    const f = files.find(x => x.startsWith('data/' + n + '.')); return f && sha(fs.readFileSync(path.join(SITE, f))) === publication.output_sha256[n + '.json']; }));
   check('.nojekyll, robots.txt, sitemap.xml and version.json are present', ['.nojekyll', 'robots.txt', 'sitemap.xml', 'version.json'].every(f => files.includes(f)));
   const v = JSON.parse(fs.readFileSync(path.join(SITE, 'version.json'), 'utf8'));
   check('version.json names the release and the pipeline commit it came from', v.release === release.release && v.pipeline_commit === release.source.commit, v.release + ' @ ' + v.pipeline_commit.slice(0, 7));
   check('version.json identifies the exact applied editorial corrections', v.editorial.base_release === release.release &&
     v.editorial.revision === sha(fs.readFileSync(path.join(ROOT, 'content/editorial-corrections.json'))).slice(0, 12) &&
     sha(fs.readFileSync(path.join(SITE, v.editorial.manifest))) === sha(fs.readFileSync(path.join(ROOT, 'content/editorial-corrections.json'))));
+
+  check('version.json identifies publication decisions and the public counts', v.publication.activities === 815 &&
+    v.publication.works === 315 && v.publication.accepted_additions === 70 && v.publication.held_additions === 11 &&
+    v.publication.revision === sha(fs.readFileSync(path.join(ROOT, 'content/publication-review.json'))).slice(0, 12) &&
+    sha(fs.readFileSync(path.join(SITE, v.publication.manifest))) === sha(fs.readFileSync(path.join(ROOT, 'content/publication-review.json'))));
 
   // determinism: two builds of the same inputs are byte-identical
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'wia-')), t1 = path.join(tmp, 'a'), t2 = path.join(tmp, 'b');
