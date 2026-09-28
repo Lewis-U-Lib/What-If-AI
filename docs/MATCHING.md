@@ -59,12 +59,22 @@ because they remain inspectable; they never count as confirmed results.
 
 ## Verification
 
-`tests/matching.test.js` checks independently specified fixture outcomes, live-audit
+`tests/matching.test.js` reads the corrected public data and checks independently specified fixture outcomes, live-audit
 regressions, all 128 limit combinations and 448 single-limit additions, separation of
 known conflicts and unknowns, preservation of input data, and the audit's original
-16,452 preference combinations. That grid includes unanswered values, omits scale
+16,452 preference combinations, plus the current release's expanded grid (26,514 states
+for the September 28 supplement). That grid includes unanswered values, omits scale
 where the original wizard skipped its sole option, and applies no hard limits. It is
 a regression grid, not a measurement of visitor behavior or faculty relevance.
+
+`tests/data-integration.test.js` also validates every public matching label, source link,
+and catalog count; preserves the prior release's records by an independent snapshot hash;
+and tests every supported task/level/setting combination for each addition. For the
+September 28 supplement, all 81 additions have zero-mismatch results across 590 combinations.
+`tests/integration-browser.test.js` follows a selected witness for each addition through
+visible results and pagination, opens it in both tools, compares detail content, and
+checks full wizard paths across all three work focuses. These checks demonstrate
+technical discoverability, not pedagogical effectiveness or suitability for every field.
 
 `tests/matching-browser.test.js` covers complete wizard navigation, compatibility notes,
 the broader recovery path, Back navigation, preservation of limits/preferences,

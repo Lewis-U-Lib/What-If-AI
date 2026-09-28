@@ -2,7 +2,7 @@ const assert=require('assert/strict'),path=require('path'),fs=require('fs');
 const {chromium}=require('playwright');
 const {createContext}=require('./browser');
 const {start}=require('./serve');
-const M=require('../src/js/matching'),D=require('../data/acts.json');
+const M=require('../src/js/matching'),D=require('./public-data');
 const SITE=path.resolve(process.argv[2]||path.join(__dirname,'../_site'));
 const SHOTS=process.env.MATCH_SCREENSHOTS;
 async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));}
@@ -18,7 +18,11 @@ async function shot(p,name){if(SHOTS){fs.mkdirSync(SHOTS,{recursive:true});await
   await go('');await p.check('[name="q-focus"][value="research_own"]');await p.click('#next');
   await p.check('[name="q-task"][value="qualitative"]');await p.click('#next');
   await p.check('[name="q-disc"][value="education"]');await p.click('.qmore > summary');await p.check('[name="q-mod"][value="online"]');
-  await p.click('#next');await p.click('#next');
+  await p.click('#next');
+  // New research grant workflows make scale a real choice; keep this original
+  // regression's scale unanswered rather than relying on a skipped question.
+  if(await p.locator('[name="q-depth"]').count())await p.click('#skip');
+  await p.click('#next');
   assert.ok(await p.locator('[data-match-group="compatible"] [data-card="CAN-W-workflow-016"]').isVisible());
   assert.ok((await p.locator('[data-card="CAN-W-workflow-016"] .match-note').textContent()).includes('Check suitability'));
   assert.equal(await p.locator('#plan').textContent().then(t=>t.includes('76 activities are open to you')),false);

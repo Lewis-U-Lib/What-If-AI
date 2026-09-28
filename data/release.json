@@ -1,26 +1,26 @@
 {
  "contract": 1,
- "release": "66661c47c06b",
- "built": "2026-09-24",
+ "release": "25ec48b9d88c",
+ "built": "2026-09-28",
  "source": {
   "repo": "Lewis-U-Lib/Faculty-AI-Evaluation-Tool",
-  "branch": "release-export",
+  "branch": "release-export + manual addition of 81 CAN-L records (2026-09-28)",
   "commit": "aab8197ee43a9382a03c4666095ae495b35dadfc",
-  "clean": true
+  "clean": false
  },
  "counts": {
-  "activities": 745,
-  "works": 249,
+  "activities": 826,
+  "works": 324,
   "withheld_not_exported": 198
  },
  "files": {
   "acts.json": {
-   "bytes": 2342534,
-   "sha256": "05495034da5676e4691c32be810e96b7a0bdbd4ad6e1b96619dc79a5f89d0687"
+   "bytes": 2742737,
+   "sha256": "66e7d09affd31938528f74c03fa45541125235d559c379dd0eb8fe1ac3c597ba"
   },
   "register.json": {
-   "bytes": 233390,
-   "sha256": "3aa27a9083a388fd313a550553dda0933e6a510075f3c4bdae130f41a9775105"
+   "bytes": 297333,
+   "sha256": "5a685831cea6aaa78f5b97728a4b1040428505cc90cca6b525c6a5e0a60a4b38"
   },
   "guide.json": {
    "bytes": 8327,

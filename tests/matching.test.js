@@ -1,7 +1,7 @@
 /* Semantic tests use independent expected outcomes, real audit regressions, and all limit combinations. */
 const assert=require('assert/strict');
 const M=require('../src/js/matching');
-const D=require('../data/acts.json');
+const D=require('./public-data');
 const A=D.acts;
 const fixture={id:'fixture',focus:'teaching',task:['design'],disc:'stem',depth:'assignment',lvl:['any'],mod:['any'],icap:'constructive',pc:'none',eq:'free_tier',sen:'none',dis:'none_required',cap:['text_chat'],gr:0};
 const state={focus:'teaching',task:'design',disc:'stem',depth:'assignment',lvl:'grad',mod:'online'};
@@ -68,13 +68,23 @@ for(let mask=0;mask<128;mask++)for(let i=0;i<7;i++)if(!(mask&(1<<i))){
   for(const id of candidateSets[mask|(1<<i)])assert.ok(candidateSets[mask].has(id));
 }
 
-// Repeat the audit's original 16,452-state grid, including unanswered preferences.
+// Preserve the original 16,452-state regression grid, then cover the expanded release.
 // Single-option scale questions are skipped by the normal wizard.
 const eligible=A.filter(a=>!['active','passive'].includes(a.icap));
-let states=0,withRecovery=0,withMatches=0;
+let states=0,withRecovery=0,withMatches=0,expectedStates=0;
+const originalGrid=require('./fixtures/release-2026-09-28.json').original_grid;
+let originalStates=0;
+for(const [focus,d] of Object.entries(originalGrid)){
+  for(const task of [null,...d.task])for(const disc of [null,...d.disc])for(const depth of d.depth.length>1?[null,...d.depth]:[null])for(const lvl of [null,...d.lvl])for(const mod of [null,...d.mod]){
+    const p=M.search(A,{focus,task,disc,depth,lvl,mod});originalStates++;
+    assert.ok(p.near>0||p.broader.length>0||p.unknown.length>0);
+  }
+}
+assert.equal(originalStates,16452);
 for(const [focus] of D.intake.focus){
   const pool=eligible.filter(a=>a.focus===focus),domains={};
   for(const k of M.keys)domains[k]=D.intake[k].map(o=>o[0]).filter(v=>pool.some(a=>Array.isArray(a[k])?a[k].includes(v):a[k]===v));
+  expectedStates+=(domains.task.length+1)*(domains.disc.length+1)*(domains.depth.length>1?domains.depth.length+1:1)*(domains.lvl.length+1)*(domains.mod.length+1);
   for(const task of [null,...domains.task])for(const disc of [null,...domains.disc])for(const depth of domains.depth.length>1?[null,...domains.depth]:[null])for(const lvl of [null,...domains.lvl])for(const mod of [null,...domains.mod]){
     const p=M.search(A,{focus,task,disc,depth,lvl,mod});states++;
     assert.ok(p.near>0||p.broader.length>0||p.unknown.length>0);
@@ -82,7 +92,7 @@ for(const [focus] of D.intake.focus){
     assert.equal(p.confirmed,pool.length);
   }
 }
-assert.equal(states,16452);assert.equal(JSON.stringify(A),sourceBefore);
+assert.equal(states,expectedStates);assert.ok(states>=originalStates);assert.equal(JSON.stringify(A),sourceBefore);
 console.log('PASS: explicit compatibility, known mismatch, focus, admission, unknown requirements, and both real audit regressions.');
 console.log('PASS: all 128 limit combinations; '+comparisons+' single-limit additions preserve or narrow both confirmed and possible sets.');
-console.log('PASS: '+states+' audit states: '+withMatches+' have exact/compatible/close matches; '+withRecovery+' have explicitly labeled broader recovery. No silent blank plan; activity data unchanged.');
+console.log('PASS: original '+originalStates+' states retained; '+states+' expanded states: '+withMatches+' have exact/compatible/close matches; '+withRecovery+' have explicitly labeled broader recovery. No silent blank plan; activity data unchanged.');

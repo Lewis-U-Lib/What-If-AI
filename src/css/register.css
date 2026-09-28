@@ -77,7 +77,7 @@
 .polsrc{margin-top:16px;font-size:15.5px;color:var(--ink-2);}
 
 /* ════ sources ════ */
-.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin:10px 0 18px;}
+.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:12px;margin:10px 0 18px;}
 .legend div{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(0,0,0,.14);}
 .legend dt{font-family:var(--font-h);font-size:18px;font-weight:700;color:var(--gold);}
 .legend dd{margin:4px 0 0;color:var(--ink-2);font-size:15.5px;}
@@ -91,6 +91,7 @@
 .srclist > li:target,.srclist > li.is-target{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold);}
 .src__cit{color:var(--ink);overflow-wrap:anywhere;}
 .src__meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:6px;font-size:15px;color:var(--ink-2);}
+.src__meta > *{min-width:0;overflow-wrap:anywhere;}
 .src details{margin-top:6px;}
 .src summary{cursor:pointer;color:var(--gold);font-weight:600;min-height:40px;display:list-item;padding-top:8px;}
 .src summary::marker{color:var(--gold);}

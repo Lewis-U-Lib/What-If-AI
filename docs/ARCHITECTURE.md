@@ -4,6 +4,10 @@
 **Update, 2026-09-28:** the site is live. The scaffold notes below describe the original
 architecture. Reviewed text corrections now sit between imported-release validation and
 public-data fingerprinting; see [Editorial corrections](EDITORIAL-CORRECTIONS.md).
+**Data supplement, 2026-09-28:** release `25ec48b9d88c` adds 81 activities outside the
+upstream pipeline. The manifest describes the manual supplement and marks it unclean;
+the original pipeline commit is lineage, not evidence that it contains these additions.
+The import and matcher checks are recorded in [the data review](DATA-UPDATE-2026-09-28.md).
 **Repository:** `Lewis-U-Lib/What-If-AI`. It publishes to GitHub Pages at
 `https://lewis-u-lib.github.io/What-If-AI/`.
 

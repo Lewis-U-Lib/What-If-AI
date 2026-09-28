@@ -9,7 +9,7 @@
     "serve": "node tests/serve.js",
     "test": "npm run check:release && npm run test:editorial && npm run build && npm run test:matching && npm run test:site && npm run test:pages && npm run test:types && npm run test:feedback && npm run test:a11y && npm run test:contrast",
     "test:editorial": "python3 -m unittest discover -s tests -p '*_test.py'",
-    "test:matching": "node tests/matching.test.js && node tests/matching-browser.test.js",
+    "test:matching": "node tests/data-integration.test.js && node tests/matching.test.js && node tests/matching-browser.test.js && node tests/integration-browser.test.js",
     "test:site": "node tests/site.test.js",
     "test:pages": "node tests/pages.test.js",
     "test:types": "node tests/types.test.js",
