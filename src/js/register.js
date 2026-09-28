@@ -484,11 +484,11 @@ function route(first){
   }
   var sec = OLD[hsh] || hsh || 'activities';
   if(SECTIONS.indexOf(sec)<0) sec = 'activities';
+  if(OLD[hsh]){ try { history.replaceState({reg:1}, '', '#'+sec); } catch(_){} routed = location.hash; }
   show(sec, !first && SECTIONS.indexOf(OLD[hsh] || hsh)>=0);
   /* a link straight to a section lands with the section menu in view, clear of the sticky top bar, as a click on the menu does */
   if(first && hsh && SECTIONS.indexOf(OLD[hsh] || hsh)>=0) navIntoView();
   base = sec==='activities' ? filterHash() : '#'+sec;
-  if(OLD[hsh]){ try { history.replaceState({reg:1}, '', '#'+sec); } catch(_){} routed = location.hash; }
 }
 
 /* ═════════════ events ═════════════ */

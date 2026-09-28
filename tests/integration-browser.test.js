@@ -72,6 +72,12 @@ const hash=w=>'#a='+Object.entries(w.state).map(([k,v])=>k+':'+encodeURIComponen
         await p.screenshot({path:path.join(process.env.PREVIEW_DIR,`register-${width}.png`)});
       }
     }
+    for(const [alias,section] of [['tools','ai-types'],['spectrum','policies'],['biblio','sources']]){
+      await go('register.html#'+alias);
+      await p.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+      assert.ok(p.url().endsWith('#'+section));
+      assert.ok(await p.evaluate(()=>document.getElementById('secnav').getBoundingClientRect().top>=document.querySelector('.topbar').getBoundingClientRect().bottom-1));
+    }
     assert.deepEqual(errors,[]);
     if(process.env.BROWSER_REPORT)fs.writeFileSync(process.env.BROWSER_REPORT,JSON.stringify({checked:new Date().toISOString(),base,activities:report,menuChecks:navChecks,pageErrors:errors},null,2)+'\n');
     console.log(`PASS: all 81 additions visible through results/pagination and identical pop-ups in both tools; three full wizard paths; ${navChecks} section-menu checks; six screen widths; no page errors.`);
