@@ -108,7 +108,7 @@ function chipLabel(k){
     case 'q': return 'Search: “'+v+'”';
     case 'focus': return L.focus[v];
     case 'task': return S_.taskLabel(v);
-    case 'theme': return v;
+    case 'theme': return S_.familyLabel(v);
     case 'disc': return S_.discLabel(v);
     case 'cap': return L.cap[v];
     case 'pol': return (D.pol[v]||{}).pill;
