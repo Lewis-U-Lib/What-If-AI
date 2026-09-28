@@ -2,8 +2,8 @@
 
 Both tools now use Oxford commas in editorial copy, including activity descriptions,
 source-report paraphrases, adaptation notes, AI-type explanations, help text, and
-display labels. The shared-data review records **1,425 comma insertions across
-1,144 fields** in `content/serial-comma-corrections.json`. Interface copy is edited
+display labels. The shared-data review records **1,432 comma insertions across
+1,151 fields** in `content/serial-comma-corrections.json`. Interface copy is edited
 directly in `src/`. Ten theme names receive punctuated display labels while retaining
 their original filter values, preserving existing links and theme membership.
 

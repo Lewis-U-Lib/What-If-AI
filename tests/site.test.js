@@ -55,7 +55,7 @@ const ANALYTICS = CFG.analytics;
     v.editorial.revision === sha(fs.readFileSync(path.join(ROOT, 'content/editorial-corrections.json'))).slice(0, 12) &&
     sha(fs.readFileSync(path.join(SITE, v.editorial.manifest))) === sha(fs.readFileSync(path.join(ROOT, 'content/editorial-corrections.json'))));
 
-  check('version.json identifies the reviewed punctuation', v.punctuation.commas === 1425 &&
+  check('version.json identifies the reviewed punctuation', v.punctuation.commas === 1432 &&
     v.punctuation.revision === sha(fs.readFileSync(path.join(ROOT, 'content/serial-comma-corrections.json'))).slice(0, 12) &&
     sha(fs.readFileSync(path.join(SITE, v.punctuation.manifest))) === sha(fs.readFileSync(path.join(ROOT, 'content/serial-comma-corrections.json'))));
   check('version.json identifies publication decisions and the public counts', v.publication.activities === 815 &&

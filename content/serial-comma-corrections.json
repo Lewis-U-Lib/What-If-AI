@@ -8,7 +8,7 @@
     "guide.json": "22dbfe42766273bbf490c52711d20ef97df9cb3c5b45ac3e08495684db13b4eb"
   },
   "output_sha256": {
-    "acts.json": "1a65c6354f1d364ef01da903f6a869ffe147b0d9fc391f4215070bcfd6d7fa7e",
+    "acts.json": "d915dbbda0bf19e5fc0e0c89d39223011084503a0f86743d81123505d0f271bb",
     "register.json": "415f238fc1b4f0ba181624acfc7ff824e1c5b653185ab10cc73fdeae6d36d8b9",
     "guide.json": "22dbfe42766273bbf490c52711d20ef97df9cb3c5b45ac3e08495684db13b4eb"
   },
@@ -1123,6 +1123,13 @@
     {"path":["register.json","types","types",10,"io"],"sha256":"d61b540ae764907e0a18fc4092bef8b12f9da77bd9a1dab6172d0445e71e7f81","commas":[55,120],"contexts":["ges, sequences, measurements or text corpora. Out: classific","s, predictions, measurements or structured results."]},
     {"path":["register.json","types","types",10,"what"],"sha256":"69b88a11a988a3dbf86c11e25074213ea747660d6dd0045d7907d88fffcdfbfa","commas":[142],"contexts":["tures, classifying specimens or modeling domain data. Many a"]},
     {"path":["register.json","types","types",10,"why"],"sha256":"e628b5b2e96b6e99de86a588f4b6f428c42eed55b3a4a53fa20ddee29f628dea","commas":[43],"contexts":["sciences, health professions and data-intensive fields encou"]},
+    {"path":["acts.json","acts",132,"t"],"sha256":"7386c991d451cdd38cba28cf8c1a004bfc666bb146fddcd8ae16c406ac9e13e1","commas":[62],"contexts":["s of Racialized Gender, Race and Ethnicity"]},
+    {"path":["acts.json","acts",137,"t"],"sha256":"dfc206b796cf5902c05cf3b05082909b23e963bb6b05c50596c5cef6cf9c88f6","commas":[48],"contexts":["utput Analysis, Case Studies and Jigsaw"]},
+    {"path":["acts.json","acts",147,"t"],"sha256":"c1337cdabcd451cbef3b0e723542906571942d60ae262cb1117315231a95a376","commas":[50],"contexts":["sing Scenarios, Case Studies and Project Topics"]},
+    {"path":["acts.json","acts",172,"t"],"sha256":"f6a4a15e750d1d55f0ffc18833e4b2ab527c925c874103cd3b8b70ff96a1cf08","commas":[14],"contexts":["AI, Authorship and Citation Practices"]},
+    {"path":["acts.json","acts",216,"t"],"sha256":"7dac70d66e618989945a4edb085410c37c2ed467198338552eb424360299c59c","commas":[37],"contexts":["ck on Resumes, Cover Letters and Interview Practice"]},
+    {"path":["acts.json","acts",228,"t"],"sha256":"a692226d357d8a68ccdcd718d657cd51f6e20cf702c269465821ac54f804a321","commas":[46],"contexts":[" Lab: Strategies, Refinement and Voice"]},
+    {"path":["acts.json","acts",252,"t"],"sha256":"c049804af4aaf28d7e27f257a8fead07bf9768d25ba10c6af2aea681797b3db1","commas":[64],"contexts":["h AI Summaries, Explanations and Fact-Checks"]},
     {"path":["acts.json","acts",478,"t"],"sha256":"1cf109a0260ef7a35532c14390f1a0736f486e0cbfee2ee2878b1b81d7ebe812","commas":[83],"contexts":[" and test accuracy, workload and learning costs"]},
     {"path":["acts.json","acts",537,"t"],"sha256":"705bbaa9513a7243575d8c920a1a1280bdb0a442000af274de00cc37d92bbd8b","commas":[27],"contexts":["Students generate, critique and iteratively improve their o"]},
     {"path":["acts.json","acts",567,"t"],"sha256":"5fe281bdbda65f513fd111cc9f2a5a2a7b2b7686c34666459448f2e5324e95ad","commas":[71],"contexts":["lignment of outcome, content and assessment in technical edu"]},

@@ -63,7 +63,7 @@ class SerialCommaTests(unittest.TestCase):
         output, _, metadata = punctuated_files(self.raw, path)
         self.assertEqual(output["guide.json"], self.raw["guide.json"])
         self.assertEqual(len(json.loads(output["acts.json"])["acts"]), 815)
-        self.assertEqual(metadata["commas"], 1425)
+        self.assertEqual(metadata["commas"], 1432)
 
 
 if __name__ == "__main__":
