@@ -16,6 +16,10 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
   (`Lewis-U-Lib/Faculty-AI-Evaluation-Tool`, `scripts/export_release.py`). It holds only
   published activities and public fields. Don't edit it by hand: the build checks every file
   against `data/release.json`.
+- `content/editorial-corrections.json` records reviewed text corrections to that release.
+  The build applies them to the public data shared by both tools and checks the expected
+  output hashes. The imported release stays intact, and `version.json` identifies both
+  its provenance and the applied editorial revision.
 - `src/` holds the pages, partials, CSS, JS, fonts and images.
 - `tools/build.py` turns `src/` and `data/` into `_site/`, fingerprinting every asset. It needs
   only Python 3.
@@ -64,6 +68,12 @@ keyboard focus, scroll-position restoration, content preservation, and narrow sc
 1. In the pipeline repo, run `python3 scripts/corpus_pages.py`, then
    `python3 scripts/export_release.py --out ../What-If-AI/data`.
 2. Here, run `npm test`, then open a pull request. Merging to `main` deploys.
+
+Before building a new upstream release, reconcile `content/editorial-corrections.json`:
+remove corrections already incorporated upstream, review any remaining targets, and
+update the base release and reviewed output hashes. A mismatched release, target text,
+occurrence count, or output hash fails the build rather than silently dropping or
+misapplying corrections. See [the editorial correction record](docs/EDITORIAL-CORRECTIONS.md).
 
 ## Licenses
 

@@ -6,9 +6,10 @@
     new name, so a browser never mixes an old script with new data.
   * Fonts and images are fingerprinted the same way; url(...) references inside the CSS
     are rewritten to the fingerprinted names.
-  * The data release (data/*.json) is copied unchanged, also fingerprinted. Each page
-    receives a small JSON manifest naming its data files and scripts; src/js/boot.js
-    fetches the data and then runs the scripts in order.
+  * The imported data release (data/*.json) is verified unchanged. Reviewed editorial
+    corrections are applied to the public copy before fingerprinting. Each page receives
+    a small JSON manifest naming its data files and scripts; src/js/boot.js fetches the
+    data and then runs the scripts in order.
   * Partials ({{partial:name}}) are inlined, so every page is complete HTML before any
     script runs. Pages that must work at any URL depth (404.html) get absolute links.
 
@@ -25,6 +26,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
 sys.path.insert(0, str(ROOT / "tools"))
 from check_release import check as check_release  # noqa: E402
+from editorial_corrections import corrected_files  # noqa: E402
 
 CFG = json.loads((ROOT / "site.json").read_text(encoding="utf-8"))
 PH = re.compile(r"\{\{(\w+)(?::([\w./-]+))?\}\}")
@@ -62,6 +64,11 @@ def build(out):
     errs, rel = check_release(ROOT / "data")
     if errs:
         raise SystemExit("release check failed:\n  " + "\n  ".join(errs))
+    try:
+        public_data, corrections_bytes, editorial = corrected_files(
+            ROOT / "data", rel, ROOT / "content" / "editorial-corrections.json")
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
     if out.exists():
         shutil.rmtree(out)
     out.mkdir(parents=True)
@@ -100,7 +107,9 @@ def build(out):
         body = "\n;\n".join(f"/* ── {f} ── */\n" + (SRC / "js" / f).read_text(encoding="utf-8") for f in files)
         site.emit(f"js/{name}.js", body.encode("utf-8"), "assets/js")
     for name in ("acts", "register", "guide"):
-        site.emit(f"data/{name}.json", (ROOT / "data" / f"{name}.json").read_bytes(), "data")
+        site.emit(f"data/{name}.json", public_data[f"{name}.json"], "data")
+    site.emit("data/editorial-corrections.json", corrections_bytes, "data")
+    editorial["manifest"] = site.map["data/editorial-corrections.json"]
 
     base_url = CFG["base_url"]
     base_path = "/" + base_url.split("://", 1)[1].split("/", 1)[1] if base_url.count("/") > 3 else "/"
@@ -173,6 +182,7 @@ def build(out):
     (out / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {base_url}sitemap.xml\n", encoding="utf-8")
     (out / "version.json").write_text(json.dumps({"release": rel["release"], "release_built": rel["built"],
                                                   "pipeline_commit": rel["source"]["commit"], "site_commit": commit,
+                                                  "editorial": editorial,
                                                   "assets": dict(sorted(site.map.items()))}, indent=1) + "\n", encoding="utf-8")
     return site, rel
 
