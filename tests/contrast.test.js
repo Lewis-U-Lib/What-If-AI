@@ -45,6 +45,8 @@ const STATES = [
     await p.$eval('#aiTypeDialog .dlg__body', e => e.scrollTop = e.scrollHeight); }],
   ['finder, walkthrough', 'what-if-ai.html#tour', async p => {}],
   ['register, how to use + footer', 'register.html#about', async p => {}],
+  ['register, walkthrough terms', 'register.html#about', async p => {
+    await p.focus('#rtourNext'); for(let i=0;i<3;i++) await p.keyboard.press('ArrowRight'); }],
 ];
 
 function lum([r, g, b]) {

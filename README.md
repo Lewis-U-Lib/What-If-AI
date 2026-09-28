@@ -75,6 +75,20 @@ The Register shows compact type cards. Opening a card displays the full descript
 details in a fixed-size dialog; current examples start collapsed. The type-dialog test checks
 keyboard focus, scroll-position restoration, content preservation, and narrow screens.
 
+## Edit the walkthroughs
+
+The Register’s `#about` section uses the nine-step illustrated walkthrough in
+`src/partials/register-tour.html`, replacing the old static help grid. It preserves the
+help topics, uses Previous/Next, step lamps, and arrow/Home/End keys, and never advances
+automatically. Its frame stays the same height across steps. Hidden steps are inert;
+printing exposes all nine steps as dark text without illustrations or controls and
+restores the selected step afterward. Behavior and styles live in `src/js/register.js`
+and `src/css/register.css`.
+
+What If AI keeps its separate seven-step walkthrough in `src/partials/tour.html`.
+The Register’s first step links to it. Page tests cover keyboard focus, links and Back,
+all nine steps at six widths, and printing; accessibility checks cover every step.
+
 ## Update the activities
 
 1. In the pipeline repo, run `python3 scripts/corpus_pages.py`, then

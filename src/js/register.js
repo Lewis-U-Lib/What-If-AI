@@ -373,38 +373,55 @@ function drawSources(){
   document.getElementById('sources').innerHTML = h;
 }
 
-/* ═════════════ how to use ═════════════ */
+/* ═════════════ how to use: a walkthrough that never advances by itself ═════════════
+   The slides are in the page (partials/register-tour.html); this only moves between them. */
+var rtour = document.getElementById('rtour'), rslides = [], ri = 0;
+function rtourTitle(i){ var h = rslides[i].querySelector('h3'); return h ? h.textContent : ''; }
+function drawRtour(){
+  /* the other slides stay in place, invisible and inert, so the frame keeps one height */
+  rslides.forEach(function(s,i){ var off = i!==ri; s.classList.toggle('is-off', off); s.inert = off;
+    if(off) s.setAttribute('aria-hidden','true'); else s.removeAttribute('aria-hidden'); });
+  document.getElementById('rtourPos').textContent = (ri+1)+' of '+rslides.length;
+  document.getElementById('rtourPrev').setAttribute('aria-disabled', String(ri===0));
+  document.getElementById('rtourNext').querySelector('.tour__nextlabel').textContent = ri===rslides.length-1 ? 'Start again' : 'Next';
+  [].forEach.call(rtour.querySelectorAll('.tour__dot'), function(d,i){
+    if(i===ri) d.setAttribute('aria-current','step'); else d.removeAttribute('aria-current'); });
+}
+function rtourTo(i){
+  if(i<0||i>=rslides.length||i===ri) return;
+  var moveFocus = rslides[ri].contains(document.activeElement);
+  // Move focus out before hiding a slide; keep navigation controls focused otherwise.
+  if(moveFocus) document.getElementById('rtourNext').focus({preventScroll:true});
+  ri=i; drawRtour();
+  if(moveFocus){ var heading = rslides[ri].querySelector('h3'); heading.tabIndex=-1; heading.focus({preventScroll:true}); }
+}
 function drawAbout(){
-  var h = '<div class="sec-head"><div class="sec-eyebrow">Getting oriented</div><h2 id="h-about" tabindex="-1">How to use The Register</h2>'+
-    '<p>The Register is the reference companion to <a href="what-if-ai.html">What If AI</a>. What If AI asks a few questions and suggests activities; The Register lets you browse and search everything in the collection directly.</p>'+
-    '<p><a class="btn btn--sm" href="what-if-ai.html#tour">'+icon('i-manual')+' How to use What If AI: a short walkthrough</a></p></div>';
-  h += '<div class="about">';
-  h += '<div class="card"><h3>What is here</h3><p><strong>Activities</strong> — teaching, research and administrative activities that use generative AI or deliberately leave it out, each with its source and license.</p>'+
-    '<p><strong>Types of AI systems</strong> — what different kinds of AI tools do, described without reference to particular products.</p>'+
-    '<p><strong>Course AI policies</strong> — a spectrum of positions with openly licensed examples from published syllabi.</p>'+
-    '<p><strong>Sources</strong> — the published works the activities draw on.</p></div>';
-  h += '<div class="card"><h3>Reading an activity</h3><dl class="gloss">'+
-    '<dt>Who does it</dt><dd>Whether students carry out the activity, or you do it as part of your own teaching, research or service work.</dd>'+
-    '<dt>Scale</dt><dd>The size of the piece of work, from a single class to a term-long project or a recurring process.</dd>'+
-    '<dt>AI use</dt><dd>The kind of tool needed, described by capability rather than product. See <a href="#ai-types">Types of AI systems</a>.</dd>'+
-    '<dt>How the work is divided</dt><dd>What the AI tool does, and what people do with its output — the judgment that stays with people.</dd>'+
-    '<dt>Course AI policy</dt><dd>The course policy position the activity assumes. See <a href="#policies">Course AI policies</a>.</dd>'+
-    '<dt>Before you use it</dt><dd>Cautions about data, disclosure, cost, access and accessibility.</dd>'+
-    '<dt>Source and license</dt><dd>Where the activity comes from, its license, the attribution to keep, and how this version differs from the source.</dd></dl></div>';
-  h += '<div class="card"><h3>How the collection was assembled</h3><p>The activities come from openly licensed teaching and research literature, open educational resources and published prompt and workflow libraries. '+
-    'Each is described in the library’s own words and classified with a shared set of descriptors, so the collection can be searched by the kind of work rather than by product name. '+
-    'Descriptions of what a source reports are kept separate from the library’s editorial additions, and suggested adaptations are labeled as suggestions.</p>'+
-    '<p>Only activities whose sources are published under a Creative Commons license or another open license are included. The library keeps a full record of sources, licenses and editorial decisions for the collection.</p></div>';
-  h += '<div class="card"><h3>Saving and printing</h3><p>Use <strong>Save</strong> on any activity, here or in What If AI, to collect it. Open <strong>Saved activities</strong> from the top of the page to review your selection, remove items, or print the set or save it as a PDF.</p>'+
-    '<p>Your saved selection stays in this browser and is not sent to the library.</p></div>';
-  h += '<div class="card"><h3>Activity feedback</h3><p>Open an activity and choose <strong>Give feedback</strong> to share whether you are exploring it, considering it, planning to use it, have used it, or find it unsuitable for your needs. '+
-    'A short follow-up lets you say how it went or why it was not a fit. Every response is optional, and no name or email is collected.</p>'+
-    '<p>Choose <strong>Send feedback</strong> when you are ready. This browser remembers your submitted answer, and you can update it later.</p></div>';
-  h += '<div class="card"><h3>Corrections and questions</h3><p>If a link has broken, a license or attribution looks wrong, or you have used an activity and want to share how it went, please '+
-    '<a href="https://lewisu.libwizard.com/f/Faculty-AI-Eval-Tool-feedback" target="_blank" rel="noopener noreferrer">send feedback<span class="sr-only"> (opens in a new tab)</span></a>. '+
-    'For help finding sources or planning an activity, use <strong>Ask Us</strong> from the ✦ help button.</p></div>';
-  h += '</div>';
-  document.getElementById('about').innerHTML = h;
+  if(!rtour || rslides.length) return;
+  rslides = [].slice.call(rtour.querySelectorAll('[data-slide]'));
+  rtour.querySelector('.tour__dots').innerHTML = rslides.map(function(s,i){
+    return '<button type="button" class="tour__dot" data-rdot="'+i+'" aria-controls="rtourSlides" aria-label="Step '+(i+1)+': '+esc(rtourTitle(i))+'"><span class="lamp"></span></button>';
+  }).join('');
+  rtour.addEventListener('click', function(e){
+    var t = e.target;
+    if(t.closest('#rtourPrev')){ if(ri>0) rtourTo(ri-1); return; }
+    if(t.closest('#rtourNext')){ rtourTo(ri<rslides.length-1 ? ri+1 : 0); return; }
+    var d = t.closest('[data-rdot]'); if(d){ rtourTo(+d.getAttribute('data-rdot')); return; }
+  });
+  rtour.addEventListener('keydown', function(e){
+    var tag = (e.target.tagName||'').toLowerCase();
+    if(e.altKey||e.ctrlKey||e.metaKey||e.shiftKey||e.target.isContentEditable||tag==='input'||tag==='textarea'||tag==='select') return;
+    var n = -1;
+    if(e.key==='ArrowRight') n = ri+1; else if(e.key==='ArrowLeft') n = ri-1;
+    else if(e.key==='Home') n = 0; else if(e.key==='End') n = rslides.length-1;
+    else return;
+    e.preventDefault(); rtourTo(n);
+  });
+  // Include all nine steps in the print accessibility tree, then restore the reader's step.
+  window.addEventListener('beforeprint', function(){
+    rslides.forEach(function(s){ s.inert=false; s.removeAttribute('aria-hidden'); });
+  });
+  window.addEventListener('afterprint', drawRtour);
+  drawRtour();
 }
 
 /* ═════════════ routing ═════════════ */
