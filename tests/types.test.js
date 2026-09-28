@@ -9,7 +9,9 @@ const out=process.env.TYPE_SCREENSHOTS;
 if(out) fs.mkdirSync(out,{recursive:true});
 const SITE=path.resolve(process.argv[2] || path.join(__dirname,'..','_site'));
 let server=null;
-const source=JSON.parse(fs.readFileSync(path.join(__dirname,'../data/register.json'))).types;
+// The approved public descriptions include the reviewed punctuation layer.
+const version=JSON.parse(fs.readFileSync(path.join(SITE,'version.json')));
+const source=JSON.parse(fs.readFileSync(path.join(SITE,version.assets['data/register.json']))).types;
 async function screenshot(page,name){if(out) await page.screenshot({path:path.join(out,name)});}
 async function tick(page){await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));}
 async function layout(page){return page.evaluate(()=>({scroll:scrollY,height:document.documentElement.scrollHeight,cards:[...document.querySelectorAll('.type--compact')].map(n=>{const r=n.getBoundingClientRect();return [r.x,r.y+scrollY,r.width,r.height]})}));}

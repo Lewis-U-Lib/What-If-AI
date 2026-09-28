@@ -54,7 +54,7 @@ function counted(list, key){
 }
 function filtersHTML(){
   var focus = [['teaching',L.focus.teaching],['research_own',L.focus.research_own],['admin',L.focus.admin]];
-  var themes = (D.families||[]).map(function(f){ return [f[0], f[0]]; });
+  var themes = (D.families||[]).map(function(f){ return [f[0], S_.familyLabel(f[0])]; });
   var caps = Object.keys(L.cap).map(function(k){ return [k, L.cap[k]]; });
   var pols = Object.keys(D.pol||{}).map(function(k){ return [k, D.pol[k].pill+' — '+D.pol[k].label]; });
   var roles = Object.keys(L.role).map(function(k){ return [k, L.role[k]]; });
@@ -108,7 +108,7 @@ function chipLabel(k){
     case 'q': return 'Search: “'+v+'”';
     case 'focus': return L.focus[v];
     case 'task': return S_.taskLabel(v);
-    case 'theme': return v;
+    case 'theme': return S_.familyLabel(v);
     case 'disc': return S_.discLabel(v);
     case 'cap': return L.cap[v];
     case 'pol': return (D.pol[v]||{}).pill;
@@ -150,7 +150,7 @@ function resultsHTML(){
 function drawActivities(){
   var sec = document.getElementById('activities');
   sec.innerHTML = '<div class="sec-head"><div class="sec-eyebrow">The collection</div><h2 id="h-activities" tabindex="-1">Activities</h2>'+
-    '<p>All '+A.length+' activities in the collection. Each one lists its source, license and what to consider before using it. '+
+    '<p>All '+A.length+' activities in the collection. Each one lists its source, license, and what to consider before using it. '+
     'Filter by the kind of work, the kind of AI tool, or the course AI policy an activity assumes; open any activity for the full description, or save it to print later.</p></div>'+
     '<div class="catalog"><div><button type="button" class="btn btn--sm filters-toggle" id="filtersToggle" aria-expanded="false" aria-controls="filters">Show filters</button>'+
     '<aside class="filters is-collapsed" aria-labelledby="filtersTitle" id="filters">'+filtersHTML()+'</aside></div>'+
@@ -302,7 +302,7 @@ function drawPolicies(){
   var h = '<div class="sec-head"><div class="sec-eyebrow">Syllabus policy spectrum</div><h2 id="h-policies" tabindex="-1">Course AI policies</h2>'+
     '<p>Published course policies on generative AI tend to cluster around four positions, from keeping AI out of submitted work to welcoming it with citation. '+
     'The examples below are openly licensed statements from real syllabi. They are starting points for your own language, not recommendations, and not a substitute for your program’s or institution’s policy.</p>'+
-    '<p>The positions are not a ranking. Many courses combine them — permitting AI for some assignments and not others — and the right fit depends on your discipline, your students and what each assignment is for.</p></div>';
+    '<p>The positions are not a ranking. Many courses combine them — permitting AI for some assignments and not others — and the right fit depends on your discipline, your students, and what each assignment is for.</p></div>';
   h += '<div class="spectrum"><div class="spectrum__ends" aria-hidden="true"><span>← Keeps AI out of submitted work</span><span>Welcomes AI with citation →</span></div>'+
     '<ul class="spectrum__track" role="tablist" aria-label="Policy positions, from most restrictive to most open">';
   tiers.forEach(function(t, i){
@@ -325,7 +325,7 @@ function drawPolicies(){
   h += '<div class="aside-card"><div class="kicker">'+esc(a.pill)+'</div><h3>'+esc(a.label)+'</h3><p>'+esc(a.gist)+'</p><p>'+esc(a.reads)+'</p>'+
     (a.n ? '<p><a href="#activities?pol=instructor_side">'+a.n+' activities in the collection are the instructor’s or staff member’s own work</a></p>' : '')+'</div>';
   h += '<p class="polsrc">Examples are drawn from <a href="'+esc(P.source.url)+'" target="_blank" rel="noopener noreferrer">'+esc(P.source.name)+
-    '<span class="sr-only"> (opens in a new tab)</span></a>, '+esc(P.source.who)+'. Each quotation keeps the instructor, course, institution and the license its contributor chose; excerpts are condensed. '+
+    '<span class="sr-only"> (opens in a new tab)</span></a>, '+esc(P.source.who)+'. Each quotation keeps the instructor, course, institution, and the license its contributor chose; excerpts are condensed. '+
     'For guidance at Lewis, see <a href="'+esc(P.local.url)+'" target="_blank" rel="noopener noreferrer">'+esc(P.local.label)+'<span class="sr-only"> (opens in a new tab)</span></a>.</p>';
   document.getElementById('policies').innerHTML = h;
 }
@@ -343,7 +343,7 @@ function citeOf(w){ return w.cit || [w.a, w.y ? '('+w.y+').' : '', w.t].filter(B
 function drawSources(){
   var q = F.q, list = (q ? worksMatching(q) : R.works.slice()).sort(function(x,y){ return (sortKey(x) < sortKey(y) ? -1 : sortKey(x) > sortKey(y) ? 1 : 0) || String(x.y).localeCompare(String(y.y)); });
   var h = '<div class="sec-head"><div class="sec-eyebrow">Works cited</div><h2 id="h-sources" tabindex="-1">Sources</h2>'+
-    '<p>Every published work an activity in the collection draws on, with a link to the work or to the library catalog. Each activity also lists its own source, license and the changes made in adapting it.</p></div>';
+    '<p>Every published work an activity in the collection draws on, with a link to the work or to the library catalog. Each activity also lists its own source, license, and the changes made in adapting it.</p></div>';
   h += '<details class="card card--origins"><summary class="card--origins__sum">Where the activities come from</summary>'+
     '<dl class="legend">'+R.origin.filter(function(o){ return o[3]; }).map(function(o){
       var O = S_.ORIGIN[o[0]]||{label:o[1],text:o[2]};

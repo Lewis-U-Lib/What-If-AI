@@ -28,6 +28,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 from check_release import check as check_release  # noqa: E402
 from editorial_corrections import corrected_files  # noqa: E402
 from publication_review import reviewed_files  # noqa: E402
+from serial_commas import punctuated_files  # noqa: E402
 
 CFG = json.loads((ROOT / "site.json").read_text(encoding="utf-8"))
 PH = re.compile(r"\{\{(\w+)(?::([\w./-]+))?\}\}")
@@ -70,6 +71,8 @@ def build(out):
             ROOT / "data", rel, ROOT / "content" / "editorial-corrections.json")
         public_data, review_bytes, publication = reviewed_files(
             public_data, rel, ROOT / "content" / "publication-review.json")
+        public_data, punctuation_bytes, punctuation = punctuated_files(
+            public_data, ROOT / "content" / "serial-comma-corrections.json")
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
     if out.exists():
@@ -115,6 +118,8 @@ def build(out):
     editorial["manifest"] = site.map["data/editorial-corrections.json"]
     site.emit("data/publication-review.json", review_bytes, "data")
     publication["manifest"] = site.map["data/publication-review.json"]
+    site.emit("data/serial-comma-corrections.json", punctuation_bytes, "data")
+    punctuation["manifest"] = site.map["data/serial-comma-corrections.json"]
 
     base_url = CFG["base_url"]
     base_path = "/" + base_url.split("://", 1)[1].split("/", 1)[1] if base_url.count("/") > 3 else "/"
@@ -189,6 +194,7 @@ def build(out):
                                                   "pipeline_commit": rel["source"]["commit"], "site_commit": commit,
                                                   "editorial": editorial,
                                                   "publication": publication,
+                                                  "punctuation": punctuation,
                                                   "assets": dict(sorted(site.map.items()))}, indent=1) + "\n", encoding="utf-8")
     return site, rel
 
