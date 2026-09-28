@@ -1,0 +1,169 @@
+{
+  "schema": 1,
+  "base_release": "66661c47c06b",
+  "reviewed": "2026-09-28",
+  "note": "Approved American-English editorial corrections and two citation transcription repairs. Original source titles, quotations, names, licenses, source-defined terms, and machine-readable values remain unchanged. Reconcile this file when the upstream release changes.",
+  "activities": [
+    {
+      "id": "CAN-A1-EQ-058",
+      "field": "chg",
+      "before": "Generalising",
+      "after": "Generalizing",
+      "count": 1
+    },
+    {
+      "id": "CAN-B-CASE-05",
+      "field": "sum",
+      "before": "wellbeing",
+      "after": "well-being",
+      "count": 1
+    },
+    {
+      "id": "CAN-B-ETHI-14",
+      "field": "sum",
+      "before": "distils",
+      "after": "distills",
+      "count": 1
+    },
+    {
+      "id": "CAN-B-FDEV-03",
+      "field": "cit",
+      "before": "interdiscipinary",
+      "after": "interdisciplinary",
+      "count": 1
+    },
+    {
+      "id": "CAN-B-MATL-05",
+      "field": "sum",
+      "before": "maths",
+      "after": "math",
+      "count": 1
+    },
+    {
+      "id": "CAN-B-PROF-08",
+      "field": "sum",
+      "before": "analysable",
+      "after": "analyzable",
+      "count": 1
+    },
+    {
+      "id": "CAN-B-PROF-09",
+      "field": "cit",
+      "before": "realwork",
+      "after": "real-work",
+      "count": 1
+    },
+    {
+      "id": "CAN-B-PROM-14",
+      "field": "sum",
+      "before": "Analysing",
+      "after": "Analyzing",
+      "count": 1
+    },
+    {
+      "id": "CAN-D-ADM-010",
+      "field": "dl",
+      "before": "Wellbeing",
+      "after": "Well-being",
+      "count": 1
+    },
+    {
+      "id": "CAN-D-ADM-010",
+      "field": "gate",
+      "before": "wellbeing",
+      "after": "well-being",
+      "count": 1
+    },
+    {
+      "id": "CAN-D-ADM-010",
+      "field": "rf",
+      "before": "wellbeing",
+      "after": "well-being",
+      "count": 1
+    },
+    {
+      "id": "CAN-D-ADM-010",
+      "field": "sum",
+      "before": "wellbeing",
+      "after": "well-being",
+      "count": 2
+    },
+    {
+      "id": "CAN-D-ADM-010",
+      "field": "t",
+      "before": "wellbeing",
+      "after": "well-being",
+      "count": 1
+    },
+    {
+      "id": "CAN-B-CASE-03",
+      "field": "t",
+      "before": "Endless Case Studies for Counselling Practice",
+      "after": "Endless Case Studies for Counseling Practice",
+      "count": 1
+    },
+    {
+      "id": "CAN-B-CASE-03",
+      "field": "attr",
+      "before": "Endless Case Studies for Counselling Practice",
+      "after": "Endless Case Studies for Counseling Practice",
+      "count": 1
+    },
+    {
+      "id": "CAN-B-SIMU-03",
+      "field": "t",
+      "before": "Interviewing an AI Persona to Practise Qualitative Research",
+      "after": "Interviewing an AI Persona to Practice Qualitative Research",
+      "count": 1
+    },
+    {
+      "id": "CAN-B-SIMU-03",
+      "field": "attr",
+      "before": "Interviewing an AI Persona to Practise Qualitative Research",
+      "after": "Interviewing an AI Persona to Practice Qualitative Research",
+      "count": 1
+    },
+    {
+      "id": "CAN-B-STUD-06",
+      "field": "t",
+      "before": "Discovering Conceptual Classes for UML Modelling",
+      "after": "Discovering Conceptual Classes for UML Modeling",
+      "count": 1
+    },
+    {
+      "id": "CAN-B-STUD-06",
+      "field": "attr",
+      "before": "Discovering Conceptual Classes for UML Modelling",
+      "after": "Discovering Conceptual Classes for UML Modeling",
+      "count": 1
+    },
+    {
+      "id": "CAN-B-STYL-14",
+      "field": "t",
+      "before": "Analysing the Grammar of AI-Transformed Texts",
+      "after": "Analyzing the Grammar of AI-Transformed Texts",
+      "count": 1
+    },
+    {
+      "id": "CAN-B-STYL-14",
+      "field": "attr",
+      "before": "Analysing the Grammar of AI-Transformed Texts",
+      "after": "Analyzing the Grammar of AI-Transformed Texts",
+      "count": 1
+    }
+  ],
+  "policy_rules": [
+    {
+      "id": "conditional",
+      "field": "rule",
+      "before": "authorisation",
+      "after": "authorization",
+      "count": 1
+    }
+  ],
+  "output_sha256": {
+    "acts.json": "7e23bd9f2db8672d17b26017dd20d200f601577b54965356ccc2a71e4b58889f",
+    "register.json": "c03479bcea4e6e647e3f149e37b2ea2c5c9a405b9e4461e7bc5384d77c2d3565",
+    "guide.json": "22dbfe42766273bbf490c52711d20ef97df9cb3c5b45ac3e08495684db13b4eb"
+  }
+}

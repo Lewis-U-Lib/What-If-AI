@@ -1,6 +1,9 @@
 # Architecture: What If AI & The Register
 
 **Status:** scaffold, 2026-09-24, on branch `site-scaffold`. Nothing is deployed yet.
+**Update, 2026-09-28:** the site is live. The scaffold notes below describe the original
+architecture. Reviewed text corrections now sit between imported-release validation and
+public-data fingerprinting; see [Editorial corrections](EDITORIAL-CORRECTIONS.md).
 **Repository:** `Lewis-U-Lib/What-If-AI`. It publishes to GitHub Pages at
 `https://lewis-u-lib.github.io/What-If-AI/`.
 
