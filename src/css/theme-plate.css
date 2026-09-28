@@ -150,7 +150,7 @@ body::before{
 .opt input:checked + .opt__mark{background:radial-gradient(circle at 40% 35%,var(--brass-hi),var(--brass) 55%,var(--brass-lo));}
 
 /* ═══ reading surfaces: calm, machined, four small bolts ═══ */
-.acard,.type,.aside-card,.about .card{position:relative;border-radius:var(--r);border:1px solid rgba(0,0,0,.6);
+.acard,.type,.aside-card{position:relative;border-radius:var(--r);border:1px solid rgba(0,0,0,.6);
   background:linear-gradient(180deg,#56101f,#4a0d19);box-shadow:var(--bevel),0 6px 18px rgba(0,0,0,.32);}
 .acard::before,.type::before{content:'';position:absolute;inset:6px;pointer-events:none;
   background:var(--rivet-sm),var(--rivet-sm),var(--rivet-sm),var(--rivet-sm);background-repeat:no-repeat;background-size:9px 9px;

@@ -270,6 +270,38 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
     check('The Register: section "' + s + '" renders and is marked current', vis && cur === s, cur);
     check('The Register: section "' + s + '" has no internal project language', leaks(await page.textContent('#' + s)).length === 0, leaks(await page.textContent('#' + s)).join(', ') || 'clean');
   }
+  // How to use The Register: a walkthrough in the section, like the What If AI walkthrough
+  await go(page, 'register.html#about'); await page.waitForTimeout(80);
+  const rState = () => page.evaluate(() => [...document.querySelectorAll('#rtour [data-slide]')].map(s => !s.classList.contains('is-off') && !s.inert && s.getAttribute('aria-hidden') !== 'true'));
+  const rN = (await page.$$('#rtour [data-slide]')).length;
+  check('The Register: "How to use" is a nine-step walkthrough that shows its position', rN === 9 && (await page.textContent('#rtourPos')) === '1 of 9' && (await page.getAttribute('#rtourPrev', 'aria-disabled')) === 'true', rN + ' / ' + await page.textContent('#rtourPos'));
+  check('The Register: only the current step is shown and reachable', JSON.stringify(await rState()) === JSON.stringify([true, false, false, false, false, false, false, false, false]));
+  const rH0 = await page.$eval('#rtour', e => Math.round(e.getBoundingClientRect().height));
+  await page.click('#rtourNext');
+  const rs2 = await rState();
+  check('The Register: Next moves to step 2 and announces it', (await page.textContent('#rtourPos')) === '2 of 9' && rs2[1] && !rs2[0] && (await page.$eval('#rtour [data-slide]:nth-child(2)', s => s.getAttribute('aria-label'))) === '2 of 9');
+  check('The Register: the walkthrough keeps one height, so its controls stay put', rH0 === await page.$eval('#rtour', e => Math.round(e.getBoundingClientRect().height)));
+  await page.focus('#rtourNext'); await page.keyboard.press('ArrowRight'); await page.keyboard.press('ArrowRight');
+  check('The Register: arrow keys move through the walkthrough', (await page.textContent('#rtourPos')) === '4 of 9');
+  await page.click('#rtourPrev');
+  check('The Register: Previous moves back', (await page.textContent('#rtourPos')) === '3 of 9');
+  const rDots = await page.$$('#rtour .tour__dot');
+  await rDots[6].click();
+  check('The Register: a step lamp jumps to its step', rDots.length === 9 && (await page.textContent('#rtourPos')) === '7 of 9' && (await page.$eval('#rtour .tour__dot[aria-current="step"]', d => d.getAttribute('data-rdot'))) === '6');
+  await page.focus('#rtourNext'); await page.keyboard.press('End');
+  check('The Register: the last step offers Start again', (await page.textContent('#rtourNext')).includes('Start again') && (await page.textContent('#rtourPos')) === '9 of 9');
+  const rStay = await page.textContent('#rtourPos'); await page.waitForTimeout(1200);
+  check('The Register: the walkthrough never advances by itself', (await page.textContent('#rtourPos')) === rStay);
+  await page.click('#rtourNext');
+  check('The Register: Start again returns to step 1', (await page.textContent('#rtourPos')) === '1 of 9');
+  const rArt = await page.$$eval('#rtour .tour__art svg text', t => t.length);
+  check('The Register: walkthrough illustrations carry no text and are hidden from assistive technology', rArt === 0 && await page.$$eval('#rtour .tour__art', as => as.length === 9 && as.every(a => a.getAttribute('aria-hidden') === 'true')));
+  const rTitles = await page.$$eval('#rtour [data-slide] h3', h => h.map(x => x.textContent));
+  check('The Register: the walkthrough keeps every part of the old "How to use" page',
+    ['What is here', 'Source and license', 'How the collection was assembled', 'Saving and printing', 'Activity feedback', 'Corrections and questions'].every(t => rTitles.includes(t)), rTitles.join(' | '));
+  const rTerms = await page.$$eval('#rtour .gloss dt', d => d.map(x => x.textContent));
+  check('The Register: the walkthrough explains every part of an activity', ['Who does it', 'Scale', 'AI use', 'How the work is divided', 'Course AI policy', 'Before you use it'].every(t => rTerms.includes(t)), rTerms.join(' | '));
+  await require('./register-tour-checks')(page,check);
   for (const [old, now] of [['platforms', 'ai-types'], ['provenance', 'sources'], ['held', 'about'], ['crosswalk', 'about'], ['method', 'about']]) {
     await go(page, 'register.html#' + old); await page.waitForTimeout(60);
     check('The Register: an old #' + old + ' address lands on "' + now + '"', await page.isVisible('#h-' + now));
@@ -437,6 +469,10 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   const tb = await mp.evaluate(() => { const d = document.getElementById('tourDialog'); return { w: d.getBoundingClientRect().width, sw: d.querySelector('.dlg__body').scrollWidth - d.querySelector('.dlg__body').clientWidth }; });
   await mp.click('#tourNext');
   check('Phone: the walkthrough fits the screen and works', tb.w <= 390 && tb.sw <= 0 && (await mp.textContent('#tourPos')) === '2 of 7', JSON.stringify(tb));
+  await go(mp, 'register.html#about'); await mp.waitForTimeout(80);
+  const rtb = await mp.evaluate(() => { const r = document.getElementById('rtour'); return { w: Math.round(r.getBoundingClientRect().width), sw: document.documentElement.scrollWidth - document.documentElement.clientWidth }; });
+  await mp.click('#rtourNext');
+  check('Phone: The Register walkthrough fits the screen and works', rtb.w <= 390 && rtb.sw <= 0 && (await mp.textContent('#rtourPos')) === '2 of 9', JSON.stringify(rtb));
   const hdrPhone = await mp.evaluate(() => { const l = document.querySelector('.hdr__logo img').getBoundingClientRect(), t = document.querySelector('.hdr__title').getBoundingClientRect(); return l.bottom <= t.top + 1; });
   check('Phone: the logo moves above the title rather than overlapping it', hdrPhone);
   await m.close();
