@@ -90,7 +90,7 @@ function matches(a){
   if(F.nostudent && ['none','student_derived_deidentified','research_participant_deidentified'].indexOf(a.sen)<0) return false;
   if(F.type && TYPE_IDS[F.type] && TYPE_IDS[F.type].ids.indexOf(a.id)<0) return false;
   if(F.q){
-    var hay = (a.t+' '+a.sum+' '+(a.cit||'')+' '+(a.cr||'')+' '+(a.fld||'')+' '+(a.f||'')+' '+a.id+' '+(a.al||[]).join(' ')).toLowerCase();
+    var hay = (a.t+' '+a.sum+' '+(a.cit||'')+' '+(a.cr||'')+' '+(a.fld||'')+' '+(a.f||'')+' '+S_.familyLabel(a.f||'')+' '+a.id+' '+(a.al||[]).join(' ')).toLowerCase();
     var words = F.q.toLowerCase().split(/\s+/).filter(Boolean);
     for(var i=0;i<words.length;i++) if(hay.indexOf(words[i])<0) return false;
   }
