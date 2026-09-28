@@ -39,6 +39,7 @@ var L = {
   capType:{text_chat:'conversational', retrieval_grounded:'grounded', external_retrieval:'search', image_understanding:'multimodal',
           image_generation:'image', video_generation:'video', audio_or_voice:'audio', code_execution:'code', workflow_automation:'agentic'},
   eq:    {no_tool_needed:'No tool needed', free_tier:'A free version is enough', institution_provided:'Provided by the institution',
+          paid_required:'Paid tool required',
           paid_with_stated_alternative:'Paid tool, with a free alternative described', not_specified:'Not stated'},
   pc:    {human_checking_required:'A person needs to check the output', institutional_approval_required:'Needs ethics or institutional approval first',
           equipment_required:'Needs special equipment', purchased_material:'Needs purchased materials',

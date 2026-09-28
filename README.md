@@ -13,8 +13,8 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
 ## How this repository works
 
 - `data/` is a **release** exported from the project's corpus pipeline
-  (`Lewis-U-Lib/Faculty-AI-Evaluation-Tool`, `scripts/export_release.py`). It holds only
-  published activities and public fields. Don't edit it by hand: the build checks every file
+  (`Lewis-U-Lib/Faculty-AI-Evaluation-Tool`, `scripts/export_release.py`). It preserves the imported
+  activities and public fields; the publication review below determines the served subset. Don't edit it by hand: the build checks every file
   against `data/release.json`.
 - The September 28 release is a documented **manual supplement** to that pipeline
   export: 81 additional activities and 75 sources. Its manifest retains the original
@@ -25,6 +25,13 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
   The build applies them to the public data shared by both tools and checks the expected
   output hashes. The imported release stays intact, and `version.json` identifies both
   its provenance and the applied editorial revision.
+- `content/publication-review.json` records the full-text review of all 81 additions.
+  It publishes **70 additions and 66 sources**, holds **11 additions** for incomplete
+  source verification or unresolved rights, and applies 14 field corrections across
+  seven accepted activities. The public collection is **815 activities / 315 sources**.
+  Both tools share this filtered, corrected data. Original records remain in `data/`;
+  every decision and evidence reference is retained. `version.json` identifies the
+  publication revision and public counts. See [the full-text review](docs/FULL-TEXT-REVIEW-2026-09-28.md).
 - `src/` holds the pages, partials, CSS, JS, fonts and images.
 - `tools/build.py` turns `src/` and `data/` into `_site/`, fingerprinting every asset. It needs
   only Python 3.
@@ -62,7 +69,7 @@ npm test        # release check, build, site checks, page behavior, accessibilit
 `src/js/register-type-examples.js` holds the illustrative product names, short capability
 notes, official source links, and their checked date. Review those links when updating
 examples. These are editorial additions to the type guide, separate from the exported
-corpus release. Type descriptions and related-activity counts still come from that release.
+corpus release. Type descriptions come from the imported release; related-activity counts reflect the published subset.
 
 The Register shows compact type cards. Opening a card displays the full description and
 details in a fixed-size dialog; current examples start collapsed. The type-dialog test checks
@@ -74,16 +81,18 @@ keyboard focus, scroll-position restoration, content preservation, and narrow sc
    `python3 scripts/export_release.py --out ../What-If-AI/data`.
 2. Here, run `npm test`, then open a pull request. Merging to `main` deploys.
 
-Before building a new upstream release, reconcile `content/editorial-corrections.json`:
+Before building a new upstream release, reconcile both `content/editorial-corrections.json`
+and `content/publication-review.json`:
 remove corrections already incorporated upstream, review any remaining targets, and
 update the base release and reviewed output hashes. A mismatched release, target text,
 occurrence count, or output hash fails the build rather than silently dropping or
-misapplying corrections. See [the editorial correction record](docs/EDITORIAL-CORRECTIONS.md).
+misapplying corrections. Recheck the publication decisions, source coverage, license
+evidence, typed field updates, and final public totals before updating either manifest. See [the editorial correction record](docs/EDITORIAL-CORRECTIONS.md).
 
 For a data supplement, also update the reviewed import fixture after comparing every
 retained record. `tests/data-integration.test.js` verifies the prior collection is intact,
 checks labels and source/count consistency, and proves selectable, zero-mismatch matcher
-paths for every new activity. Browser checks follow those paths through pagination and
+paths for every approved new activity. Held additions remain absent from both public datasets. Browser checks follow those paths through pagination and
 verify the same activity details in both tools. Matching tests read the built public data.
 
 ## Licenses

@@ -7,7 +7,7 @@
   * Fonts and images are fingerprinted the same way; url(...) references inside the CSS
     are rewritten to the fingerprinted names.
   * The imported data release (data/*.json) is verified unchanged. Reviewed editorial
-    corrections are applied to the public copy before fingerprinting. Each page receives
+    corrections and publication decisions are applied before fingerprinting. Each page receives
     a small JSON manifest naming its data files and scripts; src/js/boot.js fetches the
     data and then runs the scripts in order.
   * Partials ({{partial:name}}) are inlined, so every page is complete HTML before any
@@ -27,6 +27,7 @@ SRC = ROOT / "src"
 sys.path.insert(0, str(ROOT / "tools"))
 from check_release import check as check_release  # noqa: E402
 from editorial_corrections import corrected_files  # noqa: E402
+from publication_review import reviewed_files  # noqa: E402
 
 CFG = json.loads((ROOT / "site.json").read_text(encoding="utf-8"))
 PH = re.compile(r"\{\{(\w+)(?::([\w./-]+))?\}\}")
@@ -67,6 +68,8 @@ def build(out):
     try:
         public_data, corrections_bytes, editorial = corrected_files(
             ROOT / "data", rel, ROOT / "content" / "editorial-corrections.json")
+        public_data, review_bytes, publication = reviewed_files(
+            public_data, rel, ROOT / "content" / "publication-review.json")
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
     if out.exists():
@@ -110,6 +113,8 @@ def build(out):
         site.emit(f"data/{name}.json", public_data[f"{name}.json"], "data")
     site.emit("data/editorial-corrections.json", corrections_bytes, "data")
     editorial["manifest"] = site.map["data/editorial-corrections.json"]
+    site.emit("data/publication-review.json", review_bytes, "data")
+    publication["manifest"] = site.map["data/publication-review.json"]
 
     base_url = CFG["base_url"]
     base_path = "/" + base_url.split("://", 1)[1].split("/", 1)[1] if base_url.count("/") > 3 else "/"
@@ -183,6 +188,7 @@ def build(out):
     (out / "version.json").write_text(json.dumps({"release": rel["release"], "release_built": rel["built"],
                                                   "pipeline_commit": rel["source"]["commit"], "site_commit": commit,
                                                   "editorial": editorial,
+                                                  "publication": publication,
                                                   "assets": dict(sorted(site.map.items()))}, indent=1) + "\n", encoding="utf-8")
     return site, rel
 

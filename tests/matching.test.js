@@ -18,7 +18,7 @@ for(const k of ['noaccount','nokit','noapproval']){
   assert.equal(M.requirement(fixture,k),'confirmed');
   for(const pc of [undefined,'not_specified','human_checking_required'])assert.equal(M.requirement({...fixture,pc},k),'unknown');
 }
-for(const [k,field,blocked] of [['noaccount','pc','account_verification'],['nokit','pc','equipment_required'],['nokit','pc','purchased_material'],['nokit','pc','travel_or_attendance'],['noapproval','pc','institutional_approval_required'],['nodisclose','dis','formal_statement'],['nostudent','sen','student_work'],['nopaid','eq','paid_with_stated_alternative']]){
+for(const [k,field,blocked] of [['noaccount','pc','account_verification'],['nokit','pc','equipment_required'],['nokit','pc','purchased_material'],['nokit','pc','travel_or_attendance'],['noapproval','pc','institutional_approval_required'],['nodisclose','dis','formal_statement'],['nostudent','sen','student_work'],['nopaid','eq','paid_with_stated_alternative'],['nopaid','eq','paid_required']]){
   assert.equal(M.assess({...fixture,[field]:blocked},{limits:{[k]:true}}).status,'excluded');
 }
 assert.equal(M.requirement({...fixture,pc:'equipment_required'},'noaccount'),'unknown');
@@ -32,6 +32,14 @@ assert.equal(uncertain.confirmed,0);assert.equal(uncertain.unknown.length,1);ass
 assert.deepEqual(uncertain.unknown[0].unknown,['noaccount']);
 assert.equal(M.search([{...fixture,pc:'account_verification'}],{limits:{noaccount:true}}).unknown.length,0);
 
+// Known paid workflows cannot leak into recovery or unknown-result groups.
+for(const id of ['CAN-L-038','CAN-L-039']){
+  const a=A.find(a=>a.id===id);assert.equal(a.eq,'paid_required');
+  assert.equal(M.assess(a,{}).status,'confirmed');
+  assert.equal(M.assess(a,{limits:{nopaid:true,noaccount:true}}).status,'excluded');
+  const paid=M.search([a],{limits:{nopaid:true}});
+  assert.equal(paid.confirmed,0);assert.equal(paid.unknown.length,0);assert.equal(paid.near,0);
+}
 const sourceBefore=JSON.stringify(A);
 const wildcard=M.search(A,{focus:'teaching',task:'assessment',disc:'humanities',depth:'module',lvl:'firstyear',mod:'in_person'});
 assert.ok(wildcard.compatible.some(r=>r.activity.id==='CAN-B-ASMT-01'));

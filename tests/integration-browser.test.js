@@ -27,6 +27,18 @@ const hash=w=>'#a='+Object.entries(w.state).map(([k,v])=>k+':'+encodeURIComponen
       assert.equal(await p.locator('#actDialog .dlg__body').textContent(),finder,w.id+' content parity');
       report.push({id:w.id,group:w.group,rank:w.rank,finder:true,register:true,url:base+'what-if-ai.html'+hash(w)});
     }
+    // Both readers label the paid workflows, and held deep links cannot open records.
+    for(const file of ['what-if-ai.html','register.html']){
+      for(const id of ['CAN-L-038','CAN-L-039']){
+        await go(file+'#act='+id);
+        assert.ok((await p.locator('#actDialog .dlg__body').textContent()).includes('Paid tool required'));
+      }
+      for(const id of require('../content/publication-review.json').decisions.filter(d=>d.decision==='hold').map(d=>d.id)){
+        await go(file+'#act='+id);
+        assert.equal(await p.locator('#actDialog').evaluate(d=>d.open),false,id+' is held in '+file);
+        assert.equal(await p.locator(`[data-card="${id}"]`).count(),0);
+      }
+    }
     // Use the wizard itself for each focus and newly represented scale, not just deep links.
     for(const id of ['CAN-L-040','CAN-L-020','CAN-L-060']){
       const w=witnesses.find(w=>w.id===id);
@@ -80,6 +92,6 @@ const hash=w=>'#a='+Object.entries(w.state).map(([k,v])=>k+':'+encodeURIComponen
     }
     assert.deepEqual(errors,[]);
     if(process.env.BROWSER_REPORT)fs.writeFileSync(process.env.BROWSER_REPORT,JSON.stringify({checked:new Date().toISOString(),base,activities:report,menuChecks:navChecks,pageErrors:errors},null,2)+'\n');
-    console.log(`PASS: all 81 additions visible through results/pagination and identical pop-ups in both tools; three full wizard paths; ${navChecks} section-menu checks; six screen widths; no page errors.`);
+    console.log(`PASS: all ${witnesses.length} additions visible through results/pagination and identical pop-ups in both tools; three full wizard paths; ${navChecks} section-menu checks; six screen widths; no page errors.`);
   }finally{await browser.close();await server.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});
