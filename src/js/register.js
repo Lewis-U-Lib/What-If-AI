@@ -477,9 +477,10 @@ function route(first){
   if((m = /^act=(.+)$/.exec(hsh))){
     var id = S_.decode(m[1]);
     if(first) show('activities', false);
+    var old = document.getElementById('missingAct'); if(old) old.parentNode.removeChild(old);
     if(id===null || !S_.openActivity(id)){
+      if(dlg && dlg.open){ actPushed = false; S_.closeDialog(dlg); }
       show('activities', false); base = filterHash();
-      var old = document.getElementById('missingAct'); if(old) old.parentNode.removeChild(old);
       S_.announce('No activity with '+(id===null ? 'that identifier' : 'the identifier '+id)+' is in the published collection.');
       var box = document.getElementById('actResults');
       if(box) box.insertAdjacentHTML('afterbegin','<div class="note" id="missingAct"><strong>That activity is not in the published collection.</strong> '+

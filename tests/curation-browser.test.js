@@ -48,6 +48,19 @@ const SITE=path.resolve(process.argv[2]||path.join(__dirname,'../_site'));
   await p.waitForSelector('#plan:not([hidden])');
   ok(await p.locator('#missingAct').count()===0,'the note clears on the next address');
 
+  // A broken hash reached while a dialog is open must not leave the old activity on screen.
+  for(const f of ['what-if-ai.html','register.html']){
+    for(const id of ['%',curation.withdrawals.ids[0]]){
+      await go(f+'#act='+D.acts[0].id);
+      await p.evaluate(id=>{location.hash='#act='+id;},id);
+      await p.waitForSelector('#missingAct');
+      ok(!(await p.locator('#actDialog').evaluate(d=>d.open)),'stale dialog closes in '+f);
+      await p.evaluate(id=>{location.hash='#act='+id;},D.acts[0].id);
+      await p.waitForSelector('#actDialog[open]');
+      ok(await p.locator('#missingAct').count()===0,'valid activity clears the old missing notice in '+f);
+    }
+  }
+
   // 3 · a reclassified record keeps its caution and reads as a licensed adaptation
   const spec=D.acts.find(a=>a.use==='unreported');
   for(const f of ['what-if-ai.html','register.html']){
