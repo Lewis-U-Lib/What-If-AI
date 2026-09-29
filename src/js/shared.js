@@ -138,6 +138,11 @@ function announce(msg){
   el.textContent = ''; setTimeout(function(){ el.textContent = msg; }, 40);
 }
 
+/* ─────────── addresses ─────────── */
+/* A pasted or truncated link can carry a broken %-escape. decodeURIComponent would throw and leave the
+   page blank, so a part that cannot be decoded is treated as unrecognized (null) instead. */
+function decode(s){ try { return decodeURIComponent(s); } catch(_){ return null; } }
+
 /* ─────────── icons ─────────── */
 /* line icons from the shared sprite (templates/partials/icons.svg); always decorative, the control carries the name */
 function icon(name, cls){ return '<svg class="ico'+(cls?' '+cls:'')+'" aria-hidden="true" focusable="false"><use href="#'+name+'"/></svg>'; }
@@ -224,7 +229,7 @@ function detailHTML(a, opts){
   }
   if(a.dis && L.dis[a.dis] && a.dis!=='none_required') b += '<h4>Disclosure built into the design</h4><p>'+esc(L.dis[a.dis])+'.</p>';
   if(a.risk) b += '<h4>Risks and accessibility</h4>'+p(a.risk);
-  if(a.cls==='prompt_specification') b += '<div class="note"><strong>A published prompt or workflow.</strong> '+
+  if(a.use==='unreported') b +='<div class="note"><strong>A published prompt or workflow.</strong> '+
     'It is openly licensed and cited, but no results from using it have been reported. Consider treating it as a starting design rather than a tested one.</div>';
   h += sec('Before you use it', b);
 
@@ -472,5 +477,5 @@ function copyText(text, okMsg){
 window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, esc:esc, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
   taskLabel:taskLabel, depthLabel:depthLabel, discLabel:discLabel, lvlLabel:lvlLabel, modLabel:modLabel, familyLabel:familyLabel,
   cardHTML:cardHTML, detailHTML:detailHTML, openActivity:openActivity, openDialog:openDialog, closeDialog:closeDialog, wireDialog:wireDialog,
-  Saved:Saved, announce:announce, printSaved:printSaved, copyText:copyText, howItWorks:howItWorks, init:init, kickerOf:kickerOf};
+  Saved:Saved, announce:announce, decode:decode, printSaved:printSaved, copyText:copyText, howItWorks:howItWorks, init:init, kickerOf:kickerOf};
 })();

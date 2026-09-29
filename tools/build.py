@@ -7,7 +7,8 @@
   * Fonts and images are fingerprinted the same way; url(...) references inside the CSS
     are rewritten to the fingerprinted names.
   * The imported data release (data/*.json) is verified unchanged. Reviewed editorial
-    corrections and publication decisions are applied before fingerprinting. Each page receives
+    corrections, publication decisions, punctuation, and curation are applied, in that
+    order, before fingerprinting. Each page receives
     a small JSON manifest naming its data files and scripts; src/js/boot.js fetches the
     data and then runs the scripts in order.
   * Partials ({{partial:name}}) are inlined, so every page is complete HTML before any
@@ -29,6 +30,7 @@ from check_release import check as check_release  # noqa: E402
 from editorial_corrections import corrected_files  # noqa: E402
 from publication_review import reviewed_files  # noqa: E402
 from serial_commas import punctuated_files  # noqa: E402
+from curation import curated_files  # noqa: E402
 
 CFG = json.loads((ROOT / "site.json").read_text(encoding="utf-8"))
 PH = re.compile(r"\{\{(\w+)(?::([\w./-]+))?\}\}")
@@ -69,10 +71,12 @@ def build(out):
     try:
         public_data, corrections_bytes, editorial = corrected_files(
             ROOT / "data", rel, ROOT / "content" / "editorial-corrections.json")
-        public_data, review_bytes, publication = reviewed_files(
+        public_data, _, publication = reviewed_files(
             public_data, rel, ROOT / "content" / "publication-review.json")
         public_data, punctuation_bytes, punctuation = punctuated_files(
             public_data, ROOT / "content" / "serial-comma-corrections.json")
+        public_data, _, curation = curated_files(
+            public_data, ROOT / "content" / "curation.json")
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
     if out.exists():
@@ -116,8 +120,8 @@ def build(out):
         site.emit(f"data/{name}.json", public_data[f"{name}.json"], "data")
     site.emit("data/editorial-corrections.json", corrections_bytes, "data")
     editorial["manifest"] = site.map["data/editorial-corrections.json"]
-    site.emit("data/publication-review.json", review_bytes, "data")
-    publication["manifest"] = site.map["data/publication-review.json"]
+    # The publication review stays in the repository: it records held additions and internal review
+    # notes, so the site publishes only its revision and counts (version.json), not the file itself.
     site.emit("data/serial-comma-corrections.json", punctuation_bytes, "data")
     punctuation["manifest"] = site.map["data/serial-comma-corrections.json"]
 
@@ -195,6 +199,7 @@ def build(out):
                                                   "editorial": editorial,
                                                   "publication": publication,
                                                   "punctuation": punctuation,
+                                                  "curation": curation,
                                                   "assets": dict(sorted(site.map.items()))}, indent=1) + "\n", encoding="utf-8")
     return site, rel
 

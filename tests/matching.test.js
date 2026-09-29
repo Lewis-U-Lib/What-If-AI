@@ -104,3 +104,31 @@ assert.equal(states,expectedStates);assert.ok(states>=originalStates);assert.equ
 console.log('PASS: explicit compatibility, known mismatch, focus, admission, unknown requirements, and both real audit regressions.');
 console.log('PASS: all 128 limit combinations; '+comparisons+' single-limit additions preserve or narrow both confirmed and possible sets.');
 console.log('PASS: original '+originalStates+' states retained; '+states+' expanded states: '+withMatches+' have exact/compatible/close matches; '+withRecovery+' have explicitly labeled broader recovery. No silent blank plan; activity data unchanged.');
+
+// Result order reflects match quality, never array position. Reversing or shuffling the
+// activities must not change any ordered group, and the tie-breaks are quality-first.
+{
+  const shuffled=A.slice().reverse(), seeded=A.slice();
+  let seed=7;for(let i=seeded.length-1;i>0;i--){seed=(seed*1103515245+12345)%2147483648;const j=seed%(i+1);[seeded[i],seeded[j]]=[seeded[j],seeded[i]];}
+  let orders=0;
+  const ids=p=>['exact','compatible','close','broader','unknown'].map(g=>p[g].map(r=>r.activity.id).join(',')).join('|');
+  for(const [focus] of D.intake.focus)for(const [task] of [[null],...D.intake.task])for(const lim of [{},{nopaid:true,noaccount:true}]){
+    const s={focus,task,limits:lim},base=ids(M.search(A,s));
+    assert.equal(ids(M.search(shuffled,s)),base,`order depends on array position: ${focus}/${task}`);
+    assert.equal(ids(M.search(seeded,s)),base,`order depends on array position: ${focus}/${task}`);
+    orders++;
+  }
+  const mk=(id,extra)=>({id,focus:'teaching',task:['design'],disc:'',depth:'assignment',lvl:['any'],mod:['any'],icap:'constructive',pc:'none',eq:'free_tier',sen:'none',dis:'none_required',cap:['text_chat'],gr:1,...extra});
+  const s={focus:'teaching',task:'design',limits:{}};
+  const order=list=>M.search(list,s).exact.map(r=>r.activity.id);
+  // better recorded match first, then the quality tier, then reported use
+  assert.deepEqual(order([mk('a',{gr:0}),mk('b',{gr:3})]),['b','a']);
+  assert.deepEqual(order([mk('u',{use:'unreported'}),mk('r',{})]),['r','u']);
+  assert.deepEqual(order([mk('u',{use:'unreported',gr:3}),mk('r',{gr:1})]),['u','r'],'quality tier outranks evidence of use');
+  const plan=M.search([mk('x',{task:['design','feedback']}),mk('y',{gr:3,task:['feedback']})],{focus:'teaching',task:'design',limits:{}});
+  assert.deepEqual(plan.exact.map(r=>r.activity.id),['x'],'a better match is never displaced by a higher tier');
+  // same-source results are not broken up when they are the best matches
+  const same=['s1','s2','s3'].map(id=>mk(id,{gr:3,rel:[['CSR-1','Source of this activity','',''] ]})), other=mk('o',{gr:2,rel:[['CSR-2','','','']]});
+  assert.deepEqual(order([other,...same]).slice(0,3).sort(),['s1','s2','s3']);
+  console.log('PASS: result order is independent of array position across '+orders+' focus/task/limit states; score, quality tier, and reported use decide ties before a neutral fixed order.');
+}

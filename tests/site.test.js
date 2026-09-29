@@ -44,10 +44,12 @@ const ANALYTICS = CFG.analytics;
   const release = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'release.json'), 'utf8'));
   const publication = require('../content/publication-review.json');
   const punctuation = require('../content/serial-comma-corrections.json');
+  const curation = require('../content/curation.json');
   check('the imported data release remains unchanged', Object.entries(release.files).every(([name, meta]) =>
     sha(fs.readFileSync(path.join(ROOT, 'data', name))) === meta.sha256));
-  check('public data matches the reviewed publication output hashes', ['acts', 'register', 'guide'].every(n => {
-    const f = files.find(x => x.startsWith('data/' + n + '.')); return f && sha(fs.readFileSync(path.join(SITE, f))) === punctuation.output_sha256[n + '.json']; }));
+  check('public data matches the reviewed curation output hashes', ['acts', 'register', 'guide'].every(n => {
+    const f = files.find(x => x.startsWith('data/' + n + '.')); return f && sha(fs.readFileSync(path.join(SITE, f))) === curation.output_sha256[n + '.json']; }));
+  check('the publication review (held additions and review notes) is not published', !files.some(f => /publication-review/.test(f)), files.filter(f => f.startsWith('data/')).join(' '));
   check('.nojekyll, robots.txt, sitemap.xml and version.json are present', ['.nojekyll', 'robots.txt', 'sitemap.xml', 'version.json'].every(f => files.includes(f)));
   const v = JSON.parse(fs.readFileSync(path.join(SITE, 'version.json'), 'utf8'));
   check('version.json names the release and the pipeline commit it came from', v.release === release.release && v.pipeline_commit === release.source.commit, v.release + ' @ ' + v.pipeline_commit.slice(0, 7));
@@ -58,10 +60,13 @@ const ANALYTICS = CFG.analytics;
   check('version.json identifies the reviewed punctuation', v.punctuation.commas === 1432 &&
     v.punctuation.revision === sha(fs.readFileSync(path.join(ROOT, 'content/serial-comma-corrections.json'))).slice(0, 12) &&
     sha(fs.readFileSync(path.join(SITE, v.punctuation.manifest))) === sha(fs.readFileSync(path.join(ROOT, 'content/serial-comma-corrections.json'))));
-  check('version.json identifies publication decisions and the public counts', v.publication.activities === 815 &&
+  check('version.json identifies publication decisions without publishing the review', v.publication.activities === 815 &&
     v.publication.works === 315 && v.publication.accepted_additions === 70 && v.publication.held_additions === 11 &&
     v.publication.revision === sha(fs.readFileSync(path.join(ROOT, 'content/publication-review.json'))).slice(0, 12) &&
-    sha(fs.readFileSync(path.join(SITE, v.publication.manifest))) === sha(fs.readFileSync(path.join(ROOT, 'content/publication-review.json'))));
+    !('manifest' in v.publication));
+  check('version.json identifies the curation and the public counts', v.curation.activities === 779 && v.curation.works === 309 &&
+    v.curation.withdrawn === 36 && v.curation.reclassified === 115 &&
+    v.curation.revision === sha(fs.readFileSync(path.join(ROOT, 'content/curation.json'))).slice(0, 12) && !('manifest' in v.curation));
 
   // determinism: two builds of the same inputs are byte-identical
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'wia-')), t1 = path.join(tmp, 'a'), t2 = path.join(tmp, 'b');

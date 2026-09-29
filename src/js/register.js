@@ -455,8 +455,8 @@ function show(sec, focus){
 function applyQuery(qs){
   resetF();
   qs.split('&').forEach(function(p){
-    var kv = p.split('='), k = decodeURIComponent(kv[0]||''), v = decodeURIComponent(kv[1]||'');
-    if(!k || !(k in F)) return;
+    var kv = p.split('='), k = S_.decode(kv[0]||''), v = S_.decode(kv[1]||'');
+    if(!k || v===null || !(k in F)) return;          /* skip a part with a broken %-escape */
     if(typeof F[k]==='boolean') F[k] = v==='1'||v==='true'; else F[k] = v;
   });
   shown = PAGE;
@@ -475,20 +475,20 @@ function route(first){
   if(dlg && dlg.open && !/^act=/.test(hsh)){ actPushed = false; S_.closeDialog(dlg); }
   if(!first && '#'+hsh === base && !/^act=/.test(hsh)) return;      /* back to the view under the activity */
   if((m = /^act=(.+)$/.exec(hsh))){
-    var id = decodeURIComponent(m[1]);
+    var id = S_.decode(m[1]);
     if(first) show('activities', false);
-    if(!S_.openActivity(id)){
+    if(id===null || !S_.openActivity(id)){
       show('activities', false); base = filterHash();
       var old = document.getElementById('missingAct'); if(old) old.parentNode.removeChild(old);
-      S_.announce('No activity with the identifier '+id+' is in the published collection.');
+      S_.announce('No activity with '+(id===null ? 'that identifier' : 'the identifier '+id)+' is in the published collection.');
       var box = document.getElementById('actResults');
       if(box) box.insertAdjacentHTML('afterbegin','<div class="note" id="missingAct"><strong>That activity is not in the published collection.</strong> '+
-        'The identifier '+esc(id)+' may belong to an earlier edition. Try searching for its title.</div>');
+        'The identifier '+(id===null ? 'in this link' : esc(id))+' may belong to an earlier edition or may have been cut off. Try searching for its title.</div>');
     }
     return;
   }
   if((m = /^src=(.+)$/.exec(hsh))){
-    var sid = decodeURIComponent(m[1]); base = '#sources';
+    var sid = S_.decode(m[1]) || ''; base = '#sources';
     if(F.q){ F.q=''; syncFilterControls(); drawSources(); }
     show('sources', false);
     var el = document.getElementById('src-'+sid);

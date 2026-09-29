@@ -28,7 +28,7 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
 - `content/publication-review.json` records the full-text review of all 81 additions.
   It publishes **70 additions and 66 sources**, holds **11 additions** for incomplete
   source verification or unresolved rights, and applies 14 field corrections across
-  seven accepted activities. The public collection is **815 activities / 315 sources**.
+  seven accepted activities. That stage leaves 815 activities / 315 sources.
   Both tools share this filtered, corrected data. Original records remain in `data/`;
   every decision and evidence reference is retained. `version.json` identifies the
   publication revision and public counts. See [the full-text review](docs/FULL-TEXT-REVIEW-2026-09-28.md).
@@ -37,6 +37,13 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
   target, insertion, and output; it preserves source quotations and matching codes.
   `version.json` records this punctuation revision separately. See
   [the punctuation review](docs/SERIAL-COMMAS-2026-09-28.md).
+- `content/curation.json` is the last stage ([the curation record](docs/CURATION-2026-09-29.md)).
+  It withdraws the 36 activities What If AI could never show, corrects licenses and source
+  records against the sources' own statements, retires the `prompt_specification` class
+  (keeping its no-reported-use fact as `use`), and applies American spelling to editorial
+  prose. The build refuses any published activity the Finder cannot show. The public
+  collection is **779 activities / 309 sources**. The publication review stays in the
+  repository and is not published on the site.
 - `src/` holds the pages, partials, CSS, JS, fonts, and images.
 - `tools/build.py` turns `src/` and `data/` into `_site/`, fingerprinting every asset. It needs
   only Python 3.
@@ -101,7 +108,8 @@ all nine steps at six widths, and printing; accessibility checks cover every ste
 2. Here, run `npm test`, then open a pull request. Merging to `main` deploys.
 
 Before building a new upstream release, reconcile `content/editorial-corrections.json`,
-`content/publication-review.json`, and `content/serial-comma-corrections.json`:
+`content/publication-review.json`, `content/serial-comma-corrections.json`, and
+`content/curation.json`:
 remove corrections already incorporated upstream, review any remaining targets, and
 update the base release and reviewed output hashes. A mismatched release, target text,
 occurrence count, or output hash fails the build rather than silently dropping or
