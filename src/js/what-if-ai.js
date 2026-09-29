@@ -232,8 +232,9 @@ function known(k,v){ var L=IN[k]||[]; for(var i=0;i<L.length;i++) if(L[i][0]===v
 /* read answers from an address into a fresh state; returns whether any were valid */
 function parseAnswers(hsh, into){
   var m=/(?:^#|&)a=([^&]*)/.exec(hsh||''); if(!m) return false;
-  var any=false;
-  decodeURIComponent(m[1]).split(';').forEach(function(p){
+  var any=false, text=S_.decode(m[1]);
+  if(text===null) return false;               /* a broken %-escape: treat the whole address as unrecognized */
+  text.split(';').forEach(function(p){
     var kv=p.split(':'), k=kv[0], v=kv.slice(1).join(':');
     if(k==='lim'){ v.split('+').forEach(function(x){ if(M.limits.indexOf(x)>=0){ into.limits[x]=true; any=true; } }); }
     else if(KEYS.indexOf(k)>=0 && known(k,v)){ into[k]=v; any=true; }
@@ -313,14 +314,29 @@ function closeDialogs(except){
     var d=document.getElementById(id); if(d && d.open && id!==except) S_.closeDialog(d);
   });
 }
+/* An activity link whose identifier is not in the published collection (withdrawn, held, mistyped, or
+   truncated) says so above the questions, as The Register does, instead of silently opening nothing. */
+function clearMissing(){ var old=document.getElementById('missingAct'); if(old) old.parentNode.removeChild(old); }
+function missingActivity(id){
+  clearMissing();
+  var shown = id===null ? 'in this link' : esc(id);
+  S_.announce('No activity with that identifier is in the published collection.');
+  document.getElementById('wizard').insertAdjacentHTML('beforebegin','<div class="note" id="missingAct"><strong>That activity is not in the published collection.</strong> '+
+    'The identifier '+shown+' may belong to an earlier edition or may have been cut off. '+
+    'You can search for its title in <a href="register.html#activities">The Register</a>, or answer the questions below.</div>');
+}
 function route(first){
   var hsh = location.hash || '';
   if(hsh === routed) return;
   var m;
   if((m=/^#act=([^&]+)/.exec(hsh))){
     if(first){ show(false); }
-    routed = hsh; S_.openActivity(decodeURIComponent(m[1])); return;
+    routed = hsh; clearMissing();
+    var id = S_.decode(m[1]);
+    if(id===null || !S_.openActivity(id)){ closeDialogs(); missingActivity(id); }
+    return;
   }
+  clearMissing();
   if(hsh === '#tour'){
     if(first){ show(false); }
     routed = hsh; openTour(null); return;

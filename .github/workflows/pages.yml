@@ -31,7 +31,7 @@ jobs:
 
       - name: Check the data release
         run: python3 tools/check_release.py
-      - name: Check editorial correction safeguards
+      - name: Check editorial, publication, punctuation and curation safeguards
         run: python3 -m unittest discover -s tests -p '*_test.py'
       - name: Build
         run: python3 tools/build.py
@@ -42,7 +42,7 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Site checks (fingerprints, CSP, loading states, determinism)
         run: node tests/site.test.js
-      - name: Matching rules and recovery
+      - name: Matching rules, recovery, ranking and broken links
         run: npm run test:matching
       - name: Page behavior
         run: node tests/pages.test.js

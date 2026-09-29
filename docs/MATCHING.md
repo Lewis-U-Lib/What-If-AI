@@ -12,7 +12,8 @@ A preference is unasked, exact, compatible, or mismatched. `any` level/setting a
 blank primary field are compatible, not exact. The UI names unspecified attributes
 and asks the reader to check suitability. A specific different value is a mismatch.
 The same comparison governs scoring, grouping, and offered options. Work focus is
-still a gate. Current admission behavior still excludes `active` and `passive`.
+still a gate. Admission excludes the `active` and `passive` engagement classes; the curation
+stage withdraws any such activity from both tools, so every published activity can surface here.
 
 Confirmed candidates appear in separate exact, compatible, and one-mismatch groups.
 Each group can show more results. Every card with a mismatch names it; every card with
@@ -20,6 +21,22 @@ unspecified matching attributes says what to check. When none of those groups ha
 candidate, a recovery message offers explicit preference changes and displays broader
 starting points with all mismatches named. Recovery never silently removes a limit.
 Counts and the navigation rail describe these groups, not the entire focus pool.
+
+## Result order
+
+Within a group, results are ordered by quality, never by where a record sits in the data:
+
+1. the match score above;
+2. the corpus quality tier (`gr`, ranking-only and not shown to readers);
+3. evidence of use: a record whose source reports running it comes before one marked
+   `use: "unreported"` (a published prompt or workflow nobody has reported using);
+4. a fixed FNV-1a hash of the identifier, a neutral last resort that favors no import batch,
+   source, or letter.
+
+Source diversity is not enforced. If the best matches share a source, they stay on top.
+The mismatch-sorted groups (broader recovery, requirements to check) use the same order
+after the number of mismatches. `tests/matching.test.js` confirms that reversing or
+shuffling the activities never changes an ordered group.
 
 Field arrays/secondary field tags, educational effectiveness, and validation of no-AI
 route descriptions remain separate corpus work. This change does not infer new field

@@ -66,7 +66,21 @@
     });
     return row;
   }
-  function rank(x,y){ return y.score-x.score || (y.activity.gr||0)-(x.activity.gr||0) || x.index-y.index; }
+  /* Order within a group: how well the record matches the reader's answers (score), then the corpus
+     quality tier (gr), then evidence of use (a source that reports running the activity before one that
+     only publishes it). Records equal on all three are ordered by a fixed hash of their identifier, so no
+     import batch, source, or alphabetical position is favored. The top results are the best matches even
+     when they share a source; nothing enforces source diversity. */
+  function used(a){ return a.use==='unreported' ? 0 : 1; }
+  function neutral(id){                       // FNV-1a, 32-bit: stable across releases and browsers
+    var h=0x811c9dc5; for(var i=0;i<id.length;i++){ h^=id.charCodeAt(i); h=Math.imul(h,0x01000193)>>>0; }
+    return h;
+  }
+  function rank(x,y){
+    var a=x.activity, b=y.activity;
+    return y.score-x.score || (b.gr||0)-(a.gr||0) || used(b)-used(a) ||
+      neutral(a.id)-neutral(b.id) || (a.id<b.id?-1:a.id>b.id?1:0);
+  }
   function search(activities,s){
     var plan={exact:[],compatible:[],close:[],broader:[],unknown:[],confirmed:0,excluded:0};
     activities.forEach(function(a,i){
@@ -96,5 +110,5 @@
     });
     return seen;
   }
-  return {keys:KEYS,limits:LIMITS,compare:compare,requirement:requirement,assess:assess,search:search,viable:viable};
+  return {keys:KEYS,limits:LIMITS,compare:compare,requirement:requirement,assess:assess,rank:rank,admitted:admitted,search:search,viable:viable};
 });

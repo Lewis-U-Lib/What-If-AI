@@ -12,9 +12,14 @@ The import and matcher checks are recorded in [the data review](DATA-UPDATE-2026
 additions and holds 11. `tools/publication_review.py` runs after editorial corrections
 and before fingerprinting. It preserves the imported release, applies exact reviewed
 field updates, filters both datasets, recalculates catalog counts, and validates pinned
-inputs and outputs. Both tools serve 815 activities / 315 sources. `version.json`
+inputs and outputs. It leaves 815 activities / 315 sources. `version.json`
 separately names the imported release, editorial revision, and publication revision.
 See [the full-text review](FULL-TEXT-REVIEW-2026-09-28.md).
+
+**Curation, 2026-09-29:** `tools/curation.py` runs last. It withdraws activities the Finder
+cannot admit, corrects licenses and source records, retires `prompt_specification`, and
+applies American spelling. Both tools serve 779 activities / 309 sources. The publication
+review is no longer published on the site. See [the curation record](CURATION-2026-09-29.md).
 
 **Repository:** `Lewis-U-Lib/What-If-AI`. It publishes to GitHub Pages at
 `https://lewis-u-lib.github.io/What-If-AI/`.

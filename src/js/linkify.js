@@ -9,7 +9,7 @@
    · every pattern is matched against the ORIGINAL string and the anchors are
      assembled in one pass at the end, so a later pattern cannot match inside
      an earlier pattern's href or title attribute;
-   · overlapping matches are resolved in favour of the longer one, and each
+   · overlapping matches are resolved in favor of the longer one, and each
      guide page is linked at most once per block, so a word repeated through a
      paragraph does not produce a row of identical links. */
 var linkifyGuide = (function () {
