@@ -15,6 +15,7 @@ async function ready(page) { await page.waitForFunction(() => document.documentE
 
 const STATES = [
   ['What If AI · first question', 'what-if-ai.html', async p => {}],
+  ['What If AI · floating navigation open', 'what-if-ai.html', async p => { await p.click('#fabToggle'); }],
   ['What If AI · field, with level and setting open', 'what-if-ai.html', async p => {
     await p.check('input[value="teaching"]'); await p.click('#next'); await p.click('#next');
     await p.$$eval('details.qmore', ds => ds.forEach(d => d.open = true)); }],
@@ -33,6 +34,7 @@ const STATES = [
   ['What If AI · question two (back navigation available)', 'what-if-ai.html#q=task&a=focus:teaching', async p => {}],
     ['What If AI · saved drawer empty', 'what-if-ai.html', async p => { await p.evaluate(() => SITE.Saved.clear()); await p.click('.topbar [data-open-saved]'); }],
   ['The Register · activities', 'register.html#activities', async p => {}],
+  ['The Register · floating navigation open', 'register.html#activities', async p => { await p.click('#fabToggle'); }],
   ['The Register · activities filtered', 'register.html#activities?cap=text_chat&pol=open', async p => {}],
   ['The Register · activity details open', 'register.html#activities', async p => { await p.click('#activities [data-open]'); }],
   ['The Register · types of AI systems', 'register.html#ai-types', async p => {}],

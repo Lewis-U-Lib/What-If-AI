@@ -23,8 +23,10 @@
  "pages": [
   {"src": "index.html", "out": "index.html", "css": ["base", "theme"]},
   {"src": "what-if-ai.html", "out": "what-if-ai.html", "css": ["base", "what-if-ai", "theme"],
+   "companion": {"href": "register.html", "label": "The Register", "icon": "i-crt"},
    "data": ["acts", "guide"], "scripts": ["core", "what-if-ai", "engines"]},
   {"src": "register.html", "out": "register.html", "css": ["base", "register", "theme", "register-types"],
+   "companion": {"href": "what-if-ai.html", "label": "What If AI", "icon": "i-bulb"},
    "data": ["acts", "register", "guide"], "scripts": ["core", "register", "engines"]},
   {"src": "404.html", "out": "404.html", "css": ["base", "theme"], "absolute": true, "sitemap": false}
  ],

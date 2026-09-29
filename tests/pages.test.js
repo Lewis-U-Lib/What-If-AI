@@ -502,6 +502,30 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   check('Cross-page: closing a walkthrough opened by link leaves a clean address', !/#tour/.test(page.url()), page.url().split('/').pop());
   await go(page, 'register.html#activities'); await page.click('#activities a[href="what-if-ai.html"]'); await page.waitForLoadState('load'); await page.waitForSelector('html[data-ready]', { state: 'attached' });
   check('Cross-page: "Try What If AI" opens the first question', await page.isVisible('#qTitle') && (await page.textContent('#qTitle')) === 'What are you working on?');
+  // Floating navigation is available from either tool, including from the keyboard.
+  for (const [width, height] of [[1440, 844], [390, 844], [844, 390]]) {
+    const fc = await createContext(browser, { viewport: { width, height } });
+    const fp = await fc.newPage();
+    for (const [from, to, label] of [['what-if-ai.html', 'register.html', 'The Register'], ['register.html', 'what-if-ai.html', 'What If AI']]) {
+      await go(fp, from);
+      const link = fp.locator('#fabMenu').getByRole('link', { name: label, exact: true });
+      check('Floating navigation @' + width + ': closed links stay hidden on ' + from, !(await link.isVisible()));
+      await fp.focus('#fabToggle'); await fp.keyboard.press('Enter');
+      check('Floating navigation @' + width + ': opening focuses ' + label, await link.evaluate(e => e === document.activeElement));
+      const menuBox = await fp.locator('#fabMenu').boundingBox();
+      check('Floating navigation @' + width + ': the menu stays inside the viewport on ' + from,
+        menuBox.x >= 0 && menuBox.y >= 0 && menuBox.x + menuBox.width <= width + 1 && menuBox.y + menuBox.height <= height + 1);
+      await fp.keyboard.press('Escape');
+      check('Floating navigation @' + width + ': Escape closes and returns focus on ' + from,
+        (await fp.getAttribute('#fabToggle', 'aria-expanded')) === 'false' && await fp.$eval('#fabToggle', e => e === document.activeElement) && !(await link.isVisible()));
+      await fp.keyboard.press('Enter'); await fp.keyboard.press('Enter');
+      await fp.waitForURL(u => u.pathname.endsWith('/' + to));
+      await fp.waitForSelector('html[data-ready]', { state: 'attached' });
+      check('Floating navigation @' + width + ': ' + label + ' opens the other tool in the same tab',
+        (await fp.textContent('h1')).replace(/\s+/g, ' ').trim() === label && fc.pages().length === 1);
+    }
+    await fc.close();
+  }
   const localLinks = await page.evaluate(() => [...document.querySelectorAll('a[href]')].map(a => a.getAttribute('href')).filter(h => !/^(https?:|mailto:|#)/.test(h)));
   check('Local links point only at the two pages', localLinks.every(h => /^(what-if-ai|register)\.html(#.*)?$/.test(h)), [...new Set(localLinks)].join(' '));
   const useRefs = await page.evaluate(() => [...document.querySelectorAll('use')].map(u => u.getAttribute('href')).filter(h => !document.getElementById(h.slice(1))));

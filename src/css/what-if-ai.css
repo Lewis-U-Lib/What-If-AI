@@ -1,3 +1,18 @@
+/* ════ What If AI · compact introduction ════ */
+.hdr--explore .hdr__lede{max-width:48rem;font-size:1.05rem;line-height:1.5;margin-top:.7rem;text-wrap:pretty;}
+.hdr.hdr--compact.hdr--explore::after{height:36px;margin-top:12px;
+  background-size:260px 13px,260px 14px,100% 4px,100% 100%;background-position:176px 0,48px 22px,0 16px,0 0;}
+@media(min-width:1200px) and (max-width:1400px){
+  .hdr--explore.hdr--lab .hdr__identity{padding-top:0;}
+  .hdr--explore.hdr--lab .hdr__masthead{min-height:6rem;padding:0 230px;}
+  .hdr--explore.hdr--lab .hdr__link{top:22px;left:26px;}
+}
+@media(max-width:760px){
+  .hdr--explore .hdr__lede{font-size:1rem;}
+  .hdr.hdr--compact.hdr--explore::after{height:30px;margin-top:12px;
+    background-size:180px 11px,180px 12px,100% 4px,100% 100%;background-position:120px 0,30px 18px,0 13px,0 0;}
+}
+
 /* ════ What If AI · questions ════ */
 .qpanel .panel__body{padding-top:16px;}
 .qstep{font-family:var(--font-h);font-size:15px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);}
