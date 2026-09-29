@@ -174,6 +174,7 @@ def build(out):
             if kind == "styles": return "\n".join(styles)
             if kind == "scripts": return scripts
             if kind == "root": return root
+            if kind == "companion": return html.escape(page["companion"][arg], quote=True)
             if kind == "asset": return a(arg)
             if kind == "partial": return (SRC / "partials" / arg).read_text(encoding="utf-8").rstrip("\n")
             raise SystemExit(f"{page['src']}: unknown placeholder {m.group(0)}")

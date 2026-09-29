@@ -226,7 +226,7 @@ const ANALYTICS = CFG.analytics;
     await chatPage.goto(srv.url(file));
     await chatPage.waitForSelector('html[data-ready]', { state: 'attached' });
     check(file + ': Ask Us does not contact chat before opening', requests === 0 && !(await chatPage.getAttribute('#chatFrame', 'src')));
-    await chatPage.getByRole('button', { name: 'Help and support menu', exact: true }).click();
+    await chatPage.getByRole('button', { name: 'Help and navigation menu', exact: true }).click();
     await chatPage.getByRole('button', { name: 'Ask Us — Lewis University Library Chat', exact: true }).click();
     const loaded = await chatPage.frameLocator('#chatFrame').getByRole('heading', { name: 'Library chat loaded' })
       .waitFor({ state: 'visible', timeout: 3000 }).then(() => true, () => false);

@@ -157,6 +157,7 @@ document.querySelectorAll('.flip').forEach(function(f){
 (function(){
   var fabWrap   = document.getElementById('fabWrap'),
       fabToggle = document.getElementById('fabToggle'),
+      fabMenu   = document.getElementById('fabMenu'),
       fabScrim  = document.getElementById('fabScrim'),
       fabAskUs  = document.getElementById('fabAskUs'),
       chatModal = document.getElementById('chatModal'),
@@ -165,6 +166,7 @@ document.querySelectorAll('.flip').forEach(function(f){
   if(!fabWrap || !fabToggle) return;
 
   function fabClose(){
+    if(fabMenu && fabMenu.contains(document.activeElement)) fabToggle.focus();
     fabWrap.classList.remove('open');
     if(fabScrim) fabScrim.classList.remove('show');
     fabToggle.setAttribute('aria-expanded','false');
@@ -188,10 +190,14 @@ document.querySelectorAll('.flip').forEach(function(f){
       document.body.classList.remove('chat-open');
     }
   }
-  fabToggle.addEventListener('click', function(){
+  fabToggle.addEventListener('click', function(e){
     var open = fabWrap.classList.toggle('open');
     if(fabScrim) fabScrim.classList.toggle('show', open);
     fabToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if(open && e.detail === 0 && fabMenu){
+      var first = fabMenu.querySelector('a[href],button');
+      if(first) first.focus();
+    }
   });
   if(fabScrim) fabScrim.addEventListener('click', fabClose);
   if(fabAskUs) fabAskUs.addEventListener('click', function(e){ e.preventDefault(); openChat(); });
