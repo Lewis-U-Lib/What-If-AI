@@ -44,6 +44,19 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
   prose. The build refuses any published activity the Finder cannot show. The public
   collection is **779 activities / 309 sources**. The publication review stays in the
   repository and is not published on the site.
+- `content/tiers.json` is the fifth stage ([the record](docs/TIERS-2026-10-05.md)). It adds
+  two labeled sets written for the collection and not yet tried: the **synthesis set** (211)
+  and the **remix set** (92). Each record carries its set, its provenance class (Hybrid or
+  Original Synthesis, or Licensed Adaptation), every work it draws on with the relation, and
+  the license it carries; 77 records with open review questions are held. The licensed
+  collection is unchanged. That stage leaves 1,082 activities / 640 sources.
+- `content/ai-use.json` is the sixth and last stage ([the record](docs/AI-USE-2026-10-05.md)).
+  It records on every activity who operates an AI tool (`op`: students, faculty or staff
+  only, optional, no one, or not stated). Values were read from each summary in three review
+  passes, and each value other than `students` carries its evidence. The stage renames the
+  No-AI limit to **“My students won’t use an AI tool themselves”**, which now admits
+  activities in which only the instructor uses a tool. It withdraws four activities in which
+  AI is neither used nor discussed. Both tools serve **1,078 activities / 637 sources**.
 - `src/` holds the pages, partials, CSS, JS, fonts, and images.
 - `tools/build.py` turns `src/` and `data/` into `_site/`, fingerprinting every asset. It needs
   only Python 3.
@@ -108,8 +121,8 @@ all nine steps at six widths, and printing; accessibility checks cover every ste
 2. Here, run `npm test`, then open a pull request. Merging to `main` deploys.
 
 Before building a new upstream release, reconcile `content/editorial-corrections.json`,
-`content/publication-review.json`, `content/serial-comma-corrections.json`, and
-`content/curation.json`:
+`content/publication-review.json`, `content/serial-comma-corrections.json`,
+`content/curation.json`, `content/tiers.json`, and `content/ai-use.json`:
 remove corrections already incorporated upstream, review any remaining targets, and
 update the base release and reviewed output hashes. A mismatched release, target text,
 occurrence count, or output hash fails the build rather than silently dropping or

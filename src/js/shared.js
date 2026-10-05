@@ -61,6 +61,21 @@ var L = {
 };
 var ORIGIN = {};
 (D.origin||[]).forEach(function(o){ ORIGIN[o[0]] = {label:o[1], text:o[2]}; });
+/* the two sets written for the collection (synthesis, remix); records without a set are the licensed collection */
+var TIER = {};
+(D.tiers||[]).forEach(function(t){ TIER[t[0]] = {label:t[1], text:t[2]}; });
+function tierOf(a){ return a.tier && TIER[a.tier]; }
+/* who operates an AI tool in the activity (reviewed; see content/ai-use.json) */
+var OPERATOR = {};
+(D.operators||[]).forEach(function(o){ OPERATOR[o[0]] = {label:o[1], text:o[2]}; });
+function operatorLabel(v){ return (OPERATOR[v]||{}).label || pretty(v); }
+/* the Register's copy of FINDER_MATCH.requirement(a,'noai'): "My students won't use an AI tool themselves" */
+function noToolForStudents(a){
+  if(a.na) return 'confirmed';
+  if(a.op==='students') return 'excluded';
+  return ['faculty_or_staff','optional','none'].indexOf(a.op)>=0 ? 'confirmed' : 'unknown';
+}
+function lines(s){ return String(s||'').split('\n').filter(function(x){ return x.trim(); }); }
 
 function taskLabel(v, focus){ var o=(D.task_labels||{})[focus]||{}; return o[v] || lab(IN.task, v) || pretty(v); }
 function depthLabel(v){ return lab(IN.depth, v) || pretty(v); }
@@ -168,6 +183,8 @@ function cardHTML(a, opts){
   s += '<dt>Scale</dt><dd>'+esc(depthLabel(a.depth))+'</dd>';
   s += '<dt>AI use</dt><dd>'+esc(capsShort(a)||'Not stated')+'</dd>';
   if(a.eq && a.eq!=='not_specified') s += '<dt>Cost</dt><dd>'+esc(L.eq[a.eq]||pretty(a.eq))+'</dd>';
+  var T = tierOf(a);
+  if(T) s += '<dt>Origin</dt><dd>'+esc(T.label)+' · not yet tried</dd>';
   s += '</dl>';
   if(sensitive(a)) s += '<p class="acard__note"><span aria-hidden="true">⚠</span><span>Involves putting '+esc(L.sen[a.sen])+' into an AI tool.</span></p>';
   s += '<div class="acard__foot no-print">'+
@@ -206,6 +223,7 @@ function detailHTML(a, opts){
   if(disc) f += '<dt>Discipline</dt><dd>'+esc(disc)+'</dd>';
   f += '<dt>Level</dt><dd>'+esc((a.lvl||[]).map(lvlLabel).join(', ')||'Not stated')+'</dd>';
   f += '<dt>Setting</dt><dd>'+esc((a.mod||[]).map(modLabel).join(', ')||'Not stated')+'</dd>';
+  if(OPERATOR[a.op]) f += '<dt>Who uses an AI tool</dt><dd>'+esc(OPERATOR[a.op].text)+'</dd>';
   f += '<dt>AI tool needed</dt><dd>'+esc((a.cap||[]).map(function(c){return L.capLong[c]||pretty(c);}).join('; ')||'Not stated')+'</dd>';
   if(a.eq && a.eq!=='not_specified') f += '<dt>Cost and access</dt><dd>'+esc(L.eq[a.eq]||pretty(a.eq))+'</dd>';
   if(a.pc && L.pc[a.pc]) f += '<dt>Also required</dt><dd>'+esc(L.pc[a.pc])+'</dd>';
@@ -216,6 +234,8 @@ function detailHTML(a, opts){
   var how = '';
   var hw = howItWorks(a); if(hw) how += '<p>'+esc(hw)+'</p>';
   if(a.gate) how += '<h4>'+(a.ac==='student'?'What students produce that the tool did not':'The judgment that stays with you')+'</h4>'+p(a.gate);
+  if(a.dep) how += '<h4>What it depends on the AI tool for</h4>'+p(a.dep);
+  if(a.chk) how += '<h4>What the output is checked against</h4>'+p(a.chk);
   h += sec('How people and the AI tool divide the work', how);
 
   /* 4 · before you use it */
@@ -229,6 +249,8 @@ function detailHTML(a, opts){
   }
   if(a.dis && L.dis[a.dis] && a.dis!=='none_required') b += '<h4>Disclosure built into the design</h4><p>'+esc(L.dis[a.dis])+'.</p>';
   if(a.risk) b += '<h4>Risks and accessibility</h4>'+p(a.risk);
+  if(tierOf(a)) b += '<div class="note"><strong>Written for this collection, not yet tried.</strong> '+
+    'This activity is part of the '+esc(tierOf(a).label.toLowerCase())+'. No one has reported teaching or running it yet. Consider treating it as a starting design rather than a tested one.</div>';
   if(a.use==='unreported') b +='<div class="note"><strong>A published prompt or workflow.</strong> '+
     'It is openly licensed and cited, but no results from using it have been reported. Consider treating it as a starting design rather than a tested one.</div>';
   h += sec('Before you use it', b);
@@ -236,7 +258,9 @@ function detailHTML(a, opts){
   /* 5 · without AI */
   var na = '';
   if(a.na) na = p(a.na);
-  else if((a.cap||[]).indexOf('none_required')>=0) na = '<p>This activity runs without any AI tool.</p>';
+  else if(a.op==='none') na = '<p>This activity runs without any AI tool.</p>';
+  else if(a.op==='optional') na = '<p>The activity as described is complete without an AI tool; the AI step it mentions is optional.</p>';
+  else if(!a.op && (a.cap||[]).indexOf('none_required')>=0) na = '<p>This activity runs without any AI tool.</p>';
   h += sec('A route without AI', na);
 
   /* 6 · adapting it */
@@ -263,10 +287,16 @@ function detailHTML(a, opts){
   h += sec('What the source reports', sr);
 
   /* 8 · source, license, attribution */
-  var o = ORIGIN[a.cls];
+  var o = ORIGIN[a.cls], T = tierOf(a);
   var src = '';
   if(o) src += '<p><strong>'+esc(o.label)+'.</strong> '+esc(o.text)+'</p>';
-  if(a.cit){
+  if(T) src += '<p><strong>'+esc(T.label)+'.</strong> '+esc(T.text)+'</p>';
+  if(a.par && BYID[a.par]) src += '<h4>Builds on</h4><p>The activity '+
+    (opts.print ? '“'+esc(BYID[a.par].t)+'”' : '<a href="#" data-open="'+esc(a.par)+'">'+esc(BYID[a.par].t)+'</a>')+' in this collection.</p>';
+  if(T && a.cit){
+    src += '<h4>Sources</h4><div class="cite-block">'+lines(a.cit).map(function(c){ return '<p>'+esc(c)+'</p>'; }).join('')+
+      (a.url && !opts.print ? '<p><a href="'+esc(a.url)+'" target="_blank" rel="noopener noreferrer">Open the primary source<span class="sr-only"> (opens in a new tab)</span> ↗</a></p>' : (a.url ? '<p>'+esc(a.url)+'</p>' : ''))+'</div>';
+  } else if(a.cit){
     src += '<h4>Source</h4><div class="cite-block">'+esc(a.cit)+
       (a.url && !opts.print ? ' <a href="'+esc(a.url)+'" target="_blank" rel="noopener noreferrer">Open the source<span class="sr-only"> (opens in a new tab)</span> ↗</a>' : (a.url ? ' '+esc(a.url) : ''))+'</div>';
     if(a.loc) src += '<p class="meta-line">Location in the source: '+esc(a.loc)+'</p>';
@@ -274,8 +304,8 @@ function detailHTML(a, opts){
   src += '<h4>License</h4><p>'+(a.licu && !opts.print ? '<a href="'+esc(a.licu)+'" target="_blank" rel="noopener noreferrer">'+esc(a.lic)+'</a>' : esc(a.lic||'Not stated'))+
     (a.lics ? ' <span class="meta-line">— as stated by the source: '+esc(a.lics)+'</span>' : '')+'</p>';
   if(a.licn) src += '<p class="meta-line">'+esc(a.licn)+'</p>';
-  if(a.attr) src += '<h4>Attribution to keep when reusing</h4><p>'+esc(a.attr)+'</p>';
-  if(a.chg) src += '<h4>How this version differs from the source</h4>'+p(a.chg);
+  if(a.attr) src += '<h4>Attribution to keep when reusing</h4>'+lines(a.attr).map(function(x){ return '<p>'+esc(x)+'</p>'; }).join('');
+  if(a.chg) src += '<h4>'+(T ? 'How it was put together' : 'How this version differs from the source')+'</h4>'+p(a.chg);
   if(a.rel && a.rel.length){
     src += '<h4>Works it draws on</h4><ul>'+a.rel.map(function(r){
       var t = esc(r[2]);
@@ -474,7 +504,7 @@ function copyText(text, okMsg){
   }catch(_){ fallback(); }
 }
 
-window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, esc:esc, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
+window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, TIER:TIER, tierOf:tierOf, OPERATOR:OPERATOR, operatorLabel:operatorLabel, noToolForStudents:noToolForStudents, esc:esc, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
   taskLabel:taskLabel, depthLabel:depthLabel, discLabel:discLabel, lvlLabel:lvlLabel, modLabel:modLabel, familyLabel:familyLabel,
   cardHTML:cardHTML, detailHTML:detailHTML, openActivity:openActivity, openDialog:openDialog, closeDialog:closeDialog, wireDialog:wireDialog,
   Saved:Saved, announce:announce, decode:decode, printSaved:printSaved, copyText:copyText, howItWorks:howItWorks, init:init, kickerOf:kickerOf};

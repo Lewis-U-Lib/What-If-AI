@@ -20,7 +20,15 @@
   }
   function requirement(a,key){
     var v;
-    if(key==='noai') return has(a.cap,'none_required') || !!a.na ? 'confirmed':'excluded';
+    /* noai reads "My students won't use an AI tool themselves". A stated route without AI always
+       qualifies. Otherwise the reviewed operator decides: only students operating a tool rules an
+       activity out, and a record that does not say who operates it is never a confirmed fit. */
+    if(key==='noai'){
+      if(a.na) return 'confirmed';
+      v=a.op;
+      if(v==='students') return 'excluded';
+      return has(['faculty_or_staff','optional','none'],v)?'confirmed':'unknown';
+    }
     if(key==='nostudent'){
       v=a.sen;
       if(!v || v==='not_specified') return 'unknown';
@@ -68,10 +76,12 @@
   }
   /* Order within a group: how well the record matches the reader's answers (score), then the corpus
      quality tier (gr), then evidence of use (a source that reports running the activity before one that
-     only publishes it). Records equal on all three are ordered by a fixed hash of their identifier, so no
+     only publishes it, or one written for the collection and not yet tried). Records equal on all three are ordered by a fixed hash of their identifier, so no
      import batch, source, or alphabetical position is favored. The top results are the best matches even
      when they share a source; nothing enforces source diversity. */
-  function used(a){ return a.use==='unreported' ? 0 : 1; }
+  /* No reported use: a published prompt or workflow nobody has reported running (use: unreported), or
+     a record from the two sets written for the collection (tier), which are not yet taught or tried. */
+  function used(a){ return a.use==='unreported' || a.tier ? 0 : 1; }
   function neutral(id){                       // FNV-1a, 32-bit: stable across releases and browsers
     var h=0x811c9dc5; for(var i=0;i<id.length;i++){ h^=id.charCodeAt(i); h=Math.imul(h,0x01000193)>>>0; }
     return h;

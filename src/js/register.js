@@ -38,7 +38,7 @@ var base = '#activities';   /* the address of the view under an open activity */
 });
 
 /* ═════════════ activities ═════════════ */
-var F = {q:'', focus:'', task:'', theme:'', disc:'', cap:'', pol:'', role:'', move:'', cost:false, noai:false, nostudent:false, type:'', sort:'az'};
+var F = {q:'', set:'', focus:'', task:'', theme:'', disc:'', cap:'', pol:'', role:'', move:'', op:'', cost:false, noai:false, nostudent:false, type:'', sort:'az'};
 var PAGE = 24, shown = PAGE;
 var TYPE_IDS = {};
 R.types.types.forEach(function(t){ if(t.ids && t.ids.length) TYPE_IDS[t.key] = {name:t.name, ids:t.ids}; });
@@ -48,8 +48,12 @@ function selectField(id, label, key, options){
   return '<div class="field"><label for="'+id+'">'+esc(label)+'</label><select class="select" id="'+id+'" data-f="'+key+'">'+
     opt('', 'Any', F[key]) + options.map(function(o){ return opt(o[0], o[1], F[key]); }).join('') + '</select></div>';
 }
+/* the licensed collection has no set; each of the two sets written for the collection is its own value */
+var LICENSED_SET = 'licensed';
+function setOf(a){ return a.tier || LICENSED_SET; }
+function setLabel(v){ return v===LICENSED_SET ? 'Adapted from published activities' : ((S_.TIER[v]||{}).label || v); }
 function counted(list, key){
-  var c = {}; A.forEach(function(a){ var v = a[key]; (Array.isArray(v)?v:[v]).forEach(function(x){ if(x) c[x]=(c[x]||0)+1; }); });
+  var c = {}; A.forEach(function(a){ var v = key==='set' ? setOf(a) : a[key]; (Array.isArray(v)?v:[v]).forEach(function(x){ if(x) c[x]=(c[x]||0)+1; }); });
   return list.filter(function(o){ return c[o[0]]; }).map(function(o){ return [o[0], o[1]+' ('+c[o[0]]+')']; });
 }
 function filtersHTML(){
@@ -59,7 +63,10 @@ function filtersHTML(){
   var pols = Object.keys(D.pol||{}).map(function(k){ return [k, D.pol[k].pill+' — '+D.pol[k].label]; });
   var roles = Object.keys(L.role).map(function(k){ return [k, L.role[k]]; });
   var moves = Object.keys(L.move).map(function(k){ return [k, L.move[k]]; });
+  var ops = (D.operators||[]).map(function(o){ return [o[0], o[1]]; });
+  var sets = [[LICENSED_SET, setLabel(LICENSED_SET)]].concat((D.tiers||[]).map(function(t){ return [t[0], t[1]+', not yet tried']; }));
   var h = '<h3 id="filtersTitle">Filter activities</h3>';
+  if(sets.length > 1) h += selectField('f-set','Where it comes from','set', counted(sets,'set'));
   h += selectField('f-focus','Area of work','focus', counted(focus,'focus'));
   h += selectField('f-task','Task','task', counted(IN.task,'task'));
   h += selectField('f-theme','Theme','theme', counted(themes,'f'));
@@ -68,15 +75,17 @@ function filtersHTML(){
   h += selectField('f-pol','Course AI policy it assumes','pol', counted(pols,'pol'));
   h += '<fieldset class="field field--bare"><legend class="label">Requirements</legend>'+
     '<label class="check"><input type="checkbox" data-fc="cost"'+(F.cost?' checked':'')+'> No cost to participants</label>'+
-    '<label class="check"><input type="checkbox" data-fc="noai"'+(F.noai?' checked':'')+'> Works without AI</label>'+
+    '<label class="check"><input type="checkbox" data-fc="noai"'+(F.noai?' checked':'')+'> Students use no AI tool</label>'+
     '<label class="check"><input type="checkbox" data-fc="nostudent"'+(F.nostudent?' checked':'')+'> Keeps student work out of AI tools</label></fieldset>';
-  h += '<details'+((F.role||F.move)?' open':'')+'><summary>How the AI and people divide the work</summary>'+
+  h += '<details'+((F.role||F.move||F.op)?' open':'')+'><summary>How the AI and people divide the work</summary>'+
+    selectField('f-op','Who uses an AI tool','op', counted(ops,'op'))+
     selectField('f-role','What the AI does','role', counted(roles,'ar'))+
     selectField('f-move','What people do','move', counted(moves,'hm'))+'</details>';
   h += '<button type="button" class="btn btn--sm" id="resetFilters">Clear all filters</button>';
   return h;
 }
 function matches(a){
+  if(F.set && setOf(a)!==F.set) return false;
   if(F.focus && a.focus!==F.focus) return false;
   if(F.task && a.task.indexOf(F.task)<0) return false;
   if(F.theme && a.f!==F.theme) return false;
@@ -86,7 +95,8 @@ function matches(a){
   if(F.role && a.ar!==F.role) return false;
   if(F.move && a.hm!==F.move) return false;
   if(F.cost && ['no_tool_needed','free_tier','institution_provided'].indexOf(a.eq)<0) return false;
-  if(F.noai && !(a.cap.indexOf('none_required')>=0 || a.na)) return false;
+  if(F.op && a.op!==F.op) return false;
+  if(F.noai && S_.noToolForStudents(a)!=='confirmed') return false;
   if(F.nostudent && ['none','student_derived_deidentified','research_participant_deidentified'].indexOf(a.sen)<0) return false;
   if(F.type && TYPE_IDS[F.type] && TYPE_IDS[F.type].ids.indexOf(a.id)<0) return false;
   if(F.q){
@@ -106,6 +116,7 @@ function chipLabel(k){
   var v = F[k];
   switch(k){
     case 'q': return 'Search: “'+v+'”';
+    case 'set': return setLabel(v);
     case 'focus': return L.focus[v];
     case 'task': return S_.taskLabel(v);
     case 'theme': return S_.familyLabel(v);
@@ -114,8 +125,9 @@ function chipLabel(k){
     case 'pol': return (D.pol[v]||{}).pill;
     case 'role': return L.role[v];
     case 'move': return L.move[v];
+    case 'op': return 'Who uses an AI tool: '+S_.operatorLabel(v);
     case 'cost': return 'No cost to participants';
-    case 'noai': return 'Works without AI';
+    case 'noai': return 'Students use no AI tool';
     case 'nostudent': return 'Keeps student work out of AI tools';
     case 'type': return (TYPE_IDS[v]||{}).name;
   }
@@ -131,7 +143,7 @@ function worksMatching(q){
 }
 function resultsHTML(){
   var list = filtered();
-  var keys = ['q','focus','task','theme','disc','cap','pol','role','move','cost','noai','nostudent','type'].filter(function(k){ return F[k]; });
+  var keys = ['q','set','focus','task','theme','disc','cap','pol','role','move','op','cost','noai','nostudent','type'].filter(function(k){ return F[k]; });
   var h = '';
   if(keys.length) h += '<ul class="activechips" aria-label="Active filters">'+keys.map(function(k){
     return '<li><button type="button" class="fchip" data-clear="'+k+'">'+esc(chipLabel(k))+' <span class="x" aria-hidden="true">✕</span><span class="sr-only"> — remove this filter</span></button></li>'; }).join('')+'</ul>';
@@ -188,7 +200,7 @@ function syncFilterControls(){
   [].forEach.call(document.querySelectorAll('#activities [data-fc]'), function(c){ c.checked = !!F[c.getAttribute('data-fc')]; });
   var gq = document.getElementById('gq'); if(gq && gq.value !== F.q) gq.value = F.q;
 }
-function resetF(){ var s = F.sort; F = {q:'', focus:'', task:'', theme:'', disc:'', cap:'', pol:'', role:'', move:'', cost:false, noai:false, nostudent:false, type:'', sort:s}; }
+function resetF(){ var s = F.sort; F = {q:'', set:'', focus:'', task:'', theme:'', disc:'', cap:'', pol:'', role:'', move:'', op:'', cost:false, noai:false, nostudent:false, type:'', sort:s}; }
 
 /* ═════════════ types of AI systems ═════════════ */
 /* Compact type cards share one modal; the page grid stays in place. */
@@ -204,7 +216,7 @@ var TYPE_PREVIEWS = {
   agentic:'Multi-step tasks that connect tools, files, and applications.',
   institutional:'AI accessed through an institution or hosted on controlled infrastructure.',
   discipline:'Specialized models for research, prediction, and domain-specific analysis.',
-  noai:'Activities for examining or discussing AI without using an AI tool.'
+  noai:'Activities in which students never operate an AI tool themselves.'
 };
 var typeDialog = document.getElementById('aiTypeDialog');
 var typeReturn = null;
@@ -227,7 +239,7 @@ typeDialog.addEventListener('close', function(){
 });
 
 function typeActivityLink(t){
-  if(t.key==='noai') return '<a class="btn btn--sm" data-type-activities href="#activities?noai=1">See activities that work without AI</a>';
+  if(t.key==='noai') return '<a class="btn btn--sm" data-type-activities href="#activities?noai=1">See '+R.types.no_ai.n+' activities where students use no AI tool</a>';
   if(t.ids && t.ids.length) return '<a class="btn btn--sm" data-type-activities href="#activities?type='+t.key+'">See '+t.n+' related activit'+(t.n===1?'y':'ies')+'</a>';
   if(t.caps && t.caps.length && t.n) return '<a class="btn btn--sm" data-type-activities href="#activities?cap='+t.caps[0]+'">See '+t.n+' related activit'+(t.n===1?'y':'ies')+'</a>';
   return '';
@@ -348,6 +360,9 @@ function drawSources(){
     '<dl class="legend">'+R.origin.filter(function(o){ return o[3]; }).map(function(o){
       var O = S_.ORIGIN[o[0]]||{label:o[1],text:o[2]};
       return '<div><dt>'+esc(O.label)+' <span class="tag">'+o[3]+'</span></dt><dd>'+esc(O.text)+'</dd></div>'; }).join('')+'</dl>'+
+    ((R.tiers||[]).length ? '<p class="muted">Two smaller sets were written for the collection from such sources and are labeled on every activity they hold:</p>'+
+      '<dl class="legend">'+R.tiers.filter(function(t){ return t[3]; }).map(function(t){
+        return '<div><dt>'+esc(t[1])+' <span class="tag">'+t[3]+'</span></dt><dd>'+esc(t[2])+'</dd></div>'; }).join('')+'</dl>' : '')+
     '<p class="muted">The collection includes only activities whose sources are published under a Creative Commons license or another open license. '+
     'Activities adapted from those sources keep the original license, and any ShareAlike or NonCommercial terms, when they are reused.</p></details>';
   h += '<p class="countline">'+(q ? '<strong>'+list.length+'</strong> of '+R.works.length+' sources match “'+esc(q)+'”. <button type="button" class="btn btn--sm btn--quiet" id="clearSrcSearch">Show all sources</button>'

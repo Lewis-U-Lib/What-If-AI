@@ -118,7 +118,7 @@ function drawWizard(focusTitle){
     h += '<fieldset class="opts"><legend class="sr-only">'+esc(st.q)+'</legend><div class="optgrid">';
     h += LIM.map(function(l){ return optionHTML('q-limits', l[0], l[1]+(l[2]?' — '+l[2]:''), !!S.limits[l[0]], 'checkbox'); }).join('');
     h += '</div></fieldset><p class="qnote">When a requirement is not established, the activity appears separately under “Check requirements before considering,” with what you need to confirm.</p>';
-    h += '<p class="note noai"><strong>On the first option.</strong> Some activities are built so that no AI tool is used, and others describe a route that works without one. You can build a list entirely from those.</p>';
+    h += '<p class="note noai"><strong>On the first option.</strong> It keeps activities in which students never operate an AI tool: the instructor uses one beforehand and students work with what it produced, the activity examines AI without any tool, or the record describes a route with no AI. You can build a list entirely from those.</p>';
   } else {
     h += group(st.key, st.q, opts(st.key), st.two, true);
     if(st.key==='disc'){
@@ -151,7 +151,7 @@ function answersHTML(){
   });
   return any ? h+'</ul>' : '<p class="qnote">No preferences selected. Explore the collection below.</p>';
 }
-var REQUIREMENT_LABELS={noai:'a usable route without AI',nostudent:'whether student-authored work goes into a tool',nopaid:'whether the activity can be completed without payment',noaccount:'whether personal account or phone verification is needed',nokit:'whether equipment, travel, or purchases are needed',nodisclose:'whether a formal disclosure statement is needed',noapproval:'whether ethics or institutional approval is needed'};
+var REQUIREMENT_LABELS={noai:'whether students operate an AI tool themselves',nostudent:'whether student-authored work goes into a tool',nopaid:'whether the activity can be completed without payment',noaccount:'whether personal account or phone verification is needed',nokit:'whether equipment, travel, or purchases are needed',nodisclose:'whether a formal disclosure statement is needed',noapproval:'whether ethics or institutional approval is needed'};
 var PREFERENCE_LABELS={task:'task',disc:'field',depth:'scale',lvl:'level',mod:'setting'};
 function preferenceLabel(k){ var v=S[k], list=opts(k); for(var i=0;i<list.length;i++) if(list[i][0]===v) return split(list[i][1])[0]; return v; }
 function matchCard(row){

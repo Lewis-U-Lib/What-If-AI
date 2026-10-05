@@ -39,9 +39,9 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   const ACTS = JSON.parse(a1);
   const REGD = JSON.parse(siteFile(m2.data.register));
   const RELEASE = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'release.json'), 'utf8'));
-  const ids = new Set(ACTS.acts.map(a => a.id));
-  check('the page store holds exactly the approved public activities', ids.size === require('../content/curation.json').expected_counts.activities && ACTS.acts.length === ids.size, ids.size + ' activities');
-  check('the served data matches the reviewed, punctuated, curated publication, byte for byte', require('crypto').createHash('sha256').update(fs.readFileSync(path.join(SITE, m1.data.acts))).digest('hex') === require('../content/curation.json').output_sha256['acts.json'], RELEASE.release);
+  const ids = new Set(ACTS.acts.map(a => a.id)), liveIdsAll = ids;
+  check('the page store holds exactly the approved public activities', ids.size === require('../content/ai-use.json').expected_counts.activities && ACTS.acts.length === ids.size, ids.size + ' activities');
+  check('the served data matches the reviewed, punctuated, curated publication with its two labeled sets and AI-use review, byte for byte', require('crypto').createHash('sha256').update(fs.readFileSync(path.join(SITE, m1.data.acts))).digest('hex') === require('../content/ai-use.json').output_sha256['acts.json'], RELEASE.release);
   const internalKeys = ['rq', 'vs', 'nf', 'ibasis', 'org', 'capb', 'fl', 'rs', 'cell', 'adm', 'gateb'];
   check('activity records carry no review or build fields', ACTS.acts.every(a => internalKeys.every(k => !(k in a))), internalKeys.join(', '));
   const regInternal = ['held', 'retired', 'xw', 'queues', 'audit', 'decisions', 'schema_map', 'schema_gaps', 'recon', 'rules', 'platforms'];
@@ -98,8 +98,11 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   // limits: every activity shown satisfies the rule-out
   await go(page, 'what-if-ai.html#a=focus:teaching;task:design;lim:noai');
   const shownIds = await page.$$eval('#plan [data-card]', cs => cs.map(c => c.getAttribute('data-card')));
+  const unknownIds = await page.$$eval('#plan [data-match-group="unknown"] [data-card]', cs => cs.map(c => c.getAttribute('data-card')));
   const BY = {}; ACTS.acts.forEach(a => BY[a.id] = a);
-  check('What If AI: a rule-out removes every activity it names', shownIds.length > 0 && shownIds.every(i => BY[i].cap.includes('none_required') || !!BY[i].na), shownIds.length + ' checked');
+  check('What If AI: a rule-out removes every activity it names', shownIds.length > 0 && shownIds.every(i => !!BY[i].na || ['faculty_or_staff', 'optional', 'none'].includes(BY[i].op) ||
+    (unknownIds.includes(i) && BY[i].op === 'not_specified')) && !shownIds.some(i => BY[i].op === 'students' && !BY[i].na), shownIds.length + ' checked, ' + unknownIds.length + ' to verify');
+  check('What If AI: with students using no AI tool, activities where only the instructor uses one are offered', shownIds.some(i => BY[i].op === 'faculty_or_staff' && BY[i].ac === 'student'), shownIds.length + ' checked');
   // gate: nothing that fails the admission test is recommended
   await go(page, 'what-if-ai.html#a=focus:teaching');
   const allShown = await page.$$eval('#plan [data-card]', cs => cs.map(c => c.getAttribute('data-card')));
@@ -321,11 +324,54 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   const finderTotal = +((await page.textContent('#plan .browse')).match(/Browse all (\d+)/) || [])[1];
   check('Both pages report the same activity total, derived from the published store', regTotal === ACTS.acts.length && finderTotal === ACTS.acts.length && ACTS.n === ACTS.acts.length && REGD.counts.activities === ACTS.acts.length,
     [regTotal, finderTotal, ACTS.n, REGD.counts.activities].join(' / '));
-  const removedCls = ['original_synthesis', 'hybrid_synthesis', 'source_uncertain'];
-  check('No published activity belongs to a removed provenance class', ACTS.acts.every(a => !removedCls.includes(a.cls)) && ACTS.origin.every(o => !removedCls.includes(o[0])) && REGD.origin.every(o => !removedCls.includes(o[0])));
+  const synthCls = ['original_synthesis', 'hybrid_synthesis'], tierKeys = (ACTS.tiers || []).map(t => t[0]);
+  check('No published activity belongs to a removed provenance class', ACTS.acts.every(a => a.cls !== 'source_uncertain') && ACTS.origin.every(o => o[0] !== 'source_uncertain') && REGD.origin.every(o => o[0] !== 'source_uncertain'));
+  check('Synthesis classes appear only in the two labeled sets, and every set record is labeled', ACTS.acts.every(a => !synthCls.includes(a.cls) || tierKeys.includes(a.tier)) &&
+    ACTS.acts.filter(a => a.tier).every(a => tierKeys.includes(a.tier)) && JSON.stringify(tierKeys) === JSON.stringify(['synthesis', 'remix']));
   await go(page, 'register.html#sources'); await page.click('#sources details.card summary');
   const legendText = await page.textContent('#sources');
-  check('The Register: the provenance legend no longer describes the removed classes', !/Original Synthesis|Hybrid Synthesis|Source Under Review|not fully traced/i.test(legendText));
+  check('The Register: the provenance legend describes each class and both sets, and never the retired class', /Licensed Adaptation/.test(legendText) && /Hybrid Synthesis/.test(legendText) && /Original Synthesis/.test(legendText) &&
+    /Synthesis set/.test(legendText) && /Remix set/.test(legendText) && !/Source Under Review|not fully traced/i.test(legendText));
+  for (const t of ACTS.tiers) {
+    const sample = ACTS.acts.find(a => a.tier === t[0]);
+    await go(page, 'register.html#act=' + sample.id); await page.waitForSelector('#actDialog[open]');
+    const body = await page.textContent('#actDialog .dlg__body');
+    check('The Register: a ' + t[1].toLowerCase() + ' activity says which set it belongs to, that it is not yet tried, and what it draws on',
+      body.includes(t[1] + '.') && body.includes('not yet tried') && body.includes('Works it draws on') && body.includes('What the output is checked against'), sample.id);
+    if (sample.par) check('The Register: a remix names the published activity it builds on', body.includes('Builds on') && body.includes(ACTS.acts.find(a => a.id === sample.par).t), sample.par);
+    await page.keyboard.press('Escape');
+  }
+  await go(page, 'register.html#activities?set=remix');
+  const remixCount = ACTS.acts.filter(a => a.tier === 'remix').length;
+  check('The Register: filtering by where an activity comes from returns the set', (await page.textContent('#actCount')).includes('of ' + remixCount) &&
+    (await page.$$eval('#actResults [data-card] .acard__facts', d => d.every(x => x.textContent.includes('Remix set')))), remixCount + ' expected');
+  await go(page, 'register.html#activities?set=licensed');
+  check('The Register: the licensed collection carries no set label', (await page.textContent('#actCount')).includes('of ' + ACTS.acts.filter(a => !a.tier).length) &&
+    (await page.$$eval('#actResults [data-card] .acard__facts', d => d.every(x => !/ set · not yet tried/.test(x.textContent)))));
+  // Who uses the AI tool, and the renamed No-AI option
+  const aiUse = require('../content/ai-use.json'), OPS = Object.fromEntries(ACTS.operators.map(o => [o[0], o]));
+  const noaiLimit = ACTS.limits.find(l => l[0] === 'noai');
+  check('The No-AI limit says students will not use an AI tool themselves', noaiLimit[1] === 'My students won’t use an AI tool themselves' && JSON.stringify(noaiLimit.slice(1)) === JSON.stringify(aiUse.limit.after));
+  await go(page, 'what-if-ai.html#q=limits&a=focus:teaching;task:design');
+  const limitsText = await page.textContent('#wizard');
+  check('What If AI: the limit question offers the renamed option and explains it', limitsText.includes('My students won’t use an AI tool themselves') && limitsText.includes('students never operate an AI tool') && !/rather my students not use AI at all/.test(limitsText));
+  for (const op of ['faculty_or_staff', 'optional', 'none', 'not_specified']) {
+    const sample = ACTS.acts.find(a => a.op === op);
+    await go(page, 'register.html#act=' + sample.id); await page.waitForSelector('#actDialog[open]');
+    const body = await page.textContent('#actDialog .dlg__body');
+    check('The Register: an activity says who uses the AI tool (' + op + ')', body.includes('Who uses an AI tool') && body.includes(OPS[op][2]), sample.id);
+    await page.keyboard.press('Escape');
+  }
+  await go(page, 'register.html#activities?noai=1');
+  check('The Register: “Students use no AI tool” returns what the limit admits', (await page.textContent('#actCount')).includes('of ' + REGD.types.no_ai.n) &&
+    REGD.types.no_ai.n === aiUse.expected_counts.students_use_no_tool && !!(await page.$('.fchip[data-clear="noai"]')) && (await page.textContent('.fchip[data-clear="noai"]')).includes('Students use no AI tool'), REGD.types.no_ai.n + ' expected');
+  await go(page, 'what-if-ai.html');
+  await go(page, 'register.html#activities?op=none');
+  const noneCount = ACTS.acts.filter(a => a.op === 'none').length;
+  check('The Register: filtering by who uses an AI tool returns the activities with that value', (await page.textContent('#actCount')).includes('of ' + noneCount) &&
+    (await page.$eval('#f-op', s => s.value)) === 'none' && (await page.textContent('.fchip[data-clear="op"]')).includes('No one'), noneCount + ' expected');
+  check('Withdrawn activities (AI neither used nor discussed) are absent from both tools', aiUse.withdrawals.records.every(r => !liveIdsAll.has(r.id)));
+  await go(page, 'what-if-ai.html');   // a fresh load, so the checks below start with no filters
   const removedId = 'CAN-A2-A-999-NOT-RELEASED';
   const liveIds = new Set(ACTS.acts.map(a => a.id)), workIds = new Set(REGD.works.map(w => w.id));
   check('Every source lists only published activities, and every activity\'s sources are listed', REGD.works.every(w => w.acts.length && w.acts.every(i => liveIds.has(i))) && ACTS.acts.every(a => (a.rel || []).every(r => workIds.has(r[0]))));

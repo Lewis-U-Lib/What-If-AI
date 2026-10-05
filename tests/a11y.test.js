@@ -37,6 +37,11 @@ const STATES = [
   ['The Register · floating navigation open', 'register.html#activities', async p => { await p.click('#fabToggle'); }],
   ['The Register · activities filtered', 'register.html#activities?cap=text_chat&pol=open', async p => {}],
   ['The Register · activity details open', 'register.html#activities', async p => { await p.click('#activities [data-open]'); }],
+  ['The Register · remix set, filtered', 'register.html#activities?set=remix', async p => {}],
+  ['The Register · remix activity details open', 'register.html#activities?set=remix', async p => { await p.click('#activities [data-open]'); }],
+  ['The Register · who uses an AI tool, filtered', 'register.html#activities?op=faculty_or_staff&noai=1', async p => {}],
+  ['What If AI · the renamed No-AI limit', 'what-if-ai.html#q=limits&a=focus:teaching;task:design', async p => {}],
+  ['The Register · synthesis activity details open', 'register.html#activities?set=synthesis', async p => { await p.click('#activities [data-open]'); }],
   ['The Register · types of AI systems', 'register.html#ai-types', async p => {}],
   ['The Register · AI-system details dialog', 'register.html#ai-types', async p => {
     await p.click('[data-open-type="conversational"]'); }],
