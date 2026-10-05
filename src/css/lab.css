@@ -181,7 +181,9 @@ button.hdr-cta{font:inherit;font-family:var(--font-h);font-weight:700;letter-spa
 
 /* the floating help button sits under any open dialog anyway (dialogs are modal); hide it so it never
    appears to cover a dialog's own controls */
-body:has(dialog[open]) .fab-wrap{visibility:hidden;}
+/* Native modal inertness blocks interaction. Opacity also lets the browser restore
+   focus to the toggle as soon as the dialog closes, before the next paint. */
+body:has(dialog[open]) .fab-wrap{opacity:0;}
 
 /* ═══ motion, contrast, forced colors, print ═══ */
 @media(prefers-reduced-motion:reduce){

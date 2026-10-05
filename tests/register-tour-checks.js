@@ -38,6 +38,17 @@ module.exports=async function checkRegisterTour(page,check){
   await page.goBack();await page.waitForFunction(()=>!document.querySelector('#rtour').open);
   check('The Register: browser Back closes the header walkthrough',await page.locator('#rtour[open]').count()===0);
   await page.goForward();await page.waitForSelector('#rtour[open]');
+  await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('#rtour').open);
+  await page.goto(page.url().split('#')[0]+'#activities?set=remix');
+  await page.waitForSelector('html[data-ready]',{state:'attached'});
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.locator('#fabToggle').click();await page.locator('#fabMenu [data-open-register-tour]').click();
+  await page.screenshot();
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(()=>document.activeElement.id==='fabToggle'&&location.hash==='#activities?set=remix');
+  check('The Register: reduced-motion walkthrough closing restores floating-menu focus and the filtered list',await page.locator('#f-set').inputValue()==='remix');
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.locator('.hdr [data-open-register-tour]').click();
   let geometryChecks=0;
   for(const width of [320,390,760,761,1024,1440]){
     await page.setViewportSize({width,height:900});await page.evaluate(()=>document.fonts.ready);await step(1);
