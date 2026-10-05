@@ -22,6 +22,13 @@ for(const [k,field,blocked] of [['noaccount','pc','account_verification'],['noki
   assert.equal(M.assess({...fixture,[field]:blocked},{limits:{[k]:true}}).status,'excluded');
 }
 assert.equal(M.requirement({...fixture,pc:'equipment_required'},'noaccount'),'unknown');
+// noai: "My students won't use an AI tool themselves". Instructor-only use counts; students operating a tool does not;
+// a record that does not say who operates the tool is never a confirmed fit; a stated route without AI always qualifies.
+for(const op of ['faculty_or_staff','optional','none'])assert.equal(M.requirement({...fixture,op},'noai'),'confirmed');
+assert.equal(M.requirement({...fixture,op:'students'},'noai'),'excluded');
+for(const op of ['not_specified',undefined])assert.equal(M.requirement({...fixture,op},'noai'),'unknown');
+for(const op of ['students','not_specified',undefined])assert.equal(M.requirement({...fixture,op,na:'Run the comparison by hand.'},'noai'),'confirmed');
+assert.equal(M.requirement({...fixture,op:'students',cap:['none_required']},'noai'),'excluded');
 for(const [k,field] of [['nopaid','eq'],['nostudent','sen'],['nodisclose','dis']]){
   for(const v of [undefined,'not_specified'])assert.equal(M.requirement({...fixture,[field]:v},k),'unknown');
 }
@@ -64,9 +71,10 @@ for(let mask=0;mask<128;mask++){
     if(limits.nodisclose)assert.ok(['none_required','informal_acknowledgement','documented_log','anonymity_by_design'].includes(a.dis));
     if(limits.nopaid)assert.ok(['no_tool_needed','free_tier','institution_provided'].includes(a.eq));
     if(limits.nostudent)assert.ok(['none','student_derived_deidentified','research_participant_deidentified'].includes(a.sen));
-    if(limits.noai)assert.ok(a.cap.includes('none_required')||a.na);
+    if(limits.noai)assert.ok(a.na||['faculty_or_staff','optional','none'].includes(a.op),a.id);
   }
   for(const r of p.unknown){assert.ok(r.unknown.length);assert.equal(r.excluded.length,0);}
+  if(limits.noai)for(const r of p.unknown)assert.ok(r.unknown.includes('noai')===(r.activity.op==='not_specified'&&!r.activity.na));
   confirmedSets[mask]=new Set(confirmed.map(r=>r.activity.id));candidateSets[mask]=new Set(ids);
 }
 let comparisons=0;
@@ -124,6 +132,7 @@ console.log('PASS: original '+originalStates+' states retained; '+states+' expan
   // better recorded match first, then the quality tier, then reported use
   assert.deepEqual(order([mk('a',{gr:0}),mk('b',{gr:3})]),['b','a']);
   assert.deepEqual(order([mk('u',{use:'unreported'}),mk('r',{})]),['r','u']);
+  assert.deepEqual(order([mk('s',{tier:'remix'}),mk('r',{})]),['r','s'],'a set record written for the collection has no reported use');
   assert.deepEqual(order([mk('u',{use:'unreported',gr:3}),mk('r',{gr:1})]),['u','r'],'quality tier outranks evidence of use');
   const plan=M.search([mk('x',{task:['design','feedback']}),mk('y',{gr:3,task:['feedback']})],{focus:'teaching',task:'design',limits:{}});
   assert.deepEqual(plan.exact.map(r=>r.activity.id),['x'],'a better match is never displaced by a higher tier');

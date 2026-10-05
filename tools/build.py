@@ -7,7 +7,8 @@
   * Fonts and images are fingerprinted the same way; url(...) references inside the CSS
     are rewritten to the fingerprinted names.
   * The imported data release (data/*.json) is verified unchanged. Reviewed editorial
-    corrections, publication decisions, punctuation, and curation are applied, in that
+    corrections, publication decisions, punctuation, curation, the two labeled sets
+    (synthesis and remix), and the AI-use review (who uses the AI tool) are applied, in that
     order, before fingerprinting. Each page receives
     a small JSON manifest naming its data files and scripts; src/js/boot.js fetches the
     data and then runs the scripts in order.
@@ -31,6 +32,8 @@ from editorial_corrections import corrected_files  # noqa: E402
 from publication_review import reviewed_files  # noqa: E402
 from serial_commas import punctuated_files  # noqa: E402
 from curation import curated_files  # noqa: E402
+from tiers import tiered_files  # noqa: E402
+from ai_use import ai_use_files  # noqa: E402
 
 CFG = json.loads((ROOT / "site.json").read_text(encoding="utf-8"))
 PH = re.compile(r"\{\{(\w+)(?::([\w./-]+))?\}\}")
@@ -77,6 +80,10 @@ def build(out):
             public_data, ROOT / "content" / "serial-comma-corrections.json")
         public_data, _, curation = curated_files(
             public_data, ROOT / "content" / "curation.json")
+        public_data, _, tiers = tiered_files(
+            public_data, ROOT / "content" / "tiers.json")
+        public_data, _, ai_use = ai_use_files(
+            public_data, ROOT / "content" / "ai-use.json")
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
     if out.exists():
@@ -201,6 +208,8 @@ def build(out):
                                                   "publication": publication,
                                                   "punctuation": punctuation,
                                                   "curation": curation,
+                                                  "tiers": tiers,
+                                                  "ai_use": ai_use,
                                                   "assets": dict(sorted(site.map.items()))}, indent=1) + "\n", encoding="utf-8")
     return site, rel
 

@@ -45,10 +45,16 @@ const ANALYTICS = CFG.analytics;
   const publication = require('../content/publication-review.json');
   const punctuation = require('../content/serial-comma-corrections.json');
   const curation = require('../content/curation.json');
+  const tiers = require('../content/tiers.json');
+  const aiUse = require('../content/ai-use.json');
   check('the imported data release remains unchanged', Object.entries(release.files).every(([name, meta]) =>
     sha(fs.readFileSync(path.join(ROOT, 'data', name))) === meta.sha256));
-  check('public data matches the reviewed curation output hashes', ['acts', 'register', 'guide'].every(n => {
-    const f = files.find(x => x.startsWith('data/' + n + '.')); return f && sha(fs.readFileSync(path.join(SITE, f))) === curation.output_sha256[n + '.json']; }));
+  check('public data matches the reviewed output hashes of the last stage (the AI-use review)', ['acts', 'register', 'guide'].every(n => {
+    const f = files.find(x => x.startsWith('data/' + n + '.')); return f && sha(fs.readFileSync(path.join(SITE, f))) === aiUse.output_sha256[n + '.json']; }));
+  check('the AI-use review starts from the data with its two labeled sets', JSON.stringify(aiUse.input_sha256) === JSON.stringify(tiers.output_sha256));
+  check('the AI-use manifest (assignments, evidence, withdrawals) is not published', !files.some(f => /ai-use/.test(f)), files.filter(f => f.startsWith('data/')).join(' '));
+  check('the sets stage starts from the curated publication', JSON.stringify(tiers.input_sha256) === JSON.stringify(curation.output_sha256));
+  check('the sets manifest (held records and their reasons) is not published', !files.some(f => /tiers/.test(f)), files.filter(f => f.startsWith('data/')).join(' '));
   check('the publication review (held additions and review notes) is not published', !files.some(f => /publication-review/.test(f)), files.filter(f => f.startsWith('data/')).join(' '));
   check('.nojekyll, robots.txt, sitemap.xml and version.json are present', ['.nojekyll', 'robots.txt', 'sitemap.xml', 'version.json'].every(f => files.includes(f)));
   const v = JSON.parse(fs.readFileSync(path.join(SITE, 'version.json'), 'utf8'));
@@ -67,6 +73,11 @@ const ANALYTICS = CFG.analytics;
   check('version.json identifies the curation and the public counts', v.curation.activities === 779 && v.curation.works === 309 &&
     v.curation.withdrawn === 36 && v.curation.reclassified === 115 &&
     v.curation.revision === sha(fs.readFileSync(path.join(ROOT, 'content/curation.json'))).slice(0, 12) && !('manifest' in v.curation));
+  check('version.json identifies the two labeled sets and the public counts', v.tiers.activities === tiers.expected_counts.activities && v.tiers.works === tiers.expected_counts.works &&
+    v.tiers.synthesis === tiers.expected_counts.synthesis && v.tiers.remix === tiers.expected_counts.remix && v.tiers.held === tiers.expected_counts.held &&
+    v.tiers.revision === sha(fs.readFileSync(path.join(ROOT, 'content/tiers.json'))).slice(0, 12) && !('manifest' in v.tiers));
+  check('version.json identifies the AI-use review and its counts', JSON.stringify(Object.fromEntries(Object.entries(v.ai_use).filter(([k]) => !['revision', 'reviewed'].includes(k)))) === JSON.stringify(aiUse.expected_counts) &&
+    v.ai_use.revision === sha(fs.readFileSync(path.join(ROOT, 'content/ai-use.json'))).slice(0, 12) && v.ai_use.reviewed === aiUse.reviewed && !('manifest' in v.ai_use));
 
   // determinism: two builds of the same inputs are byte-identical
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'wia-')), t1 = path.join(tmp, 'a'), t2 = path.join(tmp, 'b');

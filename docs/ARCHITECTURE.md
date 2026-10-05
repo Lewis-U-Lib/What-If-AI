@@ -21,6 +21,23 @@ cannot admit, corrects licenses and source records, retires `prompt_specificatio
 applies American spelling. Both tools serve 779 activities / 309 sources. The publication
 review is no longer published on the site. See [the curation record](CURATION-2026-09-29.md).
 
+**Synthesis and remix sets, 2026-10-05:** `tools/tiers.py` runs after curation. It adds 303
+records in two labeled sets written for the collection (211 synthesis, 92 remix), 331 new
+sources, and the Hybrid and Original Synthesis classes, without changing the licensed
+collection. Set records carry site-side fields `tier`, `par`, `dep`, and `chk`. That stage
+leaves 1,082 activities / 640 sources. See [the sets record](TIERS-2026-10-05.md).
+
+**Who uses the AI tool, 2026-10-05:** `tools/ai_use.py` runs last.
+
+- It adds a reviewed, site-side `op` to every activity, with its labeled vocabulary as
+  `operators`.
+- It renames the No-AI limit and its Register type card to say that students will not use
+  an AI tool themselves.
+- It withdraws four activities in which AI is neither used nor discussed. It refuses to
+  withdraw an activity that a remix builds on.
+
+Both tools serve 1,078 activities / 637 sources. See [the AI-use record](AI-USE-2026-10-05.md).
+
 **Repository:** `Lewis-U-Lib/What-If-AI`. It publishes to GitHub Pages at
 `https://lewis-u-lib.github.io/What-If-AI/`.
 

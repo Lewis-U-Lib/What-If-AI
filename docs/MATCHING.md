@@ -29,7 +29,8 @@ Within a group, results are ordered by quality, never by where a record sits in 
 1. the match score above;
 2. the corpus quality tier (`gr`, ranking-only and not shown to readers);
 3. evidence of use: a record whose source reports running it comes before one marked
-   `use: "unreported"` (a published prompt or workflow nobody has reported using);
+   `use: "unreported"` (a published prompt or workflow nobody has reported using) and before
+   a record from the synthesis or remix set (`tier`), written for the collection and not yet tried;
 4. a fixed FNV-1a hash of the identifier, a neutral last resort that favors no import batch,
    source, or letter.
 
@@ -51,13 +52,21 @@ requirements before considering” group. Its card names each requirement to che
 
 | Limit | Confirmed under the current release | Excluded | Unknown |
 |---|---|---|---|
-| No AI | `none_required` capability or existing nonempty `na` route | Neither is recorded | — |
+| My students won’t use an AI tool themselves (`noai`) | A nonempty `na` route, or `op` of `faculty_or_staff`, `optional`, or `none` | `op: students` with no `na` route | `op: not_specified` or missing, with no `na` route |
 | No student-authored input | `none`, `student_derived_deidentified`, `research_participant_deidentified` sensitivity | Other recorded sensitivity categories | Missing or `not_specified` sensitivity |
 | No payment | `no_tool_needed`, `free_tier`, `institution_provided` | `paid_required`; `paid_with_stated_alternative` under the existing route contract | Missing, unspecified, or unrecognized cost |
 | No account | `pc: none` | `account_verification` | Every other prerequisite category |
 | No equipment/travel/purchases | `pc: none` | `equipment_required`, `travel_or_attendance`, `purchased_material` | Every other prerequisite category |
 | No formal disclosure | `none_required`, `informal_acknowledgement`, `documented_log`, `anonymity_by_design` | `formal_statement` | Missing, unspecified, or unrecognized disclosure |
 | No approval | `pc: none` | `institutional_approval_required` | Every other prerequisite category |
+
+`op` (who operates an AI tool) is a reviewed, site-side field set by the AI-use stage. See
+[the AI-use record](AI-USE-2026-10-05.md). The `noai` limit reads “My students won’t use an
+AI tool themselves”, so an activity in which only the instructor prepares AI output is a
+confirmed fit. A record that does not say whether students operate the tool is never one.
+The Register's **Students use no AI tool** requirement applies the same rule
+(`noToolForStudents` in `shared.js`). `tests/data-integration.test.js` checks the rule's
+result for every published activity against the reviewed values.
 
 `pc` is a single legacy prerequisite category. For example, `human_checking_required`
 does not establish whether an account, equipment, or approval is also necessary. Treat
