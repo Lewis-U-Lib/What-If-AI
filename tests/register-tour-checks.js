@@ -7,7 +7,7 @@ module.exports=async function checkRegisterTour(page,check){
   const state=()=>page.locator('#rtour [data-slide]').evaluateAll(slides=>slides.map(s=>!s.inert&&s.getAttribute('aria-hidden')!=='true'&&getComputedStyle(s).visibility==='visible'));
   const step=async n=>{await page.focus('#rtourNext');await page.keyboard.press('Home');for(let i=1;i<n;i++)await page.keyboard.press('ArrowRight');};
   assert.deepEqual(await page.locator('#rtour h3').allTextContents(),titles);
-  check('The Register: the old help grid is replaced by one walkthrough',await page.locator('#about .about').count()===0&&await page.locator('#rtour').count()===1);
+  check('The Register: How to use is one open modal walkthrough',await page.locator('dialog#rtour[open]').count()===1&&await page.locator('#secnav [data-sec="about"]').count()===0);
   check('The Register: step changes have one polite, atomic status announcement',await page.locator('#rtourPos').getAttribute('role')==='status'&&await page.locator('#rtourPos').getAttribute('aria-live')==='polite'&&await page.locator('#rtourPos').getAttribute('aria-atomic')==='true');
   await step(1);await page.locator('#rtour [data-slide]').first().locator('a').first().focus();await page.keyboard.press('ArrowRight');
   check('The Register: arrow navigation from a link moves focus to the new visible heading',await page.evaluate(()=>document.activeElement===document.querySelectorAll('#rtour h3')[1]&&!document.activeElement.closest('[inert]')));
@@ -16,15 +16,28 @@ module.exports=async function checkRegisterTour(page,check){
   await page.keyboard.press('Home');await page.keyboard.press('Tab');
   check('The Register: Tab reaches only the current slide’s links',await page.evaluate(()=>document.activeElement===document.querySelector('#rtour [data-slide] a')));
   await page.focus('#rtourNext');await page.keyboard.press('Tab');
-  check('The Register: Tab can leave the walkthrough',await page.evaluate(()=>!document.activeElement.closest('#rtour')));
-  await page.focus('#h-about');await page.keyboard.press('End');
-  check('The Register: keys outside the walkthrough do not change steps',(await page.textContent('#rtourPos'))==='1 of 9');
+  // Native dialogs may visit browser chrome between their last and first controls.
+  if(await page.evaluate(()=>document.activeElement===document.body))await page.keyboard.press('Tab');
+  check('The Register: Tab cycling cannot reach background page controls',await page.evaluate(()=>!!document.activeElement.closest('#rtour')));
   // Internal links retain the existing routes, section heading focus, and Back behavior.
   await step(2);await page.locator('#rtour a[href="#ai-types"]').first().click();
   await page.waitForFunction(()=>document.activeElement.id==='h-ai-types');
   assert.ok(page.url().endsWith('#ai-types'));
-  await page.goBack();await page.waitForSelector('#about.is-on');
-  check('The Register: a walkthrough section link and Back preserve the current step',(await page.textContent('#rtourPos'))==='2 of 9');
+  await page.goBack();await page.waitForSelector('#rtour[open]');
+  check('The Register: a walkthrough section link closes the dialog and Back opens it at the beginning',(await page.textContent('#rtourPos'))==='1 of 9');
+  await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('#rtour').open);
+  await page.locator('.hdr [data-open-register-tour]').click();
+  check('The Register: the header opens the same walkthrough with title focus',await page.evaluate(()=>document.querySelector('#rtour').open&&document.activeElement.id==='h-about'));
+  await page.keyboard.press('Escape');await page.waitForFunction(()=>location.hash!=='#about');
+  check('The Register: closing returns focus to the header button',await page.locator('.hdr [data-open-register-tour]').evaluate(e=>e===document.activeElement));
+  await page.locator('#fabToggle').click();await page.locator('#fabMenu [data-open-register-tour]').click();
+  check('The Register: the floating menu opens the same walkthrough and closes its menu',await page.evaluate(()=>document.querySelector('#rtour').open&&document.querySelector('#fabToggle').getAttribute('aria-expanded')==='false'));
+  await page.keyboard.press('Escape');await page.waitForFunction(()=>location.hash!=='#about');
+  check('The Register: closing a walkthrough opened from the floating menu focuses its toggle',await page.locator('#fabToggle').evaluate(e=>e===document.activeElement));
+  await page.locator('.hdr [data-open-register-tour]').click();
+  await page.goBack();await page.waitForFunction(()=>!document.querySelector('#rtour').open);
+  check('The Register: browser Back closes the header walkthrough',await page.locator('#rtour[open]').count()===0);
+  await page.goForward();await page.waitForSelector('#rtour[open]');
   let geometryChecks=0;
   for(const width of [320,390,760,761,1024,1440]){
     await page.setViewportSize({width,height:900});await page.evaluate(()=>document.fonts.ready);await step(1);
@@ -49,7 +62,7 @@ module.exports=async function checkRegisterTour(page,check){
   check('The Register: printed help uses dark text on paper',printed.every(s=>s.text.every(c=>c==='rgb(17, 17, 17)')));
   check('The Register: printed help retains the link to What If AI’s walkthrough',await page.locator('#rtour a[href="what-if-ai.html#tour"]').isVisible());
   check('The Register: printed help omits carousel controls',await page.locator('.rtour__foot').evaluate(e=>getComputedStyle(e).display==='none'));
-  if(out)await page.locator('#about').screenshot({path:path.join(out,'print-layout.png')});
+  if(out)await page.locator('#rtour').screenshot({path:path.join(out,'print-layout.png')});
   const pdf=await page.pdf({format:'Letter',printBackground:false,...(out?{path:path.join(out,'register-walkthrough-print.pdf')}:{})});
   assert.ok(pdf.length>1024);
   await page.emulateMedia({media:'screen'});

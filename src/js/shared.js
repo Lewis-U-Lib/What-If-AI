@@ -325,11 +325,19 @@ function detailHTML(a, opts){
 /* each dialog remembers the control that opened it, so two open at once (an activity opened from
    the saved drawer) each hand focus back to the right place; a dialog re-filled while open keeps
    its original opener */
+function resetDialogScroll(dlg){
+  dlg.scrollTo({top:0,left:0,behavior:'instant'});
+  [].forEach.call(dlg.querySelectorAll('.dlg__body'), function(body){
+    body.scrollTo({top:0,left:0,behavior:'instant'});
+  });
+}
 function openDialog(dlg, opener){
   if(!dlg.open) dlg._opener = opener || document.activeElement;
   if(typeof dlg.showModal === 'function'){ if(!dlg.open) dlg.showModal(); }
   else { dlg.setAttribute('open',''); }
-  var t = dlg.querySelector('[data-dlg-title]'); if(t){ t.setAttribute('tabindex','-1'); t.focus(); }
+  var t = dlg.querySelector('[data-dlg-title]'); if(t){ t.setAttribute('tabindex','-1'); t.focus({preventScroll:true}); }
+  // Reset only after showModal and focus: a hidden dialog has no usable scroll layout.
+  resetDialogScroll(dlg);
 }
 function closeDialog(dlg){
   if(typeof dlg.close === 'function' && dlg.open) dlg.close(); else dlg.removeAttribute('open');
@@ -342,7 +350,7 @@ function wireDialog(dlg){
   dlg.addEventListener('close', function(){
     var op = dlg._opener; dlg._opener = null;
     var closedHost = op && op.closest ? op.closest('dialog') : null;
-    if(op && document.contains(op) && (!closedHost || closedHost.open)) { try{ op.focus(); }catch(_){} }
+    if(op && document.contains(op) && (!closedHost || closedHost.open)) { try{ op.focus({preventScroll:true}); }catch(_){} }
   });
 }
 
@@ -354,7 +362,6 @@ function openActivity(id, opener){
   dlg.querySelector('[data-dlg-title]').textContent = a.t;
   dlg.querySelector('.dlg__body').innerHTML = detailHTML(a, {inRegister: CTX.page==='register'}) + ActivityFeedback.render(a.id, CTX.page);
   ActivityFeedback.mount(dlg.querySelector('.activity-feedback'));
-  dlg.querySelector('.dlg__body').scrollTop = 0;
   var foot = dlg.querySelector('.dlg__foot');
   foot.innerHTML = saveButton(a) +
     '<button type="button" class="btn btn--sm" data-give-feedback>Give feedback</button>'+
@@ -506,6 +513,6 @@ function copyText(text, okMsg){
 
 window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, TIER:TIER, tierOf:tierOf, OPERATOR:OPERATOR, operatorLabel:operatorLabel, noToolForStudents:noToolForStudents, esc:esc, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
   taskLabel:taskLabel, depthLabel:depthLabel, discLabel:discLabel, lvlLabel:lvlLabel, modLabel:modLabel, familyLabel:familyLabel,
-  cardHTML:cardHTML, detailHTML:detailHTML, openActivity:openActivity, openDialog:openDialog, closeDialog:closeDialog, wireDialog:wireDialog,
+  cardHTML:cardHTML, detailHTML:detailHTML, openActivity:openActivity, openDialog:openDialog, closeDialog:closeDialog, wireDialog:wireDialog, resetDialogScroll:resetDialogScroll,
   Saved:Saved, announce:announce, decode:decode, printSaved:printSaved, copyText:copyText, howItWorks:howItWorks, init:init, kickerOf:kickerOf};
 })();

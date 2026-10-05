@@ -200,6 +200,9 @@ document.querySelectorAll('.flip').forEach(function(f){
     }
   });
   if(fabScrim) fabScrim.addEventListener('click', fabClose);
+  if(fabMenu) fabMenu.addEventListener('click', function(e){
+    if(e.target.closest('[data-open-register-tour]')) fabClose();
+  });
   if(fabAskUs) fabAskUs.addEventListener('click', function(e){ e.preventDefault(); openChat(); });
   if(chatClose) chatClose.addEventListener('click', closeChat);
   if(chatModal) chatModal.addEventListener('click', function(e){

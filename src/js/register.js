@@ -1,7 +1,7 @@
 /* ════════════════════════════════════════════════════════════
    THE REGISTER · the published collection
    Sections: activities (search + filters), types of AI systems, course AI
-   policies, sources, how to use. Routing is by hash so every view has an
+   policies, and sources, with a How to use dialog. Routing is by hash so every view has an
    address: #activities, #ai-types, #policies, #sources, #about,
    #act=<id> (opens an activity), #src=<id> (a source),
    #activities?cap=text_chat&pol=open (a filtered list).
@@ -24,8 +24,8 @@ S_.init({page:'register', onOpen:function(id, wasOpen, byUser){
   routed = location.hash;
 }});
 
-var SECTIONS = ['activities','ai-types','policies','sources','about'];
-var TITLES = {activities:'Activities', 'ai-types':'Types of AI systems', policies:'Course AI policies', sources:'Sources', about:'How to use'};
+var SECTIONS = ['activities','ai-types','policies','sources'];
+var TITLES = {activities:'Activities', 'ai-types':'Types of AI systems', policies:'Course AI policies', sources:'Sources'};
 /* addresses from earlier editions land somewhere sensible rather than nowhere */
 var OLD = {platforms:'ai-types', tools:'ai-types', spectrum:'policies', provenance:'sources', biblio:'sources',
            method:'about', held:'about', crosswalk:'about', collection:'activities'};
@@ -274,7 +274,6 @@ function openType(key, opener){
   typeDialog.querySelector('.dlg__body').innerHTML = h;
   typeDialog.querySelector('.dlg__foot').innerHTML = typeActivityLink(t)+'<button type="button" class="btn btn--sm btn--quiet" data-close>Back to types</button>';
   S_.openDialog(typeDialog, opener);
-  typeDialog.querySelector('.dlg__body').scrollTop = 0;
 }
 document.addEventListener('click', function(e){
   var opener = e.target.closest('[data-open-type]');
@@ -389,8 +388,17 @@ function drawSources(){
 }
 
 /* ═════════════ how to use: a walkthrough that never advances by itself ═════════════
-   The slides are in the page (partials/register-tour.html); this only moves between them. */
-var rtour = document.getElementById('rtour'), rslides = [], ri = 0;
+   One dialog serves the header, floating menu, and existing #about links. */
+var rtour = document.getElementById('rtour'), rslides = [], ri = 0, rtourPushed = false, rtourBase = '#activities';
+function openRtour(opener){
+  if(opener && location.hash !== '#about'){
+    rtourBase = location.hash || '#activities';
+    try { history.pushState({reg:1}, '', '#about'); rtourPushed = true; } catch(_){}
+    routed = location.hash;
+  }
+  ri = 0; drawRtour();
+  S_.openDialog(rtour, opener);
+}
 function rtourTitle(i){ var h = rslides[i].querySelector('h3'); return h ? h.textContent : ''; }
 function drawRtour(){
   /* the other slides stay in place, invisible and inert, so the frame keeps one height */
@@ -409,9 +417,18 @@ function rtourTo(i){
   if(moveFocus) document.getElementById('rtourNext').focus({preventScroll:true});
   ri=i; drawRtour();
   if(moveFocus){ var heading = rslides[ri].querySelector('h3'); heading.tabIndex=-1; heading.focus({preventScroll:true}); }
+  S_.resetDialogScroll(rtour);
 }
 function drawAbout(){
   if(!rtour || rslides.length) return;
+  S_.wireDialog(rtour);
+  rtour.addEventListener('close', function(){
+    if(location.hash !== '#about') return;
+    if(rtourPushed){ rtourPushed = false; routed = rtourBase; history.back(); }
+    else { try { history.replaceState({reg:1}, '', base); } catch(_){} routed = location.hash; }
+  });
+  var menu = document.getElementById('fabMenu');
+  if(menu) menu.querySelector('a').insertAdjacentHTML('afterend', '<button type="button" class="fab-item" data-open-register-tour aria-haspopup="dialog" aria-controls="rtour"><span class="fab-item__icon">'+icon('i-manual')+'</span> How to use The Register</button>');
   rslides = [].slice.call(rtour.querySelectorAll('[data-slide]'));
   rtour.querySelector('.tour__dots').innerHTML = rslides.map(function(s,i){
     return '<button type="button" class="tour__dot" data-rdot="'+i+'" aria-controls="rtourSlides" aria-label="Step '+(i+1)+': '+esc(rtourTitle(i))+'"><span class="lamp"></span></button>';
@@ -433,9 +450,10 @@ function drawAbout(){
   });
   // Include all nine steps in the print accessibility tree, then restore the reader's step.
   window.addEventListener('beforeprint', function(){
+    if(rtour.open && !document.body.classList.contains('print-saved')) document.body.classList.add('print-register-tour');
     rslides.forEach(function(s){ s.inert=false; s.removeAttribute('aria-hidden'); });
   });
-  window.addEventListener('afterprint', drawRtour);
+  window.addEventListener('afterprint', function(){ document.body.classList.remove('print-register-tour'); drawRtour(); });
   drawRtour();
 }
 
@@ -447,7 +465,7 @@ function navIntoView(heading){
   var hash = location.hash;
   function settle(){
     (window.requestAnimationFrame || setTimeout)(function(){
-      if(location.hash === hash){
+      if(location.hash === hash && !document.querySelector('dialog[open]')){
         if(heading) heading.focus({preventScroll:true});
         nav.scrollIntoView({block:'start',behavior:'instant'});
       }
@@ -486,8 +504,15 @@ function route(first){
   }
   routed = location.hash;
   var hsh = (location.hash||'').replace(/^#/,'');
+  var isTour = hsh==='about' || OLD[hsh]==='about';
+  if(rtour.open && !isTour){ rtourPushed = false; S_.closeDialog(rtour); }
   var m, dlg = document.getElementById('actDialog');
   if(dlg && dlg.open && !/^act=/.test(hsh)){ actPushed = false; S_.closeDialog(dlg); }
+  if(isTour){
+    if(first) show('activities', false);
+    if(hsh!=='about'){ try { history.replaceState({reg:1}, '', '#about'); } catch(_){} routed = location.hash; }
+    openRtour(null); return;
+  }
   if(!first && '#'+hsh === base && !/^act=/.test(hsh)) return;      /* back to the view under the activity */
   if((m = /^act=(.+)$/.exec(hsh))){
     var id = S_.decode(m[1]);
@@ -542,6 +567,11 @@ document.getElementById('gq').addEventListener('input', function(e){
 });
 document.addEventListener('click', function(e){
   var t = e.target;
+  var tourOpener = t.closest('[data-open-register-tour]');
+  if(tourOpener){
+    openRtour(tourOpener.closest('#fabMenu') ? document.getElementById('fabToggle') : tourOpener);
+    return;
+  }
   var sectionLink = t.closest('#secnav a[data-sec]');
   if(sectionLink && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey && e.button===0){
     // Handle section links here so even clicking the current section cannot

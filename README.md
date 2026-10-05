@@ -102,11 +102,12 @@ keyboard focus, scroll-position restoration, content preservation, and narrow sc
 
 ## Edit the walkthroughs
 
-The Register’s `#about` section uses the nine-step illustrated walkthrough in
-`src/partials/register-tour.html`, replacing the old static help grid. It preserves the
+The Register’s header and floating menu open the same nine-step illustrated walkthrough
+dialog in `src/partials/register-tour.html`; existing `#about` links also open it. It preserves the
 help topics, uses Previous/Next, step lamps, and arrow/Home/End keys, and never advances
-automatically. Its frame stays the same height across steps. Hidden steps are inert;
-printing exposes all nine steps as dark text without illustrations or controls and
+automatically. Its frame stays the same height across steps, opening and changing steps
+at the top. Hidden steps are inert; printing the open walkthrough exposes all nine steps
+as dark text without illustrations or controls and
 restores the selected step afterward. Behavior and styles live in `src/js/register.js`
 and `src/css/register.css`.
 

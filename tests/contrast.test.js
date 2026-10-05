@@ -44,7 +44,7 @@ const STATES = [
     await p.click('[data-open-type="conversational"]'); await p.click('.type-example-disclosure > summary');
     await p.$eval('#aiTypeDialog .dlg__body', e => e.scrollTop = e.scrollHeight); }],
   ['finder, walkthrough', 'what-if-ai.html#tour', async p => {}],
-  ['register, how to use + footer', 'register.html#about', async p => {}],
+  ['register, how to use dialog', 'register.html#about', async p => {}],
   ['register, walkthrough terms', 'register.html#about', async p => {
     await p.focus('#rtourNext'); for(let i=0;i<3;i++) await p.keyboard.press('ArrowRight'); }],
 ];
@@ -67,7 +67,6 @@ const ratio = (a, b) => { const [hi, lo] = a > b ? [a, b] : [b, a]; return (hi +
       await page.addStyleTag({ content: 'html{scroll-behavior:auto !important}*{transition:none !important;animation:none !important}' });
       await page.waitForTimeout(200); await act(page); await page.waitForTimeout(900);   // let the page's own smooth scrolling settle
       const pages = [0];
-      if (file.startsWith('register.html#about')) pages.push(1);
       for (const pg of pages) {
         if (pg) await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
         await page.waitForTimeout(150);

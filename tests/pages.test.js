@@ -264,16 +264,16 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   check('The Register: document title names the section', /The Register \| Lewis University Library$/.test(await page.title()), await page.title());
   check('The Register: display title', (await page.textContent('h1')).replace(/\s+/g, ' ').trim() === 'The Register');
   const navs = await page.$$eval('#secnav a', as => as.map(a => a.textContent.replace(/\d[\d,]*/g, '').trim()));
-  check('The Register: five public sections, none of the removed ones',
-    navs.length === 5 && !navs.some(t => /Platforms|Provenance|Held|Crosswalk|Method/.test(t)), navs.join(' | '));
-  for (const s of ['activities', 'ai-types', 'policies', 'sources', 'about']) {
+  check('The Register: four collection sections, with How to use in the header',
+    navs.length === 4 && !navs.some(t => /How to use|Platforms|Provenance|Held|Crosswalk|Method/.test(t)) && await page.locator('.hdr [data-open-register-tour]').count() === 1, navs.join(' | '));
+  for (const s of ['activities', 'ai-types', 'policies', 'sources']) {
     await go(page, 'register.html#' + s); await page.waitForTimeout(60);
     const vis = await page.isVisible('#h-' + s);
     const cur = await page.$eval('#secnav a[aria-current="page"]', a => a.getAttribute('data-sec')).catch(() => '');
     check('The Register: section "' + s + '" renders and is marked current', vis && cur === s, cur);
     check('The Register: section "' + s + '" has no internal project language', leaks(await page.textContent('#' + s)).length === 0, leaks(await page.textContent('#' + s)).join(', ') || 'clean');
   }
-  // How to use The Register: a walkthrough in the section, like the What If AI walkthrough
+  // How to use The Register: one dialog, also reached through the existing #about URL.
   await go(page, 'register.html#about'); await page.waitForTimeout(80);
   const rState = () => page.evaluate(() => [...document.querySelectorAll('#rtour [data-slide]')].map(s => !s.classList.contains('is-off') && !s.inert && s.getAttribute('aria-hidden') !== 'true'));
   const rN = (await page.$$('#rtour [data-slide]')).length;
@@ -541,7 +541,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   check('Cross-page: Back returns to the same What If AI results', /what-if-ai\.html#a=focus:teaching;task:feedback/.test(page.url()) && await page.isVisible('#plan [data-card]'));
   await page.click('#plan .browse a'); await page.waitForLoadState('load'); await page.waitForSelector('html[data-ready]', { state: 'attached' }); await page.waitForTimeout(120);
   check('Cross-page: "Browse all … in The Register" lands on its activities', /register\.html#activities$/.test(page.url()) && await page.isVisible('#h-activities'));
-  await go(page, 'register.html#about'); await page.click('#about a[href="what-if-ai.html#tour"]'); await page.waitForLoadState('load'); await page.waitForSelector('html[data-ready]', { state: 'attached' }); await page.waitForTimeout(150);
+  await go(page, 'register.html#about'); await page.click('#rtour a[href="what-if-ai.html#tour"]'); await page.waitForLoadState('load'); await page.waitForSelector('html[data-ready]', { state: 'attached' }); await page.waitForTimeout(150);
   check('Cross-page: The Register\'s walkthrough link opens the walkthrough in What If AI', await page.$eval('#tourDialog', d => d.open));
   await page.focus('#tourNext'); await page.keyboard.press('Escape');
   await page.waitForFunction(() => !document.getElementById('tourDialog').open && location.hash !== '#tour', null, { timeout: 2000 }).catch(() => {});
@@ -589,6 +589,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   check('More-contrast mode removes the decoration', await hp.$$eval('.current, .lamps', cs => cs.every(c => getComputedStyle(c).display === 'none')));
   await hc.close();
 
+  await require('./dialog-scroll-checks')(browser, go, check);
   check('no page errors or console errors', errors.length === 0, errors.slice(0, 3).join(' | '));
   await browser.close(); await SRV.close();
   const failed = results.filter(r => !r.ok).length;

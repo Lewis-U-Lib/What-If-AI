@@ -125,10 +125,12 @@
   .gloss{grid-template-columns:1fr;}
 }
 
-/* how to use: the walkthrough sits in the section, framed like the What If AI walkthrough dialog */
-.rtour{max-width:980px;margin:0 auto;border-radius:var(--r,12px);border:1px solid rgba(0,0,0,.55);background:linear-gradient(180deg,#5a1020,#46091a);
+/* How to use: one modal walkthrough for the header and floating menu. */
+.rtour{margin:auto;background:linear-gradient(180deg,#5a1020,#46091a);
   box-shadow:var(--bevel,none),0 10px 28px rgba(0,0,0,.45);overflow:hidden;}
+.rtour .dlg__head,.rtour__foot{flex-shrink:0;}
 .rtour__body{padding:22px 24px;}
+.rtour__intro{margin:0 0 22px;font-size:15px;color:var(--ink-2);}
 /* every slide shares one grid cell, so the frame keeps the height of the tallest slide and the controls never jump */
 .rtour .tour__slides{display:grid;}
 .rtour .tour__slide{grid-area:1/1;}
@@ -156,10 +158,14 @@
   .rtour__foot .btn{padding-inline:10px;gap:6px;}
 }
 @media print{
-  .rtour{background:none !important;box-shadow:none !important;border:0 !important;overflow:visible;max-width:none;}
-  #about .sec-head h2,#about .sec-head p,.rtour *{color:#111 !important;text-shadow:none !important;}
+  .print-register-tour .app,.print-register-tour .site-foot{display:none !important;}
+  .print-register-tour .rtour[open]{display:block !important;position:static;inset:auto;width:auto;height:auto;max-height:none;margin:0;
+    background:none !important;box-shadow:none !important;border:0 !important;overflow:visible;max-width:none;}
+  .rtour *{color:#111 !important;text-shadow:none !important;}
+  .rtour .dlg__head{background:none !important;box-shadow:none !important;border:0;}
+  .rtour .dlg__close{display:none !important;}
   .rtour h3,.rtour .gloss dt{color:#7a0526 !important;}
-  .rtour__body{padding:0;}
+  .rtour__body{padding:0;overflow:visible;}
   .rtour .tour__text a.btn{display:inline !important;background:none !important;box-shadow:none !important;border:0 !important;padding:0;min-height:0;text-decoration:underline;}
   .rtour .tour__slides{display:block !important;}
   .rtour .tour__slide,.rtour .tour__slide.is-off{visibility:visible !important;break-inside:avoid;margin-bottom:14px;}

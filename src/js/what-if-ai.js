@@ -368,7 +368,7 @@ function drawTour(){
   [].forEach.call(tour.querySelectorAll('.tour__dot'), function(d,i){
     if(i===ti) d.setAttribute('aria-current','step'); else d.removeAttribute('aria-current'); });
 }
-function tourTo(i){ if(i<0||i>=slides.length) return; ti=i; drawTour(); }
+function tourTo(i){ if(i<0||i>=slides.length) return; ti=i; drawTour(); S_.resetDialogScroll(tour); }
 function openTour(opener){
   if(!tour) return;
   ti = 0; drawTour();
