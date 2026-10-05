@@ -1,4 +1,4 @@
-<!-- ══ How to use The Register: a walkthrough in the "How to use" section (never advances by itself) ══ -->
+<!-- ══ How to use The Register: an optional walkthrough dialog (never advances by itself) ══ -->
 <svg class="icon-sprite" width="0" height="0" aria-hidden="true" focusable="false">
   <defs>
     <!-- the same painted wobble and washes as the What If AI walkthrough -->
@@ -15,14 +15,16 @@
   </defs>
 </svg>
 
-<div class="sec-head">
-  <div class="sec-eyebrow">Getting oriented</div>
-  <h2 id="h-about" tabindex="-1">How to use The Register</h2>
-  <p>A short walkthrough. Move through it with <strong>Next</strong> and <strong>Previous</strong>, the step lamps, or the arrow keys.</p>
-</div>
-
-<section class="rtour" id="rtour" aria-roledescription="carousel" aria-label="How to use The Register">
-  <div class="rtour__body">
+<dialog class="dlg rtour" id="rtour" aria-labelledby="h-about">
+  <div class="dlg__head">
+    <div>
+      <div class="kicker">Walkthrough</div>
+      <h2 id="h-about" data-dlg-title tabindex="-1">How to use The Register</h2>
+    </div>
+    <button type="button" class="dlg__close" data-close aria-label="Close the walkthrough"><span aria-hidden="true">✕</span></button>
+  </div>
+  <div class="dlg__body rtour__body" role="region" aria-roledescription="carousel" aria-label="Walkthrough steps" tabindex="0">
+    <p class="rtour__intro">Move through the walkthrough with <strong>Next</strong> and <strong>Previous</strong>, the step lamps, or the arrow keys.</p>
     <div class="tour__slides" id="rtourSlides">
 
       <div class="tour__slide" role="group" aria-roledescription="slide" aria-label="1 of 9" data-slide>
@@ -225,10 +227,10 @@
 
     </div>
   </div>
-  <div class="rtour__foot tour__foot no-print">
+  <div class="dlg__foot rtour__foot tour__foot no-print">
     <button type="button" class="btn btn--sm" id="rtourPrev" aria-controls="rtourSlides"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-arrow-left"/></svg> Previous</button>
     <p class="tour__pos readout" id="rtourPos" role="status" aria-live="polite" aria-atomic="true">1 of 9</p>
     <div class="tour__dots" role="group" aria-label="Go to a step"></div>
     <button type="button" class="btn btn--sm btn--primary" id="rtourNext" aria-controls="rtourSlides"><span class="tour__nextlabel">Next</span> <svg class="ico" aria-hidden="true" focusable="false"><use href="#i-arrow-right"/></svg></button>
   </div>
-</section>
+</dialog>

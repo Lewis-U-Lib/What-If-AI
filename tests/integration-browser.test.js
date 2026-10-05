@@ -56,7 +56,7 @@ const hash=w=>'#a='+Object.entries(w.state).map(([k,v])=>k+':'+encodeURIComponen
     let navChecks=0;
     for(const width of [320,390,760,761,1280,1440]){
       await p.setViewportSize({width,height:900});
-      for(const section of ['activities','ai-types','policies','sources','about']){
+      for(const section of ['activities','ai-types','policies','sources']){
         await go('register.html#'+section);
         await p.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
         async function visibleMenu(){
@@ -68,7 +68,7 @@ const hash=w=>'#a='+Object.entries(w.state).map(([k,v])=>k+':'+encodeURIComponen
         await p.locator(`#secnav [data-sec="${section}"]`).click();
         await p.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
         await visibleMenu();
-        const next=section==='about'?'ai-types':'about';
+        const next=section==='sources'?'ai-types':'sources';
         await p.locator(`#secnav [data-sec="${next}"]`).click();
         await p.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
         await visibleMenu();
