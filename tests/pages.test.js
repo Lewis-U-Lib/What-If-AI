@@ -40,8 +40,8 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   const REGD = JSON.parse(siteFile(m2.data.register));
   const RELEASE = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'release.json'), 'utf8'));
   const ids = new Set(ACTS.acts.map(a => a.id)), liveIdsAll = ids;
-  check('the page store holds exactly the approved public activities', ids.size === require('../content/ai-use.json').expected_counts.activities && ACTS.acts.length === ids.size, ids.size + ' activities');
-  check('the served data matches the reviewed, punctuated, curated publication with its two labeled sets and AI-use review, byte for byte', require('crypto').createHash('sha256').update(fs.readFileSync(path.join(SITE, m1.data.acts))).digest('hex') === require('../content/ai-use.json').output_sha256['acts.json'], RELEASE.release);
+  check('the page store holds exactly the approved public activities', ids.size === require('../content/record-review.json').expected_counts.activities && ACTS.acts.length === ids.size, ids.size + ' activities');
+  check('the served data matches the reviewed, punctuated, curated publication with its two labeled sets, AI-use review and record review, byte for byte', require('crypto').createHash('sha256').update(fs.readFileSync(path.join(SITE, m1.data.acts))).digest('hex') === require('../content/record-review.json').output_sha256['acts.json'], RELEASE.release);
   const internalKeys = ['rq', 'vs', 'nf', 'ibasis', 'org', 'capb', 'fl', 'rs', 'cell', 'adm', 'gateb'];
   check('activity records carry no review or build fields', ACTS.acts.every(a => internalKeys.every(k => !(k in a))), internalKeys.join(', '));
   const regInternal = ['held', 'retired', 'xw', 'queues', 'audit', 'decisions', 'schema_map', 'schema_gaps', 'recon', 'rules', 'platforms'];
@@ -349,12 +349,12 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   check('The Register: the licensed collection carries no set label', (await page.textContent('#actCount')).includes('of ' + ACTS.acts.filter(a => !a.tier).length) &&
     (await page.$$eval('#actResults [data-card] .acard__facts', d => d.every(x => !/ set · not yet tried/.test(x.textContent)))));
   // Who uses the AI tool, and the renamed No-AI option
-  const aiUse = require('../content/ai-use.json'), OPS = Object.fromEntries(ACTS.operators.map(o => [o[0], o]));
+  const aiUse = require('../content/ai-use.json'), recordReview = require('../content/record-review.json'), OPS = Object.fromEntries(ACTS.operators.map(o => [o[0], o]));
   const noaiLimit = ACTS.limits.find(l => l[0] === 'noai');
-  check('The No-AI limit says students will not use an AI tool themselves', noaiLimit[1] === 'My students won’t use an AI tool themselves' && JSON.stringify(noaiLimit.slice(1)) === JSON.stringify(aiUse.limit.after));
+  check('The No-AI limit says students will not use an AI tool themselves', noaiLimit[1] === 'My students won’t use an AI tool themselves' && noaiLimit[2] === recordReview.text.find(t => t.file === 'acts.json' && t.path[0] === 'limits').after);
   await go(page, 'what-if-ai.html#q=limits&a=focus:teaching;task:design');
   const limitsText = await page.textContent('#wizard');
-  check('What If AI: the limit question offers the renamed option and explains it', limitsText.includes('My students won’t use an AI tool themselves') && limitsText.includes('students never operate an AI tool') && !/rather my students not use AI at all/.test(limitsText));
+  check('What If AI: the limit question offers the renamed option and explains it', limitsText.includes('My students won’t use an AI tool themselves') && limitsText.includes('students do not have to operate an AI tool') && limitsText.includes('the AI step is optional') && !/rather my students not use AI at all/.test(limitsText));
   for (const op of ['faculty_or_staff', 'optional', 'none', 'not_specified']) {
     const sample = ACTS.acts.find(a => a.op === op);
     await go(page, 'register.html#act=' + sample.id); await page.waitForSelector('#actDialog[open]');
@@ -364,13 +364,14 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   }
   await go(page, 'register.html#activities?noai=1');
   check('The Register: “Students use no AI tool” returns what the limit admits', (await page.textContent('#actCount')).includes('of ' + REGD.types.no_ai.n) &&
-    REGD.types.no_ai.n === aiUse.expected_counts.students_use_no_tool && !!(await page.$('.fchip[data-clear="noai"]')) && (await page.textContent('.fchip[data-clear="noai"]')).includes('Students use no AI tool'), REGD.types.no_ai.n + ' expected');
+    REGD.types.no_ai.n === recordReview.expected_counts.students_use_no_tool && !!(await page.$('.fchip[data-clear="noai"]')) && (await page.textContent('.fchip[data-clear="noai"]')).includes('Students use no AI tool'), REGD.types.no_ai.n + ' expected');
   await go(page, 'what-if-ai.html');
   await go(page, 'register.html#activities?op=none');
   const noneCount = ACTS.acts.filter(a => a.op === 'none').length;
   check('The Register: filtering by who uses an AI tool returns the activities with that value', (await page.textContent('#actCount')).includes('of ' + noneCount) &&
     (await page.$eval('#f-op', s => s.value)) === 'none' && (await page.textContent('.fchip[data-clear="op"]')).includes('No one'), noneCount + ' expected');
   check('Withdrawn activities (AI neither used nor discussed) are absent from both tools', aiUse.withdrawals.records.every(r => !liveIdsAll.has(r.id)));
+  check('Withdrawn and held records from the record review are absent from both tools', recordReview.withdrawals.records.every(r => !liveIdsAll.has(r.id)) && recordReview.held.every(h => !liveIdsAll.has(h.id)));
   await go(page, 'what-if-ai.html');   // a fresh load, so the checks below start with no filters
   const removedId = 'CAN-A2-A-999-NOT-RELEASED';
   const liveIds = new Set(ACTS.acts.map(a => a.id)), workIds = new Set(REGD.works.map(w => w.id));
@@ -510,7 +511,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   await mp.click('#plan [data-open]');
   const dlgW = await mp.$eval('#actDialog', d => d.getBoundingClientRect().width);
   check('Phone: activity details use the full screen', dlgW >= 380, Math.round(dlgW) + 'px');
-  await mp.keyboard.press('Escape');
+  await mp.keyboard.press('Escape'); await mp.waitForFunction(() => !/^#act=/.test(location.hash));   /* closing goes Back to the results address */
   await go(mp, 'what-if-ai.html'); await mp.click('.hdr [data-open-tour]');
   const tb = await mp.evaluate(() => { const d = document.getElementById('tourDialog'); return { w: d.getBoundingClientRect().width, sw: d.querySelector('.dlg__body').scrollWidth - d.querySelector('.dlg__body').clientWidth }; });
   await mp.click('#tourNext');
@@ -538,7 +539,10 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   await page.click('#plan [data-open]'); await page.click('#actDialog .dlg__foot a[href^="register.html#act="]'); await page.waitForLoadState('load'); await page.waitForSelector('html[data-ready]', { state: 'attached' }); await page.waitForTimeout(150);
   check('Cross-page: "Open in The Register" opens the same activity there', /register\.html#act=/.test(page.url()) && await page.$eval('#actDialog', d => d.open) && (await page.textContent('#actDialogTitle')) === BY[xid].t);
   await page.goBack(); await page.waitForLoadState('load'); await page.waitForSelector('html[data-ready]', { state: 'attached' }); await page.waitForTimeout(150);
-  check('Cross-page: Back returns to the same What If AI results', /what-if-ai\.html#a=focus:teaching;task:feedback/.test(page.url()) && await page.isVisible('#plan [data-card]'));
+  check('Cross-page: Back returns to the same activity, over the same What If AI results', page.url().endsWith('what-if-ai.html#act=' + encodeURIComponent(xid)) &&
+    await page.$eval('#actDialog', d => d.open) && await page.isVisible('#plan [data-card]'));
+  await page.keyboard.press('Escape'); await page.waitForURL(/what-if-ai\.html#a=/); await page.waitForSelector('html[data-ready]', { state: 'attached' }); await page.waitForTimeout(150);
+  check('Cross-page: closing it returns to those results', /what-if-ai\.html#a=focus:teaching;task:feedback/.test(page.url()) && await page.isVisible('#plan [data-card]'));
   await page.click('#plan .browse a'); await page.waitForLoadState('load'); await page.waitForSelector('html[data-ready]', { state: 'attached' }); await page.waitForTimeout(120);
   check('Cross-page: "Browse all … in The Register" lands on its activities', /register\.html#activities$/.test(page.url()) && await page.isVisible('#h-activities'));
   await go(page, 'register.html#about'); await page.click('#rtour a[href="what-if-ai.html#tour"]'); await page.waitForLoadState('load'); await page.waitForSelector('html[data-ready]', { state: 'attached' }); await page.waitForTimeout(150);

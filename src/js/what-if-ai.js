@@ -15,7 +15,22 @@
 "use strict";
 var S_ = window.SITE, D = S_.D, A = S_.A, IN = S_.IN, esc = S_.esc, icon = S_.icon;
 var LIM = D.limits;
-S_.init({page:'finder'});
+/* History: an activity opened from the page gets its own entry (#act=…), as in The Register, so Back
+   (or the phone's back gesture) closes it and the results underneath, expanded lists included, stay.
+   The entry remembers the view underneath (history.state.base), so returning to it from another page
+   shows the activity over the same results. */
+var actPushed = false, actBase = null;
+S_.init({page:'finder', onOpen:function(id, wasOpen, byUser){
+  var h = '#act='+encodeURIComponent(id);
+  if(location.hash === h) return;
+  if(!wasOpen) actBase = location.hash || '';
+  var st = {wif:1, base:actBase};
+  try {
+    if(byUser && !wasOpen){ history.pushState(st, '', h); actPushed = true; }
+    else history.replaceState(st, '', h);
+  } catch(_){}
+  routed = location.hash;
+}});
 
 function blank(){ return {focus:null, task:null, disc:null, lvl:null, mod:null, depth:null, limits:{}}; }
 var S = blank();
@@ -32,7 +47,7 @@ var STEPS = [
   {key:'task', rail:'The task', icon:'i-gear', q:'What would you like to do?', two:true,
    sub:'Pick the closest match. You are describing a task, not choosing a technology.'},
   {key:'disc', rail:'Your field', icon:'i-cap', q:'What is your field?', two:true,
-   sub:'Your field moves matching activities to the top. Activities recorded without a field still appear, because much of the pedagogy travels.'},
+   sub:'Your field moves matching activities to the top. Activities recorded for any course, or without a field, still appear, because much of the pedagogy travels.'},
   {key:'depth', rail:'Scale', icon:'i-gauge', q:'How large a piece of work are you picturing?',
    sub:'Scale is described in units of academic work rather than minutes.'},
   {key:'limits', rail:'Limits', icon:'i-switch', q:'Is anything off the table?',
@@ -118,7 +133,7 @@ function drawWizard(focusTitle){
     h += '<fieldset class="opts"><legend class="sr-only">'+esc(st.q)+'</legend><div class="optgrid">';
     h += LIM.map(function(l){ return optionHTML('q-limits', l[0], l[1]+(l[2]?' — '+l[2]:''), !!S.limits[l[0]], 'checkbox'); }).join('');
     h += '</div></fieldset><p class="qnote">When a requirement is not established, the activity appears separately under “Check requirements before considering,” with what you need to confirm.</p>';
-    h += '<p class="note noai"><strong>On the first option.</strong> It keeps activities in which students never operate an AI tool: the instructor uses one beforehand and students work with what it produced, the activity examines AI without any tool, or the record describes a route with no AI. You can build a list entirely from those.</p>';
+    h += '<p class="note noai"><strong>On the first option.</strong> It keeps activities in which students do not have to operate an AI tool: the instructor uses one beforehand and students work with what it produced, the activity examines AI without any tool, the AI step is optional, or the record describes a route with no AI. When an activity qualifies through that route, its card says so.</p>';
   } else {
     h += group(st.key, st.q, opts(st.key), st.two, true);
     if(st.key==='disc'){
@@ -154,13 +169,18 @@ function answersHTML(){
 var REQUIREMENT_LABELS={noai:'whether students operate an AI tool themselves',nostudent:'whether student-authored work goes into a tool',nopaid:'whether the activity can be completed without payment',noaccount:'whether personal account or phone verification is needed',nokit:'whether equipment, travel, or purchases are needed',nodisclose:'whether a formal disclosure statement is needed',noapproval:'whether ethics or institutional approval is needed'};
 var PREFERENCE_LABELS={task:'task',disc:'field',depth:'scale',lvl:'level',mod:'setting'};
 function preferenceLabel(k){ var v=S[k], list=opts(k); for(var i=0;i<list.length;i++) if(list[i][0]===v) return split(list[i][1])[0]; return v; }
+/* the first sentence of the route without AI, for the note on a card that qualifies through it */
+function firstSentence(t){ var m=/^[\s\S]*?[.!?](?=\s|$)/.exec(String(t||'').trim()); return m?m[0]:String(t||'').trim(); }
+function viaRoute(a){ return !!(S.limits.noai && a.na && ['faculty_or_staff','optional','none'].indexOf(a.op)<0); }
 function matchCard(row){
   var notes=[];
+  if(viaRoute(row.activity)) notes.push('<strong>Qualifies through its route without AI:</strong> '+esc(firstSentence(row.activity.na)));
   if(row.unknown.length) notes.push('<strong>Check first:</strong> The record does not establish '+row.unknown.map(function(k){return esc(REQUIREMENT_LABELS[k]);}).join('; ')+'.');
   if(row.mismatch.length) notes.push('<strong>Different from your preferences:</strong> '+row.mismatch.map(function(k){return esc(PREFERENCE_LABELS[k]+' ('+preferenceLabel(k)+')');}).join('; ')+'.');
   if(row.compatible.length){
     var unspecified=row.compatible.filter(function(k){return k!=='disc';});
-    notes.push('<strong>Check suitability:</strong> '+(row.compatible.indexOf('disc')>=0?'Consider how this activity fits your field. ':'')+
+    var anyCourse=row.activity.disc==='interdisciplinary';
+    notes.push('<strong>Check suitability:</strong> '+(row.compatible.indexOf('disc')>=0?(anyCourse?'Recorded for any course. ':'Consider how this activity fits your field. '):'')+
       (unspecified.length?'No specific '+unspecified.map(function(k){return esc(PREFERENCE_LABELS[k]);}).join(' or ')+' is recorded for this activity.':''));
   }
   var note=notes.length?'<div class="match-note">'+notes.map(function(n){return '<p>'+n+'</p>';}).join('')+'</div>':'';
@@ -330,26 +350,40 @@ function route(first){
   if(hsh === routed) return;
   var m;
   if((m=/^#act=([^&]+)/.exec(hsh))){
-    if(first){ show(false); }
+    if(first){
+      var under = history.state && typeof history.state.base === 'string' ? history.state.base : null;
+      if(under !== null && !/^#act=/.test(under)){ viewFrom(under); actBase = under; actPushed = true; }
+      show(false);
+    }
     routed = hsh; clearMissing();
     var id = S_.decode(m[1]);
     if(id===null || !S_.openActivity(id)){ closeDialogs(); missingActivity(id); }
     return;
   }
   clearMissing();
+  /* Back from an activity opened on this page: close it and keep the view underneath exactly as it was */
+  if(!first && actBase !== null && hsh === actBase){
+    actPushed = false; actBase = null; routed = hsh;
+    var open = document.getElementById('actDialog'); if(open && open.open) S_.closeDialog(open);
+    return;
+  }
   if(hsh === '#tour'){
     if(first){ show(false); }
     routed = hsh; openTour(null); return;
   }
   closeDialogs();
+  viewFrom(hsh);
+  routed = hsh;
+  show(!first);
+}
+/* the answers and step an address describes */
+function viewFrom(hsh){
   var next = blank(), any = parseAnswers(hsh, next), q = /^#q=([a-z]+)/.exec(hsh);
   S = next; resetShown();
   if(q && STEP_OF[q[1]]!=null){ step = STEP_OF[q[1]]; if(isSkipped(step)) advance(1); }
   /* results: any valid answers, or an explicit empty answer set (#a=, "show everything"); a link whose
      answers are all unrecognized falls back to the first question */
   else step = (any || /^#a=$/.test(hsh)) ? STEPS.length : 0;
-  routed = hsh;
-  show(!first);
 }
 window.addEventListener('popstate', function(){ route(false); });
 window.addEventListener('hashchange', function(){ route(false); });
@@ -396,8 +430,14 @@ if(tour){
   tour.addEventListener('close', function(){ if(location.hash==='#tour') record(false); });
 }
 
-/* an activity opened from an address leaves the address clean when it closes */
-document.getElementById('actDialog').addEventListener('close', function(){ if(/^#act=/.test(location.hash)) record(false); });
+/* closing an activity returns to the address underneath: by going back when opening it made an entry,
+   otherwise (it arrived by link) by replacing the address */
+document.getElementById('actDialog').addEventListener('close', function(){
+  /* closed because the address moved elsewhere (Back, or a typed or followed link): nothing to undo */
+  if(!/^#act=/.test(location.hash)){ actPushed = false; actBase = null; return; }
+  if(actPushed){ actPushed = false; routed = actBase; actBase = null; history.back(); }
+  else { actBase = null; record(false); }
+});
 
 route(true);
 })();

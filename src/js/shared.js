@@ -115,9 +115,21 @@ function howItWorks(a){
    revise:'participants change their own work in light of what came back.',
    analyze_as_data:'participants treat what it produced as evidence about the tool.',
    constrain:'participants set the limits of its use, or decide not to use it.'}[a.hm]||'';
+  /* with the tool kept out, nothing "comes back" from it: these moves describe the work without it */
+  if(a.ar==='withheld'){
+    var without={produce_first:'participants produce their own version without it.',
+     verify:'participants check claims about AI against real sources.',
+     critique:'participants judge claims about AI against a standard they already hold.',
+     revise:'participants revise their own work without it.',
+     analyze_as_data:'participants examine evidence about AI rather than output from a tool.',
+     constrain:'participants decide where its use should stop, or that it should not be used.'}[a.hm]||'';
+    return role && without ? role + '; ' + without : '';
+  }
   return role && move ? role + ', and ' + move : '';
 }
 function sensitive(a){ return a.sen && L.sen[a.sen]; }
+/* where the data goes: an AI tool when someone operates one, otherwise the activity's other tools */
+function dataTool(a){ return a.op==='none' ? 'a third-party tool' : 'an AI tool'; }
 
 /* ─────────── saved activities (this browser only) ─────────── */
 var KEY = 'lul-whatifai-saved-v1';
@@ -182,11 +194,12 @@ function cardHTML(a, opts){
   s += '<dt>Who</dt><dd>'+esc(L.actor[a.ac]||pretty(a.ac))+'</dd>';
   s += '<dt>Scale</dt><dd>'+esc(depthLabel(a.depth))+'</dd>';
   s += '<dt>AI use</dt><dd>'+esc(capsShort(a)||'Not stated')+'</dd>';
+  if(OPERATOR[a.op]) s += '<dt>Who uses AI</dt><dd>'+esc(OPERATOR[a.op].label)+'</dd>';
   if(a.eq && a.eq!=='not_specified') s += '<dt>Cost</dt><dd>'+esc(L.eq[a.eq]||pretty(a.eq))+'</dd>';
   var T = tierOf(a);
   if(T) s += '<dt>Origin</dt><dd>'+esc(T.label)+' · not yet tried</dd>';
   s += '</dl>';
-  if(sensitive(a)) s += '<p class="acard__note"><span aria-hidden="true">⚠</span><span>Involves putting '+esc(L.sen[a.sen])+' into an AI tool.</span></p>';
+  if(sensitive(a)) s += '<p class="acard__note"><span aria-hidden="true">⚠</span><span>Involves putting '+esc(L.sen[a.sen])+' into '+dataTool(a)+'.</span></p>';
   s += '<div class="acard__foot no-print">'+
        '<button type="button" class="btn btn--sm" data-open="'+esc(a.id)+'">View details<span class="sr-only">: '+esc(a.t)+'</span></button>'+
        saveButton(a)+'</div>';
@@ -233,7 +246,7 @@ function detailHTML(a, opts){
   /* 3 · how people and the tool divide the work */
   var how = '';
   var hw = howItWorks(a); if(hw) how += '<p>'+esc(hw)+'</p>';
-  if(a.gate) how += '<h4>'+(a.ac==='student'?'What students produce that the tool did not':'The judgment that stays with you')+'</h4>'+p(a.gate);
+  if(a.gate) how += '<h4>'+(a.ac==='student'?(a.ar==='withheld'?'What students produce':'What students produce that the tool did not'):'The judgment that stays with you')+'</h4>'+p(a.gate);
   if(a.dep) how += '<h4>What it depends on the AI tool for</h4>'+p(a.dep);
   if(a.chk) how += '<h4>What the output is checked against</h4>'+p(a.chk);
   h += sec('How people and the AI tool divide the work', how);
@@ -241,7 +254,7 @@ function detailHTML(a, opts){
   /* 4 · before you use it */
   var b = '';
   if(sensitive(a)) b += '<div class="note note--caution"><strong>Data.</strong> This activity involves putting '+esc(L.sen[a.sen])+
-    ' into an AI tool. Before using it, consider your institution’s guidance on data and approved tools, whether consent is needed, and whether a de-identified or institutionally provided option is available.</div>';
+    ' into '+dataTool(a)+'. Before using it, consider your institution’s guidance on data and approved tools, whether consent is needed, and whether a de-identified or institutionally provided option is available.</div>';
   var PL = (D.pol||{})[a.pol];
   if(PL){
     b += '<h4>Course AI policy it assumes</h4><p><strong>'+esc(PL.pill)+' — '+esc(PL.label)+'.</strong> '+esc(PL.reads)+
@@ -443,7 +456,10 @@ function printSaved(){
   root.innerHTML = h;
   var dr = document.getElementById('savedDrawer'); if(dr && dr.open) closeDialog(dr);
   document.body.classList.add('print-saved');
-  var done = function(){ document.body.classList.remove('print-saved'); window.removeEventListener('afterprint', done); };
+  /* the print copy is hidden from assistive technology on screen, but a saved PDF needs its headings
+     and reading order, so it is exposed while printing (as the Register walkthrough's print is) */
+  root.removeAttribute('aria-hidden');
+  var done = function(){ document.body.classList.remove('print-saved'); root.setAttribute('aria-hidden','true'); window.removeEventListener('afterprint', done); };
   window.addEventListener('afterprint', done);
   setTimeout(function(){ window.print(); setTimeout(done, 1500); }, 60);
 }
@@ -497,12 +513,7 @@ function init(ctx){
     el.style.setProperty('--cur-dur', (15 + Math.random()*16).toFixed(1) + 's');
     el.style.setProperty('--cur-delay', (2 + i*3.5 + Math.random()*9).toFixed(1) + 's');
   });
-  var yr = document.querySelectorAll('[data-updated]');
-  [].forEach.call(yr, function(el){
-    var d = (D.stamp||{}).built; if(!d) return;
-    var dt = new Date(d+'T12:00:00');
-    el.textContent = 'Updated ' + dt.toLocaleDateString('en-US',{year:'numeric',month:'long'});
-  });
+  /* the footer's "Updated" date is written at build time from the latest reviewed data stage */
 }
 function copyText(text, okMsg){
   function fallback(){ announce('Copying is not available here. The address is: ' + text); }

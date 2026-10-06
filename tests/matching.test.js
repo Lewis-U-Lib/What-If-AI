@@ -10,6 +10,12 @@ assert.deepEqual(r.exact,['task','disc','depth']);assert.deepEqual(r.compatible,
 assert.equal(M.compare({...fixture,lvl:['firstyear']},'lvl','grad'),'mismatch');
 assert.equal(M.compare({...fixture,mod:['in_person']},'mod','online'),'mismatch');
 assert.equal(M.compare({...fixture,disc:''},'disc','stem'),'compatible');
+// An activity recorded for any course ("interdisciplinary") is a possible fit for every specific field,
+// never a field mismatch; a reader who picks Cross-curricular gets the exact match.
+for(const [field] of D.intake.disc){
+  assert.equal(M.compare({...fixture,disc:'interdisciplinary'},'disc',field),field==='interdisciplinary'?'exact':'compatible',field);
+}
+assert.equal(M.compare({...fixture,disc:'humanities'},'disc','stem'),'mismatch');
 assert.equal(M.compare(fixture,'lvl',null),'unasked');
 assert.equal(M.assess(fixture,{focus:'admin'}).status,'excluded');
 for(const icap of ['active','passive'])assert.equal(M.assess({...fixture,icap},{}).status,'excluded');
@@ -29,6 +35,10 @@ assert.equal(M.requirement({...fixture,op:'students'},'noai'),'excluded');
 for(const op of ['not_specified',undefined])assert.equal(M.requirement({...fixture,op},'noai'),'unknown');
 for(const op of ['students','not_specified',undefined])assert.equal(M.requirement({...fixture,op,na:'Run the comparison by hand.'},'noai'),'confirmed');
 assert.equal(M.requirement({...fixture,op:'students',cap:['none_required']},'noai'),'excluded');
+// Information derived from students' writing, even de-identified, is not a confirmed absence of student work.
+assert.equal(M.requirement({...fixture,sen:'student_derived_deidentified'},'nostudent'),'unknown');
+for(const sen of ['none','research_participant_deidentified'])assert.equal(M.requirement({...fixture,sen},'nostudent'),'confirmed');
+for(const sen of ['student_work','identifiable_student_data','own_personal_data'])assert.equal(M.requirement({...fixture,sen},'nostudent'),'excluded');
 for(const [k,field] of [['nopaid','eq'],['nostudent','sen'],['nodisclose','dis']]){
   for(const v of [undefined,'not_specified'])assert.equal(M.requirement({...fixture,[field]:v},k),'unknown');
 }

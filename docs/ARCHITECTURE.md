@@ -16,7 +16,7 @@ inputs and outputs. It leaves 815 activities / 315 sources. `version.json`
 separately names the imported release, editorial revision, and publication revision.
 See [the full-text review](FULL-TEXT-REVIEW-2026-09-28.md).
 
-**Curation, 2026-09-29:** `tools/curation.py` runs last. It withdraws activities the Finder
+**Curation, 2026-09-29:** `tools/curation.py` runs after punctuation. It withdraws activities the Finder
 cannot admit, corrects licenses and source records, retires `prompt_specification`, and
 applies American spelling. Both tools serve 779 activities / 309 sources. The publication
 review is no longer published on the site. See [the curation record](CURATION-2026-09-29.md).
@@ -27,7 +27,7 @@ sources, and the Hybrid and Original Synthesis classes, without changing the lic
 collection. Set records carry site-side fields `tier`, `par`, `dep`, and `chk`. That stage
 leaves 1,082 activities / 640 sources. See [the sets record](TIERS-2026-10-05.md).
 
-**Who uses the AI tool, 2026-10-05:** `tools/ai_use.py` runs last.
+**Who uses the AI tool, 2026-10-05:** `tools/ai_use.py` runs after the sets.
 
 - It adds a reviewed, site-side `op` to every activity, with its labeled vocabulary as
   `operators`.
@@ -36,7 +36,20 @@ leaves 1,082 activities / 640 sources. See [the sets record](TIERS-2026-10-05.md
 - It withdraws four activities in which AI is neither used nor discussed. It refuses to
   withdraw an activity that a remix builds on.
 
-Both tools serve 1,078 activities / 637 sources. See [the AI-use record](AI-USE-2026-10-05.md).
+That stage leaves 1,078 activities / 637 sources. See [the AI-use record](AI-USE-2026-10-05.md).
+
+**Record review, 2026-10-06:** `tools/record_review.py` runs last.
+
+- It applies reviewed corrections to activity fields and source records, each with the value it
+  replaces and its evidence, and corrects page text held in the data.
+- It holds 115 synthesis records whose source items are not openly licensed, 5 records whose own
+  license wording breaks their source's terms, and 6 remixes whose parent was removed. It
+  withdraws 34 activities whose AI step was added editorially to a source without AI.
+- It refuses any published record in which who uses AI, the tool needed, and the AI role
+  disagree, and it records flagged questions for the full review without changing the
+  publication.
+
+Both tools serve 918 activities / 501 sources. See [the record review](RECORD-REVIEW-2026-10-06.md).
 
 **Repository:** `Lewis-U-Lib/What-If-AI`. It publishes to GitHub Pages at
 `https://lewis-u-lib.github.io/What-If-AI/`.

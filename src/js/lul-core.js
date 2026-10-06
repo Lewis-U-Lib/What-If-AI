@@ -171,25 +171,57 @@ document.querySelectorAll('.flip').forEach(function(f){
     if(fabScrim) fabScrim.classList.remove('show');
     fabToggle.setAttribute('aria-expanded','false');
   }
+  /* While the chat is open it behaves as a modal dialog: focus moves to its title, the rest of the page
+     is inert, Tab stays inside, and closing it returns focus to the menu button that opened it. */
+  var chatOpener = null, madeInert = [];
+  function chatFocusables(){
+    return [].filter.call(chatModal.querySelectorAll('a[href],button,iframe,[tabindex]:not([tabindex="-1"])'),
+      function(el){ return !el.disabled && el.getClientRects().length; });
+  }
+  function setBackgroundInert(on){
+    if(on){
+      [].forEach.call(document.body.children, function(el){
+        if(el === chatModal || el.contains(chatModal) || el.hasAttribute('inert') || el.tagName === 'SCRIPT') return;
+        el.setAttribute('inert',''); madeInert.push(el);
+      });
+    } else {
+      madeInert.forEach(function(el){ el.removeAttribute('inert'); }); madeInert = [];
+    }
+  }
   /* the iframe stays unloaded until first open — keeps initial paint fast */
   function openChat(){
     fabClose();
     if(chatFrame && !chatFrame.getAttribute('src')){
       chatFrame.setAttribute('src', chatFrame.getAttribute('data-src'));
     }
-    if(chatModal){
+    if(chatModal && !chatModal.classList.contains('open')){
+      chatOpener = fabToggle;
       chatModal.classList.add('open');
       chatModal.setAttribute('aria-hidden','false');
       document.body.classList.add('chat-open');
+      setBackgroundInert(true);
+      var title = document.getElementById('chatModalTitle');
+      if(title){ title.setAttribute('tabindex','-1'); title.focus({preventScroll:true}); }
     }
   }
   function closeChat(){
-    if(chatModal){
+    if(chatModal && chatModal.classList.contains('open')){
       chatModal.classList.remove('open');
       chatModal.setAttribute('aria-hidden','true');
       document.body.classList.remove('chat-open');
+      setBackgroundInert(false);
+      var back = chatOpener; chatOpener = null;
+      if(back && document.contains(back)){ try{ back.focus({preventScroll:true}); }catch(_){} }
     }
   }
+  if(chatModal) chatModal.addEventListener('keydown', function(e){
+    if(e.key !== 'Tab') return;
+    var list = chatFocusables(); if(!list.length) return;
+    var first = list[0], last = list[list.length-1], here = document.activeElement;
+    var inside = chatModal.contains(here) && list.indexOf(here) >= 0;
+    if(e.shiftKey && (here === first || !inside)){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && (here === last || !inside)){ e.preventDefault(); first.focus(); }
+  });
   fabToggle.addEventListener('click', function(e){
     var open = fabWrap.classList.toggle('open');
     if(fabScrim) fabScrim.classList.toggle('show', open);

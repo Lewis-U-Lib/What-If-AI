@@ -47,10 +47,13 @@ const ANALYTICS = CFG.analytics;
   const curation = require('../content/curation.json');
   const tiers = require('../content/tiers.json');
   const aiUse = require('../content/ai-use.json');
+  const recordReview = require('../content/record-review.json');
   check('the imported data release remains unchanged', Object.entries(release.files).every(([name, meta]) =>
     sha(fs.readFileSync(path.join(ROOT, 'data', name))) === meta.sha256));
-  check('public data matches the reviewed output hashes of the last stage (the AI-use review)', ['acts', 'register', 'guide'].every(n => {
-    const f = files.find(x => x.startsWith('data/' + n + '.')); return f && sha(fs.readFileSync(path.join(SITE, f))) === aiUse.output_sha256[n + '.json']; }));
+  check('public data matches the reviewed output hashes of the last stage (the record review)', ['acts', 'register', 'guide'].every(n => {
+    const f = files.find(x => x.startsWith('data/' + n + '.')); return f && sha(fs.readFileSync(path.join(SITE, f))) === recordReview.output_sha256[n + '.json']; }));
+  check('the record review starts from the data with its AI-use review', JSON.stringify(recordReview.input_sha256) === JSON.stringify(aiUse.output_sha256));
+  check('the record-review manifest (holds, withdrawals, evidence, flags) is not published', !files.some(f => /record-review/.test(f)), files.filter(f => f.startsWith('data/')).join(' '));
   check('the AI-use review starts from the data with its two labeled sets', JSON.stringify(aiUse.input_sha256) === JSON.stringify(tiers.output_sha256));
   check('the AI-use manifest (assignments, evidence, withdrawals) is not published', !files.some(f => /ai-use/.test(f)), files.filter(f => f.startsWith('data/')).join(' '));
   check('the sets stage starts from the curated publication', JSON.stringify(tiers.input_sha256) === JSON.stringify(curation.output_sha256));
@@ -78,6 +81,8 @@ const ANALYTICS = CFG.analytics;
     v.tiers.revision === sha(fs.readFileSync(path.join(ROOT, 'content/tiers.json'))).slice(0, 12) && !('manifest' in v.tiers));
   check('version.json identifies the AI-use review and its counts', JSON.stringify(Object.fromEntries(Object.entries(v.ai_use).filter(([k]) => !['revision', 'reviewed'].includes(k)))) === JSON.stringify(aiUse.expected_counts) &&
     v.ai_use.revision === sha(fs.readFileSync(path.join(ROOT, 'content/ai-use.json'))).slice(0, 12) && v.ai_use.reviewed === aiUse.reviewed && !('manifest' in v.ai_use));
+  check('version.json identifies the record review and its counts', JSON.stringify(Object.fromEntries(Object.entries(v.record_review).filter(([k]) => !['revision', 'reviewed'].includes(k)))) === JSON.stringify(recordReview.expected_counts) &&
+    v.record_review.revision === sha(fs.readFileSync(path.join(ROOT, 'content/record-review.json'))).slice(0, 12) && v.record_review.reviewed === recordReview.reviewed && !('manifest' in v.record_review));
 
   // determinism: two builds of the same inputs are byte-identical
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'wia-')), t1 = path.join(tmp, 'a'), t2 = path.join(tmp, 'b');

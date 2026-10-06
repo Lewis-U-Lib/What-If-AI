@@ -15,7 +15,9 @@
     var v=a[key];
     if(Array.isArray(v)?has(v,value):v===value) return 'exact';
     if((key==='lvl'||key==='mod') && has(v,'any')) return 'compatible';
-    if(key==='disc' && !v) return 'compatible';
+    /* no field recorded, or recorded for any course ("interdisciplinary"): a possible fit for every field;
+       a reader who picks Cross-curricular gets the exact match above */
+    if(key==='disc' && (!v || v==='interdisciplinary')) return 'compatible';
     return 'mismatch';
   }
   function requirement(a,key){
@@ -31,8 +33,9 @@
     }
     if(key==='nostudent'){
       v=a.sen;
-      if(!v || v==='not_specified') return 'unknown';
-      return has(['none','student_derived_deidentified','research_participant_deidentified'],v)?'confirmed':'excluded';
+      /* information derived from students' own writing, even de-identified, still needs checking */
+      if(!v || v==='not_specified' || v==='student_derived_deidentified') return 'unknown';
+      return has(['none','research_participant_deidentified'],v)?'confirmed':'excluded';
     }
     if(key==='nopaid'){
       v=a.eq;

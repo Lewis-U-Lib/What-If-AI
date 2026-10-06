@@ -97,7 +97,7 @@ function matches(a){
   if(F.cost && ['no_tool_needed','free_tier','institution_provided'].indexOf(a.eq)<0) return false;
   if(F.op && a.op!==F.op) return false;
   if(F.noai && S_.noToolForStudents(a)!=='confirmed') return false;
-  if(F.nostudent && ['none','student_derived_deidentified','research_participant_deidentified'].indexOf(a.sen)<0) return false;
+  if(F.nostudent && ['none','research_participant_deidentified'].indexOf(a.sen)<0) return false;
   if(F.type && TYPE_IDS[F.type] && TYPE_IDS[F.type].ids.indexOf(a.id)<0) return false;
   if(F.q){
     var hay = (a.t+' '+a.sum+' '+(a.cit||'')+' '+(a.cr||'')+' '+(a.fld||'')+' '+(a.f||'')+' '+S_.familyLabel(a.f||'')+' '+a.id+' '+(a.al||[]).join(' ')).toLowerCase();
@@ -311,7 +311,8 @@ function drawPolicies(){
   var P = R.policy, tiers = P.tiers;
   if(!polSel) polSel = tiers[0].key;
   var h = '<div class="sec-head"><div class="sec-eyebrow">Syllabus policy spectrum</div><h2 id="h-policies" tabindex="-1">Course AI policies</h2>'+
-    '<p>Published course policies on generative AI tend to cluster around four positions, from keeping AI out of submitted work to welcoming it with citation. '+
+    '<p>The library reads the policies in one open, crowdsourced collection as clustering around four positions, from keeping AI out of submitted work to welcoming it with citation. '+
+    'These positions are a reading of that collection, not a scheme anyone has to adopt. '+
     'The examples below are openly licensed statements from real syllabi. They are starting points for your own language, not recommendations, and not a substitute for your program’s or institution’s policy.</p>'+
     '<p>The positions are not a ranking. Many courses combine them — permitting AI for some assignments and not others — and the right fit depends on your discipline, your students, and what each assignment is for.</p></div>';
   h += '<div class="spectrum"><div class="spectrum__ends" aria-hidden="true"><span>← Keeps AI out of submitted work</span><span>Welcomes AI with citation →</span></div>'+
@@ -359,11 +360,12 @@ function drawSources(){
     '<dl class="legend">'+R.origin.filter(function(o){ return o[3]; }).map(function(o){
       var O = S_.ORIGIN[o[0]]||{label:o[1],text:o[2]};
       return '<div><dt>'+esc(O.label)+' <span class="tag">'+o[3]+'</span></dt><dd>'+esc(O.text)+'</dd></div>'; }).join('')+'</dl>'+
-    ((R.tiers||[]).length ? '<p class="muted">Two smaller sets were written for the collection from such sources and are labeled on every activity they hold:</p>'+
+    ((R.tiers||[]).length ? '<p class="muted">Two smaller sets were written for the collection and are labeled on every activity they hold:</p>'+
       '<dl class="legend">'+R.tiers.filter(function(t){ return t[3]; }).map(function(t){
         return '<div><dt>'+esc(t[1])+' <span class="tag">'+t[3]+'</span></dt><dd>'+esc(t[2])+'</dd></div>'; }).join('')+'</dl>' : '')+
-    '<p class="muted">The collection includes only activities whose sources are published under a Creative Commons license or another open license. '+
-    'Activities adapted from those sources keep the original license, and any ShareAlike or NonCommercial terms, when they are reused.</p></details>';
+    '<p class="muted">The collection includes only activities that adapt or use works published under a Creative Commons license or another open license. '+
+    'Activities adapted from those works keep the original license, and any ShareAlike or NonCommercial terms, when they are reused. '+
+    'Some activities also cite works for their ideas alone; those works keep their own terms, which may not be open.</p></details>';
   h += '<p class="countline">'+(q ? '<strong>'+list.length+'</strong> of '+R.works.length+' sources match “'+esc(q)+'”. <button type="button" class="btn btn--sm btn--quiet" id="clearSrcSearch">Show all sources</button>'
                                    : '<strong>'+list.length+'</strong> sources.')+'</p>';
   if(!list.length){ document.getElementById('sources').innerHTML = h + '<div class="empty"><strong>No sources match that search</strong></div>'; return; }

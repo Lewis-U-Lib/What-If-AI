@@ -8,8 +8,9 @@
     are rewritten to the fingerprinted names.
   * The imported data release (data/*.json) is verified unchanged. Reviewed editorial
     corrections, publication decisions, punctuation, curation, the two labeled sets
-    (synthesis and remix), and the AI-use review (who uses the AI tool) are applied, in that
-    order, before fingerprinting. Each page receives
+    (synthesis and remix), the AI-use review (who uses the AI tool), and the record review
+    (corrections, holds, withdrawals, consistency checks) are applied, in that order, before
+    fingerprinting. Each page receives
     a small JSON manifest naming its data files and scripts; src/js/boot.js fetches the
     data and then runs the scripts in order.
   * Partials ({{partial:name}}) are inlined, so every page is complete HTML before any
@@ -34,7 +35,10 @@ from serial_commas import punctuated_files  # noqa: E402
 from curation import curated_files  # noqa: E402
 from tiers import tiered_files  # noqa: E402
 from ai_use import ai_use_files  # noqa: E402
+from record_review import record_review_files  # noqa: E402
 
+MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August", "September",
+          "October", "November", "December")
 CFG = json.loads((ROOT / "site.json").read_text(encoding="utf-8"))
 PH = re.compile(r"\{\{(\w+)(?::([\w./-]+))?\}\}")
 
@@ -84,8 +88,15 @@ def build(out):
             public_data, ROOT / "content" / "tiers.json")
         public_data, _, ai_use = ai_use_files(
             public_data, ROOT / "content" / "ai-use.json")
+        public_data, _, record_review = record_review_files(
+            public_data, ROOT / "content" / "record-review.json")
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
+    # The date the collection last changed: the release, or the latest reviewed stage after it.
+    changed = max([rel["built"]] + [m["reviewed"] for m in (curation, tiers, ai_use, record_review)
+                                    if isinstance(m.get("reviewed"), str)])
+    year, month = changed[:4], int(changed[5:7])
+    updated = "Updated " + MONTHS[month - 1] + " " + year
     if out.exists():
         shutil.rmtree(out)
     out.mkdir(parents=True)
@@ -181,6 +192,7 @@ def build(out):
             if kind == "styles": return "\n".join(styles)
             if kind == "scripts": return scripts
             if kind == "root": return root
+            if kind == "updated": return updated
             if kind == "companion": return html.escape(page["companion"][arg], quote=True)
             if kind == "asset": return a(arg)
             if kind == "partial": return (SRC / "partials" / arg).read_text(encoding="utf-8").rstrip("\n")
@@ -199,7 +211,7 @@ def build(out):
     (out / ".nojekyll").write_text("")
     urls = [base_url + ("" if p["out"] == "index.html" else p["out"]) for p in CFG["pages"] if p.get("sitemap", True)]
     (out / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-                                     + "".join(f"  <url><loc>{u}</loc><lastmod>{rel['built']}</lastmod></url>\n" for u in urls)
+                                     + "".join(f"  <url><loc>{u}</loc><lastmod>{changed}</lastmod></url>\n" for u in urls)
                                      + "</urlset>\n", encoding="utf-8")
     (out / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {base_url}sitemap.xml\n", encoding="utf-8")
     (out / "version.json").write_text(json.dumps({"release": rel["release"], "release_built": rel["built"],
@@ -210,6 +222,7 @@ def build(out):
                                                   "curation": curation,
                                                   "tiers": tiers,
                                                   "ai_use": ai_use,
+                                                  "record_review": record_review,
                                                   "assets": dict(sorted(site.map.items()))}, indent=1) + "\n", encoding="utf-8")
     return site, rel
 
