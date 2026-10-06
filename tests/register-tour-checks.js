@@ -29,6 +29,7 @@ module.exports=async function checkRegisterTour(page,check){
   await page.locator('.hdr [data-open-register-tour]').click();
   check('The Register: the header opens the same walkthrough with title focus',await page.evaluate(()=>document.querySelector('#rtour').open&&document.activeElement.id==='h-about'));
   await page.keyboard.press('Escape');await page.waitForFunction(()=>location.hash!=='#about');
+  await page.waitForFunction(()=>document.activeElement&&document.activeElement.matches('.hdr [data-open-register-tour]'),null,{timeout:2000}).catch(()=>{});
   check('The Register: closing returns focus to the header button',await page.locator('.hdr [data-open-register-tour]').evaluate(e=>e===document.activeElement));
   await page.locator('#fabToggle').click();await page.locator('#fabMenu [data-open-register-tour]').click();
   check('The Register: the floating menu opens the same walkthrough and closes its menu',await page.evaluate(()=>document.querySelector('#rtour').open&&document.querySelector('#fabToggle').getAttribute('aria-expanded')==='false'));

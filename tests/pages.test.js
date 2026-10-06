@@ -23,7 +23,13 @@ function manifest(file) {
 }
 const siteFile = rel => fs.readFileSync(path.join(SITE, rel.replace(/^\/?/, '')), 'utf8');
 /* navigate, then wait until boot.js has loaded the data and run the page's scripts */
-async function go(p, f) { await p.goto(URL(f)); await p.waitForSelector('html[data-ready]', { state: 'attached', timeout: 15000 }); }
+async function go(p, f) {
+  /* closing a dialog that opened its own history entry goes Back; if that traversal is still pending, it can
+     interrupt the next navigation, so wait for it and navigate again */
+  try { await p.goto(URL(f)); }
+  catch (e) { if (!/interrupted by another navigation|ERR_ABORTED/.test(String(e))) throw e; await p.waitForTimeout(150); await p.goto(URL(f)); }
+  await p.waitForSelector('html[data-ready]', { state: 'attached', timeout: 15000 });
+}
 /* phrases whose audience is the project, not a faculty reader; none may appear in either page */
 const INTERNAL = ['held back', 'crosswalk', 'review queue', 'assignment pass', 'fingerprint', 'build 5ffdfb', 'schema v3',
   'awaiting a second', 'marked for human review', 'reintegration', 'csr-0', 'stamped from', 'canonical record', 'mechanism grid', 'void cell'];
