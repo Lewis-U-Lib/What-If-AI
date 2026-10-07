@@ -350,13 +350,22 @@ function route(first){
   if(hsh === routed) return;
   var m;
   if((m=/^#act=([^&]+)/.exec(hsh))){
-    if(first){
-      var under = history.state && typeof history.state.base === 'string' ? history.state.base : null;
-      if(under !== null && !/^#act=/.test(under)){ viewFrom(under); actBase = under; actPushed = true; }
-      show(false);
-    }
-    routed = hsh; clearMissing();
+    /* An activity entry made on this page remembers the view underneath (history.state.base). Arriving
+       at it by load, by Back from another page, or by Forward restores that link, so the next Back or
+       close returns to the view as it was. The view is redrawn only when the page shows something else. */
+    var prev = routed, st = history.state;
+    var under = st && typeof st.base === 'string' && !/^#act=/.test(st.base) ? st.base : null;
     var id = S_.decode(m[1]);
+    if(under !== null){
+      actBase = under; actPushed = true;
+      if(prev !== under){ closeDialogs('actDialog'); viewFrom(under); show(false); }
+      else if(!first && id !== null){
+        /* Forward over the same view: the card's button takes focus back when the activity closes */
+        var btn = [].filter.call(document.querySelectorAll('#plan [data-open]'), function(b){ return b.getAttribute('data-open')===id; })[0];
+        if(btn) try{ btn.focus({preventScroll:true}); }catch(_){}
+      }
+    } else if(first) show(false);
+    routed = hsh; clearMissing();
     if(id===null || !S_.openActivity(id)){ closeDialogs(); missingActivity(id); }
     return;
   }

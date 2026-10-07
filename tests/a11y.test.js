@@ -23,7 +23,7 @@ const STATES = [
     await p.check('input[value="teaching"]'); for (let i = 0; i < 4; i++) await p.click('#next'); }],
   ['What If AI · results', 'what-if-ai.html#a=focus:teaching;task:design;lim:nopaid', async p => {}],
   ['What If AI · compatible results', 'what-if-ai.html#a=focus:research_own;task:qualitative;disc:education;mod:online', async p => {}],
-  ['What If AI · broader recovery', 'what-if-ai.html#a=focus:teaching;task:qualitative;disc:arts;depth:research_phase;lvl:grad;mod:hybrid;lim:nopaid', async p => {}],
+  ['What If AI · broader recovery', 'what-if-ai.html#a=focus:research_own;task:creative;disc:arts;depth:grant_proposal;lvl:grad;mod:hybrid;lim:nopaid', async p => {}],
   ['What If AI · unconfirmed requirements', 'what-if-ai.html#a=focus:teaching;task:design;lim:noaccount+nodisclose', async p => {
     await p.click('.requirement-checks > summary'); }],
   ['What If AI · activity details open', 'what-if-ai.html#a=focus:teaching;task:design', async p => { await p.click('#plan [data-open]'); }],
@@ -42,6 +42,9 @@ const STATES = [
   ['The Register · who uses an AI tool, filtered', 'register.html#activities?op=faculty_or_staff&noai=1', async p => {}],
   ['What If AI · the renamed No-AI limit', 'what-if-ai.html#q=limits&a=focus:teaching;task:design', async p => {}],
   ['The Register · synthesis activity details open', 'register.html#activities?set=synthesis', async p => { await p.click('#activities [data-open]'); }],
+  ['The Register · source item that needs access, details open', 'register.html#act=WIA-S-BUS-B-04', async p => {
+    await p.$eval('#actDialog .note--caution', e => e.scrollIntoView({block:'center'})); }],
+  ['The Register · source items open to adapt', 'register.html#activities?set=synthesis&open=1', async p => {}],
   ['The Register · types of AI systems', 'register.html#ai-types', async p => {}],
   ['The Register · AI-system details dialog', 'register.html#ai-types', async p => {
     await p.click('[data-open-type="conversational"]'); }],

@@ -37,10 +37,13 @@
       if(!v || v==='not_specified' || v==='student_derived_deidentified') return 'unknown';
       return has(['none','research_participant_deidentified'],v)?'confirmed':'excluded';
     }
+    /* a source item that needs a purchase, membership, subscription, or permission first (sa:
+       restricted) is never a confirmed fit for "nothing to pay for" or "no purchases" */
+    var gated=a.sa==='restricted';
     if(key==='nopaid'){
       v=a.eq;
-      if(has(['no_tool_needed','free_tier','institution_provided'],v)) return 'confirmed';
-      return ['paid_required','paid_with_stated_alternative'].includes(v)?'excluded':'unknown';
+      if(['paid_required','paid_with_stated_alternative'].includes(v)) return 'excluded';
+      return !gated && has(['no_tool_needed','free_tier','institution_provided'],v)?'confirmed':'unknown';
     }
     if(key==='nodisclose'){
       v=a.dis;
@@ -53,6 +56,7 @@
       v=a.pc;
       var blocked=key==='noaccount'?['account_verification']:key==='nokit'?['equipment_required','travel_or_attendance','purchased_material']:['institutional_approval_required'];
       if(has(blocked,v)) return 'excluded';
+      if(key==='nokit' && gated) return 'unknown';
       return v==='none'?'confirmed':'unknown';
     }
     return 'unknown';

@@ -42,6 +42,17 @@ for(const sen of ['student_work','identifiable_student_data','own_personal_data'
 for(const [k,field] of [['nopaid','eq'],['nostudent','sen'],['nodisclose','dis']]){
   for(const v of [undefined,'not_specified'])assert.equal(M.requirement({...fixture,[field]:v},k),'unknown');
 }
+// WIA-01: a source item that needs a purchase, membership, subscription, or permission first (sa: restricted)
+// is never a confirmed fit for "nothing anyone has to pay for" or "no purchases"; a known conflict still excludes.
+// Items that are only not openly licensed, or usable only as published, change neither requirement.
+assert.equal(M.requirement({...fixture,sa:'restricted'},'nopaid'),'unknown');
+assert.equal(M.requirement({...fixture,sa:'restricted'},'nokit'),'unknown');
+assert.equal(M.requirement({...fixture,sa:'restricted',eq:'paid_required'},'nopaid'),'excluded');
+assert.equal(M.requirement({...fixture,sa:'restricted',pc:'purchased_material'},'nokit'),'excluded');
+for(const k of ['noaccount','noapproval','noai','nostudent','nodisclose'])
+  assert.equal(M.requirement({...fixture,op:'none',sa:'restricted'},k),M.requirement({...fixture,op:'none'},k),k);
+for(const sa of ['not_open','unmodified'])for(const k of ['nopaid','nokit'])assert.equal(M.requirement({...fixture,sa},k),'confirmed',sa+' '+k);
+for(const a of A.filter(a=>a.sa==='restricted'))for(const k of ['nopaid','nokit'])assert.notEqual(M.requirement(a,k),'confirmed',a.id+' '+k);
 // A known conflict always wins, even when a different selected requirement is unknown.
 assert.equal(M.assess({...fixture,pc:'account_verification',dis:'not_specified'},{limits:{noaccount:true,nodisclose:true}}).status,'excluded');
 const uncertain=M.search([{...fixture,pc:'not_specified'}],{limits:{noaccount:true}});

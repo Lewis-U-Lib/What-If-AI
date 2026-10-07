@@ -124,6 +124,30 @@ class RecordReviewTests(unittest.TestCase):
         self.refused(lambda m: m["flags"].append({"category": "x", "note": "n", "records": ["NOPE"]}), "does not exist")
         self.refused(lambda m: m["expected_counts"].update(held=0), "counts")
 
+    def test_source_access_labels(self):
+        """WIA-01: each synthesis record whose source item is not openly licensed is published with a label
+        that names the access the item needs, and the label sits only on records that use such an item."""
+        labeled = {a["id"]: a for a in self.acts().values() if "sa" in a}
+        self.assertEqual(len(labeled), 115)
+        for i, a in labeled.items():
+            self.assertEqual(a.get("tier"), "synthesis", i)
+            self.assertIn(a["sa"], {"not_open", "unmodified", "restricted"}, i)
+            self.assertTrue(any(r[1].startswith("Used unmodified") for r in a["rel"]), i)
+        counts = self.manifest["expected_counts"]
+        for v in ("not_open", "unmodified", "restricted"):
+            self.assertEqual(sum(a["sa"] == v for a in labeled.values()), counts["source_" + v], v)
+        self.assertFalse([h for h in self.manifest["held"] if h["category"] == "source_access"])
+        entry = next(e for e in self.manifest["corrections"] if e["field"] == "sa")
+        self.refused(lambda m: next(e for e in m["corrections"] if e["field"] == "sa").update(after="closed"), "Unlabeled")
+        plain = next(a for a in self.acts().values() if not a.get("tier"))
+        self.refused(lambda m: m["corrections"].append({"id": plain["id"], "field": "sa", "before": None,
+                                                        "after": "not_open", "reason": "r", "evidence": "e"}),
+                     "source_access_has_item")
+        self.refused(lambda m: m["withdrawals"]["records"][0].update(status="maybe"), "withdrawal status")
+        self.assertEqual([w["id"] for w in self.manifest["withdrawals"]["records"] if w.get("status") == "provisional"],
+                         ["CAN-A2-A-132"])
+        self.assertTrue(entry["evidence"].startswith("Source item used unmodified: "))
+
     def test_pinned_input_and_output(self):
         _, _, metadata = record_review_files(self.raw, ROOT / "content/record-review.json")
         self.assertEqual(metadata["activities"], self.manifest["expected_counts"]["activities"])

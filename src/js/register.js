@@ -18,8 +18,8 @@ S_.init({page:'register', onOpen:function(id, wasOpen, byUser){
   var h = '#act='+encodeURIComponent(id);
   if(location.hash === h) return;
   try {
-    if(byUser && !wasOpen){ history.pushState({reg:1}, '', h); actPushed = true; }
-    else history.replaceState({reg:1}, '', h);
+    if(byUser && !wasOpen){ history.pushState({reg:1, base:base}, '', h); actPushed = true; }
+    else history.replaceState({reg:1, base:base}, '', h);
   } catch(_){}
   routed = location.hash;
 }});
@@ -38,7 +38,7 @@ var base = '#activities';   /* the address of the view under an open activity */
 });
 
 /* ═════════════ activities ═════════════ */
-var F = {q:'', set:'', focus:'', task:'', theme:'', disc:'', cap:'', pol:'', role:'', move:'', op:'', cost:false, noai:false, nostudent:false, type:'', sort:'az'};
+var F = {q:'', set:'', focus:'', task:'', theme:'', disc:'', cap:'', pol:'', role:'', move:'', op:'', cost:false, noai:false, nostudent:false, open:false, type:'', sort:'az'};
 var PAGE = 24, shown = PAGE;
 var TYPE_IDS = {};
 R.types.types.forEach(function(t){ if(t.ids && t.ids.length) TYPE_IDS[t.key] = {name:t.name, ids:t.ids}; });
@@ -76,7 +76,8 @@ function filtersHTML(){
   h += '<fieldset class="field field--bare"><legend class="label">Requirements</legend>'+
     '<label class="check"><input type="checkbox" data-fc="cost"'+(F.cost?' checked':'')+'> No cost to participants</label>'+
     '<label class="check"><input type="checkbox" data-fc="noai"'+(F.noai?' checked':'')+'> Students use no AI tool</label>'+
-    '<label class="check"><input type="checkbox" data-fc="nostudent"'+(F.nostudent?' checked':'')+'> Keeps student work out of AI tools</label></fieldset>';
+    '<label class="check"><input type="checkbox" data-fc="nostudent"'+(F.nostudent?' checked':'')+'> Keeps student work out of AI tools</label>'+
+    '<label class="check"><input type="checkbox" data-fc="open"'+(F.open?' checked':'')+'> Source items open to adapt</label></fieldset>';
   h += '<details'+((F.role||F.move||F.op)?' open':'')+'><summary>How the AI and people divide the work</summary>'+
     selectField('f-op','Who uses an AI tool','op', counted(ops,'op'))+
     selectField('f-role','What the AI does','role', counted(roles,'ar'))+
@@ -94,10 +95,13 @@ function matches(a){
   if(F.pol && a.pol!==F.pol) return false;
   if(F.role && a.ar!==F.role) return false;
   if(F.move && a.hm!==F.move) return false;
-  if(F.cost && ['no_tool_needed','free_tier','institution_provided'].indexOf(a.eq)<0) return false;
+  /* the same test as What If AI's "Nothing anyone has to pay for": a source item that needs a purchase,
+     membership, subscription, or permission first is never confirmed free */
+  if(F.cost && (['no_tool_needed','free_tier','institution_provided'].indexOf(a.eq)<0 || a.sa==='restricted')) return false;
   if(F.op && a.op!==F.op) return false;
   if(F.noai && S_.noToolForStudents(a)!=='confirmed') return false;
   if(F.nostudent && ['none','research_participant_deidentified'].indexOf(a.sen)<0) return false;
+  if(F.open && a.sa) return false;
   if(F.type && TYPE_IDS[F.type] && TYPE_IDS[F.type].ids.indexOf(a.id)<0) return false;
   if(F.q){
     var hay = (a.t+' '+a.sum+' '+(a.cit||'')+' '+(a.cr||'')+' '+(a.fld||'')+' '+(a.f||'')+' '+S_.familyLabel(a.f||'')+' '+a.id+' '+(a.al||[]).join(' ')).toLowerCase();
@@ -129,6 +133,7 @@ function chipLabel(k){
     case 'cost': return 'No cost to participants';
     case 'noai': return 'Students use no AI tool';
     case 'nostudent': return 'Keeps student work out of AI tools';
+    case 'open': return 'Source items open to adapt';
     case 'type': return (TYPE_IDS[v]||{}).name;
   }
   return v;
@@ -143,7 +148,7 @@ function worksMatching(q){
 }
 function resultsHTML(){
   var list = filtered();
-  var keys = ['q','set','focus','task','theme','disc','cap','pol','role','move','op','cost','noai','nostudent','type'].filter(function(k){ return F[k]; });
+  var keys = ['q','set','focus','task','theme','disc','cap','pol','role','move','op','cost','noai','nostudent','open','type'].filter(function(k){ return F[k]; });
   var h = '';
   if(keys.length) h += '<ul class="activechips" aria-label="Active filters">'+keys.map(function(k){
     return '<li><button type="button" class="fchip" data-clear="'+k+'">'+esc(chipLabel(k))+' <span class="x" aria-hidden="true">✕</span><span class="sr-only"> — remove this filter</span></button></li>'; }).join('')+'</ul>';
@@ -200,7 +205,7 @@ function syncFilterControls(){
   [].forEach.call(document.querySelectorAll('#activities [data-fc]'), function(c){ c.checked = !!F[c.getAttribute('data-fc')]; });
   var gq = document.getElementById('gq'); if(gq && gq.value !== F.q) gq.value = F.q;
 }
-function resetF(){ var s = F.sort; F = {q:'', set:'', focus:'', task:'', theme:'', disc:'', cap:'', pol:'', role:'', move:'', op:'', cost:false, noai:false, nostudent:false, type:'', sort:s}; }
+function resetF(){ var s = F.sort; F = {q:'', set:'', focus:'', task:'', theme:'', disc:'', cap:'', pol:'', role:'', move:'', op:'', cost:false, noai:false, nostudent:false, open:false, type:'', sort:s}; }
 
 /* ═════════════ types of AI systems ═════════════ */
 /* Compact type cards share one modal; the page grid stays in place. */
@@ -363,9 +368,9 @@ function drawSources(){
     ((R.tiers||[]).length ? '<p class="muted">Two smaller sets were written for the collection and are labeled on every activity they hold:</p>'+
       '<dl class="legend">'+R.tiers.filter(function(t){ return t[3]; }).map(function(t){
         return '<div><dt>'+esc(t[1])+' <span class="tag">'+t[3]+'</span></dt><dd>'+esc(t[2])+'</dd></div>'; }).join('')+'</dl>' : '')+
-    '<p class="muted">The collection includes only activities that adapt or use works published under a Creative Commons license or another open license. '+
-    'Activities adapted from those works keep the original license, and any ShareAlike or NonCommercial terms, when they are reused. '+
-    'Some activities also cite works for their ideas alone; those works keep their own terms, which may not be open.</p></details>';
+    '<p class="muted">Activities adapt only works published under a Creative Commons license or another open license, and keep the original license, with any ShareAlike or NonCommercial terms, when they are reused. '+
+    'Some synthesis activities also use a published source item as is, by link; the item keeps its own terms, which may rule out adapting it, and the activity says what using it requires. '+
+    'Works cited for their ideas alone also keep their own terms.</p></details>';
   h += '<p class="countline">'+(q ? '<strong>'+list.length+'</strong> of '+R.works.length+' sources match “'+esc(q)+'”. <button type="button" class="btn btn--sm btn--quiet" id="clearSrcSearch">Show all sources</button>'
                                    : '<strong>'+list.length+'</strong> sources.')+'</p>';
   if(!list.length){ document.getElementById('sources').innerHTML = h + '<div class="empty"><strong>No sources match that search</strong></div>'; return; }
@@ -519,6 +524,9 @@ function route(first){
   if((m = /^act=(.+)$/.exec(hsh))){
     var id = S_.decode(m[1]);
     if(first) show('activities', false);
+    /* Forward to an activity this page opened over a view (its entry records the view): closing it goes back to
+       that view, as it did the first time, rather than replacing the entry with a copy of it */
+    else if(history.state && typeof history.state.base === 'string') actPushed = true;
     var old = document.getElementById('missingAct'); if(old) old.parentNode.removeChild(old);
     if(id===null || !S_.openActivity(id)){
       if(dlg && dlg.open){ actPushed = false; S_.closeDialog(dlg); }

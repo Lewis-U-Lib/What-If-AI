@@ -59,11 +59,11 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
   AI is neither used nor discussed. That stage leaves 1,078 activities / 637 sources.
 - `content/record-review.json` is the seventh and last stage
   ([the record](docs/RECORD-REVIEW-2026-10-06.md)). It applies corrections checked against the
-  sources, holds synthesis records whose source items are not openly licensed and records whose
+  sources, labels synthesis records whose source item is not openly licensed, holds records whose
   own license wording breaks their source's terms, withdraws activities whose AI step was added
   editorially to a source without AI, and refuses records in which who uses AI, the tool needed,
   and the AI role disagree. Held and withdrawn records stay intact in the earlier stages. Both
-  tools serve **918 activities / 501 sources**.
+  tools serve **1,033 activities / 618 sources**.
 - `src/` holds the pages, partials, CSS, JS, fonts, and images.
 - `tools/build.py` turns `src/` and `data/` into `_site/`, fingerprinting every asset. It needs
   only Python 3.

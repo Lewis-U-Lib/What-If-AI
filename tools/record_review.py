@@ -19,6 +19,11 @@ deliberate reconciliation. It applies, in this order:
   held           records kept out of both tools until a person settles a question, each with a
                  category and a reason. A held record stays intact in the earlier stages, so
                  releasing it means deleting its entry here.
+  source access  a correction may add `sa` to a record that uses a source item as published, by
+                 link, when that item is not openly licensed: `not_open` (no clear open license),
+                 `unmodified` (may be shared but not adapted), or `restricted` (a purchase,
+                 membership, subscription, or permission is needed). Both tools show it, and the
+                 payment and purchase limits never confirm a `restricted` record.
   flags          questions recorded for a reviewer. They do not change the publication; each
                  names records or sources that exist in the input.
   consistency    rules every published record must satisfy, and the records still pending a
@@ -38,7 +43,9 @@ from publication_review import encode_result, hashes
 from tiers import CAPS, MOVES, ROLES, VOCAB
 
 TEXT_FILES = {"acts.json", "register.json"}
-CODED = {"sen", "pc", "eq", "dis", "cap", "op", "ar", "hm", "pol", "disc", "icap"}
+CODED = {"sen", "pc", "eq", "dis", "cap", "op", "ar", "hm", "pol", "disc", "icap", "sa"}
+SOURCE_ACCESS = {"not_open", "unmodified", "restricted"}
+WITHDRAWAL_STATUS = {"provisional"}
 FREE = {"t", "sum", "gate", "risk", "chg", "na", "dl", "evs", "loc", "url", "cit", "attr", "lic", "licu",
         "licn", "lics", "ft", "fld", "tool", "srp", "miss", "ad", "rf"}
 PROSE = {"t", "sum", "gate", "risk", "chg", "na", "dl", "evs", "loc", "url", "cit", "attr", "licn", "lics",
@@ -66,10 +73,16 @@ def _rule_withheld_not_students(a):
     return a.get("ar") != "withheld" or a.get("op") != "students"
 
 
+def _rule_source_access_has_item(a):
+    """A source-access label describes an item the activity uses as published."""
+    return "sa" not in a or any(r[1].startswith("Used unmodified") for r in a.get("rel") or [])
+
+
 RULES = {
     "no_operator_no_tool": _rule_no_operator_no_tool,
     "no_tool_no_operator": _rule_no_tool_no_operator,
     "withheld_not_students": _rule_withheld_not_students,
+    "source_access_has_item": _rule_source_access_has_item,
 }
 
 
@@ -104,6 +117,9 @@ def _check_value(field, value, acts, where):
     elif field == "icap":
         if value not in ICAPS:
             raise ValueError(f"Unlabeled engagement class: {where}")
+    elif field == "sa":
+        if value not in SOURCE_ACCESS:
+            raise ValueError(f"Unlabeled source access: {where}")
     elif field in PROSE and value is not MISSING and (not isinstance(value, str) or not value.strip()):
         raise ValueError(f"Prose must be text: {where}")
 
@@ -213,6 +229,8 @@ def apply_record_review(source, review, check_counts=True):
         if a is None or a.get("tier"):
             raise ValueError(f"A withdrawal must name a published activity from the licensed collection: {x.get('id')}")
         _explained(x, x["id"])
+        if x.get("status") is not None and x["status"] not in WITHDRAWAL_STATUS:
+            raise ValueError(f"Unknown withdrawal status: {x['id']}")
         if EDITORIAL_AI not in (a.get("chg") or ""):
             raise ValueError(f"The change note does not say the AI step was specified editorially: {x['id']}")
     held = [h.get("id") for h in review["held"]]
@@ -277,7 +295,8 @@ def apply_record_review(source, review, check_counts=True):
               "source_fields": len(review["work_fields"]), "text": len(review["text"]),
               "flagged_records": len({i for f in review["flags"] for i in f.get("records") or []}),
               **{op: sum(a["op"] == op for a in acts["acts"]) for op in OPERATORS},
-              "students_use_no_tool": reg["types"]["no_ai"]["n"]}
+              "students_use_no_tool": reg["types"]["no_ai"]["n"],
+              **{"source_" + v: sum(a.get("sa") == v for a in acts["acts"]) for v in sorted(SOURCE_ACCESS)}}
     if check_counts and counts != review["expected_counts"]:
         raise ValueError(f"Record review counts differ from the review: {counts}")
     if not check_counts:

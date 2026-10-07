@@ -56,11 +56,18 @@ requirements before considering” group. Its card names each requirement to che
 |---|---|---|---|
 | My students won’t use an AI tool themselves (`noai`) | A nonempty `na` route, or `op` of `faculty_or_staff`, `optional`, or `none` | `op: students` with no `na` route | `op: not_specified` or missing, with no `na` route |
 | No student-authored input | `none`, `research_participant_deidentified` sensitivity | Other recorded sensitivity categories | Missing or `not_specified` sensitivity, or `student_derived_deidentified` (information derived from students' own writing still needs checking) |
-| No payment | `no_tool_needed`, `free_tier`, `institution_provided` | `paid_required`; `paid_with_stated_alternative` under the existing route contract | Missing, unspecified, or unrecognized cost |
+| No payment | `no_tool_needed`, `free_tier`, `institution_provided`, unless the source item is `sa: restricted` | `paid_required`; `paid_with_stated_alternative` under the existing route contract | Missing, unspecified, or unrecognized cost; or a free cost on a record whose source item is `sa: restricted` |
 | No account | `pc: none` | `account_verification` | Every other prerequisite category |
-| No equipment/travel/purchases | `pc: none` | `equipment_required`, `travel_or_attendance`, `purchased_material` | Every other prerequisite category |
+| No equipment/travel/purchases | `pc: none`, unless the source item is `sa: restricted` | `equipment_required`, `travel_or_attendance`, `purchased_material` | Every other prerequisite category; or `pc: none` on a record whose source item is `sa: restricted` |
 | No formal disclosure | `none_required`, `informal_acknowledgement`, `documented_log`, `anonymity_by_design` | `formal_statement` | Missing, unspecified, or unrecognized disclosure |
 | No approval | `pc: none` | `institutional_approval_required` | Every other prerequisite category |
+
+`sa` (source access) is set by the record-review stage on synthesis records that use a source
+item, as published and by link, that is not openly licensed. Only `restricted` (the item needs a
+purchase, membership, subscription, or permission first) affects matching: such a record is never
+a confirmed fit for the payment or purchase limits, so it appears among the activities to check.
+The Register's **No cost to participants** requirement applies the same test. `not_open` and
+`unmodified` change no limit; the card and page say what they mean.
 
 `op` (who operates an AI tool) is a reviewed, site-side field set by the AI-use stage. See
 [the AI-use record](AI-USE-2026-10-05.md). The `noai` limit reads “My students won’t use an

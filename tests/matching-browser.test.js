@@ -33,7 +33,7 @@ async function shot(p,name){if(SHOTS){fs.mkdirSync(SHOTS,{recursive:true});await
   await p.locator('[data-card="CAN-B-ASMT-01"] [data-open]').click();await p.keyboard.press('Escape');
   assert.ok(await p.locator('[data-card="CAN-B-ASMT-01"] [data-open]').evaluate(n=>n===document.activeElement));
   // A valid but sparse preference set gets a visible recovery state, never a false claim of fit.
-  await go('#a=focus:teaching;task:qualitative;disc:arts;depth:research_phase;lvl:grad;mod:hybrid;lim:nopaid');
+  await go('#a=focus:research_own;task:creative;disc:arts;depth:grant_proposal;lvl:grad;mod:hybrid;lim:nopaid');
   assert.ok(await p.locator('.empty').isVisible());
   assert.ok(await p.locator('[data-match-group="broader"] [data-card]').count()>0);
   assert.ok((await p.locator('[data-match-group="broader"] .match-note').first().textContent()).includes('Different from your preferences'));

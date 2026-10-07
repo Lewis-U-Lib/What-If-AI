@@ -56,6 +56,12 @@ var L = {
   role:  {generator:'AI produces material to work with', interlocutor:'AI as a conversation partner',
           evaluator:'AI comments on existing work', instrument:'AI does one bounded task',
           specimen:'AI output is examined as the object of study', withheld:'AI is deliberately left out'},
+  /* source access (content/record-review.json, WIA-01): a source item used as published, by link, that is not openly
+     licensed. Absent means every work the activity adapts or uses is openly licensed. */
+  sa:    {not_open:'No clear open license', unmodified:'Use only as published', restricted:'Access or permission needed'},
+  saLong:{not_open:'The source item it uses states no clear open license for the item itself. Use the item from its own page as published, and ask its owner before copying or adapting it.',
+          unmodified:'The source item it uses may be shared as published but not changed (a NoDerivatives license or a reproduce-only permission).',
+          restricted:'Using the source item needs a purchase, membership, subscription, or permission before classroom use.'},
   move:  {produce_first:'Produce your own version first', verify:'Check against sources', critique:'Critique against a standard',
           revise:'Revise your own work', analyze_as_data:'Analyze the output as evidence', constrain:'Set limits, or decide not to use it'}
 };
@@ -128,6 +134,9 @@ function howItWorks(a){
   return role && move ? role + ', and ' + move : '';
 }
 function sensitive(a){ return a.sen && L.sen[a.sen]; }
+/* the source items an activity uses as published, by link ("Used unmodified" in its list of works) */
+function usedItems(a){ return (a.rel||[]).filter(function(r){ return /^Used unmodified/.test(r[1]); }); }
+function sourceAccess(a){ return a.sa && L.sa[a.sa] ? a.sa : ''; }
 /* where the data goes: an AI tool when someone operates one, otherwise the activity's other tools */
 function dataTool(a){ return a.op==='none' ? 'a third-party tool' : 'an AI tool'; }
 
@@ -196,6 +205,7 @@ function cardHTML(a, opts){
   s += '<dt>AI use</dt><dd>'+esc(capsShort(a)||'Not stated')+'</dd>';
   if(OPERATOR[a.op]) s += '<dt>Who uses AI</dt><dd>'+esc(OPERATOR[a.op].label)+'</dd>';
   if(a.eq && a.eq!=='not_specified') s += '<dt>Cost</dt><dd>'+esc(L.eq[a.eq]||pretty(a.eq))+'</dd>';
+  if(sourceAccess(a)) s += '<dt>Source item</dt><dd>'+esc(L.sa[a.sa])+'</dd>';
   var T = tierOf(a);
   if(T) s += '<dt>Origin</dt><dd>'+esc(T.label)+' · not yet tried</dd>';
   s += '</dl>';
@@ -240,6 +250,7 @@ function detailHTML(a, opts){
   f += '<dt>AI tool needed</dt><dd>'+esc((a.cap||[]).map(function(c){return L.capLong[c]||pretty(c);}).join('; ')||'Not stated')+'</dd>';
   if(a.eq && a.eq!=='not_specified') f += '<dt>Cost and access</dt><dd>'+esc(L.eq[a.eq]||pretty(a.eq))+'</dd>';
   if(a.pc && L.pc[a.pc]) f += '<dt>Also required</dt><dd>'+esc(L.pc[a.pc])+'</dd>';
+  if(sourceAccess(a)) f += '<dt>Source item</dt><dd>'+esc(L.sa[a.sa])+'</dd>';
   f += '</dl>';
   h += sec('At a glance', f);
 
@@ -255,6 +266,14 @@ function detailHTML(a, opts){
   var b = '';
   if(sensitive(a)) b += '<div class="note note--caution"><strong>Data.</strong> This activity involves putting '+esc(L.sen[a.sen])+
     ' into '+dataTool(a)+'. Before using it, consider your institution’s guidance on data and approved tools, whether consent is needed, and whether a de-identified or institutionally provided option is available.</div>';
+  if(sourceAccess(a)){
+    var items = usedItems(a), named = items.map(function(r){ return '“'+esc(r[2])+'”'; }).join(' and ');
+    var where = opts.print ? 'Its terms are recorded with the source in The Register.' :
+      'Its terms are in '+items.map(function(r){ return '<a href="'+reg+'#src='+encodeURIComponent(r[0])+'">The Register’s entry for '+esc(r[2])+'</a>'; }).join(' and ')+'.';
+    b += '<div class="note'+(a.sa==='restricted'?' note--caution':'')+'"><strong>Source item: '+esc(L.sa[a.sa].toLowerCase())+'.</strong> '+
+      'This activity uses '+(named||'its source item')+' as published, by link; the item is not copied into the activity. '+
+      esc(L.saLong[a.sa])+' '+where+' The activity’s own write-up carries the collection’s license.</div>';
+  }
   var PL = (D.pol||{})[a.pol];
   if(PL){
     b += '<h4>Course AI policy it assumes</h4><p><strong>'+esc(PL.pill)+' — '+esc(PL.label)+'.</strong> '+esc(PL.reads)+
@@ -522,7 +541,7 @@ function copyText(text, okMsg){
   }catch(_){ fallback(); }
 }
 
-window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, TIER:TIER, tierOf:tierOf, OPERATOR:OPERATOR, operatorLabel:operatorLabel, noToolForStudents:noToolForStudents, esc:esc, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
+window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, TIER:TIER, tierOf:tierOf, OPERATOR:OPERATOR, operatorLabel:operatorLabel, noToolForStudents:noToolForStudents, usedItems:usedItems, esc:esc, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
   taskLabel:taskLabel, depthLabel:depthLabel, discLabel:discLabel, lvlLabel:lvlLabel, modLabel:modLabel, familyLabel:familyLabel,
   cardHTML:cardHTML, detailHTML:detailHTML, openActivity:openActivity, openDialog:openDialog, closeDialog:closeDialog, wireDialog:wireDialog, resetDialogScroll:resetDialogScroll,
   Saved:Saved, announce:announce, decode:decode, printSaved:printSaved, copyText:copyText, howItWorks:howItWorks, init:init, kickerOf:kickerOf};

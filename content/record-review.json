@@ -1,15 +1,15 @@
 {
  "schema": 1,
  "reviewed": "2026-10-06",
- "note": "Record review after the AI-use stage, from the October 2026 audit: corrections checked against the sources, synthesis records whose source items are not openly licensed held, records whose own license wording breaks their source's terms held, activities whose AI step was added editorially to a source without AI withdrawn, and consistency rules for who uses AI. See docs/RECORD-REVIEW-2026-10-06.md.",
+ "note": "Record review after the AI-use stage, from the October 2026 audit: corrections checked against the sources, synthesis records whose source items are not openly licensed labeled with their source access, records whose own license wording breaks their source's terms held, activities whose AI step was added editorially to a source without AI withdrawn, and consistency rules for who uses AI. See docs/RECORD-REVIEW-2026-10-06.md.",
  "input_sha256": {
   "acts.json": "1e28ef71390f3a4fa631da71dee1e539214e7c0216a613115ccdb94cc9f0b78a",
   "register.json": "22b0f8e9c7e917033e37c2cd5096a2f958fdc1819c23d2fdb2f2166a418d642d",
   "guide.json": "22dbfe42766273bbf490c52711d20ef97df9cb3c5b45ac3e08495684db13b4eb"
  },
  "output_sha256": {
-  "acts.json": "b74fe0b58872b386116020fdc301c62f972ebb47e096d5a60ba20d2b1bad4ad7",
-  "register.json": "fe258177f1f1dca1c551ec160e785923cae4610cf959592bffe2e61430bc1b80",
+  "acts.json": "fd1ff6f4e4096e332827c4e12d3fe8de907c24557bc6aa1e028c5c0b4df93a35",
+  "register.json": "7b9a3e7188da49bb285cd5f410c9f62125b020b16b59c1bf07a9870f940181ff",
   "guide.json": "22dbfe42766273bbf490c52711d20ef97df9cb3c5b45ac3e08495684db13b4eb"
  },
  "text": [
@@ -43,8 +43,8 @@
     2
    ],
    "before": "Written for this collection in October 2026 and not yet taught or tried. Each starts from a specific openly licensed source item or a framework in an open-access book on teaching, and lists every work it draws on, how, and under what license.",
-   "after": "Written for this collection in October 2026 and not yet taught or tried. Each starts from a specific source item or a framework in an open-access book on teaching, and lists every work it draws on, how, and under what license. Every work it adapts or uses is openly licensed; works that shaped only its ideas keep their own terms.",
-   "reason": "WIA-01 (D-01): with the records whose source items are not openly licensed held, the description says exactly what is open: every adapted or used work, but not every work cited for its ideas."
+   "after": "Written for this collection in October 2026 and not yet taught or tried. Each starts from a specific published source item or a framework in an open-access book on teaching, and lists every work it draws on, how, and under what terms. Some source items may not be adapted (they state no clear open license, allow no changes, or need access first); they are used as published, by link, and each such activity says what using the item requires.",
+   "reason": "WIA-01 (D-01): synthesis records whose source items are not openly licensed stay published with a source-access label, so the description no longer promises an open source item for every one."
   },
   {
    "file": "register.json",
@@ -54,8 +54,8 @@
     2
    ],
    "before": "Written for this collection in October 2026 and not yet taught or tried. Each starts from a specific openly licensed source item or a framework in an open-access book on teaching, and lists every work it draws on, how, and under what license.",
-   "after": "Written for this collection in October 2026 and not yet taught or tried. Each starts from a specific source item or a framework in an open-access book on teaching, and lists every work it draws on, how, and under what license. Every work it adapts or uses is openly licensed; works that shaped only its ideas keep their own terms.",
-   "reason": "WIA-01 (D-01): with the records whose source items are not openly licensed held, the description says exactly what is open: every adapted or used work, but not every work cited for its ideas."
+   "after": "Written for this collection in October 2026 and not yet taught or tried. Each starts from a specific published source item or a framework in an open-access book on teaching, and lists every work it draws on, how, and under what terms. Some source items may not be adapted (they state no clear open license, allow no changes, or need access first); they are used as published, by link, and each such activity says what using the item requires.",
+   "reason": "WIA-01 (D-01): synthesis records whose source items are not openly licensed stay published with a source-access label, so the description no longer promises an open source item for every one."
   },
   {
    "file": "register.json",
@@ -560,6 +560,970 @@
    "after": "axe, Lighthouse, pa11y",
    "reason": "WIA-08 sample: \"Make\" is not named in the source.",
    "evidence": "Source repository README and SKILLS.md name axe, Lighthouse and pa11y; no mention of Make."
+  },
+  {
+   "id": "CAN-B-ASMT-13",
+   "field": "cap",
+   "before": [
+    "text_chat"
+   ],
+   "after": [
+    "image_generation"
+   ],
+   "reason": "Audit A-05: Scribble Diffusion turns a doodle and a written prompt into a picture; no conversational tool is used.",
+   "evidence": "Record summary: \"doodle a portrait of your partner directly in Scribble Diffusion, which turns the doodle into a picture using both the sketch and a written prompt\". Tool named in the source: Scribble Diffusion."
+  },
+  {
+   "id": "WIA-S-SOC-B-08",
+   "field": "eq",
+   "before": "no_tool_needed",
+   "after": "free_tier",
+   "reason": "Sampled correction: the instructor runs a classifier, so \"no tool needed\" is not right.",
+   "evidence": "Reacting Consortium: \"Reacting Consortium members can download all game materials below\"; non-member purchase \"$10.00\"; \"Please fill out the Permissions Request Form before using The Oversight Board in your class!\" The instructor runs \"an openly available toxicity classifier\". Library audit, 2026-10-06."
+  },
+  {
+   "id": "WIA-S-SOC-B-08",
+   "field": "pc",
+   "before": "none",
+   "after": "purchased_material",
+   "reason": "Sampled correction: the game needs a membership or a $10 purchase.",
+   "evidence": "Reacting Consortium: \"Reacting Consortium members can download all game materials below\"; non-member purchase \"$10.00\"; \"Please fill out the Permissions Request Form before using The Oversight Board in your class!\" The instructor runs \"an openly available toxicity classifier\". Library audit, 2026-10-06."
+  },
+  {
+   "id": "WIA-S-SOC-B-08",
+   "field": "risk",
+   "before": "Students use no AI tool or account; the game materials are available to Reacting Consortium members, who are asked to file a permissions request before classroom use.",
+   "after": "Students use no AI tool or account. The game materials are available to Reacting Consortium members, or to non-members for a $10 purchase, and every user is asked to file a permissions request before classroom use.",
+   "reason": "Sampled correction: adds the purchase route; the permission request applies to every user.",
+   "evidence": "Reacting Consortium: \"Reacting Consortium members can download all game materials below\"; non-member purchase \"$10.00\"; \"Please fill out the Permissions Request Form before using The Oversight Board in your class!\" The instructor runs \"an openly available toxicity classifier\". Library audit, 2026-10-06."
+  },
+  {
+   "id": "WIA-S-BUS-B-13",
+   "field": "eq",
+   "before": "paid_with_stated_alternative",
+   "after": "free_tier",
+   "reason": "Sampled correction: the lesson lists its tools as free to students.",
+   "evidence": "Anchor lesson, \"How to Run This in Your Classroom\": \"Cost to Students: Free!\" (library audit, 2026-10-06)."
+  },
+  {
+   "id": "WIA-S-ART-A-03",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Appropriation (SRC-0291): © 2026 The Museum of Modern Art"
+  },
+  {
+   "id": "WIA-S-ART-A-06",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: The Great Thanksgiving Listen (SRC-0292): \"Copyright © 2003-2026 StoryCorps, Inc. All rights reserved.\""
+  },
+  {
+   "id": "WIA-S-ART-A-10",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Lesson plan: Create your own national debt awareness campaign (SRC-0294): \"Copyright © 2025 News Hour Production LLC. All Rights Reserved\""
+  },
+  {
+   "id": "WIA-S-ART-A-11",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Integrity on Deadline: ABC News and the Duke Lacrosse Photographs (SRC-0295): none stated on item page"
+  },
+  {
+   "id": "WIA-S-ART-A-15",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Forum Theatre (SRC-0298): none stated on item page"
+  },
+  {
+   "id": "WIA-S-ART-B-02",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Every Picture Tells Many Stories (SRC-0300): © 2026 National Gallery of Art"
+  },
+  {
+   "id": "WIA-S-ART-B-10",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Democracy's Watchdog: Seafood from Slaves (SRC-0306): none stated on item page"
+  },
+  {
+   "id": "WIA-S-ART-B-13",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: 1-5-6-4 (SRC-0308): none stated on item page"
+  },
+  {
+   "id": "WIA-S-ART-B-14",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Hamlet Teacher Pack 2025 (SRC-0309): © RSC"
+  },
+  {
+   "id": "WIA-S-ART-B-15",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: About Signing Shakespeare (SRC-0310): © RSC"
+  },
+  {
+   "id": "WIA-S-BUS-A-02",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Fishbanks: A Renewable Resource Management Simulation (SRC-0212): none stated on item page (footer reads: \"©2026 MIT Sloan School of Management\")"
+  },
+  {
+   "id": "WIA-S-BUS-A-03",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Sam Bankman-Fried's FTX (SRC-0213): none stated on item page (footer reads: \"©2026 MIT Sloan School of Management\")"
+  },
+  {
+   "id": "WIA-S-BUS-A-04",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Boeing's 737 MAX 8 Disasters (SRC-0214): none stated on item page (footer reads: \"©2026 MIT Sloan School of Management\")"
+  },
+  {
+   "id": "WIA-S-BUS-A-05",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Design at Mayo (SRC-0215): \"No part of this site (including all linked resources) should be posted to another web site or e-mailed to anyone. This stipulation will be strictly enforced.\""
+  },
+  {
+   "id": "WIA-S-BUS-A-06",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: SELCO Foundation: Diffusing a User-centered Ecosystem Approach to Sustainable Livelihood Promotion (SRC-0216): \"No part of this site (including all linked resources) should be posted to another web site or e-mailed to anyone. This stipulation will be strictly enforced.\""
+  },
+  {
+   "id": "WIA-S-BUS-A-10",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Case 2: Pit market (hand run) (SRC-0220): Item page footer: \"©2026 University of Bristol except where stated\". Site copyright page: \"We give permission to reproduce material from our site for non-commercial use, provided that the original source is acknowledged.\""
+  },
+  {
+   "id": "WIA-S-BUS-A-11",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Case 5: Bank runs (computerised) (SRC-0221): Item page footer: \"©2026 University of Bristol except where stated\". Site copyright page: \"We give permission to reproduce material from our site for non-commercial use, provided that the original source is acknowledged.\""
+  },
+  {
+   "id": "WIA-S-BUS-A-15",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Marketing ROI Made Simple (SRC-0226): none stated on item page (footer reads: \"Copyright © 2012-2026 Great Ideas for Teaching Marketing\")"
+  },
+  {
+   "id": "WIA-S-BUS-B-01",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Try It: Exploring Borrowing Options (Module 7: Borrowing Basics, Instructor Guide) (SRC-0227): none stated on item page"
+  },
+  {
+   "id": "WIA-S-BUS-B-02",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Try It: Exploring Borrowing Options (Module 7: Borrowing Basics, Instructor Guide) (SRC-0227): none stated on item page"
+  },
+  {
+   "id": "WIA-S-BUS-B-03",
+   "field": "sa",
+   "before": null,
+   "after": "restricted",
+   "reason": "WIA-01: the source item, used as published by link, needs a purchase, membership, subscription, or permission before classroom use.",
+   "evidence": "Source item used unmodified: Sally Soprano I (SRC-0228): Copyright © 2008–2026 The President and Fellows of Harvard College. \"You must order a copy (a.k.a. license/usage fee) for every person participating in the simulation in your course.\" \"You are then only authorized to use, print, or share th…"
+  },
+  {
+   "id": "WIA-S-BUS-B-04",
+   "field": "sa",
+   "before": null,
+   "after": "restricted",
+   "reason": "WIA-01: the source item, used as published by link, needs a purchase, membership, subscription, or permission before classroom use.",
+   "evidence": "Source item used unmodified: Harborco (SRC-0229): Copyright © 2008–2026 The President and Fellows of Harvard College. \"You must order a copy (a.k.a. license/usage fee) for every person participating in the simulation in your course.\""
+  },
+  {
+   "id": "WIA-S-BUS-B-05",
+   "field": "sa",
+   "before": null,
+   "after": "restricted",
+   "reason": "WIA-01: the source item, used as published by link, needs a purchase, membership, subscription, or permission before classroom use.",
+   "evidence": "Source item used unmodified: Ren the Robot (SRC-0230): Copyright © 2008–2026 The President and Fellows of Harvard College. \"You must order a copy (a.k.a. license/usage fee) for every person participating in the simulation in your course.\""
+  },
+  {
+   "id": "WIA-S-BUS-B-06",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Empirical Project 3: Measuring the effect of a sugar tax (SRC-0231): \"Licensed under Creative Commons BY NC ND\" (the statement links to https://creativecommons.org/licenses/by-nc-nd/4.0/)"
+  },
+  {
+   "id": "WIA-S-BUS-B-07",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Empirical Project 5: Measuring inequality: Lorenz curves and Gini coefficients (SRC-0232): \"Licensed under Creative Commons BY NC ND\" (the statement links to https://creativecommons.org/licenses/by-nc-nd/4.0/)"
+  },
+  {
+   "id": "WIA-S-BUS-B-08",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Empirical Project 2: Collecting and analysing data from experiments (SRC-0233): \"Licensed under Creative Commons BY NC ND\" (the statement links to https://creativecommons.org/licenses/by-nc-nd/4.0/)"
+  },
+  {
+   "id": "WIA-S-BUS-B-09",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Stackelberg Duopoly and Backward Induction (module page heading: \"A Classroom Experiment for teaching representation of a sequential game in extensive form and Backward Induction\") (SRC-0234): Copyright © 2006 Experimental Economics Center. All rights reserved."
+  },
+  {
+   "id": "WIA-S-BUS-B-13",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Step-by-Step AI Lesson Plan for Entrepreneurship Students in 2026 (SRC-0238): none stated on item page"
+  },
+  {
+   "id": "WIA-S-BUS-B-14",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Considering Your Stakeholders Activity (SRC-0239): Copyright ©1995-2018 by The Writing Lab & The OWL at Purdue and Purdue University. All rights reserved. This material may not be published, reproduced, broadcast, rewritten, or redistributed without permission. Use of this site constitutes …"
+  },
+  {
+   "id": "WIA-S-BUS-B-15",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Postmortem Reports (SRC-0240): Copyright ©1995-2018 by The Writing Lab & The OWL at Purdue and Purdue University. All rights reserved."
+  },
+  {
+   "id": "WIA-S-CRO-B-03",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: AI-Based Tools: Declaration of Use (SRC-0320): none stated on item page"
+  },
+  {
+   "id": "WIA-S-CRO-B-04",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: AI Use: Review and Reflection (SRC-0321): none stated on item page"
+  },
+  {
+   "id": "WIA-S-CRO-B-05",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Crisis at Fort Sumter (SRC-0322): MERLOT record fields: \"Creative Commons: No\"; \"Cost Involved: No\"; \"Source Code Available: No\". MERLOT site footer: \"© 1997–2026 MERLOT, Some Rights Reserved\". No rights statement from the original site was read."
+  },
+  {
+   "id": "WIA-S-CRO-B-06",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Outbreak at Watersedge- A Public Health discovery game. (SRC-0323): MERLOT record fields: \"Creative Commons: No\"; \"Cost: No\"; \"Source Code Available: No\". MERLOT site footer: \"© 1997–2026 MERLOT, Some Rights Reserved\". No rights statement from the original site was read."
+  },
+  {
+   "id": "WIA-S-CRO-B-09",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Stinky Fish (SRC-0324): none stated on item page (page shows \"Source: Hyper Island toolbox\" and \"Credit: Åsa Silfverberg\")"
+  },
+  {
+   "id": "WIA-S-CRO-B-10",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Teaching resource: Folk devils and moral panics (SRC-0326): \"Copyright © 2021 University of Essex. Created by UK Data Archive, UK Data Service.\""
+  },
+  {
+   "id": "WIA-S-CRO-B-12",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Role Play: In a Stew over Cooked Data (SRC-0328): none stated on item page (footer shows only \"U.S. Department of Health and Human Services\" and \"Office of Research Integrity\" with address)"
+  },
+  {
+   "id": "WIA-S-CRO-B-13",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Effective Training Models for Implementing Health-Promoting Practices Afterschool (SRC-0329): In the document: \"Text from these applications can only be used for nonprofit, educational purposes. When using text from these applications for nonprofit, educational purposes, the text cannot be changed and the respective Principal Invest…"
+  },
+  {
+   "id": "WIA-S-EDU-A-05",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Text Rendering: In Brief (SRC-0245): none stated on item page (the PDF text returned by the fetch tool carried no copyright or license line; its only usage wording is: \"For the complete exercise and MANY more, please purchase a membership in the NSRF and look in our member lib…"
+  },
+  {
+   "id": "WIA-S-EDU-A-06",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Hidden Issues: In Brief (SRC-0246): none stated on item page (the PDF text returned by the fetch tool carried no copyright or license line; its only usage wording is: \"For the complete exercise and MANY more, please purchase a membership in the NSRF and look in our member lib…"
+  },
+  {
+   "id": "WIA-S-EDU-A-07",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Mathematics: Identifying and Addressing Student Errors (SRC-0247): none stated on item page (no license or copyright statement was returned for this page by the fetch tool)"
+  },
+  {
+   "id": "WIA-S-EDU-A-08",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Behavior Assessment: Conduct an A-B-C Analysis (SRC-0248): none stated on item page (the PDF text returned carried only a funding disclaimer: \"The contents of this resource were developed under a grant from the U.S. Department of Education, #H325E170001. However, those contents do not necessarily r… IRIS Terms of Use: \"based on Creative Commons Attribution-NonCommercial-NoDerivatives 4.0\"; resources \"cannot be modified without the express written permission of the IRIS Center\"."
+  },
+  {
+   "id": "WIA-S-EDU-A-09",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Behavior Management & ADHD: He Just Needs a Little Discipline (SRC-0249): This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License."
+  },
+  {
+   "id": "WIA-S-EDU-A-10",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Claim, Support, Question (SRC-0250): © 2022 President and Fellows of Harvard College and Project Zero. This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND)."
+  },
+  {
+   "id": "WIA-S-EDU-A-11",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Parts, Purposes, Complexities (SRC-0251): © 2022 President and Fellows of Harvard College and Project Zero. This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND)."
+  },
+  {
+   "id": "WIA-S-EDU-A-12",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: I Used to Think... Now I Think... (SRC-0252): © 2022 President and Fellows of Harvard College and Project Zero. This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND)."
+  },
+  {
+   "id": "WIA-S-EDU-A-13",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Tug for Truth (SRC-0253): none stated on item page (no license, copyright or Creative Commons statement was returned for this routine's page by the fetch tool)"
+  },
+  {
+   "id": "WIA-S-EDU-A-14",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Face-to-Face Tools: Making Changes in Student Thinking Visible Over Time (SRC-0254): AMBITIOUS SCIENCE TEACHING © 2015"
+  },
+  {
+   "id": "WIA-S-EDU-A-15",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Trees, Seasons & Shining a Light on Farming Communities: Kinder Bilingüe (SRC-0255): Copyright UW AST ©2026. ALL RIGHTS RESERVED"
+  },
+  {
+   "id": "WIA-S-EDU-B-01",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Understanding Cultural Diversity -- Western Shoshone Land Rights (listed on the TILT page as \"Example A: Sociology\") (SRC-0256): none stated on item page"
+  },
+  {
+   "id": "WIA-S-EDU-B-05",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Early Childhood Behavior Management (Case Study Unit) (SRC-0260): Licensed under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License"
+  },
+  {
+   "id": "WIA-S-EDU-B-06",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Accommodations Versus Modifications (SRC-0261): This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License."
+  },
+  {
+   "id": "WIA-S-EDU-B-10",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Offer action-oriented feedback (SRC-0265): © CAST, Inc. 2026"
+  },
+  {
+   "id": "WIA-S-EDU-B-11",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Remote Control: Blurred Boundaries in the Zoom Classroom (SRC-0266): Copyright © 2026 The President and Fellows of Harvard College"
+  },
+  {
+   "id": "WIA-S-EDU-B-12",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: First Rate (SRC-0267): Copyright © 2026 The President and Fellows of Harvard College"
+  },
+  {
+   "id": "WIA-S-EDU-B-13",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: No Laughing Matter: Can Showing Religiously Sensitive Cartoons in the Classroom Ever Be Justified? (SRC-0268): Copyright © 2026 The President and Fellows of Harvard College"
+  },
+  {
+   "id": "WIA-S-HEA-A-03",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: COM April 2019 (Case of the Month, April 2019: Single deep ulcer, lateral tongue) (SRC-0114): © 2026 UW School of Dentistry | Seattle, WA"
+  },
+  {
+   "id": "WIA-S-HEA-A-05",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Tool: SBAR (SRC-0115): none stated on item page"
+  },
+  {
+   "id": "WIA-S-HEA-A-06",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Neurologic Exam Videos and Descriptions: An Anatomical Approach (SRC-0116): \"Creative Commons Attribution-NonCommerical-ShareAlike License\" (the site's license page references both version 2.5 and version 4.0; spelling as on the page); \"Copyright The University of Utah 2001\""
+  },
+  {
+   "id": "WIA-S-HEA-A-11",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Medication errors (SRC-0121): This work is licensed under a Creative Commons Attribution-Non-Commercial-NoDerivatives 4.0 International License."
+  },
+  {
+   "id": "WIA-S-HEA-B-09",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Case 1091 - A Man in His Late 30's with Renal Dysfunction, Proteinuria and a History of HIV with Recent COVID-19 Positivity (SRC-0128): none stated on item page"
+  },
+  {
+   "id": "WIA-S-HEA-B-13",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Drugdle | Daily Drug Name Guessing Game (listed on the IUPHAR resources page as \"Drugdle\") (SRC-0131): none stated on item page"
+  },
+  {
+   "id": "WIA-S-HEA-B-14",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: HIV Voluntary Counseling and Testing in Hinche, Haiti (SRC-0132): none stated on item page"
+  },
+  {
+   "id": "WIA-S-HEA-B-15",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Cruciate Sutures (Document number: CSL_S14; Year Group: BVSc4 +) (SRC-0133): This work is under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License. © The University of Bristol, 2018"
+  },
+  {
+   "id": "WIA-S-HUM-A-05",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Claim Testing (Big History, Lesson 1.4) (SRC-0161): none stated on item page"
+  },
+  {
+   "id": "WIA-S-HUM-A-07",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: The Tortoise and the Rabbit (SRC-0163): © 2021, Tom McCoy, North American Computational Linguistics Open Competition, Round 1"
+  },
+  {
+   "id": "WIA-S-HUM-A-08",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Teach This Poem: \"There Will Come Soft Rains\" by Sara Teasdale (SRC-0164): © Academy of American Poets, 195 Broadway 9th Floor, New York, NY 10007"
+  },
+  {
+   "id": "WIA-S-HUM-A-09",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: AI & Accountability: Who's at the Wheel? (SRC-0166): Copyright © 2026 Ethics Unwrapped - McCombs School of Business – The University of Texas at Austin"
+  },
+  {
+   "id": "WIA-S-HUM-A-10",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Internet Pujas (SRC-0167): Copyright © 2026 The President and Fellows of Harvard College"
+  },
+  {
+   "id": "WIA-S-HUM-A-12",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Leçon 7: Les repas (SRC-0169): none stated on item page"
+  },
+  {
+   "id": "WIA-S-HUM-B-01",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Focus on Latin Inscriptions: Death and Burial in Rome (SRC-0173): none stated on item page"
+  },
+  {
+   "id": "WIA-S-HUM-B-03",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Evaluating Photographs (SRC-0175): © Digital Inquiry Group"
+  },
+  {
+   "id": "WIA-S-HUM-B-06",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: The Radio as New Technology: Blessing or Curse? A 1929 Debate (SRC-0178): Copyright 2010–2026 National Humanities Center. All rights reserved."
+  },
+  {
+   "id": "WIA-S-HUM-B-08",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: In-Class Ethics Bowl (SRC-0179): This work is licensed under CC BY-NC-ND 4.0. If you would like to change or adapt any of PLATO's work for public use, please feel free to contact us for permission at info@plato-philosophy.org."
+  },
+  {
+   "id": "WIA-S-HUM-B-09",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: AI, Comedy, and Counterculture: An Ethics Case Study (SRC-0180): none stated on item page"
+  },
+  {
+   "id": "WIA-S-HUM-B-12",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: InterCom Volume 2, Issue 1: Saying What You Mean and Meaning What You Say (listed in the archive as \"Pragmatics 101\") (SRC-0183): Copyright © 2023 Center for Applied Second Language Studies (CASLS) University of Oregon All rights reserved."
+  },
+  {
+   "id": "WIA-S-HUM-B-14",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Summaries: GAI vs. Human (SRC-0185): Assignment and activity selections © 2024 by the respective authors. Unless otherwise stated, these works are licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0)"
+  },
+  {
+   "id": "WIA-S-HUM-B-15",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Eliminating Wordiness (exercise set: Exercises 1-3 with answer keys) (SRC-0186): Copyright ©1995-2018 by The Writing Lab & The OWL at Purdue and Purdue University. All rights reserved. This material may not be published, reproduced, broadcast, rewritten, or redistributed without permission."
+  },
+  {
+   "id": "WIA-S-LIB-A-12",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Global Media Perspectives (SRC-0278): © 2026 Project Look Sharp, Ithaca College. All rights reserved. Media content used for educational purposes is accorded the Fair Use exception."
+  },
+  {
+   "id": "WIA-S-LIB-A-13",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Media Constructions of Sustainability: Food, Water, and Agriculture (SRC-0279): © 2026 Project Look Sharp, Ithaca College. All rights reserved. Media content used for educational purposes is accorded the Fair Use exception."
+  },
+  {
+   "id": "WIA-S-LIB-A-14",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Creativity & Aging Through the Lens of Film (SRC-0280): © 2026 Project Look Sharp, Ithaca College. All rights reserved. Media content used for educational purposes is accorded the Fair Use exception."
+  },
+  {
+   "id": "WIA-S-LIB-B-07",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: The “Just Add Wikipedia In the Omnibar” Trick (SRC-0283): none stated on item page"
+  },
+  {
+   "id": "WIA-S-LIB-B-10",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Question Authority (SRC-0285): none stated on item page"
+  },
+  {
+   "id": "WIA-S-LIB-B-11",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Evidence-Based Practice (SRC-0286): none stated on item page"
+  },
+  {
+   "id": "WIA-S-SOC-A-01",
+   "field": "sa",
+   "before": null,
+   "after": "restricted",
+   "reason": "WIA-01: the source item, used as published by link, needs a purchase, membership, subscription, or permission before classroom use.",
+   "evidence": "Source item used unmodified: Cross-Cultural Correlation Study (SRC-0187): © 2026 Human Relations Area Files The exercise uses eHRAF World Cultures: \"This is where you will use the eHRAF World Cultures database (log-in may be required)\" (exercise page, checked 2026-10-07)."
+  },
+  {
+   "id": "WIA-S-SOC-A-02",
+   "field": "sa",
+   "before": null,
+   "after": "restricted",
+   "reason": "WIA-01: the source item, used as published by link, needs a purchase, membership, subscription, or permission before classroom use.",
+   "evidence": "Source item used unmodified: Religion (Explaining Human Culture) (SRC-0188): © 2026 Human Relations Area Files The exercise directs students to eHRAF World Cultures, which requires HRAF membership authentication (exercise page, checked 2026-10-07)."
+  },
+  {
+   "id": "WIA-S-SOC-A-03",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Crime Prevention & Criminal Justice Module 14 Exercises — In-class Exercise 2: Discussion of Judicial Decisions and Documents (SRC-0189): none stated on item page"
+  },
+  {
+   "id": "WIA-S-SOC-A-05",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Regulating AI (SRC-0190): This work is licensed under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) License."
+  },
+  {
+   "id": "WIA-S-SOC-A-06",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: The Zimmermann Telegram in 1917 (SRC-0191): This work is licensed under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) License."
+  },
+  {
+   "id": "WIA-S-SOC-A-08",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Comparative Politics Coalition Building Simulation (Germany) (SRC-0193): CC BY NC ND 4.0 license – Allows redistribution but no additions or revisions to content. Forbids commercial use."
+  },
+  {
+   "id": "WIA-S-SOC-A-09",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Civil Liberties vs. National Security: A Wartime Balancing Act (SRC-0194): © Copyright 2026 The Annenberg Public Policy Center of the University of Pennsylvania"
+  },
+  {
+   "id": "WIA-S-SOC-A-11",
+   "field": "sa",
+   "before": null,
+   "after": "restricted",
+   "reason": "WIA-01: the source item, used as published by link, needs a purchase, membership, subscription, or permission before classroom use.",
+   "evidence": "Source item used unmodified: Case Study 1: Summer Youth Employment Programs in Chicago: Theory of Change and Measurement (SRC-0195): To request permission to reuse this case study or access the accompanying teachers' guide, please email training@povertyactionlab.org. Please do not reuse without permission."
+  },
+  {
+   "id": "WIA-S-SOC-A-14",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Case Studies - The Intake Interview (SRC-0198): ©2026 Georgia State University"
+  },
+  {
+   "id": "WIA-S-SOC-B-01",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Hominid Cranial Comparison: The \"Skulls\" Lab (Grades 9-12) (SRC-0200): © Copyright Smithsonian Institution"
+  },
+  {
+   "id": "WIA-S-SOC-B-04",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Exploration 1A: What can bystanders do? (Exploring Humanitarian Law, Module 1: The humanitarian perspective) (SRC-0202): © ICRC, January 2009"
+  },
+  {
+   "id": "WIA-S-SOC-B-05",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Exploration 2C: Focus on child soldiers (Exploring Humanitarian Law, Module 2: Limits in armed conflict) (SRC-0203): © ICRC, January 2009"
+  },
+  {
+   "id": "WIA-S-SOC-B-07",
+   "field": "sa",
+   "before": null,
+   "after": "restricted",
+   "reason": "WIA-01: the source item, used as published by link, needs a purchase, membership, subscription, or permission before classroom use.",
+   "evidence": "Source item used unmodified: Climate Resilience in New York City: The Battle over East River Park (SRC-0205): Each purchase of this product entitles the buyer to one digital file and use. If you intend to distribute, teach, or share this item, you must purchase permission for each individual who will be given access."
+  },
+  {
+   "id": "WIA-S-SOC-B-08",
+   "field": "sa",
+   "before": null,
+   "after": "restricted",
+   "reason": "WIA-01: the source item, used as published by link, needs a purchase, membership, subscription, or permission before classroom use.",
+   "evidence": "Source item used unmodified: The Oversight Board: Content Moderation vs. Political Speech on Social Media (SRC-0206): Reacting Consortium members can download all game materials below. [Members are told to] fill out the Permissions Request Form before using The Oversight Board in your class. Non-members can buy the game for $10.00, and every user is asked to file a permissions request (Reacting Consortium game and store pages; library audit, 2026-10-06)."
+  },
+  {
+   "id": "WIA-S-SOC-B-13",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Somali Boys Group (SRC-0209): none stated on item page"
+  },
+  {
+   "id": "WIA-S-SOC-B-14",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Teaching about the Social Structure of Fatal Gun Violence Using Interactive Maps (SRC-0210): Copyright (c) 2026 Reginald Byron"
+  },
+  {
+   "id": "WIA-S-SOC-B-15",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Grocery Run: Teaching the Social Model of Disability through a Virtual Field Experience Activity that Combines a Podcast with Google Street View (SRC-0211): Copyright (c) 2026 Trenton Ellis, Michael Hollingsworth"
+  },
+  {
+   "id": "WIA-S-STE-A-01",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Buried seeds, buried treasure (SRC-0134): Item page shows only a link labeled \"PERMITTED USES\". The linked page states: \"Copyright for all Data Nugget activities is held by the Data Nuggets team.\" and lists as requiring permission \"Posting of Data Nuggets materials on any website o…"
+  },
+  {
+   "id": "WIA-S-STE-A-02",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: The Wandering Itch: A Dermatosis on the Rise (SRC-0135): Copyright © 2026, National Science Teaching Association."
+  },
+  {
+   "id": "WIA-S-STE-A-03",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: The effect of temperature on reaction rate (SRC-0136): none stated on item page"
+  },
+  {
+   "id": "WIA-S-STE-A-04",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Murder Mystery (SRC-0137): none stated on item page"
+  },
+  {
+   "id": "WIA-S-STE-A-05",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Infinite Story (SRC-0138): none stated on item page"
+  },
+  {
+   "id": "WIA-S-STE-A-09",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Occidental Engineering Case Study: Part 1 (SRC-0142): none stated on item page"
+  },
+  {
+   "id": "WIA-S-STE-A-10",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Stories from the Climate Crisis: A Mixer (SRC-0143): \"Material on this page is offered under a Creative Commons license unless otherwise noted below.\" (applies to the CLEAN catalog page; the fetch tool reported it as CC BY-NC-SA 4.0). No license for the Zinn Education Project activity itself …"
+  },
+  {
+   "id": "WIA-S-STE-A-15",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Sampling bias and the confidence interval (SRC-0145): none stated on item page"
+  },
+  {
+   "id": "WIA-S-STE-B-03",
+   "field": "sa",
+   "before": null,
+   "after": "unmodified",
+   "reason": "WIA-01: the source item, used as published by link, may be shared but not adapted (NoDerivatives or a reproduce-only permission).",
+   "evidence": "Source item used unmodified: Virtual Lab: Gravimetric Determination of Arsenic (SRC-0146): The ChemCollective site and its contents are licensed under a Creative Commons Attribution 3.0 NonCommercial-NoDerivs License."
+  },
+  {
+   "id": "WIA-S-STE-B-04",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Chapter 1, Lesson 1: Molecules Matter (SRC-0147): ©2023 American Chemical Society"
+  },
+  {
+   "id": "WIA-S-STE-B-11",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Enzyme Inhibition Kinetics (SRC-0153): none stated on item page"
+  },
+  {
+   "id": "WIA-S-STE-B-14",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Galaxy Color (SRC-0156): none stated on item page"
+  },
+  {
+   "id": "WIA-S-STE-B-15",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Choosing a Study Design for the Polio Vaccine (SRC-0157): Contact Author for permission to use materials from this lesson in a publication"
+  },
+  {
+   "id": "WIA-S-STE-A-08",
+   "field": "sa",
+   "before": null,
+   "after": "not_open",
+   "reason": "WIA-01: the source item, used as published by link, carries no clear open license.",
+   "evidence": "Source item used unmodified: Measuring the Inclination and Declination of the Earth's magnetic field with a smartphone (SRC-0141): No page-level license statement was returned for the item page. Attached images cover_pic_1.png and graph.png carry: \"Reuse: If you wish to use this item outside this site in ways that exceed fair use (see http://fairuse.stanford.edu/) you …"
   }
  ],
  "text_edits": [
@@ -1309,6 +2273,60 @@
    "count": 1,
    "reason": "WIA-08 sample: restores the prompt's safety rule.",
    "evidence": "NSPA library, Prompt 65: \"Do not send following a critical incident without additional guidance.\""
+  },
+  {
+   "id": "WIA-R-DISC-01",
+   "field": "sum",
+   "before": "a threshold on neighbor distance, or on the share of neighbors that agree, below which the classifier's label is withheld and the spectrum is flagged for a chemist's reading.",
+   "after": "the classifier's label is withheld, and the spectrum flagged for a chemist's reading, when the distance to its nearest neighbors is above a set threshold or when the share of neighbors that agree is below a set minimum.",
+   "count": 1,
+   "reason": "Audit A-02: distance and agreement thresholds work in opposite directions.",
+   "evidence": "A nearest-neighbors abstention rule withholds a label when the spectrum is far from its neighbors (distance above a threshold) or when too few neighbors agree (agreement below a threshold); the published wording applied \"below which\" to both. The record's own justification uses distance from neighbors: \"how far the least typical correctly classified test spectrum lay from its neighbors\"."
+  },
+  {
+   "id": "WIA-R-DISC-01",
+   "field": "gate",
+   "before": "(a distance or agreement threshold below which the classifier's label is withheld and the spectrum goes to a chemist's reading)",
+   "after": "(the classifier's label is withheld, and the spectrum goes to a chemist's reading, when neighbor distance is above a set threshold or neighbor agreement is below a set minimum)",
+   "count": 1,
+   "reason": "Audit A-02: distance and agreement thresholds work in opposite directions.",
+   "evidence": "A nearest-neighbors abstention rule withholds a label when the spectrum is far from its neighbors (distance above a threshold) or when too few neighbors agree (agreement below a threshold); the published wording applied \"below which\" to both. The record's own justification uses distance from neighbors: \"how far the least typical correctly classified test spectrum lay from its neighbors\"."
+  },
+  {
+   "id": "CAN-D-ADM-001",
+   "field": "sum",
+   "before": "Generate a 150-word announcement stating eligibility, award, deadline, three application steps, and encouragement at an eighth-grade reading level;",
+   "after": "Generate a 150-word announcement for first-generation college students who may have limited experience with formal applications, stating eligibility in the first sentence, then the award, deadline, three application steps, and encouragement, in plain language at an eighth-grade reading level with no jargon;",
+   "count": 1,
+   "reason": "Audit A-15: restores the prompt's audience and two of its constraints.",
+   "evidence": "NSPA library, Prompt 01: \"writing for first-generation college students who may have limited experience with formal applications … states eligibility in the first sentence … Use plain language (8th-grade reading level). No jargon.\""
+  },
+  {
+   "id": "WIA-S-BUS-B-04",
+   "field": "risk",
+   "before": "no licensed simulation content enters the tool.",
+   "after": "no licensed simulation content enters the tool. The simulation itself is licensed per participant: the instructor orders a copy for every student who takes part.",
+   "count": 1,
+   "reason": "WIA-01: the record returns with a source-access label; its risks now say what using the simulation requires.",
+   "evidence": "Program on Negotiation, Harvard Law School, simulation terms: \"You must order a copy (a.k.a. license/usage fee) for every person participating in the simulation in your course.\""
+  },
+  {
+   "id": "WIA-S-BUS-B-05",
+   "field": "risk",
+   "before": "avoids sending recordings to a third party.",
+   "after": "avoids sending recordings to a third party. The simulation itself is licensed per participant: the instructor orders a copy for every student who takes part.",
+   "count": 1,
+   "reason": "WIA-01: the record returns with a source-access label; its risks now say what using the simulation requires.",
+   "evidence": "Program on Negotiation, Harvard Law School, simulation terms: \"You must order a copy (a.k.a. license/usage fee) for every person participating in the simulation in your course.\""
+  },
+  {
+   "id": "WIA-S-EDU-A-08",
+   "field": "cit",
+   "before": "(document code 052621 (read as a May 26, 2021 revision stamp; no publication year stated))",
+   "after": "(2021)",
+   "count": 1,
+   "reason": "Sampled correction: a working note had leaked into the public citation.",
+   "evidence": "The PDF's document code 052621 and its creation date (May 26, 2021); library audit, 2026-10-06."
   }
  ],
  "work_fields": [
@@ -1495,6 +2513,78 @@
    "after": "\"We encourage the reuse and dissemination of the material on this site for noncommercial purposes as long as attribution to the original material on the Starting Point: Teaching and Learning Economics site is retained.\" Page reuse block identifies the Creative Commons license as CC BY-NC-SA 4.0.",
    "reason": "WIA-15: internal process notes or truncation in public license text.",
    "evidence": "Process note removed; terms unchanged."
+  },
+  {
+   "id": "SRC-0141",
+   "field": "lic",
+   "before": "No page-level license statement was returned for the item page. Attached images cover_pic_1.png and graph.png carry: \"Reuse: If you wish to use this item outside this site in ways that exceed fair use (see http://fairuse.stanford.edu/) you must seek permission from its creator.\" Image cover_pic_2.png carries: \"Reuse: This item is in the public domain and maybe reused freely without restriction.\"",
+   "after": "No page-level license statement. The attached images cover_pic_1.png and graph.png carry: \"Reuse: If you wish to use this item outside this site in ways that exceed fair use (see http://fairuse.stanford.edu/) you must seek permission from its creator.\" Image cover_pic_2.png carries: \"Reuse: This item is in the public domain and maybe reused freely without restriction.\"",
+   "reason": "WIA-15 and sampled corrections: public license text without process notes, with the terms as the item states them.",
+   "evidence": "Process note removed; terms unchanged."
+  },
+  {
+   "id": "SRC-0143",
+   "field": "lic",
+   "before": "\"Material on this page is offered under a Creative Commons license unless otherwise noted below.\" (applies to the CLEAN catalog page; the fetch tool reported it as CC BY-NC-SA 4.0). No license for the Zinn Education Project activity itself was seen.",
+   "after": "\"Material on this page is offered under a Creative Commons license unless otherwise noted below\" (the CLEAN catalog page, which names CC BY-NC-SA 4.0). No license is stated for the Zinn Education Project activity itself.",
+   "reason": "WIA-15 and sampled corrections: public license text without process notes, with the terms as the item states them.",
+   "evidence": "Process note removed; terms unchanged."
+  },
+  {
+   "id": "SRC-0245",
+   "field": "lic",
+   "before": "none stated on item page (the PDF text returned by the fetch tool carried no copyright or license line; its only usage wording is: \"For the complete exercise and MANY more, please purchase a membership in the NSRF and look in our member library.\")",
+   "after": "none stated on item page; the PDF's only usage wording reads: \"For the complete exercise and MANY more, please purchase a membership in the NSRF and look in our member library.\"",
+   "reason": "WIA-15 and sampled corrections: public license text without process notes, with the terms as the item states them.",
+   "evidence": "Process note removed."
+  },
+  {
+   "id": "SRC-0246",
+   "field": "lic",
+   "before": "none stated on item page (the PDF text returned by the fetch tool carried no copyright or license line; its only usage wording is: \"For the complete exercise and MANY more, please purchase a membership in the NSRF and look in our member library.\")",
+   "after": "none stated on item page; the PDF's only usage wording reads: \"For the complete exercise and MANY more, please purchase a membership in the NSRF and look in our member library.\"",
+   "reason": "WIA-15 and sampled corrections: public license text without process notes, with the terms as the item states them.",
+   "evidence": "Process note removed."
+  },
+  {
+   "id": "SRC-0247",
+   "field": "lic",
+   "before": "none stated on item page (no license or copyright statement was returned for this page by the fetch tool)",
+   "after": "none stated on item page",
+   "reason": "WIA-15 and sampled corrections: public license text without process notes, with the terms as the item states them.",
+   "evidence": "Process note removed."
+  },
+  {
+   "id": "SRC-0253",
+   "field": "lic",
+   "before": "none stated on item page (no license, copyright or Creative Commons statement was returned for this routine's page by the fetch tool)",
+   "after": "none stated on item page",
+   "reason": "WIA-15 and sampled corrections: public license text without process notes, with the terms as the item states them.",
+   "evidence": "Process note removed."
+  },
+  {
+   "id": "SRC-0248",
+   "field": "lic",
+   "before": "none stated on item page (the PDF text returned carried only a funding disclaimer: \"The contents of this resource were developed under a grant from the U.S. Department of Education, #H325E170001. However, those contents do not necessarily represent the policy of the U.S. Department of Education, and you should not assume endorsement by the Federal Government.\")",
+   "after": "IRIS Center Terms of Use: \"The IRIS Center's terms of use are based on Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0).\" Resources \"are freely available for use in college instruction\" and \"cannot be modified without the express written permission of the IRIS Center.\"",
+   "reason": "WIA-15 and sampled corrections: public license text without process notes, with the terms as the item states them.",
+   "evidence": "IRIS site Terms of Use (library audit, 2026-10-06)."
+  },
+  {
+   "id": "SRC-0238",
+   "field": "lic",
+   "before": "none stated on item page",
+   "after": "All rights reserved (site footer: \"© 2025 TeachingEntrepreneurship.org. All rights reserved.\")",
+   "reason": "WIA-15 and sampled corrections: public license text without process notes, with the terms as the item states them.",
+   "evidence": "Item page footer (library audit, 2026-10-06)."
+  },
+  {
+   "id": "SRC-0206",
+   "field": "lic",
+   "before": "Reacting Consortium members can download all game materials below. [Members are told to] fill out the Permissions Request Form before using The Oversight Board in your class.",
+   "after": "\"Reacting Consortium members can download all game materials below.\" Non-members can buy the game ($10.00). \"Please fill out the Permissions Request Form before using The Oversight Board in your class!\"",
+   "reason": "WIA-15 and sampled corrections: public license text without process notes, with the terms as the item states them.",
+   "evidence": "Reacting Consortium game and store pages (library audit, 2026-10-06)."
   }
  ],
  "withdrawals": {
@@ -1504,122 +2594,123 @@
    {
     "id": "CAN-A2-A-038",
     "reason": "The source is a systematic review of feedback research (1985–2014) and a taxonomy of recipience processes, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step: “AI can question whether the request is sufficiently specific after the learner writes it. A focused AI prompt is: “Is my feedback request specific enough for a reader to act on?” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step, from its summary: AI can question whether the request is sufficiently specific after the learner writes it. A focused AI prompt is: “Is my feedback request specific enough for a reader to act on? Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-039",
     "reason": "The source is a systematic review of feedback research (1985–2014) and a taxonomy of recipience processes, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step: “AI can help turn a chosen goal into a sequence, but keep evidence of the revisions you actually make. A focused AI prompt is: “Help sequence this revision goal into actions.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step, from its summary: AI can help turn a chosen goal into a sequence, but keep evidence of the revisions you actually make. A focused AI prompt is: “Help sequence this revision goal into actions. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-040",
     "reason": "The source is a systematic review of feedback research (1985–2014) and a taxonomy of recipience processes, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step: “AI can propose themes from approved, de-identified entries; learners check them against originals and choose priorities. A focused AI prompt is: “Suggest a possible pattern across these approved feedback excerpts.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step, from its summary: AI can propose themes from approved, de-identified entries; learners check them against originals and choose priorities. A focused AI prompt is: “Suggest a possible pattern across these approved feedback excerpts. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-041",
     "reason": "The source is a systematic review of feedback research (1985–2014) and a taxonomy of recipience processes, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step: “AI can help prepare questions, but should not impersonate the teacher’s intention; clarify uncertainty with the teacher. A focused AI prompt is: “Help me prepare a question about this comment.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step, from its summary: AI can help prepare questions, but should not impersonate the teacher’s intention; clarify uncertainty with the teacher. A focused AI prompt is: “Help me prepare a question about this comment. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-042",
     "reason": "The source is a systematic review of feedback research (1985–2014) and a taxonomy of recipience processes, with no AI; the activity's only AI step was specified editorially (found in the October 2026 audit (WIA-18)).",
-    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step: “Compare an AI interpretation after students apply criteria; the instructor resolves ambiguities with examples. A focused AI prompt is: “Identify an ambiguous term in these criteria and suggest an example that could help our instructor clarify the intended standard.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step, from its summary: Compare an AI interpretation after students apply criteria; the instructor resolves ambiguities with examples. A focused AI prompt is: “Identify an ambiguous term in these criteria and suggest an example that could help our instructor clarify the intended standard. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-043",
     "reason": "The source is a systematic review of feedback research (1985–2014) and a taxonomy of recipience processes, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step: “AI can draft a plain-language version; review accuracy and provide an accessible non-chatbot copy. A focused AI prompt is: “Rewrite this guide in plain language while preserving its instructions.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step, from its summary: AI can draft a plain-language version; review accuracy and provide an accessible non-chatbot copy. A focused AI prompt is: “Rewrite this guide in plain language while preserving its instructions. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-044",
     "reason": "The source is a systematic review of feedback research (1985–2014) and a taxonomy of recipience processes, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step: “AI may draft a clearly labeled example only after expert review; include authentic permission-cleared examples as well. A focused AI prompt is: “Create a short illustrative example with a weakness in this criterion.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step, from its summary: AI may draft a clearly labeled example only after expert review; include authentic permission-cleared examples as well. A focused AI prompt is: “Create a short illustrative example with a weakness in this criterion. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-045",
     "reason": "The source is a systematic review of feedback research (1985–2014) and a taxonomy of recipience processes, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step: “AI can offer a bounded additional critique; require a learner-authored revision rationale. A focused AI prompt is: “Critique this one aspect of my draft.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step, from its summary: AI can offer a bounded additional critique; require a learner-authored revision rationale. A focused AI prompt is: “Critique this one aspect of my draft. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-046",
     "reason": "The source is a systematic review of feedback research (1985–2014) and a taxonomy of recipience processes, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step: “AI can help prepare reflection prompts; do not automate grade release based on opaque judgments about engagement. A focused AI prompt is: “Draft a reflection question that asks learners to interpret a feedback comment and propose an action before viewing the mark.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step, from its summary: AI can help prepare reflection prompts; do not automate grade release based on opaque judgments about engagement. A focused AI prompt is: “Draft a reflection question that asks learners to interpret a feedback comment and propose an action before viewing the mark. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-047",
     "reason": "The source is a systematic review of feedback research (1985–2014) and a taxonomy of recipience processes, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step: “Use AI transcription or formatting only with accuracy checks, permission, and text alternatives. A focused AI prompt is: “Reformat this feedback so the priority action is easy to locate.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Winstone, N. E., Nash, R. A., Parker, M., & Rowntree, J. (2017). Supporting learners' agentic engagement with feedback: A systematic review and a taxonomy of recipience processes. Educational Psychologist, 52(1), 17–37. https://doi.org/10.1080/00461520.2016.1207538 The record's AI step, from its summary: Use AI transcription or formatting only with accuracy checks, permission, and text alternatives. A focused AI prompt is: “Reformat this feedback so the priority action is easy to locate. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-048",
     "reason": "The source is a study of internal feedback through natural comparison processes, with no AI; the activity's only AI step was specified editorially (found in the October 2026 audit (WIA-18)).",
-    "evidence": "Nicol, D. (2021). The power of internal feedback: Exploiting natural comparison processes. Assessment & Evaluation in Higher Education, 46(5), 756–778. https://doi.org/10.1080/02602938.2020.1823314 The record's AI step: “Add a labeled AI essay only after the original comparisons; learners justify its position using the same criteria and revise their own work themselves.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Nicol, D. (2021). The power of internal feedback: Exploiting natural comparison processes. Assessment & Evaluation in Higher Education, 46(5), 756–778. https://doi.org/10.1080/02602938.2020.1823314 The record's AI step, from its summary: Add a labeled AI essay only after the original comparisons; learners justify its position using the same criteria and revise their own work themselves. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-049",
     "reason": "The source is a study of internal feedback through natural comparison processes, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Nicol, D. (2021). The power of internal feedback: Exploiting natural comparison processes. Assessment & Evaluation in Higher Education, 46(5), 756–778. https://doi.org/10.1080/02602938.2020.1823314 The record's AI step: “An AI hint can be an optional additional resource after the attempt; validate it and assess transfer with a new unaided problem.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Nicol, D. (2021). The power of internal feedback: Exploiting natural comparison processes. Assessment & Evaluation in Higher Education, 46(5), 756–778. https://doi.org/10.1080/02602938.2020.1823314 The record's AI step, from its summary: An AI hint can be an optional additional resource after the attempt; validate it and assess transfer with a new unaided problem. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-059",
     "reason": "The source is a study of peer assessment and self-assessment in writing, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Alemdag, E., & Narciss, S. (2025). Promoting formative self-assessment through peer assessment: Peer work quality matters for writing performance and internal feedback generation. International Journal of Educational Technology in Higher Education, 22, Article 22. DOI: 10.1186/s41239-025-00522-4. The record's AI step: “AI may be a later comparator, but students must first generate their own appraisal and verify that revisions preserve the study’s actual methods and results.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Alemdag, E., & Narciss, S. (2025). Promoting formative self-assessment through peer assessment: Peer work quality matters for writing performance and internal feedback generation. International Journal of Educational Technology in Higher Education, 22, Article 22. DOI: 10.1186/s41239-025-00522-4. The record's AI step, from its summary: AI may be a later comparator, but students must first generate their own appraisal and verify that revisions preserve the study’s actual methods and results. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-064",
     "reason": "The source is a quasi-experimental study of thinking routines in expository sessions, with no AI (abstract, PMC11049202); the activity's only AI step was specified editorially (found in the October 2026 audit (WIA-18)).",
-    "evidence": "Ramos-Vallecillo, N., Murillo-Ligorred, V., & Lozano-Blasco, R. (2024). University students’ achievement of meaningful learning through participation in thinking routines. European Journal of Investigation in Health, Psychology and Education, 14, 1012-1027. DOI: 10.3390/ejihpe14040066. The record's AI step: “Introduce an AI interpretation only after human observation and compare its unsupported inferences. A focused AI prompt is: “Which items in my observation list are actually interpretations?” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Ramos-Vallecillo, N., Murillo-Ligorred, V., & Lozano-Blasco, R. (2024). University students’ achievement of meaningful learning through participation in thinking routines. European Journal of Investigation in Health, Psychology and Education, 14, 1012-1027. DOI: 10.3390/ejihpe14040066. The record's AI step, from its summary: Introduce an AI interpretation only after human observation and compare its unsupported inferences. A focused AI prompt is: “Which items in my observation list are actually interpretations? Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-065",
     "reason": "The source is a quasi-experimental study of thinking routines in expository sessions, with no AI (abstract, PMC11049202); the activity's only AI step was specified editorially (found in the October 2026 audit (WIA-18)).",
-    "evidence": "Ramos-Vallecillo, N., Murillo-Ligorred, V., & Lozano-Blasco, R. (2024). University students’ achievement of meaningful learning through participation in thinking routines. European Journal of Investigation in Health, Psychology and Education, 14, 1012-1027. DOI: 10.3390/ejihpe14040066. The record's AI step: “Use AI to suggest possible questions, not to impersonate lived experience or replace actual perspectives. A focused AI prompt is: “Suggest a question that might challenge my account of this viewpoint.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Ramos-Vallecillo, N., Murillo-Ligorred, V., & Lozano-Blasco, R. (2024). University students’ achievement of meaningful learning through participation in thinking routines. European Journal of Investigation in Health, Psychology and Education, 14, 1012-1027. DOI: 10.3390/ejihpe14040066. The record's AI step, from its summary: Use AI to suggest possible questions, not to impersonate lived experience or replace actual perspectives. A focused AI prompt is: “Suggest a question that might challenge my account of this viewpoint. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-066",
     "reason": "The source is a quasi-experimental study of thinking routines in expository sessions, with no AI (abstract, PMC11049202); the activity's only AI step was specified editorially (found in the October 2026 audit (WIA-18)).",
-    "evidence": "Ramos-Vallecillo, N., Murillo-Ligorred, V., & Lozano-Blasco, R. (2024). University students’ achievement of meaningful learning through participation in thinking routines. European Journal of Investigation in Health, Psychology and Education, 14, 1012-1027. DOI: 10.3390/ejihpe14040066. The record's AI step: “After students compare, use AI to suggest a missing contrast and verify it. A focused AI prompt is: “Question the dimensions of my comparison.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Ramos-Vallecillo, N., Murillo-Ligorred, V., & Lozano-Blasco, R. (2024). University students’ achievement of meaningful learning through participation in thinking routines. European Journal of Investigation in Health, Psychology and Education, 14, 1012-1027. DOI: 10.3390/ejihpe14040066. The record's AI step, from its summary: After students compare, use AI to suggest a missing contrast and verify it. A focused AI prompt is: “Question the dimensions of my comparison. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-067",
     "reason": "The source is a quasi-experimental study of thinking routines in expository sessions, with no AI (abstract, PMC11049202); the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Ramos-Vallecillo, N., Murillo-Ligorred, V., & Lozano-Blasco, R. (2024). University students’ achievement of meaningful learning through participation in thinking routines. European Journal of Investigation in Health, Psychology and Education, 14, 1012-1027. DOI: 10.3390/ejihpe14040066. The record's AI step: “AI may propose search terms, but students find and read the supporting sources themselves. A focused AI prompt is: “Identify the weakest connection between my claim and its evidence.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Ramos-Vallecillo, N., Murillo-Ligorred, V., & Lozano-Blasco, R. (2024). University students’ achievement of meaningful learning through participation in thinking routines. European Journal of Investigation in Health, Psychology and Education, 14, 1012-1027. DOI: 10.3390/ejihpe14040066. The record's AI step, from its summary: AI may propose search terms, but students find and read the supporting sources themselves. A focused AI prompt is: “Identify the weakest connection between my claim and its evidence. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-068",
     "reason": "The source is a quasi-experimental study of thinking routines in expository sessions, with no AI (abstract, PMC11049202); the activity's only AI step was specified editorially (found in the October 2026 audit (WIA-18)).",
-    "evidence": "Ramos-Vallecillo, N., Murillo-Ligorred, V., & Lozano-Blasco, R. (2024). University students’ achievement of meaningful learning through participation in thinking routines. European Journal of Investigation in Health, Psychology and Education, 14, 1012-1027. DOI: 10.3390/ejihpe14040066. The record's AI step: “Compare a student headline with an AI alternative and explain which meaning each preserves or loses. A focused AI prompt is: “What nuance might my headline lose?” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Ramos-Vallecillo, N., Murillo-Ligorred, V., & Lozano-Blasco, R. (2024). University students’ achievement of meaningful learning through participation in thinking routines. European Journal of Investigation in Health, Psychology and Education, 14, 1012-1027. DOI: 10.3390/ejihpe14040066. The record's AI step, from its summary: Compare a student headline with an AI alternative and explain which meaning each preserves or loses. A focused AI prompt is: “What nuance might my headline lose? Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-069",
     "reason": "The source is a quasi-experimental study of thinking routines in expository sessions, with no AI (abstract, PMC11049202); the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Ramos-Vallecillo, N., Murillo-Ligorred, V., & Lozano-Blasco, R. (2024). University students’ achievement of meaningful learning through participation in thinking routines. European Journal of Investigation in Health, Psychology and Education, 14, 1012-1027. DOI: 10.3390/ejihpe14040066. The record's AI step: “Keep both observation rounds human; AI may be a later contrast, not evidence of what was actually observed. A focused AI prompt is: “Ask a question that directs me back to the object for closer observation.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Ramos-Vallecillo, N., Murillo-Ligorred, V., & Lozano-Blasco, R. (2024). University students’ achievement of meaningful learning through participation in thinking routines. European Journal of Investigation in Health, Psychology and Education, 14, 1012-1027. DOI: 10.3390/ejihpe14040066. The record's AI step, from its summary: Keep both observation rounds human; AI may be a later contrast, not evidence of what was actually observed. A focused AI prompt is: “Ask a question that directs me back to the object for closer observation. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-070",
     "reason": "The source is a quasi-experimental study of thinking routines in expository sessions, with no AI (abstract, PMC11049202); the activity's only AI step was specified editorially (found in the October 2026 audit (WIA-18)).",
-    "evidence": "Ramos-Vallecillo, N., Murillo-Ligorred, V., & Lozano-Blasco, R. (2024). University students’ achievement of meaningful learning through participation in thinking routines. European Journal of Investigation in Health, Psychology and Education, 14, 1012-1027. DOI: 10.3390/ejihpe14040066. The record's AI step: “Ask AI for a hypothetical alternative ending after the student version; label it and test its plausibility. A focused AI prompt is: “Identify an assumption connecting the stages in my sequence.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Ramos-Vallecillo, N., Murillo-Ligorred, V., & Lozano-Blasco, R. (2024). University students’ achievement of meaningful learning through participation in thinking routines. European Journal of Investigation in Health, Psychology and Education, 14, 1012-1027. DOI: 10.3390/ejihpe14040066. The record's AI step, from its summary: Ask AI for a hypothetical alternative ending after the student version; label it and test its plausibility. A focused AI prompt is: “Identify an assumption connecting the stages in my sequence. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-071",
     "reason": "The source is a quasi-experimental study of thinking routines in expository sessions, with no AI (abstract, PMC11049202); the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Ramos-Vallecillo, N., Murillo-Ligorred, V., & Lozano-Blasco, R. (2024). University students’ achievement of meaningful learning through participation in thinking routines. European Journal of Investigation in Health, Psychology and Education, 14, 1012-1027. DOI: 10.3390/ejihpe14040066. The record's AI step: “AI may summarize de-identified instructor notes; do not infer engagement from appearance, disability, accent, or automated facial analysis. A focused AI prompt is: “Organize these de-identified observation notes by the stated categories.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Ramos-Vallecillo, N., Murillo-Ligorred, V., & Lozano-Blasco, R. (2024). University students’ achievement of meaningful learning through participation in thinking routines. European Journal of Investigation in Health, Psychology and Education, 14, 1012-1027. DOI: 10.3390/ejihpe14040066. The record's AI step, from its summary: AI may summarize de-identified instructor notes; do not infer engagement from appearance, disability, accent, or automated facial analysis. A focused AI prompt is: “Organize these de-identified observation notes by the stated categories. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-099",
     "reason": "The source is a study of argumentation scaffolds and role assignment in online peer discussion, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Li (2026). Fostering dialogic peer feedback in synchronous online discussions: the effect of argumentation scaffold and role assignment. International Journal of Educational Technology in Higher Education. The record's AI step: “After the group’s initial choice, AI can present a methodological objection for evaluation.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Li (2026). Fostering dialogic peer feedback in synchronous online discussions: the effect of argumentation scaffold and role assignment. International Journal of Educational Technology in Higher Education. The record's AI step, from its summary: After the group’s initial choice, AI can present a methodological objection for evaluation. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-132",
-    "reason": "The source is an account of adapting an embedded business-communication course and its library sessions, listed in docs/AI-USE-2026-10-05.md §4.3 as not involving AI (the article itself could not be read automatically during the audit); the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Camacho (2026). Moving Through the Ages: Adapting an Embedded Business Communication Course Through Two Decades of Changes. Ticker: The Academic Business Librarianship Review. The record's AI step: “AI can help plan the session or format a learner’s own questions; the experience reflection should retain the student’s actual account.” Change note: “AI role and deliverable specified editorially.”"
+    "reason": "The source is an account of adapting an embedded business-communication course and its library sessions, recorded as not involving AI (the article itself could not be read automatically during the audit); the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3). Provisional: the article has not been read; confirm by reading it before treating this withdrawal as settled.",
+    "evidence": "Camacho (2026). Moving Through the Ages: Adapting an Embedded Business Communication Course Through Two Decades of Changes. Ticker: The Academic Business Librarianship Review. The record's AI step, from its summary: AI can help plan the session or format a learner’s own questions; the experience reflection should retain the student’s actual account. Its change note: “AI role and deliverable specified editorially.”",
+    "status": "provisional"
    },
    {
     "id": "CAN-A2-A-141",
     "reason": "The source is a study of active methodologies and reuse of student-generated content, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Arruabarrena, R., Sánchez, A., Blanco, J. M., Vadillo, J. A., & Usandizaga, I. (2019). Integration of good practices of active methodologies with the reuse of student-generated content. International Journal of Educational Technology in Higher Education, 16, Article 10. DOI: 10.1186/s41239-019-0140-7. The record's AI step: “AI may identify ambiguity after students draft questions; verify answer keys and preserve student authorship. A focused AI prompt is: “Question the clarity of my draft question.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Arruabarrena, R., Sánchez, A., Blanco, J. M., Vadillo, J. A., & Usandizaga, I. (2019). Integration of good practices of active methodologies with the reuse of student-generated content. International Journal of Educational Technology in Higher Education, 16, Article 10. DOI: 10.1186/s41239-019-0140-7. The record's AI step, from its summary: AI may identify ambiguity after students draft questions; verify answer keys and preserve student authorship. A focused AI prompt is: “Question the clarity of my draft question. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-143",
@@ -1629,47 +2720,47 @@
    {
     "id": "CAN-A2-A-209",
     "reason": "The source is a review of cognitive load theory and instructional design, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. Educational Psychology Review, 31, 261-292. DOI: 10.1007/s10648-019-09465-5. The record's AI step: “AI may propose a checked problem; preserve the learner’s search and record what they discover. A focused AI prompt is: “Propose a problem with several discoverable relationships and a checked explanation.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. Educational Psychology Review, 31, 261-292. DOI: 10.1007/s10648-019-09465-5. The record's AI step, from its summary: AI may propose a checked problem; preserve the learner’s search and record what they discover. A focused AI prompt is: “Propose a problem with several discoverable relationships and a checked explanation. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-210",
     "reason": "The source is a review of cognitive load theory and instructional design, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. Educational Psychology Review, 31, 261-292. DOI: 10.1007/s10648-019-09465-5. The record's AI step: “A focused AI prompt is: “Ask why this worked step is valid, then wait for my explanation.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. Educational Psychology Review, 31, 261-292. DOI: 10.1007/s10648-019-09465-5. The record's AI step, from its summary: A focused AI prompt is: “Ask why this worked step is valid, then wait for my explanation. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-211",
     "reason": "The source is a review of cognitive load theory and instructional design, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. Educational Psychology Review, 31, 261-292. DOI: 10.1007/s10648-019-09465-5. The record's AI step: “AI may create missing-step variants after instructor validation; do not reveal the completion before the attempt. A focused AI prompt is: “Create a missing-step variant from this checked solution.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. Educational Psychology Review, 31, 261-292. DOI: 10.1007/s10648-019-09465-5. The record's AI step, from its summary: AI may create missing-step variants after instructor validation; do not reveal the completion before the attempt. A focused AI prompt is: “Create a missing-step variant from this checked solution. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-212",
     "reason": "The source is a review of cognitive load theory and instructional design, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. Educational Psychology Review, 31, 261-292. DOI: 10.1007/s10648-019-09465-5. The record's AI step: “AI may suggest layout or wording, but faculty check relationships and accessibility with learners. A focused AI prompt is: “Suggest a layout that keeps these dependent elements together.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. Educational Psychology Review, 31, 261-292. DOI: 10.1007/s10648-019-09465-5. The record's AI step, from its summary: AI may suggest layout or wording, but faculty check relationships and accessibility with learners. A focused AI prompt is: “Suggest a layout that keeps these dependent elements together. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-213",
     "reason": "The source is a review of cognitive load theory and instructional design, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. Educational Psychology Review, 31, 261-292. DOI: 10.1007/s10648-019-09465-5. The record's AI step: “AI can propose variants; faculty check that each tests the intended principle and has a sound solution. A focused AI prompt is: “Suggest a variant that changes the context while preserving this principle.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. Educational Psychology Review, 31, 261-292. DOI: 10.1007/s10648-019-09465-5. The record's AI step, from its summary: AI can propose variants; faculty check that each tests the intended principle and has a sound solution. A focused AI prompt is: “Suggest a variant that changes the context while preserving this principle. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-214",
     "reason": "The source is a review of cognitive load theory and instructional design, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. Educational Psychology Review, 31, 261-292. DOI: 10.1007/s10648-019-09465-5. The record's AI step: “AI may ask a follow-up question after the learner explains; require source-checked correction and later independent application. A focused AI prompt is: “Ask a follow-up about the reasoning I have given.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. Educational Psychology Review, 31, 261-292. DOI: 10.1007/s10648-019-09465-5. The record's AI step, from its summary: AI may ask a follow-up question after the learner explains; require source-checked correction and later independent application. A focused AI prompt is: “Ask a follow-up about the reasoning I have given. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-216",
     "reason": "The source is a review of cognitive load theory and instructional design, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. Educational Psychology Review, 31, 261-292. DOI: 10.1007/s10648-019-09465-5. The record's AI step: “AI may propose a sequence, but faculty verify prerequisites and assess integrated performance. A focused AI prompt is: “Suggest a sequence for these components and their integration.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. Educational Psychology Review, 31, 261-292. DOI: 10.1007/s10648-019-09465-5. The record's AI step, from its summary: AI may propose a sequence, but faculty verify prerequisites and assess integrated performance. A focused AI prompt is: “Suggest a sequence for these components and their integration. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-217",
     "reason": "The source is a review of cognitive load theory and instructional design, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. Educational Psychology Review, 31, 261-292. DOI: 10.1007/s10648-019-09465-5. The record's AI step: “Reduce AI hints on demonstrated competence and check performance without AI; do not infer expertise from usage frequency.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Sweller, J., van Merriënboer, J. J. G., & Paas, F. (2019). Cognitive architecture and instructional design: 20 years later. Educational Psychology Review, 31, 261-292. DOI: 10.1007/s10648-019-09465-5. The record's AI step, from its summary: Reduce AI hints on demonstrated competence and check performance without AI; do not infer expertise from usage frequency. Its change note: “AI role and deliverable specified editorially.”"
    },
    {
     "id": "CAN-A2-A-228",
     "reason": "The source is a study of design-based STEM activities in teacher education, with no AI; the activity's only AI step was specified editorially (listed in docs/AI-USE-2026-10-05.md §4.3).",
-    "evidence": "Yüksel (2025). Design-Based STEM Activities in Teacher Education and Its Effect on Pre-service Science Teachers’ Design Thinking Skills. Journal of Science Education and Technology. The record's AI step: “AI can suggest a test or alternative after students propose their design; learners conduct real tests, report failures, and justify revisions. A focused AI prompt is: “Suggest a test that could challenge our prototype’s key assumption.” Change note: “AI role and deliverable specified editorially.”"
+    "evidence": "Yüksel (2025). Design-Based STEM Activities in Teacher Education and Its Effect on Pre-service Science Teachers’ Design Thinking Skills. Journal of Science Education and Technology. The record's AI step, from its summary: AI can suggest a test or alternative after students propose their design; learners conduct real tests, report failures, and justify revisions. A focused AI prompt is: “Suggest a test that could challenge our prototype’s key assumption. Its change note: “AI role and deliverable specified editorially.”"
    }
   ]
  },
@@ -1728,581 +2819,6 @@
    "id": "WIA-R-VIDG-05",
    "category": "parent_removed",
    "reason": "This remix builds on CAN-W-human-019, which is held for its license wording. A remix must build on a published activity; this one returns with its parent once that record's license is corrected."
-  },
-  {
-   "id": "WIA-S-ART-A-03",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Appropriation (© 2026 The Museum of Modern Art). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-ART-A-06",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: The Great Thanksgiving Listen (\"Copyright © 2003-2026 StoryCorps, Inc. All rights reserved.\"). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-ART-A-10",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Lesson plan: Create your own national debt awareness campaign (\"Copyright © 2025 News Hour Production LLC. All Rights Reserved\"). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-ART-A-11",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Integrity on Deadline: ABC News and the Duke Lacrosse Photographs (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-ART-A-15",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Forum Theatre (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-ART-B-02",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Every Picture Tells Many Stories (© 2026 National Gallery of Art). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-ART-B-10",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Democracy's Watchdog: Seafood from Slaves (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-ART-B-13",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: 1-5-6-4 (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-ART-B-14",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Hamlet Teacher Pack 2025 (© RSC). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-ART-B-15",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: About Signing Shakespeare (© RSC). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-A-02",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Fishbanks: A Renewable Resource Management Simulation (none stated on item page (footer reads: \"©2026 MIT Sloan School of Management\")). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-A-03",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Sam Bankman-Fried's FTX (none stated on item page (footer reads: \"©2026 MIT Sloan School of Management\")). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-A-04",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Boeing's 737 MAX 8 Disasters (none stated on item page (footer reads: \"©2026 MIT Sloan School of Management\")). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-A-05",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Design at Mayo (\"No part of this site (including all linked resources) should be posted to another web site or e-mailed to anyone. This stipulation will be strictly enforced.\"). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-A-06",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: SELCO Foundation: Diffusing a User-centered Ecosystem Approach to Sustainable Livelihood Promotion (\"No part of this site (including all linked resources) should be posted to another web site or e-mailed to anyone. This stipulation will be strictly enforced.\"). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-A-10",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Case 2: Pit market (hand run) (Item page footer: \"©2026 University of Bristol except where stated\". Site copyright page: \"We give permission to reproduce material from our site for non-commer…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-A-11",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Case 5: Bank runs (computerised) (Item page footer: \"©2026 University of Bristol except where stated\". Site copyright page: \"We give permission to reproduce material from our site for non-commer…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-A-15",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Marketing ROI Made Simple (none stated on item page (footer reads: \"Copyright © 2012-2026 Great Ideas for Teaching Marketing\")). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-B-01",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Try It: Exploring Borrowing Options (Module 7: Borrowing Basics, Instructor Guide) (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-B-02",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Try It: Exploring Borrowing Options (Module 7: Borrowing Basics, Instructor Guide) (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-B-03",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Sally Soprano I (Copyright © 2008–2026 The President and Fellows of Harvard College. \"You must order a copy (a.k.a. license/usage fee) for every person participating in the simu…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-B-04",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Harborco (Copyright © 2008–2026 The President and Fellows of Harvard College. \"You must order a copy (a.k.a. license/usage fee) for every person participating in the simu…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-B-05",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Ren the Robot (Copyright © 2008–2026 The President and Fellows of Harvard College. \"You must order a copy (a.k.a. license/usage fee) for every person participating in the simu…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-B-06",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Empirical Project 3: Measuring the effect of a sugar tax (\"Licensed under Creative Commons BY NC ND\" (the statement links to https://creativecommons.org/licenses/by-nc-nd/4.0/)). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-B-07",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Empirical Project 5: Measuring inequality: Lorenz curves and Gini coefficients (\"Licensed under Creative Commons BY NC ND\" (the statement links to https://creativecommons.org/licenses/by-nc-nd/4.0/)). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-B-08",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Empirical Project 2: Collecting and analysing data from experiments (\"Licensed under Creative Commons BY NC ND\" (the statement links to https://creativecommons.org/licenses/by-nc-nd/4.0/)). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-B-09",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Stackelberg Duopoly and Backward Induction (module page heading: \"A Classroom Experiment for teaching representation of a sequential game in extensive form and Backward Induction\") (Copyright © 2006 Experimental Economics Center. All rights reserved.). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-B-13",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Step-by-Step AI Lesson Plan for Entrepreneurship Students in 2026 (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-B-14",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Considering Your Stakeholders Activity (Copyright ©1995-2018 by The Writing Lab & The OWL at Purdue and Purdue University. All rights reserved. This material may not be published, reproduced, broadcas…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-BUS-B-15",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Postmortem Reports (Copyright ©1995-2018 by The Writing Lab & The OWL at Purdue and Purdue University. All rights reserved.). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-CRO-B-03",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: AI-Based Tools: Declaration of Use (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-CRO-B-04",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: AI Use: Review and Reflection (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-CRO-B-05",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Crisis at Fort Sumter (MERLOT record fields: \"Creative Commons: No\"; \"Cost Involved: No\"; \"Source Code Available: No\". MERLOT site footer: \"© 1997–2026 MERLOT, Some Rights Reserved\". …). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-CRO-B-06",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Outbreak at Watersedge- A Public Health discovery game. (MERLOT record fields: \"Creative Commons: No\"; \"Cost: No\"; \"Source Code Available: No\". MERLOT site footer: \"© 1997–2026 MERLOT, Some Rights Reserved\". No rights…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-CRO-B-09",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Stinky Fish (none stated on item page (page shows \"Source: Hyper Island toolbox\" and \"Credit: Åsa Silfverberg\")). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-CRO-B-10",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Teaching resource: Folk devils and moral panics (\"Copyright © 2021 University of Essex. Created by UK Data Archive, UK Data Service.\"). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-CRO-B-12",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Role Play: In a Stew over Cooked Data (none stated on item page (footer shows only \"U.S. Department of Health and Human Services\" and \"Office of Research Integrity\" with address)). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-CRO-B-13",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Effective Training Models for Implementing Health-Promoting Practices Afterschool (In the document: \"Text from these applications can only be used for nonprofit, educational purposes. When using text from these applications for nonprofit, educ…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-A-05",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Text Rendering: In Brief (none stated on item page (the PDF text returned by the fetch tool carried no copyright or license line; its only usage wording is: \"For the complete exercise an…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-A-06",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Hidden Issues: In Brief (none stated on item page (the PDF text returned by the fetch tool carried no copyright or license line; its only usage wording is: \"For the complete exercise an…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-A-07",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Mathematics: Identifying and Addressing Student Errors (none stated on item page (no license or copyright statement was returned for this page by the fetch tool)). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-A-08",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Behavior Assessment: Conduct an A-B-C Analysis (none stated on item page (the PDF text returned carried only a funding disclaimer: \"The contents of this resource were developed under a grant from the U.S. Dep…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-A-09",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Behavior Management & ADHD: He Just Needs a Little Discipline (This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-A-10",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Claim, Support, Question (© 2022 President and Fellows of Harvard College and Project Zero. This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 Int…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-A-11",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Parts, Purposes, Complexities (© 2022 President and Fellows of Harvard College and Project Zero. This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 Int…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-A-12",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: I Used to Think... Now I Think... (© 2022 President and Fellows of Harvard College and Project Zero. This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 Int…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-A-13",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Tug for Truth (none stated on item page (no license, copyright or Creative Commons statement was returned for this routine's page by the fetch tool)). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-A-14",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Face-to-Face Tools: Making Changes in Student Thinking Visible Over Time (AMBITIOUS SCIENCE TEACHING © 2015). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-A-15",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Trees, Seasons & Shining a Light on Farming Communities: Kinder Bilingüe (Copyright UW AST ©2026. ALL RIGHTS RESERVED). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-B-01",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Understanding Cultural Diversity -- Western Shoshone Land Rights (listed on the TILT page as \"Example A: Sociology\") (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-B-05",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Early Childhood Behavior Management (Case Study Unit) (Licensed under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-B-06",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Accommodations Versus Modifications (This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-B-10",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Offer action-oriented feedback (© CAST, Inc. 2026). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-B-11",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Remote Control: Blurred Boundaries in the Zoom Classroom (Copyright © 2026 The President and Fellows of Harvard College). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-B-12",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: First Rate (Copyright © 2026 The President and Fellows of Harvard College). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-EDU-B-13",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: No Laughing Matter: Can Showing Religiously Sensitive Cartoons in the Classroom Ever Be Justified? (Copyright © 2026 The President and Fellows of Harvard College). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HEA-A-03",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: COM April 2019 (Case of the Month, April 2019: Single deep ulcer, lateral tongue) (© 2026 UW School of Dentistry | Seattle, WA). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HEA-A-05",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Tool: SBAR (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HEA-A-06",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Neurologic Exam Videos and Descriptions: An Anatomical Approach (\"Creative Commons Attribution-NonCommerical-ShareAlike License\" (the site's license page references both version 2.5 and version 4.0; spelling as on the page); …). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HEA-A-11",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Medication errors (This work is licensed under a Creative Commons Attribution-Non-Commercial-NoDerivatives 4.0 International License.). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HEA-B-09",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Case 1091 - A Man in His Late 30's with Renal Dysfunction, Proteinuria and a History of HIV with Recent COVID-19 Positivity (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HEA-B-13",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Drugdle | Daily Drug Name Guessing Game (listed on the IUPHAR resources page as \"Drugdle\") (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HEA-B-14",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: HIV Voluntary Counseling and Testing in Hinche, Haiti (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HEA-B-15",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Cruciate Sutures (Document number: CSL_S14; Year Group: BVSc4 +) (This work is under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License. © The University of Bristol, 2018). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HUM-A-05",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Claim Testing (Big History, Lesson 1.4) (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HUM-A-07",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: The Tortoise and the Rabbit (© 2021, Tom McCoy, North American Computational Linguistics Open Competition, Round 1). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HUM-A-08",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Teach This Poem: \"There Will Come Soft Rains\" by Sara Teasdale (© Academy of American Poets, 195 Broadway 9th Floor, New York, NY 10007). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HUM-A-09",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: AI & Accountability: Who's at the Wheel? (Copyright © 2026 Ethics Unwrapped - McCombs School of Business – The University of Texas at Austin). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HUM-A-10",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Internet Pujas (Copyright © 2026 The President and Fellows of Harvard College). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HUM-A-12",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Leçon 7: Les repas (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HUM-B-01",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Focus on Latin Inscriptions: Death and Burial in Rome (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HUM-B-03",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Evaluating Photographs (© Digital Inquiry Group). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HUM-B-06",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: The Radio as New Technology: Blessing or Curse? A 1929 Debate (Copyright 2010–2026 National Humanities Center. All rights reserved.). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HUM-B-08",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: In-Class Ethics Bowl (This work is licensed under CC BY-NC-ND 4.0. If you would like to change or adapt any of PLATO's work for public use, please feel free to contact us for permiss…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HUM-B-09",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: AI, Comedy, and Counterculture: An Ethics Case Study (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HUM-B-12",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: InterCom Volume 2, Issue 1: Saying What You Mean and Meaning What You Say (listed in the archive as \"Pragmatics 101\") (Copyright © 2023 Center for Applied Second Language Studies (CASLS) University of Oregon All rights reserved.). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HUM-B-14",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Summaries: GAI vs. Human (Assignment and activity selections © 2024 by the respective authors. Unless otherwise stated, these works are licensed under the Creative Commons Attribution-No…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-HUM-B-15",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Eliminating Wordiness (exercise set: Exercises 1-3 with answer keys) (Copyright ©1995-2018 by The Writing Lab & The OWL at Purdue and Purdue University. All rights reserved. This material may not be published, reproduced, broadcas…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-LIB-A-12",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Global Media Perspectives (© 2026 Project Look Sharp, Ithaca College. All rights reserved. Media content used for educational purposes is accorded the Fair Use exception.). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-LIB-A-13",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Media Constructions of Sustainability: Food, Water, and Agriculture (© 2026 Project Look Sharp, Ithaca College. All rights reserved. Media content used for educational purposes is accorded the Fair Use exception.). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-LIB-A-14",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Creativity & Aging Through the Lens of Film (© 2026 Project Look Sharp, Ithaca College. All rights reserved. Media content used for educational purposes is accorded the Fair Use exception.). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-LIB-B-07",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: The “Just Add Wikipedia In the Omnibar” Trick (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-LIB-B-10",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Question Authority (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-LIB-B-11",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Evidence-Based Practice (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-SOC-A-01",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Cross-Cultural Correlation Study (© 2026 Human Relations Area Files). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-SOC-A-02",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Religion (Explaining Human Culture) (© 2026 Human Relations Area Files). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-SOC-A-03",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Crime Prevention & Criminal Justice Module 14 Exercises — In-class Exercise 2: Discussion of Judicial Decisions and Documents (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-SOC-A-05",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Regulating AI (This work is licensed under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) License.). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-SOC-A-06",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: The Zimmermann Telegram in 1917 (This work is licensed under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) License.). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-SOC-A-08",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Comparative Politics Coalition Building Simulation (Germany) (CC BY NC ND 4.0 license – Allows redistribution but no additions or revisions to content. Forbids commercial use.). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-SOC-A-09",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Civil Liberties vs. National Security: A Wartime Balancing Act (© Copyright 2026 The Annenberg Public Policy Center of the University of Pennsylvania). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-SOC-A-11",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Case Study 1: Summer Youth Employment Programs in Chicago: Theory of Change and Measurement (To request permission to reuse this case study or access the accompanying teachers' guide, please email training@povertyactionlab.org. Please do not reuse witho…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-SOC-A-14",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Case Studies - The Intake Interview (©2026 Georgia State University). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-SOC-B-01",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Hominid Cranial Comparison: The \"Skulls\" Lab (Grades 9-12) (© Copyright Smithsonian Institution). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-SOC-B-04",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Exploration 1A: What can bystanders do? (Exploring Humanitarian Law, Module 1: The humanitarian perspective) (© ICRC, January 2009). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-SOC-B-05",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Exploration 2C: Focus on child soldiers (Exploring Humanitarian Law, Module 2: Limits in armed conflict) (© ICRC, January 2009). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-SOC-B-07",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Climate Resilience in New York City: The Battle over East River Park (Each purchase of this product entitles the buyer to one digital file and use. If you intend to distribute, teach, or share this item, you must purchase permissi…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-SOC-B-08",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: The Oversight Board: Content Moderation vs. Political Speech on Social Media (Reacting Consortium members can download all game materials below. [Members are told to] fill out the Permissions Request Form before using The Oversight Board …). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-SOC-B-13",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Somali Boys Group (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-SOC-B-14",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Teaching about the Social Structure of Fatal Gun Violence Using Interactive Maps (Copyright (c) 2026 Reginald Byron). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-SOC-B-15",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Grocery Run: Teaching the Social Model of Disability through a Virtual Field Experience Activity that Combines a Podcast with Google Street View (Copyright (c) 2026 Trenton Ellis, Michael Hollingsworth). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-STE-A-01",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Buried seeds, buried treasure (Item page shows only a link labeled \"PERMITTED USES\". The linked page states: \"Copyright for all Data Nugget activities is held by the Data Nuggets team.\" and l…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-STE-A-02",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: The Wandering Itch: A Dermatosis on the Rise (Copyright © 2026, National Science Teaching Association.). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-STE-A-03",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: The effect of temperature on reaction rate (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-STE-A-04",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Murder Mystery (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-STE-A-05",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Infinite Story (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-STE-A-08",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Measuring the Inclination and Declination of the Earth's magnetic field with a smartphone (No page-level license statement was returned for the item page. Attached images cover_pic_1.png and graph.png carry: \"Reuse: If you wish to use this item outsid…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-STE-A-09",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Occidental Engineering Case Study: Part 1 (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-STE-A-10",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Stories from the Climate Crisis: A Mixer (\"Material on this page is offered under a Creative Commons license unless otherwise noted below.\" (applies to the CLEAN catalog page; the fetch tool reported it…). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-STE-A-15",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Sampling bias and the confidence interval (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-STE-B-03",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Virtual Lab: Gravimetric Determination of Arsenic (The ChemCollective site and its contents are licensed under a Creative Commons Attribution 3.0 NonCommercial-NoDerivs License.). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-STE-B-04",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Chapter 1, Lesson 1: Molecules Matter (©2023 American Chemical Society). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-STE-B-11",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Enzyme Inhibition Kinetics (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-STE-B-14",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Galaxy Color (none stated on item page). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
-  },
-  {
-   "id": "WIA-S-STE-B-15",
-   "category": "source_access",
-   "reason": "WIA-01: the activity depends on a source item that is not openly licensed: Choosing a Study Design for the Polio Vaccine (Contact Author for permission to use materials from this lesson in a publication). Held until the collection decides how it presents material faculty may need to buy, join, or request permission to use."
   }
  ],
  "flags": [
@@ -2612,7 +3128,8 @@
     "CAN-L-031",
     "CAN-R3-033",
     "CAN-R3-045",
-    "WIA-R-DISC-07"
+    "WIA-R-DISC-07",
+    "WIA-S-HEA-A-11"
    ]
   },
   {
@@ -2670,29 +3187,33 @@
   "rules": [
    "no_operator_no_tool",
    "no_tool_no_operator",
-   "withheld_not_students"
+   "withheld_not_students",
+   "source_access_has_item"
   ],
   "pending": {}
  },
  "expected_counts": {
-  "activities": 918,
-  "works": 501,
+  "activities": 1033,
+  "works": 618,
   "withdrawn": 34,
-  "held": 126,
+  "held": 11,
   "license": 5,
   "parent_removed": 6,
-  "source_access": 115,
-  "works_removed": 136,
-  "corrected_fields": 128,
-  "corrected_activities": 59,
-  "source_fields": 23,
+  "source_access": 0,
+  "works_removed": 19,
+  "corrected_fields": 254,
+  "corrected_activities": 175,
+  "source_fields": 32,
   "text": 5,
-  "flagged_records": 248,
-  "students": 440,
-  "faculty_or_staff": 363,
+  "flagged_records": 249,
+  "students": 510,
+  "faculty_or_staff": 397,
   "optional": 10,
-  "none": 74,
-  "not_specified": 31,
-  "students_use_no_tool": 531
+  "none": 75,
+  "not_specified": 41,
+  "students_use_no_tool": 566,
+  "source_not_open": 86,
+  "source_restricted": 8,
+  "source_unmodified": 21
  }
 }

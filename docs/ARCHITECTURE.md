@@ -42,14 +42,16 @@ That stage leaves 1,078 activities / 637 sources. See [the AI-use record](AI-USE
 
 - It applies reviewed corrections to activity fields and source records, each with the value it
   replaces and its evidence, and corrects page text held in the data.
-- It holds 115 synthesis records whose source items are not openly licensed, 5 records whose own
-  license wording breaks their source's terms, and 6 remixes whose parent was removed. It
-  withdraws 34 activities whose AI step was added editorially to a source without AI.
+- It labels 115 synthesis records whose source item, used as published and by link, is not
+  openly licensed (`sa`: `not_open`, `unmodified` or `restricted`); both tools show the label. It
+  holds 5 records whose own license wording breaks their source's terms and 6 remixes whose parent
+  was removed, and withdraws 34 activities whose AI step was added editorially to a source without
+  AI (one provisionally).
 - It refuses any published record in which who uses AI, the tool needed, and the AI role
-  disagree, and it records flagged questions for the full review without changing the
-  publication.
+  disagree, or a source-access label without a used item, and it records flagged questions for
+  the full review without changing the publication.
 
-Both tools serve 918 activities / 501 sources. See [the record review](RECORD-REVIEW-2026-10-06.md).
+Both tools serve 1,033 activities / 618 sources. See [the record review](RECORD-REVIEW-2026-10-06.md).
 
 **Repository:** `Lewis-U-Lib/What-If-AI`. It publishes to GitHub Pages at
 `https://lewis-u-lib.github.io/What-If-AI/`.

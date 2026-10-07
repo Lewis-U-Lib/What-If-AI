@@ -2,35 +2,64 @@
 
 `content/record-review.json` is the seventh data stage (`tools/record_review.py`). It runs after
 the AI-use review, pins its input and output like the earlier stages, and applies the decisions
-taken after the October 2026 audit. Both tools now serve **918 activities / 501 sources**
-(1,078 / 637 before).
+taken after the October 2026 audit and the review of this change. Both tools now serve
+**1,033 activities / 618 sources** (1,078 / 637 before).
+
+This is a first correction pass. It does not close the audit: section 10 lists what is still open.
 
 | Change | Records | Why |
 |---|---|---|
-| Synthesis records held: a source item is not openly licensed | 115 | WIA-01, decided: hold rather than revise the openness claims |
+| Synthesis records published with a source-access label: a source item is not openly licensed | 115 | WIA-01; first held, then released with labels (section 1) |
 | Records held: their own license wording breaks the source's terms | 5 | Hold clear violations; flag the rest |
-| Activities withdrawn: the only AI step was added editorially | 34 | September 29 scope decision (WIA-18) |
+| Activities withdrawn: the only AI step was added editorially | 34, one provisional | September 29 scope decision (WIA-18) |
 | Remixes held because their parent was withdrawn or held | 6 | A remix must build on a published activity |
-| Reviewed corrections to activity fields | 128 fields on 59 activities | WIA-04, WIA-05, WIA-08, WIA-15 |
-| Reviewed corrections to source records | 23 fields | WIA-15 |
+| Reviewed corrections to activity fields | 139 on 65 activities | WIA-04, WIA-05, WIA-08, WIA-15, the review of this change |
+| Source-access labels | 115 | WIA-01 |
+| Reviewed corrections to source records | 32 fields | WIA-15 |
 | Page text held in the data | 5 | D-01, D-07, D-12 |
-| Records flagged for review, publication unchanged | 248 | License, scope and coding questions |
+| Records flagged for review, publication unchanged | 249 | License, scope and coding questions |
 
 Held and withdrawn records are not deleted. They stay intact in the data release and the
 earlier stages; releasing one means deleting its entry from the manifest and running
 `python3 tools/record_review.py --pin`, which recomputes the pinned counts and hashes. Check the
 diff before committing: only the entry, the counts, and the hashes should change.
 
-## 1. Held: source items that are not openly licensed (115)
+## 1. Source items that are not openly licensed: published with a label (115)
 
-The 114 synthesis records counted in WIA-01 under the strict reading, plus one more that meets
-the same rule: WIA-S-STE-A-08, whose source item carries no page-level license and whose images
-ask for permission beyond fair use. Each hold names the item and quotes its terms. With these held,
-every published activity adapts or uses only openly licensed works, so the openness statements are
-reworded to say exactly that, and to say that works cited only for their ideas keep their own terms
-(the Sources legend, the Register walkthrough, `NOTICE.md`, and the synthesis set's description;
-rows D-01 to D-05). Some of the 96 synthesis records that remain cite a source item that is not
-openly licensed for its ideas alone; the set's description now says so.
+The audit counted 114 synthesis records (WIA-01, strict reading) that use a source item, as
+published and by link, that is not openly licensed. WIA-S-STE-A-08 meets the same rule: its source
+item carries no page-level license, and its images ask for permission beyond fair use. The first
+pass held all 115. Weighing what they add (coverage of fields and tasks the rest of the collection
+reaches thinly, and designs found nowhere else in it), they are published again, each with a
+source-access label (`sa`). Each label is a reviewed correction that names the item and quotes
+its terms.
+
+| Label | Records | Meaning |
+|---|---|---|
+| `not_open` | 86 | The item carries no clear open license. |
+| `unmodified` | 21 | The item may be shared as published but not changed (NoDerivatives, or a reproduce-only permission). |
+| `restricted` | 8 | Using the item needs a purchase, membership, subscription, or permission first. |
+
+None of these records copies or adapts its item. The write-up is the collection's own, under its
+CC BY-NC-SA 4.0 license; it cites the item and links to it. For readers:
+
+- **Card:** a "Source item" fact with the label.
+- **Activity page and print:** the label under "At a glance", and a note under "Before you use it"
+  that names the item, says what using it requires, and points to its terms in The Register.
+- **The Register:** a "Source items open to adapt" filter, which leaves out all 115. "No cost to participants" leaves
+  out `restricted` records, so it confirms exactly what What If AI confirms.
+- **What If AI:** a `restricted` record is never a confirmed fit for "Nothing anyone has to pay
+  for" or "No special equipment, travel, or purchases"; it is listed as one to check.
+- **Statements:** the synthesis set's description, the Sources legend, the Register walkthrough and
+  `NOTICE.md` say that activities adapt only openly licensed works, and that some synthesis
+  activities use a published item as is, by link, under its own terms (rows D-01 to D-05).
+- **Build:** a fourth consistency rule, `source_access_has_item`: a label may sit only on a record
+  that lists a "Used unmodified" item.
+
+The restricted records say what access they need in their risks. Three needed a correction to do so:
+WIA-S-SOC-B-08 (membership or a $10 purchase, and a permissions request from every user; its cost
+and prerequisite codes are corrected too), and WIA-S-BUS-B-04 and -05 (the simulation is licensed
+per participant).
 
 ## 2. Licenses: hold clear violations, flag the rest
 
@@ -67,7 +96,8 @@ added by the collection's editors: 33 adapt sources that do not involve AI, and 
 deliberately leaves its source's AI, camera-based engagement detection, out of the activity. Each
 withdrawal names its source and quotes the record's AI step. The stage re-checks that the record's
 change note says "AI role and deliverable specified editorially". CAN-A2-A-132's article could not
-be read automatically; it is withdrawn on the earlier review in `docs/AI-USE-2026-10-05.md` §4.3.
+be read automatically. Its withdrawal rests on the earlier review in `docs/AI-USE-2026-10-05.md`
+§4.3, so it is marked **provisional** (`"status": "provisional"`) until a person reads the article.
 
 | Source | Records |
 |---|---|
@@ -106,13 +136,21 @@ source passage.
 - **WIA-15.** The NSPA prompt library moved: 22 activities and CSR-D08 now point to its new address
   (both repositories are CC0), and CSR-D08 carries the library's title. The Journal of Information
   Literacy article now links to the working address (the DOI target returns 404; citations keep the
-  DOI). CSR-0430 names the collection's editors. Fourteen source license statements lose internal
-  process notes or truncation; seven more belonged only to held records and left the Register.
+  DOI). CSR-0430 names the collection's editors. Twenty-three source license statements lose
+  internal process notes or truncation, or now give the terms as the item states them (the IRIS
+  Center's CC BY-NC-ND terms for SRC-0248, "All rights reserved" for SRC-0238, the purchase route for
+  SRC-0206).
+- **The review of this change.** WIA-R-DISC-01: the distance and agreement thresholds now run in
+  the right directions (the label is withheld when neighbor distance is above a threshold or
+  agreement is below one). CAN-B-ASMT-13: the capability is image generation (Scribble Diffusion),
+  not text chat. CAN-D-ADM-001: the summary restores the prompt's audience (first-generation
+  college students), eligibility in the first sentence, and "no jargon". WIA-S-EDU-A-08: a working
+  note leaves the public citation. WIA-S-BUS-B-13: its tools are free to students.
 - **WIA-08 (recoding).** See section 5.
 
 ## 5. Recoding and the consistency rules
 
-Three rules now hold for every published record, and the build refuses a record that breaks one:
+Four rules now hold for every published record, and the build refuses a record that breaks one:
 
 1. `no_operator_no_tool`: when no one operates an AI tool (`op: none`), no AI tool is needed
    (`cap: none_required`).
@@ -120,6 +158,8 @@ Three rules now hold for every published record, and the build refuses a record 
    other capability.
 3. `withheld_not_students`: an AI tool kept out of the activity (`ar: withheld`) is not one that
    students operate.
+4. `source_access_has_item`: a source-access label (`sa`) sits only on a record that lists a source
+   item used unmodified (section 1).
 
 The manifest can list records still pending a decision under a rule; a pending record must still
 fail it, so the list can only shrink. It is empty.
@@ -154,9 +194,9 @@ restored in the summary and the judgment), CAN-D-ADM-100 (tool list without "Mak
 | WIA-02 | An activity recorded for any course is a possible fit for every field, never a field mismatch. Its card says "Recorded for any course." |
 | WIA-03 | Under the first limit, a card that qualifies only through its route without AI says so, with the route's first sentence. Every card shows **Who uses AI**. The limit's note, help text and Register card name optional AI steps (D-12). |
 | WIA-04 | `student_derived_deidentified` is a requirement to check, in both tools. |
-| WIA-10 | Ask Us behaves as a modal dialog: focus moves in, the page behind is inert, Tab stays inside, and closing returns focus to the menu button. |
+| WIA-10 | Ask Us behaves as a modal dialog: focus moves in, the page behind is inert, Tab and Shift+Tab stay inside, and closing it from its own controls (✕, or Escape while focus is on them) returns focus to the menu button. Escape pressed inside the chat widget goes to the widget's own frame, not to this page, so it does not close the dialog there. |
 | WIA-11 | The saved-activities printout is exposed to assistive technology while printing, so a saved PDF is tagged. |
-| WIA-12 | Opening an activity from What If AI results adds a history entry; Back closes it and keeps the results as they were. Returning to that entry from another page shows the activity over the same results. |
+| WIA-12 | Opening an activity from What If AI results adds a history entry; Back closes it and keeps the results as they were (expanded lists, scroll position, focus on the card). Forward reopens it over the same results, so a second Back, Escape or Close returns to them again. Returning to that entry from another page shows the activity over the same results. In The Register, closing an activity reached by Forward goes back rather than adding a duplicate entry. |
 | WIA-14 | Statements D-06 to D-11: product names in type dialogs, the Types intro, the policies intro, the footer date (now the latest reviewed stage, built into every page), the print description, and the HCAI disclosure. |
 | WIA-19 | When the AI tool is withheld, the "how people and the tool divide the work" sentence and heading no longer assume tool output (D-14). |
 
@@ -169,7 +209,7 @@ restored in the summary and the judgment), CAN-D-ADM-100 (tool list without "Mak
 | `scope_ai_as_framing` | Five records (§4.4) |
 | `engagement_requires_review` | Seven records (WIA-26) |
 | `tool_not_in_source` | Seventeen administrative records listing "Make" |
-| `sensitivity_student_derived` | Six records still coded `student_derived_deidentified` (WIA-04) |
+| `sensitivity_student_derived` | Seven records still coded `student_derived_deidentified` (WIA-04) |
 
 ## 8. The full review of every record
 
@@ -186,18 +226,61 @@ results land, as corrections with evidence):
    qualifications.
 5. **Classification:** operator, capability, AI role, human move, sensitivity, cost, prerequisites,
    policy position, field and engagement class, each against the source.
-6. **Scope:** the activity uses, is about, or analyzes AI in the source itself.
+6. **Scope:** an adapted activity uses, is about, or analyzes AI in the source itself. A set record
+   (synthesis or remix) takes its AI step from a documented AI-operation source it names, or says
+   that the step was written for the collection.
+7. **Source access (synthesis records):** every item used unmodified is linked, its terms are
+   quoted, and the `sa` label matches them.
 
-Records are reviewed source by source, so one reading settles every activity drawn from it. The 248
-flagged records come first.
+Records are reviewed source by source, so one reading settles every activity drawn from it. The 249
+flagged records come first, then CAN-A2-A-132 (provisional) and the 115 labeled records.
 
 ## 9. Checks
 
 - `tests/record_review_test.py`: kept records change only where a correction names them; withdrawn
   and held records leave no source, type or remix pointing at them; every published record passes
-  the consistency rules; nineteen unreviewed or unsafe changes are refused; input and output are
-  pinned.
-- `tests/matching.test.js`: any-course field compatibility for every field; the student-work rule.
+  the consistency rules; nineteen unreviewed or unsafe changes are refused; source-access labels sit
+  only on synthesis records with a used item, and an unknown label or withdrawal status is refused;
+  input and output are pinned.
+- `tests/matching.test.js`: any-course field compatibility for every field; the student-work rule;
+  the restricted-source rule for the payment and purchase limits.
+- `tests/review-fixes-browser.test.js`: Back, Forward, Back, Escape and Close over an activity
+  opened past the first nine results (expansion, scroll, focus and address each time); the same in
+  The Register; Ask Us focus with waits for focus to settle; the source-access labels on cards,
+  pages and print; the open-license and no-cost filters.
 - `tests/data-integration.test.js`, `tests/site.test.js`, `tests/pages.test.js`: counts, the
   consistency rules on the served data, the version record, and the absence of every removed record
   from both tools.
+
+## 10. Still open
+
+This change is a first correction pass. These items from the audit and the review of this change
+remain:
+
+- **Hidden evidence qualifications (A-03).** 173 records carry an evidence statement (`evs`) that
+  no page shows. It needs a faculty-facing rewrite before it is shown on screen and in print.
+- **Use ranking (A-04).** A record with no reported use status (for example CAN-L-014) ranks as if
+  use had been reported. Ranking should require affirmative evidence.
+- **Student and faculty accounts (A-06).** CAN-W-oer-010 is still left out under "Students
+  shouldn't have to make an account" although only faculty or staff operate the tool.
+- **Route without AI (A-05).** CAN-A2-A-097 still lacks the unaided route its source documents.
+- **Field tags.** 65 activities (67 activity and field pairs) show a field tag that disagrees with
+  the field comparison. This needs a distinction between a primary field and additional fields,
+  not broader matching.
+- **Student-derived information (A-01).** Seven records stay a requirement to check
+  (`sensitivity_student_derived`) until their sources are read.
+- **Saved list (A-07, A-10).** The saved-activities list does not mark synthesis, remix or untried
+  activities, and a save made when browser storage is refused falls back silently to the page.
+- **Malformed records (A-13).** The page's ready state when a record is malformed is unchanged.
+- **Print (A-08).** The tagged PDF still needs a check of reading order, with assistive technology,
+  and in another browser.
+- **Links (A-09).** The two SkillsCommons links and the Wabash link could not be reached during the
+  audit; they are unverified, not confirmed broken.
+- **Rights (A-11, A-12).** The CC BY-SA question (section 2), the scope of the scvi documentation
+  and software licenses, and the scope questions in §4.1, §4.2, §4.4 and §4.5 of the AI-use record.
+- **Editorial corrections (A-15).** Further sampled source-note corrections beyond those in
+  section 4.
+- **Faculty testing (A-14).** On phones, the distance to the first question.
+- **Held and provisional records.** The five records with license wording to correct, the six
+  remixes waiting on their parents, and CAN-A2-A-132 (section 3).
+- **The full review of every record** (section 8).
