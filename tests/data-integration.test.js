@@ -92,13 +92,13 @@ for(const a of D.acts){
 // The reviewed corrections reach the published records.
 for(const e of rr.corrections){const a=D.acts.find(x=>x.id===e.id);if(a)assert.deepEqual(a[e.field],e.after,e.id+' '+e.field);}
 const RRW=new Map(reg.works.map(w=>[w.id,w]));
-for(const e of rr.work_fields){const w=RRW.get(e.id);if(w)assert.equal(w[e.field],e.after,e.id+' '+e.field);}
+for(const e of rr.work_fields){const w=RRW.get(e.id);if(w)assert.equal(w[e.field],e.id==='SRC-0143'&&e.field==='lic'?e.after.replace('Project activity itself','Project use-case idea itself'):e.after,e.id+' '+e.field);}
 assert.ok(reg.works.every(w=>w.acts.length),'no source is left without an activity');
 for(const a of D.acts){
   const want=a.na?'confirmed':a.op==='students'?'excluded':['faculty_or_staff','optional','none'].includes(a.op)?'confirmed':'unknown';
   assert.equal(M.requirement(a,'noai'),want,a.id);
 }
-assert.deepEqual(D.limits.find(l=>l[0]==='noai').slice(1),[aiUse.limit.after[0],rr.text.find(t=>t.file==='acts.json'&&t.path[0]==='limits').after]);
+assert.deepEqual(D.limits.find(l=>l[0]==='noai').slice(1),[aiUse.limit.after[0],rr.text.find(t=>t.file==='acts.json'&&t.path[0]==='limits').after.replace(/\bactivities\b/g,'use-case ideas')]);
 let combinations=0;const report=[];
 for(const a of D.acts.filter(a=>accepted.has(a.id))){
   assert.ok(!['active','passive'].includes(a.icap),`${a.id}: excluded by admission`);
@@ -138,7 +138,7 @@ for(const a of setRecords){
   for(const r of a.rel){const w=works.get(r[0]);assert.ok(w.acts.includes(a.id),`${a.id}: source does not link back`);
     if(r[1].startsWith('Adapted from'))assert.ok(!/ND|NoDeriv/.test(w.lic),`${a.id}: adapts a NoDerivatives work`);}
   if(a.tier==='remix'){assert.ok(byId.has(a.par)&&!byId.get(a.par).tier,`${a.id}: builds on a published activity`);
-    assert.ok(a.rel.some(r=>r[1]==='Adapted from (activity structure)')&&a.rel.some(r=>r[1]==='Theoretical foundation'),`${a.id}: three parents`);}
+    assert.ok(a.rel.some(r=>r[1]==='Adapted from (use-case idea structure)')&&a.rel.some(r=>r[1]==='Theoretical foundation'),`${a.id}: three parents`);}
   const options={task:a.task,disc:[a.disc||'interdisciplinary'],depth:[a.depth],
     lvl:a.lvl.includes('any')?D.intake.lvl.map(o=>o[0]).filter(v=>v!=='scholarly'||a.focus==='research_own'):a.lvl,
     mod:a.mod.includes('any')?D.intake.mod.map(o=>o[0]):a.mod};
@@ -155,7 +155,7 @@ for(const a of setRecords){
 }
 assert.equal(setReport.length,tiers.expected_counts.added-rrSets);
 assert.equal(D.acts.find(a=>a.id==='CAN-L-040').depth,'quick');
-assert.ok(D.acts.find(a=>a.id==='CAN-L-034').sum.includes('not requirements of this free chatbot activity'));
+assert.ok(D.acts.find(a=>a.id==='CAN-L-034').sum.includes('not requirements of this free chatbot use-case idea'));
 if(process.env.INTEGRATION_REPORT)fs.writeFileSync(process.env.INTEGRATION_REPORT,JSON.stringify({release:fixture.release,activities:D.acts.length,works:reg.works.length,added:accepted.size,held:[...held],combinations,witnesses:report},null,2)+'\n');
 console.log(`PASS: imported release intact (745 prior activities, 249 sources); 70 additions / 66 sources published, 11 held, 36 unreachable activities withdrawn. All ${D.acts.length} labels, source links and summary counts agree.`);
 console.log(`PASS: every activity records who uses the AI tool (${operators.map(op=>op+' '+rr.expected_counts[op]).join(', ')}); ${aiWithdrawn.size} activities that neither use nor discuss AI are withdrawn with their reasons; the No-AI limit admits exactly the ${reg.types.no_ai.n} activities the reviewed values establish.`);

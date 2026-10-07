@@ -48,10 +48,12 @@ const ANALYTICS = CFG.analytics;
   const tiers = require('../content/tiers.json');
   const aiUse = require('../content/ai-use.json');
   const recordReview = require('../content/record-review.json');
+  const terminology = require('../content/terminology.json');
   check('the imported data release remains unchanged', Object.entries(release.files).every(([name, meta]) =>
     sha(fs.readFileSync(path.join(ROOT, 'data', name))) === meta.sha256));
-  check('public data matches the reviewed output hashes of the last stage (the record review)', ['acts', 'register', 'guide'].every(n => {
-    const f = files.find(x => x.startsWith('data/' + n + '.')); return f && sha(fs.readFileSync(path.join(SITE, f))) === recordReview.output_sha256[n + '.json']; }));
+  check('public data matches the reviewed output hashes of the last stage (public terminology)', ['acts', 'register', 'guide'].every(n => {
+    const f = files.find(x => x.startsWith('data/' + n + '.')); return f && sha(fs.readFileSync(path.join(SITE, f))) === terminology.output_sha256[n + '.json']; }));
+  check('the terminology pass starts from the record review', JSON.stringify(terminology.input_sha256) === JSON.stringify(recordReview.output_sha256));
   check('the record review starts from the data with its AI-use review', JSON.stringify(recordReview.input_sha256) === JSON.stringify(aiUse.output_sha256));
   check('the record-review manifest (holds, withdrawals, evidence, flags) is not published', !files.some(f => /record-review/.test(f)), files.filter(f => f.startsWith('data/')).join(' '));
   check('the AI-use review starts from the data with its two labeled sets', JSON.stringify(aiUse.input_sha256) === JSON.stringify(tiers.output_sha256));
@@ -83,6 +85,10 @@ const ANALYTICS = CFG.analytics;
     v.ai_use.revision === sha(fs.readFileSync(path.join(ROOT, 'content/ai-use.json'))).slice(0, 12) && v.ai_use.reviewed === aiUse.reviewed && !('manifest' in v.ai_use));
   check('version.json identifies the record review and its counts', JSON.stringify(Object.fromEntries(Object.entries(v.record_review).filter(([k]) => !['revision', 'reviewed'].includes(k)))) === JSON.stringify(recordReview.expected_counts) &&
     v.record_review.revision === sha(fs.readFileSync(path.join(ROOT, 'content/record-review.json'))).slice(0, 12) && v.record_review.reviewed === recordReview.reviewed && !('manifest' in v.record_review));
+
+  check('version.json identifies the terminology revision and changed fields', v.terminology.reviewed === terminology.reviewed &&
+    v.terminology.changed_fields === terminology.changed_fields &&
+    v.terminology.revision === sha(fs.readFileSync(path.join(ROOT, 'content/terminology.json'))).slice(0, 12));
 
   // determinism: two builds of the same inputs are byte-identical
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'wia-')), t1 = path.join(tmp, 'a'), t2 = path.join(tmp, 'b');

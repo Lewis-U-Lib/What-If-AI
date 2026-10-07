@@ -36,7 +36,7 @@ function fail(err){
   var local = location.protocol === 'file:';
   msg.className = 'boot-msg boot-msg--error';
   msg.setAttribute('role', 'alert');
-  msg.innerHTML = '<strong>The activities could not be loaded.</strong> ' +
+  msg.innerHTML = '<strong>The use-case ideas could not be loaded.</strong> ' +
     (local ? 'This page reads its data over the web. Open it from the site, or run a local server (see README).'
            : 'Check your connection and try again.') +
     ' <button type="button" class="btn btn--sm" id="boot-retry">Try again</button>';

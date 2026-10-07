@@ -38,7 +38,7 @@ leaves 1,082 activities / 640 sources. See [the sets record](TIERS-2026-10-05.md
 
 That stage leaves 1,078 activities / 637 sources. See [the AI-use record](AI-USE-2026-10-05.md).
 
-**Record review, 2026-10-06:** `tools/record_review.py` runs last.
+**Record review, 2026-10-06:** `tools/record_review.py` runs after the AI-use review.
 
 - It applies reviewed corrections to activity fields and source records, each with the value it
   replaces and its evidence, and corrects page text held in the data.
@@ -52,6 +52,12 @@ That stage leaves 1,078 activities / 637 sources. See [the AI-use record](AI-USE
   the full review without changing the publication.
 
 Both tools serve 1,033 activities / 618 sources. See [the record review](RECORD-REVIEW-2026-10-06.md).
+
+**Public terminology, 2026-10-07:** `tools/terminology.py` runs last. It changes editorial
+wording to use-case idea / use-case ideas while preserving quoted source language, source titles,
+citations, rights statements, stable identifiers, and the historical review stages. The collection
+remains 1,033 use-case ideas / 618 sources. `version.json` identifies this presentation revision
+separately. See [the terminology record](TERMINOLOGY-2026-10-07.md).
 
 **Repository:** `Lewis-U-Lib/What-If-AI`. It publishes to GitHub Pages at
 `https://lewis-u-lib.github.io/What-If-AI/`.

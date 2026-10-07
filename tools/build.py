@@ -9,8 +9,8 @@
   * The imported data release (data/*.json) is verified unchanged. Reviewed editorial
     corrections, publication decisions, punctuation, curation, the two labeled sets
     (synthesis and remix), the AI-use review (who uses the AI tool), and the record review
-    (corrections, holds, withdrawals, consistency checks) are applied, in that order, before
-    fingerprinting. Each page receives
+    (corrections, holds, withdrawals, consistency checks), followed by public terminology,
+    are applied in that order before fingerprinting. Each page receives
     a small JSON manifest naming its data files and scripts; src/js/boot.js fetches the
     data and then runs the scripts in order.
   * Partials ({{partial:name}}) are inlined, so every page is complete HTML before any
@@ -36,6 +36,7 @@ from curation import curated_files  # noqa: E402
 from tiers import tiered_files  # noqa: E402
 from ai_use import ai_use_files  # noqa: E402
 from record_review import record_review_files  # noqa: E402
+from terminology import terminology_files  # noqa: E402
 
 MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August", "September",
           "October", "November", "December")
@@ -90,10 +91,12 @@ def build(out):
             public_data, ROOT / "content" / "ai-use.json")
         public_data, _, record_review = record_review_files(
             public_data, ROOT / "content" / "record-review.json")
+        public_data, terminology = terminology_files(
+            public_data, ROOT / "content" / "terminology.json")
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
     # The date the collection last changed: the release, or the latest reviewed stage after it.
-    changed = max([rel["built"]] + [m["reviewed"] for m in (curation, tiers, ai_use, record_review)
+    changed = max([rel["built"]] + [m["reviewed"] for m in (curation, tiers, ai_use, record_review, terminology)
                                     if isinstance(m.get("reviewed"), str)])
     year, month = changed[:4], int(changed[5:7])
     updated = "Updated " + MONTHS[month - 1] + " " + year
@@ -223,6 +226,7 @@ def build(out):
                                                   "tiers": tiers,
                                                   "ai_use": ai_use,
                                                   "record_review": record_review,
+                                                  "terminology": terminology,
                                                   "assets": dict(sorted(site.map.items()))}, indent=1) + "\n", encoding="utf-8")
     return site, rel
 

@@ -57,7 +57,7 @@ var L = {
           evaluator:'AI comments on existing work', instrument:'AI does one bounded task',
           specimen:'AI output is examined as the object of study', withheld:'AI is deliberately left out'},
   /* source access (content/record-review.json, WIA-01): a source item used as published, by link, that is not openly
-     licensed. Absent means every work the activity adapts or uses is openly licensed. */
+     licensed. Absent means every work the use-case idea adapts or uses is openly licensed. */
   sa:    {not_open:'No clear open license', unmodified:'Use only as published', restricted:'Access or permission needed'},
   saLong:{not_open:'The source item it uses states no clear open license for the item itself. Use the item from its own page as published, and ask its owner before copying or adapting it.',
           unmodified:'The source item it uses may be shared as published but not changed (a NoDerivatives license or a reproduce-only permission).',
@@ -71,7 +71,7 @@ var ORIGIN = {};
 var TIER = {};
 (D.tiers||[]).forEach(function(t){ TIER[t[0]] = {label:t[1], text:t[2]}; });
 function tierOf(a){ return a.tier && TIER[a.tier]; }
-/* who operates an AI tool in the activity (reviewed; see content/ai-use.json) */
+/* who operates an AI tool in the use-case idea (reviewed; see content/ai-use.json) */
 var OPERATOR = {};
 (D.operators||[]).forEach(function(o){ OPERATOR[o[0]] = {label:o[1], text:o[2]}; });
 function operatorLabel(v){ return (OPERATOR[v]||{}).label || pretty(v); }
@@ -114,7 +114,7 @@ function howItWorks(a){
    evaluator:'The AI tool comments on work that already exists',
    instrument:'The AI tool does one bounded job inside a process a person runs',
    specimen:'What the AI tool produces is itself the thing being examined',
-   withheld:'The AI tool is deliberately kept out of the activity'}[a.ar]||'';
+   withheld:'The AI tool is deliberately kept out of the use-case idea'}[a.ar]||'';
   var move={produce_first:'participants commit to their own version before they see the tool’s.',
    verify:'participants check what it said against real sources.',
    critique:'participants judge what came back against a standard they already hold.',
@@ -187,7 +187,7 @@ var ICON_BOOKMARK = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="fals
 function saveButton(a, cls){
   var on = Saved.has(a.id);
   return '<button type="button" class="btn btn--sm save '+(cls||'')+'" data-save="'+esc(a.id)+'" aria-pressed="'+on+'">'+
-    ICON_BOOKMARK+'<span class="save__txt">'+(on?'Saved':'Save')+'</span><span class="sr-only"> activity: '+esc(a.t)+'</span></button>';
+    ICON_BOOKMARK+'<span class="save__txt">'+(on?'Saved':'Save')+'</span><span class="sr-only"> use-case idea: '+esc(a.t)+'</span></button>';
 }
 
 /* ─────────── activity card ─────────── */
@@ -232,7 +232,7 @@ function detailHTML(a, opts){
   var h = '';
 
   /* 1 · the activity */
-  h += sec('The activity', p(a.sum, 'lead'));
+  h += sec('The use-case idea', p(a.sum, 'lead'));
 
   /* 2 · at a glance */
   var f = '<dl class="facts">';
@@ -264,15 +264,15 @@ function detailHTML(a, opts){
 
   /* 4 · before you use it */
   var b = '';
-  if(sensitive(a)) b += '<div class="note note--caution"><strong>Data.</strong> This activity involves putting '+esc(L.sen[a.sen])+
+  if(sensitive(a)) b += '<div class="note note--caution"><strong>Data.</strong> This use-case idea involves putting '+esc(L.sen[a.sen])+
     ' into '+dataTool(a)+'. Before using it, consider your institution’s guidance on data and approved tools, whether consent is needed, and whether a de-identified or institutionally provided option is available.</div>';
   if(sourceAccess(a)){
     var items = usedItems(a), named = items.map(function(r){ return '“'+esc(r[2])+'”'; }).join(' and ');
     var where = opts.print ? 'Its terms are recorded with the source in The Register.' :
       'Its terms are in '+items.map(function(r){ return '<a href="'+reg+'#src='+encodeURIComponent(r[0])+'">The Register’s entry for '+esc(r[2])+'</a>'; }).join(' and ')+'.';
     b += '<div class="note'+(a.sa==='restricted'?' note--caution':'')+'"><strong>Source item: '+esc(L.sa[a.sa].toLowerCase())+'.</strong> '+
-      'This activity uses '+(named||'its source item')+' as published, by link; the item is not copied into the activity. '+
-      esc(L.saLong[a.sa])+' '+where+' The activity’s own write-up carries the collection’s license.</div>';
+      'This use-case idea uses '+(named||'its source item')+' as published, by link; the item is not copied into the use-case idea. '+
+      esc(L.saLong[a.sa])+' '+where+' The use-case idea’s own write-up carries the collection’s license.</div>';
   }
   var PL = (D.pol||{})[a.pol];
   if(PL){
@@ -282,7 +282,7 @@ function detailHTML(a, opts){
   if(a.dis && L.dis[a.dis] && a.dis!=='none_required') b += '<h4>Disclosure built into the design</h4><p>'+esc(L.dis[a.dis])+'.</p>';
   if(a.risk) b += '<h4>Risks and accessibility</h4>'+p(a.risk);
   if(tierOf(a)) b += '<div class="note"><strong>Written for this collection, not yet tried.</strong> '+
-    'This activity is part of the '+esc(tierOf(a).label.toLowerCase())+'. No one has reported teaching or running it yet. Consider treating it as a starting design rather than a tested one.</div>';
+    'This use-case idea is part of the '+esc(tierOf(a).label.toLowerCase())+'. No one has reported teaching or running it yet. Consider treating it as a starting design rather than a tested one.</div>';
   if(a.use==='unreported') b +='<div class="note"><strong>A published prompt or workflow.</strong> '+
     'It is openly licensed and cited, but no results from using it have been reported. Consider treating it as a starting design rather than a tested one.</div>';
   h += sec('Before you use it', b);
@@ -290,9 +290,9 @@ function detailHTML(a, opts){
   /* 5 · without AI */
   var na = '';
   if(a.na) na = p(a.na);
-  else if(a.op==='none') na = '<p>This activity runs without any AI tool.</p>';
-  else if(a.op==='optional') na = '<p>The activity as described is complete without an AI tool; the AI step it mentions is optional.</p>';
-  else if(!a.op && (a.cap||[]).indexOf('none_required')>=0) na = '<p>This activity runs without any AI tool.</p>';
+  else if(a.op==='none') na = '<p>This use-case idea runs without any AI tool.</p>';
+  else if(a.op==='optional') na = '<p>The use-case idea as described is complete without an AI tool; the AI step it mentions is optional.</p>';
+  else if(!a.op && (a.cap||[]).indexOf('none_required')>=0) na = '<p>This use-case idea runs without any AI tool.</p>';
   h += sec('A route without AI', na);
 
   /* 6 · adapting it */
@@ -304,7 +304,7 @@ function detailHTML(a, opts){
   }
   if(a.miss && a.miss.length) ad += '<h4>Details the source leaves open</h4><ul>'+a.miss.map(function(m){return '<li>'+esc(m)+'</li>';}).join('')+'</ul>';
   if(a.ev && a.ev.length) ad += '<h4>Also described for</h4><ul>'+a.ev.map(function(v){return '<li>'+esc(v[0])+(v[1]?' ('+esc(v[1])+')':'')+'</li>';}).join('')+'</ul>';
-  if(a.var && BYID[a.var]) ad += '<h4>Related activity</h4><p>A variation of '+
+  if(a.var && BYID[a.var]) ad += '<h4>Related use-case idea</h4><p>A variation of '+
       (opts.print ? '“'+esc(BYID[a.var].t)+'”' : '<a href="#" data-open="'+esc(a.var)+'">'+esc(BYID[a.var].t)+'</a>')+'.</p>';
   h += sec('Adapting it', ad);
 
@@ -323,7 +323,7 @@ function detailHTML(a, opts){
   var src = '';
   if(o) src += '<p><strong>'+esc(o.label)+'.</strong> '+esc(o.text)+'</p>';
   if(T) src += '<p><strong>'+esc(T.label)+'.</strong> '+esc(T.text)+'</p>';
-  if(a.par && BYID[a.par]) src += '<h4>Builds on</h4><p>The activity '+
+  if(a.par && BYID[a.par]) src += '<h4>Builds on</h4><p>The use-case idea '+
     (opts.print ? '“'+esc(BYID[a.par].t)+'”' : '<a href="#" data-open="'+esc(a.par)+'">'+esc(BYID[a.par].t)+'</a>')+' in this collection.</p>';
   if(T && a.cit){
     src += '<h4>Sources</h4><div class="cite-block">'+lines(a.cit).map(function(c){ return '<p>'+esc(c)+'</p>'; }).join('')+
@@ -398,7 +398,7 @@ function openActivity(id, opener){
   foot.innerHTML = saveButton(a) +
     '<button type="button" class="btn btn--sm" data-give-feedback>Give feedback</button>'+
     (CTX.page==='register'
-      ? '<button type="button" class="btn btn--sm" data-copy-act="'+esc(a.id)+'">Copy a link to this activity</button>'
+      ? '<button type="button" class="btn btn--sm" data-copy-act="'+esc(a.id)+'">Copy a link to this use-case idea</button>'
       : '<a class="btn btn--sm" href="register.html#act='+encodeURIComponent(a.id)+'">'+icon('i-crt')+' Open in The Register</a>') +
     '<button type="button" class="btn btn--sm btn--quiet" data-close>Close</button>';
   var wasOpen = dlg.open;
@@ -414,11 +414,11 @@ function renderSaved(){
   var box = document.getElementById('savedBody'); if(!box) return;
   var ids = Saved.ids();
   var head = document.getElementById('savedTitle');
-  if(head) head.textContent = 'Saved activities' + (ids.length ? ' ('+ids.length+')' : '');
+  if(head) head.textContent = 'Saved use-case ideas' + (ids.length ? ' ('+ids.length+')' : '');
   var foot = document.getElementById('savedFoot');
   if(!ids.length){
-    box.innerHTML = '<div class="saved-empty"><p><strong>No saved activities yet.</strong></p>'+
-      '<p>Use the Save button on any activity to keep it here while you browse. You can then review your selection and print it or save it as a PDF.</p></div>'+
+    box.innerHTML = '<div class="saved-empty"><p><strong>No saved use-case ideas yet.</strong></p>'+
+      '<p>Use the Save button on any use-case idea to keep it here while you browse. You can then review your selection and print it or save it as a PDF.</p></div>'+
       '<p class="privacy">Your selection is kept in this browser only. There is no account, and nothing is sent anywhere.</p>';
     if(foot) foot.hidden = true;
     return;
@@ -427,7 +427,7 @@ function renderSaved(){
   ids.forEach(function(id){
     var a = BYID[id];
     if(!a){
-      h += '<li class="saved-item"><div class="saved-item__t">An activity that is no longer in the collection</div>'+
+      h += '<li class="saved-item"><div class="saved-item__t">A use-case idea that is no longer in the collection</div>'+
         '<div class="saved-item__m">ID '+esc(id)+'</div><div class="saved-item__a">'+
         '<button type="button" class="btn btn--sm" data-unsave="'+esc(id)+'">Remove<span class="sr-only"> '+esc(id)+'</span></button></div></li>';
       return;
@@ -437,7 +437,7 @@ function renderSaved(){
       '<button type="button" class="btn btn--sm btn--quiet" data-unsave="'+esc(a.id)+'">Remove<span class="sr-only"> '+esc(a.t)+'</span></button></div></li>';
   });
   h += '</ol><p class="privacy">Your selection is kept in this browser only. There is no account, and nothing is sent anywhere.</p>';
-  h += '<div class="confirm" id="clearConfirm" hidden><p>Remove all '+ids.length+' saved activit'+(ids.length===1?'y':'ies')+'?</p>'+
+  h += '<div class="confirm" id="clearConfirm" hidden><p>Remove all '+ids.length+' saved use-case idea'+(ids.length===1?'':'s')+'?</p>'+
        '<button type="button" class="btn btn--sm" id="clearYes">Remove all</button> '+
        '<button type="button" class="btn btn--sm btn--quiet" id="clearNo">Keep them</button></div>';
   box.innerHTML = h;
@@ -447,7 +447,7 @@ function syncSaveUI(){
   var ids = Saved.ids();
   [].forEach.call(document.querySelectorAll('[data-saved-count]'), function(el){ el.textContent = ids.length; });
   [].forEach.call(document.querySelectorAll('[data-saved-label]'), function(el){
-    el.textContent = ids.length===1 ? '1 saved activity' : ids.length+' saved activities'; });
+    el.textContent = ids.length===1 ? '1 saved use-case idea' : ids.length+' saved use-case ideas'; });
   [].forEach.call(document.querySelectorAll('button[data-save]'), function(b){
     var on = ids.indexOf(b.getAttribute('data-save')) >= 0;
     b.setAttribute('aria-pressed', String(on));
@@ -461,17 +461,17 @@ function syncSaveUI(){
 /* ─────────── print the saved collection ─────────── */
 function printSaved(){
   var ids = Saved.ids().filter(function(id){ return BYID[id]; });
-  if(!ids.length){ announce('There are no saved activities to print.'); return; }
+  if(!ids.length){ announce('There are no saved use-case ideas to print.'); return; }
   var root = document.getElementById('printRoot');
   var today = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-  var h = '<h1>Saved activities</h1><div class="pr-sub">What If AI · Lewis University Library · '+ids.length+
-    ' activit'+(ids.length===1?'y':'ies')+' · printed '+esc(today)+'</div>';
+  var h = '<h1>Saved use-case ideas</h1><div class="pr-sub">What If AI · Lewis University Library · '+ids.length+
+    ' use-case idea'+(ids.length===1?'':'s')+' · printed '+esc(today)+'</div>';
   ids.forEach(function(id){
     var a = BYID[id];
     h += '<article><div class="kicker">'+esc(kickerOf(a))+'</div><h2>'+esc(a.t)+'</h2>'+detailHTML(a,{print:true})+'</article>';
   });
   h += '<div class="pr-foot">Compiled from What If AI and The Register, Lewis University Library. The collection is licensed CC BY-NC-SA 4.0; '+
-    'each activity adapted from another source keeps that source’s license and attribution, shown with the activity.</div>';
+    'each use-case idea adapted from another source keeps that source’s license and attribution, shown with the use-case idea.</div>';
   root.innerHTML = h;
   var dr = document.getElementById('savedDrawer'); if(dr && dr.open) closeDialog(dr);
   document.body.classList.add('print-saved');
@@ -506,7 +506,7 @@ function init(ctx){
       var id = sv.getAttribute('data-save'), a = BYID[id];
       var on = Saved.toggle(id);
       announce((on ? 'Saved: ' : 'Removed from saved: ') + (a ? a.t : id) + '. ' +
-        Saved.ids().length + ' saved activit' + (Saved.ids().length===1?'y':'ies') + '.');
+        Saved.ids().length + ' saved use-case idea'+(Saved.ids().length===1?'':'s') + '.');
       return;
     }
     var op = t.closest('[data-open]');
@@ -522,9 +522,9 @@ function init(ctx){
     if(t.closest('#printSaved')){ printSaved(); return; }
     if(t.closest('#clearSaved')){ var c=document.getElementById('clearConfirm'); if(c){ c.hidden=false; document.getElementById('clearYes').focus(); } return; }
     if(t.closest('#clearNo')){ var c2=document.getElementById('clearConfirm'); if(c2) c2.hidden=true; var cs=document.getElementById('clearSaved'); if(cs) cs.focus(); return; }
-    if(t.closest('#clearYes')){ Saved.clear(); announce('All saved activities removed.'); var cl=sd.querySelector('[data-close]'); if(cl) cl.focus(); return; }
+    if(t.closest('#clearYes')){ Saved.clear(); announce('All saved use-case ideas removed.'); var cl=sd.querySelector('[data-close]'); if(cl) cl.focus(); return; }
     var cp = t.closest('[data-copy-act]');
-    if(cp){ copyText(location.href.split('#')[0]+'#act='+encodeURIComponent(cp.getAttribute('data-copy-act')), 'Link to this activity copied.'); return; }
+    if(cp){ copyText(location.href.split('#')[0]+'#act='+encodeURIComponent(cp.getAttribute('data-copy-act')), 'Link to this use-case idea copied.'); return; }
   });
   Saved.onChange(syncSaveUI);
   syncSaveUI();
