@@ -56,6 +56,12 @@ var L = {
   role:  {generator:'AI produces material to work with', interlocutor:'AI as a conversation partner',
           evaluator:'AI comments on existing work', instrument:'AI does one bounded task',
           specimen:'AI output is examined as the object of study', withheld:'AI is deliberately left out'},
+  /* source access (content/record-review.json, WIA-01): a source item used as published, by link, that is not openly
+     licensed. Absent means every work the activity adapts or uses is openly licensed. */
+  sa:    {not_open:'No clear open license', unmodified:'Use only as published', restricted:'Access or permission needed'},
+  saLong:{not_open:'The source item it uses states no clear open license for the item itself. Use the item from its own page as published, and ask its owner before copying or adapting it.',
+          unmodified:'The source item it uses may be shared as published but not changed (a NoDerivatives license or a reproduce-only permission).',
+          restricted:'Using the source item needs a purchase, membership, subscription, or permission before classroom use.'},
   move:  {produce_first:'Produce your own version first', verify:'Check against sources', critique:'Critique against a standard',
           revise:'Revise your own work', analyze_as_data:'Analyze the output as evidence', constrain:'Set limits, or decide not to use it'}
 };
@@ -115,9 +121,24 @@ function howItWorks(a){
    revise:'participants change their own work in light of what came back.',
    analyze_as_data:'participants treat what it produced as evidence about the tool.',
    constrain:'participants set the limits of its use, or decide not to use it.'}[a.hm]||'';
+  /* with the tool kept out, nothing "comes back" from it: these moves describe the work without it */
+  if(a.ar==='withheld'){
+    var without={produce_first:'participants produce their own version without it.',
+     verify:'participants check claims about AI against real sources.',
+     critique:'participants judge claims about AI against a standard they already hold.',
+     revise:'participants revise their own work without it.',
+     analyze_as_data:'participants examine evidence about AI rather than output from a tool.',
+     constrain:'participants decide where its use should stop, or that it should not be used.'}[a.hm]||'';
+    return role && without ? role + '; ' + without : '';
+  }
   return role && move ? role + ', and ' + move : '';
 }
 function sensitive(a){ return a.sen && L.sen[a.sen]; }
+/* the source items an activity uses as published, by link ("Used unmodified" in its list of works) */
+function usedItems(a){ return (a.rel||[]).filter(function(r){ return /^Used unmodified/.test(r[1]); }); }
+function sourceAccess(a){ return a.sa && L.sa[a.sa] ? a.sa : ''; }
+/* where the data goes: an AI tool when someone operates one, otherwise the activity's other tools */
+function dataTool(a){ return a.op==='none' ? 'a third-party tool' : 'an AI tool'; }
 
 /* ─────────── saved activities (this browser only) ─────────── */
 var KEY = 'lul-whatifai-saved-v1';
@@ -182,11 +203,13 @@ function cardHTML(a, opts){
   s += '<dt>Who</dt><dd>'+esc(L.actor[a.ac]||pretty(a.ac))+'</dd>';
   s += '<dt>Scale</dt><dd>'+esc(depthLabel(a.depth))+'</dd>';
   s += '<dt>AI use</dt><dd>'+esc(capsShort(a)||'Not stated')+'</dd>';
+  if(OPERATOR[a.op]) s += '<dt>Who uses AI</dt><dd>'+esc(OPERATOR[a.op].label)+'</dd>';
   if(a.eq && a.eq!=='not_specified') s += '<dt>Cost</dt><dd>'+esc(L.eq[a.eq]||pretty(a.eq))+'</dd>';
+  if(sourceAccess(a)) s += '<dt>Source item</dt><dd>'+esc(L.sa[a.sa])+'</dd>';
   var T = tierOf(a);
   if(T) s += '<dt>Origin</dt><dd>'+esc(T.label)+' · not yet tried</dd>';
   s += '</dl>';
-  if(sensitive(a)) s += '<p class="acard__note"><span aria-hidden="true">⚠</span><span>Involves putting '+esc(L.sen[a.sen])+' into an AI tool.</span></p>';
+  if(sensitive(a)) s += '<p class="acard__note"><span aria-hidden="true">⚠</span><span>Involves putting '+esc(L.sen[a.sen])+' into '+dataTool(a)+'.</span></p>';
   s += '<div class="acard__foot no-print">'+
        '<button type="button" class="btn btn--sm" data-open="'+esc(a.id)+'">View details<span class="sr-only">: '+esc(a.t)+'</span></button>'+
        saveButton(a)+'</div>';
@@ -227,13 +250,14 @@ function detailHTML(a, opts){
   f += '<dt>AI tool needed</dt><dd>'+esc((a.cap||[]).map(function(c){return L.capLong[c]||pretty(c);}).join('; ')||'Not stated')+'</dd>';
   if(a.eq && a.eq!=='not_specified') f += '<dt>Cost and access</dt><dd>'+esc(L.eq[a.eq]||pretty(a.eq))+'</dd>';
   if(a.pc && L.pc[a.pc]) f += '<dt>Also required</dt><dd>'+esc(L.pc[a.pc])+'</dd>';
+  if(sourceAccess(a)) f += '<dt>Source item</dt><dd>'+esc(L.sa[a.sa])+'</dd>';
   f += '</dl>';
   h += sec('At a glance', f);
 
   /* 3 · how people and the tool divide the work */
   var how = '';
   var hw = howItWorks(a); if(hw) how += '<p>'+esc(hw)+'</p>';
-  if(a.gate) how += '<h4>'+(a.ac==='student'?'What students produce that the tool did not':'The judgment that stays with you')+'</h4>'+p(a.gate);
+  if(a.gate) how += '<h4>'+(a.ac==='student'?(a.ar==='withheld'?'What students produce':'What students produce that the tool did not'):'The judgment that stays with you')+'</h4>'+p(a.gate);
   if(a.dep) how += '<h4>What it depends on the AI tool for</h4>'+p(a.dep);
   if(a.chk) how += '<h4>What the output is checked against</h4>'+p(a.chk);
   h += sec('How people and the AI tool divide the work', how);
@@ -241,7 +265,15 @@ function detailHTML(a, opts){
   /* 4 · before you use it */
   var b = '';
   if(sensitive(a)) b += '<div class="note note--caution"><strong>Data.</strong> This activity involves putting '+esc(L.sen[a.sen])+
-    ' into an AI tool. Before using it, consider your institution’s guidance on data and approved tools, whether consent is needed, and whether a de-identified or institutionally provided option is available.</div>';
+    ' into '+dataTool(a)+'. Before using it, consider your institution’s guidance on data and approved tools, whether consent is needed, and whether a de-identified or institutionally provided option is available.</div>';
+  if(sourceAccess(a)){
+    var items = usedItems(a), named = items.map(function(r){ return '“'+esc(r[2])+'”'; }).join(' and ');
+    var where = opts.print ? 'Its terms are recorded with the source in The Register.' :
+      'Its terms are in '+items.map(function(r){ return '<a href="'+reg+'#src='+encodeURIComponent(r[0])+'">The Register’s entry for '+esc(r[2])+'</a>'; }).join(' and ')+'.';
+    b += '<div class="note'+(a.sa==='restricted'?' note--caution':'')+'"><strong>Source item: '+esc(L.sa[a.sa].toLowerCase())+'.</strong> '+
+      'This activity uses '+(named||'its source item')+' as published, by link; the item is not copied into the activity. '+
+      esc(L.saLong[a.sa])+' '+where+' The activity’s own write-up carries the collection’s license.</div>';
+  }
   var PL = (D.pol||{})[a.pol];
   if(PL){
     b += '<h4>Course AI policy it assumes</h4><p><strong>'+esc(PL.pill)+' — '+esc(PL.label)+'.</strong> '+esc(PL.reads)+
@@ -443,7 +475,10 @@ function printSaved(){
   root.innerHTML = h;
   var dr = document.getElementById('savedDrawer'); if(dr && dr.open) closeDialog(dr);
   document.body.classList.add('print-saved');
-  var done = function(){ document.body.classList.remove('print-saved'); window.removeEventListener('afterprint', done); };
+  /* the print copy is hidden from assistive technology on screen, but a saved PDF needs its headings
+     and reading order, so it is exposed while printing (as the Register walkthrough's print is) */
+  root.removeAttribute('aria-hidden');
+  var done = function(){ document.body.classList.remove('print-saved'); root.setAttribute('aria-hidden','true'); window.removeEventListener('afterprint', done); };
   window.addEventListener('afterprint', done);
   setTimeout(function(){ window.print(); setTimeout(done, 1500); }, 60);
 }
@@ -497,12 +532,7 @@ function init(ctx){
     el.style.setProperty('--cur-dur', (15 + Math.random()*16).toFixed(1) + 's');
     el.style.setProperty('--cur-delay', (2 + i*3.5 + Math.random()*9).toFixed(1) + 's');
   });
-  var yr = document.querySelectorAll('[data-updated]');
-  [].forEach.call(yr, function(el){
-    var d = (D.stamp||{}).built; if(!d) return;
-    var dt = new Date(d+'T12:00:00');
-    el.textContent = 'Updated ' + dt.toLocaleDateString('en-US',{year:'numeric',month:'long'});
-  });
+  /* the footer's "Updated" date is written at build time from the latest reviewed data stage */
 }
 function copyText(text, okMsg){
   function fallback(){ announce('Copying is not available here. The address is: ' + text); }
@@ -511,7 +541,7 @@ function copyText(text, okMsg){
   }catch(_){ fallback(); }
 }
 
-window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, TIER:TIER, tierOf:tierOf, OPERATOR:OPERATOR, operatorLabel:operatorLabel, noToolForStudents:noToolForStudents, esc:esc, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
+window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, TIER:TIER, tierOf:tierOf, OPERATOR:OPERATOR, operatorLabel:operatorLabel, noToolForStudents:noToolForStudents, usedItems:usedItems, esc:esc, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
   taskLabel:taskLabel, depthLabel:depthLabel, discLabel:discLabel, lvlLabel:lvlLabel, modLabel:modLabel, familyLabel:familyLabel,
   cardHTML:cardHTML, detailHTML:detailHTML, openActivity:openActivity, openDialog:openDialog, closeDialog:closeDialog, wireDialog:wireDialog, resetDialogScroll:resetDialogScroll,
   Saved:Saved, announce:announce, decode:decode, printSaved:printSaved, copyText:copyText, howItWorks:howItWorks, init:init, kickerOf:kickerOf};

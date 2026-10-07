@@ -7,8 +7,13 @@
   state. That covers the page copy, the interface text, the activity write-ups and the guides.
 - **Each activity keeps its source's license.** Each page shows the source, the license and its
   deed, the attribution to keep, and how the version here differs from the source.
-- Only activities whose source states a Creative Commons or other open license are published.
-  Activities from NoDerivatives sources are not published.
+- Activities adapt only works stating a Creative Commons or other open license, and none adapts
+  a NoDerivatives work. Some synthesis activities also use a published source item as is, by
+  link, without copying or changing it. That item keeps its own terms, which may give no clear
+  open license, allow no changes, or need a purchase or permission first; the activity says so on
+  its card and its page (the
+  `sa` field; see `content/record-review.json`). Works cited only for their ideas, including some
+  NoDerivatives books, also keep their own terms.
 
 ## Interface artwork
 

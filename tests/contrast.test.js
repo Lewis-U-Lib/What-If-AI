@@ -36,6 +36,9 @@ const STATES = [
   ['finder, saved drawer', 'what-if-ai.html#a=focus:teaching;task:feedback', async p => {
     const s = await p.$$('#plan button[data-save]'); await s[0].click(); await p.click('.topbar [data-open-saved]'); }],
   ['register, activities', 'register.html#activities', async p => {}],
+  ['register, source-access note', 'register.html#act=WIA-S-BUS-B-04', async p => {
+    await p.$eval('#actDialog .note--caution', e => e.scrollIntoView({block:'center'})); }],
+  ['register, source-access card', 'register.html#activities?q=WIA-S-BUS-B-04', async p => {}],
   ['register, policies', 'register.html#policies', async p => {}],
   ['register, AI types + console', 'register.html#ai-types', async p => { await p.$eval('.protocols', e => e.scrollIntoView({block:'center'})); }],
   ['register, type cards', 'register.html#ai-types', async p => { await p.$eval('.types--compact', e => e.scrollIntoView({block:'start'})); }],

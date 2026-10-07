@@ -37,7 +37,7 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
   target, insertion, and output; it preserves source quotations and matching codes.
   `version.json` records this punctuation revision separately. See
   [the punctuation review](docs/SERIAL-COMMAS-2026-09-28.md).
-- `content/curation.json` is the last stage ([the curation record](docs/CURATION-2026-09-29.md)).
+- `content/curation.json` is the fourth stage ([the curation record](docs/CURATION-2026-09-29.md)).
   It withdraws the 36 activities What If AI could never show, corrects licenses and source
   records against the sources' own statements, retires the `prompt_specification` class
   (keeping its no-reported-use fact as `use`), and applies American spelling to editorial
@@ -50,13 +50,20 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
   Original Synthesis, or Licensed Adaptation), every work it draws on with the relation, and
   the license it carries; 77 records with open review questions are held. The licensed
   collection is unchanged. That stage leaves 1,082 activities / 640 sources.
-- `content/ai-use.json` is the sixth and last stage ([the record](docs/AI-USE-2026-10-05.md)).
+- `content/ai-use.json` is the sixth stage ([the record](docs/AI-USE-2026-10-05.md)).
   It records on every activity who operates an AI tool (`op`: students, faculty or staff
   only, optional, no one, or not stated). Values were read from each summary in three review
   passes, and each value other than `students` carries its evidence. The stage renames the
   No-AI limit to **“My students won’t use an AI tool themselves”**, which now admits
   activities in which only the instructor uses a tool. It withdraws four activities in which
-  AI is neither used nor discussed. Both tools serve **1,078 activities / 637 sources**.
+  AI is neither used nor discussed. That stage leaves 1,078 activities / 637 sources.
+- `content/record-review.json` is the seventh and last stage
+  ([the record](docs/RECORD-REVIEW-2026-10-06.md)). It applies corrections checked against the
+  sources, labels synthesis records whose source item is not openly licensed, holds records whose
+  own license wording breaks their source's terms, withdraws activities whose AI step was added
+  editorially to a source without AI, and refuses records in which who uses AI, the tool needed,
+  and the AI role disagree. Held and withdrawn records stay intact in the earlier stages. Both
+  tools serve **1,033 activities / 618 sources**.
 - `src/` holds the pages, partials, CSS, JS, fonts, and images.
 - `tools/build.py` turns `src/` and `data/` into `_site/`, fingerprinting every asset. It needs
   only Python 3.

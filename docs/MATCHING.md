@@ -3,13 +3,15 @@
 The Finder reads the same released activities as The Register. `src/js/matching.js`
 contains pure matching rules used by the browser and the regression tests. It never
 edits activity records. The existing task/field/scale/level/setting weights remain
-8/4/3/2/1, with partial credit of 1 for an unspecified field or level. Those weights
+8/4/3/2/1, with partial credit of 1 for an unspecified or any-course field, or an unspecified level. Those weights
 prioritize recorded attributes; they do not estimate educational effectiveness.
 
 ## Preferences
 
-A preference is unasked, exact, compatible, or mismatched. `any` level/setting and a
-blank primary field are compatible, not exact. The UI names unspecified attributes
+A preference is unasked, exact, compatible, or mismatched. `any` level/setting, a
+blank primary field, and a field recorded for any course (`interdisciplinary`) are
+compatible with every specific answer, not exact; a reader who picks Cross-curricular gets
+the exact match. A card for an any-course activity says “Recorded for any course.” The UI names unspecified attributes
 and asks the reader to check suitability. A specific different value is a mismatch.
 The same comparison governs scoring, grouping, and offered options. Work focus is
 still a gate. Admission excludes the `active` and `passive` engagement classes; the curation
@@ -53,19 +55,29 @@ requirements before considering” group. Its card names each requirement to che
 | Limit | Confirmed under the current release | Excluded | Unknown |
 |---|---|---|---|
 | My students won’t use an AI tool themselves (`noai`) | A nonempty `na` route, or `op` of `faculty_or_staff`, `optional`, or `none` | `op: students` with no `na` route | `op: not_specified` or missing, with no `na` route |
-| No student-authored input | `none`, `student_derived_deidentified`, `research_participant_deidentified` sensitivity | Other recorded sensitivity categories | Missing or `not_specified` sensitivity |
-| No payment | `no_tool_needed`, `free_tier`, `institution_provided` | `paid_required`; `paid_with_stated_alternative` under the existing route contract | Missing, unspecified, or unrecognized cost |
+| No student-authored input | `none`, `research_participant_deidentified` sensitivity | Other recorded sensitivity categories | Missing or `not_specified` sensitivity, or `student_derived_deidentified` (information derived from students' own writing still needs checking) |
+| No payment | `no_tool_needed`, `free_tier`, `institution_provided`, unless the source item is `sa: restricted` | `paid_required`; `paid_with_stated_alternative` under the existing route contract | Missing, unspecified, or unrecognized cost; or a free cost on a record whose source item is `sa: restricted` |
 | No account | `pc: none` | `account_verification` | Every other prerequisite category |
-| No equipment/travel/purchases | `pc: none` | `equipment_required`, `travel_or_attendance`, `purchased_material` | Every other prerequisite category |
+| No equipment/travel/purchases | `pc: none`, unless the source item is `sa: restricted` | `equipment_required`, `travel_or_attendance`, `purchased_material` | Every other prerequisite category; or `pc: none` on a record whose source item is `sa: restricted` |
 | No formal disclosure | `none_required`, `informal_acknowledgement`, `documented_log`, `anonymity_by_design` | `formal_statement` | Missing, unspecified, or unrecognized disclosure |
 | No approval | `pc: none` | `institutional_approval_required` | Every other prerequisite category |
+
+`sa` (source access) is set by the record-review stage on synthesis records that use a source
+item, as published and by link, that is not openly licensed. Only `restricted` (the item needs a
+purchase, membership, subscription, or permission first) affects matching: such a record is never
+a confirmed fit for the payment or purchase limits, so it appears among the activities to check.
+The Register's **No cost to participants** requirement applies the same test. `not_open` and
+`unmodified` change no limit; the card and page say what they mean.
 
 `op` (who operates an AI tool) is a reviewed, site-side field set by the AI-use stage. See
 [the AI-use record](AI-USE-2026-10-05.md). The `noai` limit reads “My students won’t use an
 AI tool themselves”, so an activity in which only the instructor prepares AI output is a
 confirmed fit. A record that does not say whether students operate the tool is never one.
 The Register's **Students use no AI tool** requirement applies the same rule
-(`noToolForStudents` in `shared.js`). `tests/data-integration.test.js` checks the rule's
+(`noToolForStudents` in `shared.js`). When the limit is on and a card qualifies only through
+its route without AI (students operate the tool in the main design, or the record does not
+say who does), the card says “Qualifies through its route without AI” with the route's first
+sentence. Every card shows **Who uses AI**. `tests/data-integration.test.js` checks the rule's
 result for every published activity against the reviewed values.
 
 `pc` is a single legacy prerequisite category. For example, `human_checking_required`
