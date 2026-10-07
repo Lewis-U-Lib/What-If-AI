@@ -135,7 +135,7 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
   // WIA-19 and D-13: withheld-role wording and the operator-aware data warning.
   await go('register.html','#act=CAN-B-ETHI-03');await p.waitForSelector('#actDialog[open]');
   const ethi=await p.locator('#actDialog .dlg__body').textContent();
-  assert.ok(ethi.includes('The AI tool is deliberately kept out of the activity; participants judge claims about AI against a standard they already hold.'),'withheld wording');
+  assert.ok(ethi.includes('The AI tool is deliberately kept out of the use-case idea; participants judge claims about AI against a standard they already hold.'),'withheld wording');
   assert.ok(!ethi.includes('came back')&&!ethi.includes('that the tool did not'),'nothing “came back” from a withheld tool');
   await go('register.html','#act=CAN-B-STYL-08');await p.waitForSelector('#actDialog[open]');
   const styl=await p.locator('#actDialog .dlg__body').textContent();
@@ -219,11 +219,11 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
   }
   const openLicensed=D.acts.filter(a=>!a.sa).length;
   await go('register.html','#activities?open=1');
-  assert.match(await p.locator('#actCount').textContent(),new RegExp('of '+openLicensed+' activities'));
+  assert.match(await p.locator('#actCount').textContent(),new RegExp('of '+openLicensed+' use-case ideas'));
   assert.ok((await p.locator('.activechips').textContent()).includes('Source items open to adapt'));
   const free=D.acts.filter(a=>M.requirement(a,'nopaid')==='confirmed').length;
   await go('register.html','#activities?cost=1');
-  assert.match(await p.locator('#actCount').textContent(),new RegExp('of '+free+' activities'),'the no-cost filter confirms exactly what What If AI confirms');
+  assert.match(await p.locator('#actCount').textContent(),new RegExp('of '+free+' use-case ideas'),'the no-cost filter confirms exactly what What If AI confirms');
   assert.ok(D.acts.some(a=>a.sa==='restricted'&&['no_tool_needed','free_tier','institution_provided'].includes(a.eq)),'a restricted activity with a free tool is left out');
   pass('WIA-01: source-access labels on cards, details and print; the open-license and no-cost filters in The Register');
 

@@ -1,7 +1,7 @@
 /* Regressions for focus, small screens, printing, and the complete supplied walkthrough. */
 const assert=require('assert/strict'),fs=require('fs'),path=require('path');
 module.exports=async function checkRegisterTour(page,check){
-  const titles=['The reference companion','What is here','Reading an activity: who, how big, which tools','Reading an activity: judgment and cautions','Source and license','How the collection was assembled','Saving and printing','Activity feedback','Corrections and questions'];
+  const titles=['The reference companion','What is here','Reading a use-case idea: who, how big, which tools','Reading a use-case idea: judgment and cautions','Source and license','How the collection was assembled','Saving and printing','Use-case idea feedback','Corrections and questions'];
   const out=process.env.REGISTER_TOUR_SCREENSHOTS;
   if(out)fs.mkdirSync(out,{recursive:true});
   const state=()=>page.locator('#rtour [data-slide]').evaluateAll(slides=>slides.map(s=>!s.inert&&s.getAttribute('aria-hidden')!=='true'&&getComputedStyle(s).visibility==='visible'));

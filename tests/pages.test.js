@@ -47,7 +47,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   const RELEASE = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'release.json'), 'utf8'));
   const ids = new Set(ACTS.acts.map(a => a.id)), liveIdsAll = ids;
   check('the page store holds exactly the approved public activities', ids.size === require('../content/record-review.json').expected_counts.activities && ACTS.acts.length === ids.size, ids.size + ' activities');
-  check('the served data matches the reviewed, punctuated, curated publication with its two labeled sets, AI-use review and record review, byte for byte', require('crypto').createHash('sha256').update(fs.readFileSync(path.join(SITE, m1.data.acts))).digest('hex') === require('../content/record-review.json').output_sha256['acts.json'], RELEASE.release);
+  check('the served data matches the reviewed, punctuated, curated publication with its two labeled sets, AI-use review, record review and public terminology, byte for byte', require('crypto').createHash('sha256').update(fs.readFileSync(path.join(SITE, m1.data.acts))).digest('hex') === require('../content/terminology.json').output_sha256['acts.json'], RELEASE.release);
   const internalKeys = ['rq', 'vs', 'nf', 'ibasis', 'org', 'capb', 'fl', 'rs', 'cell', 'adm', 'gateb'];
   check('activity records carry no review or build fields', ACTS.acts.every(a => internalKeys.every(k => !(k in a))), internalKeys.join(', '));
   const regInternal = ['held', 'retired', 'xw', 'queues', 'audit', 'decisions', 'schema_map', 'schema_gaps', 'recon', 'rules', 'platforms'];
@@ -82,7 +82,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   for (const key of ['focus', 'task', 'disc', 'depth']) {
     await go(page, 'what-if-ai.html#q=' + key + '&a=focus:teaching'); await page.waitForTimeout(40);
     const t = await page.$$eval('#wizard .opt', os => os.map(o => o.textContent));
-    if (await page.$('#wizard .opt__n') || t.some(x => /\b\d+\s*(matching\s*)?activit/i.test(x))) countsShown.push(key);
+    if (await page.$('#wizard .opt__n') || t.some(x => /\b\d+\s*(matching\s*)?(?:activit|use-case idea)/i.test(x))) countsShown.push(key);
   }
   check('What If AI: the four choice questions show no activity counts beside options', countsShown.length === 0, countsShown.join(', ') || 'none shown');
   await go(page, 'what-if-ai.html#q=task&a=focus:teaching'); await page.waitForTimeout(40);
@@ -257,7 +257,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   await page.click('#clearSaved');
   check('What If AI: Clear all asks for confirmation first', await page.isVisible('#clearConfirm') && (await page.textContent('.topbar [data-saved-count]')) === '2');
   await page.click('#clearYes');
-  check('What If AI: confirmed Clear all empties the selection', (await page.textContent('.topbar [data-saved-count]')) === '0' && /No saved activities yet/.test(await page.textContent('#savedBody')));
+  check('What If AI: confirmed Clear all empties the selection', (await page.textContent('.topbar [data-saved-count]')) === '0' && /No saved use-case ideas yet/.test(await page.textContent('#savedBody')));
   await page.keyboard.press('Escape');
 
   const guideIcons = await page.$$eval('a[href*="genaifacultystaff"]', as => as.map(a => (a.querySelector('use') || {}).getAttribute ? a.querySelector('use').getAttribute('href') : ''));
@@ -307,7 +307,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   check('The Register: walkthrough illustrations carry no text and are hidden from assistive technology', rArt === 0 && await page.$$eval('#rtour .tour__art', as => as.length === 9 && as.every(a => a.getAttribute('aria-hidden') === 'true')));
   const rTitles = await page.$$eval('#rtour [data-slide] h3', h => h.map(x => x.textContent));
   check('The Register: the walkthrough keeps every part of the old "How to use" page',
-    ['What is here', 'Source and license', 'How the collection was assembled', 'Saving and printing', 'Activity feedback', 'Corrections and questions'].every(t => rTitles.includes(t)), rTitles.join(' | '));
+    ['What is here', 'Source and license', 'How the collection was assembled', 'Saving and printing', 'Use-case idea feedback', 'Corrections and questions'].every(t => rTitles.includes(t)), rTitles.join(' | '));
   const rTerms = await page.$$eval('#rtour .gloss dt', d => d.map(x => x.textContent));
   check('The Register: the walkthrough explains every part of an activity', ['Who does it', 'Scale', 'AI use', 'How the work is divided', 'Course AI policy', 'Before you use it'].every(t => rTerms.includes(t)), rTerms.join(' | '));
   await require('./register-tour-checks')(page,check);
@@ -357,7 +357,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   // Who uses the AI tool, and the renamed No-AI option
   const aiUse = require('../content/ai-use.json'), recordReview = require('../content/record-review.json'), OPS = Object.fromEntries(ACTS.operators.map(o => [o[0], o]));
   const noaiLimit = ACTS.limits.find(l => l[0] === 'noai');
-  check('The No-AI limit says students will not use an AI tool themselves', noaiLimit[1] === 'My students won’t use an AI tool themselves' && noaiLimit[2] === recordReview.text.find(t => t.file === 'acts.json' && t.path[0] === 'limits').after);
+  check('The No-AI limit says students will not use an AI tool themselves', noaiLimit[1] === 'My students won’t use an AI tool themselves' && noaiLimit[2] === recordReview.text.find(t => t.file === 'acts.json' && t.path[0] === 'limits').after.replace(/\bactivities\b/g, 'use-case ideas'));
   await go(page, 'what-if-ai.html#q=limits&a=focus:teaching;task:design');
   const limitsText = await page.textContent('#wizard');
   check('What If AI: the limit question offers the renamed option and explains it', limitsText.includes('My students won’t use an AI tool themselves') && limitsText.includes('students do not have to operate an AI tool') && limitsText.includes('the AI step is optional') && !/rather my students not use AI at all/.test(limitsText));

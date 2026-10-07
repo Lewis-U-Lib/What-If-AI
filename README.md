@@ -3,9 +3,9 @@
 Two faculty resources from Lewis University Library:
 
 - **What If AI.** Answer a few questions about your teaching, research, or administrative work, and
-  find openly licensed activities that use, or deliberately leave out, generative AI.
-- **The Register.** Every activity in What If AI with its source and license, a platform-neutral
-  guide to types of AI systems, examples of course AI policies, and the works the activities
+  find openly licensed use-case ideas that use, or deliberately leave out, generative AI.
+- **The Register.** Every use-case idea in What If AI with its source and license, a platform-neutral
+  guide to types of AI systems, examples of course AI policies, and the works the use-case ideas
   draw on.
 
 Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
@@ -14,10 +14,10 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
 
 - `data/` is a **release** exported from the project's corpus pipeline
   (`Lewis-U-Lib/Faculty-AI-Evaluation-Tool`, `scripts/export_release.py`). It preserves the imported
-  activities and public fields; the publication review below determines the served subset. Don't edit it by hand: the build checks every file
+  use-case ideas and public fields; the publication review below determines the served subset. Don't edit it by hand: the build checks every file
   against `data/release.json`.
 - The September 28 release is a documented **manual supplement** to that pipeline
-  export: 81 additional activities and 75 sources. Its manifest retains the original
+  export: 81 additional use-case ideas and 75 sources. Its manifest retains the original
   pipeline commit, explicitly describes the supplement, and sets `clean: false`.
   See [the import review](docs/DATA-UPDATE-2026-09-28.md). It is not a new pipeline export.
 - `content/editorial-corrections.json` records reviewed text corrections and an explicitly
@@ -28,7 +28,7 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
 - `content/publication-review.json` records the full-text review of all 81 additions.
   It publishes **70 additions and 66 sources**, holds **11 additions** for incomplete
   source verification or unresolved rights, and applies 14 field corrections across
-  seven accepted activities. That stage leaves 815 activities / 315 sources.
+  seven accepted use-case ideas. That stage leaves 815 use-case ideas / 315 sources.
   Both tools share this filtered, corrected data. Original records remain in `data/`;
   every decision and evidence reference is retained. `version.json` identifies the
   publication revision and public counts. See [the full-text review](docs/FULL-TEXT-REVIEW-2026-09-28.md).
@@ -38,32 +38,36 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
   `version.json` records this punctuation revision separately. See
   [the punctuation review](docs/SERIAL-COMMAS-2026-09-28.md).
 - `content/curation.json` is the fourth stage ([the curation record](docs/CURATION-2026-09-29.md)).
-  It withdraws the 36 activities What If AI could never show, corrects licenses and source
+  It withdraws the 36 use-case ideas What If AI could never show, corrects licenses and source
   records against the sources' own statements, retires the `prompt_specification` class
   (keeping its no-reported-use fact as `use`), and applies American spelling to editorial
-  prose. The build refuses any published activity the Finder cannot show. The public
-  collection is **779 activities / 309 sources**. The publication review stays in the
+  prose. The build refuses any published use-case idea the Finder cannot show. The public
+  collection is **779 use-case ideas / 309 sources**. The publication review stays in the
   repository and is not published on the site.
 - `content/tiers.json` is the fifth stage ([the record](docs/TIERS-2026-10-05.md)). It adds
   two labeled sets written for the collection and not yet tried: the **synthesis set** (211)
   and the **remix set** (92). Each record carries its set, its provenance class (Hybrid or
   Original Synthesis, or Licensed Adaptation), every work it draws on with the relation, and
   the license it carries; 77 records with open review questions are held. The licensed
-  collection is unchanged. That stage leaves 1,082 activities / 640 sources.
+  collection is unchanged. That stage leaves 1,082 use-case ideas / 640 sources.
 - `content/ai-use.json` is the sixth stage ([the record](docs/AI-USE-2026-10-05.md)).
-  It records on every activity who operates an AI tool (`op`: students, faculty or staff
+  It records on every use-case idea who operates an AI tool (`op`: students, faculty or staff
   only, optional, no one, or not stated). Values were read from each summary in three review
   passes, and each value other than `students` carries its evidence. The stage renames the
   No-AI limit to **“My students won’t use an AI tool themselves”**, which now admits
-  activities in which only the instructor uses a tool. It withdraws four activities in which
-  AI is neither used nor discussed. That stage leaves 1,078 activities / 637 sources.
-- `content/record-review.json` is the seventh and last stage
+  use-case ideas in which only the instructor uses a tool. It withdraws four use-case ideas in which
+  AI is neither used nor discussed. That stage leaves 1,078 use-case ideas / 637 sources.
+- `content/record-review.json` is the seventh stage
   ([the record](docs/RECORD-REVIEW-2026-10-06.md)). It applies corrections checked against the
   sources, labels synthesis records whose source item is not openly licensed, holds records whose
-  own license wording breaks their source's terms, withdraws activities whose AI step was added
+  own license wording breaks their source's terms, withdraws use-case ideas whose AI step was added
   editorially to a source without AI, and refuses records in which who uses AI, the tool needed,
   and the AI role disagree. Held and withdrawn records stay intact in the earlier stages. Both
-  tools serve **1,033 activities / 618 sources**.
+  tools serve **1,033 use-case ideas / 618 sources**.
+- `content/terminology.json` is the final presentation stage. It changes collection-authored
+  wording to **use-case idea / use-case ideas**, preserving source quotations, titles, citations,
+  licenses, identifiers, and earlier review records. Its pinned input and output hashes make
+  future source-boundary changes explicit. See [the terminology record](docs/TERMINOLOGY-2026-10-07.md).
 - `src/` holds the pages, partials, CSS, JS, fonts, and images.
 - `tools/build.py` turns `src/` and `data/` into `_site/`, fingerprinting every asset. It needs
   only Python 3.
@@ -75,7 +79,7 @@ decisions still open.
 
 The Finder's [matching contract](docs/MATCHING.md) explains exact and compatible
 preferences, recovery when there are no close matches, and the separate group for
-activities whose selected requirements still need checking. Matching tests run on
+use-case ideas whose selected requirements still need checking. Matching tests run on
 every deployment; unknown requirements never count as confirmed matches.
 
 ## Run it locally
@@ -101,7 +105,7 @@ npm test        # release check, build, site checks, page behavior, accessibilit
 `src/js/register-type-examples.js` holds the illustrative product names, short capability
 notes, official source links, and their checked date. Review those links when updating
 examples. These are editorial additions to the type guide, separate from the exported
-corpus release. Type descriptions come from the imported release; related-activity counts reflect the published subset.
+corpus release. Type descriptions come from the imported release; counts of related use-case ideas reflect the published subset.
 
 The Register shows compact type cards. Opening a card displays the full description and
 details in a fixed-size dialog; current examples start collapsed. The type-dialog test checks
@@ -122,7 +126,7 @@ What If AI keeps its separate seven-step walkthrough in `src/partials/tour.html`
 The Register’s first step links to it. Page tests cover keyboard focus, links and Back,
 all nine steps at six widths, and printing; accessibility checks cover every step.
 
-## Update the activities
+## Update the use-case ideas
 
 1. In the pipeline repo, run `python3 scripts/corpus_pages.py`, then
    `python3 scripts/export_release.py --out ../What-If-AI/data`.
@@ -140,10 +144,10 @@ evidence, typed field updates, and final public totals before updating either ma
 For a data supplement, also update the reviewed import fixture after comparing every
 retained record. `tests/data-integration.test.js` verifies the prior collection is intact,
 checks labels and source/count consistency, and proves selectable, zero-mismatch matcher
-paths for every approved new activity. Held additions remain absent from both public datasets. Browser checks follow those paths through pagination and
-verify the same activity details in both tools. Matching tests read the built public data.
+paths for every approved new use-case idea. Held additions remain absent from both public datasets. Browser checks follow those paths through pagination and
+verify the same use-case idea details in both tools. Matching tests read the built public data.
 
 ## Licenses
 
-See [NOTICE.md](NOTICE.md). The site content is CC BY-NC-SA 4.0; each activity keeps its
+See [NOTICE.md](NOTICE.md). The site content is CC BY-NC-SA 4.0; each use-case idea keeps its
 source's license and attribution. The fonts are SIL OFL 1.1.

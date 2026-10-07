@@ -47,7 +47,7 @@ var STEPS = [
   {key:'task', rail:'The task', icon:'i-gear', q:'What would you like to do?', two:true,
    sub:'Pick the closest match. You are describing a task, not choosing a technology.'},
   {key:'disc', rail:'Your field', icon:'i-cap', q:'What is your field?', two:true,
-   sub:'Your field moves matching activities to the top. Activities recorded for any course, or without a field, still appear, because much of the pedagogy travels.'},
+   sub:'Your field moves matching use-case ideas to the top. Use-case ideas recorded for any course, or without a field, still appear, because much of the pedagogy travels.'},
   {key:'depth', rail:'Scale', icon:'i-gauge', q:'How large a piece of work are you picturing?',
    sub:'Scale is described in units of academic work rather than minutes.'},
   {key:'limits', rail:'Limits', icon:'i-switch', q:'Is anything off the table?',
@@ -132,21 +132,21 @@ function drawWizard(focusTitle){
   if(st.key==='limits'){
     h += '<fieldset class="opts"><legend class="sr-only">'+esc(st.q)+'</legend><div class="optgrid">';
     h += LIM.map(function(l){ return optionHTML('q-limits', l[0], l[1]+(l[2]?' — '+l[2]:''), !!S.limits[l[0]], 'checkbox'); }).join('');
-    h += '</div></fieldset><p class="qnote">When a requirement is not established, the activity appears separately under “Check requirements before considering,” with what you need to confirm.</p>';
-    h += '<p class="note noai"><strong>On the first option.</strong> It keeps activities in which students do not have to operate an AI tool: the instructor uses one beforehand and students work with what it produced, the activity examines AI without any tool, the AI step is optional, or the record describes a route with no AI. When an activity qualifies through that route, its card says so.</p>';
+    h += '</div></fieldset><p class="qnote">When a requirement is not established, the use-case idea appears separately under “Check requirements before considering,” with what you need to confirm.</p>';
+    h += '<p class="note noai"><strong>On the first option.</strong> It keeps use-case ideas in which students do not have to operate an AI tool: the instructor uses one beforehand and students work with what it produced, the use-case idea examines AI without any tool, the AI step is optional, or the record describes a route with no AI. When a use-case idea qualifies through that route, its card says so.</p>';
   } else {
     h += group(st.key, st.q, opts(st.key), st.two, true);
     if(st.key==='disc'){
       var open = S.lvl||S.mod;
       h += '<details class="qmore"'+(open?' open':'')+'><summary>Optional: level and setting</summary>'+
-        '<p class="qnote">Activities without a specific level or setting remain possible fits, with a note to check suitability.</p>'+
+        '<p class="qnote">Use-case ideas without a specific level or setting remain possible fits, with a note to check suitability.</p>'+
         group('lvl','Who is in the room?', IN.lvl, true) + group('mod','Where does it happen?', IN.mod, false) + '</details>';
     }
   }
   var last = step===STEPS.length-1;
   h += '<div class="qnav">'+(at>1?'<button type="button" class="btn" id="back">← Back</button>':'')+
     '<span class="spacer"></span><button type="button" class="btn btn--quiet" id="skip">'+(st.key==='limits'?'Nothing is off the table':'Skip this question')+'</button>'+
-    '<button type="button" class="btn btn--primary" id="next">'+(last?'Show activities':'Next →')+'</button></div></div></div>';
+    '<button type="button" class="btn btn--primary" id="next">'+(last?'Show use-case ideas':'Next →')+'</button></div></div></div>';
   var w = document.getElementById('wizard'); w.innerHTML = h;
   if(focusTitle){ var t=document.getElementById('qTitle'); if(t) t.focus(); }
 }
@@ -166,7 +166,7 @@ function answersHTML(){
   });
   return any ? h+'</ul>' : '<p class="qnote">No preferences selected. Explore the collection below.</p>';
 }
-var REQUIREMENT_LABELS={noai:'whether students operate an AI tool themselves',nostudent:'whether student-authored work goes into a tool',nopaid:'whether the activity can be completed without payment',noaccount:'whether personal account or phone verification is needed',nokit:'whether equipment, travel, or purchases are needed',nodisclose:'whether a formal disclosure statement is needed',noapproval:'whether ethics or institutional approval is needed'};
+var REQUIREMENT_LABELS={noai:'whether students operate an AI tool themselves',nostudent:'whether student-authored work goes into a tool',nopaid:'whether the use-case idea can be completed without payment',noaccount:'whether personal account or phone verification is needed',nokit:'whether equipment, travel, or purchases are needed',nodisclose:'whether a formal disclosure statement is needed',noapproval:'whether ethics or institutional approval is needed'};
 var PREFERENCE_LABELS={task:'task',disc:'field',depth:'scale',lvl:'level',mod:'setting'};
 function preferenceLabel(k){ var v=S[k], list=opts(k); for(var i=0;i<list.length;i++) if(list[i][0]===v) return split(list[i][1])[0]; return v; }
 /* the first sentence of the route without AI, for the note on a card that qualifies through it */
@@ -180,8 +180,8 @@ function matchCard(row){
   if(row.compatible.length){
     var unspecified=row.compatible.filter(function(k){return k!=='disc';});
     var anyCourse=row.activity.disc==='interdisciplinary';
-    notes.push('<strong>Check suitability:</strong> '+(row.compatible.indexOf('disc')>=0?(anyCourse?'Recorded for any course. ':'Consider how this activity fits your field. '):'')+
-      (unspecified.length?'No specific '+unspecified.map(function(k){return esc(PREFERENCE_LABELS[k]);}).join(' or ')+' is recorded for this activity.':''));
+    notes.push('<strong>Check suitability:</strong> '+(row.compatible.indexOf('disc')>=0?(anyCourse?'Recorded for any course. ':'Consider how this use-case idea fits your field. '):'')+
+      (unspecified.length?'No specific '+unspecified.map(function(k){return esc(PREFERENCE_LABELS[k]);}).join(' or ')+' is recorded for this use-case idea.':''));
   }
   var note=notes.length?'<div class="match-note">'+notes.map(function(n){return '<p>'+n+'</p>';}).join('')+'</div>':'';
   // Keep the explanation inside its activity card, before the existing controls.
@@ -192,7 +192,7 @@ function band(key,title,note,list){
   var visible=list.slice(0,shown[key]);
   return '<section class="band" data-match-group="'+key+'" aria-labelledby="b-'+key+'"><h3 class="band__h" id="b-'+key+'">'+esc(title)+'</h3>'+
     '<p class="band__note">'+esc(note)+'</p><div class="cards">'+visible.map(matchCard).join('')+'</div>'+
-    (list.length>visible.length?'<div class="more no-print"><button type="button" class="btn" '+(key==='exact'?'id="moreExact" ':'')+'data-more-matches="'+key+'">Show more '+(key==='unknown'?'activities to check':'matches')+' ('+(list.length-visible.length)+' more)</button></div>':'')+'</section>';
+    (list.length>visible.length?'<div class="more no-print"><button type="button" class="btn" '+(key==='exact'?'id="moreExact" ':'')+'data-more-matches="'+key+'">Show more '+(key==='unknown'?'use-case ideas to check':'matches')+' ('+(list.length-visible.length)+' more)</button></div>':'')+'</section>';
 }
 function recoveryHTML(){
   var h='<div class="empty"><strong>No close matches for those preferences</strong><p>Try adjusting a preference. Any broader starting points below keep your selected limits and name every preference they miss.</p><div class="ractions">';
@@ -204,30 +204,30 @@ function recoveryHTML(){
 }
 function drawPlan(focusTitle){
   var p=results(), n=M.keys.filter(function(k){return S[k];}).length;
-  var title=p.near?'Activities to explore':p.confirmed?'Broader starting points':p.unknown.length?'Some requirements need checking':'No activities meet these limits';
+  var title=p.near?'Use-case ideas to explore':p.confirmed?'Broader starting points':p.unknown.length?'Some requirements need checking':'No use-case ideas meet these limits';
   var h='<div class="rhead"><div class="kicker">Your results</div><h2 id="rTitle" tabindex="-1">'+title+'</h2>'+answersHTML()+
     '<div class="ractions no-print"><button type="button" class="btn" id="redo">Change my answers</button>'+
     '<button type="button" class="btn" id="copylink">Copy a link to these results</button>'+
-    '<button type="button" class="btn" data-open-saved aria-haspopup="dialog">View saved activities (<span data-saved-count>0</span>)</button></div></div>';
-  h+='<p class="countline"><strong>'+p.exact.length+'</strong> '+(n?'exact matches':'activities to explore')+
+    '<button type="button" class="btn" data-open-saved aria-haspopup="dialog">View saved use-case ideas (<span data-saved-count>0</span>)</button></div></div>';
+  h+='<p class="countline"><strong>'+p.exact.length+'</strong> '+(n?'exact matches':'use-case ideas to explore')+
     '; <strong>'+p.compatible.length+'</strong> possible fits to check; <strong>'+p.close.length+'</strong> close matches.'+
-    (p.unknown.length?' <strong>'+p.unknown.length+'</strong> additional activities have requirements to check.':'')+'</p>';
+    (p.unknown.length?' <strong>'+p.unknown.length+'</strong> additional use-case ideas have requirements to check.':'')+'</p>';
   if(!p.confirmed){
-    h+='<div class="empty"><strong>No activities have all selected limits confirmed.</strong><p>'+
-      (p.unknown.length?'You can inspect the separate group below to see what needs checking. Those activities are not confirmed matches.':'The collection does not currently establish a fit for these limits. Review them if you want to change your selection.')+
+    h+='<div class="empty"><strong>No use-case ideas have all selected limits confirmed.</strong><p>'+
+      (p.unknown.length?'You can inspect the separate group below to see what needs checking. Those use-case ideas are not confirmed matches.':'The collection does not currently establish a fit for these limits. Review them if you want to change your selection.')+
       '</p><button type="button" class="btn" data-goto="'+STEP_OF.limits+'">Review the limits</button></div>';
   } else {
-    h+=band('exact',n?'Matches your stated preferences':'Activities to explore','These match the recorded details'+(Object.keys(S.limits).some(function(k){return S.limits[k];})?' and have no unresolved selected limits.':'.'),p.exact);
-    h+=band('compatible','Possible fits: check suitability','These have no known preference mismatch. Check the notes on each activity for details that need your judgment.',p.compatible);
-    h+=band('close','Close matches: one preference to adjust','Each activity names the preference it misses. Selected limits remain in force.',p.close);
-    if(!p.near){ h+=recoveryHTML();h+=band('broader','Broader starting points','These miss more than one preference. Review the differences before choosing an activity.',p.broader); }
+    h+=band('exact',n?'Matches your stated preferences':'Use-case ideas to explore','These match the recorded details'+(Object.keys(S.limits).some(function(k){return S.limits[k];})?' and have no unresolved selected limits.':'.'),p.exact);
+    h+=band('compatible','Possible fits: check suitability','These have no known preference mismatch. Check the notes on each use-case idea for details that need your judgment.',p.compatible);
+    h+=band('close','Close matches: one preference to adjust','Each use-case idea names the preference it misses. Selected limits remain in force.',p.close);
+    if(!p.near){ h+=recoveryHTML();h+=band('broader','Broader starting points','These miss more than one preference. Review the differences before choosing a use-case idea.',p.broader); }
   }
   if(p.unknown.length){
     h+='<details class="requirement-checks"><summary>Check requirements before considering ('+p.unknown.length+')</summary><div class="requirement-checks__body">'+
       band('unknown','Requirements not yet confirmed','These are outside the confirmed results. Each card names the requirement to verify and any preference differences. Known conflicts with your limits are excluded.',p.unknown)+'</div></details>';
   }
   h+='<div class="browse no-print"><p>Want to look further? <a href="register.html#activities">'+icon('i-crt')+' Browse all '+A.length+
-    ' activities in The Register</a>, where you can search and filter the whole collection.</p></div>';
+    ' use-case ideas in The Register</a>, where you can search and filter the whole collection.</p></div>';
   document.getElementById('plan').innerHTML=h;afterDraw(focusTitle);
 }
 function afterDraw(focusTitle){
@@ -340,8 +340,8 @@ function clearMissing(){ var old=document.getElementById('missingAct'); if(old) 
 function missingActivity(id){
   clearMissing();
   var shown = id===null ? 'in this link' : esc(id);
-  S_.announce('No activity with that identifier is in the published collection.');
-  document.getElementById('wizard').insertAdjacentHTML('beforebegin','<div class="note" id="missingAct"><strong>That activity is not in the published collection.</strong> '+
+  S_.announce('No use-case idea with that identifier is in the published collection.');
+  document.getElementById('wizard').insertAdjacentHTML('beforebegin','<div class="note" id="missingAct"><strong>That use-case idea is not in the published collection.</strong> '+
     'The identifier '+shown+' may belong to an earlier edition or may have been cut off. '+
     'You can search for its title in <a href="register.html#activities">The Register</a>, or answer the questions below.</div>');
 }

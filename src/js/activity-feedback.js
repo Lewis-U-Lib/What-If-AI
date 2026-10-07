@@ -51,7 +51,7 @@ function render(id, surface){
   return '<form class="activity-feedback no-print" data-activity="'+esc(id)+'" data-surface="'+esc(surface)+'" aria-labelledby="activity-feedback-title">'+
     '<div class="activity-feedback__heading"><h3 id="activity-feedback-title">Share your experience</h3><span class="kicker">Optional</span></div>'+
     '<p class="activity-feedback__note" id="activity-feedback-privacy">Help us improve the collection. No name or email collected.</p>'+
-    '<fieldset class="activity-feedback__main" aria-describedby="activity-feedback-privacy"><legend>Where are you with this activity?</legend>'+
+    '<fieldset class="activity-feedback__main" aria-describedby="activity-feedback-privacy"><legend>Where are you with this use-case idea?</legend>'+
     radios('activity-response', RESPONSES, saved.response)+'</fieldset>'+
     '<fieldset class="activity-feedback__followup" data-followup="used" hidden><legend>How did it go? <span>(Optional)</span></legend>'+
     radios('activity-outcome', OUTCOMES, saved.outcome)+'<button type="button" class="btn btn--sm btn--quiet" data-clear-followup>Clear optional answer</button></fieldset>'+

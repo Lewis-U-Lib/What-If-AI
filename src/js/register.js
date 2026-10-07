@@ -25,7 +25,7 @@ S_.init({page:'register', onOpen:function(id, wasOpen, byUser){
 }});
 
 var SECTIONS = ['activities','ai-types','policies','sources'];
-var TITLES = {activities:'Activities', 'ai-types':'Types of AI systems', policies:'Course AI policies', sources:'Sources'};
+var TITLES = {activities:'Use-case ideas', 'ai-types':'Types of AI systems', policies:'Course AI policies', sources:'Sources'};
 /* addresses from earlier editions land somewhere sensible rather than nowhere */
 var OLD = {platforms:'ai-types', tools:'ai-types', spectrum:'policies', provenance:'sources', biblio:'sources',
            method:'about', held:'about', crosswalk:'about', collection:'activities'};
@@ -51,7 +51,7 @@ function selectField(id, label, key, options){
 /* the licensed collection has no set; each of the two sets written for the collection is its own value */
 var LICENSED_SET = 'licensed';
 function setOf(a){ return a.tier || LICENSED_SET; }
-function setLabel(v){ return v===LICENSED_SET ? 'Adapted from published activities' : ((S_.TIER[v]||{}).label || v); }
+function setLabel(v){ return v===LICENSED_SET ? 'Adapted from published use-case ideas' : ((S_.TIER[v]||{}).label || v); }
 function counted(list, key){
   var c = {}; A.forEach(function(a){ var v = key==='set' ? setOf(a) : a[key]; (Array.isArray(v)?v:[v]).forEach(function(x){ if(x) c[x]=(c[x]||0)+1; }); });
   return list.filter(function(o){ return c[o[0]]; }).map(function(o){ return [o[0], o[1]+' ('+c[o[0]]+')']; });
@@ -65,7 +65,7 @@ function filtersHTML(){
   var moves = Object.keys(L.move).map(function(k){ return [k, L.move[k]]; });
   var ops = (D.operators||[]).map(function(o){ return [o[0], o[1]]; });
   var sets = [[LICENSED_SET, setLabel(LICENSED_SET)]].concat((D.tiers||[]).map(function(t){ return [t[0], t[1]+', not yet tried']; }));
-  var h = '<h3 id="filtersTitle">Filter activities</h3>';
+  var h = '<h3 id="filtersTitle">Filter use-case ideas</h3>';
   if(sets.length > 1) h += selectField('f-set','Where it comes from','set', counted(sets,'set'));
   h += selectField('f-focus','Area of work','focus', counted(focus,'focus'));
   h += selectField('f-task','Task','task', counted(IN.task,'task'));
@@ -154,10 +154,10 @@ function resultsHTML(){
     return '<li><button type="button" class="fchip" data-clear="'+k+'">'+esc(chipLabel(k))+' <span class="x" aria-hidden="true">✕</span><span class="sr-only"> — remove this filter</span></button></li>'; }).join('')+'</ul>';
   var ws = worksMatching(F.q);
   h += '<p class="countline" id="actCount">Showing <strong>'+Math.min(shown, list.length)+'</strong> of <strong>'+list.length+'</strong> '+
-    (list.length===1?'activity':'activities')+(keys.length?' matching your filters':'')+'.'+
+    (list.length===1?'use-case idea':'use-case ideas')+(keys.length?' matching your filters':'')+'.'+
     (ws.length ? ' <a href="#sources" data-goto-sources>'+ws.length+' source'+(ws.length===1?' also matches':'s also match')+' your search</a>.' : '')+'</p>';
   if(!list.length){
-    return h + '<div class="empty"><strong>No activities match these filters</strong><p>Try removing a filter, or use What If AI to describe what you are working on.</p>'+
+    return h + '<div class="empty"><strong>No use-case ideas match these filters</strong><p>Try removing a filter, or use What If AI to describe what you are working on.</p>'+
       '<button type="button" class="btn" id="resetFilters2">Clear all filters</button></div>';
   }
   h += '<div class="cards">'+list.slice(0, shown).map(function(a){ return S_.cardHTML(a,{h:3}); }).join('')+'</div>';
@@ -166,9 +166,9 @@ function resultsHTML(){
 }
 function drawActivities(){
   var sec = document.getElementById('activities');
-  sec.innerHTML = '<div class="sec-head"><div class="sec-eyebrow">The collection</div><h2 id="h-activities" tabindex="-1">Activities</h2>'+
-    '<p>All '+A.length+' activities in the collection. Each one lists its source, license, and what to consider before using it. '+
-    'Filter by the kind of work, the kind of AI tool, or the course AI policy an activity assumes; open any activity for the full description, or save it to print later.</p></div>'+
+  sec.innerHTML = '<div class="sec-head"><div class="sec-eyebrow">The collection</div><h2 id="h-activities" tabindex="-1">Use-case ideas</h2>'+
+    '<p>All '+A.length+' use-case ideas in the collection. Each one lists its source, license, and what to consider before using it. '+
+    'Filter by the kind of work, the kind of AI tool, or the course AI policy a use-case idea assumes; open any use-case idea for the full description, or save it to print later.</p></div>'+
     '<div class="catalog"><div><button type="button" class="btn btn--sm filters-toggle" id="filtersToggle" aria-expanded="false" aria-controls="filters">Show filters</button>'+
     '<aside class="filters is-collapsed" aria-labelledby="filtersTitle" id="filters">'+filtersHTML()+'</aside></div>'+
     '<div><div class="toolbar"><div class="field"><label for="f-sort">Sort by</label><select class="select" id="f-sort" data-f="sort">'+
@@ -221,7 +221,7 @@ var TYPE_PREVIEWS = {
   agentic:'Multi-step tasks that connect tools, files, and applications.',
   institutional:'AI accessed through an institution or hosted on controlled infrastructure.',
   discipline:'Specialized models for research, prediction, and domain-specific analysis.',
-  noai:'Activities in which students never operate an AI tool themselves.'
+  noai:'Use-case ideas in which students never operate an AI tool themselves.'
 };
 var typeDialog = document.getElementById('aiTypeDialog');
 var typeReturn = null;
@@ -244,9 +244,9 @@ typeDialog.addEventListener('close', function(){
 });
 
 function typeActivityLink(t){
-  if(t.key==='noai') return '<a class="btn btn--sm" data-type-activities href="#activities?noai=1">See '+R.types.no_ai.n+' activities where students use no AI tool</a>';
-  if(t.ids && t.ids.length) return '<a class="btn btn--sm" data-type-activities href="#activities?type='+t.key+'">See '+t.n+' related activit'+(t.n===1?'y':'ies')+'</a>';
-  if(t.caps && t.caps.length && t.n) return '<a class="btn btn--sm" data-type-activities href="#activities?cap='+t.caps[0]+'">See '+t.n+' related activit'+(t.n===1?'y':'ies')+'</a>';
+  if(t.key==='noai') return '<a class="btn btn--sm" data-type-activities href="#activities?noai=1">See '+R.types.no_ai.n+' use-case ideas where students use no AI tool</a>';
+  if(t.ids && t.ids.length) return '<a class="btn btn--sm" data-type-activities href="#activities?type='+t.key+'">See '+t.n+' related use-case idea'+(t.n===1?'':'s')+'</a>';
+  if(t.caps && t.caps.length && t.n) return '<a class="btn btn--sm" data-type-activities href="#activities?cap='+t.caps[0]+'">See '+t.n+' related use-case idea'+(t.n===1?'':'s')+'</a>';
   return '';
 }
 function typeExampleDisclosure(t){
@@ -332,15 +332,15 @@ function drawPolicies(){
   var t = tiers.filter(function(x){ return x.key===polSel; })[0];
   h += '<div class="polpanel" role="tabpanel" id="pp" aria-labelledby="pt-'+t.key+'" tabindex="0">'+
     '<div class="kicker">'+esc(t.pill)+'</div><h3>'+esc(t.label)+'</h3><p class="gist">'+esc(t.gist)+'</p>'+
-    '<p><strong>What an activity at this position assumes:</strong> '+esc(t.reads)+'</p>'+
-    (t.n ? '<p><a href="#activities?pol='+t.key+'">'+t.n+' activities in the collection assume this position</a></p>' : '')+
+    '<p><strong>What a use-case idea at this position assumes:</strong> '+esc(t.reads)+'</p>'+
+    (t.n ? '<p><a href="#activities?pol='+t.key+'">'+t.n+' use-case ideas in the collection assume this position</a></p>' : '')+
     '<h4 class="pol-examples-h">Examples from published syllabi</h4><ul class="quotes">'+
     (t.items||[]).map(function(q){
       return '<li><blockquote><p>“'+esc(q.quote)+'”</p></blockquote><div class="who"><span><strong>'+esc(q.who)+'</strong> · '+esc(q.course)+' · '+esc(q.inst)+'</span>'+
         '<span>'+esc(q.lic)+'</span></div></li>'; }).join('')+'</ul></div>';
   var a = P.aside;
   h += '<div class="aside-card"><div class="kicker">'+esc(a.pill)+'</div><h3>'+esc(a.label)+'</h3><p>'+esc(a.gist)+'</p><p>'+esc(a.reads)+'</p>'+
-    (a.n ? '<p><a href="#activities?pol=instructor_side">'+a.n+' activities in the collection are the instructor’s or staff member’s own work</a></p>' : '')+'</div>';
+    (a.n ? '<p><a href="#activities?pol=instructor_side">'+a.n+' use-case ideas in the collection are the instructor’s or staff member’s own work</a></p>' : '')+'</div>';
   h += '<p class="polsrc">Examples are drawn from <a href="'+esc(P.source.url)+'" target="_blank" rel="noopener noreferrer">'+esc(P.source.name)+
     '<span class="sr-only"> (opens in a new tab)</span></a>, '+esc(P.source.who)+'. Each quotation keeps the instructor, course, institution, and the license its contributor chose; excerpts are condensed. '+
     'For guidance at Lewis, see <a href="'+esc(P.local.url)+'" target="_blank" rel="noopener noreferrer">'+esc(P.local.label)+'<span class="sr-only"> (opens in a new tab)</span></a>.</p>';
@@ -360,16 +360,16 @@ function citeOf(w){ return w.cit || [w.a, w.y ? '('+w.y+').' : '', w.t].filter(B
 function drawSources(){
   var q = F.q, list = (q ? worksMatching(q) : R.works.slice()).sort(function(x,y){ return (sortKey(x) < sortKey(y) ? -1 : sortKey(x) > sortKey(y) ? 1 : 0) || String(x.y).localeCompare(String(y.y)); });
   var h = '<div class="sec-head"><div class="sec-eyebrow">Works cited</div><h2 id="h-sources" tabindex="-1">Sources</h2>'+
-    '<p>Every published work an activity in the collection draws on, with a link to the work or to the library catalog. Each activity also lists its own source, license, and the changes made in adapting it.</p></div>';
-  h += '<details class="card card--origins"><summary class="card--origins__sum">Where the activities come from</summary>'+
+    '<p>Every published work a use-case idea in the collection draws on, with a link to the work or to the library catalog. Each use-case idea also lists its own source, license, and the changes made in adapting it.</p></div>';
+  h += '<details class="card card--origins"><summary class="card--origins__sum">Where the use-case ideas come from</summary>'+
     '<dl class="legend">'+R.origin.filter(function(o){ return o[3]; }).map(function(o){
       var O = S_.ORIGIN[o[0]]||{label:o[1],text:o[2]};
       return '<div><dt>'+esc(O.label)+' <span class="tag">'+o[3]+'</span></dt><dd>'+esc(O.text)+'</dd></div>'; }).join('')+'</dl>'+
-    ((R.tiers||[]).length ? '<p class="muted">Two smaller sets were written for the collection and are labeled on every activity they hold:</p>'+
+    ((R.tiers||[]).length ? '<p class="muted">Two smaller sets were written for the collection and are labeled on every use-case idea they hold:</p>'+
       '<dl class="legend">'+R.tiers.filter(function(t){ return t[3]; }).map(function(t){
         return '<div><dt>'+esc(t[1])+' <span class="tag">'+t[3]+'</span></dt><dd>'+esc(t[2])+'</dd></div>'; }).join('')+'</dl>' : '')+
-    '<p class="muted">Activities adapt only works published under a Creative Commons license or another open license, and keep the original license, with any ShareAlike or NonCommercial terms, when they are reused. '+
-    'Some synthesis activities also use a published source item as is, by link; the item keeps its own terms, which may rule out adapting it, and the activity says what using it requires. '+
+    '<p class="muted">Use-case ideas adapt only works published under a Creative Commons license or another open license, and keep the original license, with any ShareAlike or NonCommercial terms, when they are reused. '+
+    'Some synthesis use-case ideas also use a published source item as is, by link; the item keeps its own terms, which may rule out adapting it, and the use-case idea says what using it requires. '+
     'Works cited for their ideas alone also keep their own terms.</p></details>';
   h += '<p class="countline">'+(q ? '<strong>'+list.length+'</strong> of '+R.works.length+' sources match “'+esc(q)+'”. <button type="button" class="btn btn--sm btn--quiet" id="clearSrcSearch">Show all sources</button>'
                                    : '<strong>'+list.length+'</strong> sources.')+'</p>';
@@ -386,7 +386,7 @@ function drawSources(){
       var acts = (w.acts||[]).filter(function(id){ return S_.BYID[id]; });
       h += '<li class="src" id="src-'+esc(w.id)+'"><div class="src__cit">'+esc(citeOf(w))+'</div><div class="src__meta">'+
         (link ? '<span>'+link+'</span>' : '')+(w.lic ? '<span>License: '+esc(w.lic)+'</span>' : '')+'</div>'+
-        (acts.length ? '<details><summary>Used in '+acts.length+' activit'+(acts.length===1?'y':'ies')+'</summary><ul>'+acts.map(function(id){
+        (acts.length ? '<details><summary>Used in '+acts.length+' use-case idea'+(acts.length===1?'':'s')+'</summary><ul>'+acts.map(function(id){
             return '<li><button type="button" data-open="'+esc(id)+'">'+esc(S_.BYID[id].t)+'</button></li>'; }).join('')+'</ul></details>' : '')+'</li>';
     });
     h += '</ul>';
@@ -531,9 +531,9 @@ function route(first){
     if(id===null || !S_.openActivity(id)){
       if(dlg && dlg.open){ actPushed = false; S_.closeDialog(dlg); }
       show('activities', false); base = filterHash();
-      S_.announce('No activity with '+(id===null ? 'that identifier' : 'the identifier '+id)+' is in the published collection.');
+      S_.announce('No use-case idea with '+(id===null ? 'that identifier' : 'the identifier '+id)+' is in the published collection.');
       var box = document.getElementById('actResults');
-      if(box) box.insertAdjacentHTML('afterbegin','<div class="note" id="missingAct"><strong>That activity is not in the published collection.</strong> '+
+      if(box) box.insertAdjacentHTML('afterbegin','<div class="note" id="missingAct"><strong>That use-case idea is not in the published collection.</strong> '+
         'The identifier '+(id===null ? 'in this link' : esc(id))+' may belong to an earlier edition or may have been cut off. Try searching for its title.</div>');
     }
     return;
@@ -595,7 +595,7 @@ document.addEventListener('click', function(e){
   }
   var c = t.closest('[data-clear]');
   if(c){ var k = c.getAttribute('data-clear'); F[k] = (typeof F[k]==='boolean') ? false : ''; shown = PAGE; syncFilterControls(); refreshResults(true); if(k==='q') drawSources();
-         var next = document.querySelector('#actResults .fchip') || document.getElementById('h-activities'); if(next) next.focus(); return; }
+         var next = document.querySelector('#actResults .fchip') || document.getElementById('h-use-case ideas'); if(next) next.focus(); return; }
   var ft = t.closest('#filtersToggle');
   if(ft){ var fl=document.getElementById('filters'), open = fl.classList.toggle('is-collapsed')===false;
           ft.setAttribute('aria-expanded', String(open)); ft.textContent = open ? 'Hide filters' : 'Show filters'; return; }
