@@ -53,7 +53,7 @@ That stage leaves 1,078 activities / 637 sources. See [the AI-use record](AI-USE
 
 Both tools serve 1,033 activities / 618 sources. See [the record review](RECORD-REVIEW-2026-10-06.md).
 
-**Public terminology, 2026-10-07:** `tools/terminology.py` runs last. It changes editorial
+**Public terminology, 2026-10-07:** `tools/terminology.py` runs after the record review. It changes editorial
 wording to use-case idea / use-case ideas while preserving quoted source language, source titles,
 citations, rights statements, stable identifiers, and the historical review stages. The collection
 remains 1,033 use-case ideas / 618 sources. `version.json` identifies this presentation revision
@@ -282,8 +282,11 @@ These results come from the scaffold, built from release `66661c47c06b` (pipelin
    the landing header can be tuned.
 4. **Legacy URLs.** The old Faculty AI Evaluation Tool (`index.html`, `Reference.html`) stays where
    it is. Whether it should link here, or here to it, is open.
-5. **Software license.** As in the pipeline repo, the code has no license file yet. The site
-   content is CC BY-NC-SA 4.0, and the fonts are OFL 1.1.
+5. **Tool license (resolved October 8, 2026).** The original tools, including original
+   code, are CC BY-NC-ND 4.0 under `LICENSE.md`. Individual entries and separately
+   licensed information keep their existing terms; fonts remain OFL 1.1.
+   `tools/license_scope.py` runs last and clarifies 244 license notes without changing
+   entry licenses. See [the licensing review](TOOL-LICENSE-2026-10-08.md).
 6. **Later performance work, if wanted.** Split `acts.json` into a card index plus details loaded
    on demand, which would cut What If AI's first load by about half. Or subset the fonts to the
    glyphs used.

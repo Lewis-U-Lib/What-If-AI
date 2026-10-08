@@ -9,7 +9,7 @@
   * The imported data release (data/*.json) is verified unchanged. Reviewed editorial
     corrections, publication decisions, punctuation, curation, the two labeled sets
     (synthesis and remix), the AI-use review (who uses the AI tool), and the record review
-    (corrections, holds, withdrawals, consistency checks), followed by public terminology,
+    (corrections, holds, withdrawals, consistency checks), followed by public terminology and entry-license scope clarification,
     are applied in that order before fingerprinting. Each page receives
     a small JSON manifest naming its data files and scripts; src/js/boot.js fetches the
     data and then runs the scripts in order.
@@ -37,6 +37,7 @@ from tiers import tiered_files  # noqa: E402
 from ai_use import ai_use_files  # noqa: E402
 from record_review import record_review_files  # noqa: E402
 from terminology import terminology_files  # noqa: E402
+from license_scope import license_scope_files  # noqa: E402
 
 MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August", "September",
           "October", "November", "December")
@@ -93,10 +94,12 @@ def build(out):
             public_data, ROOT / "content" / "record-review.json")
         public_data, terminology = terminology_files(
             public_data, ROOT / "content" / "terminology.json")
+        public_data, license_scope, tool_license = license_scope_files(
+            public_data, ROOT / "content" / "tool-license.json")
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
     # The date the collection last changed: the release, or the latest reviewed stage after it.
-    changed = max([rel["built"]] + [m["reviewed"] for m in (curation, tiers, ai_use, record_review, terminology)
+    changed = max([rel["built"], license_scope["effective"]] + [m["reviewed"] for m in (curation, tiers, ai_use, record_review, terminology)
                                     if isinstance(m.get("reviewed"), str)])
     year, month = changed[:4], int(changed[5:7])
     updated = "Updated " + MONTHS[month - 1] + " " + year
@@ -174,6 +177,8 @@ def build(out):
                 "data-exclude-hash": "true",
             }
             head.append('<script defer ' + ' '.join(f'{k}="{html.escape(v, quote=True)}"' for k, v in attrs.items()) + '></script>')
+        head.append('<link rel="license" href="' + tool_license["url"] + '"/>')
+        head.append('<meta name="dcterms.rights" content="' + html.escape(tool_license["scope"] + ": " + tool_license["label"] + ". " + tool_license["exceptions"], quote=True) + '"/>')
         styles = []
         for f in ("barlow-400-latin.woff2", "barlow-condensed-700-latin.woff2"):
             styles.append(f'<link rel="preload" href="{a("fonts/" + f)}" as="font" type="font/woff2" crossorigin/>')
@@ -183,7 +188,7 @@ def build(out):
             styles.append(f'<link rel="stylesheet" href="{a("css/" + c + ".css")}"/>')
         scripts = ""
         if page.get("scripts"):
-            man = {"release": rel["release"],
+            man = {"release": rel["release"], "toolLicense": tool_license,
                    "data": {d: a("data/" + d + ".json") for d in page.get("data", [])},
                    "scripts": [a("js/" + s + ".js") for s in page["scripts"]]}
             scripts = ('<script id="site-manifest" type="application/json">' + json.dumps(man, separators=(",", ":")) + "</script>\n"
@@ -196,6 +201,7 @@ def build(out):
             if kind == "scripts": return scripts
             if kind == "root": return root
             if kind == "updated": return updated
+            if kind == "license": return html.escape(tool_license[arg], quote=True)
             if kind == "companion": return html.escape(page["companion"][arg], quote=True)
             if kind == "asset": return a(arg)
             if kind == "partial": return (SRC / "partials" / arg).read_text(encoding="utf-8").rstrip("\n")
@@ -227,6 +233,8 @@ def build(out):
                                                   "ai_use": ai_use,
                                                   "record_review": record_review,
                                                   "terminology": terminology,
+                                                  "license_scope": license_scope,
+                                                  "tool_license": tool_license,
                                                   "assets": dict(sorted(site.map.items()))}, indent=1) + "\n", encoding="utf-8")
     return site, rel
 

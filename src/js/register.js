@@ -276,6 +276,7 @@ function openType(key, opener){
         return '<div class="type-info__row"><dt>'+esc(row[0])+'</dt><dd>'+esc(row[1])+'</dd></div>';
       }).join('')+'</dl></section>'+typeExampleDisclosure(t);
   }
+  h += '<p class="meta-line" data-guide-license>'+esc(window.TOOL_LICENSE.guide_notice)+'</p>';
   typeDialog.querySelector('.dlg__body').innerHTML = h;
   typeDialog.querySelector('.dlg__foot').innerHTML = typeActivityLink(t)+'<button type="button" class="btn btn--sm btn--quiet" data-close>Back to types</button>';
   S_.openDialog(typeDialog, opener);
@@ -306,6 +307,7 @@ function drawTypes(){
     '<div class="protocols__head">'+icon('i-bolt')+'<h3 id="h-protocols">Whatever the tool</h3><span class="protocols__tag">Applies to every type</span></div>'+
     '<div class="protocols__screen"><ul class="protocols__list">'+
     T.general.map(function(g){ return '<li><span class="lamp lamp--on" aria-hidden="true"></span><span>'+esc(g)+'</span></li>'; }).join('')+'</ul></div></section>';
+  h += '<p class="meta-line" data-guide-license>'+esc(window.TOOL_LICENSE.guide_notice)+'</p>';
   document.getElementById('ai-types').innerHTML = h;
 }
 
@@ -344,6 +346,7 @@ function drawPolicies(){
   h += '<p class="polsrc">Examples are drawn from <a href="'+esc(P.source.url)+'" target="_blank" rel="noopener noreferrer">'+esc(P.source.name)+
     '<span class="sr-only"> (opens in a new tab)</span></a>, '+esc(P.source.who)+'. Each quotation keeps the instructor, course, institution, and the license its contributor chose; excerpts are condensed. '+
     'For guidance at Lewis, see <a href="'+esc(P.local.url)+'" target="_blank" rel="noopener noreferrer">'+esc(P.local.label)+'<span class="sr-only"> (opens in a new tab)</span></a>.</p>';
+  h += '<p class="meta-line" data-policy-license>'+esc(window.TOOL_LICENSE.guide_notice)+'</p>';
   document.getElementById('policies').innerHTML = h;
 }
 function selectPol(key, focus){
@@ -370,7 +373,7 @@ function drawSources(){
         return '<div><dt>'+esc(t[1])+' <span class="tag">'+t[3]+'</span></dt><dd>'+esc(t[2])+'</dd></div>'; }).join('')+'</dl>' : '')+
     '<p class="muted">Use-case ideas adapt only works published under a Creative Commons license or another open license, and keep the original license, with any ShareAlike or NonCommercial terms, when they are reused. '+
     'Some synthesis use-case ideas also use a published source item as is, by link; the item keeps its own terms, which may rule out adapting it, and the use-case idea says what using it requires. '+
-    'Works cited for their ideas alone also keep their own terms.</p></details>';
+    'Works cited for their ideas alone also keep their own terms.</p><p class="muted" data-source-license>'+esc(window.TOOL_LICENSE.exceptions)+'</p></details>';
   h += '<p class="countline">'+(q ? '<strong>'+list.length+'</strong> of '+R.works.length+' sources match “'+esc(q)+'”. <button type="button" class="btn btn--sm btn--quiet" id="clearSrcSearch">Show all sources</button>'
                                    : '<strong>'+list.length+'</strong> sources.')+'</p>';
   if(!list.length){ document.getElementById('sources').innerHTML = h + '<div class="empty"><strong>No sources match that search</strong></div>'; return; }

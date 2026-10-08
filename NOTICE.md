@@ -1,36 +1,65 @@
 # Notices
 
-## Site content
+## Tools and original presentation
 
-- The collection's own editorial text is licensed
-  [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/), as the page footers
-  state. That covers the page copy, the interface text, the use-case idea write-ups and the guides.
-- **Each use-case idea keeps its source's license.** Each page shows the source, the license and its
-  deed, the attribution to keep, and how the version here differs from the source.
-- Use-case ideas adapt only works stating a Creative Commons or other open license, and none adapts
-  a NoDerivatives work. Some synthesis use-case ideas also use a published source item as is, by
-  link, without copying or changing it. That item keeps its own terms, which may give no clear
-  open license, allow no changes, or need a purchase or permission first; the use-case idea says so on
-  its card and its page (the
-  `sa` field; see `content/record-review.json`). Works cited only for their ideas, including some
-  NoDerivatives books, also keep their own terms.
+The original code, interface text, artwork, and collection arrangement of
+**What If AI** and **The Register** are licensed
+[CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/), effective
+October 8, 2026, to the extent Lewis University Library holds the relevant rights.
+See [LICENSE.md](LICENSE.md) for the grant, exceptions, and earlier-release terms.
 
-## Interface artwork
+Covered original code includes `src/js`, `src/css`, `tools/`, `tests/`, and the workflow,
+subject to separately licensed content and third-party components identified below.
+This resolves the earlier notice that the project code had no stated license.
+The license does not grant patent or trademark rights.
 
-The icons (`src/partials/icons.svg`), walkthrough illustrations (`src/partials/tour.html`) and
-metal textures (`src/css/theme-plate.css`) were drawn for this project in SVG and CSS. They fall
-under the site's CC BY-NC-SA 4.0 license.
+## Use-case ideas and included information
 
-## Fonts
+**Every use-case idea retains its existing license or rights status.** This includes
+licensed adaptations, original synthesis, hybrid synthesis, and remixes. The entry's
+license name, version, URL, source license statement, attribution, and reuse conditions
+continue to govern that entry. The tools' NoDerivatives term does not apply to entries
+or other independently licensed content.
 
-The site includes, unmodified, Barlow, Barlow Condensed and JetBrains Mono (woff2, latin and
-latin-ext subsets, as distributed by Google Fonts). They are under the SIL Open Font License 1.1;
-see `src/fonts/OFL-*.txt`, which are published beside the fonts.
+The Library's existing AI-system guide descriptions, product notes, catalog information,
+and explanatory data remain CC BY-NC-SA 4.0 unless an item states different terms.
+This includes the editorial product examples in `src/js/register-type-examples.js`.
+Quotations, source-provided prompts, policy examples, and other contributions retain
+their own licenses. A Creative Commons label is not imposed on public-domain material,
+software-licensed records, non-CC permissions, or sources with no stated open license.
 
-## Software
+Some synthesis entries use a source item as published, by link. The source keeps its
+own terms, which may allow no changes, offer no clear open license, or require access
+or permission. The source-access label and source record describe that distinction.
+Works cited only for ideas also keep their own terms. No source or use-case idea is
+relicensed through a site-wide footer or a saved-selection printout.
 
-- The code (`src/js`, `src/css`, `tools/`, `tests/`, the workflow) has no license file yet.
-  Choosing one is a decision for the Lewis University Library.
-- The browser tests use third-party packages that are never bundled into the site:
-  - `playwright` 1.56.0 (Apache-2.0);
-  - `@axe-core/playwright` 4.13.0 and axe-core (MPL-2.0).
+## Artwork, badges, and logos
+
+Original interface icons (`src/partials/icons.svg`), walkthrough illustrations
+(`src/partials/tour.html` and `src/partials/register-tour.html`), and CSS textures are
+covered by the tool license, except for separately identified third-party material.
+
+The unmodified CC BY-NC-ND badge in `src/img/cc-by-nc-nd.png` comes from the
+[Creative Commons downloads page](https://creativecommons.org/mission/downloads/),
+which links to [this badge file](https://licensebuttons.net/l/by-nc-nd/3.0/88x31.png).
+The artwork itself displays no version; the adjacent text and deed link identify 4.0.
+Creative Commons marks follow its [trademark policy](https://creativecommons.org/policies/).
+The Lewis University Library logo remains subject to its owner's rights. Neither
+logo nor the CC badge is relicensed as original tool artwork.
+
+## Fonts and third-party software
+
+The unmodified Barlow, Barlow Condensed, and JetBrains Mono fonts retain SIL OFL 1.1.
+Their `src/fonts/OFL-*.txt` notices are published beside the fonts.
+
+Development dependencies retain their own licenses and are not bundled into the site:
+`playwright` 1.56.0 is Apache-2.0; `@axe-core/playwright` 4.13.0 and axe-core are MPL-2.0.
+The package manifests point to `LICENSE.md` so a package-level label does not conceal
+these component exceptions. External services and linked resources keep their own terms.
+
+## Prior permissions
+
+The change is prospective. Earlier CC BY-NC-SA 4.0 grants remain in effect for the
+material already offered under them. Historical data manifests and review records
+keep their original wording as evidence of those releases.

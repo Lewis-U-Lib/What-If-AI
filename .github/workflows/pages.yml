@@ -42,6 +42,8 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Site checks (fingerprints, CSP, loading states, determinism)
         run: node tests/site.test.js
+      - name: Tool license and all included-material rights
+        run: npm run test:licensing
       - name: Matching rules, recovery, ranking and broken links
         run: npm run test:matching
       - name: Page behavior

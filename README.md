@@ -64,10 +64,13 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
   editorially to a source without AI, and refuses records in which who uses AI, the tool needed,
   and the AI role disagree. Held and withdrawn records stay intact in the earlier stages. Both
   tools serve **1,033 use-case ideas / 618 sources**.
-- `content/terminology.json` is the final presentation stage. It changes collection-authored
+- `content/terminology.json` is the terminology stage. It changes collection-authored
   wording to **use-case idea / use-case ideas**, preserving source quotations, titles, citations,
   licenses, identifiers, and earlier review records. Its pinned input and output hashes make
   future source-boundary changes explicit. See [the terminology record](docs/TERMINOLOGY-2026-10-07.md).
+- `content/tool-license.json` defines the tools’ CC BY-NC-ND 4.0 license and its
+  explicit content exceptions. A final scope pass clarifies 244 entry notes without
+  changing any entry or source license. See [the licensing review](docs/TOOL-LICENSE-2026-10-08.md).
 - `src/` holds the pages, partials, CSS, JS, fonts, and images.
 - `tools/build.py` turns `src/` and `data/` into `_site/`, fingerprinting every asset. It needs
   only Python 3.
@@ -149,5 +152,8 @@ verify the same use-case idea details in both tools. Matching tests read the bui
 
 ## Licenses
 
-See [NOTICE.md](NOTICE.md). The site content is CC BY-NC-SA 4.0; each use-case idea keeps its
-source's license and attribution. The fonts are SIL OFL 1.1.
+The original tools are **CC BY-NC-ND 4.0**, with explicit exceptions in
+[LICENSE.md](LICENSE.md) and [NOTICE.md](NOTICE.md). Every use-case idea keeps its
+existing license, including synthesis and remix entries. Separately licensed guide
+content, policy quotations, sources, fonts, and dependencies retain their own terms.
+Earlier CC BY-NC-SA permissions remain in effect for earlier releases.

@@ -49,10 +49,12 @@ const ANALYTICS = CFG.analytics;
   const aiUse = require('../content/ai-use.json');
   const recordReview = require('../content/record-review.json');
   const terminology = require('../content/terminology.json');
+  const toolLicense = require('../content/tool-license.json');
   check('the imported data release remains unchanged', Object.entries(release.files).every(([name, meta]) =>
     sha(fs.readFileSync(path.join(ROOT, 'data', name))) === meta.sha256));
-  check('public data matches the reviewed output hashes of the last stage (public terminology)', ['acts', 'register', 'guide'].every(n => {
-    const f = files.find(x => x.startsWith('data/' + n + '.')); return f && sha(fs.readFileSync(path.join(SITE, f))) === terminology.output_sha256[n + '.json']; }));
+  check('public data matches the reviewed output hashes of the last stage (license-scope clarification)', ['acts', 'register', 'guide'].every(n => {
+    const f = files.find(x => x.startsWith('data/' + n + '.')); return f && sha(fs.readFileSync(path.join(SITE, f))) === toolLicense.output_sha256[n + '.json']; }));
+  check('the license-scope pass starts from the terminology output', JSON.stringify(toolLicense.input_sha256) === JSON.stringify(terminology.output_sha256));
   check('the terminology pass starts from the record review', JSON.stringify(terminology.input_sha256) === JSON.stringify(recordReview.output_sha256));
   check('the record review starts from the data with its AI-use review', JSON.stringify(recordReview.input_sha256) === JSON.stringify(aiUse.output_sha256));
   check('the record-review manifest (holds, withdrawals, evidence, flags) is not published', !files.some(f => /record-review/.test(f)), files.filter(f => f.startsWith('data/')).join(' '));
@@ -89,6 +91,10 @@ const ANALYTICS = CFG.analytics;
   check('version.json identifies the terminology revision and changed fields', v.terminology.reviewed === terminology.reviewed &&
     v.terminology.changed_fields === terminology.changed_fields &&
     v.terminology.revision === sha(fs.readFileSync(path.join(ROOT, 'content/terminology.json'))).slice(0, 12));
+
+  check('version.json identifies the scoped tool license and unchanged entry licenses',
+    JSON.stringify(v.tool_license) === JSON.stringify(toolLicense.tool_license) && v.license_scope.clarified_notes === 244 &&
+    v.license_scope.revision === sha(fs.readFileSync(path.join(ROOT, 'content/tool-license.json'))).slice(0, 12));
 
   // determinism: two builds of the same inputs are byte-identical
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'wia-')), t1 = path.join(tmp, 'a'), t2 = path.join(tmp, 'b');
