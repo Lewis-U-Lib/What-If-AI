@@ -352,7 +352,7 @@
   "no_ai": {
     "name": "Teaching with no student AI tool use",
     "preview": "Choose a participation route in which students do not operate an AI tool.",
-    "text": "This is a teaching choice, not a type of AI. In this collection, the filter identifies use-case ideas where students do not operate an AI tool themselves. An instructor may still prepare AI-generated material for students to examine.",
+    "text": "This is a teaching choice, not a type of AI. The filter identifies use-case ideas in which students can participate without operating an AI tool themselves. This includes instructor-prepared AI material, optional AI steps, and described routes that work without AI.",
     "rationale": {
       "text": "Deciding whether AI is appropriate belongs to the design of the learning task. UNESCO emphasizes human agency and educational suitability; NIST calls for considering whether AI is appropriate or necessary for the context.",
       "refs": [
