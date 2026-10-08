@@ -281,8 +281,7 @@ function openType(key, opener){
     h += typeParagraph(R.types.no_ai.rationale)+'<p>'+esc(R.types.no_ai.suggestion)+'</p>';
     cited = R.types.no_ai.rationale.refs;
   }
-  h += '<section class="type-evidence" aria-labelledby="typeEvidenceHeading"><h3 id="typeEvidenceHeading">Sources for this explanation</h3>'+typeReferences(cited)+
-    '<p class="type-evidence-note">'+esc(R.types.scope)+'</p><p class="type-evidence-note">Source check: '+esc(R.types.reviewed_label)+'.</p></section>';
+  h += '<section class="type-evidence" aria-labelledby="typeEvidenceHeading"><h3 id="typeEvidenceHeading">Sources for this explanation</h3>'+typeReferences(cited)+'</section>';
   h += '<p class="meta-line" data-guide-license>'+esc(window.TOOL_LICENSE.guide_notice)+'</p>';
   typeDialog.querySelector('.dlg__body').innerHTML = h;
   typeDialog.querySelector('.dlg__foot').innerHTML = typeActivityLink(t)+'<button type="button" class="btn btn--sm btn--quiet" data-close>Back to types</button>';
@@ -306,7 +305,6 @@ function drawTypes(){
   var T = R.types;
   var h = '<div class="sec-head"><div class="sec-eyebrow">A guide with sources</div><h2 id="h-ai-types" tabindex="-1">'+esc(T.title)+'</h2>'+
     T.intro.map(typeParagraph).join('')+'</div>';
-  h += '<aside class="type-provenance" aria-label="Guide provenance"><p><strong>About this revision.</strong> '+esc(T.provenance)+'</p><p>'+esc(T.scope)+'</p></aside>';
   h += '<p class="type-grid-guide">Choose a card for an explanation, supporting sources, and linked product examples. Full guide references appear below.</p>';
   T.groups.forEach(function(group){
     h += '<section class="type-group" aria-labelledby="tg-'+group.key+'"><h3 id="tg-'+group.key+'">'+esc(group.name)+'</h3><p class="type-group-intro">'+esc(group.description)+'</p><div class="types types--compact">';
@@ -320,7 +318,7 @@ function drawTypes(){
     '<div class="protocols__head">'+icon('i-bolt')+'<h3 id="h-protocols">Whatever the tool</h3><span class="protocols__tag">Practical recommendations</span></div>'+
     '<div class="protocols__screen"><ul class="protocols__list">'+
     T.general.map(function(g){ return '<li><span class="lamp lamp--on" aria-hidden="true"></span><span>'+esc(g.text)+typeCitations(g.refs)+'</span></li>'; }).join('')+'</ul></div></section>';
-  h += '<section class="type-bibliography" aria-labelledby="typeReferencesHeading"><h3 id="typeReferencesHeading">Sources for this guide</h3><p>These references support the AI explanations above. They are separate from the collection’s use-case source bibliography. Product links are examples, not evidence for the whole category.</p><p>'+esc(T.review_status)+'</p>'+typeReferences()+'</section>';
+  h += '<section class="type-bibliography" aria-labelledby="typeReferencesHeading"><h3 id="typeReferencesHeading">Sources for this guide</h3><p>These references support the AI explanations above. They are separate from the collection’s use-case source bibliography. Product links are examples, not evidence for the whole category.</p><p>'+esc(T.scope)+'</p>'+typeReferences()+'</section>';
   h += '<p class="meta-line" data-guide-license>'+esc(window.TOOL_LICENSE.guide_notice)+'</p>';
   document.getElementById('ai-types').innerHTML = h;
 }
