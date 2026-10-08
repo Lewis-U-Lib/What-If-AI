@@ -9,7 +9,7 @@ const out=process.env.TYPE_SCREENSHOTS;
 if(out) fs.mkdirSync(out,{recursive:true});
 const SITE=path.resolve(process.argv[2] || path.join(__dirname,'..','_site'));
 let server=null;
-// The approved public descriptions include the reviewed punctuation layer.
+// Public descriptions include the sourced guide; classification links stay upstream-owned.
 const version=JSON.parse(fs.readFileSync(path.join(SITE,'version.json')));
 const source=JSON.parse(fs.readFileSync(path.join(SITE,version.assets['data/register.json']))).types;
 async function screenshot(page,name){if(out) await page.screenshot({path:path.join(out,name)});}
@@ -24,6 +24,13 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
  await page.addInitScript(()=>document.addEventListener('securitypolicyviolation',e=>{(window.typeCspErrors=window.typeCspErrors||[]).push(e.violatedDirective);}));
  await page.goto(server.url('register.html#ai-types'));await page.waitForSelector('html[data-ready]');await page.evaluate(()=>document.fonts.ready);
  assert.equal(await page.locator('[data-open-type]').count(),12);
+ assert.equal(await page.locator('.type-group').count(),3);
+ assert.deepEqual(await page.locator('[aria-labelledby="tg-choices"] [data-open-type]').evaluateAll(ns=>ns.map(n=>n.dataset.openType)),['institutional','noai']);
+ assert.equal(await page.locator('.type-bibliography .type-sources li').count(),source.sources.length);
+ assert.ok((await page.locator('.type-provenance').textContent()).includes('do not establish the sources of the earlier'));
+ for(const s of source.sources){
+   assert.equal(await page.locator('.type-bibliography li[value="'+s.id+'"] a').getAttribute('href'),s.url);
+ }
  await page.locator('.type-grid-guide').evaluate(n=>scrollTo({top:n.getBoundingClientRect().top+scrollY-100,behavior:'instant'}));
  await screenshot(page,'register-type-popups-grid.png');
  const results={types:[],widths:[],errors};
@@ -34,8 +41,13 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
    await page.keyboard.press('Enter');await tick(page);
    assert.equal(await page.locator('#aiTypeDialog').getAttribute('open'),'');
    assert.equal(await page.locator('#aiTypeDialogTitle').textContent(),t.name);
-   assert.equal(await page.locator('.type-dialog__description').textContent(),t.what);
-   assert.deepEqual(await page.locator('.type-info dd').allTextContents(),[t.does,t.io,t.why,t.limits]);
+   assert.equal(await page.locator('.type-dialog__description .type-field-text').textContent(),t.what);
+   assert.deepEqual(await page.locator('.type-info dd .type-field-text').allTextContents(),[t.does,t.io,t.why,t.limits]);
+   const cited=[...new Set(Object.values(t.citations).flat())].sort((a,b)=>a-b);
+   assert.deepEqual(await page.locator('#aiTypeDialog .type-sources li').evaluateAll(ns=>ns.map(n=>Number(n.value))),cited);
+   assert.ok(await page.locator('#aiTypeDialog .type-cite').count()>0);
+   assert.equal(await page.locator('.type-example .type-cite').count(),0);
+   assert.ok(await page.locator('#aiTypeDialog .type-cite').evaluateAll(ns=>ns.every(n=>n.getAttribute('aria-label').includes('Source ')&&n.getAttribute('aria-label').includes('opens in a new tab'))));
    assert.equal(await page.locator('.type-example-disclosure').getAttribute('open'),null);
    assert.equal(await page.locator('.type-example').first().isVisible(),false);
    const ordered=await page.locator('#aiTypeDialog').evaluate(n=>{const els=[n.querySelector('h2'),n.querySelector('.type-dialog__description'),n.querySelector('.type-info'),n.querySelector('.type-example-disclosure')];return els.slice(1).every((e,i)=>!!(els[i].compareDocumentPosition(e)&Node.DOCUMENT_POSITION_FOLLOWING));});
@@ -61,7 +73,9 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
    results.types.push({key:t.key,detailsPreserved:true,examplesInitiallyHidden:true,modalStable:true,pageStable:true});
  }
  await page.locator('[data-open-type="noai"]').click();
- assert.equal(await page.locator('.type-dialog__description').textContent(),source.no_ai.text);
+ assert.equal(await page.locator('.type-dialog__description .type-field-text').textContent(),source.no_ai.text);
+ assert.equal(await page.locator('#aiTypeDialog .kicker').textContent(),'Access and teaching choices');
+ assert.equal(await page.locator('#aiTypeDialog .type-sources li').count(),2);
  await page.keyboard.press('Escape');await tick(page);
  for(const width of [1440,1024,768,761,760,700,650,390,320]){
    await page.setViewportSize({width,height:900});

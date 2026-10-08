@@ -209,20 +209,18 @@ function resetF(){ var s = F.sort; F = {q:'', set:'', focus:'', task:'', theme:'
 
 /* ═════════════ types of AI systems ═════════════ */
 /* Compact type cards share one modal; the page grid stays in place. */
-var TYPE_PREVIEWS = {
-  conversational:'Text conversations for drafting, explaining, and exploring ideas.',
-  grounded:'Questions and answers grounded in documents you supply.',
-  search:'Web and scholarly search with synthesized, source-linked answers.',
-  multimodal:'Systems that interpret photos, charts, scans, and other visual inputs.',
-  image:'New images and visual variations from prompts or reference images.',
-  video:'Generated video clips, animated scenes, and synthetic presenters.',
-  audio:'Transcription, spoken narration, synthetic voices, and music.',
-  code:'Help writing code, analyzing datasets, and producing charts.',
-  agentic:'Multi-step tasks that connect tools, files, and applications.',
-  institutional:'AI accessed through an institution or hosted on controlled infrastructure.',
-  discipline:'Specialized models for research, prediction, and domain-specific analysis.',
-  noai:'Use-case ideas in which students never operate an AI tool themselves.'
-};
+function typeCitations(refs){
+  return (refs || []).map(function(id){
+    var s = R.types.sources.filter(function(x){return x.id===id;})[0];
+    return '<a class="type-cite" href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Source '+id+': '+esc(s.title)+' (opens in a new tab)">['+id+']</a>';
+  }).join('');
+}
+function typeParagraph(p){return '<p>'+esc(p.text)+typeCitations(p.refs)+'</p>';}
+function typeReferences(ids){
+  return '<ol class="type-sources">'+R.types.sources.filter(function(s){return !ids || ids.indexOf(s.id)!==-1;}).map(function(s){
+    return '<li value="'+s.id+'"><a href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer">'+esc(s.title)+'<span class="sr-only"> (opens in a new tab)</span></a><span class="type-source-kind">'+esc(s.kind)+'</span><p>'+esc(s.locator)+'</p></li>';
+  }).join('')+'</ol>';
+}
 var typeDialog = document.getElementById('aiTypeDialog');
 var typeReturn = null;
 var typeNavigating = false;
@@ -269,13 +267,22 @@ function openType(key, opener){
   typeDialog.setAttribute('data-type', key);
   typeDialog.querySelector('[data-type-icon]').innerHTML = icon(t.icon);
   typeDialog.querySelector('[data-dlg-title]').textContent = t.name;
-  var h = '<p class="type-dialog__description">'+esc(t.what)+'</p>';
+  typeDialog.querySelector('.kicker').textContent = key==='noai' || key==='institutional' ? 'Access and teaching choices' : 'Types of AI systems';
+  var refs = t.citations || {};
+  var h = '<p class="type-dialog__description"><span class="type-field-text">'+esc(t.what)+'</span>'+typeCitations(refs.what)+'</p>';
+  var cited = [];
   if(key!=='noai'){
-    h += '<section class="type-info" aria-labelledby="typeMoreHeading"><h3 id="typeMoreHeading">More about this type</h3><dl>'+
-      [['What it does',t.does],['Inputs and outputs',t.io],['Where faculty encounter it',t.why],['Limitations and considerations',t.limits]].map(function(row){
-        return '<div class="type-info__row"><dt>'+esc(row[0])+'</dt><dd>'+esc(row[1])+'</dd></div>';
+    h += '<section class="type-info" aria-labelledby="typeMoreHeading"><h3 id="typeMoreHeading">'+(key==='institutional'?'More about this choice':'More about this type')+'</h3><dl>'+
+      [['What it does','does'],['Inputs and outputs','io'],['Illustrative faculty use','why'],['Limits and practical checks','limits']].map(function(row){
+        return '<div class="type-info__row"><dt>'+esc(row[0])+'</dt><dd><span class="type-field-text">'+esc(t[row[1]])+'</span>'+typeCitations(refs[row[1]])+'</dd></div>';
       }).join('')+'</dl></section>'+typeExampleDisclosure(t);
+    Object.keys(refs).forEach(function(field){cited=cited.concat(refs[field]);});
+  } else {
+    h += typeParagraph(R.types.no_ai.rationale)+'<p>'+esc(R.types.no_ai.suggestion)+'</p>';
+    cited = R.types.no_ai.rationale.refs;
   }
+  h += '<section class="type-evidence" aria-labelledby="typeEvidenceHeading"><h3 id="typeEvidenceHeading">Sources for this explanation</h3>'+typeReferences(cited)+
+    '<p class="type-evidence-note">'+esc(R.types.scope)+'</p><p class="type-evidence-note">Source check: '+esc(R.types.reviewed_label)+'.</p></section>';
   typeDialog.querySelector('.dlg__body').innerHTML = h;
   typeDialog.querySelector('.dlg__foot').innerHTML = typeActivityLink(t)+'<button type="button" class="btn btn--sm btn--quiet" data-close>Back to types</button>';
   S_.openDialog(typeDialog, opener);
@@ -291,21 +298,28 @@ document.addEventListener('click', function(e){
 
 function typeCard(t){
   return '<article class="type type--compact" aria-labelledby="ty-'+t.key+'"><div class="type__head"><div class="type__icon" aria-hidden="true">'+icon(t.icon)+'</div>'+
-    '<h3 id="ty-'+t.key+'"><button type="button" class="type-launch" data-open-type="'+t.key+'" aria-haspopup="dialog" aria-controls="aiTypeDialog" aria-describedby="ty-desc-'+t.key+'">'+esc(t.name)+'</button></h3></div>'+
-    '<p id="ty-desc-'+t.key+'" class="type-preview">'+esc(TYPE_PREVIEWS[t.key] || t.what || '')+'</p><div class="type-launch-hint" aria-hidden="true">Explore this type <span>↗</span></div></article>';
+    '<h4 id="ty-'+t.key+'"><button type="button" class="type-launch" data-open-type="'+t.key+'" aria-haspopup="dialog" aria-controls="aiTypeDialog" aria-describedby="ty-desc-'+t.key+'">'+esc(t.name)+'</button></h4></div>'+
+    '<p id="ty-desc-'+t.key+'" class="type-preview">'+esc(t.preview)+'</p><div class="type-launch-hint" aria-hidden="true">'+(t.key==='institutional'||t.key==='noai'?'Explore this choice':'Explore this type')+' <span>↗</span></div></article>';
 }
 function drawTypes(){
   var T = R.types;
-  var h = '<div class="sec-head"><div class="sec-eyebrow">Platform-neutral</div><h2 id="h-ai-types" tabindex="-1">Types of AI systems</h2>'+
-    T.intro.map(function(p){ return '<p>'+esc(p)+'</p>'; }).join('')+'</div>';
-  h += '<p class="type-grid-guide">Choose a type to see what it does, where faculty encounter it, and current examples.</p>';
-  h += '<div class="types types--compact">'+T.types.map(typeCard).join('');
-  h += typeCard({key:'noai',name:T.no_ai.name,icon:'i-robot-off'});
-  h += '</div>';
+  var h = '<div class="sec-head"><div class="sec-eyebrow">A guide with sources</div><h2 id="h-ai-types" tabindex="-1">'+esc(T.title)+'</h2>'+
+    T.intro.map(typeParagraph).join('')+'</div>';
+  h += '<aside class="type-provenance" aria-label="Guide provenance"><p><strong>About this revision.</strong> '+esc(T.provenance)+'</p><p>'+esc(T.scope)+'</p></aside>';
+  h += '<p class="type-grid-guide">Choose a card for an explanation, supporting sources, and linked product examples. Full guide references appear below.</p>';
+  T.groups.forEach(function(group){
+    h += '<section class="type-group" aria-labelledby="tg-'+group.key+'"><h3 id="tg-'+group.key+'">'+esc(group.name)+'</h3><p class="type-group-intro">'+esc(group.description)+'</p><div class="types types--compact">';
+    group.keys.forEach(function(key){
+      var t = key==='noai' ? {key:key,name:T.no_ai.name,preview:T.no_ai.preview,icon:'i-robot-off'} : T.types.filter(function(x){return x.key===key;})[0];
+      h += typeCard(t);
+    });
+    h += '</div></section>';
+  });
   h += '<section class="protocols" aria-labelledby="h-protocols"><span class="current current--console" aria-hidden="true"></span>'+
-    '<div class="protocols__head">'+icon('i-bolt')+'<h3 id="h-protocols">Whatever the tool</h3><span class="protocols__tag">Applies to every type</span></div>'+
+    '<div class="protocols__head">'+icon('i-bolt')+'<h3 id="h-protocols">Whatever the tool</h3><span class="protocols__tag">Practical recommendations</span></div>'+
     '<div class="protocols__screen"><ul class="protocols__list">'+
-    T.general.map(function(g){ return '<li><span class="lamp lamp--on" aria-hidden="true"></span><span>'+esc(g)+'</span></li>'; }).join('')+'</ul></div></section>';
+    T.general.map(function(g){ return '<li><span class="lamp lamp--on" aria-hidden="true"></span><span>'+esc(g.text)+typeCitations(g.refs)+'</span></li>'; }).join('')+'</ul></div></section>';
+  h += '<section class="type-bibliography" aria-labelledby="typeReferencesHeading"><h3 id="typeReferencesHeading">Sources for this guide</h3><p>These references support the AI explanations above. They are separate from the collection’s use-case source bibliography. Product links are examples, not evidence for the whole category.</p><p>'+esc(T.review_status)+'</p>'+typeReferences()+'</section>';
   document.getElementById('ai-types').innerHTML = h;
 }
 
