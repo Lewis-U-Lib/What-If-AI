@@ -27,7 +27,9 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
  assert.equal(await page.locator('.type-group').count(),3);
  assert.deepEqual(await page.locator('[aria-labelledby="tg-choices"] [data-open-type]').evaluateAll(ns=>ns.map(n=>n.dataset.openType)),['institutional','noai']);
  assert.equal(await page.locator('.type-bibliography .type-sources li').count(),source.sources.length);
- assert.ok((await page.locator('.type-provenance').textContent()).includes('do not establish the sources of the earlier'));
+ assert.equal(await page.locator('.type-provenance').count(),0);
+ assert.ok((await page.locator('.type-bibliography').textContent()).includes(source.scope));
+ assert.equal((await page.locator('#ai-types').textContent()).includes('Source check:'),false);
  for(const s of source.sources){
    assert.equal(await page.locator('.type-bibliography li[value="'+s.id+'"] a').getAttribute('href'),s.url);
  }
@@ -45,6 +47,7 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
    assert.deepEqual(await page.locator('.type-info dd .type-field-text').allTextContents(),[t.does,t.io,t.why,t.limits]);
    const cited=[...new Set(Object.values(t.citations).flat())].sort((a,b)=>a-b);
    assert.deepEqual(await page.locator('#aiTypeDialog .type-sources li').evaluateAll(ns=>ns.map(n=>Number(n.value))),cited);
+   assert.equal((await page.locator('#aiTypeDialog').textContent()).includes('Source check:'),false);
    assert.ok(await page.locator('#aiTypeDialog .type-cite').count()>0);
    assert.equal(await page.locator('.type-example .type-cite').count(),0);
    assert.ok(await page.locator('#aiTypeDialog .type-cite').evaluateAll(ns=>ns.every(n=>n.getAttribute('aria-label').includes('Source ')&&n.getAttribute('aria-label').includes('opens in a new tab'))));

@@ -47,6 +47,17 @@ terminology stage; non-type fields in `register.json` remain structurally identi
 
 ## Validation
 
+### Presentation display adjustment
+
+At the owner's request on October 8, the public guide temporarily omits the
+"About this revision" callout and source-check notes. The foundational-studies,
+preprint, and editorial-suggestion caveats now appear together under "Sources for
+this guide" instead of being repeated in each type dialog. Citations and reference
+lists remain visible. The provenance and review-status fields remain in
+`content/ai-type-guide.json` and this documentation for later restoration.
+
+### Checks
+
 The new unit tests check corpus preservation, complete source mappings, and separation of
 access/teaching choices. The dialog suite checks rendered reference URLs and IDs, source
 visibility, links-only product examples, keyboard focus, scroll restoration, related-idea
