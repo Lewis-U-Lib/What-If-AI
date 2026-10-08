@@ -1,7 +1,7 @@
 # Tool license and included-material rights
 
 Effective October 8, 2026. Reviewed against the published version at
-`0c29104c26b34d0abaeb6c5d6cf9e540fb6e4229`.
+`997e503ae649890cca4b509550de9818eca5a89d`.
 
 What If AI and The Register now offer their original tool code, interface text,
 artwork, and collection arrangement under **CC BY-NC-ND 4.0**. The prior notice
@@ -52,6 +52,9 @@ A final build stage changes only `licn` on 244 entries. Previously these notes
 said that an entry carried “the collection’s CC BY-NC-SA 4.0 license.” They now
 identify CC BY-NC-SA 4.0 as the entry's **own retained license**. The actual license,
 version, URL, and conditions do not change.
+
+The scope pass follows the sourced AI-guide revision merged in PR #14. Its sixteen
+references and all of its paraphrases and citation mappings are preserved unchanged.
 
 The manifest records four exact before/after wordings, expected occurrence counts
 (108, 20, 112, and 4), every affected identifier, and the input/output hashes.

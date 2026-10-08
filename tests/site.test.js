@@ -52,9 +52,13 @@ const ANALYTICS = CFG.analytics;
   const toolLicense = require('../content/tool-license.json');
   check('the imported data release remains unchanged', Object.entries(release.files).every(([name, meta]) =>
     sha(fs.readFileSync(path.join(ROOT, 'data', name))) === meta.sha256));
+  const typeGuide = JSON.parse(fs.readFileSync(path.join(SITE, 'version.json'))).ai_type_guide;
   check('public data matches the reviewed output hashes of the last stage (license-scope clarification)', ['acts', 'register', 'guide'].every(n => {
     const f = files.find(x => x.startsWith('data/' + n + '.')); return f && sha(fs.readFileSync(path.join(SITE, f))) === toolLicense.output_sha256[n + '.json']; }));
-  check('the license-scope pass starts from the terminology output', JSON.stringify(toolLicense.input_sha256) === JSON.stringify(terminology.output_sha256));
+  check('the license-scope pass starts from the sourced AI guide output', JSON.stringify(toolLicense.input_sha256) === JSON.stringify(typeGuide.output_sha256));
+  check('the AI guide starts from the pinned terminology output', JSON.stringify(typeGuide.input_sha256) === JSON.stringify(terminology.output_sha256));
+  check('the AI guide preserves activities and evaluation guidance byte for byte', ['acts.json','guide.json'].every(n=>typeGuide.input_sha256[n]===typeGuide.output_sha256[n]));
+  check('the AI guide revision matches its content and references', typeGuide.revision === sha(fs.readFileSync(path.join(ROOT,'content/ai-type-guide.json'))).slice(0,12));
   check('the terminology pass starts from the record review', JSON.stringify(terminology.input_sha256) === JSON.stringify(recordReview.output_sha256));
   check('the record review starts from the data with its AI-use review', JSON.stringify(recordReview.input_sha256) === JSON.stringify(aiUse.output_sha256));
   check('the record-review manifest (holds, withdrawals, evidence, flags) is not published', !files.some(f => /record-review/.test(f)), files.filter(f => f.startsWith('data/')).join(' '));

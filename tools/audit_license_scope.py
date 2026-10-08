@@ -25,7 +25,7 @@ def audit(site):
         assert hashlib.sha256(after_raw[name]).hexdigest() == manifest['output_sha256'][name], name
     before = {k: json.loads(v) for k,v in before_raw.items()}
     after = {k: json.loads(v) for k,v in after_raw.items()}
-    entries, sources, quotes = [], [], []
+    entries, sources, quotes, guide_sources = [], [], [], []
     for old, new in zip(before['acts.json']['acts'], after['acts.json']['acts']):
         old_fields = {k:v for k,v in old.items() if k != 'licn'}
         new_fields = {k:v for k,v in new.items() if k != 'licn'}
@@ -47,6 +47,11 @@ def audit(site):
                            'before_sha256':digest(old),'after_sha256':digest(new),'all_fields_unchanged':True})
     assert before_raw['register.json'] == after_raw['register.json']
     assert before_raw['guide.json'] == after_raw['guide.json']
+    for old, new in zip(before['register.json']['types']['sources'], after['register.json']['types']['sources']):
+        assert old == new
+        guide_sources.append({'id':old['id'], 'title':old['title'], 'url':old['url'],
+                              'before_sha256':digest(old), 'after_sha256':digest(new),
+                              'all_fields_unchanged':True})
     assert len(entries) == len(after['acts.json']['acts']) == 1033
     assert len(sources) == len(after['register.json']['works']) == 618
     assert version['tool_license'] == manifest['tool_license']
@@ -54,11 +59,13 @@ def audit(site):
             'tool_license':manifest['tool_license'],'scope_revision':version['license_scope'],
             'summary':{'entries_verified':len(entries),'sources_verified':len(sources),
                        'policy_quotations_verified':len(quotes),'entry_licenses_changed':0,
+                       'ai_guide_references_verified':len(guide_sources),
                        'source_records_changed':0,'clarified_notes':len(manifest['clarified_ids']),
                        'register_and_guide_bytes_unchanged':True,
                        'entry_license_distribution':dict(collections.Counter(e['license'] for e in entries))},
             'public_data_sha256':{'before':manifest['input_sha256'],'after':manifest['output_sha256']},
             'entries':entries,'sources':sources,'policy_quotations':quotes,
+            'ai_guide_references':guide_sources,
             'preserved_component_files':manifest['preserved_files_sha256']}
 
 

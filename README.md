@@ -64,10 +64,14 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
   editorially to a source without AI, and refuses records in which who uses AI, the tool needed,
   and the AI role disagree. Held and withdrawn records stay intact in the earlier stages. Both
   tools serve **1,033 use-case ideas / 618 sources**.
-- `content/terminology.json` is the terminology stage. It changes collection-authored
+- `content/terminology.json` is the pinned terminology stage. It changes collection-authored
   wording to **use-case idea / use-case ideas**, preserving source quotations, titles, citations,
   licenses, identifiers, and earlier review records. Its pinned input and output hashes make
   future source-boundary changes explicit. See [the terminology record](docs/TERMINOLOGY-2026-10-07.md).
+- `content/ai-type-guide.json` replaces the AI guide's prose after that stage. It supplies
+  the grouping, claim citations, source status, and revision provenance while preserving
+  the corpus, source bibliography, related-idea filters, and counts. See
+  [the sourcing record](docs/AI-TYPE-GUIDE-2026-10-08.md).
 - `content/tool-license.json` defines the tools’ CC BY-NC-ND 4.0 license and its
   explicit content exceptions. A final scope pass clarifies 244 entry notes without
   changing any entry or source license. See [the licensing review](docs/TOOL-LICENSE-2026-10-08.md).
@@ -103,12 +107,22 @@ npx playwright install chromium
 npm test        # release check, build, site checks, page behavior, accessibility (axe), contrast
 ```
 
-## Update the AI-system examples
+## Update the AI-system guide and examples
+
+`content/ai-type-guide.json` is the public guide's source of truth. Its ten capability/system
+entries are separate from two access/participation choices. The groupings are an editorial
+synthesis, not a taxonomy attributed to one publication. Citations appear beside claims and
+in each dialog; the full list identifies publication status and the consulted section.
+`docs/research/ai-type-sources.json` records the source IDs and URLs used during research.
+Keep those mappings in sync. The build rejects missing, unknown, and unused references,
+missing explanations, and changes to the related-idea keys.
 
 `src/js/register-type-examples.js` holds the illustrative product names, short capability
 notes, official source links, and their checked date. Review those links when updating
 examples. These are editorial additions to the type guide, separate from the exported
-corpus release. Type descriptions come from the imported release; counts of related use-case ideas reflect the published subset.
+corpus release. Product links need no additional numbered citations. The October 8 guide
+supersedes the imported descriptions; its references establish this revision's basis, not
+the earlier prose's origin. Counts of related use-case ideas reflect the published subset.
 
 The Register shows compact type cards. Opening a card displays the full description and
 details in a fixed-size dialog; current examples start collapsed. The type-dialog test checks
