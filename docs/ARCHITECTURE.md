@@ -53,11 +53,18 @@ That stage leaves 1,078 activities / 637 sources. See [the AI-use record](AI-USE
 
 Both tools serve 1,033 activities / 618 sources. See [the record review](RECORD-REVIEW-2026-10-06.md).
 
-**Public terminology, 2026-10-07:** `tools/terminology.py` runs last. It changes editorial
+**Public terminology, 2026-10-07:** `tools/terminology.py` follows the record review. It changes editorial
 wording to use-case idea / use-case ideas while preserving quoted source language, source titles,
 citations, rights statements, stable identifiers, and the historical review stages. The collection
 remains 1,033 use-case ideas / 618 sources. `version.json` identifies this presentation revision
 separately. See [the terminology record](TERMINOLOGY-2026-10-07.md).
+
+**Sourced AI guide, 2026-10-08:** `tools/ai_type_guide.py` runs after terminology. It replaces
+only `register.types` explanations and adds the guide's references, groups, and provenance.
+It preserves type keys, IDs, capabilities, counts, the full activity corpus, and the activity
+bibliography. The guide references are not added to the activity source count. `version.json`
+records this stage's content revision and input/output hashes. See
+[the sourcing record](AI-TYPE-GUIDE-2026-10-08.md).
 
 **Repository:** `Lewis-U-Lib/What-If-AI`. It publishes to GitHub Pages at
 `https://lewis-u-lib.github.io/What-If-AI/`.

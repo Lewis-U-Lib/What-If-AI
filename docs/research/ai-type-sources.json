@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": 1,
+      "url": "https://www.oecd.org/en/publications/oecd-framework-for-the-classification-of-ai-systems_cb6d9eca-en.html",
+      "title": "OECD (2022). OECD Framework for the Classification of AI systems.",
+      "quotes": [
+        "Data & Input; AI model; and Task & Output."
+      ]
+    },
+    {
+      "id": 2,
+      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+      "title": "NIST (2024). Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile.",
+      "quotes": [
+        "generate and confidently present erroneous or false content in response to prompts."
+      ]
+    },
+    {
+      "id": 3,
+      "url": "https://arxiv.org/abs/1705.09406",
+      "title": "Baltrušaitis, Ahuja, and Morency (2019). Multimodal Machine Learning: A Survey and Taxonomy. IEEE TPAMI.",
+      "quotes": [
+        "Multimodal machine learning aims to build models that can process and relate information from multiple modalities."
+      ]
+    },
+    {
+      "id": 4,
+      "url": "https://arxiv.org/abs/2005.11401",
+      "title": "Lewis et al. (2020). Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks. NeurIPS.",
+      "quotes": [
+        "models which combine pre-trained parametric and non-parametric memory for language generation."
+      ]
+    },
+    {
+      "id": 5,
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html",
+      "title": "Brown et al. (2020). Language Models are Few-Shot Learners. NeurIPS.",
+      "quotes": [
+        "with tasks and few-shot demonstrations specified purely via text interaction with the model."
+      ]
+    },
+    {
+      "id": 6,
+      "url": "https://arxiv.org/abs/2112.10752",
+      "title": "Rombach et al. (2022). High-Resolution Image Synthesis with Latent Diffusion Models. CVPR.",
+      "quotes": [
+        "general conditioning inputs such as text or bounding boxes"
+      ]
+    },
+    {
+      "id": 7,
+      "url": "https://arxiv.org/abs/2210.02303",
+      "title": "Ho et al. (2022). Imagen Video: High Definition Video Generation with Diffusion Models. Research preprint.",
+      "quotes": [
+        "We present Imagen Video, a text-conditional video generation system based on a cascade of video diffusion models."
+      ]
+    },
+    {
+      "id": 8,
+      "url": "https://proceedings.mlr.press/v202/radford23a.html",
+      "title": "Radford et al. (2023). Robust Speech Recognition via Large-Scale Weak Supervision. ICML.",
+      "quotes": [
+        "We study the capabilities of speech processing systems trained simply to predict large amounts of transcripts of audio on the internet."
+      ]
+    },
+    {
+      "id": 9,
+      "url": "https://arxiv.org/abs/2209.03143",
+      "title": "Borsos et al. (2023 version). AudioLM: a Language Modeling Approach to Audio Generation. Author manuscript.",
+      "quotes": [
+        "AudioLM learns to generate natural and coherent continuations given short prompts."
+      ]
+    },
+    {
+      "id": 10,
+      "url": "https://arxiv.org/abs/2107.03374",
+      "title": "Chen et al. (2021). Evaluating Large Language Models Trained on Code. Research preprint.",
+      "quotes": [
+        "a new evaluation set we release to measure functional correctness for synthesizing programs from docstrings"
+      ]
+    },
+    {
+      "id": 11,
+      "url": "https://arxiv.org/abs/2210.03629",
+      "title": "Yao et al. (2023). ReAct: Synergizing Reasoning and Acting in Language Models. ICLR.",
+      "quotes": [
+        "actions allow it to interface with external sources, such as knowledge bases or environments, to gather additional information."
+      ]
+    },
+    {
+      "id": 12,
+      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf",
+      "title": "NIST (2023). Artificial Intelligence Risk Management Framework (AI RMF 1.0).",
+      "quotes": [
+        "A transparent system is not necessarily an accurate, privacy-enhanced, secure, or fair system."
+      ]
+    },
+    {
+      "id": 13,
+      "url": "https://www.cs.cmu.edu/~tom/pubs/Science-ML-2015.pdf",
+      "title": "Jordan and Mitchell (2015). Machine learning: Trends, perspectives, and prospects. Science, 349, 255–260.",
+      "quotes": [
+        "The inputs x may be classical vectors or they may be more complex objects such as documents, images, DNA sequences, or graphs."
+      ]
+    },
+    {
+      "id": 14,
+      "url": "https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research",
+      "title": "UNESCO (2023). Guidance for generative AI in education and research: publication overview.",
+      "quotes": [
+        "ethical, safe, equitable and meaningful use"
+      ]
+    },
+    {
+      "id": 15,
+      "url": "https://arxiv.org/abs/1712.05884",
+      "title": "Shen et al. (2018). Natural TTS Synthesis by Conditioning WaveNet on Mel Spectrogram Predictions. ICASSP.",
+      "quotes": [
+        "This paper describes Tacotron 2, a neural network architecture for speech synthesis directly from text."
+      ]
+    },
+    {
+      "id": 16,
+      "url": "https://aclanthology.org/2023.findings-emnlp.467",
+      "title": "Liu, Zhang, and Liang (2023). Evaluating Verifiability in Generative Search Engines. Findings of EMNLP, 7001–7025.",
+      "quotes": [
+        "Generative search engines directly generate responses to user queries, along with in-line citations."
+      ]
+    }
+  ]
+}
