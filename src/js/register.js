@@ -212,7 +212,7 @@ function resetF(){ var s = F.sort; F = {q:'', set:'', focus:'', task:'', theme:'
 function typeCitations(refs){
   return (refs || []).map(function(id){
     var s = R.types.sources.filter(function(x){return x.id===id;})[0];
-    return '<a class="type-cite" href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Source '+id+': '+esc(s.title)+' (opens in a new tab)">['+id+']</a>';
+    return '<a class="type-cite" href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Source '+id+': '+esc(s.cite || s.title)+' (opens in a new tab)">['+id+']</a>';
   }).join('');
 }
 function typeParagraph(p){return '<p>'+esc(p.text)+typeCitations(p.refs)+'</p>';}
@@ -318,7 +318,8 @@ function drawTypes(){
     '<div class="protocols__head">'+icon('i-bolt')+'<h3 id="h-protocols">Whatever the tool</h3><span class="protocols__tag">Practical recommendations</span></div>'+
     '<div class="protocols__screen"><ul class="protocols__list">'+
     T.general.map(function(g){ return '<li><span class="lamp lamp--on" aria-hidden="true"></span><span>'+esc(g.text)+typeCitations(g.refs)+'</span></li>'; }).join('')+'</ul></div></section>';
-  h += '<section class="type-bibliography" aria-labelledby="typeReferencesHeading"><h3 id="typeReferencesHeading">Sources for this guide</h3><p>These references support the AI explanations above. They are separate from the collection’s use-case source bibliography. Product links are examples, not evidence for the whole category.</p><p>'+esc(T.scope)+'</p>'+typeReferences()+'</section>';
+  h += '<section class="type-bibliography" aria-labelledby="typeReferencesHeading"><h3 id="typeReferencesHeading">Sources for this guide</h3><p>These references support the AI explanations above. They are separate from the collection’s use-case source bibliography. Product links are examples, not evidence for the whole category.</p><p>'+esc(T.scope)+'</p>'+
+    '<details class="type-bibliography__list"><summary>All '+T.sources.length+' references'+icon('i-chevron')+'</summary>'+typeReferences()+'</details></section>';
   h += '<p class="meta-line" data-guide-license>'+esc(window.TOOL_LICENSE.guide_notice)+'</p>';
   document.getElementById('ai-types').innerHTML = h;
 }

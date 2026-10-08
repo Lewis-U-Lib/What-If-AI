@@ -5,31 +5,35 @@
   "title": "Types of AI systems",
   "intro": [
     {
-      "text": "AI systems can be described along several dimensions. The OECD framework separates data and inputs, models, tasks and outputs, and the context in which a system is used. A single label cannot answer all of those questions.",
+      "text": "Use-case ideas in this collection do not require a particular product. Each one records what a tool has to be able to do, such as hold a text conversation, answer from documents you supply, or generate an image. This guide describes those kinds of systems in general terms, so you can recognize which kind a tool is, whatever it is called this year.",
+      "refs": []
+    },
+    {
+      "text": "The OECD’s classification framework describes AI systems along several dimensions, including the data a system takes in, the model, the task and output, and the context in which the system is used. A single label rarely answers all of those questions.",
       "refs": [
         1
       ]
     },
     {
-      "text": "A modality is a form of information, such as text, images, or sound. Multimodal systems work across more than one such form. Modality is different from a task, such as prediction, and from a training approach, such as supervised learning.",
+      "text": "A modality is a form of information, such as text, images, or sound; multimodal systems work across more than one. A task is what a system does with that information, such as generating new content or predicting and classifying. Learning approaches, such as supervised learning from labeled examples, are a further distinction.",
       "refs": [
-        3,
-        13
+        2,
+        3
       ]
     },
     {
-      "text": "This guide groups selected AI capabilities and system designs around questions faculty may ask. The groupings overlap and are not a complete taxonomy of AI. They are an editorial synthesis of the sources below, not a classification adopted from any one publication.",
+      "text": "The groups below overlap and are not a complete taxonomy of AI. They are an editorial synthesis of the sources listed, not a classification adopted from any one publication. Many products combine several of these types, and their features change often.",
       "refs": []
     }
   ],
-  "provenance": "Researched and rewritten with AI assistance on October 8, 2026. These citations document the basis of this revision; they do not establish the sources of the earlier, uncited descriptions.",
-  "scope": "Foundational studies explain mechanisms and distinctions, not the current performance of every product. Sources labeled preprint have not been presented here as peer-reviewed publications. The faculty scenarios and practical checks are editorial suggestions, not tested teaching interventions or institutional approval.",
-  "review_status": "Source check: cited abstracts and the report sections identified below. This guide has not received an independent subject-expert review or classroom evaluation.",
+  "provenance": "Revised with AI assistance on October 8, 2026, to restore the practical limits of the earlier guide with sources and to update its references in APA style. These citations document the current text; they do not establish the sources of the earlier, uncited descriptions.",
+  "scope": "Research studies explain how kinds of systems work and what researchers found when they tested particular systems at a particular time; they are not ratings of the products available today. Each source is labeled as peer-reviewed, a preprint, or government or intergovernmental guidance. The illustrative uses describe related ideas in this collection; they are not tested teaching interventions or institutional approval.",
+  "review_status": "Source check, October 8, 2026: each citation was checked against the source’s abstract or, where its entry names a section, against that section. This guide has not received an independent subject-expert review or classroom evaluation.",
   "groups": [
     {
       "key": "capabilities",
       "name": "Capabilities and model families",
-      "description": "Start with the information a system handles and the kind of result it produces.",
+      "description": "What information a system takes in and what kind of result it produces.",
       "keys": [
         "conversational",
         "multimodal",
@@ -43,7 +47,7 @@
     {
       "key": "systems",
       "name": "Systems built around models",
-      "description": "Retrieval and tool use describe how models connect to information or actions. These designs can combine the capabilities above.",
+      "description": "These designs connect a model to documents, search, or other tools, and they can combine the capabilities above. Often the most useful questions are who chose the sources and what the system is allowed to do.",
       "keys": [
         "grounded",
         "search",
@@ -62,27 +66,32 @@
   ],
   "general": [
     {
-      "text": "Choose the learning goal first. Decide whether an AI tool is useful for that goal and provide a workable participation route for students.",
+      "text": "Consider whether an AI tool serves the learning goal at all. UNESCO’s guidance treats that question as part of ethical validation and pedagogical design, with attention to human agency and age-appropriate use.",
       "refs": [
-        14
+        4
       ]
     },
     {
-      "text": "Check data handling, privacy, access, and responsibility in the actual deployment. Hosting arrangements alone do not establish trustworthiness.",
+      "text": "Consider what information goes into a tool and where it goes. Generative models can leak or infer personal information, and how a tool is hosted or labeled does not by itself establish privacy or accuracy.",
       "refs": [
-        12
+        5,
+        6
       ]
     },
     {
-      "text": "Plan how to check outputs. Generative systems can confidently produce false content, including invented citations.",
+      "text": "Consider whether every participant can use the tool at no cost, without creating a personal account, and with assistive technology.",
+      "refs": []
+    },
+    {
+      "text": "Consider how outputs will be checked. Generative systems can present false content confidently, including invented citations, and people tend to over-rely on automated output.",
       "refs": [
-        2
+        5
       ]
     },
     {
-      "text": "Make the role of AI visible. Describe what was generated, what you checked, and who is responsible for the final work.",
+      "text": "Consider how the use of AI will be acknowledged: what was generated, what was checked, and who is responsible for the final work. NIST treats accountability and transparency as characteristics of trustworthy AI.",
       "refs": [
-        12
+        6
       ]
     }
   ],
@@ -90,261 +99,296 @@
     "conversational": {
       "name": "Language models and conversational AI",
       "preview": "Generate and revise text through instructions and conversation.",
-      "what": "Language models learn patterns in language and generate text. A conversational interface lets a person supply instructions and follow-up messages; it is an interface to a system, not a separate learning method.",
-      "does": "Large autoregressive language models generate continuations of text. Research demonstrates tasks such as answering questions, translating, and responding to instructions or examples.",
-      "io": "Text instructions or examples go in; generated text comes out. Additional image, search, or tool features belong to the wider system and are described separately below.",
-      "why": "For example, compare alternative explanations of a concept or critique a draft. Specify what students must check and what reasoning they must provide themselves.",
-      "limits": "Fluent language can contain false claims or fabricated references. Check factual claims against sources you can inspect.",
+      "what": "A large language model generates text by predicting likely continuations of what it is given. Chat assistants are language models further trained, often with human feedback, to follow instructions; the conversation is an interface to that system, not a separate kind of AI.",
+      "does": "Produces drafts, explanations, summaries, and answers in plain language, and revises them in response to feedback. Research evaluations show such models translating, answering questions, and following a wide range of written instructions.",
+      "io": "Typed instructions, questions, examples, or pasted text go in; generated text comes out, such as prose, lists, outlines, tables, or code. Image input, web search, and tool use are features of a wider system and are described separately.",
+      "why": "Most use-case ideas in the collection need at least this capability. Related ideas use a model as a drafting partner, a conversation partner, or the object of study—for example, comparing a model’s interpretation of a short story with a group’s own readings of the text.",
+      "limits": "Output can be fluent and wrong, including invented references. Responses vary from one attempt to the next, can reflect social biases in training data, and may not reflect recent events unless the system retrieves current information. Consider checking factual claims and references against sources you can inspect.",
       "citations": {
         "what": [
-          5
+          7,
+          8
         ],
         "does": [
-          5
+          7,
+          8
         ],
         "io": [
-          5
+          7
         ],
         "limits": [
-          2
+          5,
+          9,
+          10,
+          11,
+          12
         ]
       }
     },
     "multimodal": {
-      "name": "Vision and multimodal AI",
-      "preview": "Interpret or connect information across images, text, sound, and other forms.",
-      "what": "Computer vision works with visual information. Multimodal machine learning relates information from multiple modalities, such as language, images, and audio; it is broader than reading a picture in a chatbot.",
-      "does": "A multimodal system may combine information, align corresponding parts, or translate between forms—for example, connecting an image with language.",
-      "io": "The particular model determines which forms it accepts and produces. Image input does not, by itself, establish that the same system can generate images.",
-      "why": "For example, compare a model’s description of a diagram with students’ own observations. Keep the original image available for checking.",
-      "limits": "Combining modalities raises problems of alignment, representation, and fusion. For a classroom task, check whether the output reflects the relevant details in each input.",
+      "name": "Image understanding and multimodal AI",
+      "preview": "Describe, transcribe, and answer questions about images, scans, and figures.",
+      "what": "Multimodal models process and relate more than one form of information, such as language, images, and sound. A common kind, the multimodal large language model, accepts photographs, scanned pages, charts, diagrams, or screenshots alongside a question and answers in text.",
+      "does": "Describes and interprets images, reads text in photographs and scans, explains figures and charts, and answers questions about what an image shows.",
+      "io": "Images or files plus a question go in; descriptions, transcriptions, or explanations come out as text. Accepting images does not by itself mean a system can also generate them.",
+      "why": "Related ideas involve visual sources in teaching and research—for example, checking a machine transcription of handwritten archival pages line by line against the page image, or drafting image descriptions for course materials and then verifying each one.",
+      "limits": "Interpretations can be confidently wrong, especially for specialist images, handwriting, and charts. Benchmark studies report weaknesses with handwritten text and accuracy well short of expert level on college-level questions about charts, diagrams, maps, and tables. Images can show identifiable people or sensitive information, so consider whether they need to be uploaded at all.",
       "citations": {
         "what": [
-          3,
+          2,
           13
         ],
         "does": [
-          3
+          13,
+          14,
+          15
         ],
         "io": [
-          3
+          13
         ],
         "limits": [
-          3
+          5,
+          14,
+          15
         ]
       }
     },
     "image": {
       "name": "Image generation",
-      "preview": "Create or edit visual content from text or visual conditioning.",
-      "what": "Image generators produce visual content. Diffusion is one well-studied approach: it learns a denoising process that can be conditioned on information such as text.",
-      "does": "Latent diffusion research demonstrates image synthesis, filling in parts of an image, and increasing image resolution. These are related tasks, not features guaranteed in every image tool.",
-      "io": "Depending on the task, inputs can include text, images, or spatial guidance; the output is an image.",
-      "why": "For example, compare visual interpretations of a design brief, then explain which details meet the brief and which need revision.",
-      "limits": "Generated content can be erroneous even when it looks convincing. Treat an image as a constructed output and inspect any factual details it represents.",
+      "preview": "Create or edit images from text descriptions or visual guidance.",
+      "what": "Image generators produce new images from a text description and, in some tools, edit or extend an existing image. Diffusion models, one widely used approach, build an image through a series of denoising steps that can be guided by text or other inputs.",
+      "does": "Produces illustrations, concept images, and visual variations from written descriptions. The cited research also demonstrates filling in missing parts of an image and increasing its resolution; not every tool offers these features.",
+      "io": "A text prompt goes in, sometimes with a reference image or a layout; one or more images come out.",
+      "why": "Related ideas appear mostly in teaching, often in arts and design courses and in activities that examine how generated images represent people—for example, giving peer feedback on portraits generated from partners’ sketches, or composing prompts to surface gender bias and analyzing where it appears.",
+      "limits": "Outputs can reproduce stereotypes even when a prompt asks for something different, and they sometimes closely copy images from their training data. How copyright applies to generated images and to training on others’ work is still being debated; U.S. Copyright Office guidance concludes that prompts alone are unlikely to make a user the author of the output. Realistic images of real people or events can mislead if they are not labeled.",
       "citations": {
         "what": [
-          6
+          16
         ],
         "does": [
-          6
+          16
         ],
         "io": [
-          6
+          16
         ],
         "limits": [
-          2
+          17,
+          5,
+          18,
+          19
         ]
       }
     },
     "video": {
       "name": "Video generation",
-      "preview": "Produce moving visual content, including clips generated from text.",
-      "what": "Video generation produces sequences of images. Text-to-video research includes diffusion systems conditioned on written descriptions.",
-      "does": "Imagen Video is one research example: it combines a base video model with stages that increase spatial and temporal resolution. This is an example of a design, not the architecture of every video product.",
-      "io": "In the cited study, a text prompt conditions a generated video. Other product inputs and editing controls should be checked in that product’s documentation.",
-      "why": "For example, compare short visualizations of a scene or process and annotate where the representation meets or departs from the intended explanation.",
-      "limits": "The cited paper is a research preprint about one system. It does not validate all video tools or establish the accuracy of a generated demonstration.",
+      "preview": "Produce short video clips from text, images, or footage.",
+      "what": "Video generators produce moving images, typically from a written description. Research systems such as Imagen Video extend diffusion methods from single images to sequences of frames.",
+      "does": "Generates or animates scenes from a description. Imagen Video, one research example, combines a base video model with stages that raise spatial and temporal resolution; this is one design, not the architecture of every product.",
+      "io": "In the cited research, a text prompt conditions the generated video. Products may also accept images, footage, or scripts; check each product’s documentation for its inputs and editing controls.",
+      "why": "Related ideas are few and mostly in teaching—for example, checking a generated previsualization clip against a handwritten shot specification, or building matched sets of filmed and generated clips to practice recognizing synthetic video.",
+      "limits": "Motion can depart from physical reality: in one study, video models imitated the closest training examples rather than learning physical laws, and they failed on unfamiliar scenarios. Realistic synthetic video of people raises consent, disclosure, and misinformation concerns, and across many studies people detected deepfakes at about chance levels. Consider how any generated video will be labeled and whether every participant can access the tool.",
       "citations": {
         "what": [
-          7
+          20
         ],
         "does": [
-          7
+          20
         ],
         "io": [
-          7
+          20
         ],
         "limits": [
-          7
+          21,
+          5,
+          22
         ]
       }
     },
     "audio": {
       "name": "Speech recognition and audio generation",
-      "preview": "Distinguish transcription from producing speech, sound, or music.",
-      "what": "Speech recognition converts speech into text. Speech synthesis produces spoken audio from text. Audio generation also includes producing or continuing sounds such as music.",
-      "does": "These are different tasks: Whisper studies speech recognition; Tacotron 2 studies text-to-speech synthesis; AudioLM studies audio continuation.",
-      "io": "Recognition takes audio and returns text. Text-to-speech takes text and returns audio. In AudioLM, an audio prompt conditions further audio.",
-      "why": "For example, review a transcript against its recording, or compare spoken versions of a passage. Choose the task before choosing the product.",
-      "limits": "Evidence for one task does not establish performance on another. The cited studies evaluate particular systems; check a tool on representative material before using its output.",
+      "preview": "Transcribe speech, produce spoken audio, or generate sound and music.",
+      "what": "These systems work with sound. Speech recognition converts speech into text; speech synthesis produces spoken audio from text; audio generation produces or continues sounds such as speech or music.",
+      "does": "Transcribes recorded speech, reads text aloud in a synthetic voice, and continues speech or music from a short audio prompt. These are separate tasks: evidence about one does not establish performance on another.",
+      "io": "Recognition takes audio and returns a transcript. Text-to-speech takes text and returns audio. In the cited audio-generation research, a short audio prompt conditions further audio.",
+      "why": "Related ideas include accessibility, qualitative research, language learning, and media projects—for example, comparing an automated first-pass interview transcript with a manual one, or correcting automatic captions for course video before publishing them.",
+      "limits": "Recognition accuracy varies across speakers, with documented differences by age, gender, and accent, so transcripts need checking; one study found that about 1 percent of transcriptions contained entire invented phrases, more often for speakers with longer pauses. Consider consent, and any required ethics approval, when recording people. Synthetic and cloned voices raise consent and impersonation concerns, and listeners often cannot reliably tell them from real speech.",
       "citations": {
         "what": [
-          8,
-          15,
-          9
+          23,
+          24,
+          25
         ],
         "does": [
-          8,
-          15,
-          9
+          23,
+          24,
+          25
         ],
         "io": [
-          8,
-          15,
-          9
+          23,
+          24,
+          25
         ],
         "limits": [
-          8,
-          15,
-          9
+          26,
+          27,
+          5,
+          22
         ]
       }
     },
     "code": {
-      "name": "Code generation and assisted analysis",
-      "preview": "Generate programs that people can inspect, test, and run.",
-      "what": "Code language models generate program text from context or instructions. The Codex study evaluates a model trained on code by testing whether generated programs solve specified tasks.",
-      "does": "A system can propose code from a description. A connected tool may then run code and return results; generating code and executing it are separate operations.",
-      "io": "A description, partial program, or code context goes in; proposed code comes out. Execution requires a runtime or connected tool.",
-      "why": "For example, ask for an analysis script, inspect its assumptions, and run it against a small dataset with known results before applying it more broadly.",
-      "limits": "The code study reports failures as well as successes. Working-looking code needs functional tests; a successful run alone does not establish that it answers the right research question.",
+      "name": "Code generation and data analysis",
+      "preview": "Write, explain, and run code, including analyses of uploaded data.",
+      "what": "Code models generate program text from a description, a partial program, or surrounding code. Some tools also run the code they write and return the results; writing code and running it are separate operations.",
+      "does": "Proposes code from a description and, when connected to a runtime, runs analyses and produces charts and tables from data. In research, handing calculations to an interpreter made results more accurate than having the model reason them out in text.",
+      "io": "A description, data file, or existing code goes in; proposed code comes out, along with charts, tables, and written interpretations when the code is run.",
+      "why": "Related ideas are split between teaching and faculty research and administration—for example, translating a reporting request into a database query, or classifying measured infrared spectra in a Python practical.",
+      "limits": "Code can run and still be wrong. On a benchmark of realistic data-science problems, the best system of its time solved fewer than half, and in one user study, people with an AI assistant wrote less secure code while believing it more secure. Analyses can apply inappropriate methods or silently mishandle data, so consider reviewing the code, not only the result. Uploading research or student data raises confidentiality questions.",
       "citations": {
         "what": [
-          10
+          28,
+          29
         ],
         "does": [
-          10,
-          11
+          28,
+          29,
+          30
         ],
         "io": [
-          10,
-          11
+          28,
+          29
         ],
         "limits": [
-          10
+          30,
+          31,
+          5
         ]
       }
     },
     "discipline": {
       "name": "Prediction, classification, and pattern finding",
-      "preview": "Learn from data to assign labels, estimate outcomes, or identify structure.",
-      "what": "Machine learning includes tasks beyond generating content. Supervised learning uses examples with target outputs to learn predictions; unsupervised learning looks for structure in data without those target labels.",
-      "does": "Methods can assign categories, estimate numerical values, or identify groups of similar observations. A specialized research model may be built for a particular data type or scientific task.",
-      "io": "Inputs may be measurements, images, documents, or other data. Outputs may be labels, estimates, or groupings, depending on the task.",
-      "why": "For example, compare classifications with independently labeled examples. The linked collection entries here are selected discipline-specific use cases, not a complete inventory of predictive AI.",
-      "limits": "Performance must be assessed in the intended setting with representative data. Examine relevant errors rather than relying only on an overall accuracy score.",
+      "preview": "Learn from data to assign labels, estimate outcomes, or find structure.",
+      "what": "Machine learning also includes models that predict, classify, or find structure rather than generate content. Supervised learning learns from examples with known answers; unsupervised learning looks for structure without them. Many such models are built for one field or one kind of data.",
+      "does": "Assigns categories, estimates values, or groups similar observations—for example, filtering spam, recognizing faces in images, or predicting a protein’s structure.",
+      "io": "Measurements, images, documents, sequences, or other data go in; labels, estimates, groupings, or predicted structures come out.",
+      "why": "Related ideas come mostly from faculty research in the sciences—for example, adapting a microscopy segmentation model through corrective annotation, or ordering systematic-review screening with active learning while a person makes every inclusion decision. These ideas were linked individually, so they are a selection rather than every predictive use in the collection.",
+      "limits": "Results depend on the data a model learned from and may not transfer to local conditions. Data leakage, a common methodological error, has been found in hundreds of published studies across many fields, in some cases producing wildly overoptimistic conclusions, and even high-confidence structure predictions can differ from experimental data. Consider validating against known cases and examining errors for relevant groups, not only overall accuracy.",
       "citations": {
         "what": [
-          13
+          3
         ],
         "does": [
-          13
+          3,
+          32
         ],
         "io": [
-          13
+          3
         ],
         "limits": [
-          12
+          33,
+          32,
+          6,
+          5
         ]
       }
     },
     "grounded": {
       "name": "Document-grounded generation and RAG",
-      "preview": "Connect generated answers to an identified collection of documents.",
-      "what": "Retrieval-augmented generation (RAG) combines a generative model with retrieved information. In the original RAG study, a retriever selects passages that condition the generated answer.",
-      "does": "Retrieval supplies relevant material at answer time, alongside information represented in the model’s parameters. This makes the source collection part of the system’s design.",
-      "io": "A query and a searchable collection support retrieval; the generator produces an answer using the retrieved passages. The linked document assistants illustrate the broader use case, not a claim that all implement the original RAG architecture.",
-      "why": "For example, ask a question of an assigned reading collection, then require students to locate and assess the passages that support the answer.",
-      "limits": "The RAG study reports improvements on its benchmarks, not a guarantee of factual accuracy. Inspect the actual passages and the answer’s interpretation of them.",
+      "preview": "Answer from a set of documents you choose.",
+      "what": "A document-grounded system answers from documents you supply, such as readings, a syllabus, transcripts, or policies, rather than only from what the model learned in training. Retrieval-augmented generation (RAG) is the research name: a retriever selects relevant passages, and a generator writes an answer conditioned on them.",
+      "does": "Finds and summarizes relevant passages, answers questions about the material, compares documents, and points back to the passages it used. Researchers developed retrieval partly to give answers traceable sources and knowledge that can be updated.",
+      "io": "Uploaded files or linked sources plus questions go in; answers, summaries, or notes come out, usually with references to the supplied passages. Unlike AI search, the collection is one you chose.",
+      "why": "Related ideas keep an activity inside a defined set of sources—for example, reviewing a faculty-authored proposal against a supplied solicitation, or auditing the quotations in a history essay with an assistant limited to the course sources.",
+      "limits": "Answers are only as good as what is retrieved: a system can misread, overgeneralize, or miss passages, and language models use information in the middle of long inputs less reliably. An evaluation of legal research tools built on retrieval found incorrect or misgrounded answers in 17 to 33 percent of queries, despite providers’ claims. Uploading documents raises copyright, privacy, and retention questions, especially for student work and unpublished research.",
       "citations": {
         "what": [
-          4
+          34
         ],
         "does": [
-          4
+          34
         ],
         "io": [
-          4
+          34
         ],
         "limits": [
-          4
+          35,
+          36,
+          5
         ]
       }
     },
     "search": {
       "name": "AI-assisted search and research",
-      "preview": "Retrieve material and synthesize answers with links to sources.",
-      "what": "Generative search systems combine information seeking with generated responses and citations. This is a system design and use case, rather than a new input or output modality.",
-      "does": "The system presents a synthesized response linked to retrieved material. Verifiability requires both support for the claims and citations that actually support the statements attached to them.",
-      "io": "A search question goes in; an answer and source links come out. The search scope and available evidence depend on the particular service.",
-      "why": "For example, develop search terms or follow a cited paper into a library database. Treat a generated overview as a starting point for a documented search.",
-      "limits": "A 2023 study of four search systems found unsupported statements and inaccurate citations. That finding supports checking citations; it is not a current performance rating for today’s products.",
+      "preview": "Search the web or scholarly indexes and synthesize answers with links.",
+      "what": "An AI search system retrieves current or external information from the web, a scholarly index, or a database and composes a response from what it finds, with in-line citations. Unlike document-grounded tools, the service decides where it searches.",
+      "does": "Searches, gathers, and summarizes sources, suggests related literature, and attaches links or citations to its answers.",
+      "io": "A question or search terms go in; a synthesized answer with links, citations, or lists of papers comes out. What it can find depends on what the service indexes and can reach.",
+      "why": "Related ideas center on finding and checking information—for example, exploring a subject literature with AI tools alongside library keyword searching, or looking for newer measurements comparable to a cited statistic.",
+      "limits": "Coverage depends on what the system can reach: in one evaluation, an AI research tool found fewer than half of the studies that structured database searches found, though it surfaced some they missed. Citations can be attached to statements they do not support, and summaries of research often state findings more broadly than the original studies do. Consider checking key claims against the original source and the databases your field relies on.",
       "citations": {
         "what": [
-          16
+          37
         ],
         "does": [
-          16
+          37,
+          38
         ],
         "io": [
-          16
+          37,
+          38
         ],
         "limits": [
-          16
+          38,
+          37,
+          39
         ]
       }
     },
     "agentic": {
       "name": "Tool-using agents and workflows",
-      "preview": "Connect model-generated steps to actions in tools or environments.",
-      "what": "Tool-using systems let a model interact with an external tool or environment during a task. ReAct is a research example that interleaves language-model reasoning with actions and observations.",
-      "does": "A model can request an action, receive a result, and use that result in subsequent steps. The cited study includes information retrieval and interactive environments.",
-      "io": "Inputs include a task and feedback from the environment. Outputs may include action requests as well as a final answer; available tools determine what actions are possible.",
-      "why": "For example, test a workflow using sample files and require a person to inspect proposed changes before they affect shared materials.",
-      "limits": "The ReAct experiments do not establish reliable autonomy for every task. Our practical recommendation is to bound permissions and verify consequential actions.",
+      "preview": "Carry out multi-step tasks by taking actions in tools or applications.",
+      "what": "An agent is a system in which a model carries out multi-step tasks, calling other tools, moving between applications, or taking actions with some degree of autonomy. ReAct, an early research example, interleaves the model’s reasoning with actions and the observations they return.",
+      "does": "Chains steps together, such as gathering information, filling in documents, sorting records, drafting messages, or updating connected systems. The tools it is given determine what actions are possible.",
+      "io": "A goal or instruction goes in, along with access to tools or data; outputs include action requests, completed steps, documents, or changes in connected systems.",
+      "why": "Related ideas appear mainly in administrative and research workflows and in activities that audit an agent’s work—for example, scoring a read-only email-triage agent on a simulated inbox before any real deployment, or auditing a coding agent’s commits in a research repository.",
+      "limits": "Errors can compound across steps: in a realistic web-task benchmark, the best agent tested completed about 14 percent of tasks, compared with 78 percent for people. Content an agent reads, such as a web page or document, can carry hidden instructions that redirect it. Consider what the system may access or change, where a person reviews its work, and who is accountable for the result.",
       "citations": {
         "what": [
-          11
+          40,
+          41
         ],
         "does": [
-          11
+          40,
+          41
         ],
         "io": [
-          11
+          41,
+          40
         ],
         "limits": [
-          11
+          42,
+          43,
+          6
         ]
       }
     },
     "institutional": {
       "name": "Institutional access and self-hosted AI",
       "preview": "Ask who provides the system, controls access, and handles data.",
-      "what": "This is an access and deployment choice, not a model capability. Here, institutional access means a service provided through an organization; self-hosted means infrastructure operated by the deploying organization or person.",
-      "does": "Use this distinction to ask who operates the service and what controls apply. The OECD treats context as a separate classification dimension; NIST assesses trustworthiness across deployment and use.",
-      "io": "Inputs and outputs depend on the underlying model and connected tools. The access arrangement does not tell you whether the system handles text, images, audio, or other data.",
-      "why": "For example, compare an institution-provided service with a proposed course tool. Confirm local availability, account requirements, and permitted data with the responsible campus office.",
-      "limits": "An institutional label is not evidence of accuracy, privacy, or approval for a particular use. Assess the actual arrangement and its risks.",
+      "what": "This is an access and deployment choice, not a model capability: versions of the systems above provided through an institutional agreement, or run on infrastructure the institution controls, rather than through a personal account.",
+      "does": "Can offer similar capabilities under negotiated terms, such as limits on how submitted data is retained or used, sign-in with institutional credentials, and access for everyone in a course. The OECD treats the context of use as its own classification dimension, and NIST assesses trustworthiness across deployment and use.",
+      "io": "Inputs and outputs depend on the underlying model and connected tools; the access arrangement does not tell you whether a system handles text, images, audio, or other data.",
+      "why": "Related ideas ask what goes into a model and who can see it—for example, mapping where data goes during a training job in an institution’s managed environment, or checking a confidential draft review on a local, offline model so the manuscript stays out of outside services.",
+      "limits": "An institutional label is not evidence of accuracy, privacy, or approval for a particular use; terms differ, and not every feature is available in every environment. As NIST puts it, a transparent system is not necessarily accurate, privacy-enhanced, secure, or fair. Consider checking institutional guidance on approved tools and data classification before using any AI tool with student work, research data, or confidential information.",
       "citations": {
         "what": [],
         "does": [
           1,
-          12
+          6
         ],
         "io": [],
         "limits": [
-          12
+          6
         ]
       }
     }
@@ -354,126 +398,358 @@
     "preview": "Choose a participation route in which students do not operate an AI tool.",
     "text": "This is a teaching choice, not a type of AI. The filter identifies use-case ideas in which students can participate without operating an AI tool themselves. This includes instructor-prepared AI material, optional AI steps, and described routes that work without AI.",
     "rationale": {
-      "text": "Deciding whether AI is appropriate belongs to the design of the learning task. UNESCO emphasizes human agency and educational suitability; NIST calls for considering whether AI is appropriate or necessary for the context.",
+      "text": "Deciding whether AI is appropriate is part of designing the learning task. UNESCO’s guidance proposes a human-agency, age-appropriate approach to ethical validation and pedagogical design; NIST’s framework holds that whether AI is an appropriate or necessary tool depends on the context and purpose.",
       "refs": [
-        14,
-        12
+        4,
+        6
       ]
     },
-    "suggestion": "Illustrative faculty use: provide an output and its source material for critique, or use a task that requires no AI-generated material. State explicitly who, if anyone, used AI in preparing it."
+    "suggestion": "Illustrative faculty use: related ideas include critiquing an instructor-prepared output against its source material, as well as tasks that need no AI-generated material at all."
   },
   "sources": [
     {
       "id": 1,
-      "title": "OECD (2022). OECD Framework for the Classification of AI systems.",
-      "url": "https://www.oecd.org/en/publications/oecd-framework-for-the-classification-of-ai-systems_cb6d9eca-en.html",
+      "title": "OECD. (2022). OECD framework for the classification of AI systems (OECD Digital Economy Papers No. 323). OECD Publishing. https://doi.org/10.1787/cb6d9eca-en",
+      "url": "https://doi.org/10.1787/cb6d9eca-en",
       "kind": "Intergovernmental framework",
-      "locator": "Abstract; five classification dimensions."
+      "locator": "Abstract and introduction: the five classification dimensions (People & Planet, Economic Context, Data & Input, AI Model, Task & Output).",
+      "cite": "OECD, 2022"
     },
     {
       "id": 2,
-      "title": "NIST (2024). Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile.",
-      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
-      "kind": "U.S. government guidance",
-      "locator": "Section 2.2, Confabulation, pp. 5–6."
+      "title": "Baltrušaitis, T., Ahuja, C., & Morency, L.-P. (2019). Multimodal machine learning: A survey and taxonomy. IEEE Transactions on Pattern Analysis and Machine Intelligence, 41(2), 423–443. https://doi.org/10.1109/TPAMI.2018.2798607",
+      "url": "https://doi.org/10.1109/TPAMI.2018.2798607",
+      "kind": "Peer-reviewed survey article",
+      "locator": "Abstract: definition of modality and of multimodal machine learning. Open author manuscript: arXiv:1705.09406.",
+      "cite": "Baltrušaitis et al., 2019"
     },
     {
       "id": 3,
-      "title": "Baltrušaitis, Ahuja, and Morency (2019). Multimodal Machine Learning: A Survey and Taxonomy. IEEE TPAMI.",
-      "url": "https://arxiv.org/abs/1705.09406",
-      "kind": "Peer-reviewed survey · author manuscript",
-      "locator": "Abstract; representation, translation, alignment, fusion, and co-learning. Linked manuscript first posted 2017; published in IEEE TPAMI in 2019."
+      "title": "Jordan, M. I., & Mitchell, T. M. (2015). Machine learning: Trends, perspectives, and prospects. Science, 349(6245), 255–260. https://doi.org/10.1126/science.aaa8415",
+      "url": "https://doi.org/10.1126/science.aaa8415",
+      "kind": "Peer-reviewed review article",
+      "locator": "p. 255 (abstract); pp. 257–258: supervised learning, its inputs and outputs, and unsupervised learning.",
+      "cite": "Jordan & Mitchell, 2015"
     },
     {
       "id": 4,
-      "title": "Lewis et al. (2020). Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks. NeurIPS.",
-      "url": "https://arxiv.org/abs/2005.11401",
-      "kind": "Peer-reviewed conference paper · author manuscript",
-      "locator": "Abstract; retrieval and generation architecture and benchmark scope. NeurIPS 2020."
+      "title": "UNESCO. (2026, January 16). Guidance for generative AI in education and research [Overview of the 2023 publication by F. Miao and W. Holmes]. https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research",
+      "url": "https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research",
+      "kind": "Intergovernmental education guidance · publication overview",
+      "locator": "Publication overview (first posted September 7, 2023; updated January 16, 2026). The full report, https://doi.org/10.54675/EWZM9535, was not reachable for this check, so only the overview is cited.",
+      "cite": "UNESCO, 2026"
     },
     {
       "id": 5,
-      "title": "Brown et al. (2020). Language Models are Few-Shot Learners. NeurIPS.",
-      "url": "https://proceedings.neurips.cc/paper_files/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html",
-      "kind": "Peer-reviewed conference paper",
-      "locator": "Abstract; autoregressive language modeling and task instructions. NeurIPS 2020."
+      "title": "National Institute of Standards and Technology. (2024). Artificial intelligence risk management framework: Generative artificial intelligence profile (NIST AI 600-1). U.S. Department of Commerce. https://doi.org/10.6028/NIST.AI.600-1",
+      "url": "https://doi.org/10.6028/NIST.AI.600-1",
+      "kind": "U.S. government guidance",
+      "locator": "Sections 2.2 Confabulation (p. 6), 2.4 Data Privacy (pp. 7–8), 2.6 Harmful Bias and Homogenization (pp. 8–9), 2.7 Human-AI Configuration (p. 9), 2.8 Information Integrity (pp. 9–10), and 2.10 Intellectual Property (p. 11).",
+      "cite": "NIST, 2024"
     },
     {
       "id": 6,
-      "title": "Rombach et al. (2022). High-Resolution Image Synthesis with Latent Diffusion Models. CVPR.",
-      "url": "https://arxiv.org/abs/2112.10752",
-      "kind": "Peer-reviewed conference paper · author manuscript",
-      "locator": "Abstract; latent diffusion, conditioning, and image tasks. CVPR 2022."
+      "title": "National Institute of Standards and Technology. (2023). Artificial intelligence risk management framework (AI RMF 1.0) (NIST AI 100-1). U.S. Department of Commerce. https://doi.org/10.6028/NIST.AI.100-1",
+      "url": "https://doi.org/10.6028/NIST.AI.100-1",
+      "kind": "U.S. government framework",
+      "locator": "Section 3 (p. 13: whether AI is an appropriate or necessary tool), 3.1 Valid and Reliable (pp. 13–14), 3.4 Accountable and Transparent (pp. 15–16), and 3.6 Privacy-Enhanced (p. 17).",
+      "cite": "NIST, 2023"
     },
     {
       "id": 7,
-      "title": "Ho et al. (2022). Imagen Video: High Definition Video Generation with Diffusion Models. Research preprint.",
-      "url": "https://arxiv.org/abs/2210.02303",
-      "kind": "Research preprint",
-      "locator": "Abstract; cascaded text-to-video diffusion. One system, not a survey of all video tools."
+      "title": "Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J. D., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A., Agarwal, S., Herbert-Voss, A., Krueger, G., Henighan, T., Child, R., Ramesh, A., Ziegler, D., Wu, J., Winter, C., . . . Amodei, D. (2020). Language models are few-shot learners. Advances in Neural Information Processing Systems, 33, 1877–1901.",
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html",
+      "kind": "Peer-reviewed conference paper",
+      "locator": "Abstract: autoregressive language modeling; tasks specified through text, including translation and question answering. NeurIPS 2020.",
+      "cite": "Brown et al., 2020"
     },
     {
       "id": 8,
-      "title": "Radford et al. (2023). Robust Speech Recognition via Large-Scale Weak Supervision. ICML.",
-      "url": "https://proceedings.mlr.press/v202/radford23a.html",
+      "title": "Ouyang, L., Wu, J., Jiang, X., Almeida, D., Wainwright, C., Mishkin, P., Zhang, C., Agarwal, S., Slama, K., Ray, A., Schulman, J., Hilton, J., Kelton, F., Miller, L., Simens, M., Askell, A., Welinder, P., Christiano, P., Leike, J., & Lowe, R. (2022). Training language models to follow instructions with human feedback. Advances in Neural Information Processing Systems, 35, 27730–27744. https://doi.org/10.52202/068431-2011",
+      "url": "https://doi.org/10.52202/068431-2011",
       "kind": "Peer-reviewed conference paper",
-      "locator": "Abstract; speech recognition, evaluation, and transfer. ICML 2023."
+      "locator": "Abstract: fine-tuning language models with human feedback to follow instructions across a wide range of tasks. NeurIPS 2022.",
+      "cite": "Ouyang et al., 2022"
     },
     {
       "id": 9,
-      "title": "Borsos et al. (2023 version). AudioLM: a Language Modeling Approach to Audio Generation. Author manuscript.",
-      "url": "https://arxiv.org/abs/2209.03143",
-      "kind": "Author manuscript",
-      "locator": "Abstract; audio token modeling and speech and piano continuation. Version revised in 2023."
+      "title": "Agrawal, A., Suzgun, M., Mackey, L., & Kalai, A. (2024). Do language models know when they’re hallucinating references? In Findings of the Association for Computational Linguistics: EACL 2024 (pp. 912–928). Association for Computational Linguistics. https://doi.org/10.18653/v1/2024.findings-eacl.62",
+      "url": "https://doi.org/10.18653/v1/2024.findings-eacl.62",
+      "kind": "Peer-reviewed conference paper",
+      "locator": "Abstract: hallucinated book and article references from language models.",
+      "cite": "Agrawal et al., 2024"
     },
     {
       "id": 10,
-      "title": "Chen et al. (2021). Evaluating Large Language Models Trained on Code. Research preprint.",
-      "url": "https://arxiv.org/abs/2107.03374",
-      "kind": "Research preprint",
-      "locator": "Abstract; code generation, functional correctness, and reported limitations."
+      "title": "Song, Y., Wang, G., Li, S., & Lin, B. Y. (2025). The good, the bad, and the greedy: Evaluation of LLMs should not ignore non-determinism. In Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers) (pp. 4195–4206). Association for Computational Linguistics. https://doi.org/10.18653/v1/2025.naacl-long.211",
+      "url": "https://doi.org/10.18653/v1/2025.naacl-long.211",
+      "kind": "Peer-reviewed conference paper",
+      "locator": "Abstract: variation in model performance across repeated, non-deterministic outputs.",
+      "cite": "Song et al., 2025"
     },
     {
       "id": 11,
-      "title": "Yao et al. (2023). ReAct: Synergizing Reasoning and Acting in Language Models. ICLR.",
-      "url": "https://arxiv.org/abs/2210.03629",
-      "kind": "Peer-reviewed conference paper · author manuscript",
-      "locator": "Abstract; reasoning, actions, external tools, and observations. ICLR 2023."
+      "title": "Gallegos, I. O., Rossi, R. A., Barrow, J., Tanjim, M. M., Kim, S., Dernoncourt, F., Yu, T., Zhang, R., & Ahmed, N. K. (2024). Bias and fairness in large language models: A survey. Computational Linguistics, 50(3), 1097–1179. https://doi.org/10.1162/coli_a_00524",
+      "url": "https://doi.org/10.1162/coli_a_00524",
+      "kind": "Peer-reviewed survey article",
+      "locator": "Abstract: language models can learn, perpetuate, and amplify social biases.",
+      "cite": "Gallegos et al., 2024"
     },
     {
       "id": 12,
-      "title": "NIST (2023). Artificial Intelligence Risk Management Framework (AI RMF 1.0).",
-      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf",
-      "kind": "U.S. government framework",
-      "locator": "Sections 3–3.1, 3.4, and 3.6: trustworthiness, validation, transparency, and privacy, pp. 12–17."
+      "title": "Huang, L., Yu, W., Ma, W., Zhong, W., Feng, Z., Wang, H., Chen, Q., Peng, W., Feng, X., Qin, B., & Liu, T. (2025). A survey on hallucination in large language models: Principles, taxonomy, challenges, and open questions. ACM Transactions on Information Systems, 43(2), 1–55. https://doi.org/10.1145/3703155",
+      "url": "https://doi.org/10.1145/3703155",
+      "kind": "Peer-reviewed survey article",
+      "locator": "Abstract; Section 3.1.2, Knowledge Boundary: outdated knowledge after training (checked in the open author manuscript, arXiv:2311.05232).",
+      "cite": "Huang et al., 2025"
     },
     {
       "id": 13,
-      "title": "Jordan and Mitchell (2015). Machine learning: Trends, perspectives, and prospects. Science, 349, 255–260.",
-      "url": "https://www.cs.cmu.edu/~tom/pubs/Science-ML-2015.pdf",
-      "kind": "Peer-reviewed review article",
-      "locator": "pp. 255–258: prediction, supervised and unsupervised learning, and applications. The linked PDF begins with the end of the preceding article."
+      "title": "Yin, S., Fu, C., Zhao, S., Li, K., Sun, X., Xu, T., & Chen, E. (2024). A survey on multimodal large language models. National Science Review, 11(12), Article nwae403. https://doi.org/10.1093/nsr/nwae403",
+      "url": "https://doi.org/10.1093/nsr/nwae403",
+      "kind": "Peer-reviewed survey article",
+      "locator": "Abstract: multimodal large language models that pair a language model with image and other inputs.",
+      "cite": "Yin et al., 2024"
     },
     {
       "id": 14,
-      "title": "UNESCO (2023). Guidance for generative AI in education and research: publication overview.",
-      "url": "https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research",
-      "kind": "Intergovernmental education guidance",
-      "locator": "Publication overview: human agency, educational suitability, privacy, inclusion, and pedagogical design. Cited report issued 2023; overview updated in 2026."
+      "title": "Liu, Y., Li, Z., Huang, M., Yang, B., Yu, W., Li, C., Yin, X.-C., Liu, C.-L., Jin, L., & Bai, X. (2024). OCRBench: On the hidden mystery of OCR in large multimodal models. Science China Information Sciences, 67(12), Article 220102. https://doi.org/10.1007/s11432-024-4235-6",
+      "url": "https://doi.org/10.1007/s11432-024-4235-6",
+      "kind": "Peer-reviewed journal article",
+      "locator": "Abstract (open author manuscript, arXiv:2305.07895): text reading in images and documents, with weaknesses on handwritten and multilingual text.",
+      "cite": "Liu et al., 2024a"
     },
     {
       "id": 15,
-      "title": "Shen et al. (2018). Natural TTS Synthesis by Conditioning WaveNet on Mel Spectrogram Predictions. ICASSP.",
-      "url": "https://arxiv.org/abs/1712.05884",
-      "kind": "Peer-reviewed conference paper · author manuscript",
-      "locator": "Abstract; text-to-speech synthesis. Accepted at ICASSP 2018."
+      "title": "Yue, X., Ni, Y., Zhang, K., Zheng, T., Liu, R., Zhang, G., Stevens, S., Jiang, D., Ren, W., Sun, Y., Wei, C., Yu, B., Yuan, R., Sun, R., Yin, M., Zheng, B., Yang, Z., Liu, Y., Huang, W., . . . Chen, W. (2024). MMMU: A massive multi-discipline multimodal understanding and reasoning benchmark for expert AGI. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (pp. 9556–9567). IEEE. https://doi.org/10.1109/CVPR52733.2024.00913",
+      "url": "https://doi.org/10.1109/CVPR52733.2024.00913",
+      "kind": "Peer-reviewed conference paper",
+      "locator": "Abstract: college-level questions on charts, diagrams, maps, tables, and other image types; results for models tested in 2023.",
+      "cite": "Yue et al., 2024"
     },
     {
       "id": 16,
-      "title": "Liu, Zhang, and Liang (2023). Evaluating Verifiability in Generative Search Engines. Findings of EMNLP, 7001–7025.",
-      "url": "https://aclanthology.org/2023.findings-emnlp.467",
+      "title": "Rombach, R., Blattmann, A., Lorenz, D., Esser, P., & Ommer, B. (2022). High-resolution image synthesis with latent diffusion models. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (pp. 10674–10685). IEEE. https://doi.org/10.1109/CVPR52688.2022.01042",
+      "url": "https://doi.org/10.1109/CVPR52688.2022.01042",
       "kind": "Peer-reviewed conference paper",
-      "locator": "Abstract; citation support and verifiability. Findings of EMNLP 2023. Evaluation concerns systems as studied in 2023."
+      "locator": "Abstract: diffusion as sequential denoising; conditioning on text or layouts; inpainting and super-resolution.",
+      "cite": "Rombach et al., 2022"
+    },
+    {
+      "id": 17,
+      "title": "Bianchi, F., Kalluri, P., Durmus, E., Ladhak, F., Cheng, M., Nozza, D., Hashimoto, T., Jurafsky, D., Zou, J., & Caliskan, A. (2023). Easily accessible text-to-image generation amplifies demographic stereotypes at large scale. In Proceedings of the 2023 ACM Conference on Fairness, Accountability, and Transparency (pp. 1493–1504). Association for Computing Machinery. https://doi.org/10.1145/3593013.3594095",
+      "url": "https://doi.org/10.1145/3593013.3594095",
+      "kind": "Peer-reviewed conference paper",
+      "locator": "Abstract: stereotypes from ordinary prompts that persist despite counter-stereotype prompts and system guardrails.",
+      "cite": "Bianchi et al., 2023"
+    },
+    {
+      "id": 18,
+      "title": "Somepalli, G., Singla, V., Goldblum, M., Geiping, J., & Goldstein, T. (2023). Diffusion art or digital forgery? Investigating data replication in diffusion models. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (pp. 6048–6058). IEEE. https://doi.org/10.1109/CVPR52729.2023.00586",
+      "url": "https://doi.org/10.1109/CVPR52729.2023.00586",
+      "kind": "Peer-reviewed conference paper",
+      "locator": "Abstract: generated images that replicate content from training data.",
+      "cite": "Somepalli et al., 2023"
+    },
+    {
+      "id": 19,
+      "title": "U.S. Copyright Office. (2025). Copyright and artificial intelligence, part 2: Copyrightability. https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf",
+      "url": "https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf",
+      "kind": "U.S. government report",
+      "locator": "Section on prompts (p. 18) and Conclusion (p. 41): prompts alone are unlikely to make a user the author of the output. U.S. guidance only; not legal advice.",
+      "cite": "U.S. Copyright Office, 2025"
+    },
+    {
+      "id": 20,
+      "title": "Ho, J., Chan, W., Saharia, C., Whang, J., Gao, R., Gritsenko, A., Kingma, D. P., Poole, B., Norouzi, M., Fleet, D. J., & Salimans, T. (2022). Imagen Video: High definition video generation with diffusion models (arXiv:2210.02303). arXiv. https://doi.org/10.48550/arXiv.2210.02303",
+      "url": "https://doi.org/10.48550/arXiv.2210.02303",
+      "kind": "Research preprint (not peer reviewed)",
+      "locator": "Abstract: one text-conditioned video system built from a cascade of diffusion models.",
+      "cite": "Ho et al., 2022"
+    },
+    {
+      "id": 21,
+      "title": "Kang, B., Yue, Y., Lu, R., Lin, Z., Zhao, Y., Wang, K., Huang, G., & Feng, J. (2025). How far is video generation from world model: A physical law perspective. Proceedings of Machine Learning Research, 267, 28991–29017.",
+      "url": "https://proceedings.mlr.press/v267/kang25g.html",
+      "kind": "Peer-reviewed conference paper",
+      "locator": "Abstract: video models trained on simulated motion failed out of distribution and imitated the closest training examples. ICML 2025.",
+      "cite": "Kang et al., 2025"
+    },
+    {
+      "id": 22,
+      "title": "Diel, A., Lalgi, T., Schröter, I. C., MacDorman, K. F., Teufel, M., & Bäuerle, A. (2024). Human performance in detecting deepfakes: A systematic review and meta-analysis of 56 papers. Computers in Human Behavior Reports, 16, Article 100538. https://doi.org/10.1016/j.chbr.2024.100538",
+      "url": "https://doi.org/10.1016/j.chbr.2024.100538",
+      "kind": "Peer-reviewed systematic review and meta-analysis",
+      "locator": "Abstract: pooled human detection of audio, image, text, and video deepfakes was not reliably above chance.",
+      "cite": "Diel et al., 2024"
+    },
+    {
+      "id": 23,
+      "title": "Radford, A., Kim, J. W., Xu, T., Brockman, G., McLeavey, C., & Sutskever, I. (2023). Robust speech recognition via large-scale weak supervision. Proceedings of Machine Learning Research, 202, 28492–28518.",
+      "url": "https://proceedings.mlr.press/v202/radford23a.html",
+      "kind": "Peer-reviewed conference paper",
+      "locator": "Abstract: speech recognition trained to predict transcripts of audio. ICML 2023.",
+      "cite": "Radford et al., 2023"
+    },
+    {
+      "id": 24,
+      "title": "Shen, J., Pang, R., Weiss, R. J., Schuster, M., Jaitly, N., Yang, Z., Chen, Z., Zhang, Y., Wang, Y., Skerry-Ryan, R. J., Saurous, R. A., Agiomyrgiannakis, Y., & Wu, Y. (2018). Natural TTS synthesis by conditioning WaveNet on mel spectrogram predictions. In 2018 IEEE International Conference on Acoustics, Speech and Signal Processing (pp. 4779–4783). IEEE. https://doi.org/10.1109/ICASSP.2018.8461368",
+      "url": "https://doi.org/10.1109/ICASSP.2018.8461368",
+      "kind": "Peer-reviewed conference paper",
+      "locator": "Abstract: text-to-speech synthesis. Open author manuscript: arXiv:1712.05884.",
+      "cite": "Shen et al., 2018"
+    },
+    {
+      "id": 25,
+      "title": "Borsos, Z., Marinier, R., Vincent, D., Kharitonov, E., Pietquin, O., Sharifi, M., Roblek, D., Teboul, O., Grangier, D., Tagliasacchi, M., & Zeghidour, N. (2023). AudioLM: A language modeling approach to audio generation. IEEE/ACM Transactions on Audio, Speech, and Language Processing, 31, 2523–2533. https://doi.org/10.1109/TASLP.2023.3288409",
+      "url": "https://doi.org/10.1109/TASLP.2023.3288409",
+      "kind": "Peer-reviewed journal article",
+      "locator": "Abstract: continuing speech and piano music from short audio prompts. Open author manuscript: arXiv:2209.03143.",
+      "cite": "Borsos et al., 2023"
+    },
+    {
+      "id": 26,
+      "title": "Feng, S., Halpern, B. M., Kudina, O., & Scharenborg, O. (2024). Towards inclusive automatic speech recognition. Computer Speech & Language, 84, Article 101567. https://doi.org/10.1016/j.csl.2023.101567",
+      "url": "https://doi.org/10.1016/j.csl.2023.101567",
+      "kind": "Peer-reviewed journal article",
+      "locator": "Abstract: speech-recognition bias by gender, age, regional accent, and non-native accent in Dutch and Mandarin systems.",
+      "cite": "Feng et al., 2024"
+    },
+    {
+      "id": 27,
+      "title": "Koenecke, A., Choi, A. S. G., Mei, K. X., Schellmann, H., & Sloane, M. (2024). Careless Whisper: Speech-to-text hallucination harms. In Proceedings of the 2024 ACM Conference on Fairness, Accountability, and Transparency (pp. 1672–1681). Association for Computing Machinery. https://doi.org/10.1145/3630106.3658996",
+      "url": "https://doi.org/10.1145/3630106.3658996",
+      "kind": "Peer-reviewed conference paper",
+      "locator": "Abstract: about 1% of transcriptions in the study contained invented phrases, more often for speakers with longer pauses.",
+      "cite": "Koenecke et al., 2024"
+    },
+    {
+      "id": 28,
+      "title": "Chen, M., Tworek, J., Jun, H., Yuan, Q., Pinto, H. P. de O., Kaplan, J., Edwards, H., Burda, Y., Joseph, N., Brockman, G., Ray, A., Puri, R., Krueger, G., Petrov, M., Khlaaf, H., Sastry, G., Mishkin, P., Chan, B., Gray, S., . . . Zaremba, W. (2021). Evaluating large language models trained on code (arXiv:2107.03374). arXiv. https://doi.org/10.48550/arXiv.2107.03374",
+      "url": "https://doi.org/10.48550/arXiv.2107.03374",
+      "kind": "Research preprint (not peer reviewed)",
+      "locator": "Abstract: generating programs from descriptions and testing their functional correctness.",
+      "cite": "Chen et al., 2021"
+    },
+    {
+      "id": 29,
+      "title": "Gao, L., Madaan, A., Zhou, S., Alon, U., Liu, P., Yang, Y., Callan, J., & Neubig, G. (2023). PAL: Program-aided language models. Proceedings of Machine Learning Research, 202, 10764–10799.",
+      "url": "https://proceedings.mlr.press/v202/gao23f.html",
+      "kind": "Peer-reviewed conference paper",
+      "locator": "Abstract: a model writes a program and a Python interpreter runs it. ICML 2023.",
+      "cite": "Gao et al., 2023"
+    },
+    {
+      "id": 30,
+      "title": "Lai, Y., Li, C., Wang, Y., Zhang, T., Zhong, R., Zettlemoyer, L., Yih, W.-t., Fried, D., Wang, S., & Yu, T. (2023). DS-1000: A natural and reliable benchmark for data science code generation. Proceedings of Machine Learning Research, 202, 18319–18345.",
+      "url": "https://proceedings.mlr.press/v202/lai23b.html",
+      "kind": "Peer-reviewed conference paper",
+      "locator": "Abstract: realistic data-science problems in libraries such as NumPy and pandas; the best system tested solved 43.3%. ICML 2023.",
+      "cite": "Lai et al., 2023"
+    },
+    {
+      "id": 31,
+      "title": "Perry, N., Srivastava, M., Kumar, D., & Boneh, D. (2023). Do users write more insecure code with AI assistants? In Proceedings of the 2023 ACM SIGSAC Conference on Computer and Communications Security (pp. 2785–2799). Association for Computing Machinery. https://doi.org/10.1145/3576915.3623157",
+      "url": "https://doi.org/10.1145/3576915.3623157",
+      "kind": "Peer-reviewed conference paper",
+      "locator": "Abstract: user study of security-related programming tasks with and without an AI assistant.",
+      "cite": "Perry et al., 2023"
+    },
+    {
+      "id": 32,
+      "title": "Terwilliger, T. C., Liebschner, D., Croll, T. I., Williams, C. J., McCoy, A. J., Poon, B. K., Afonine, P. V., Oeffner, R. D., Richardson, J. S., Read, R. J., & Adams, P. D. (2024). AlphaFold predictions are valuable hypotheses and accelerate but do not replace experimental structure determination. Nature Methods, 21(1), 110–116. https://doi.org/10.1038/s41592-023-02087-4",
+      "url": "https://doi.org/10.1038/s41592-023-02087-4",
+      "kind": "Peer-reviewed journal article",
+      "locator": "Abstract: protein-structure predictions compared with experimental maps, including high-confidence predictions that differed.",
+      "cite": "Terwilliger et al., 2024"
+    },
+    {
+      "id": 33,
+      "title": "Kapoor, S., & Narayanan, A. (2023). Leakage and the reproducibility crisis in machine-learning-based science. Patterns, 4(9), Article 100804. https://doi.org/10.1016/j.patter.2023.100804",
+      "url": "https://doi.org/10.1016/j.patter.2023.100804",
+      "kind": "Peer-reviewed journal article",
+      "locator": "Abstract: data leakage found in 17 fields, affecting 294 papers.",
+      "cite": "Kapoor & Narayanan, 2023"
+    },
+    {
+      "id": 34,
+      "title": "Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W.-t., Rocktäschel, T., Riedel, S., & Kiela, D. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. Advances in Neural Information Processing Systems, 33, 9459–9474.",
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html",
+      "kind": "Peer-reviewed conference paper",
+      "locator": "Abstract: a retriever selects passages that condition generation; provenance and updatable knowledge as motivations. NeurIPS 2020.",
+      "cite": "Lewis et al., 2020"
+    },
+    {
+      "id": 35,
+      "title": "Liu, N. F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua, M., Petroni, F., & Liang, P. (2024). Lost in the middle: How language models use long contexts. Transactions of the Association for Computational Linguistics, 12, 157–173. https://doi.org/10.1162/tacl_a_00638",
+      "url": "https://doi.org/10.1162/tacl_a_00638",
+      "kind": "Peer-reviewed journal article",
+      "locator": "Abstract: performance drops when relevant information sits in the middle of a long input.",
+      "cite": "Liu et al., 2024b"
+    },
+    {
+      "id": 36,
+      "title": "Magesh, V., Surani, F., Dahl, M., Suzgun, M., Manning, C. D., & Ho, D. E. (2025). Hallucination-free? Assessing the reliability of leading AI legal research tools. Journal of Empirical Legal Studies, 22(2), 216–242. https://doi.org/10.1111/jels.12413",
+      "url": "https://doi.org/10.1111/jels.12413",
+      "kind": "Peer-reviewed journal article",
+      "locator": "Abstract: preregistered evaluation of retrieval-based legal research tools; incorrect or misgrounded answers in 17% to 33% of queries.",
+      "cite": "Magesh et al., 2025"
+    },
+    {
+      "id": 37,
+      "title": "Liu, N., Zhang, T., & Liang, P. (2023). Evaluating verifiability in generative search engines. In Findings of the Association for Computational Linguistics: EMNLP 2023 (pp. 7001–7025). Association for Computational Linguistics. https://doi.org/10.18653/v1/2023.findings-emnlp.467",
+      "url": "https://doi.org/10.18653/v1/2023.findings-emnlp.467",
+      "kind": "Peer-reviewed conference paper",
+      "locator": "Abstract: citation support in four generative search engines as studied in 2023; not a rating of current products.",
+      "cite": "Liu et al., 2023"
+    },
+    {
+      "id": 38,
+      "title": "Lau, O., & Golder, S. (2025). Comparison of Elicit AI and traditional literature searching in evidence syntheses using four case studies. Cochrane Evidence Synthesis and Methods, 3(6), Article e70050. https://doi.org/10.1002/cesm.70050",
+      "url": "https://doi.org/10.1002/cesm.70050",
+      "kind": "Peer-reviewed journal article",
+      "locator": "Abstract: sensitivity of one AI research tool against the searches of four published evidence syntheses; results describe that tool at the time of evaluation.",
+      "cite": "Lau & Golder, 2025"
+    },
+    {
+      "id": 39,
+      "title": "Peters, U., & Chin-Yee, B. (2025). Generalization bias in large language model summarization of scientific research. Royal Society Open Science, 12(4), Article 241776. https://doi.org/10.1098/rsos.241776",
+      "url": "https://doi.org/10.1098/rsos.241776",
+      "kind": "Peer-reviewed journal article",
+      "locator": "Abstract: model-written summaries of scientific texts generalized beyond the original findings more often than human-written summaries.",
+      "cite": "Peters & Chin-Yee, 2025"
+    },
+    {
+      "id": 40,
+      "title": "Wang, L., Ma, C., Feng, X., Zhang, Z., Yang, H., Zhang, J., Chen, Z., Tang, J., Chen, X., Lin, Y., Zhao, W. X., Wei, Z., & Wen, J. (2024). A survey on large language model based autonomous agents. Frontiers of Computer Science, 18(6), Article 186345. https://doi.org/10.1007/s11704-024-40231-1",
+      "url": "https://doi.org/10.1007/s11704-024-40231-1",
+      "kind": "Peer-reviewed survey article",
+      "locator": "Abstract; Section 2.1.4, Action Module: agents that call external tools (checked in the open author manuscript, arXiv:2308.11432).",
+      "cite": "Wang et al., 2024"
+    },
+    {
+      "id": 41,
+      "title": "Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., & Cao, Y. (2023). ReAct: Synergizing reasoning and acting in language models. International Conference on Learning Representations. https://doi.org/10.48550/arXiv.2210.03629",
+      "url": "https://doi.org/10.48550/arXiv.2210.03629",
+      "kind": "Peer-reviewed conference paper · author manuscript",
+      "locator": "Abstract of the ICLR 2023 camera-ready version (arXiv v3): interleaved reasoning, actions, and observations.",
+      "cite": "Yao et al., 2023"
+    },
+    {
+      "id": 42,
+      "title": "Zhou, S., Xu, F. F., Zhu, H., Zhou, X., Lo, R., Sridhar, A., Cheng, X., Ou, T., Bisk, Y., Fried, D., Alon, U., & Neubig, G. (2024). WebArena: A realistic web environment for building autonomous agents. In International Conference on Learning Representations (pp. 15585–15606).",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/4410c0711e9154a7a2d26f9b3816d1ef-Abstract-Conference.html",
+      "kind": "Peer-reviewed conference paper",
+      "locator": "Abstract: realistic web tasks; best agent tested 14.41% end-to-end success against 78.24% for people. ICLR 2024.",
+      "cite": "Zhou et al., 2024"
+    },
+    {
+      "id": 43,
+      "title": "Greshake, K., Abdelnabi, S., Mishra, S., Endres, C., Holz, T., & Fritz, M. (2023). Not what you’ve signed up for: Compromising real-world LLM-integrated applications with indirect prompt injection. In Proceedings of the 16th ACM Workshop on Artificial Intelligence and Security (pp. 79–90). Association for Computing Machinery. https://doi.org/10.1145/3605764.3623985",
+      "url": "https://doi.org/10.1145/3605764.3623985",
+      "kind": "Peer-reviewed workshop paper",
+      "locator": "Abstract: instructions planted in content an application retrieves can redirect it.",
+      "cite": "Greshake et al., 2023"
     }
   ]
 }

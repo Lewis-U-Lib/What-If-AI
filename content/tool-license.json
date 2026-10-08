@@ -39,12 +39,12 @@
   ],
   "input_sha256": {
     "acts.json": "6e319c6590780bad1b2d1f87ae54affa1ccf175d2f2107b3a8193aae510d6d71",
-    "register.json": "551504f2e7bf94aa3a956ea4ea826992b73d864197bd8aab0a8499b74f022f55",
+    "register.json": "a4cce4ade6e9fe5d5c78537ca7e37ba132b1f968915621f813770f8a2737523e",
     "guide.json": "22dbfe42766273bbf490c52711d20ef97df9cb3c5b45ac3e08495684db13b4eb"
   },
   "output_sha256": {
     "acts.json": "9d97d39ebca169343636978238fe790d710463b5404066e2c7d080bc6c93fcb1",
-    "register.json": "551504f2e7bf94aa3a956ea4ea826992b73d864197bd8aab0a8499b74f022f55",
+    "register.json": "a4cce4ade6e9fe5d5c78537ca7e37ba132b1f968915621f813770f8a2737523e",
     "guide.json": "22dbfe42766273bbf490c52711d20ef97df9cb3c5b45ac3e08495684db13b4eb"
   },
   "clarified_ids": [

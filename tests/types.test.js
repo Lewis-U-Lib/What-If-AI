@@ -33,6 +33,14 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
  for(const s of source.sources){
    assert.equal(await page.locator('.type-bibliography li[value="'+s.id+'"] a').getAttribute('href'),s.url);
  }
+ const bibliography=page.locator('.type-bibliography__list');
+ const bibliographyToggle=bibliography.locator('summary');
+ assert.equal(await bibliography.getAttribute('open'),null);
+ assert.equal(await bibliography.locator('.type-sources').isVisible(),false);
+ await bibliographyToggle.focus();await page.keyboard.press('Enter');
+ assert.equal(await bibliography.locator('.type-sources').isVisible(),true);
+ await page.keyboard.press('Enter');
+ assert.equal(await bibliography.locator('.type-sources').isVisible(),false);
  await page.locator('.type-grid-guide').evaluate(n=>scrollTo({top:n.getBoundingClientRect().top+scrollY-100,behavior:'instant'}));
  await screenshot(page,'register-type-popups-grid.png');
  const results={types:[],widths:[],errors};

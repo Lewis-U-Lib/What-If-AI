@@ -1,5 +1,10 @@
 # AI-type guide: sourcing and scope, October 8, 2026
 
+> Later the same day, [the restored-limits revision](AI-TYPE-GUIDE-LIMITS-2026-10-08.md)
+> kept this structure, restored the earlier guide's practical limits with sources, and
+> expanded the bibliography from sixteen to forty-three APA references. The record below
+> describes the first revision as made.
+
 The Register's AI explanations previously carried no claim-level source references. This
 revision replaces the introduction, all eleven original descriptions, the no-student-tool
 entry, previews, and general recommendations with a newly researched guide. It does not

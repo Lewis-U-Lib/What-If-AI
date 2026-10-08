@@ -55,6 +55,10 @@ version, URL, and conditions do not change.
 
 The scope pass follows the sourced AI-guide revision merged in PR #14. Its sixteen
 references and all of its paraphrases and citation mappings are preserved unchanged.
+A later guide revision ([restored limits](AI-TYPE-GUIDE-LIMITS-2026-10-08.md)) changed only the
+guide's prose and references. The stage was repinned for it. Only the `register.json` input and
+output hashes changed; the `acts.json` hashes, note replacements, counts, and clarified
+identifiers did not.
 
 The manifest records four exact before/after wordings, expected occurrence counts
 (108, 20, 112, and 4), every affected identifier, and the input/output hashes.
