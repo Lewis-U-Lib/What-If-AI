@@ -7,7 +7,7 @@
     "build": "python3 tools/build.py",
     "check:release": "python3 tools/check_release.py",
     "serve": "node tests/serve.js",
-    "test": "npm run check:release && npm run test:editorial && npm run build && npm run test:matching && npm run test:site && npm run test:pages && npm run test:review && npm run test:types && npm run test:feedback && npm run test:a11y && npm run test:contrast",
+    "test": "npm run check:release && npm run test:editorial && npm run build && npm run test:matching && npm run test:site && npm run test:licensing && npm run test:pages && npm run test:review && npm run test:types && npm run test:feedback && npm run test:a11y && npm run test:contrast",
     "test:editorial": "python3 -m unittest discover -s tests -p '*_test.py'",
     "test:matching": "node tests/data-integration.test.js && node tests/matching.test.js && node tests/matching-browser.test.js && node tests/integration-browser.test.js && node tests/curation-browser.test.js",
     "test:site": "node tests/site.test.js",
@@ -16,7 +16,8 @@
     "test:types": "node tests/types.test.js",
     "test:feedback": "node tests/feedback.test.js",
     "test:a11y": "node tests/a11y.test.js",
-    "test:contrast": "node tests/contrast.test.js"
+    "test:contrast": "node tests/contrast.test.js",
+    "test:licensing": "node tests/licensing-browser.test.js"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
@@ -24,5 +25,6 @@
   },
   "engines": {
     "node": ">=20"
-  }
+  },
+  "license": "SEE LICENSE IN LICENSE.md"
 }

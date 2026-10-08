@@ -72,6 +72,9 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
   the grouping, claim citations, source status, and revision provenance while preserving
   the corpus, source bibliography, related-idea filters, and counts. See
   [the sourcing record](docs/AI-TYPE-GUIDE-2026-10-08.md).
+- `content/tool-license.json` defines the tools’ CC BY-NC-ND 4.0 license and its
+  explicit content exceptions. A final scope pass clarifies 244 entry notes without
+  changing any entry or source license. See [the licensing review](docs/TOOL-LICENSE-2026-10-08.md).
 - `src/` holds the pages, partials, CSS, JS, fonts, and images.
 - `tools/build.py` turns `src/` and `data/` into `_site/`, fingerprinting every asset. It needs
   only Python 3.
@@ -163,5 +166,8 @@ verify the same use-case idea details in both tools. Matching tests read the bui
 
 ## Licenses
 
-See [NOTICE.md](NOTICE.md). The site content is CC BY-NC-SA 4.0; each use-case idea keeps its
-source's license and attribution. The fonts are SIL OFL 1.1.
+The original tools are **CC BY-NC-ND 4.0**, with explicit exceptions in
+[LICENSE.md](LICENSE.md) and [NOTICE.md](NOTICE.md). Every use-case idea keeps its
+existing license, including synthesis and remix entries. Separately licensed guide
+content, policy quotations, sources, fonts, and dependencies retain their own terms.
+Earlier CC BY-NC-SA permissions remain in effect for earlier releases.

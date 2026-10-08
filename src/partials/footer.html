@@ -3,18 +3,23 @@
   <h2 id="footHeading" class="sr-only">License, attribution, and AI-use disclosure</h2>
   <div class="site-foot__inner">
     <div class="site-foot__license">
-      <a class="cc-icons" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer"
-         aria-label="Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (opens in a new tab)">
-        <svg viewBox="0 0 30 30" aria-hidden="true" focusable="false"><circle cx="15" cy="15" r="13.5" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="15" y="19.6" text-anchor="middle" fill="currentColor" font-size="12.5" font-weight="700" font-family="Arial, sans-serif">CC</text></svg>
-        <svg viewBox="0 0 30 30" aria-hidden="true" focusable="false"><circle cx="15" cy="15" r="13.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="15" cy="9.6" r="2.6" fill="currentColor"/><path d="M11.2 13.4h7.6v6.2h-2.2V24h-3.2v-4.4h-2.2z" fill="currentColor"/></svg>
-        <svg viewBox="0 0 30 30" aria-hidden="true" focusable="false"><circle cx="15" cy="15" r="13.5" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="15" y="20.4" text-anchor="middle" fill="currentColor" font-size="15" font-weight="700" font-family="Arial, sans-serif">$</text><line x1="6.5" y1="23.5" x2="23.5" y2="6.5" stroke="currentColor" stroke-width="1.9"/></svg>
-        <svg viewBox="0 0 30 30" aria-hidden="true" focusable="false"><circle cx="15" cy="15" r="13.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M21 15a6 6 0 1 1-1.8-4.3" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><path d="M21.6 7.6v4.6H17" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <a class="cc-icons" href="{{license:url}}" target="_blank" rel="license noopener noreferrer"
+         aria-label="Tool license: {{license:name}} (opens in a new tab)">
+        <img src="{{asset:img/cc-by-nc-nd.png}}" width="88" height="31" alt="CC BY-NC-ND"/>
       </a>
-      <p class="site-foot__text">This work is licensed under a
-        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License<span class="sr-only"> (opens in a new tab)</span></a>.</p>
-      <p class="site-foot__meta">Lewis University Library · CC BY-NC-SA 4.0 · <span data-updated>{{updated}}</span></p>
+      <p class="site-foot__text">{{license:scope}} are licensed under the
+        <a href="{{license:url}}" target="_blank" rel="license noopener noreferrer">{{license:name}}<span class="sr-only"> (opens in a new tab)</span></a>.</p>
+      <p class="site-foot__meta">Lewis University Library · Tool license: {{license:label}} · <span data-updated>{{updated}}</span></p>
     </div>
-    <p class="site-foot__attr">Use-case ideas adapted from other works keep their original licenses; each one lists its source, license, and the changes made. When you reuse a use-case idea, keep that attribution. Suggested credit for this collection: <em>What If AI</em> and <em>The Register</em>, Lewis University Library, CC BY-NC-SA 4.0.</p>
+    <p class="site-foot__attr" data-license-exceptions>{{license:exceptions}}</p>
+    <details class="site-foot__details">
+      <summary>License scope, reuse, and earlier releases</summary>
+      <p>{{license:summary}} Follow the <a href="{{license:legal_url}}" target="_blank" rel="noopener noreferrer">full license terms<span class="sr-only"> (opens in a new tab)</span></a>.</p>
+      <p data-guide-license>{{license:guide_notice}}</p>
+      <p>Fonts keep their SIL Open Font License. Logos and trademarks are excluded from the tool license. Public-domain material remains public domain; other permissions and copyright exceptions still apply.</p>
+      <p data-license-history>{{license:history_notice}}</p>
+      <p>Suggested credit for the tools: <em>What If AI</em> and <em>The Register</em>, Lewis University Library, {{license:label}}. For an individual use-case idea or source, retain its own credit, license, and change notices.</p>
+    </details>
     <ul class="site-foot__links">
       <li><a href="what-if-ai.html"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-bulb"/></svg>What If AI</a></li>
       <li><a href="register.html"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-crt"/></svg>The Register</a></li>

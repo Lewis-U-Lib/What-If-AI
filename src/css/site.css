@@ -227,7 +227,11 @@ dialog::backdrop{background:rgba(20,2,8,.72);}
 .site-foot__inner{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:12px;align-items:center;}
 .site-foot__license{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 14px;}
 .site-foot .cc-icons{margin:0;color:var(--ink);gap:6px;}
-.site-foot .cc-icons svg{width:30px;height:30px;}
+.site-foot .cc-icons img{width:88px;height:31px;max-width:none;}
+.site-foot__details{max-width:760px;font-size:14.5px;text-align:left;}
+.site-foot__details summary{cursor:pointer;color:var(--gold);}
+.site-foot__details p{margin-top:10px;}
+.site-foot__details a{color:var(--gold);text-decoration:underline;}
 .site-foot__text{font-size:15.5px;color:var(--ink);max-width:none;}
 .site-foot__text a,.site-foot__links a{color:var(--gold);text-decoration:underline;}
 .site-foot__meta{font-size:14.5px;color:var(--ink-2);max-width:none;}

@@ -40,7 +40,8 @@ is made that publication or public access grants adaptation rights. No figures o
 from the cited works are reproduced. Existing source rights and activity attribution remain
 under the collection's earlier review stages.
 
-The build's final guide stage may change prose only. It preserves all related-idea IDs,
+The build's guide stage may change prose only; a later license-scope pass clarifies
+entry-license notes without changing this guide or its references. It preserves all related-idea IDs,
 capability keys, and counts. `acts.json` and `guide.json` remain byte-identical to the
 terminology stage; non-type fields in `register.json` remain structurally identical.
 

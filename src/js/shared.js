@@ -8,7 +8,7 @@
 (function(){
 "use strict";
 var D = window.SITE_DATA.acts;   /* fetched by boot.js from data/acts.<hash>.json */
-var A = D.acts, IN = D.intake;
+var A = D.acts, IN = D.intake, TOOL_LICENSE = window.TOOL_LICENSE;
 var BYID = {}, ALIAS = {};
 A.forEach(function(a){ BYID[a.id] = a; (a.al||[]).forEach(function(x){ if(!ALIAS[x]) ALIAS[x] = a.id; }); });
 
@@ -272,7 +272,7 @@ function detailHTML(a, opts){
       'Its terms are in '+items.map(function(r){ return '<a href="'+reg+'#src='+encodeURIComponent(r[0])+'">The Register’s entry for '+esc(r[2])+'</a>'; }).join(' and ')+'.';
     b += '<div class="note'+(a.sa==='restricted'?' note--caution':'')+'"><strong>Source item: '+esc(L.sa[a.sa].toLowerCase())+'.</strong> '+
       'This use-case idea uses '+(named||'its source item')+' as published, by link; the item is not copied into the use-case idea. '+
-      esc(L.saLong[a.sa])+' '+where+' The use-case idea’s own write-up carries the collection’s license.</div>';
+      esc(L.saLong[a.sa])+' '+where+' The use-case idea’s own license is shown in its Source and license section.</div>';
   }
   var PL = (D.pol||{})[a.pol];
   if(PL){
@@ -333,8 +333,9 @@ function detailHTML(a, opts){
       (a.url && !opts.print ? ' <a href="'+esc(a.url)+'" target="_blank" rel="noopener noreferrer">Open the source<span class="sr-only"> (opens in a new tab)</span> ↗</a>' : (a.url ? ' '+esc(a.url) : ''))+'</div>';
     if(a.loc) src += '<p class="meta-line">Location in the source: '+esc(a.loc)+'</p>';
   }
-  src += '<h4>License</h4><p>'+(a.licu && !opts.print ? '<a href="'+esc(a.licu)+'" target="_blank" rel="noopener noreferrer">'+esc(a.lic)+'</a>' : esc(a.lic||'Not stated'))+
+  src += '<h4>License for this use-case idea</h4><p data-entry-license>'+(a.licu && !opts.print ? '<a href="'+esc(a.licu)+'" target="_blank" rel="noopener noreferrer">'+esc(a.lic)+'</a>' : esc(a.lic||'Not stated'))+
     (a.lics ? ' <span class="meta-line">— as stated by the source: '+esc(a.lics)+'</span>' : '')+'</p>';
+  src += '<p class="meta-line" data-entry-license-scope>'+esc(TOOL_LICENSE.entry_notice)+'</p>';
   if(a.licn) src += '<p class="meta-line">'+esc(a.licn)+'</p>';
   if(a.attr) src += '<h4>Attribution to keep when reusing</h4>'+lines(a.attr).map(function(x){ return '<p>'+esc(x)+'</p>'; }).join('');
   if(a.chg) src += '<h4>'+(T ? 'How it was put together' : 'How this version differs from the source')+'</h4>'+p(a.chg);
@@ -470,8 +471,9 @@ function printSaved(){
     var a = BYID[id];
     h += '<article><div class="kicker">'+esc(kickerOf(a))+'</div><h2>'+esc(a.t)+'</h2>'+detailHTML(a,{print:true})+'</article>';
   });
-  h += '<div class="pr-foot">Compiled from What If AI and The Register, Lewis University Library. The collection is licensed CC BY-NC-SA 4.0; '+
-    'each use-case idea adapted from another source keeps that source’s license and attribution, shown with the use-case idea.</div>';
+  h += '<div class="pr-foot">Tool credit: What If AI and The Register, Lewis University Library. '+
+    esc(TOOL_LICENSE.scope)+' are licensed '+esc(TOOL_LICENSE.label)+' ('+esc(TOOL_LICENSE.url)+'). '+
+    esc(TOOL_LICENSE.exceptions)+' Retain each entry’s own attribution, license, and change notices.</div>';
   root.innerHTML = h;
   var dr = document.getElementById('savedDrawer'); if(dr && dr.open) closeDialog(dr);
   document.body.classList.add('print-saved');

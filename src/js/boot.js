@@ -10,6 +10,7 @@
 (function(){
 "use strict";
 var man = JSON.parse(document.getElementById('site-manifest').textContent);
+window.TOOL_LICENSE = man.toolLicense;
 var main = document.getElementById('main');
 var msg = document.getElementById('boot-msg');
 if(main) main.setAttribute('aria-busy', 'true');

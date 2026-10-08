@@ -47,7 +47,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   const RELEASE = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'release.json'), 'utf8'));
   const ids = new Set(ACTS.acts.map(a => a.id)), liveIdsAll = ids;
   check('the page store holds exactly the approved public activities', ids.size === require('../content/record-review.json').expected_counts.activities && ACTS.acts.length === ids.size, ids.size + ' activities');
-  check('the served data matches the reviewed, punctuated, curated publication with its two labeled sets, AI-use review, record review and public terminology, byte for byte', require('crypto').createHash('sha256').update(fs.readFileSync(path.join(SITE, m1.data.acts))).digest('hex') === require('../content/terminology.json').output_sha256['acts.json'], RELEASE.release);
+  check('the served data matches the reviewed, punctuated, curated publication with its two labeled sets, AI-use review, record review, public terminology and license scope, byte for byte', require('crypto').createHash('sha256').update(fs.readFileSync(path.join(SITE, m1.data.acts))).digest('hex') === require('../content/tool-license.json').output_sha256['acts.json'], RELEASE.release);
   const internalKeys = ['rq', 'vs', 'nf', 'ibasis', 'org', 'capb', 'fl', 'rs', 'cell', 'adm', 'gateb'];
   check('activity records carry no review or build fields', ACTS.acts.every(a => internalKeys.every(k => !(k in a))), internalKeys.join(', '));
   const regInternal = ['held', 'retired', 'xw', 'queues', 'audit', 'decisions', 'schema_map', 'schema_gaps', 'recon', 'rules', 'platforms'];
@@ -55,8 +55,8 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   check('stamps agree', JSON.stringify(ACTS.stamp) === JSON.stringify(REGD.stamp), ACTS.stamp.fingerprint);
   for (const f of ['what-if-ai.html', 'register.html']) {
     const html = fs.readFileSync(path.join(SITE, f), 'utf8');
-    check(f + ': footer states CC BY-NC-SA 4.0 with the deed link',
-      html.includes('https://creativecommons.org/licenses/by-nc-sa/4.0/') && html.includes('Attribution-NonCommercial-ShareAlike 4.0 International License') && !html.includes('by-nc-nd/4.0/" target'),
+    check(f + ': footer states the scoped CC BY-NC-ND 4.0 tool license with the deed link',
+      html.includes('https://creativecommons.org/licenses/by-nc-nd/4.0/') && html.includes('Attribution-NonCommercial-NoDerivatives 4.0 International License') && html.includes('Each use-case idea keeps its own stated license'),
       'license text and link');
   }
 
