@@ -15,7 +15,7 @@ let SRV = null;
 const URL = f => SRV.url(f);
 /* pages with data are ready once boot.js has loaded it; the landing and 404 pages have none */
 async function ready(page) { await page.waitForFunction(() => document.documentElement.hasAttribute('data-ready') || !document.getElementById('site-manifest'), null, { timeout: 15000 }); }
-const SURFACES = '.topbar, .hdr, .panel__head, .dlg__head, .site-foot, .polpanel, .sec-eyebrow, .btn--primary, .secnav a, .save, .rail .railitem, .protocols, .countline, .readout, .ftag, .type--compact, .type-dialog, .type-example-disclosure > summary, .tour__text, .activity-feedback, .match-note, .requirement-checks > summary';
+const SURFACES = '.topbar, .hdr, .panel__head, .dlg__head, .site-foot, .polpanel, .sec-eyebrow, .btn--primary, .secnav a, .save, .rail .railitem, .protocols, .countline, .readout, .ftag, .type--compact, .type-dialog, .type-example-disclosure > summary, .type-bibliography, .tour__text, .activity-feedback, .match-note, .requirement-checks > summary';
 const PCT = 0.9;   // background percentile compared (0.9 = brighter than 90% of the pixels behind the text)
 
 const STATES = [
@@ -42,6 +42,9 @@ const STATES = [
   ['register, policies', 'register.html#policies', async p => {}],
   ['register, AI types + console', 'register.html#ai-types', async p => { await p.$eval('.protocols', e => e.scrollIntoView({block:'center'})); }],
   ['register, type cards', 'register.html#ai-types', async p => { await p.$eval('.types--compact', e => e.scrollIntoView({block:'start'})); }],
+  ['register, AI guide references expanded', 'register.html#ai-types', async p => {
+    await p.click('.type-bibliography__list > summary');
+    await p.$eval('.type-bibliography__list', e => e.scrollIntoView({block:'start'})); }],
   ['register, type details', 'register.html#ai-types', async p => { await p.click('[data-open-type="conversational"]'); }],
   ['register, type examples', 'register.html#ai-types', async p => {
     await p.click('[data-open-type="conversational"]'); await p.click('.type-example-disclosure > summary');

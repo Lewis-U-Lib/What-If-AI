@@ -71,7 +71,8 @@ Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
 - `content/ai-type-guide.json` replaces the AI guide's prose after that stage. It supplies
   the grouping, claim citations, source status, and revision provenance while preserving
   the corpus, source bibliography, related-idea filters, and counts. See
-  [the sourcing record](docs/AI-TYPE-GUIDE-2026-10-08.md).
+  [the sourcing record](docs/AI-TYPE-GUIDE-2026-10-08.md) and
+  [the restored-limits revision](docs/AI-TYPE-GUIDE-LIMITS-2026-10-08.md).
 - `content/tool-license.json` defines the tools’ CC BY-NC-ND 4.0 license and its
   explicit content exceptions. A final scope pass clarifies 244 entry notes without
   changing any entry or source license. See [the licensing review](docs/TOOL-LICENSE-2026-10-08.md).
@@ -116,6 +117,11 @@ in each dialog; the full list identifies publication status and the consulted se
 `docs/research/ai-type-sources.json` records the source IDs and URLs used during research.
 Keep those mappings in sync. The build rejects missing, unknown, and unused references,
 missing explanations, and changes to the related-idea keys.
+References are full APA 7 entries, numbered by first appearance in reading order. Each also
+carries a short `cite` label that in-text links use as their accessible name. Because the
+license-scope stage pins the `register.json` it receives, run
+`python3 tools/license_scope.py --pin` after changing the guide, and confirm that only the
+`register.json` hashes change.
 
 `src/js/register-type-examples.js` holds the illustrative product names, short capability
 notes, official source links, and their checked date. Review those links when updating
