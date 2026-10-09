@@ -9,6 +9,7 @@
   var LIMITS=['noai','nostudent','nopaid','noaccount','nokit','nodisclose','noapproval'];
   var WEIGHTS={task:8,disc:4,depth:3,lvl:2,mod:1};
   function has(list,value){ return (list||[]).indexOf(value)>=0; }
+  function hasRoute(a){ return typeof a.na==='string' && !!a.na.trim(); }
   function admitted(a){ return a.icap!=='active' && a.icap!=='passive'; }
   function compare(a,key,value){
     if(!value) return 'unasked';
@@ -26,7 +27,7 @@
        qualifies. Otherwise the reviewed operator decides: only students operating a tool rules an
        activity out, and a record that does not say who operates it is never a confirmed fit. */
     if(key==='noai'){
-      if(a.na) return 'confirmed';
+      if(hasRoute(a)) return 'confirmed';
       v=a.op;
       if(v==='students') return 'excluded';
       return has(['faculty_or_staff','optional','none'],v)?'confirmed':'unknown';
@@ -43,6 +44,8 @@
     if(key==='nopaid'){
       v=a.eq;
       if(['paid_required','paid_with_stated_alternative'].includes(v)) return 'excluded';
+      // A no-student-tool label does not establish the cost of instructor preparation.
+      if(v==='no_tool_needed' && a.op==='faculty_or_staff') return 'unknown';
       return !gated && has(['no_tool_needed','free_tier','institution_provided'],v)?'confirmed':'unknown';
     }
     if(key==='nodisclose'){
@@ -57,6 +60,7 @@
       var blocked=key==='noaccount'?['account_verification']:key==='nokit'?['equipment_required','travel_or_attendance','purchased_material']:['institutional_approval_required'];
       if(has(blocked,v)) return 'excluded';
       if(key==='nokit' && gated) return 'unknown';
+      if((key==='noaccount'||key==='noapproval') && a.eq==='no_tool_needed' && a.op==='faculty_or_staff') return 'unknown';
       return v==='none'?'confirmed':'unknown';
     }
     return 'unknown';
@@ -86,9 +90,9 @@
      only publishes it, or one written for the collection and not yet tried). Records equal on all three are ordered by a fixed hash of their identifier, so no
      import batch, source, or alphabetical position is favored. The top results are the best matches even
      when they share a source; nothing enforces source diversity. */
-  /* No reported use: a published prompt or workflow nobody has reported running (use: unreported), or
-     a record from the two sets written for the collection (tier), which are not yet taught or tried. */
-  function used(a){ return a.use==='unreported' || a.tier ? 0 : 1; }
+  /* Only an explicit reported status earns this tie-break. Missing, unknown, and unreported
+     statuses remain neutral. The sets written for the collection do not claim reported use. */
+  function used(a){ return a.use==='reported' && !a.tier ? 1 : 0; }
   function neutral(id){                       // FNV-1a, 32-bit: stable across releases and browsers
     var h=0x811c9dc5; for(var i=0;i<id.length;i++){ h^=id.charCodeAt(i); h=Math.imul(h,0x01000193)>>>0; }
     return h;

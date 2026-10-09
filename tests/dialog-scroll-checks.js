@@ -16,8 +16,10 @@ module.exports = async function checkDialogScroll(browser, go, check) {
     }
     async function scrollDown(id) {
       return page.locator('#' + id + ' .dlg__body').evaluate(body => {
-        body.scrollTop = body.scrollHeight;
-        return body.scrollTop;
+        const dialog=body.closest('dialog');
+        const scroller=dialog.scrollHeight>dialog.clientHeight && getComputedStyle(dialog).overflowY==='auto'?dialog:body;
+        scroller.scrollTop = scroller.scrollHeight;
+        return scroller.scrollTop;
       });
     }
     for (const file of ['what-if-ai.html#a=focus:teaching;task:design', 'register.html#activities']) {
@@ -25,7 +27,7 @@ module.exports = async function checkDialogScroll(browser, go, check) {
       const button = page.locator(file.startsWith('register') ? '#actResults [data-open]' : '#plan [data-open]').first();
       await button.click(); await atTop('actDialog');
       await page.locator('#actDialog [data-give-feedback]').click();
-      assert.ok(await page.locator('#actDialog .dlg__body').evaluate(e => e.scrollTop) > 0);
+      assert.ok(await page.locator('#actDialog').evaluate(e => e.scrollTop + e.querySelector('.dlg__body').scrollTop) > 0);
       await page.keyboard.press('Escape');
       await page.waitForFunction(() => !/^#act=/.test(location.hash));
       await button.click(); await atTop('actDialog');
@@ -40,7 +42,7 @@ module.exports = async function checkDialogScroll(browser, go, check) {
       assert.ok(await scrollDown('savedDrawer') > 0);
       await page.locator('#savedBody [data-open]').last().click(); await atTop('actDialog');
       await page.keyboard.press('Escape');
-      assert.ok(await page.locator('#savedBody').evaluate(e => e.scrollTop) > 0, 'Returning from nested details preserves the drawer position');
+      assert.ok(await page.locator('#savedDrawer').evaluate(e => e.scrollTop + e.querySelector('.dlg__body').scrollTop) > 0, 'Returning from nested details preserves the drawer position');
       await page.keyboard.press('Escape');
       await page.locator('.topbar [data-open-saved]').click(); await atTop('savedDrawer');
       await page.keyboard.press('Escape');

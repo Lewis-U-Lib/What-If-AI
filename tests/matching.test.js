@@ -152,8 +152,12 @@ console.log('PASS: original '+originalStates+' states retained; '+states+' expan
   const order=list=>M.search(list,s).exact.map(r=>r.activity.id);
   // better recorded match first, then the quality tier, then reported use
   assert.deepEqual(order([mk('a',{gr:0}),mk('b',{gr:3})]),['b','a']);
-  assert.deepEqual(order([mk('u',{use:'unreported'}),mk('r',{})]),['r','u']);
-  assert.deepEqual(order([mk('s',{tier:'remix'}),mk('r',{})]),['r','s'],'a set record written for the collection has no reported use');
+  assert.deepEqual(order([mk('u',{use:'unreported'}),mk('r',{use:'reported'})]),['r','u']);
+  assert.deepEqual(order([mk('s',{tier:'remix'}),mk('r',{use:'reported'})]),['r','s'],'a set record written for the collection has no reported use');
+  for(const use of [undefined,'',false,'unknown','unreported']){
+    assert.equal(M.rank(M.assess(mk('same',{use}),s),M.assess(mk('same',{use:'unreported'}),s)),0,'missing and unknown usage must be neutral');
+  }
+  assert.equal(M.rank(M.assess(mk('same',{use:'reported',tier:'remix'}),s),M.assess(mk('same',{use:'unreported'}),s)),0);
   assert.deepEqual(order([mk('u',{use:'unreported',gr:3}),mk('r',{gr:1})]),['u','r'],'quality tier outranks evidence of use');
   const plan=M.search([mk('x',{task:['design','feedback']}),mk('y',{gr:3,task:['feedback']})],{focus:'teaching',task:'design',limits:{}});
   assert.deepEqual(plan.exact.map(r=>r.activity.id),['x'],'a better match is never displaced by a higher tier');

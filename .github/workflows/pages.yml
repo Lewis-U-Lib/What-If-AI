@@ -49,7 +49,7 @@ jobs:
       - name: Page behavior
         run: node tests/pages.test.js
       - name: Fixes from the October 2026 audit (field fit, route note, Ask Us focus, print, history)
-        run: node tests/review-fixes-browser.test.js
+        run: npm run test:review
       - name: AI-system type dialogs
         run: node tests/types.test.js
       - name: Activity feedback

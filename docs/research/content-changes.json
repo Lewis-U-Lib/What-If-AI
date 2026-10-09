@@ -1,0 +1,72 @@
+[
+  {
+    "id": "CAN-W-stem-022",
+    "field": "ad",
+    "before": "A pre-release cohort is what guarantees uncontaminated student baselines; courses without such an archive would need another baseline. In the source, student responses were graded by humans and not given to the model.",
+    "after": "Using responses collected before ChatGPT’s release rules out student use of ChatGPT for those responses; it does not establish that the baseline is free of every other influence. Courses without such an archive would need another baseline. In the source, student responses were graded by humans and not given to the model.",
+    "reason": "WIA-010"
+  },
+  {
+    "id": "CAN-D-ADM-001",
+    "field": "sum",
+    "before": "Specify the scholarship program; Generate a 150-word announcement for first-generation college students who may have limited experience with formal applications, stating eligibility in the first sentence, then the award, deadline, three application steps, and encouragement, in plain language at an eighth-grade reading level with no jargon; Staff reviews before publication.",
+    "after": "Specify the scholarship program. Generate a 150-word announcement for first-generation college students who may have limited experience with formal applications. State eligibility in the first sentence, followed by the award, deadline, three application steps, and encouragement. Use plain language at an eighth-grade reading level and avoid jargon. Have staff review the announcement before publication.",
+    "reason": "WIA-010"
+  },
+  {
+    "id": "CAN-A2-A-097",
+    "field": "op",
+    "before": "students",
+    "after": "optional",
+    "reason": "WIA-003; primary source Methods and optional participation"
+  },
+  {
+    "id": "CAN-A2-A-097",
+    "field": "na",
+    "before": null,
+    "after": "Complete the same writing, peer review, and revision sequence without a generative AI tool. Write the peer feedback yourself using the assignment criteria, then evaluate the feedback you receive and explain your revision decisions.",
+    "reason": "WIA-003; explicitly unaided participation route"
+  },
+  {
+    "id": "CAN-A2-A-097",
+    "field": "chg",
+    "before": "Restated as a bounded procedure; AI role and deliverable specified editorially.",
+    "after": "Restated as a bounded procedure; AI role and deliverable specified editorially. The operator label and unaided route now explicitly preserve the source’s optional AI participation. Other requirements still need to be checked for the chosen route.",
+    "reason": "WIA-003; change notice"
+  },
+  {
+    "id": "WIA-S-HUM-B-10",
+    "field": "miss",
+    "before": null,
+    "after": [
+      "Source access check (October 9, 2026): the linked Reed syllabus (SRC-0181) could not be retrieved. Obtain and review the source before using this activity; no replacement or additional reuse permission has been verified."
+    ],
+    "reason": "Audit source-access lead; explicit unresolved source dependency"
+  },
+  {
+    "id": "CAN-A1-EQ-017",
+    "field": "evs",
+    "before": null,
+    "after": "The source reports a four-week classroom study in which students used AI tools themselves (Methods, pp. 82–84). This version changes that arrangement: the instructor supplies generated alternatives. The source’s results do not independently establish the effectiveness of this adapted workflow.",
+    "reason": "Q-02; full-text source methods and explicit adaptation boundary"
+  },
+  {
+    "id": "WIA-R-DISC-01",
+    "field": "evs",
+    "before": null,
+    "after": "The chemistry source documents a classroom practical using a spectral library, a nearest-neighbors classifier, held-out evaluation, and measured unknowns. The Carpentries lesson explains uncertainty and out-of-distribution detection. These sources support separate components; they do not validate this combined abstention exercise, which remains unpiloted. The cited reflection-book passages have not been independently rechecked for this review.",
+    "reason": "Q-02; component evidence is separate from proposed combination"
+  },
+  {
+    "id": "WIA-R-DISC-01",
+    "field": "pa",
+    "before": null,
+    "after": [
+      [
+        "Make the decision rule reproducible",
+        "Before the trial, specify the processed feature space, distance measure, number of neighbors, distance cutoff, and minimum agreement. Withhold when distance is greater than the cutoff OR agreement is less than the minimum; equality alone does not trigger withholding. Treat missing or invalid measurements as a reason to withhold. Test a case just below, at, and just above each cutoff, and a case where each condition separately triggers withholding. Have a chemistry instructor review the selected compounds, lab procedures, and calibration before any pilot."
+      ]
+    ],
+    "reason": "Q-02; explicitly labeled compiler safeguard, not source-reported practice"
+  }
+]

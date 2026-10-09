@@ -1,0 +1,857 @@
+{
+  "accessed": "2026-10-09",
+  "source_tab": "Policies",
+  "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179",
+  "normalization": "Whitespace only; source wording and punctuation retained. Ellipses mark leading, intervening, and trailing omissions.",
+  "csv_sha256": "1341866c0c3196a878bdb605e0b6a660b7472fa6156471641397f88aa9741249",
+  "examples": [
+    {
+      "contributor": "Ricela Feliciano",
+      "tier": "restrictive",
+      "row": 130,
+      "course": "MATH 229 - Calculus 1",
+      "institution": "Northern Illinois University",
+      "rights_as_stated": "Creative Commons 4.0 By & Share Alike",
+      "displayed_license": "CC BY-SA 4.0",
+      "source_text": "You are expected to use the university’s AI tutor each week as a study coach—to review concepts, ask questions, and practice problem-solving. Do not use any AI to generate answers for homework, worksheets, or projects. Copying or paraphrasing AI output is prohibited and may violate academic integrity policies. More importantly, relying on AI for answers harms your learning and will leave you unprepared for exams and quizzes, where AI is not allowed.",
+      "source_text_sha256": "de766670ad58ae253855d4ecc110241ba36f814434fd615d386139793f0dac3f",
+      "ranges": [
+        [
+          0,
+          453
+        ]
+      ],
+      "quote": "You are expected to use the university’s AI tutor each week as a study coach—to review concepts, ask questions, and practice problem-solving. Do not use any AI to generate answers for homework, worksheets, or projects. Copying or paraphrasing AI output is prohibited and may violate academic integrity policies. More importantly, relying on AI for answers harms your learning and will leave you unprepared for exams and quizzes, where AI is not allowed.",
+      "previous_display": {
+        "course": "MATH 229 — Calculus 1",
+        "inst": "Northern Illinois University",
+        "lic": "CC BY-SA 4.0",
+        "quote": "You are expected to use the university's AI tutor each week as a study coach … [but] do not use any AI to generate answers for homework, worksheets, or projects. Copying or paraphrasing AI output is prohibited.",
+        "who": "Ricela Feliciano"
+      },
+      "current_display": {
+        "course": "MATH 229 - Calculus 1",
+        "inst": "Northern Illinois University",
+        "lic": "CC BY-SA 4.0",
+        "quote": "You are expected to use the university’s AI tutor each week as a study coach—to review concepts, ask questions, and practice problem-solving. Do not use any AI to generate answers for homework, worksheets, or projects. Copying or paraphrasing AI output is prohibited and may violate academic integrity policies. More importantly, relying on AI for answers harms your learning and will leave you unprepared for exams and quizzes, where AI is not allowed.",
+        "who": "Ricela Feliciano",
+        "source_row": 130,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A130:F130"
+      }
+    },
+    {
+      "contributor": "Kendra Albert",
+      "tier": "restrictive",
+      "row": 73,
+      "course": "Gender and Technology, Gender as Technology?",
+      "institution": "Harvard University",
+      "rights_as_stated": "Creative Commons 4.0 By",
+      "displayed_license": "CC BY 4.0",
+      "source_text": "Use of “AI” or Large Language Model Based Tools Don’t. Unless you receive explicit instructor permission, do not submit materials produced by large language models or “generative AI” in this course. You also may not use them for research or summarization of course materials. Doing so will be considered academic misconduct. More specifically, we will discuss “AI” in the course, on April 1, 2024. (That is actually not a joke.) Using such tools prior to that is prohibited. If you wish to use such tools after that, I would be happy to discuss it with you. Additionally, because the course is ungraded, the use of these tools ultimately will not improve your grade and will likely jeopardize it.",
+      "source_text_sha256": "08a24062abbf3a2a53e8e131958973298cbc1604fd940d704eced440453b62c0",
+      "ranges": [
+        [
+          48,
+          324
+        ]
+      ],
+      "quote": "… Don’t. Unless you receive explicit instructor permission, do not submit materials produced by large language models or “generative AI” in this course. You also may not use them for research or summarization of course materials. Doing so will be considered academic misconduct. …",
+      "previous_display": {
+        "course": "Gender and Technology",
+        "inst": "Harvard University",
+        "lic": "CC BY 4.0",
+        "quote": "Don't. Unless you receive explicit instructor permission, do not submit materials produced by … 'generative AI' in this course. You also may not use them for research or summarization of course materials.",
+        "who": "Kendra Albert"
+      },
+      "current_display": {
+        "course": "Gender and Technology, Gender as Technology?",
+        "inst": "Harvard University",
+        "lic": "CC BY 4.0",
+        "quote": "… Don’t. Unless you receive explicit instructor permission, do not submit materials produced by large language models or “generative AI” in this course. You also may not use them for research or summarization of course materials. Doing so will be considered academic misconduct. …",
+        "who": "Kendra Albert",
+        "source_row": 73,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A73:F73"
+      }
+    },
+    {
+      "contributor": "Meriah Crawford",
+      "tier": "restrictive",
+      "row": 72,
+      "course": "UNIV 200 Advanced Focused Inquiry: Literacies, Research and Communication",
+      "institution": "Virginia Commonwealth University",
+      "rights_as_stated": "Public Domain",
+      "displayed_license": "Public Domain",
+      "source_text": "For the purposes of this class, no AI use for writing assignments (including ChatGPT, Claude, Bing, Gemini, Copilot, or any similar tools) is permitted. Using AI for this class would, like plagiarism or cheating, violate the honor code and would be a serious ethical violation. Using tools for spellcheck and grammar is perfectly fine—and recommended. (In case your other professors aren’t specific, most of them will also find this use acceptable. Please ask them if they don’t specify.) AI use is not permitted because this class is carefully designed to help you (a) learn to understand the subject better, (b) think critically, and (c) write thoughtfully and effectively. This work will increase your skills in ways that will be vital to you as a student, worker, and member of society. It is therefore essential for you to do the work on your own, without help from AI or from any other resources not permitted by your professor. You should also be aware that AI often produces content that is factually erroneous, biased, sexist, racist, or otherwise offensive. AI also confidently invents sources and quotations without noting that they aren’t real. Finally, the content AI generates is often too general or altogether off base. Therefore, what AI produces would not adequately satisfy the criteria for success in this class. All of this said, there are uses of AI that are acceptable. AI can be useful for helping you focus, organize, plan your study schedule, and get help with understanding complex concepts. It’s always acceptable to use tools for spelling and grammar checking. And if you are a student with a disability, you may find AI useful for accessibility. In particular, voice-to-text, text-to-voice, and note taking tools are encouraged. Other tools designed to help you with your disability are likely to be acceptable, as well. Please ask me if you are uncertain or if there is something new available.",
+      "source_text_sha256": "0a3a5dfb4373238f44d6b374cd13b84cf496b126dcc645bca46cd2e2be717982",
+      "ranges": [
+        [
+          0,
+          152
+        ],
+        [
+          278,
+          351
+        ],
+        [
+          1590,
+          1675
+        ]
+      ],
+      "quote": "For the purposes of this class, no AI use for writing assignments (including ChatGPT, Claude, Bing, Gemini, Copilot, or any similar tools) is permitted. … Using tools for spellcheck and grammar is perfectly fine—and recommended. … And if you are a student with a disability, you may find AI useful for accessibility. …",
+      "previous_display": {
+        "course": "UNIV 200 — Advanced Focused Inquiry",
+        "inst": "Virginia Commonwealth University",
+        "lic": "Public Domain",
+        "quote": "No AI use for writing assignments … is permitted … Using tools for spellcheck and grammar is perfectly fine — and recommended. [This] class is carefully designed to help you learn the subject, think critically, and write thoughtfully.",
+        "who": "Meriah Crawford"
+      },
+      "current_display": {
+        "course": "UNIV 200 Advanced Focused Inquiry: Literacies, Research and Communication",
+        "inst": "Virginia Commonwealth University",
+        "lic": "Public Domain",
+        "quote": "For the purposes of this class, no AI use for writing assignments (including ChatGPT, Claude, Bing, Gemini, Copilot, or any similar tools) is permitted. … Using tools for spellcheck and grammar is perfectly fine—and recommended. … And if you are a student with a disability, you may find AI useful for accessibility. …",
+        "who": "Meriah Crawford",
+        "source_row": 72,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A72:F72"
+      }
+    },
+    {
+      "contributor": "Christina Frasher",
+      "tier": "restrictive",
+      "row": 90,
+      "course": "Health and Human Development Courses",
+      "institution": "University of Pittsburg",
+      "rights_as_stated": "Creative Commons 4.0 By",
+      "displayed_license": "CC BY 4.0",
+      "source_text": "Academic Integrity and AI: Since writing, analytical, and critical thinking skills are essential aspects of this course, all assignments should be prepared by the student. Developing strong competencies in this area will prepare you for a competitive workplace and also finding your own writing, research and creative style will be one of the strongest assets you can offer professionally. Finding this style usually happens in a zone that Brian Eno terms, “happy accidents.\" Utilizing AL to generate your own work prevents you from making those accidental connections and ultimately slows your progress during your higher ed journey and may limit you professionally. This learning space is created to support your vulnerablity in finding that writing, research and creative voice and I hope you will offer that space for vulnerability as well. To support this process, AI-generated submissions are not permitted and will be treated as plagiarism.",
+      "source_text_sha256": "87b4aa11f1691895a530e511fba27ebba3c0987da85dd75c93ddf0350e443c46",
+      "ranges": [
+        [
+          121,
+          171
+        ],
+        [
+          870,
+          947
+        ]
+      ],
+      "quote": "… all assignments should be prepared by the student. … AI-generated submissions are not permitted and will be treated as plagiarism.",
+      "previous_display": {
+        "course": "Health & Human Development",
+        "inst": "University of Pittsburgh",
+        "lic": "CC BY 4.0",
+        "quote": "All assignments should be prepared by the student… AI-generated submissions are not permitted and will be treated as plagiarism.",
+        "who": "Christina Frasher"
+      },
+      "current_display": {
+        "course": "Health and Human Development Courses",
+        "inst": "University of Pittsburg",
+        "lic": "CC BY 4.0",
+        "quote": "… all assignments should be prepared by the student. … AI-generated submissions are not permitted and will be treated as plagiarism.",
+        "who": "Christina Frasher",
+        "source_row": 90,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A90:F90"
+      }
+    },
+    {
+      "contributor": "Donna Lanclos",
+      "tier": "restrictive",
+      "row": 3,
+      "course": "ANTH-6611: seminar in Applied Anthropology",
+      "institution": "University of North Carolina, Charlotte",
+      "rights_as_stated": "Creative Commons 4.0 By",
+      "displayed_license": "CC BY 4.0",
+      "source_text": "Use of GAI tools for academic work: a caution Please do not use Generative AI tools as a substitute for your own thinking, reflections, and voice. If you are uncertain, that’s OK, and it’s fine for it to be reflected in your writing. I prefer that to the smooth and certain bullshit that is extruded by GAI tools. The increasing availability of generative artificial intelligence (GAI) tools like ChatGPT presents new challenges for university classes. While many of us have used algorithmic searches (e.g. Google), the new applications provide human-like writing. Things to think about: ChatGPT can help students brainstorm questions they go onto investigate, or create counterarguments to strengthen their essays. However, it can also generate fake knowledge, including citations, and short-circuit the process of reading for understanding. Does it make us rethink what counts as cheating? What counts as learning? Can we write reflectively on our processes as an exercise to help us understand this? I’ve written more about this issue here: https://link.springer.com/article/10.1007/s42438-023-00440-6#citeas In short, don’t do the neoliberal academy’s work for them. I can’t stop you, and I’m not a cop, so I won’t be using detection software. But these tools extrude highly mediocre and bland and often very wrong content. None of you are mediocre, and you deserve better.",
+      "source_text_sha256": "999ccdd9836334fbc0cc2f8cc7c33462439b70267028edf27dbb81513c5d79c4",
+      "ranges": [
+        [
+          46,
+          146
+        ],
+        [
+          1328,
+          1377
+        ]
+      ],
+      "quote": "… Please do not use Generative AI tools as a substitute for your own thinking, reflections, and voice. … None of you are mediocre, and you deserve better.",
+      "previous_display": {
+        "course": "ANTH-6611: Applied Anthropology Seminar",
+        "inst": "UNC Charlotte",
+        "lic": "CC BY 4.0",
+        "quote": "Please do not use Generative AI tools as a substitute for your own thinking, reflections, and voice… None of you are mediocre, and you deserve better.",
+        "who": "Donna Lanclos"
+      },
+      "current_display": {
+        "course": "ANTH-6611: seminar in Applied Anthropology",
+        "inst": "University of North Carolina, Charlotte",
+        "lic": "CC BY 4.0",
+        "quote": "… Please do not use Generative AI tools as a substitute for your own thinking, reflections, and voice. … None of you are mediocre, and you deserve better.",
+        "who": "Donna Lanclos",
+        "source_row": 3,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A3:F3"
+      }
+    },
+    {
+      "contributor": "Michael Scialdone",
+      "tier": "conditional",
+      "row": 120,
+      "course": "ISTM705: Information Management for Decision Making",
+      "institution": "Texas A&M University",
+      "rights_as_stated": "Public Domain",
+      "displayed_license": "Public Domain",
+      "source_text": "Artificial Intelligence (AI) is defined, for the purpose of this course, as any computer system or program that simulates, substitutes, and/or enhances problem-solving that typically requires human intelligence. While students may use simple AI, such as built-in features of a word processor like spelling and grammar checks, they are not permitted to utilize Generative AI at any stage of completing work (graded or ungraded) unless explicitly noted in the instructions for a deliverable. Generative AI is defined here as AI which has the capacity to ideate, summarize, generate, rewrite, or validate content; including, but not limited to, tools such as ChatGPT, Bard, and DALL-E. Students may formally request, in writing, an exception to the above. Such requests must include: (1) which assignment the student is requesting to use AI with, (2) which specific AI tool the student wishes to use, (3) what they plan to use the tool for (e.g. to generate ideas, summarize a longer document, create a unique scenario, etc.), and (4) why, specifically, they are requesting the exception (e.g. to reduce time spent on a tedious task, to identify relevant sources for further investigation, to experiment with AI, etc.). Requests will be considered on a case-by-case basis. In the event of any exception (whether it is an individual exception, or that a given deliverable permits the use of Generative AI), the professor will specify guidelines, if any, upon which the student’s use of Generative AI must be documented.",
+      "source_text_sha256": "ccbb4a700263d336aa87a92a0f6bd8e8b2341e60dc3027feff7084c126b6a884",
+      "ranges": [
+        [
+          212,
+          489
+        ],
+        [
+          683,
+          752
+        ],
+        [
+          1217,
+          1269
+        ]
+      ],
+      "quote": "… While students may use simple AI, such as built-in features of a word processor like spelling and grammar checks, they are not permitted to utilize Generative AI at any stage of completing work (graded or ungraded) unless explicitly noted in the instructions for a deliverable. … Students may formally request, in writing, an exception to the above. … Requests will be considered on a case-by-case basis. …",
+      "previous_display": {
+        "course": "ISTM 705 — Information Management",
+        "inst": "Texas A&M University",
+        "lic": "Public Domain",
+        "quote": "Students … are not permitted to utilize Generative AI at any stage … unless explicitly noted in the instructions for a deliverable. Students may formally request, in writing, an exception … considered on a case-by-case basis.",
+        "who": "Michael Scialdone"
+      },
+      "current_display": {
+        "course": "ISTM705: Information Management for Decision Making",
+        "inst": "Texas A&M University",
+        "lic": "Public Domain",
+        "quote": "… While students may use simple AI, such as built-in features of a word processor like spelling and grammar checks, they are not permitted to utilize Generative AI at any stage of completing work (graded or ungraded) unless explicitly noted in the instructions for a deliverable. … Students may formally request, in writing, an exception to the above. … Requests will be considered on a case-by-case basis. …",
+        "who": "Michael Scialdone",
+        "source_row": 120,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A120:F120"
+      }
+    },
+    {
+      "contributor": "Pablo Castrillo",
+      "tier": "conditional",
+      "row": 202,
+      "course": "Introduction to Screenwriting",
+      "institution": "Universidad de Navarra",
+      "rights_as_stated": "Creative Commons 4.0 By Noncommerical & Share Alike",
+      "displayed_license": "CC BY-NC-SA 4.0",
+      "source_text": "[GENERAL POLICY] Students are allowed to employ generative A.I. tools in specific exercises when instructed so, always under the following conditions: 1) All creative writing —including concept, dramatic design, and final text—, must be original of each student. 2)A.I. tools may be used only for assistance with research, brainstorming, and proofreading. 3) If an A.I. tool is actually used, an addendum must be turned in with each exercise, with a live link to the chat for accountability purposes. 4) The use of AI tools when not permitted, or their improper use, will be considered academic misconduct. [DIRECTIONS FOR SPECIFIC EXERCISES] 1) A.I. Usage Level: Writing Assistant You may use ChatGPT only as a dictionary, thesaurus, and proofreader. 2) A.I. Usage Level: Sounding Board Feel free to use ChatGPT as a brainstorming buddy for developing, testing, and expanding your original ideas. 3) A.I. Usage Level: Character Interview Once you have created your character and its general description, you may feed it to ChatGPT and ask it to respond your questions in character. Then, query it about the aspects of your character you are still trying to figure out. 4) A.I. Usage Level: Prompt Generator Choose a character, a setting, and a subject of conflict. With these elements, you may ask ChatGPT to create a concise premise for a short scene. (Thereafter, you must write the scene on your own, only with Level 1 assistance if needed.)",
+      "source_text_sha256": "fa936a3fd9821dea2716ee22987c5c3c5271cfdee601829304403b3358b0a669",
+      "ranges": [
+        [
+          17,
+          110
+        ],
+        [
+          359,
+          490
+        ]
+      ],
+      "quote": "… Students are allowed to employ generative A.I. tools in specific exercises when instructed so … If an A.I. tool is actually used, an addendum must be turned in with each exercise, with a live link to the chat for accountability …",
+      "previous_display": {
+        "course": "Introduction to Screenwriting",
+        "inst": "Universidad de Navarra",
+        "lic": "CC BY-NC-SA 4.0",
+        "quote": "Students are allowed to employ generative A.I. tools in specific exercises when instructed so … If an A.I. tool is actually used, an addendum must be turned in with each exercise, with a live link to the chat for accountability.",
+        "who": "Pablo Castrillo"
+      },
+      "current_display": {
+        "course": "Introduction to Screenwriting",
+        "inst": "Universidad de Navarra",
+        "lic": "CC BY-NC-SA 4.0",
+        "quote": "… Students are allowed to employ generative A.I. tools in specific exercises when instructed so … If an A.I. tool is actually used, an addendum must be turned in with each exercise, with a live link to the chat for accountability …",
+        "who": "Pablo Castrillo",
+        "source_row": 202,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A202:F202"
+      }
+    },
+    {
+      "contributor": "Kevin R. Guidry (UD CTAL)",
+      "tier": "conditional",
+      "row": 132,
+      "course": "Examples provided for all courses",
+      "institution": "University of Delaware",
+      "rights_as_stated": "Creative Commons 4.0 By Noncommerical",
+      "displayed_license": "CC BY-NC 4.0",
+      "source_text": "The Center for Teaching & Assessment of Learning at the University of Delaware has developed four sample syllabus statements at https://sites.udel.edu/ctal/advanced-automated-tools/#syllabus-language Additional text for most of these recommendations is included at that webpage, including an acknowledgement of Spencer Ross's sample citation language for GPT-3. Use prohibited Students are not allowed to use advanced automated tools (artificial intelligence or machine learning tools such as ChatGPT or Dall-E 2) on assignments in this course. Each student is expected to complete each assignment without substantive assistance from others, including automated tools. Use only with prior permission Students are allowed to use advanced automated tools (artificial intelligence or machine learning tools such as ChatGPT or Dall-E 2) on assignments in this course if instructor permission is obtained in advance. Unless given permission to use those tools, each student is expected to complete each assignment without substantive assistance from others, including automated tools. Use only with acknowledgement Students are allowed to use advanced automated tools (artificial intelligence or machine learning tools such as ChatGPT or Dall-E 2) on assignments in this course if that use is properly documented and credited. For example, text generated using ChatGPT-3 should include a citation such as: “Chat-GPT-3. (YYYY, Month DD of query). “Text of your query.” Generated using OpenAI. https://chat.openai.com/” Material generated using other tools should follow a similar citation convention. Use is freely permitted with no acknowledgement Students are allowed to use advanced automated tools (artificial intelligence or machine learning tools such as ChatGPT or Dall-E 2) on assignments in this course; no special documentation or citation is required.",
+      "source_text_sha256": "4876c3c45d7dde62cfd8efa29472ea76df8dad05ff3d434ca109e9b81bac5ffb",
+      "ranges": [
+        [
+          377,
+          668
+        ]
+      ],
+      "quote": "… Students are not allowed to use advanced automated tools (artificial intelligence or machine learning tools such as ChatGPT or Dall-E 2) on assignments in this course. Each student is expected to complete each assignment without substantive assistance from others, including automated tools. …",
+      "previous_display": {
+        "course": "Sample statement: “use only with prior permission”",
+        "inst": "University of Delaware",
+        "lic": "CC BY-NC 4.0",
+        "quote": "Students are allowed to use … (artificial intelligence … such as ChatGPT or Dall-E) on assignments … if instructor permission is obtained in advance. Unless given permission …, each student is expected to complete each assignment without … automated tools.",
+        "who": "Kevin R. Guidry (UD CTAL)"
+      },
+      "current_display": {
+        "course": "Sample statement: “Use only with prior permission”",
+        "inst": "University of Delaware",
+        "lic": "CC BY-NC 4.0",
+        "quote": "… Students are not allowed to use advanced automated tools (artificial intelligence or machine learning tools such as ChatGPT or Dall-E 2) on assignments in this course. Each student is expected to complete each assignment without substantive assistance from others, including automated tools. …",
+        "who": "Kevin R. Guidry (UD CTAL)",
+        "source_row": 132,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A132:F132"
+      }
+    },
+    {
+      "contributor": "Aycan Kara",
+      "tier": "conditional",
+      "row": 15,
+      "course": "J401: Administrative Policy",
+      "institution": "Indiana University",
+      "rights_as_stated": "Creative Commons 4.0 By & Share Alike",
+      "displayed_license": "CC BY-SA 4.0",
+      "source_text": "In the age of Generative AI, personal integrity, critical thinking, decision making, communication, and collaboration will remain the most important human attributes. Academic integrity means that you are rightfully taking credit for the work you have completed. I expect that you will uphold this throughout this course. Due to the nature of this class, you will be working with other students, and you will be utilizing generative AI tools, chatbots such as ChatGPT, Brad, Bing etc. Generative AI tools do make up incorrect facts, fake citations, and generate offensive content. You are responsible for any inaccurate, biased, offensive, or otherwise unethical content you submit regardless of whether you wrote it or used a generative AI tool. Use of generative AI tools only with prior permission: Students are allowed to use Generative AI tools to gather information for internal analysis, external analysis, examples for strategies, definitions, functional strategy examples. In your submissions, use light gray to highlight the information retrieved using generative AI and cite properly. (e.g. : “Chat-GPT-4. (YYYY, Month DD of query). “Text of your query.” Generated using OpenAI.”) You are not allowed to incorporate no more than 25% of a generative AI response in any submission. Students are also allowed to use generative AI tools for their final reports in the following manner: • pre-writing: before content is created, students can use tools to research topics, collect examples, brainstorm ideas. • revising: after content is generated, you can use tools to check clarity, spelling, punctuation, and grammar. Keep in mind, whatever you enter into the generative AI realm becomes public information. Never share personal and sensitive information with generative AI chatbots. Prohibited use of Generative AI: You are not allowed to use generative AI for quizzes. Keep in mind, when you complete the quiz, you claim that you are taking credit for the work you, yourself, have completed.",
+      "source_text_sha256": "0cc508706ef51047db9901f0ae307ec9d9c199618a60e25d31d3d8b60185b4fd",
+      "ranges": [
+        [
+          747,
+          801
+        ],
+        [
+          982,
+          1095
+        ],
+        [
+          1825,
+          1878
+        ]
+      ],
+      "quote": "… Use of generative AI tools only with prior permission: … In your submissions, use light gray to highlight the information retrieved using generative AI and cite properly. … You are not allowed to use generative AI for quizzes. …",
+      "previous_display": {
+        "course": "J401: Administrative Policy",
+        "inst": "Indiana University",
+        "lic": "CC BY-SA 4.0",
+        "quote": "Use of generative AI tools only with prior permission… you must highlight information retrieved using generative AI and cite it properly.",
+        "who": "Aycan Kara"
+      },
+      "current_display": {
+        "course": "J401: Administrative Policy",
+        "inst": "Indiana University",
+        "lic": "CC BY-SA 4.0",
+        "quote": "… Use of generative AI tools only with prior permission: … In your submissions, use light gray to highlight the information retrieved using generative AI and cite properly. … You are not allowed to use generative AI for quizzes. …",
+        "who": "Aycan Kara",
+        "source_row": 15,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A15:F15"
+      }
+    },
+    {
+      "contributor": "Mark Phelan",
+      "tier": "conditional",
+      "row": 151,
+      "course": "Intro to Cognitive Science",
+      "institution": "Lawrence University",
+      "rights_as_stated": "Creative Commons 4.0 By",
+      "displayed_license": "CC BY 4.0",
+      "source_text": "AI Policy: I agree that competency with generative AI technologies, such as Chat GPT, will be a skill set employees are looking for in the jobs you’ll be seeking after you leave college. It would be a dereliction of duty, then, not to help you develop AI competency. However, I also believe that inappropriate reliance on this technology at this critical juncture in your education can stunt your intellectual development. It would be overzealous to forbid you from using AI completely, but it would be unfortunate if your use of it impeded your growth. With that in mind, this is my policy for AI use in this course: 1. You may not use generative AI to complete quiz questions (these generally take place in class). 2. In general, you may not use AI to complete homework or group work assignments. If you are permitted to use it for a specific assignment, I will say so. 3. You may use generative AI in constructive ways when working on your two papers, but you may not ever use it in unconstructive ways (distinction to follow). 4. Whenever you use a generative AI resource, including all versions of Chat GPT, Claude, Gemini, and other similar Large Language Models, you must include a note at the end of the assignment explaining how you used the resource (e.g., to check for spelling mistakes in my final paper) and how the resource helped to improve your assignment or your thinking on the topic (e.g., it helped me eliminate spelling mistakes in my paper). I can think of clear examples of constructive and unconstructive uses of AI. Constructive uses include having AI search for resources on a topic, on which you subsequently follow up. Having it make suggestions related to the concision and clarity of your essay, which you then thoughtfully consider and use as editorial feedback in a writing process to improve your paper. Having a dialogue with an AI through which you sharpen a research question you have been considering or improve your consistency with a piece of technical terminology. Unconstructive uses of AI include copying and pasting an AI response to a homework question and turning it in, having AI suggest six thesis statements for a topic in a cognitive science course (with our reading list) and simply picking one as the thesis of your paper, having AI draft an outline then filling in the details to produce your paper. Despite these clear examples, the boundary between constructive and unconstructive uses remains vague. There are sure to be borderline cases. This is why the note discussed at #4 is so important to include in any assignment in which you use AI. And, if you are uncertain, you can always ask me before you proceed—I can’t promise to have an answer, but I’ll be willing to work one out with you! Looking at the clear cases, I think one thing that emerges is that the constructive uses of AI all involve you in a really essential way. (I’m tempted to say that ‘you’ are where the constructiveness takes place.) I look forward to talking more about this!",
+      "source_text_sha256": "6e6ef88d1903c661b63ca7096cd8197a448b964b655ee6c15b5921f4a2ae0d0b",
+      "ranges": [
+        [
+          720,
+          871
+        ]
+      ],
+      "quote": "… In general, you may not use AI to complete homework or group work assignments. If you are permitted to use it for a specific assignment, I will say so. …",
+      "previous_display": {
+        "course": "Introduction to Cognitive Science",
+        "inst": "Lawrence University",
+        "lic": "CC BY 4.0",
+        "quote": "In general, you may not use AI to complete homework or group work assignments. If you are permitted to use it for a specific assignment, I will say so.",
+        "who": "Mark Phelan"
+      },
+      "current_display": {
+        "course": "Intro to Cognitive Science",
+        "inst": "Lawrence University",
+        "lic": "CC BY 4.0",
+        "quote": "… In general, you may not use AI to complete homework or group work assignments. If you are permitted to use it for a specific assignment, I will say so. …",
+        "who": "Mark Phelan",
+        "source_row": 151,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A151:F151"
+      }
+    },
+    {
+      "contributor": "Rebecca Williams",
+      "tier": "transparency",
+      "row": 114,
+      "course": "INFO 619: INFORMATION & HUMAN RIGHTS",
+      "institution": "Pratt Institute - School of Information",
+      "rights_as_stated": "Public Domain",
+      "displayed_license": "Public Domain",
+      "source_text": "LLM Policy 1. You will never be required to use AI. 2. I will not use AI to grade your work. 3. Work created with generative AI will likely lead to a lower grade due to lack of depth, originality, and attribution. See Evaluation Rubric. 4. If you use AI, you must trace its claims to sources, cite them, and remain accountable for the information. See Attribution Policy.",
+      "source_text_sha256": "7938ed1806bc57b4bd7fe8236778f0958155cb2f266d274960bcf6dd6f8924ab",
+      "ranges": [
+        [
+          14,
+          51
+        ],
+        [
+          96,
+          161
+        ],
+        [
+          240,
+          347
+        ]
+      ],
+      "quote": "… You will never be required to use AI. … Work created with generative AI will likely lead to a lower grade … If you use AI, you must trace its claims to sources, cite them, and remain accountable for the information. …",
+      "previous_display": {
+        "course": "INFO 619 — Information & Human Rights",
+        "inst": "Pratt Institute",
+        "lic": "Public Domain",
+        "quote": "You will never be required to use AI … Work created with generative AI will likely lead to a lower grade … If you use AI, you must trace its claims to sources, cite them, and remain accountable for the information.",
+        "who": "Rebecca Williams"
+      },
+      "current_display": {
+        "course": "INFO 619: INFORMATION & HUMAN RIGHTS",
+        "inst": "Pratt Institute - School of Information",
+        "lic": "Public Domain",
+        "quote": "… You will never be required to use AI. … Work created with generative AI will likely lead to a lower grade … If you use AI, you must trace its claims to sources, cite them, and remain accountable for the information. …",
+        "who": "Rebecca Williams",
+        "source_row": 114,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A114:F114"
+      }
+    },
+    {
+      "contributor": "Christie Gardiner",
+      "tier": "transparency",
+      "row": 32,
+      "course": "Criminal Justice Policy; Police & Society",
+      "institution": "California State University, Fullerton",
+      "rights_as_stated": "Creative Commons 4.0 By Noncommerical & Share Alike",
+      "displayed_license": "CC BY-NC-SA 4.0",
+      "source_text": "\"This policy is intended to support responsible learning, encourage transparency, and help students avoid academic integrity problems. Artificial Intelligence (AI) is a tool, not a shortcut! Use it to enhance your learning, not replace it. See AI Tutorial page for tools and resources. Some assignments in this course may allow or require the use of AI. When AI is allowed, students must use it responsibly, ethically, transparently, and in a way that supports their own learning. RULE 1: INTEGRITY: You may not submit any work for this course, generated in part or whole by AI, as your own without disclosure. This is a violation of academic integrity, and I will follow the procedure outlined in the academic dishonesty policy. RULE 2: ACCOUNTABILITY: You are accountable for all work with your name on it. It is your job to ensure all AI information used is accurate, properly sourced and cited, reliable, and valid. AI hallucinates (makes stuff up). This is especially true for specialty topics, like those you are studying in this major. Treat AI outputs like information from an unknown source: verify facts using credible academic, government, legal, or professional sources. RULE 3: TRANSPARENCY: For every assignment (including reading summaries), students shall include an AI disclosure statement that truthfully specifies which tools, if any, were used, how they contributed to the work, and the specific portions of the assignment they influenced. Assignment instructions may set additional limits or requirements. If an assignment’s instructions are stricter than this general policy, students must follow the assignment-specific instructions. AI DISCLOSURE REQUIREMENTS Students do not need to disclose or document every use of AI in their general learning process. AI may be used as a private study tool to explain course concepts, generate practice examples, create study questions, clarify confusing readings, support accessibility, or help students prepare for class or exams. Students also do not need to disclose routine or embedded AI features used for reading, searching, navigation, grammar, accessibility, citation formatting, translation, autocomplete, captioning, or document preview. This may include tools such as Adobe summaries, Microsoft or Google document tools, browser summaries, search engine AI overviews, Grammarly, MS Editor, citation generators, and transcription tools. The disclosure and documentation requirement applies when AI is used to produce, shape, revise, or influence work submitted for this course. This includes AI use to draft, outline, organize, rewrite, revise, develop arguments, analyze evidence, generate examples included in the assignment, create source summaries used in the assignment, or otherwise contribute to the student's submitted work. When AI contributes to submitted work, students must include an AI disclosure statement and may be required to submit an AI conversation log or equivalent. Acceptable documentation may include a shared chat link, PDF export, screenshots, copied transcript, or an AI-use table that records the tool used, date, prompts entered, AI responses received, and how the student used, modified, rejected, or verified the AI output. Copying or closely paraphrasing AI-generated text must be disclosed and cited like any other outside source. Directly copied language should be placed in quotation marks or block quotation format as appropriate. Students are responsible for preserving a record when AI contributes to submitted work. If a tool does not automatically save a conversation, students must create their own record at the time they use it. “I was not logged in,” “the chat disappeared,” and “the tool did not save my conversation” will not excuse missing documentation. Failure to produce required or requested documentation may raise academic integrity concerns. AI logs should be useful, not excessive. Students should document major AI contributions to submitted work, not every search result, grammar suggestion, browser summary, embedded document summary, or study question. STUDENT AUTHORSHIP AND APPROPRIATE AI INFLUENCE Disclosure does not automatically make AI use appropriate. Assignments in this course are designed to assess your learning, your critical thinking, and your ability to apply course concepts, readings, lectures, and evidence. AI may support your work, but it may not replace your intellectual contribution. As a general rule, the submitted assignment must be substantively yours. This means that you should be responsible for the main ideas, argument, organization, evidence selection, analysis, interpretation, and final wording. AI may help you brainstorm, clarify ideas, check grammar, identify gaps, or improve clarity, but it should not be the primary author, analyst, or decision-maker. AI use may be considered excessive or inappropriate, even if disclosed, when AI generates most of the assignment, supplies the main argument with minimal student revision, or replaces meaningful engagement with assigned readings and course materials. Work that is mostly AI-generated, weakly verified, generic, inaccurate, or not clearly connected to course materials may receive little or no credit, depending on the assignment. A strong submission should show evidence of your own thinking: specific references to course materials, accurate use of concepts, thoughtful examples, independent judgment, and clear explanation in your own words. When in doubt, disclose. Disclosure does not automatically mean AI use was inappropriate, but disclosure also does not automatically make AI use acceptable. Failure to disclose AI use that contributed to submitted work may violate the academic integrity policy. The submitted work must still meet the assignment requirements and reflect the student's own learning, analysis, and effort. SPECIAL PRECAUTIONS Students should not enter confidential, private, sensitive, or personally identifying information about themselves, classmates, crime victims, practitioners, agencies, or others into publicly accessible AI tools. When possible, students should use CSUF-supported AI tools and should follow campus guidance on responsible AI use. SAMPLE DISCLOSURE STATEMENT I used ChatGPT as a research and learning support tool for this assignment. I asked it to help me identify background questions about the X Police Department and to suggest possible APA citation formats. I verified the AI-generated information using official City of X webpages, department materials, and reputable news sources. I used my own judgment to decide which information was relevant, corrected incomplete or generalized AI responses, and wrote the final analysis myself. I take full responsibility for the accuracy, citations, interpretation, and conclusions in this assignment. (See Canvas page for additional examples for other situations.) We use APA 7th reference formatting in this class and discipline. Here are recommended citations for commonly used OpenAI tools. Students should cite the specific AI tool they used. OpenAI. (2026). ChatGPT [Large language model]. https://chatgpt.com OpenAI. (2026). GPT Image 1.5 [Image-generation model]. https://chatgpt.com In text: (OpenAI, 2026) AI Disclosure: I used ChatGPT to suggest improvements to my previous AI policy and suggest student-friendly syllabus language. Can you spot the sentences it wrote? \"",
+      "source_text_sha256": "606570c5f96eff172f85ace01d668478c11b41ad302fc4d872505ef8c77e7c56",
+      "ranges": [
+        [
+          135,
+          239
+        ],
+        [
+          286,
+          480
+        ],
+        [
+          1205,
+          1459
+        ],
+        [
+          1460,
+          1656
+        ]
+      ],
+      "quote": "… Artificial Intelligence (AI) is a tool, not a shortcut! Use it to enhance your learning, not replace it. … Some assignments in this course may allow or require the use of AI. When AI is allowed, students must use it responsibly, ethically, transparently, and in a way that supports their own learning. … For every assignment (including reading summaries), students shall include an AI disclosure statement that truthfully specifies which tools, if any, were used, how they contributed to the work, and the specific portions of the assignment they influenced. … Assignment instructions may set additional limits or requirements. If an assignment’s instructions are stricter than this general policy, students must follow the assignment-specific instructions. …",
+      "previous_display": {
+        "course": "Criminal Justice Policy; Police & Society",
+        "inst": "CSU Fullerton",
+        "lic": "CC BY-NC-SA 4.0",
+        "quote": "AI is a tool, not a shortcut! … You are accountable for all work with your name on it … For every assignment, students shall include an AI disclosure statement specifying which tools were used, how they contributed, and the portions they influenced.",
+        "who": "Christie Gardiner"
+      },
+      "current_display": {
+        "course": "Criminal Justice Policy; Police & Society",
+        "inst": "California State University, Fullerton",
+        "lic": "CC BY-NC-SA 4.0",
+        "quote": "… Artificial Intelligence (AI) is a tool, not a shortcut! Use it to enhance your learning, not replace it. … Some assignments in this course may allow or require the use of AI. When AI is allowed, students must use it responsibly, ethically, transparently, and in a way that supports their own learning. … For every assignment (including reading summaries), students shall include an AI disclosure statement that truthfully specifies which tools, if any, were used, how they contributed to the work, and the specific portions of the assignment they influenced. … Assignment instructions may set additional limits or requirements. If an assignment’s instructions are stricter than this general policy, students must follow the assignment-specific instructions. …",
+        "who": "Christie Gardiner",
+        "source_row": 32,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A32:F32"
+      }
+    },
+    {
+      "contributor": "Holly Hassel",
+      "tier": "transparency",
+      "row": 207,
+      "course": "UN 1015: Composition",
+      "institution": "Michigan Technological University    ",
+      "rights_as_stated": "Public Domain",
+      "displayed_license": "Public Domain",
+      "source_text": "Increasingly, AI tools like ChatGPT (an example of what are called generative AI or LLMs–Large Language Models) are tools that students and teachers are using for various purposes. Likewise, they are becoming integrated into some of our everyday composing resources like Word or Google Doc. The key goal of our course, like any writing experience, is to use words, sources, and technology tools in transparent, accountable, and ethical ways. Consult the full UN 1015 AI and Writing Policy for guidance on how to reflect the use of such tools in your submitted work, and read the “A Blueprint for an AI Bill of Rights for Education” for a snapshot of where experts are right now in their thinking about the use of AI for academic purposes. UN 1015 AI and Writing Policy Increasingly, AI tools like ChatGPT (an example of what are called generative AI or LLMs–Large Language Models) are tools that students and teachers are using for various purposes. Likewise, they are becoming integrated into some of our everyday composing resources like Word or Google Doc. The key goal of our course, like any writing experience, is to use words, sources, and technology tools in transparent, accountable, and ethical ways. For this course, if you decide to use a Generative AI (GAI) tool like ChatGPT, reflect that use in the following ways Transparency:Drafts/Texts Submitted for Credit: If you use GAI in a way that includes text you are fully integrating into your final submitted draft for assessment, you must enclose it in quotation marks (four or more words in a row) and include a parenthetical citation according to the guidelines listed below under “mechanics.” Process Uses: If you use GAI as part of your writing process, explain in your author’s note how you used it and with what outcome. AccountabilityDrafts and Process: The most important thing to know about GAI at this time in its development and use is that it often produces false information and invented sources. Experts call this “hallucinations.” Read this story, this story, and this story for the professional consequences of not critically analyzing the information produced by GAI. In other words, it will be essential that anything you input, generate, and use from GAI be vetted. ChatGPT, specifically, invents sources that do not exist, can reproduce misinformation, and does not have a “Fact checker” for truth. Only your human brain can do that! And for work submitted for university credit, you are the responsible person for the ideas and words you present. Rutgers’ university’s current policy recommendations are useful to understanding the variety of ways that faculty may be setting guidelines around use of GAI. The important thing to note is that, at present, the university does not have an institutional policy around the use of GAI and so it is important for you as a student to attend carefully to the different attitudes faculty might have about the use of GAI for academic purposes. EthicsGenerally speaking, writers are responsible for the words and ideas they put out into the world, whether in a public venue, or for evaluation by a reader of some kind. Words and ideas that are submitted for assessment by an instructor are bound by a particular set of guidelines and rules (review the MTU Academic Integrity Policy for more information). You can review this link for information about sanctions and students rights related to academic misconduct: Senate Procedure 109.1.1 Ultimately, the ethics of using GAI for you personally as a writer and communicator will be driven by your goals, values, and context. In your career as a college student, you will develop both a personal code of ethics and an understanding of the codes of ethics that govern the academic and other communities of which you are a part. Mechanics:As with any typical citation style, language that is not your own (typically the use of four or more words in a row from a source that you did not generate independently) must be enclosed in quotation marks. Reworked or paraphrased language should be signaled by a parenthetical citation.The American Psychological Association’s APA style guide webpage has prepared these guidelines on how to cite chat GPT: How to cite ChatGPTThe Modern Language Association’s style guide has this page on how to cite chatGPT or other generative AI tools: How do I cite generative AI in MLA style? If you are using a citation style specific to the journal you have selected or your area of study, do a google search to determine whether the governing body responsible for the maintenance of citation guidelines has a similar resource. Here is the full policy language that is a separate document provided in our LMS for students.",
+      "source_text_sha256": "6a5cdd3368ca9b12508c5fe913fa259234aeac6322e1caefa23b7447c817f981",
+      "ranges": [
+        [
+          291,
+          441
+        ],
+        [
+          1342,
+          1659
+        ],
+        [
+          1660,
+          1790
+        ]
+      ],
+      "quote": "… The key goal of our course, like any writing experience, is to use words, sources, and technology tools in transparent, accountable, and ethical ways. … Drafts/Texts Submitted for Credit: If you use GAI in a way that includes text you are fully integrating into your final submitted draft for assessment, you must enclose it in quotation marks (four or more words in a row) and include a parenthetical citation according to the guidelines listed below under “mechanics.” … Process Uses: If you use GAI as part of your writing process, explain in your author’s note how you used it and with what outcome. …",
+      "previous_display": {
+        "course": "UN 1015 — Composition",
+        "inst": "Michigan Technological University",
+        "lic": "Public Domain",
+        "quote": "The key goal of our course … is to use words, sources, and technology tools in transparent, accountable, and ethical ways … If you decide to use a Generative AI tool … reflect that use in your submitted work.",
+        "who": "Holly Hassel"
+      },
+      "current_display": {
+        "course": "UN 1015: Composition",
+        "inst": "Michigan Technological University    ",
+        "lic": "Public Domain",
+        "quote": "… The key goal of our course, like any writing experience, is to use words, sources, and technology tools in transparent, accountable, and ethical ways. … Drafts/Texts Submitted for Credit: If you use GAI in a way that includes text you are fully integrating into your final submitted draft for assessment, you must enclose it in quotation marks (four or more words in a row) and include a parenthetical citation according to the guidelines listed below under “mechanics.” … Process Uses: If you use GAI as part of your writing process, explain in your author’s note how you used it and with what outcome. …",
+        "who": "Holly Hassel",
+        "source_row": 207,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A207:F207"
+      }
+    },
+    {
+      "contributor": "Ben Lutz",
+      "tier": "transparency",
+      "row": 50,
+      "course": "Engineering, Design, and Social Justice",
+      "institution": "California Polytechnic State University",
+      "rights_as_stated": "Creative Commons 4.0 By",
+      "displayed_license": "CC BY 4.0",
+      "source_text": "In all academic work, the ideas and contributions of others must be appropriately acknowledged and work that is presented as original must be, in fact, original. Using an AI-content generator (such as ChatGPT) to complete coursework without proper attribution or authorization is a form of academic dishonesty. If you are unsure about whether something may be plagiarism or academic dishonesty, please contact your instructor to discuss the issue. Faculty, students, and administrative staff all share the responsibility of ensuring the honesty and fairness of the intellectual environment at Cal Poly. In my class, the burden does not fall on the instructor to prove that AI was used, but rather on the student to prove that learning has occurred. If I suspect that you have used AI to complete an assignment instead of engaging with the concepts, your assignment will initially receive a 0, and in order to receive credit for the assignment, you will be required to meet with me to discuss your submission and how you arrived at your response.",
+      "source_text_sha256": "f461597cc2c9e7cb0c748a597c77f5a32f437950b3047b801eed96916b8e09a6",
+      "ranges": [
+        [
+          616,
+          748
+        ]
+      ],
+      "quote": "… the burden does not fall on the instructor to prove that AI was used, but rather on the student to prove that learning has occurred. …",
+      "previous_display": {
+        "course": "Engineering, Design, and Social Justice",
+        "inst": "Cal Poly San Luis Obispo",
+        "lic": "CC BY 4.0",
+        "quote": "The burden does not fall on the instructor to prove that AI was used, but rather on the student to prove that learning has occurred.",
+        "who": "Ben Lutz"
+      },
+      "current_display": {
+        "course": "Engineering, Design, and Social Justice",
+        "inst": "California Polytechnic State University",
+        "lic": "CC BY 4.0",
+        "quote": "… the burden does not fall on the instructor to prove that AI was used, but rather on the student to prove that learning has occurred. …",
+        "who": "Ben Lutz",
+        "source_row": 50,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A50:F50"
+      }
+    },
+    {
+      "contributor": "Wendy St. John",
+      "tier": "transparency",
+      "row": 10,
+      "course": "BIOL110 Introduction to Biology",
+      "institution": "College of Marin",
+      "rights_as_stated": "Public Domain",
+      "displayed_license": "Public Domain",
+      "source_text": "The use of generative artificial intelligence (AI) tools (e.g., Copliot, ChatGPT, Notebook LM) is an emerging skill, and throughout the semester, I will provide basic tutorials about how to leverage it for our work. In this course, the use of AI is permitted under the following guidelines*: * Studying and Learning Support: You may use AI tools to study and enhance your understanding of course material. * Idea Generation: AI may be used to help generate project ideas and explore potential topics. * Research and Citation: When using AI to research topics, you must cite any information obtained from AI sources, just as you would with books, articles, or websites. Note: AI can sometimes produce factual errors. You are responsible for verifying the accuracy of all information you submit. * Assignments, Quizzes, and Exams: You may not use AI to generate direct answers to any written assignments, quizzes, or exams. * Summarizing and Synthesizing Information: You may use AI to help you summarize and synthesize information. In such cases, you must include a brief description of how you used the AI tool in your process. (Guidelines for how to document and submit this verification will be provided during the semester). *These guidelines were written by me and formatted using Chat GPT.",
+      "source_text_sha256": "21432699c4323b085f943103a0651dd2c0ce227b89bd43d6b4da1377a2ceaca1",
+      "ranges": [
+        [
+          526,
+          668
+        ]
+      ],
+      "quote": "… When using AI to research topics, you must cite any information obtained from AI sources, just as you would with books, articles, or websites. …",
+      "previous_display": {
+        "course": "BIOL 110: Introduction to Biology",
+        "inst": "College of Marin",
+        "lic": "Public Domain",
+        "quote": "When using AI to research topics, you must cite any information obtained from AI sources, just as you would with books, articles, or websites.",
+        "who": "Wendy St. John"
+      },
+      "current_display": {
+        "course": "BIOL110 Introduction to Biology",
+        "inst": "College of Marin",
+        "lic": "Public Domain",
+        "quote": "… When using AI to research topics, you must cite any information obtained from AI sources, just as you would with books, articles, or websites. …",
+        "who": "Wendy St. John",
+        "source_row": 10,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A10:F10"
+      }
+    },
+    {
+      "contributor": "Matthew Bruckner",
+      "tier": "transparency",
+      "row": 109,
+      "course": "Advanced Legal Writing",
+      "institution": "Howard University School of Law",
+      "rights_as_stated": "Creative Commons 4.0 By",
+      "displayed_license": "CC BY 4.0",
+      "source_text": "Technology and generative AI (e.g. ChatGPT, Bard). I expect you to use technology in this class. Technology can be as useful for writers as a calculator is for mathematicians. Some tools, such as styles and automated cross-references and tables of contents in MS Word, may already be familiar to you. Other tools, such as Zotero for citation management, West or Lexis’ brief-check tools, or ChatGPT for summarizing articles, may be less so. Learning to use technology appropriately is important for lawyers. We will cover some of them in class. Others you are expected to experiment with at home. You must use them in order to learn their limits. Generative AI tools can be invaluable for generating ideas, identifying sources, synthesizing text, and starting to understand what is essential about a topic. But YOU must guide, verify and craft your work product; do not just cut and paste without understanding. In particular, I want to warn you about the limits of tools like ChatGPT: • If you provide minimum effort prompts, you will get low quality results. You will need to refine your prompts in order to get good outcomes. This will take work. • Don’t trust anything it says. If it gives you a number or fact, assume it is wrong unless you either know the answer or can check in with another source. You will be responsible for any errors or omissions provided by the tool. It works best for topics you understand. • AI is a tool, but one that you need to acknowledge using. Often that means a citation explaining what tool you used and how you used it that follows immediately after its use. Using these tools without proper citation constitutes plagiarism. o If you copy verbatim from an AI tool, you must provide a citation and quotation marks, which will indicate that the words used were not your own. o If you paraphrase an output from an AI tool, you must provide a citation (but not necessarily quotation marks), indicating that the idea, format, and syntax were not originally your own. o Other times, it may be appropriate to include a paragraph at the end of any assignment where you used an AI tool in which you explain what you used the AI for and what prompts you used to get the results. o Failure to do so is in violation of the academic honesty policies because the information derived from these tools is based on previously published materials and is not the product of your own, unaided mind.",
+      "source_text_sha256": "2e223f8aafb3aad5733164aa0a9ad443343cd3b251ff6b31889d116ad47647c0",
+      "ranges": [
+        [
+          1423,
+          1480
+        ],
+        [
+          1599,
+          1664
+        ]
+      ],
+      "quote": "… AI is a tool, but one that you need to acknowledge using. … Using these tools without proper citation constitutes plagiarism. …",
+      "previous_display": {
+        "course": "Advanced Legal Writing",
+        "inst": "Howard University School of Law",
+        "lic": "CC BY 4.0",
+        "quote": "AI is a tool, but one that you need to acknowledge using… Using these tools without proper citation constitutes plagiarism.",
+        "who": "Matthew Bruckner"
+      },
+      "current_display": {
+        "course": "Advanced Legal Writing",
+        "inst": "Howard University School of Law",
+        "lic": "CC BY 4.0",
+        "quote": "… AI is a tool, but one that you need to acknowledge using. … Using these tools without proper citation constitutes plagiarism. …",
+        "who": "Matthew Bruckner",
+        "source_row": 109,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A109:F109"
+      }
+    },
+    {
+      "contributor": "David McHugh",
+      "tier": "open",
+      "row": 92,
+      "course": "LIS 408 - Generative AI: Strategic Application, Evaluation, and Critique",
+      "institution": "UW-Madison",
+      "rights_as_stated": "Creative Commons 4.0 By",
+      "displayed_license": "CC BY 4.0",
+      "source_text": "Class AI Policy You may use generative AI tools (e.g., Gemini, Copilot, Grammarly, etc.) in this class unless otherwise specified, as long as it is done transparently and in ways that enhance rather than outsource your learning. Specifics vary based on learning goals. If you’re not sure, please ask. We will also discuss this at length in class. Non-use is also fine, except for assignments that require it (usually for AI testing purposes), and does not require additional information. Transparency Requirements Clearly state AI use OR non-use on all assignments. Skipping this step carries a 10% penalty. If you used AI, include a description of what you used (e.g., Gemini 2.5 Flash), how (e.g., for feedback on your organization), and a brief note for why this was a strategy that was good for learning (often including fact-checking). A short rationale is required and expanded reflection on if and how it was helpful is always welcome. A shared link to your chat can be an efficient way to meet most of the citation requirements. Similarly, I will never use it to assign grades or in place of human feedback. I will never input it into a tool that trains on inputs (unless I specifically ask and receive prior permission from you, but I’m not expecting this use case to come up). I might examine your work in models with data protection contracts, for uses like visualizing themes in work across students (e.g., graph how many students wrote about privacy). Plagiarism AI use that is not cited can be considered cheating. Plagiarism from AI, like any other source, is a violation of academic integrity principles. Plagiarized content earns a zero and potentially more serious academic consequences. Let’s avoid that. For example, if you did not note that you used AI for citations but then have a hallucinated one, that can be treated as evidence of cheating (worse than just losing points for having inaccurate citations). There are many tools that are ambiguous (when is a grammar checker AI or not?). Err on the side of over citing. You can also always ask. Generally, spelling/grammar-only suggestions (no rewritten sentences, no generated content) doesn’t need a note but anything that changes wording or generates text needs the full citation. If there’s a problem, we’ll have a conversation. I do not normally use AI detectors. Quick Reference AI Citation Template AI Tool Used: [name and version] Purpose: [brief description] Learning rationale: [one sentence — why this was a good strategy here] Note You are responsible for all of your work, including any inaccurate, offensive, or otherwise unethical content, regardless of source. Note: without experience/expertise, it can be difficult to realistically verify and otherwise be responsible for AI generated/influenced content. When in doubt, ask me or limit usage. Efficiency in the course is often in opposition to genuine learning. We’re all learning and creating new norms around AI, so let’s do so in ways that cultivate trust between us and make class meaningful.",
+      "source_text_sha256": "e8a2f6d41fe4f265c8fc33f7963c4d28e7a5fda7f3b80d7ab0ff8e550020b36c",
+      "ranges": [
+        [
+          16,
+          228
+        ],
+        [
+          229,
+          300
+        ],
+        [
+          514,
+          565
+        ],
+        [
+          608,
+          840
+        ]
+      ],
+      "quote": "… You may use generative AI tools (e.g., Gemini, Copilot, Grammarly, etc.) in this class unless otherwise specified, as long as it is done transparently and in ways that enhance rather than outsource your learning. … Specifics vary based on learning goals. If you’re not sure, please ask. … Clearly state AI use OR non-use on all assignments. … If you used AI, include a description of what you used (e.g., Gemini 2.5 Flash), how (e.g., for feedback on your organization), and a brief note for why this was a strategy that was good for learning (often including fact-checking). …",
+      "previous_display": {
+        "course": "LIS 640 — Generative AI",
+        "inst": "UW–Madison",
+        "lic": "CC BY 4.0",
+        "quote": "You are welcome to use AI tools … unless otherwise specified. However, you must cite it as a source, including a description of how you used it … Thoughtful use is encouraged; use that replaces learning is frowned upon.",
+        "who": "David McHugh"
+      },
+      "current_display": {
+        "course": "LIS 408 - Generative AI: Strategic Application, Evaluation, and Critique",
+        "inst": "UW-Madison",
+        "lic": "CC BY 4.0",
+        "quote": "… You may use generative AI tools (e.g., Gemini, Copilot, Grammarly, etc.) in this class unless otherwise specified, as long as it is done transparently and in ways that enhance rather than outsource your learning. … Specifics vary based on learning goals. If you’re not sure, please ask. … Clearly state AI use OR non-use on all assignments. … If you used AI, include a description of what you used (e.g., Gemini 2.5 Flash), how (e.g., for feedback on your organization), and a brief note for why this was a strategy that was good for learning (often including fact-checking). …",
+        "who": "David McHugh",
+        "source_row": 92,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A92:F92",
+        "version_note": "This excerpt uses the linked October 9, 2026 version for LIS 408. An earlier collection entry labeled it LIS 640; the earlier version has not been independently located."
+      }
+    },
+    {
+      "contributor": "Brian Walsh",
+      "tier": "open",
+      "row": 102,
+      "course": "MEA: 3290: Applied Media Analytics",
+      "institution": "Elon University",
+      "rights_as_stated": "Public Domain",
+      "displayed_license": "Public Domain",
+      "source_text": "I encourage you to use AI-related technologies in this class, such as Chat GPT. But I would like it recognized as a tool. For research, AI use is encouraged: use it to come up with ideas for your project or try to find data sets online. You can even try uploading a data set and asking for some basic insights. For coding, you are welcome to treat AI as a tutor, asking it how to program something, or what’s wrong with your code. I find that AI provides code examples, and completely lacks context. Therefore, if you do not understand the syntax of the programming language you are using, AI will be of little help. For written content, please write a draft of your project before using AI to help improve it.",
+      "source_text_sha256": "23cccf6d43431220a3abcd4ddace61533c5af85533a1f51d8ce88ad927b303a2",
+      "ranges": [
+        [
+          0,
+          60
+        ],
+        [
+          122,
+          156
+        ],
+        [
+          311,
+          361
+        ],
+        [
+          617,
+          658
+        ],
+        [
+          675,
+          710
+        ]
+      ],
+      "quote": "I encourage you to use AI-related technologies in this class … For research, AI use is encouraged … For coding, you are welcome to treat AI as a tutor … For written content, please write a draft … before using AI to help improve it.",
+      "previous_display": {
+        "course": "MEA 3290 — Applied Media Analytics",
+        "inst": "Elon University",
+        "lic": "Public Domain",
+        "quote": "I encourage you to use AI-related technologies in this class … For research, AI use is encouraged … For coding, you are welcome to treat AI as a tutor … For written content, please write a draft … before using AI to help improve it.",
+        "who": "Brian Walsh"
+      },
+      "current_display": {
+        "course": "MEA: 3290: Applied Media Analytics",
+        "inst": "Elon University",
+        "lic": "Public Domain",
+        "quote": "I encourage you to use AI-related technologies in this class … For research, AI use is encouraged … For coding, you are welcome to treat AI as a tutor … For written content, please write a draft … before using AI to help improve it.",
+        "who": "Brian Walsh",
+        "source_row": 102,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A102:F102"
+      }
+    },
+    {
+      "contributor": "Cory Knobel",
+      "tier": "open",
+      "row": 91,
+      "course": "SI710 (doctoral) - Professionalization for Advanced Information Career Planning",
+      "institution": "University of Michigan - School of Information",
+      "rights_as_stated": "Creative Commons 4.0 By & Share Alike",
+      "displayed_license": "CC BY-SA 4.0",
+      "source_text": "This course encourages the unrestrained and wholesale ethical/responsible use of AI/ML, Generative AI, and Agentic tools. You are encouraged to explore broadly and deeply. What I ask in return is (1) transparency in use, and (2) willingness to share (among seminar participants) developed tools, models, prompts, code, and other artifacts related to AI use in service of career planning and job searching.",
+      "source_text_sha256": "a72735f0d0104614de617c0fb644dbc4241cfd2882d888f15698d03518ad60f8",
+      "ranges": [
+        [
+          0,
+          26
+        ],
+        [
+          54,
+          121
+        ],
+        [
+          172,
+          249
+        ],
+        [
+          304,
+          338
+        ]
+      ],
+      "quote": "This course encourages the … ethical/responsible use of AI/ML, Generative AI, and Agentic tools. … What I ask in return is (1) transparency in use, and (2) willingness to share … prompts, code, and other artifacts …",
+      "previous_display": {
+        "course": "SI 710 — Professionalization (doctoral)",
+        "inst": "University of Michigan",
+        "lic": "CC BY-SA 4.0",
+        "quote": "This course encourages the … ethical/responsible use of AI/ML, Generative AI, and Agentic tools … What I ask in return is (1) transparency in use, and (2) willingness to share … prompts, code, and other artifacts.",
+        "who": "Cory Knobel"
+      },
+      "current_display": {
+        "course": "SI710 (doctoral) - Professionalization for Advanced Information Career Planning",
+        "inst": "University of Michigan - School of Information",
+        "lic": "CC BY-SA 4.0",
+        "quote": "This course encourages the … ethical/responsible use of AI/ML, Generative AI, and Agentic tools. … What I ask in return is (1) transparency in use, and (2) willingness to share … prompts, code, and other artifacts …",
+        "who": "Cory Knobel",
+        "source_row": 91,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A91:F91"
+      }
+    },
+    {
+      "contributor": "Benjamin Tausig",
+      "tier": "open",
+      "row": 87,
+      "course": "Rock, Popular Music, and Society",
+      "institution": "SUNY-Stony Brook",
+      "rights_as_stated": "Creative Commons 4.0 By",
+      "displayed_license": "CC BY 4.0",
+      "source_text": "AI writing tools can be helpful resources for thinking as well as writing. I encourage students to use them to think through questions throughout the course. Bear a few things in mind, however. First, AI is a weak writing tool, and even setting aside the matter of academic integrity, they don’t produce very good papers on their own. Second, they are often factually inaccurate, and thus should not be relied on for concrete details. Third, the writing prompts for this class are designed to be fulfilling and fun (truly!), and I don’t want anyone to miss the chance to hone their writing in a context where the professor and TAs will genuinely want to read what you have to say.",
+      "source_text_sha256": "805012440aa80d7e11c2f9ad36561d70994e92a798bcdb71741b3caaf8b42768",
+      "ranges": [
+        [
+          0,
+          157
+        ]
+      ],
+      "quote": "AI writing tools can be helpful resources for thinking as well as writing. I encourage students to use them to think through questions throughout the course. …",
+      "previous_display": {
+        "course": "Rock, Popular Music, and Society",
+        "inst": "Stony Brook University",
+        "lic": "CC BY 4.0",
+        "quote": "AI writing tools can be helpful resources for thinking as well as writing. I encourage students to use them to think through questions throughout the course.",
+        "who": "Benjamin Tausig"
+      },
+      "current_display": {
+        "course": "Rock, Popular Music, and Society",
+        "inst": "SUNY-Stony Brook",
+        "lic": "CC BY 4.0",
+        "quote": "AI writing tools can be helpful resources for thinking as well as writing. I encourage students to use them to think through questions throughout the course. …",
+        "who": "Benjamin Tausig",
+        "source_row": 87,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A87:F87"
+      }
+    },
+    {
+      "contributor": "Ellen Belluomini",
+      "tier": "open",
+      "row": 171,
+      "course": "Social Work",
+      "institution": "University of Massachusetts Global",
+      "rights_as_stated": "Public Domain",
+      "displayed_license": "Public Domain",
+      "source_text": "Generative AI Models in Academic Work by Student and Instructor By establishing these guidelines for the use of generative AI in the classroom, UMass Global’ s Social Work Department aims to promote innovation, critical thinking, and academic rigor while also upholding the principles of integrity and ethical conduct in academic work. Students and instructors are encouraged to embrace the potential of AI as a powerful tool for learning, research, and intellectual growth within our academic community. As a student, you are encouraged to explore the use of generative AI tools to improve learning effectiveness and academic proficiency. However, you are responsible for ensuring the accuracy, ethics, and proper citation of any information generated from AI tools. AI is a rapidly progressing field. Social workers will be integrating AI based tools in the future. The use of AI in the classroom encourages students to utilize their technology literacy in an ethical manner aligned with the Standards for Technology in Social Work Practice. Generative AI tools should not be used to write significant portions of your discussion question answers, responses to your peers, or while composing your assignments. If AI use is found substantially in your work without your voice, it will be considered an academic policy violation. All generative AI tools and their usage must be cited in the main body of your work and in the reference section. If you decide to use a generative AI tool, keep track of your work versions. If a question may arise about its use in your assignments, tracking your work will help substantiate how AI helped with the assignment but did not take the place of your knowledge and voice. Students are permitted to use generative AI in this course for the following activities: 1. Brainstorming and refining ideas: Students can utilize AI to generate innovative ideas, explore different perspectives, and develop creative solutions to problems. 2. Outlining and organizing thoughts: Students can use AI to create structured outlines, build cohesive arguments, and effectively present their ideas in written assignments or presentations. 3. Checking grammar and style: AI tools can assist students in proofreading their work, correcting spelling, and grammar errors, and ensuring consistency in writing style. 4. When using AI for paraphrasing another author’s work, always verify AI-assisted or -generated text, discarding the unnecessary parts, and refining the rest so it meaningfully fits your voice and your work. AI cannot mimic your voice or meaning within the context of the assignment, but it can provide you with a foundation of understanding how to paraphrase another author’s work. The paraphrasing you use must still be connected to answering the prompt in the assignment. AI must be cited next to the author of the original works when using the paraphrasing function. 5. Summarize articles to make the content easier for students to understand. How to ethically cite your use of a Generative AI model in your work Students are allowed to use advanced automated tools (artificial intelligence or machine learning tools such as ChatGPT or Dall-E 2) on assignments in this course if that use is properly documented and credited. Please review these examples on Purdue Owl on “How to Cite AI-Generated Content” https://guides.lib.purdue.edu/c.php?g=1371380&p=10135074 Instructors are permitted to use generative AI tools in the classroom for activities such as: 1. Creating course materials and assignments 2. Providing personalized feedback on student work 3. Enhancing discussions and lectures with real-time information retrieval 4. Enhancing routine administrative tasks, such as grading. Student content may or may not be kept private from the data control settings for chat history and model training on the chat history of the specific AI platform in use. If you do not wish to participate in this type of feedback, please contact your instructor to opt-out. Risks of Using AI in Courses 1. Data privacy concerns: AI systems collect and store a significant amount of personal data from students, including their learning behaviors and preferences. This raises concerns about how this data is used and protected, as well as the potential for misuse or unauthorized access. 2. Bias in algorithms: AI systems may be trained on biased data sets, leading to discriminatory outcomes for certain groups of students. This can result in unequal opportunities for learning and hinder the academic progress of marginalized students. 3. Feedback loop bias: AI models rely on feedback to improve their accuracy over time. If the feedback provided by students or instructors is biased or incorrect, the AI model may perpetuate that bias or make inaccurate predictions based on faulty information. 4. Hallucinations: In the context of AI refer to instances where an artificial intelligence system generates erroneous or misleading information that is not based on real data or patterns. It is the student's responsibility to check all data generated from their query for accuracy. 5. Lack of transparency: The inner workings of AI algorithms and decision-making processes are often complex and opaque, making it difficult for students to understand how their interactions with AI systems are being evaluated and assessed. 6. Maintenance and technical issues: AI technology may be prone to technical glitches and malfunctions, leading to disruptions in the learning process and hindering students' ability to access educational materials and resources. 7. Ethical implications: The use of AI in the classroom raises a host of ethical considerations related to fairness, accountability, and transparency, which must be carefully considered and addressed to ensure the equitable and ethical use of AI technology in education. 8. Lack of training data: AI models require large amounts of high-quality training data to learn and make accurate predictions. If the training data used to build the AI model is incomplete, biased, or not representative of the student population, the model may not be able to accurately predict the answers needed for the assignment. 9. Limited context awareness: AI models may lack the ability to understand the full context of a student's learning environment and personal circumstances, leading to inaccurate recommendations or assessments. Without a deep understanding of an assignment’s background, preferences, and challenges, AI models may not be able to provide relevant and support. This is especially true when assignments integrate real-life examples and vignettes. 10. Rapidly changing learning environments: Educational settings are constantly evolving, with new technologies, teaching methods, and curricula being introduced regularly. AI models may struggle to adapt to these rapidly changing environments, making their predictions and recommendations less reliable over time. It is important for students and educators to critically evaluate the accuracy and reliability of AI models used in the classroom and to consider their limitations and potential biases when making decisions based on AI-generated recommendations. The use of AI in the classroom is meant to supplement and enhance learning strategies, not to take the place of the student’s own work.",
+      "source_text_sha256": "fe92cae72385d354ac647eb4e32ccecf896ffa3d9af7786ce3b02f361ffc5280",
+      "ranges": [
+        [
+          519,
+          599
+        ],
+        [
+          649,
+          752
+        ]
+      ],
+      "quote": "… you are encouraged to explore the use of generative AI tools to improve learning … you are responsible for ensuring the accuracy, ethics, and proper citation of any information generated …",
+      "previous_display": {
+        "course": "Social Work (Master’s level)",
+        "inst": "UMass Global",
+        "lic": "Public Domain",
+        "quote": "You are encouraged to explore the use of generative AI tools to improve learning… you are responsible for ensuring the accuracy, ethics, and proper citation of any information generated.",
+        "who": "Ellen Belluomini"
+      },
+      "current_display": {
+        "course": "Social Work",
+        "inst": "University of Massachusetts Global",
+        "lic": "Public Domain",
+        "quote": "… you are encouraged to explore the use of generative AI tools to improve learning … you are responsible for ensuring the accuracy, ethics, and proper citation of any information generated …",
+        "who": "Ellen Belluomini",
+        "source_row": 171,
+        "accessed": "2026-10-09",
+        "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A171:F171"
+      }
+    }
+  ]
+}

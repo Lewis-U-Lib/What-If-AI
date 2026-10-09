@@ -17,8 +17,8 @@ const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=
   '.json': 'application/json; charset=utf-8', '.png': 'image/png', '.woff2': 'font/woff2', '.svg': 'image/svg+xml',
   '.txt': 'text/plain; charset=utf-8', '.xml': 'application/xml; charset=utf-8' };
 
-function start({ dir = path.join(ROOT, '_site'), port = 0, fail = null, log = null } = {}) {
-  const server = http.createServer((req, res) => {
+function start({ dir = path.join(ROOT, '_site'), port = 0, fail = null, log = null, tls = null } = {}) {
+  const handler = (req, res) => {
     const u = new URL(req.url, 'http://x');
     let rel = u.pathname.startsWith(BASE) ? u.pathname.slice(BASE.length) : null;
     if (fail && rel && fail.test(rel)) { res.writeHead(503); return res.end('unavailable (test)'); }
@@ -33,9 +33,10 @@ function start({ dir = path.join(ROOT, '_site'), port = 0, fail = null, log = nu
     if (log) log.push({ path: rel, bytes: fs.statSync(file).size });
     res.writeHead(200, { 'Content-Type': TYPES[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'max-age=600' });
     fs.createReadStream(file).pipe(res);
-  });
+  };
+  const server = tls ? require('https').createServer(tls, handler) : http.createServer(handler);
   return new Promise(resolve => server.listen(port, '127.0.0.1', () => {
-    const origin = `http://127.0.0.1:${server.address().port}`;
+    const origin = `${tls ? 'https' : 'http'}://127.0.0.1:${server.address().port}`;
     resolve({ server, origin, base: origin + BASE, url: f => origin + BASE + f, close: () => new Promise(r => server.close(r)) });
   }));
 }

@@ -293,9 +293,9 @@
     "grounded": {
       "name": "Document-grounded generation and RAG",
       "preview": "Answer from a set of documents you choose.",
-      "what": "A document-grounded system answers from documents you supply, such as readings, a syllabus, transcripts, or policies, rather than only from what the model learned in training. Retrieval-augmented generation (RAG) is the research name: a retriever selects relevant passages, and a generator writes an answer conditioned on them.",
+      "what": "A document-grounded system answers from documents you supply, such as readings, a syllabus, transcripts, or policies, rather than only from what the model learned in training. Some document-grounded systems place supplied text directly in the model’s context. Retrieval-augmented generation (RAG) instead uses a retriever to select relevant passages, which a generator uses to compose an answer.",
       "does": "Finds and summarizes relevant passages, answers questions about the material, compares documents, and points back to the passages it used. Researchers developed retrieval partly to give answers traceable sources and knowledge that can be updated.",
-      "io": "Uploaded files or linked sources plus questions go in; answers, summaries, or notes come out, usually with references to the supplied passages. Unlike AI search, the collection is one you chose.",
+      "io": "Uploaded files or linked sources plus questions go in; answers, summaries, or notes come out, usually with references to the supplied passages. These tools typically start with a collection you supply; check whether the tool also searches other sources.",
       "why": "Related ideas keep an activity inside a defined set of sources—for example, reviewing a faculty-authored proposal against a supplied solicitation, or auditing the quotations in a history essay with an assistant limited to the course sources.",
       "limits": "Answers are only as good as what is retrieved: a system can misread, overgeneralize, or miss passages, and language models use information in the middle of long inputs less reliably. An evaluation of legal research tools built on retrieval found incorrect or misgrounded answers in 17 to 33 percent of queries, despite providers’ claims. Uploading documents raises copyright, privacy, and retention questions, especially for student work and unpublished research.",
       "citations": {
@@ -318,11 +318,11 @@
     "search": {
       "name": "AI-assisted search and research",
       "preview": "Search the web or scholarly indexes and synthesize answers with links.",
-      "what": "An AI search system retrieves current or external information from the web, a scholarly index, or a database and composes a response from what it finds, with in-line citations. Unlike document-grounded tools, the service decides where it searches.",
+      "what": "An AI search system retrieves current or external information from the web, a scholarly index, or a database and composes a response from what it finds, with in-line citations. The service determines its available indexes and sources, and some tools also let you limit the search.",
       "does": "Searches, gathers, and summarizes sources, suggests related literature, and attaches links or citations to its answers.",
       "io": "A question or search terms go in; a synthesized answer with links, citations, or lists of papers comes out. What it can find depends on what the service indexes and can reach.",
       "why": "Related ideas center on finding and checking information—for example, exploring a subject literature with AI tools alongside library keyword searching, or looking for newer measurements comparable to a cited statistic.",
-      "limits": "Coverage depends on what the system can reach: in one evaluation, an AI research tool found fewer than half of the studies that structured database searches found, though it surfaced some they missed. Citations can be attached to statements they do not support, and summaries of research often state findings more broadly than the original studies do. Consider checking key claims against the original source and the databases your field relies on.",
+      "limits": "Coverage depends on what the system can reach: in one evaluation across four reviews, an AI research tool found, on average, fewer than half of the studies that structured database searches found, though it surfaced some they missed. Citations can be attached to statements they do not support, and summaries of research often state findings more broadly than the original studies do. Consider checking key claims against the original source and the databases your field relies on.",
       "citations": {
         "what": [
           37

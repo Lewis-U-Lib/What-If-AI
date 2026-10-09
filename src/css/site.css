@@ -168,6 +168,13 @@ dialog::backdrop{background:rgba(20,2,8,.72);}
 .dlg__close:hover{border-color:var(--gold);background:rgba(222,187,112,.18);}
 .dlg__body{overflow:auto;padding:18px 22px 24px;overscroll-behavior:contain;flex:1 1 auto;min-height:0;}
 .dlg__foot{display:flex;flex-wrap:wrap;gap:10px;padding:14px 22px;border-top:1.5px solid var(--line);background:rgba(0,0,0,.14);}
+.saved-storage-note{flex-basis:100%;}
+/* On short screens the title and actions can exceed the viewport. Scroll the whole
+   dialog so native keyboard focus can reveal every control without shrinking text. */
+@media(max-height:600px){
+  .dlg[open],#actDialog[open],#aiTypeDialog[open]{display:block;overflow:auto;overscroll-behavior:contain;}
+  .dlg .dlg__body{overflow:visible;max-height:none;}
+}
 
 .drawer{margin:0 0 0 auto;height:100vh;max-height:100vh;width:min(480px,100vw);border-radius:0;border-width:0 0 0 2px;}
 

@@ -97,7 +97,7 @@ function matches(a){
   if(F.move && a.hm!==F.move) return false;
   /* the same test as What If AI's "Nothing anyone has to pay for": a source item that needs a purchase,
      membership, subscription, or permission first is never confirmed free */
-  if(F.cost && (['no_tool_needed','free_tier','institution_provided'].indexOf(a.eq)<0 || a.sa==='restricted')) return false;
+  if(F.cost && FINDER_MATCH.requirement(a,'nopaid')!=='confirmed') return false;
   if(F.op && a.op!==F.op) return false;
   if(F.noai && S_.noToolForStudents(a)!=='confirmed') return false;
   if(F.nostudent && ['none','research_participant_deidentified'].indexOf(a.sen)<0) return false;
@@ -212,13 +212,13 @@ function resetF(){ var s = F.sort; F = {q:'', set:'', focus:'', task:'', theme:'
 function typeCitations(refs){
   return (refs || []).map(function(id){
     var s = R.types.sources.filter(function(x){return x.id===id;})[0];
-    return '<a class="type-cite" href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer" aria-label="Source '+id+': '+esc(s.cite || s.title)+' (opens in a new tab)">['+id+']</a>';
+    return S_.externalLink(s.url,'['+id+']',' class="type-cite" aria-label="Source '+id+': '+esc(s.cite || s.title)+' (opens in a new tab)"');
   }).join('');
 }
 function typeParagraph(p){return '<p>'+esc(p.text)+typeCitations(p.refs)+'</p>';}
 function typeReferences(ids){
   return '<ol class="type-sources">'+R.types.sources.filter(function(s){return !ids || ids.indexOf(s.id)!==-1;}).map(function(s){
-    return '<li value="'+s.id+'"><a href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer">'+esc(s.title)+'<span class="sr-only"> (opens in a new tab)</span></a><span class="type-source-kind">'+esc(s.kind)+'</span><p>'+esc(s.locator)+'</p></li>';
+    return '<li value="'+s.id+'">'+S_.externalLink(s.url,esc(s.title)+'<span class="sr-only"> (opens in a new tab)</span>')+'<span class="type-source-kind">'+esc(s.kind)+'</span><p>'+esc(s.locator)+'</p></li>';
   }).join('')+'</ol>';
 }
 var typeDialog = document.getElementById('aiTypeDialog');
@@ -254,7 +254,7 @@ function typeExampleDisclosure(t){
   var arrow = '<svg class="type-example__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   return '<details class="type-example-disclosure"><summary><span class="lamp" aria-hidden="true"></span><span class="type-example-disclosure__title">Current examples</span><span class="type-example-disclosure__count">'+items.length+' tools</span>'+icon('i-chevron')+'</summary>'+
     '<div class="type-example-disclosure__content"><p class="type-example-disclosure__note">Examples may span several types. Inclusion does not indicate Lewis access or approval.</p><ul>'+items.map(function(x){
-      return '<li><a class="type-example" href="'+esc(x[2])+'" target="_blank" rel="noopener noreferrer"><span class="type-example__name">'+esc(x[0])+'</span><span class="type-example__desc">'+esc(x[1])+'</span>'+arrow+'<span class="sr-only"> (opens in a new tab)</span></a></li>';
+      return '<li>'+S_.externalLink(x[2],'<span class="type-example__name">'+esc(x[0])+'</span><span class="type-example__desc">'+esc(x[1])+'</span>'+arrow+'<span class="sr-only"> (opens in a new tab)</span>',' class="type-example"')+'</li>';
     }).join('')+'</ul><p class="type-example-disclosure__date">Official sources · Examples checked <time datetime="'+esc(examples.checked)+'">'+esc(examples.checkedLabel)+'</time></p></div></details>';
 }
 function openType(key, opener){
@@ -333,8 +333,8 @@ function drawPolicies(){
   var h = '<div class="sec-head"><div class="sec-eyebrow">Syllabus policy spectrum</div><h2 id="h-policies" tabindex="-1">Course AI policies</h2>'+
     '<p>The library reads the policies in one open, crowdsourced collection as clustering around four positions, from keeping AI out of submitted work to welcoming it with citation. '+
     'These positions are a reading of that collection, not a scheme anyone has to adopt. '+
-    'The examples below are openly licensed statements from real syllabi. They are starting points for your own language, not recommendations, and not a substitute for your program’s or institution’s policy.</p>'+
-    '<p>The positions are not a ranking. Many courses combine them — permitting AI for some assignments and not others — and the right fit depends on your discipline, your students, and what each assignment is for.</p></div>';
+    'The examples below are openly licensed course policies and sample syllabus statements. They are starting points for your own language, not recommendations, and not a substitute for your program’s or institution’s policy.</p>'+
+    '<p>The positions summarize restrictions on submitted work, not every rule in a policy. Study, research, accessibility, required uses, and permission exceptions vary. Read the complete course and assignment policy; placement here does not establish permission.</p></div>';
   h += '<div class="spectrum"><div class="spectrum__ends" aria-hidden="true"><span>← Keeps AI out of submitted work</span><span>Welcomes AI with citation →</span></div>'+
     '<ul class="spectrum__track" role="tablist" aria-label="Policy positions, from most restrictive to most open">';
   tiers.forEach(function(t, i){
@@ -349,16 +349,17 @@ function drawPolicies(){
     '<div class="kicker">'+esc(t.pill)+'</div><h3>'+esc(t.label)+'</h3><p class="gist">'+esc(t.gist)+'</p>'+
     '<p><strong>What a use-case idea at this position assumes:</strong> '+esc(t.reads)+'</p>'+
     (t.n ? '<p><a href="#activities?pol='+t.key+'">'+t.n+' use-case ideas in the collection assume this position</a></p>' : '')+
-    '<h4 class="pol-examples-h">Examples from published syllabi</h4><ul class="quotes">'+
+    '<h4 class="pol-examples-h">Course policies and sample statements</h4><ul class="quotes">'+
     (t.items||[]).map(function(q){
       return '<li><blockquote><p>“'+esc(q.quote)+'”</p></blockquote><div class="who"><span><strong>'+esc(q.who)+'</strong> · '+esc(q.course)+' · '+esc(q.inst)+'</span>'+
-        '<span>'+esc(q.lic)+'</span></div></li>'; }).join('')+'</ul></div>';
+        '<span>'+esc(q.lic)+'</span></div><p class="meta-line">'+S_.externalLink(q.source_url,'Policies tab, row '+esc(q.source_row)+'<span class="sr-only"> (opens in a new tab)</span>')+' · accessed '+esc(q.accessed)+'. Exact excerpts; omissions marked with ellipses. Read the complete policy before relying on it.</p>'+
+        (q.version_note?'<p class="meta-line">'+esc(q.version_note)+'</p>':'')+'</li>'; }).join('')+'</ul></div>';
   var a = P.aside;
   h += '<div class="aside-card"><div class="kicker">'+esc(a.pill)+'</div><h3>'+esc(a.label)+'</h3><p>'+esc(a.gist)+'</p><p>'+esc(a.reads)+'</p>'+
     (a.n ? '<p><a href="#activities?pol=instructor_side">'+a.n+' use-case ideas in the collection are the instructor’s or staff member’s own work</a></p>' : '')+'</div>';
-  h += '<p class="polsrc">Examples are drawn from <a href="'+esc(P.source.url)+'" target="_blank" rel="noopener noreferrer">'+esc(P.source.name)+
-    '<span class="sr-only"> (opens in a new tab)</span></a>, '+esc(P.source.who)+'. Each quotation keeps the instructor, course, institution, and the license its contributor chose; excerpts are condensed. '+
-    'For guidance at Lewis, see <a href="'+esc(P.local.url)+'" target="_blank" rel="noopener noreferrer">'+esc(P.local.label)+'<span class="sr-only"> (opens in a new tab)</span></a>.</p>';
+  h += '<p class="polsrc">Examples are drawn from '+S_.externalLink(P.source.url,esc(P.source.name)+
+    '<span class="sr-only"> (opens in a new tab)</span>')+', '+esc(P.source.who)+'. '+esc(P.source.note)+' '+S_.externalLink(P.source.snapshot,'View the dated source snapshot and excerpt record<span class="sr-only"> (opens in a new tab)</span>')+'. '+
+    'For guidance at Lewis, see '+S_.externalLink(P.local.url,esc(P.local.label)+'<span class="sr-only"> (opens in a new tab)</span>')+'.</p>';
   h += '<p class="meta-line" data-policy-license>'+esc(window.TOOL_LICENSE.guide_notice)+'</p>';
   document.getElementById('policies').innerHTML = h;
 }
@@ -397,11 +398,12 @@ function drawSources(){
   order.forEach(function(l){
     h += '<h3 class="letterhead" id="letter-'+(l==='#'?'num':l)+'" tabindex="-1">'+l+'</h3><ul class="srclist">';
     groups[l].forEach(function(w){
-      var link = w.link ? '<a href="'+esc(w.link)+'" target="_blank" rel="noopener noreferrer">'+(w.link.indexOf('doi.org')>=0?'Open via DOI':'Open the work')+'<span class="sr-only"> (opens in a new tab)</span> ↗</a>'
-               : (w.search ? '<a href="'+esc(w.search)+'" target="_blank" rel="noopener noreferrer">Find it in the library catalog<span class="sr-only"> (opens in a new tab)</span> ↗</a>' : '');
+      var link = w.link ? S_.externalLink(w.link,(w.link.indexOf('doi.org')>=0?'Open via DOI':'Open the work')+'<span class="sr-only"> (opens in a new tab)</span> ↗')
+               : (w.search ? S_.externalLink(w.search,'Find it in the library catalog<span class="sr-only"> (opens in a new tab)</span> ↗') : '');
       var acts = (w.acts||[]).filter(function(id){ return S_.BYID[id]; });
       h += '<li class="src" id="src-'+esc(w.id)+'"><div class="src__cit">'+esc(citeOf(w))+'</div><div class="src__meta">'+
         (link ? '<span>'+link+'</span>' : '')+(w.lic ? '<span>License: '+esc(w.lic)+'</span>' : '')+'</div>'+
+        (w.access?'<p class="meta-line">'+esc(w.access)+'</p>':'')+
         (acts.length ? '<details><summary>Used in '+acts.length+' use-case idea'+(acts.length===1?'':'s')+'</summary><ul>'+acts.map(function(id){
             return '<li><button type="button" data-open="'+esc(id)+'">'+esc(S_.BYID[id].t)+'</button></li>'; }).join('')+'</ul></details>' : '')+'</li>';
     });
