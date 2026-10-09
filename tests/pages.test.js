@@ -357,7 +357,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   // Who uses the AI tool, and the renamed No-AI option
   const OPS = Object.fromEntries(ACTS.operators.map(o => [o[0], o]));
   const noaiLimit = ACTS.limits.find(l => l[0] === 'noai');
-  check('The No-AI limit says students will not use an AI tool themselves', noaiLimit[1] === 'My students won’t use an AI tool themselves' && noaiLimit[2].includes('students do not have to operate an AI tool'));
+  check('The No-AI limit says students will not use an AI tool themselves', noaiLimit[1] === 'My students won’t use an AI tool themselves' && noaiLimit[2] === 'Includes use-case ideas where only the instructor uses an AI tool, use-case ideas that examine AI without one, use-case ideas whose AI step is optional, and use-case ideas with a stated route that uses no AI.');
   await go(page, 'what-if-ai.html#q=limits&a=focus:teaching;task:design');
   const limitsText = await page.textContent('#wizard');
   check('What If AI: the limit question offers the renamed option and explains it', limitsText.includes('My students won’t use an AI tool themselves') && limitsText.includes('students do not have to operate an AI tool') && limitsText.includes('the AI step is optional') && !/rather my students not use AI at all/.test(limitsText));

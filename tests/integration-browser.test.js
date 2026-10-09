@@ -92,6 +92,6 @@ const hash=w=>'#a='+Object.entries(w.state).map(([k,v])=>k+':'+encodeURIComponen
     }
     assert.deepEqual(errors,[]);
     if(process.env.BROWSER_REPORT)fs.writeFileSync(process.env.BROWSER_REPORT,JSON.stringify({checked:new Date().toISOString(),base,activities:report,menuChecks:navChecks,pageErrors:errors},null,2)+'\n');
-    console.log(`PASS: all ${witnesses.length} additions visible through results/pagination and identical pop-ups in both tools; three full wizard paths; ${navChecks} section-menu checks; six screen widths; no page errors.`);
+    console.log(`PASS: all ${witnesses.length} catalog examples visible through results/pagination and identical pop-ups in both tools; three full wizard paths; ${navChecks} section-menu checks; six screen widths; no page errors.`);
   }finally{await browser.close();await server.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});
