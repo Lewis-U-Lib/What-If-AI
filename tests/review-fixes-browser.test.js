@@ -1,6 +1,6 @@
 /* Browser checks for the fixes made after the October 2026 audit: field compatibility (WIA-02), the
    route note and operator fact (WIA-03), Ask Us focus (WIA-10), the tagged print copy (WIA-11),
-   Back and Forward over an activity in What If AI and The Register (WIA-12), withheld-role wording
+   Back and Forward over an activity in What If AI and The Register (WIA-12), no-tool role wording
    (WIA-19), the operator-aware data warning (D-13), the footer date (D-09), and the source-access
    labels on synthesis activities whose source item is not openly licensed (WIA-01). */
 const assert=require('assert/strict'),path=require('path');
@@ -132,15 +132,15 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
   assert.equal(p.url(),filteredUrl);
   pass('The Register: closing an activity reached by Forward goes back to the list, leaving no duplicate entry, even after the filters change');
 
-  // WIA-19 and D-13: withheld-role wording and the operator-aware data warning.
+  // WIA-19 and D-13: no-tool role wording and the operator-aware data warning.
   await go('register.html','#act=CAN-B-ETHI-03');await p.waitForSelector('#actDialog[open]');
   const ethi=await p.locator('#actDialog .dlg__body').textContent();
-  assert.ok(ethi.includes('The AI tool is deliberately kept out of the use-case idea; participants judge claims about AI against a standard they already hold.'),'withheld wording');
-  assert.ok(!ethi.includes('came back')&&!ethi.includes('that the tool did not'),'nothing “came back” from a withheld tool');
+  assert.ok(ethi.includes('The AI tool is deliberately kept out of the use-case idea; participants judge claims about AI against a standard they already hold.'),'no-tool wording');
+  assert.ok(!ethi.includes('came back')&&!ethi.includes('that the tool did not'),'nothing “came back” from an unused tool');
   await go('register.html','#act=CAN-B-STYL-08');await p.waitForSelector('#actDialog[open]');
   const styl=await p.locator('#actDialog .dlg__body').textContent();
   assert.ok(styl.includes('into a third-party tool')&&!styl.includes('into an AI tool'),'no-operator warning names a third-party tool');
-  pass('WIA-19 and D-13: withheld activities and no-operator data warnings describe what happens');
+  pass('WIA-19 and D-13: no-tool activities and no-operator data warnings describe what happens');
 
   // WIA-10: Ask Us is a modal dialog for keyboard users.
   for(const page of ['what-if-ai.html','register.html']){

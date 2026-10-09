@@ -1,4 +1,4 @@
-"""Replace only AI-guide prose after the pinned corpus stages.
+"""Combine the sourced AI-guide prose with the public collection.
 
 Classification keys, capability filters, idea IDs, and counts remain upstream-owned.
 The reference ledger is independent of the activity collection's bibliography.

@@ -31,7 +31,7 @@ jobs:
 
       - name: Check the data release
         run: python3 tools/check_release.py
-      - name: Check editorial, publication, punctuation, curation, set, AI-use and record-review safeguards
+      - name: Check public collection, citations, and license safeguards
         run: python3 -m unittest discover -s tests -p '*_test.py'
       - name: Build
         run: python3 tools/build.py

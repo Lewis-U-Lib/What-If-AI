@@ -334,8 +334,7 @@ function closeDialogs(except){
     var d=document.getElementById(id); if(d && d.open && id!==except) S_.closeDialog(d);
   });
 }
-/* An activity link whose identifier is not in the published collection (withdrawn, held, mistyped, or
-   truncated) says so above the questions, as The Register does, instead of silently opening nothing. */
+/* An unknown or incomplete activity link gets a message above the questions, as in The Register. */
 function clearMissing(){ var old=document.getElementById('missingAct'); if(old) old.parentNode.removeChild(old); }
 function missingActivity(id){
   clearMissing();

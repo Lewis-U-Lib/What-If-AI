@@ -56,7 +56,7 @@ var L = {
   role:  {generator:'AI produces material to work with', interlocutor:'AI as a conversation partner',
           evaluator:'AI comments on existing work', instrument:'AI does one bounded task',
           specimen:'AI output is examined as the object of study', withheld:'AI is deliberately left out'},
-  /* source access (content/record-review.json, WIA-01): a source item used as published, by link, that is not openly
+  /* source access: a source item used as published, by link, that is not openly
      licensed. Absent means every work the use-case idea adapts or uses is openly licensed. */
   sa:    {not_open:'No clear open license', unmodified:'Use only as published', restricted:'Access or permission needed'},
   saLong:{not_open:'The source item it uses states no clear open license for the item itself. Use the item from its own page as published, and ask its owner before copying or adapting it.',
@@ -71,7 +71,7 @@ var ORIGIN = {};
 var TIER = {};
 (D.tiers||[]).forEach(function(t){ TIER[t[0]] = {label:t[1], text:t[2]}; });
 function tierOf(a){ return a.tier && TIER[a.tier]; }
-/* who operates an AI tool in the use-case idea (reviewed; see content/ai-use.json) */
+/* who operates an AI tool in the use-case idea */
 var OPERATOR = {};
 (D.operators||[]).forEach(function(o){ OPERATOR[o[0]] = {label:o[1], text:o[2]}; });
 function operatorLabel(v){ return (OPERATOR[v]||{}).label || pretty(v); }

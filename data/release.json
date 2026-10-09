@@ -1,30 +1,28 @@
 {
- "contract": 1,
- "release": "25ec48b9d88c",
- "built": "2026-09-28",
- "source": {
-  "repo": "Lewis-U-Lib/Faculty-AI-Evaluation-Tool",
-  "branch": "release-export + manual addition of 81 CAN-L records (2026-09-28)",
-  "commit": "aab8197ee43a9382a03c4666095ae495b35dadfc",
-  "clean": false
- },
- "counts": {
-  "activities": 826,
-  "works": 324,
-  "withheld_not_exported": 198
- },
- "files": {
-  "acts.json": {
-   "bytes": 2742737,
-   "sha256": "66e7d09affd31938528f74c03fa45541125235d559c379dd0eb8fe1ac3c597ba"
+  "contract": 2,
+  "release": "ff31f8988f75",
+  "built": "2026-10-09",
+  "source": {
+    "repo": "Lewis-U-Lib/What-If-AI",
+    "commit": "520e54ba5e620104ddf713428eea28c786350a8e",
+    "description": "Reviewed public collection"
   },
-  "register.json": {
-   "bytes": 297333,
-   "sha256": "5a685831cea6aaa78f5b97728a4b1040428505cc90cca6b525c6a5e0a60a4b38"
+  "counts": {
+    "activities": 1033,
+    "works": 618
   },
-  "guide.json": {
-   "bytes": 8327,
-   "sha256": "22dbfe42766273bbf490c52711d20ef97df9cb3c5b45ac3e08495684db13b4eb"
+  "files": {
+    "acts.json": {
+      "bytes": 4100542,
+      "sha256": "f522ec566e87955996e59792e53498c922c531f015a44abdf69ed9496928194d"
+    },
+    "register.json": {
+      "bytes": 553282,
+      "sha256": "11a6ccf516f6ee4f13a781637f5871b54fa439dc730e80d7a8e81a5c2e561f0f"
+    },
+    "guide.json": {
+      "bytes": 8327,
+      "sha256": "22dbfe42766273bbf490c52711d20ef97df9cb3c5b45ac3e08495684db13b4eb"
+    }
   }
- }
 }

@@ -1,10 +1,10 @@
-/* Links that are broken, withdrawn, or cut off must still leave a working page, and the curated
+/* Links that are unknown or cut off must still leave a working page, and the curated
    records must read correctly in both tools. */
 const assert=require('assert/strict'),path=require('path');
 const {chromium}=require('playwright');
 const {createContext}=require('./browser');
 const {start}=require('./serve');
-const D=require('./public-data'),curation=require('../content/curation.json');
+const D=require('./public-data');
 const SITE=path.resolve(process.argv[2]||path.join(__dirname,'../_site'));
 (async()=>{
  const server=await start({dir:SITE}),browser=await chromium.launch();
@@ -33,8 +33,8 @@ const SITE=path.resolve(process.argv[2]||path.join(__dirname,'../_site'));
   await go('register.html#activities?q=100%25%20(AI');
   ok(await p.locator('#gq').inputValue()==='100% (AI','an encoded percent sign still round-trips');
 
-  // 2 · withdrawn, held and unknown activity links say so in both tools
-  for(const id of [curation.withdrawals.ids[0],'NOPE-123']){
+  // 2 · unknown activity links say so in both tools
+  for(const id of ['UNKNOWN-ACTIVITY','NOPE-123']){
     for(const f of ['what-if-ai.html','register.html']){
       await go(f+'#act='+id);
       ok(await p.locator('#missingAct').isVisible(),id+' is reported missing in '+f);
@@ -50,7 +50,7 @@ const SITE=path.resolve(process.argv[2]||path.join(__dirname,'../_site'));
 
   // A broken hash reached while a dialog is open must not leave the old activity on screen.
   for(const f of ['what-if-ai.html','register.html']){
-    for(const id of ['%',curation.withdrawals.ids[0]]){
+    for(const id of ['%','UNKNOWN-ACTIVITY']){
       await go(f+'#act='+D.acts[0].id);
       await p.evaluate(id=>{location.hash='#act='+id;},id);
       await p.waitForSelector('#missingAct');
@@ -88,6 +88,6 @@ const SITE=path.resolve(process.argv[2]||path.join(__dirname,'../_site'));
   }
 
   ok(errors.length===0,'no page errors: '+errors.join('; '));
-  console.log(`PASS: ${checks} checks — broken %-escapes, withdrawn/unknown links in both tools, reclassified records, and unversioned licenses.`);
+  console.log(`PASS: ${checks} checks — broken %-escapes, unknown links in both tools, reclassified records, and unversioned licenses.`);
  }finally{await browser.close();await server.close();}
 })().catch(e=>{console.error(e);process.exit(1);});

@@ -7,14 +7,13 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
-from terminology import reviewed_input, terminology_files
 from ai_type_guide import ai_type_guide_files, validate
 
 
 class AiTypeGuideTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.raw, _ = terminology_files(reviewed_input(ROOT), ROOT / 'content/terminology.json')
+        cls.raw = {name: (ROOT / 'data' / name).read_bytes() for name in ('acts.json', 'register.json', 'guide.json')}
         cls.output, cls.meta = ai_type_guide_files(cls.raw, ROOT / 'content/ai-type-guide.json')
         cls.before = json.loads(cls.raw['register.json'])
         cls.after = json.loads(cls.output['register.json'])

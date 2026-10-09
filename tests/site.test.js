@@ -42,60 +42,21 @@ const ANALYTICS = CFG.analytics;
   check('no inline style attributes in pages or generated markup', styleAttrs.length === 0, styleAttrs.join(' '));
   check('every page declares the Content-Security-Policy', PAGES.every(p => /<meta http-equiv="Content-Security-Policy" content="default-src &#x27;self&#x27;; script-src &#x27;self&#x27;/.test(html(p))));
   const release = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'release.json'), 'utf8'));
-  const publication = require('../content/publication-review.json');
-  const punctuation = require('../content/serial-comma-corrections.json');
-  const curation = require('../content/curation.json');
-  const tiers = require('../content/tiers.json');
-  const aiUse = require('../content/ai-use.json');
-  const recordReview = require('../content/record-review.json');
-  const terminology = require('../content/terminology.json');
   const toolLicense = require('../content/tool-license.json');
-  check('the imported data release remains unchanged', Object.entries(release.files).every(([name, meta]) =>
+  const v = JSON.parse(fs.readFileSync(path.join(SITE, 'version.json'), 'utf8'));
+  const typeGuide = v.ai_type_guide;
+  check('the public collection matches its release fingerprints', Object.entries(release.files).every(([name, meta]) =>
     sha(fs.readFileSync(path.join(ROOT, 'data', name))) === meta.sha256));
-  const typeGuide = JSON.parse(fs.readFileSync(path.join(SITE, 'version.json'))).ai_type_guide;
-  check('public data matches the reviewed output hashes of the last stage (license-scope clarification)', ['acts', 'register', 'guide'].every(n => {
+  check('public data matches the license-scope output fingerprints', ['acts', 'register', 'guide'].every(n => {
     const f = files.find(x => x.startsWith('data/' + n + '.')); return f && sha(fs.readFileSync(path.join(SITE, f))) === toolLicense.output_sha256[n + '.json']; }));
   check('the license-scope pass starts from the sourced AI guide output', JSON.stringify(toolLicense.input_sha256) === JSON.stringify(typeGuide.output_sha256));
-  check('the AI guide starts from the pinned terminology output', JSON.stringify(typeGuide.input_sha256) === JSON.stringify(terminology.output_sha256));
+  check('the AI guide starts from the public collection', Object.entries(release.files).every(([name,meta])=>typeGuide.input_sha256[name]===meta.sha256));
   check('the AI guide preserves activities and evaluation guidance byte for byte', ['acts.json','guide.json'].every(n=>typeGuide.input_sha256[n]===typeGuide.output_sha256[n]));
   check('the AI guide revision matches its content and references', typeGuide.revision === sha(fs.readFileSync(path.join(ROOT,'content/ai-type-guide.json'))).slice(0,12));
-  check('the terminology pass starts from the record review', JSON.stringify(terminology.input_sha256) === JSON.stringify(recordReview.output_sha256));
-  check('the record review starts from the data with its AI-use review', JSON.stringify(recordReview.input_sha256) === JSON.stringify(aiUse.output_sha256));
-  check('the record-review manifest (holds, withdrawals, evidence, flags) is not published', !files.some(f => /record-review/.test(f)), files.filter(f => f.startsWith('data/')).join(' '));
-  check('the AI-use review starts from the data with its two labeled sets', JSON.stringify(aiUse.input_sha256) === JSON.stringify(tiers.output_sha256));
-  check('the AI-use manifest (assignments, evidence, withdrawals) is not published', !files.some(f => /ai-use/.test(f)), files.filter(f => f.startsWith('data/')).join(' '));
-  check('the sets stage starts from the curated publication', JSON.stringify(tiers.input_sha256) === JSON.stringify(curation.output_sha256));
-  check('the sets manifest (held records and their reasons) is not published', !files.some(f => /tiers/.test(f)), files.filter(f => f.startsWith('data/')).join(' '));
-  check('the publication review (held additions and review notes) is not published', !files.some(f => /publication-review/.test(f)), files.filter(f => f.startsWith('data/')).join(' '));
+  check('the site publishes exactly the three public data files', files.filter(f=>f.startsWith('data/')).length === 3);
   check('.nojekyll, robots.txt, sitemap.xml and version.json are present', ['.nojekyll', 'robots.txt', 'sitemap.xml', 'version.json'].every(f => files.includes(f)));
-  const v = JSON.parse(fs.readFileSync(path.join(SITE, 'version.json'), 'utf8'));
-  check('version.json names the release and the pipeline commit it came from', v.release === release.release && v.pipeline_commit === release.source.commit, v.release + ' @ ' + v.pipeline_commit.slice(0, 7));
-  check('version.json identifies the exact applied editorial corrections', v.editorial.base_release === release.release &&
-    v.editorial.revision === sha(fs.readFileSync(path.join(ROOT, 'content/editorial-corrections.json'))).slice(0, 12) &&
-    sha(fs.readFileSync(path.join(SITE, v.editorial.manifest))) === sha(fs.readFileSync(path.join(ROOT, 'content/editorial-corrections.json'))));
-
-  check('version.json identifies the reviewed punctuation', v.punctuation.commas === 1432 &&
-    v.punctuation.revision === sha(fs.readFileSync(path.join(ROOT, 'content/serial-comma-corrections.json'))).slice(0, 12) &&
-    sha(fs.readFileSync(path.join(SITE, v.punctuation.manifest))) === sha(fs.readFileSync(path.join(ROOT, 'content/serial-comma-corrections.json'))));
-  check('version.json identifies publication decisions without publishing the review', v.publication.activities === 815 &&
-    v.publication.works === 315 && v.publication.accepted_additions === 70 && v.publication.held_additions === 11 &&
-    v.publication.revision === sha(fs.readFileSync(path.join(ROOT, 'content/publication-review.json'))).slice(0, 12) &&
-    !('manifest' in v.publication));
-  check('version.json identifies the curation and the public counts', v.curation.activities === 779 && v.curation.works === 309 &&
-    v.curation.withdrawn === 36 && v.curation.reclassified === 115 &&
-    v.curation.revision === sha(fs.readFileSync(path.join(ROOT, 'content/curation.json'))).slice(0, 12) && !('manifest' in v.curation));
-  check('version.json identifies the two labeled sets and the public counts', v.tiers.activities === tiers.expected_counts.activities && v.tiers.works === tiers.expected_counts.works &&
-    v.tiers.synthesis === tiers.expected_counts.synthesis && v.tiers.remix === tiers.expected_counts.remix && v.tiers.held === tiers.expected_counts.held &&
-    v.tiers.revision === sha(fs.readFileSync(path.join(ROOT, 'content/tiers.json'))).slice(0, 12) && !('manifest' in v.tiers));
-  check('version.json identifies the AI-use review and its counts', JSON.stringify(Object.fromEntries(Object.entries(v.ai_use).filter(([k]) => !['revision', 'reviewed'].includes(k)))) === JSON.stringify(aiUse.expected_counts) &&
-    v.ai_use.revision === sha(fs.readFileSync(path.join(ROOT, 'content/ai-use.json'))).slice(0, 12) && v.ai_use.reviewed === aiUse.reviewed && !('manifest' in v.ai_use));
-  check('version.json identifies the record review and its counts', JSON.stringify(Object.fromEntries(Object.entries(v.record_review).filter(([k]) => !['revision', 'reviewed'].includes(k)))) === JSON.stringify(recordReview.expected_counts) &&
-    v.record_review.revision === sha(fs.readFileSync(path.join(ROOT, 'content/record-review.json'))).slice(0, 12) && v.record_review.reviewed === recordReview.reviewed && !('manifest' in v.record_review));
-
-  check('version.json identifies the terminology revision and changed fields', v.terminology.reviewed === terminology.reviewed &&
-    v.terminology.changed_fields === terminology.changed_fields &&
-    v.terminology.revision === sha(fs.readFileSync(path.join(ROOT, 'content/terminology.json'))).slice(0, 12));
-
+  check('version.json identifies the collection and its source', v.release === release.release && JSON.stringify(v.collection_source) === JSON.stringify(release.source));
+  check('version.json contains only the current build metadata', JSON.stringify(Object.keys(v).sort()) === JSON.stringify(['release','release_built','collection_source','site_commit','ai_type_guide','license_scope','tool_license','assets'].sort()));
   check('version.json identifies the scoped tool license and unchanged entry licenses',
     JSON.stringify(v.tool_license) === JSON.stringify(toolLicense.tool_license) && v.license_scope.clarified_notes === 244 &&
     v.license_scope.revision === sha(fs.readFileSync(path.join(ROOT, 'content/tool-license.json'))).slice(0, 12));

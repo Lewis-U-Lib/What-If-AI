@@ -1,70 +1,23 @@
-# AI-type guide: sourcing and scope, October 8, 2026
+# AI-type guide: sources and scope
 
-> Later the same day, [the restored-limits revision](AI-TYPE-GUIDE-LIMITS-2026-10-08.md)
-> kept this structure, restored the earlier guide's practical limits with sources, and
-> expanded the bibliography from sixteen to forty-three APA references. The record below
-> describes the first revision as made.
+The guide in `content/ai-type-guide.json` describes capabilities and model families, system designs, and access or participation choices. These overlapping groups are an editorial synthesis, not a taxonomy attributed to a single publication.
 
-The Register's AI explanations previously carried no claim-level source references. This
-revision replaces the introduction, all eleven original descriptions, the no-student-tool
-entry, previews, and general recommendations with a newly researched guide. It does not
-retroactively attribute the earlier writing to these sources.
+The guide has 43 references: 36 peer-reviewed publications, two preprints, three U.S. government publications, and two intergovernmental publications. References are numbered by first appearance, use APA-style entries, and carry short accessible citation labels. Each entry identifies its publication status and the consulted abstract or section. Product examples link to official information separately.
 
-## Editorial decisions
+## Source records
 
-- Ten capability/system entries and two access/participation choices occupy three labeled
-  groups. Institutional provision and no student AI tool use are explicitly not AI capabilities.
-- The introduction distinguishes modalities, tasks, approaches, and deployment context.
-  The grouping is a bounded, overlapping editorial synthesis for faculty, not an exhaustive
-  or validated classification adopted from OECD or any other source.
-- Broadened explanations distinguish speech recognition from speech generation, prediction
-  from content generation, and code generation from execution. The former discipline-specific
-  card now introduces prediction, classification, and pattern finding; its related entries
-  remain the existing selected discipline-specific use cases.
-- Definitions, mechanisms, inputs/outputs, and research limitations carry inline source links.
-  Each dialog lists the sources used; the page supplies the full sixteen-item bibliography.
-  Product examples retain their official links and separate September 25 check date.
-- Source labels distinguish peer-reviewed publications, author manuscripts, preprints, and
-  government/intergovernmental guidance. The studied systems and publication dates are
-  not treated as current product ratings or evidence of learning gains.
-- Faculty scenarios and practical checks are editorial suggestions. No independent subject
-  expert review, classroom trial, or institutional endorsement is claimed.
+- `docs/research/ai-type-sources.json` records source IDs, titles, URLs, and claim mappings.
+- `docs/research/ai-type-excerpts.md` records short supporting excerpts.
+- `content/ai-type-guide.json` contains the original paraphrases and public source mappings.
 
-## Reproducible provenance
+The source-check descriptions in the supplied October 8 revision document comparisons with abstracts and named sections. Integration checks verify the citation mappings and interface behavior; they do not constitute an independent review of all 43 publications. No independent subject-expert review, classroom trial, or institutional approval is claimed.
 
-`content/ai-type-guide.json` holds original paraphrases and source mappings. The source ledger
-in `docs/research/ai-type-sources.json` was assembled while retrieving the sources. Reference
-lists are generated from that mapping. Short exact excerpts in `docs/research/ai-type-excerpts.md`
-anchor the ledger, and the citation/evidence verifier checks the guide's reference mapping.
-Locators state what was consulted: paper abstracts,
-specified framework/report sections, and UNESCO's publication overview. No full-text review
-of every paper is claimed. The revision was researched and written with AI assistance.
+## Reading the guide
 
-The source texts are referenced, not incorporated as licensed teaching activities. No claim
-is made that publication or public access grants adaptation rights. No figures or tables
-from the cited works are reproduced. Existing source rights and activity attribution remain
-under the collection's earlier review stages.
+Research studies describe mechanisms and findings for particular systems and conditions. They do not rate every current product. The visible scope statement under “Sources for this guide” explains that boundary, and the introduction identifies the editorial synthesis. Illustrative faculty uses describe ideas in the collection; they do not establish classroom effectiveness.
 
-The build's guide stage may change prose only; a later license-scope pass clarifies
-entry-license notes without changing this guide or its references. It preserves all related-idea IDs,
-capability keys, and counts. `acts.json` and `guide.json` remain byte-identical to the
-terminology stage; non-type fields in `register.json` remain structurally identical.
+Each type dialog presents its explanation, practical limits, related use-case ideas, and cited references. The full reference list is available in the “All 43 references” disclosure. The guide's bibliography is separate from the activity collection's source count.
 
-## Validation
+## Build safeguards
 
-### Presentation display adjustment
-
-At the owner's request on October 8, the public guide temporarily omits the
-"About this revision" callout and source-check notes. The foundational-studies,
-preprint, and editorial-suggestion caveats now appear together under "Sources for
-this guide" instead of being repeated in each type dialog. Citations and reference
-lists remain visible. The provenance and review-status fields remain in
-`content/ai-type-guide.json` and this documentation for later restoration.
-
-### Checks
-
-The new unit tests check corpus preservation, complete source mappings, and separation of
-access/teaching choices. The dialog suite checks rendered reference URLs and IDs, source
-visibility, links-only product examples, keyboard focus, scroll restoration, related-idea
-navigation, and nine viewport widths. Existing release, deterministic-build, matching,
-page, feedback, WCAG, and contrast checks remain part of the deployment workflow.
+The guide stage preserves all activity records and sources, related-idea IDs, capability keys, and counts. It refuses unknown references, missing explanations, changes to related-idea fields, and incorrect group membership. The license stage pins the resulting public files. Browser checks cover keyboard operation, focus, scrolling, reference disclosure, links, accessibility, contrast, and narrow screens.
