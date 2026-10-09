@@ -1,0 +1,22 @@
+{
+  "baseline_commit": "d2545fa7108b2c38e7383a6414739d681558e013",
+  "activities_preserved": 1033,
+  "original_evidence_notes_preserved_exactly": 173,
+  "new_evidence_notes": 2,
+  "total_evidence_notes": 175,
+  "unchanged_activity_fields_checked": [
+    "lic",
+    "licu",
+    "lics",
+    "licn",
+    "cit",
+    "attr",
+    "rel",
+    "cls",
+    "tier"
+  ],
+  "activity_fields_changed": 9,
+  "preparation_candidates": 44,
+  "alternative_routes_to_review": 150,
+  "original_continuation_ids_retained": 1028
+}

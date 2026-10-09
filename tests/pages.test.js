@@ -415,7 +415,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   const fs1 = await page.$eval('#filters', f => ({ ov: getComputedStyle(f).overflowY, sh: f.scrollHeight, ch: f.clientHeight, pos: getComputedStyle(f).position, mh: getComputedStyle(f).maxHeight }));
   check('The Register: the filter panel has no inner scrollbar and is not a fixed-height sticky box', fs1.ov === 'visible' && fs1.sh <= fs1.ch + 1 && fs1.pos === 'static' && fs1.mh === 'none', JSON.stringify(fs1));
   await go(page, 'register.html#activities?pol=open&cost=1');
-  const want2 = ACTS.acts.filter(a => a.pol === 'open' && ['no_tool_needed', 'free_tier', 'institution_provided'].includes(a.eq)).length;
+  const want2 = ACTS.acts.filter(a => a.pol === 'open' && ['no_tool_needed', 'free_tier', 'institution_provided'].includes(a.eq) && a.sa !== 'restricted' && !(a.eq === 'no_tool_needed' && a.op === 'faculty_or_staff')).length;
   check('The Register: a filtered address restores those filters', (await page.textContent('#actCount')).includes('of ' + want2), want2 + ' expected');
   await page.goto('about:blank'); await go(page, 'register.html#activities');
   await page.fill('#gq', 'debate');

@@ -12,7 +12,7 @@
     "test:matching": "node tests/data-integration.test.js && node tests/matching.test.js && node tests/matching-browser.test.js && node tests/integration-browser.test.js && node tests/curation-browser.test.js",
     "test:site": "node tests/site.test.js",
     "test:pages": "node tests/pages.test.js",
-    "test:review": "node tests/review-fixes-browser.test.js",
+    "test:review": "node tests/review-fixes-browser.test.js && node tests/audit-remediation.test.js",
     "test:types": "node tests/types.test.js",
     "test:feedback": "node tests/feedback.test.js",
     "test:a11y": "node tests/a11y.test.js",

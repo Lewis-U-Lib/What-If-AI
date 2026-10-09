@@ -22,7 +22,7 @@ const SITE = path.join(ROOT, '_site'), license = cfg.tool_license;
       for (const anchor of await page.locator('.site-foot__license a').all()) assert.equal(await anchor.getAttribute('href'), license.url);
       assert.ok((await page.locator('.site-foot__text').textContent()).includes(license.name));
       assert.equal((await page.locator('[data-license-exceptions]').textContent()).trim(), license.exceptions);
-      await page.locator('.site-foot__details summary').click();
+      await page.locator('#license-details summary').click();
       assert.equal((await page.locator('[data-license-history]').textContent()).trim(), license.history_notice);
       assert.ok(await page.locator('.cc-icons img').evaluate(img => img.complete && img.naturalWidth === 88 && img.naturalHeight === 31));
       for (const width of [320,1280]) {

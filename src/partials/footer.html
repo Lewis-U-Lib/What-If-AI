@@ -1,6 +1,6 @@
 <footer class="site-foot" aria-labelledby="footHeading">
   <span class="current current--foot" aria-hidden="true"></span>
-  <h2 id="footHeading" class="sr-only">License, attribution, and AI-use disclosure</h2>
+  <h2 id="footHeading" class="sr-only">License, privacy, attribution, and AI-use disclosure</h2>
   <div class="site-foot__inner">
     <div class="site-foot__license">
       <a class="cc-icons" href="{{license:url}}" target="_blank" rel="license noopener noreferrer"
@@ -12,7 +12,13 @@
       <p class="site-foot__meta">Lewis University Library · Tool license: {{license:label}} · <span data-updated>{{updated}}</span></p>
     </div>
     <p class="site-foot__attr" data-license-exceptions>{{license:exceptions}}</p>
-    <details class="site-foot__details">
+    <details class="site-foot__details" id="privacy">
+      <summary>Privacy, saved selections, and site usage</summary>
+      <p>Saved selections are kept in this browser. If browser storage is unavailable, the tools warn that the selection is temporary and offer printing or saving as a PDF.</p>
+      <p>This site uses Umami to measure page views. Page-view reports omit search text and activity links from the page address. When you submit an activity rating, the report includes the activity identifier, your selected response, which tool you used, and any follow-up choices.</p>
+      <p>Ask Us loads the Library’s LibAnswers chat service when you open it. The separate Send feedback link opens a Library form. Those services receive their own requests; the saved-selection notice does not describe their data handling.</p>
+    </details>
+    <details class="site-foot__details" id="license-details">
       <summary>License scope, reuse, and earlier releases</summary>
       <p>{{license:summary}} Follow the <a href="{{license:legal_url}}" target="_blank" rel="noopener noreferrer">full license terms<span class="sr-only"> (opens in a new tab)</span></a>.</p>
       <p data-guide-license>{{license:guide_notice}}</p>

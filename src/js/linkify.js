@@ -20,11 +20,15 @@ var linkifyGuide = (function () {
     return raw.map(function (g) {
       var f = g.flags || '';
       if (f.indexOf('g') < 0) f += 'g';
-      try { return { re: new RegExp(g.pattern, f), url: g.url, label: g.label }; }
+      try {
+        var u=new URL(g.url);
+        if(!/^https?:$/.test(u.protocol) || !u.hostname || /[\u0000-\u001f\u007f]/.test(g.url)) return null;
+        return { re: new RegExp(g.pattern, f), url: u.href, label: g.label };
+      }
       catch (_) { return null; }
     }).filter(Boolean);
   }
-  function esc(s) { return String(s).replace(/"/g, '&quot;'); }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   return function (escaped) {
     if (L === null) L = load();
     if (!escaped || !L.length) return escaped || '';
@@ -56,7 +60,7 @@ var linkifyGuide = (function () {
     for (i = 0; i < taken.length; i++) {
       var t = taken[i];
       out += s.slice(at, t.a) +
-        '<a href="' + esc(t.url) + '" class="guide-link" target="_blank" rel="noopener" title="' +
+        '<a href="' + esc(t.url) + '" class="guide-link" target="_blank" rel="noopener noreferrer" title="' +
         esc(t.label) + '">' + s.slice(t.a, t.b) + '</a>';
       at = t.b;
     }

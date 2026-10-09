@@ -30,9 +30,9 @@ Within a group, results are ordered by quality, never by where a record sits in 
 
 1. the match score above;
 2. the corpus quality tier (`gr`, ranking-only and not shown to readers);
-3. evidence of use: a record whose source reports running it comes before one marked
-   `use: "unreported"` (a published prompt or workflow nobody has reported using) and before
-   a record from the synthesis or remix set (`tier`), written for the collection and not yet tried;
+3. explicit evidence of use: only `use: "reported"` on a record outside the authored sets
+   earns this tie-break. Missing, empty, unknown, and `unreported` statuses are neutral.
+   No reported-use statuses were added by the October 9 correction;
 4. a fixed FNV-1a hash of the identifier, a neutral last resort that favors no import batch,
    source, or letter.
 
@@ -56,11 +56,17 @@ requirements before considering” group. Its card names each requirement to che
 |---|---|---|---|
 | My students won’t use an AI tool themselves (`noai`) | A nonempty `na` route, or `op` of `faculty_or_staff`, `optional`, or `none` | `op: students` with no `na` route | `op: not_specified` or missing, with no `na` route |
 | No student-authored input | `none`, `research_participant_deidentified` sensitivity | Other recorded sensitivity categories | Missing or `not_specified` sensitivity, or `student_derived_deidentified` (information derived from students' own writing still needs checking) |
-| No payment | `no_tool_needed`, `free_tier`, `institution_provided`, unless the source item is `sa: restricted` | `paid_required`; `paid_with_stated_alternative` under the existing route contract | Missing, unspecified, or unrecognized cost; or a free cost on a record whose source item is `sa: restricted` |
-| No account | `pc: none` | `account_verification` | Every other prerequisite category |
+| No payment | `no_tool_needed`, `free_tier`, `institution_provided`, unless the source item is `sa: restricted` or the preparation exception below applies | `paid_required`; `paid_with_stated_alternative` under the existing route contract | Missing, unspecified, or unrecognized cost; restricted source access; or instructor preparation with unverified access |
+| No account | `pc: none`, except unverified instructor preparation below | `account_verification` | Every other prerequisite category; unverified instructor preparation |
 | No equipment/travel/purchases | `pc: none`, unless the source item is `sa: restricted` | `equipment_required`, `travel_or_attendance`, `purchased_material` | Every other prerequisite category; or `pc: none` on a record whose source item is `sa: restricted` |
 | No formal disclosure | `none_required`, `informal_acknowledgement`, `documented_log`, `anonymity_by_design` | `formal_statement` | Missing, unspecified, or unrecognized disclosure |
-| No approval | `pc: none` | `institutional_approval_required` | Every other prerequisite category |
+| No approval | `pc: none`, except unverified instructor preparation below | `institutional_approval_required` | Every other prerequisite category; unverified instructor preparation |
+
+The 44 records combining `no_tool_needed` and `faculty_or_staff` do not establish the
+instructor's tool cost, account, or approval requirements. These three requirements stay
+unknown (unless explicitly excluded) pending source and local-access review. Both tools
+use the same no-payment rule. Their labels distinguish student participation from
+instructor preparation; institutional access still needs local confirmation.
 
 `sa` (source access) is recorded on synthesis records that use a source
 item, as published and by link, that is not openly licensed. Only `restricted` (the item needs a

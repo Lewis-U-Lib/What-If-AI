@@ -17,6 +17,15 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
 function pretty(s){ return String(s||'').replace(/_/g,' '); }
 function G(s){ return (typeof linkifyGuide==='function') ? linkifyGuide(esc(s)) : esc(s); }
 function lab(list, v){ for(var i=0;i<(list||[]).length;i++) if(list[i][0]===v) return list[i][1]; return ''; }
+function safeURL(value){
+  if(typeof value!=='string' || /[\u0000-\u001f\u007f]/.test(value)) return '';
+  try { var u=new URL(value); return (u.protocol==='https:'||u.protocol==='http:') && u.hostname ? u.href : ''; }
+  catch(_){ return ''; }
+}
+function externalLink(url, html, attrs){
+  var safe=safeURL(url);
+  return safe ? '<a href="'+esc(safe)+'" target="_blank" rel="noopener noreferrer"'+(attrs||'')+'>'+html+'</a>' : '<span>'+html+'</span>';
+}
 
 /* ─────────── plain-language labels ─────────── */
 var L = {
@@ -38,7 +47,7 @@ var L = {
           none_required:'no AI tool'},
   capType:{text_chat:'conversational', retrieval_grounded:'grounded', external_retrieval:'search', image_understanding:'multimodal',
           image_generation:'image', video_generation:'video', audio_or_voice:'audio', code_execution:'code', workflow_automation:'agentic'},
-  eq:    {no_tool_needed:'No tool needed', free_tier:'A free version is enough', institution_provided:'Provided by the institution',
+  eq:    {no_tool_needed:'No AI tool needed', free_tier:'A free version is enough', institution_provided:'Institutional access; check availability',
           paid_required:'Paid tool required',
           paid_with_stated_alternative:'Paid tool, with a free alternative described', not_specified:'Not stated'},
   pc:    {human_checking_required:'A person needs to check the output', institutional_approval_required:'Needs ethics or institutional approval first',
@@ -77,9 +86,13 @@ var OPERATOR = {};
 function operatorLabel(v){ return (OPERATOR[v]||{}).label || pretty(v); }
 /* the Register's copy of FINDER_MATCH.requirement(a,'noai'): "My students won't use an AI tool themselves" */
 function noToolForStudents(a){
-  if(a.na) return 'confirmed';
-  if(a.op==='students') return 'excluded';
-  return ['faculty_or_staff','optional','none'].indexOf(a.op)>=0 ? 'confirmed' : 'unknown';
+  return FINDER_MATCH.requirement(a,'noai');
+}
+function costLabel(a){
+  if(a.eq==='no_tool_needed' && a.op==='faculty_or_staff')
+    return a.ac==='student' ? 'No student AI tool; instructor access and cost need checking' : 'Tool access and cost need checking';
+  if(a.eq==='no_tool_needed' && a.op==='optional') return 'No AI tool needed for the unaided route';
+  return L.eq[a.eq]||pretty(a.eq);
 }
 function lines(s){ return String(s||'').split('\n').filter(function(x){ return x.trim(); }); }
 
@@ -142,29 +155,32 @@ function dataTool(a){ return a.op==='none' ? 'a third-party tool' : 'an AI tool'
 
 /* ─────────── saved activities (this browser only) ─────────── */
 var KEY = 'lul-whatifai-saved-v1';
-var mem = null, listeners = [];
+var mem = null, listeners = [], storageOK = true;
 function readIds(){
   if(mem) return mem.slice();
   try { var v = JSON.parse(window.localStorage.getItem(KEY)||'[]'); mem = Array.isArray(v) ? v.filter(function(x){return typeof x==='string';}) : []; }
-  catch(_){ mem = []; }
+  catch(_){ mem = []; storageOK = false; }
   return mem.slice();
 }
 function writeIds(ids){
   mem = ids.slice();
-  try { window.localStorage.setItem(KEY, JSON.stringify(ids)); } catch(_){ /* private mode: session memory only */ }
-  listeners.forEach(function(fn){ try{ fn(ids.slice()); }catch(_){} });
+  try { var value=JSON.stringify(ids); window.localStorage.setItem(KEY,value); storageOK=window.localStorage.getItem(KEY)===value; }
+  catch(_){ storageOK=false; }
+  listeners.forEach(function(fn){ try{ fn(ids.slice(),storageOK); }catch(_){} });
+  return storageOK;
 }
 var Saved = {
   ids: readIds,
   has: function(id){ return readIds().indexOf(id) >= 0; },
-  add: function(id){ var ids=readIds(); if(ids.indexOf(id)<0){ ids.push(id); writeIds(ids); } },
-  remove: function(id){ writeIds(readIds().filter(function(x){return x!==id;})); },
+  isPersistent: function(){ readIds(); return storageOK; },
+  add: function(id){ var ids=readIds(); if(ids.indexOf(id)<0){ ids.push(id); return writeIds(ids); } return storageOK; },
+  remove: function(id){ return writeIds(readIds().filter(function(x){return x!==id;})); },
   toggle: function(id){ if(Saved.has(id)){ Saved.remove(id); return false; } Saved.add(id); return true; },
-  clear: function(){ writeIds([]); },
+  clear: function(){ return writeIds([]); },
   onChange: function(fn){ listeners.push(fn); }
 };
 window.addEventListener('storage', function(e){
-  if(e.key !== KEY) return;
+  if(e.key !== KEY || !storageOK) return;
   mem = null; var ids = readIds(); listeners.forEach(function(fn){ try{ fn(ids); }catch(_){} });
 });
 
@@ -187,7 +203,7 @@ var ICON_BOOKMARK = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="fals
 function saveButton(a, cls){
   var on = Saved.has(a.id);
   return '<button type="button" class="btn btn--sm save '+(cls||'')+'" data-save="'+esc(a.id)+'" aria-pressed="'+on+'">'+
-    ICON_BOOKMARK+'<span class="save__txt">'+(on?'Saved':'Save')+'</span><span class="sr-only"> use-case idea: '+esc(a.t)+'</span></button>';
+    ICON_BOOKMARK+'<span class="save__txt">'+(on?(Saved.isPersistent()?'Saved':'Saved temporarily'):'Save')+'</span><span class="sr-only"> use-case idea: '+esc(a.t)+'</span></button>';
 }
 
 /* ─────────── activity card ─────────── */
@@ -204,7 +220,7 @@ function cardHTML(a, opts){
   s += '<dt>Scale</dt><dd>'+esc(depthLabel(a.depth))+'</dd>';
   s += '<dt>AI use</dt><dd>'+esc(capsShort(a)||'Not stated')+'</dd>';
   if(OPERATOR[a.op]) s += '<dt>Who uses AI</dt><dd>'+esc(OPERATOR[a.op].label)+'</dd>';
-  if(a.eq && a.eq!=='not_specified') s += '<dt>Cost</dt><dd>'+esc(L.eq[a.eq]||pretty(a.eq))+'</dd>';
+  if(a.eq && a.eq!=='not_specified') s += '<dt>Cost</dt><dd>'+esc(costLabel(a))+'</dd>';
   if(sourceAccess(a)) s += '<dt>Source item</dt><dd>'+esc(L.sa[a.sa])+'</dd>';
   var T = tierOf(a);
   if(T) s += '<dt>Origin</dt><dd>'+esc(T.label)+' · not yet tried</dd>';
@@ -212,7 +228,7 @@ function cardHTML(a, opts){
   if(sensitive(a)) s += '<p class="acard__note"><span aria-hidden="true">⚠</span><span>Involves putting '+esc(L.sen[a.sen])+' into '+dataTool(a)+'.</span></p>';
   s += '<div class="acard__foot no-print">'+
        '<button type="button" class="btn btn--sm" data-open="'+esc(a.id)+'">View details<span class="sr-only">: '+esc(a.t)+'</span></button>'+
-       saveButton(a)+'</div>';
+       saveButton(a)+'</div>'+storageNotice(false,true);
   return s + '</article>';
 }
 
@@ -248,8 +264,8 @@ function detailHTML(a, opts){
   f += '<dt>Setting</dt><dd>'+esc((a.mod||[]).map(modLabel).join(', ')||'Not stated')+'</dd>';
   if(OPERATOR[a.op]) f += '<dt>Who uses an AI tool</dt><dd>'+esc(OPERATOR[a.op].text)+'</dd>';
   f += '<dt>AI tool needed</dt><dd>'+esc((a.cap||[]).map(function(c){return L.capLong[c]||pretty(c);}).join('; ')||'Not stated')+'</dd>';
-  if(a.eq && a.eq!=='not_specified') f += '<dt>Cost and access</dt><dd>'+esc(L.eq[a.eq]||pretty(a.eq))+'</dd>';
-  if(a.pc && L.pc[a.pc]) f += '<dt>Also required</dt><dd>'+esc(L.pc[a.pc])+'</dd>';
+  if(a.eq && a.eq!=='not_specified') f += '<dt>Cost and access</dt><dd>'+esc(costLabel(a))+'</dd>';
+  if(a.pc && L.pc[a.pc]) f += '<dt>Also required</dt><dd>'+esc(a.pc==='none' && a.eq==='no_tool_needed' && a.op==='faculty_or_staff'?'Instructor account and approval requirements need checking':L.pc[a.pc])+'</dd>';
   if(sourceAccess(a)) f += '<dt>Source item</dt><dd>'+esc(L.sa[a.sa])+'</dd>';
   f += '</dl>';
   h += sec('At a glance', f);
@@ -265,6 +281,8 @@ function detailHTML(a, opts){
   /* 4 · before you use it */
   var b = '';
   if(a.evs && a.evs.trim()) b += '<h4>Evidence and limitations</h4>'+p(a.evs);
+  if(a.eq==='no_tool_needed' && a.op==='faculty_or_staff') b += '<h4>Preparation and access</h4><p>The instructor or staff member supplies or works with AI-generated material. A no-student-tool arrangement does not establish whether preparation needs an account, approved access, or payment. Check those requirements before using this idea.</p>';
+  if(a.eq==='institution_provided') b += '<h4>Institutional access</h4><p>Check that your institution supplies the required access and that it covers this use. This access label does not establish institutional approval.</p>';
   if(sensitive(a)) b += '<div class="note note--caution"><strong>Data.</strong> This use-case idea involves putting '+esc(L.sen[a.sen])+
     ' into '+dataTool(a)+'. Before using it, consider your institution’s guidance on data and approved tools, whether consent is needed, and whether a de-identified or institutionally provided option is available.</div>';
   if(sourceAccess(a)){
@@ -290,7 +308,7 @@ function detailHTML(a, opts){
 
   /* 5 · without AI */
   var na = '';
-  if(a.na) na = p(a.na);
+  if(typeof a.na==='string' && a.na.trim()) na = p(a.na)+'<p class="meta-line">Check this route’s costs, materials, permissions, and disclosure requirements separately. The requirements recorded above describe the main design; they do not independently verify this alternative.</p>';
   else if(a.op==='none') na = '<p>This use-case idea runs without any AI tool.</p>';
   else if(a.op==='optional') na = '<p>The use-case idea as described is complete without an AI tool; the AI step it mentions is optional.</p>';
   else if(!a.op && (a.cap||[]).indexOf('none_required')>=0) na = '<p>This use-case idea runs without any AI tool.</p>';
@@ -328,13 +346,13 @@ function detailHTML(a, opts){
     (opts.print ? '“'+esc(BYID[a.par].t)+'”' : '<a href="#" data-open="'+esc(a.par)+'">'+esc(BYID[a.par].t)+'</a>')+' in this collection.</p>';
   if(T && a.cit){
     src += '<h4>Sources</h4><div class="cite-block">'+lines(a.cit).map(function(c){ return '<p>'+esc(c)+'</p>'; }).join('')+
-      (a.url && !opts.print ? '<p><a href="'+esc(a.url)+'" target="_blank" rel="noopener noreferrer">Open the primary source<span class="sr-only"> (opens in a new tab)</span> ↗</a></p>' : (a.url ? '<p>'+esc(a.url)+'</p>' : ''))+'</div>';
+      (a.url && !opts.print ? '<p>'+externalLink(a.url,'Open the primary source<span class="sr-only"> (opens in a new tab)</span> ↗')+'</p>' : (safeURL(a.url) ? '<p>'+esc(a.url)+'</p>' : ''))+'</div>';
   } else if(a.cit){
     src += '<h4>Source</h4><div class="cite-block">'+esc(a.cit)+
-      (a.url && !opts.print ? ' <a href="'+esc(a.url)+'" target="_blank" rel="noopener noreferrer">Open the source<span class="sr-only"> (opens in a new tab)</span> ↗</a>' : (a.url ? ' '+esc(a.url) : ''))+'</div>';
+      (a.url && !opts.print ? ' '+externalLink(a.url,'Open the source<span class="sr-only"> (opens in a new tab)</span> ↗') : (safeURL(a.url) ? ' '+esc(a.url) : ''))+'</div>';
     if(a.loc) src += '<p class="meta-line">Location in the source: '+esc(a.loc)+'</p>';
   }
-  src += '<h4>License for this use-case idea</h4><p data-entry-license>'+(a.licu && !opts.print ? '<a href="'+esc(a.licu)+'" target="_blank" rel="noopener noreferrer">'+esc(a.lic)+'</a>' : esc(a.lic||'Not stated'))+
+  src += '<h4>License for this use-case idea</h4><p data-entry-license>'+(a.licu && !opts.print ? externalLink(a.licu,esc(a.lic)) : esc(a.lic||'Not stated'))+
     (a.lics ? ' <span class="meta-line">— as stated by the source: '+esc(a.lics)+'</span>' : '')+'</p>';
   src += '<p class="meta-line" data-entry-license-scope>'+esc(TOOL_LICENSE.entry_notice)+'</p>';
   if(a.licn) src += '<p class="meta-line">'+esc(a.licn)+'</p>';
@@ -402,7 +420,8 @@ function openActivity(id, opener){
     (CTX.page==='register'
       ? '<button type="button" class="btn btn--sm" data-copy-act="'+esc(a.id)+'">Copy a link to this use-case idea</button>'
       : '<a class="btn btn--sm" href="register.html#act='+encodeURIComponent(a.id)+'">'+icon('i-crt')+' Open in The Register</a>') +
-    '<button type="button" class="btn btn--sm btn--quiet" data-close>Close</button>';
+    '<button type="button" class="btn btn--sm btn--quiet" data-close>Close</button>'+storageNotice();
+  syncStorageUI();
   var wasOpen = dlg.open;
   dlg.setAttribute('data-act', a.id);
   openDialog(dlg, opener);
@@ -411,6 +430,13 @@ function openActivity(id, opener){
 }
 
 /* ─────────── saved drawer ─────────── */
+function storageNotice(inDrawer,inCard){
+  return '<p class="note saved-storage-note'+(inCard?' no-print':'')+'" data-storage-warning'+(Saved.isPersistent()?' hidden':'')+'>Saved selections are temporary in this tab because browser storage is unavailable. Changes may be lost when you reload or open the other tool; earlier saved selections may return. '+
+    (inDrawer?'Use Print or save as PDF below to keep a copy.':'<button type="button" class="btn btn--sm" data-open-saved>Print or save as PDF now</button>')+'</p>';
+}
+function syncStorageUI(){
+  [].forEach.call(document.querySelectorAll('[data-storage-warning]'),function(el){el.hidden=Saved.isPersistent();});
+}
 function savedMeta(a){ return [kickerOf(a), L.actor[a.ac]||'', depthLabel(a.depth)].filter(Boolean).join(' · '); }
 function renderSaved(){
   var box = document.getElementById('savedBody'); if(!box) return;
@@ -419,13 +445,13 @@ function renderSaved(){
   if(head) head.textContent = 'Saved use-case ideas' + (ids.length ? ' ('+ids.length+')' : '');
   var foot = document.getElementById('savedFoot');
   if(!ids.length){
-    box.innerHTML = '<div class="saved-empty"><p><strong>No saved use-case ideas yet.</strong></p>'+
+    box.innerHTML = storageNotice(true)+'<div class="saved-empty"><p><strong>No saved use-case ideas yet.</strong></p>'+
       '<p>Use the Save button on any use-case idea to keep it here while you browse. You can then review your selection and print it or save it as a PDF.</p></div>'+
       '<p class="privacy">Your selection is kept in this browser only. There is no account, and nothing is sent anywhere.</p>';
     if(foot) foot.hidden = true;
     return;
   }
-  var h = '<ol class="saved-list">';
+  var h = storageNotice(true)+'<ol class="saved-list">';
   ids.forEach(function(id){
     var a = BYID[id];
     if(!a){
@@ -447,13 +473,14 @@ function renderSaved(){
 }
 function syncSaveUI(){
   var ids = Saved.ids();
+  syncStorageUI();
   [].forEach.call(document.querySelectorAll('[data-saved-count]'), function(el){ el.textContent = ids.length; });
   [].forEach.call(document.querySelectorAll('[data-saved-label]'), function(el){
     el.textContent = ids.length===1 ? '1 saved use-case idea' : ids.length+' saved use-case ideas'; });
   [].forEach.call(document.querySelectorAll('button[data-save]'), function(b){
     var on = ids.indexOf(b.getAttribute('data-save')) >= 0;
     b.setAttribute('aria-pressed', String(on));
-    var t = b.querySelector('.save__txt'); if(t) t.textContent = on ? 'Saved' : 'Save';
+    var t = b.querySelector('.save__txt'); if(t) t.textContent = on ? (Saved.isPersistent()?'Saved':'Saved temporarily') : 'Save';
   });
   [].forEach.call(document.querySelectorAll('[data-card]'), function(c){
     c.classList.toggle('is-saved', ids.indexOf(c.getAttribute('data-card')) >= 0); });
@@ -499,7 +526,7 @@ function init(ctx){
       if(feedback){
         var input = feedback.querySelector('.activity-feedback__main input:checked') || feedback.querySelector('.activity-feedback__main input');
         input.focus({preventScroll:true});
-        var body = ad.querySelector('.dlg__body'), zoom = parseFloat(getComputedStyle(document.body).zoom) || 1;
+        var body = getComputedStyle(ad).overflowY==='auto' ? ad : ad.querySelector('.dlg__body'), zoom = parseFloat(getComputedStyle(document.body).zoom) || 1;
         body.scrollTop += (feedback.getBoundingClientRect().top - body.getBoundingClientRect().top) / zoom;
       }
       return;
@@ -508,7 +535,8 @@ function init(ctx){
     if(sv){
       var id = sv.getAttribute('data-save'), a = BYID[id];
       var on = Saved.toggle(id);
-      announce((on ? 'Saved: ' : 'Removed from saved: ') + (a ? a.t : id) + '. ' +
+      announce((on ? (Saved.isPersistent()?'Saved: ':'Saved temporarily in this tab: ') : 'Removed from saved: ') + (a ? a.t : id) + '. ' +
+        (Saved.isPersistent()?'':'Browser storage is unavailable. This selection may disappear when you reload or open the other tool. Print or save it as a PDF now. ')+
         Saved.ids().length + ' saved use-case idea'+(Saved.ids().length===1?'':'s') + '.');
       return;
     }
@@ -517,7 +545,7 @@ function init(ctx){
     var un = t.closest('[data-unsave]');
     if(un){
       var uid = un.getAttribute('data-unsave'), ua = BYID[uid];
-      Saved.remove(uid); announce('Removed from saved: ' + (ua ? ua.t : uid) + '.');
+      Saved.remove(uid); announce('Removed from saved'+(Saved.isPersistent()?'':' in this tab only')+': ' + (ua ? ua.t : uid) + '.'+(Saved.isPersistent()?'':' Browser storage is unavailable; it may return after reloading.'));
       var first = document.querySelector('#savedBody [data-unsave], #savedDrawer [data-close]'); if(first) first.focus();
       return;
     }
@@ -525,7 +553,7 @@ function init(ctx){
     if(t.closest('#printSaved')){ printSaved(); return; }
     if(t.closest('#clearSaved')){ var c=document.getElementById('clearConfirm'); if(c){ c.hidden=false; document.getElementById('clearYes').focus(); } return; }
     if(t.closest('#clearNo')){ var c2=document.getElementById('clearConfirm'); if(c2) c2.hidden=true; var cs=document.getElementById('clearSaved'); if(cs) cs.focus(); return; }
-    if(t.closest('#clearYes')){ Saved.clear(); announce('All saved use-case ideas removed.'); var cl=sd.querySelector('[data-close]'); if(cl) cl.focus(); return; }
+    if(t.closest('#clearYes')){ Saved.clear(); announce('All saved use-case ideas removed'+(Saved.isPersistent()?'.':' in this tab only. Browser storage is unavailable; earlier selections may return after reloading.')); var cl=sd.querySelector('[data-close]'); if(cl) cl.focus(); return; }
     var cp = t.closest('[data-copy-act]');
     if(cp){ copyText(location.href.split('#')[0]+'#act='+encodeURIComponent(cp.getAttribute('data-copy-act')), 'Link to this use-case idea copied.'); return; }
   });
@@ -544,7 +572,7 @@ function copyText(text, okMsg){
   }catch(_){ fallback(); }
 }
 
-window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, TIER:TIER, tierOf:tierOf, OPERATOR:OPERATOR, operatorLabel:operatorLabel, noToolForStudents:noToolForStudents, usedItems:usedItems, esc:esc, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
+window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, TIER:TIER, tierOf:tierOf, OPERATOR:OPERATOR, operatorLabel:operatorLabel, noToolForStudents:noToolForStudents, usedItems:usedItems, esc:esc, safeURL:safeURL, externalLink:externalLink, costLabel:costLabel, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
   taskLabel:taskLabel, depthLabel:depthLabel, discLabel:discLabel, lvlLabel:lvlLabel, modLabel:modLabel, familyLabel:familyLabel,
   cardHTML:cardHTML, detailHTML:detailHTML, openActivity:openActivity, openDialog:openDialog, closeDialog:closeDialog, wireDialog:wireDialog, resetDialogScroll:resetDialogScroll,
   Saved:Saved, announce:announce, decode:decode, printSaved:printSaved, copyText:copyText, howItWorks:howItWorks, init:init, kickerOf:kickerOf};

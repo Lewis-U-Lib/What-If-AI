@@ -6,6 +6,7 @@ The reference ledger is independent of the activity collection's bibliography.
 import copy
 import hashlib
 import json
+import re
 from urllib.parse import urlsplit
 
 
@@ -22,7 +23,7 @@ def validate(guide, types):
     if len(ids) != len(set(ids)) or ids != list(range(1, len(ids) + 1)):
         raise ValueError('AI guide source IDs must be unique, stable, consecutive integers.')
     urls = [s['url'] for s in sources]
-    if len(set(urls)) != len(urls) or any(urlsplit(u).scheme != 'https' or not urlsplit(u).netloc for u in urls):
+    if len(set(urls)) != len(urls) or any(not isinstance(u, str) or re.search(r'[\x00-\x20\x7f]', u) or urlsplit(u).scheme != 'https' or not urlsplit(u).hostname for u in urls):
         raise ValueError('AI guide sources need unique HTTPS URLs.')
     if any(not all(s.get(k) for k in ('title', 'kind', 'locator')) for s in sources):
         raise ValueError('AI guide sources need titles, publication status, and locators.')

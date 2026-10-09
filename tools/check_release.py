@@ -11,7 +11,8 @@ is complete, internally consistent, and matches its recorded fingerprints:
 
 Usage: python3 tools/check_release.py [data_dir]      (exit 1 on any problem)
 """
-import hashlib, json, pathlib, sys
+import hashlib, json, pathlib, re, sys
+from urllib.parse import urlsplit
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SUPPORTED_CONTRACT = {2}
@@ -23,6 +24,24 @@ REQUIRED_ACT = {"id", "t", "sum", "focus", "task", "depth", "lvl", "mod", "cap",
 PUBLIC_ACTS_TOP = {"acts", "families", "intake", "limits", "n", "origin", "pol", "pol_local", "stamp", "task_labels", "tiers", "operators"}
 PUBLIC_REGISTER = {"counts", "origin", "policy", "primo_base", "stamp", "types", "works", "tiers"}
 PUBLIC_WORK = {"a", "access", "acts", "cit", "doi", "id", "lic", "link", "lt", "search", "sk", "t", "y"}
+
+def check_urls(value, path="root"):
+    """Public external-link fields may contain only absolute HTTP(S) URLs."""
+    errors = []
+    if isinstance(value, dict):
+        for key, item in value.items():
+            location = f"{path}.{key}"
+            if key in {"url", "licu", "link", "search", "source_url", "snapshot", "primo_base"} and item:
+                try:
+                    parts = urlsplit(item) if isinstance(item, str) else urlsplit("")
+                    valid = isinstance(item, str) and not re.search(r"[\x00-\x20\x7f]", item) and parts.scheme in {"https", "http"} and bool(parts.hostname)
+                except (ValueError, TypeError):
+                    valid = False
+                if not valid: errors.append(f"{location}: external link must be an absolute HTTP(S) URL without control characters or spaces")
+            errors.extend(check_urls(item, location))
+    elif isinstance(value, list):
+        for index, item in enumerate(value): errors.extend(check_urls(item, f"{path}[{index}]"))
+    return errors
 
 
 def check(data_dir):
@@ -49,6 +68,8 @@ def check(data_dir):
     acts = json.loads((d / "acts.json").read_text(encoding="utf-8"))
     reg = json.loads((d / "register.json").read_text(encoding="utf-8"))
     guide = json.loads((d / "guide.json").read_text(encoding="utf-8"))
+    for name, data in [("acts", acts), ("register", reg), ("guide", guide)]:
+        errors.extend(check_urls(data, name))
     if set(acts) - PUBLIC_ACTS_TOP: errors.append(f"unexpected sections in acts.json: {sorted(set(acts) - PUBLIC_ACTS_TOP)}")
     if set(reg) - PUBLIC_REGISTER: errors.append(f"unexpected sections in register.json: {sorted(set(reg) - PUBLIC_REGISTER)}")
     extra = sorted({k for a in acts["acts"] for k in a} - PUBLIC_ACT)
@@ -79,6 +100,7 @@ def check(data_dir):
     operators = {o[0] for o in acts["operators"]}
     for a in acts["acts"]:
         key = a["id"]
+        if "na" in a and not isinstance(a["na"], str): errors.append(f"{key}: route without AI must be text")
         if a["icap"] not in {"constructive", "interactive", "not_applicable", "requires_review"}:
             errors.append(f"{key}: engagement class is not supported by the Finder")
         if a["op"] not in operators: errors.append(f"{key}: unknown AI operator")
@@ -108,7 +130,7 @@ def check(data_dir):
             errors.append(f"{t['key']}: unknown related idea")
         count = sum(bool(set(a["cap"]) & set(t["caps"])) or a["id"] in t.get("ids", []) for a in acts["acts"])
         if t["n"] != count: errors.append(f"{t['key']}: type count disagrees")
-    no_ai = sum(bool(a.get("na")) or a["op"] in {"faculty_or_staff", "optional", "none"} for a in acts["acts"])
+    no_ai = sum((isinstance(a.get("na"), str) and bool(a["na"].strip())) or a["op"] in {"faculty_or_staff", "optional", "none"} for a in acts["acts"])
     if reg["types"]["no_ai"]["n"] != no_ai: errors.append("no-student-tool count disagrees")
     for rows, field in ((reg["origin"], "cls"), (reg["tiers"], "tier")):
         for row in rows:
