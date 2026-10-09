@@ -264,6 +264,7 @@ function detailHTML(a, opts){
 
   /* 4 · before you use it */
   var b = '';
+  if(a.evs && a.evs.trim()) b += '<h4>Evidence and limitations</h4>'+p(a.evs);
   if(sensitive(a)) b += '<div class="note note--caution"><strong>Data.</strong> This use-case idea involves putting '+esc(L.sen[a.sen])+
     ' into '+dataTool(a)+'. Before using it, consider your institution’s guidance on data and approved tools, whether consent is needed, and whether a de-identified or institutionally provided option is available.</div>';
   if(sourceAccess(a)){
