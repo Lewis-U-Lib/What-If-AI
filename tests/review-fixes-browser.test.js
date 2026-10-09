@@ -25,6 +25,52 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
     return p.locator(`[data-match-group="${group}"] [data-card="${id}"]`);
   };
 
+  // WIA-001 (October 9): retain the collection's evidence qualifications in both tools
+  // and in saved/print output. A source or license alone does not establish effectiveness.
+  const evidenceActs=D.acts.filter(a=>a.evs&&a.evs.trim());
+  assert.ok(evidenceActs.length>0,'the collection contains evidence statements');
+  for(const page of ['what-if-ai.html','register.html']){
+    await go(page,'');
+    const failures=await p.evaluate(()=>{
+      const failures=[];
+      const inspect=(a,print)=>{
+        const d=document.createElement('div');
+        d.innerHTML=SITE.detailHTML(a,{print,inRegister:true});
+        const headings=[...d.querySelectorAll('h4')].filter(h=>h.textContent==='Evidence and limitations');
+        const expected=!!(a.evs&&a.evs.trim());
+        if(headings.length!==(expected?1:0)||expected&&headings[0].nextElementSibling.textContent!==a.evs)
+          failures.push({id:a.id,print,reason:'missing, changed, duplicated, or invented evidence statement'});
+        if(d.querySelector('[data-evidence-injection]'))failures.push({id:a.id,print,reason:'unescaped evidence text'});
+      };
+      const fixtures=[undefined,'','   ','Literal <em data-evidence-injection>text</em> & "quoted" limits.'].map(evs=>({...SITE.A[0],evs}));
+      for(const a of [...SITE.A,...fixtures])for(const print of [false,true])inspect(a,print);
+      return failures;
+    });
+    assert.deepEqual(failures,[],page+': evidence wording is preserved; absent notes stay absent; text is escaped');
+    const examples=['CAN-L-014','CAN-D-ADM-001','CAN-D-ADM-107'];
+    await p.evaluate(()=>SITE.Saved.clear());
+    for(const id of examples){
+      await go(page,'#act='+id);await p.waitForSelector('#actDialog[open]');
+      const heading=p.locator('#actDialog h4',{hasText:'Evidence and limitations'});
+      await heading.scrollIntoViewIfNeeded();
+      assert.ok(await heading.isVisible(),page+': evidence heading is visible');
+      assert.equal(await heading.evaluate(h=>h.nextElementSibling.textContent),BY.get(id).evs,id+': original qualification');
+      assert.equal(await heading.evaluate(h=>h.closest('section').querySelector('h3').textContent),'Before you use it');
+      await p.locator('#actDialog [data-save]').click();
+      await p.keyboard.press('Escape');await p.waitForFunction(()=>!document.querySelector('#actDialog').open);
+    }
+    await p.evaluate(()=>{window.print=()=>{window.__evidencePrintCalled=true;};});
+    await p.locator('[data-open-saved]').first().click();await p.waitForSelector('#savedDrawer[open]');
+    await p.locator('#printSaved').click();await p.waitForFunction(()=>window.__evidencePrintCalled);
+    const printed=await p.locator('#printRoot article').evaluateAll(articles=>articles.map(a=>{
+      const h=[...a.querySelectorAll('h4')].find(h=>h.textContent==='Evidence and limitations');
+      return h&&h.nextElementSibling.textContent;
+    }));
+    assert.deepEqual(printed,examples.map(id=>BY.get(id).evs),page+': actual saved print output retains each qualification');
+    await p.evaluate(()=>window.dispatchEvent(new Event('afterprint')));
+  }
+  pass(`WIA-001: all ${evidenceActs.length} evidence statements are preserved in both tools and print; actual dialogs and saved print keep the notes`);
+
   // WIA-02: an activity recorded for any course is a possible fit for a specific field, not a mismatch.
   const argu=BY.get('CAN-B-ARGU-09');assert.equal(argu.disc,'interdisciplinary');
   await go('what-if-ai.html','#a=focus:teaching;task:discussion;disc:humanities;depth:quick');
