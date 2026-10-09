@@ -27,15 +27,15 @@ const hash=w=>'#a='+Object.entries(w.state).map(([k,v])=>k+':'+encodeURIComponen
       assert.equal(await p.locator('#actDialog .dlg__body').textContent(),finder,w.id+' content parity');
       report.push({id:w.id,group:w.group,rank:w.rank,finder:true,register:true,url:base+'what-if-ai.html'+hash(w)});
     }
-    // Both readers label the paid workflows, and held deep links cannot open records.
+    // Both readers label the paid workflows, and unknown deep links cannot open records.
     for(const file of ['what-if-ai.html','register.html']){
       for(const id of ['CAN-L-038','CAN-L-039']){
         await go(file+'#act='+id);
         assert.ok((await p.locator('#actDialog .dlg__body').textContent()).includes('Paid tool required'));
       }
-      for(const id of require('../content/publication-review.json').decisions.filter(d=>d.decision==='hold').map(d=>d.id)){
+      for(const id of ['UNKNOWN-ACTIVITY', 'NOPE-123']){
         await go(file+'#act='+id);
-        assert.equal(await p.locator('#actDialog').evaluate(d=>d.open),false,id+' is held in '+file);
+        assert.equal(await p.locator('#actDialog').evaluate(d=>d.open),false,id+' is unknown in '+file);
         assert.equal(await p.locator(`[data-card="${id}"]`).count(),0);
       }
     }

@@ -6,14 +6,10 @@
     new name, so a browser never mixes an old script with new data.
   * Fonts and images are fingerprinted the same way; url(...) references inside the CSS
     are rewritten to the fingerprinted names.
-  * The imported data release (data/*.json) is verified unchanged. Reviewed editorial
-    corrections, publication decisions, punctuation, curation, the two labeled sets
-    (synthesis and remix), the AI-use review (who uses the AI tool), and the record review
-    (corrections, holds, withdrawals, consistency checks), followed by public terminology,
-    the sourced AI guide, and entry-license scope clarification, are applied in that order
-    before fingerprinting. Each page receives
-    a small JSON manifest naming its data files and scripts; src/js/boot.js fetches the
-    data and then runs the scripts in order.
+  * The public collection (data/*.json) is checked against its release manifest.
+    The sourced AI guide and entry-license scope clarification are applied before
+    fingerprinting. Each page receives a small JSON manifest naming its data files
+    and scripts; src/js/boot.js fetches the data and runs the scripts in order.
   * Partials ({{partial:name}}) are inlined, so every page is complete HTML before any
     script runs. Pages that must work at any URL depth (404.html) get absolute links.
 
@@ -30,14 +26,6 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
 sys.path.insert(0, str(ROOT / "tools"))
 from check_release import check as check_release  # noqa: E402
-from editorial_corrections import corrected_files  # noqa: E402
-from publication_review import reviewed_files  # noqa: E402
-from serial_commas import punctuated_files  # noqa: E402
-from curation import curated_files  # noqa: E402
-from tiers import tiered_files  # noqa: E402
-from ai_use import ai_use_files  # noqa: E402
-from record_review import record_review_files  # noqa: E402
-from terminology import terminology_files  # noqa: E402
 from ai_type_guide import ai_type_guide_files  # noqa: E402
 from license_scope import license_scope_files  # noqa: E402
 
@@ -80,31 +68,15 @@ def build(out):
     if errs:
         raise SystemExit("release check failed:\n  " + "\n  ".join(errs))
     try:
-        public_data, corrections_bytes, editorial = corrected_files(
-            ROOT / "data", rel, ROOT / "content" / "editorial-corrections.json")
-        public_data, _, publication = reviewed_files(
-            public_data, rel, ROOT / "content" / "publication-review.json")
-        public_data, punctuation_bytes, punctuation = punctuated_files(
-            public_data, ROOT / "content" / "serial-comma-corrections.json")
-        public_data, _, curation = curated_files(
-            public_data, ROOT / "content" / "curation.json")
-        public_data, _, tiers = tiered_files(
-            public_data, ROOT / "content" / "tiers.json")
-        public_data, _, ai_use = ai_use_files(
-            public_data, ROOT / "content" / "ai-use.json")
-        public_data, _, record_review = record_review_files(
-            public_data, ROOT / "content" / "record-review.json")
-        public_data, terminology = terminology_files(
-            public_data, ROOT / "content" / "terminology.json")
+        public_data = {name: (ROOT / "data" / name).read_bytes() for name in rel["files"]}
         public_data, ai_type_guide = ai_type_guide_files(
             public_data, ROOT / "content" / "ai-type-guide.json")
         public_data, license_scope, tool_license = license_scope_files(
             public_data, ROOT / "content" / "tool-license.json")
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
-    # The date the collection last changed: the release, or the latest reviewed stage after it.
-    changed = max([rel["built"], license_scope["effective"]] + [m["reviewed"] for m in (curation, tiers, ai_use, record_review, terminology, ai_type_guide)
-                                    if isinstance(m.get("reviewed"), str)])
+    # Display the most recent public content date.
+    changed = max(rel["built"], license_scope["effective"], ai_type_guide["reviewed"])
     year, month = changed[:4], int(changed[5:7])
     updated = "Updated " + MONTHS[month - 1] + " " + year
     if out.exists():
@@ -146,13 +118,6 @@ def build(out):
         site.emit(f"js/{name}.js", body.encode("utf-8"), "assets/js")
     for name in ("acts", "register", "guide"):
         site.emit(f"data/{name}.json", public_data[f"{name}.json"], "data")
-    site.emit("data/editorial-corrections.json", corrections_bytes, "data")
-    editorial["manifest"] = site.map["data/editorial-corrections.json"]
-    # The publication review stays in the repository: it records held additions and internal review
-    # notes, so the site publishes only its revision and counts (version.json), not the file itself.
-    site.emit("data/serial-comma-corrections.json", punctuation_bytes, "data")
-    punctuation["manifest"] = site.map["data/serial-comma-corrections.json"]
-
     base_url = CFG["base_url"]
     base_path = "/" + base_url.split("://", 1)[1].split("/", 1)[1] if base_url.count("/") > 3 else "/"
     commit = git_commit()
@@ -228,15 +193,7 @@ def build(out):
                                      + "</urlset>\n", encoding="utf-8")
     (out / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {base_url}sitemap.xml\n", encoding="utf-8")
     (out / "version.json").write_text(json.dumps({"release": rel["release"], "release_built": rel["built"],
-                                                  "pipeline_commit": rel["source"]["commit"], "site_commit": commit,
-                                                  "editorial": editorial,
-                                                  "publication": publication,
-                                                  "punctuation": punctuation,
-                                                  "curation": curation,
-                                                  "tiers": tiers,
-                                                  "ai_use": ai_use,
-                                                  "record_review": record_review,
-                                                  "terminology": terminology,
+                                                  "collection_source": rel["source"], "site_commit": commit,
                                                   "ai_type_guide": ai_type_guide,
                                                   "license_scope": license_scope,
                                                   "tool_license": tool_license,

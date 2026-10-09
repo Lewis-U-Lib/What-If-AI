@@ -1,0 +1,113 @@
+{
+  "teaching": {
+    "task": [
+      "design",
+      "discussion",
+      "assessment",
+      "feedback",
+      "materials",
+      "litreview",
+      "research",
+      "qualitative",
+      "creative",
+      "policy",
+      "admin"
+    ],
+    "disc": [
+      "health",
+      "stem",
+      "humanities",
+      "social",
+      "business",
+      "education",
+      "library",
+      "arts",
+      "interdisciplinary"
+    ],
+    "depth": [
+      "quick",
+      "assignment",
+      "module",
+      "writing_cycle",
+      "litreview_phase",
+      "capstone",
+      "grant_proposal"
+    ],
+    "lvl": [
+      "firstyear",
+      "upper",
+      "grad"
+    ],
+    "mod": [
+      "in_person",
+      "online",
+      "hybrid"
+    ]
+  },
+  "research_own": {
+    "task": [
+      "design",
+      "materials",
+      "litreview",
+      "research",
+      "qualitative",
+      "creative",
+      "policy"
+    ],
+    "disc": [
+      "health",
+      "stem",
+      "humanities",
+      "social",
+      "business",
+      "education",
+      "arts",
+      "interdisciplinary"
+    ],
+    "depth": [
+      "research_phase"
+    ],
+    "lvl": [
+      "scholarly"
+    ],
+    "mod": [
+      "in_person",
+      "online"
+    ]
+  },
+  "admin": {
+    "task": [
+      "design",
+      "discussion",
+      "assessment",
+      "feedback",
+      "materials",
+      "litreview",
+      "research",
+      "qualitative",
+      "policy",
+      "admin"
+    ],
+    "disc": [
+      "health",
+      "stem",
+      "humanities",
+      "social",
+      "business",
+      "education",
+      "library",
+      "arts",
+      "interdisciplinary"
+    ],
+    "depth": [
+      "professional_workflow"
+    ],
+    "lvl": [
+      "grad"
+    ],
+    "mod": [
+      "in_person",
+      "online"
+    ]
+  }
+}

@@ -40,9 +40,8 @@ def license_scope_files(raw, manifest_file, pin=False):
 
 
 def prior_public_data(root):
-    from terminology import reviewed_input, terminology_files
     from ai_type_guide import ai_type_guide_files
-    raw, _ = terminology_files(reviewed_input(root), root / 'content/terminology.json')
+    raw = {name: (root / 'data' / name).read_bytes() for name in ('acts.json', 'register.json', 'guide.json')}
     raw, _ = ai_type_guide_files(raw, root / 'content/ai-type-guide.json')
     return raw
 

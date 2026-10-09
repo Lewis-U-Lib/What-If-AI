@@ -31,8 +31,8 @@ async function go(p, f) {
   await p.waitForSelector('html[data-ready]', { state: 'attached', timeout: 15000 });
 }
 /* phrases whose audience is the project, not a faculty reader; none may appear in either page */
-const INTERNAL = ['held back', 'crosswalk', 'review queue', 'assignment pass', 'fingerprint', 'build 5ffdfb', 'schema v3',
-  'awaiting a second', 'marked for human review', 'reintegration', 'csr-0', 'stamped from', 'canonical record', 'mechanism grid', 'void cell'];
+const INTERNAL = ['crosswalk', 'assignment pass', 'fingerprint', 'build 5ffdfb', 'schema v3',
+  'csr-0', 'stamped from', 'canonical record', 'mechanism grid', 'void cell'];
 function leaks(text) { const t = text.toLowerCase(); return INTERNAL.filter(w => t.indexOf(w) >= 0); }
 async function overflow(page) { return page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth); }
 
@@ -46,8 +46,8 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   const REGD = JSON.parse(siteFile(m2.data.register));
   const RELEASE = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'release.json'), 'utf8'));
   const ids = new Set(ACTS.acts.map(a => a.id)), liveIdsAll = ids;
-  check('the page store holds exactly the approved public activities', ids.size === require('../content/record-review.json').expected_counts.activities && ACTS.acts.length === ids.size, ids.size + ' activities');
-  check('the served data matches the reviewed, punctuated, curated publication with its two labeled sets, AI-use review, record review, public terminology and license scope, byte for byte', require('crypto').createHash('sha256').update(fs.readFileSync(path.join(SITE, m1.data.acts))).digest('hex') === require('../content/tool-license.json').output_sha256['acts.json'], RELEASE.release);
+  check('the page store holds exactly the approved public activities', ids.size === RELEASE.counts.activities && ACTS.acts.length === ids.size, ids.size + ' activities');
+  check('the served data matches the public collection with its license scope, byte for byte', require('crypto').createHash('sha256').update(fs.readFileSync(path.join(SITE, m1.data.acts))).digest('hex') === require('../content/tool-license.json').output_sha256['acts.json'], RELEASE.release);
   const internalKeys = ['rq', 'vs', 'nf', 'ibasis', 'org', 'capb', 'fl', 'rs', 'cell', 'adm', 'gateb'];
   check('activity records carry no review or build fields', ACTS.acts.every(a => internalKeys.every(k => !(k in a))), internalKeys.join(', '));
   const regInternal = ['held', 'retired', 'xw', 'queues', 'audit', 'decisions', 'schema_map', 'schema_gaps', 'recon', 'rules', 'platforms'];
@@ -355,9 +355,9 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   check('The Register: the licensed collection carries no set label', (await page.textContent('#actCount')).includes('of ' + ACTS.acts.filter(a => !a.tier).length) &&
     (await page.$$eval('#actResults [data-card] .acard__facts', d => d.every(x => !/ set · not yet tried/.test(x.textContent)))));
   // Who uses the AI tool, and the renamed No-AI option
-  const aiUse = require('../content/ai-use.json'), recordReview = require('../content/record-review.json'), OPS = Object.fromEntries(ACTS.operators.map(o => [o[0], o]));
+  const OPS = Object.fromEntries(ACTS.operators.map(o => [o[0], o]));
   const noaiLimit = ACTS.limits.find(l => l[0] === 'noai');
-  check('The No-AI limit says students will not use an AI tool themselves', noaiLimit[1] === 'My students won’t use an AI tool themselves' && noaiLimit[2] === recordReview.text.find(t => t.file === 'acts.json' && t.path[0] === 'limits').after.replace(/\bactivities\b/g, 'use-case ideas'));
+  check('The No-AI limit says students will not use an AI tool themselves', noaiLimit[1] === 'My students won’t use an AI tool themselves' && noaiLimit[2].includes('students do not have to operate an AI tool'));
   await go(page, 'what-if-ai.html#q=limits&a=focus:teaching;task:design');
   const limitsText = await page.textContent('#wizard');
   check('What If AI: the limit question offers the renamed option and explains it', limitsText.includes('My students won’t use an AI tool themselves') && limitsText.includes('students do not have to operate an AI tool') && limitsText.includes('the AI step is optional') && !/rather my students not use AI at all/.test(limitsText));
@@ -370,20 +370,18 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   }
   await go(page, 'register.html#activities?noai=1');
   check('The Register: “Students use no AI tool” returns what the limit admits', (await page.textContent('#actCount')).includes('of ' + REGD.types.no_ai.n) &&
-    REGD.types.no_ai.n === recordReview.expected_counts.students_use_no_tool && !!(await page.$('.fchip[data-clear="noai"]')) && (await page.textContent('.fchip[data-clear="noai"]')).includes('Students use no AI tool'), REGD.types.no_ai.n + ' expected');
+    REGD.types.no_ai.n === ACTS.acts.filter(a => a.na || ['faculty_or_staff','optional','none'].includes(a.op)).length && !!(await page.$('.fchip[data-clear="noai"]')) && (await page.textContent('.fchip[data-clear="noai"]')).includes('Students use no AI tool'), REGD.types.no_ai.n + ' expected');
   await go(page, 'what-if-ai.html');
   await go(page, 'register.html#activities?op=none');
   const noneCount = ACTS.acts.filter(a => a.op === 'none').length;
   check('The Register: filtering by who uses an AI tool returns the activities with that value', (await page.textContent('#actCount')).includes('of ' + noneCount) &&
     (await page.$eval('#f-op', s => s.value)) === 'none' && (await page.textContent('.fchip[data-clear="op"]')).includes('No one'), noneCount + ' expected');
-  check('Withdrawn activities (AI neither used nor discussed) are absent from both tools', aiUse.withdrawals.records.every(r => !liveIdsAll.has(r.id)));
-  check('Withdrawn and held records from the record review are absent from both tools', recordReview.withdrawals.records.every(r => !liveIdsAll.has(r.id)) && recordReview.held.every(h => !liveIdsAll.has(h.id)));
   await go(page, 'what-if-ai.html');   // a fresh load, so the checks below start with no filters
-  const removedId = 'CAN-A2-A-999-NOT-RELEASED';
+  const unknownId = 'UNKNOWN-ACTIVITY';
   const liveIds = new Set(ACTS.acts.map(a => a.id)), workIds = new Set(REGD.works.map(w => w.id));
   check('Every source lists only published activities, and every activity\'s sources are listed', REGD.works.every(w => w.acts.length && w.acts.every(i => liveIds.has(i))) && ACTS.acts.every(a => (a.rel || []).every(r => workIds.has(r[0]))));
-  await go(page, 'register.html#act=' + removedId); await page.waitForTimeout(80);
-  check('The Register: a removed activity\'s address gets a plain message', await page.isVisible('#missingAct') && !(await page.$eval('#actDialog', d => d.open)));
+  await go(page, 'register.html#act=' + unknownId); await page.waitForTimeout(80);
+  check('The Register: an unknown activity\'s address gets a plain message', await page.isVisible('#missingAct') && !(await page.$eval('#actDialog', d => d.open)));
 
   await go(page, 'register.html#activities');
   const cl = await page.textContent('#actCount');

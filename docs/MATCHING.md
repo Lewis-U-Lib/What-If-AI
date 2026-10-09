@@ -14,8 +14,8 @@ compatible with every specific answer, not exact; a reader who picks Cross-curri
 the exact match. A card for an any-course activity says “Recorded for any course.” The UI names unspecified attributes
 and asks the reader to check suitability. A specific different value is a mismatch.
 The same comparison governs scoring, grouping, and offered options. Work focus is
-still a gate. Admission excludes the `active` and `passive` engagement classes; the curation
-stage withdraws any such activity from both tools, so every published activity can surface here.
+still a gate. Admission supports constructive, interactive, not-applicable, and under-review
+engagement classes. Every published activity has a supported class and can surface here.
 
 Confirmed candidates appear in separate exact, compatible, and one-mismatch groups.
 Each group can show more results. Every card with a mismatch names it; every card with
@@ -62,15 +62,15 @@ requirements before considering” group. Its card names each requirement to che
 | No formal disclosure | `none_required`, `informal_acknowledgement`, `documented_log`, `anonymity_by_design` | `formal_statement` | Missing, unspecified, or unrecognized disclosure |
 | No approval | `pc: none` | `institutional_approval_required` | Every other prerequisite category |
 
-`sa` (source access) is set by the record-review stage on synthesis records that use a source
+`sa` (source access) is recorded on synthesis records that use a source
 item, as published and by link, that is not openly licensed. Only `restricted` (the item needs a
 purchase, membership, subscription, or permission first) affects matching: such a record is never
 a confirmed fit for the payment or purchase limits, so it appears among the activities to check.
 The Register's **No cost to participants** requirement applies the same test. `not_open` and
 `unmodified` change no limit; the card and page say what they mean.
 
-`op` (who operates an AI tool) is a reviewed, site-side field set by the AI-use stage. See
-[the AI-use record](AI-USE-2026-10-05.md). The `noai` limit reads “My students won’t use an
+`op` (who operates an AI tool) is recorded on every public idea.
+The `noai` limit reads “My students won’t use an
 AI tool themselves”, so an activity in which only the instructor prepares AI output is a
 confirmed fit. A record that does not say whether students operate the tool is never one.
 The Register's **Students use no AI tool** requirement applies the same rule
@@ -100,20 +100,17 @@ because they remain inspectable; they never count as confirmed results.
 `tests/matching.test.js` reads the corrected public data and checks independently specified fixture outcomes, live-audit
 regressions, all 128 limit combinations and 448 single-limit additions, separation of
 known conflicts and unknowns, preservation of input data, and the audit's original
-16,452 preference combinations, plus the current release's expanded grid (26,514 states
-for the September 28 supplement). That grid includes unanswered values, omits scale
+16,452 preference combinations, plus the current release's expanded grid.
+That grid includes unanswered values, omits scale
 where the original wizard skipped its sole option, and applies no hard limits. It is
 a regression grid, not a measurement of visitor behavior or faculty relevance.
 
 `tests/data-integration.test.js` also validates every public matching label, source link,
-and catalog count; preserves the prior release's records by an independent snapshot hash;
-and tests every supported task/level/setting combination for each addition. For the
-September 28 supplement, the 70 approved additions have zero-mismatch results across 500 combinations.
-The 11 held additions are removed before either page loads its data. Two reviewed
+and catalog count, and tests every supported task/level/setting combination for all 1,033
+public ideas: 8,072 combinations. Two reviewed
 workflows, CAN-L-038 and CAN-L-039, require a paid tier: they display that cost
 and are excluded from every result group when the no-payment limit is selected.
-See [the publication review](FULL-TEXT-REVIEW-2026-09-28.md).
-`tests/integration-browser.test.js` follows a selected witness for each addition through
+`tests/integration-browser.test.js` follows selected catalog and synthesis/remix examples through
 visible results and pagination, opens it in both tools, compares detail content, and
 checks full wizard paths across all three work focuses. These checks demonstrate
 technical discoverability, not pedagogical effectiveness or suitability for every field.

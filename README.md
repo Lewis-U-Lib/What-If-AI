@@ -2,178 +2,58 @@
 
 Two faculty resources from Lewis University Library:
 
-- **What If AI.** Answer a few questions about your teaching, research, or administrative work, and
-  find openly licensed use-case ideas that use, or deliberately leave out, generative AI.
-- **The Register.** Every use-case idea in What If AI with its source and license, a platform-neutral
-  guide to types of AI systems, examples of course AI policies, and the works the use-case ideas
-  draw on.
+- **What If AI.** Answer a few questions about teaching, research, or administrative work to find use-case ideas that use or deliberately leave out generative AI.
+- **The Register.** Browse those ideas with their sources and licenses, a sourced guide to types of AI systems, examples of course AI policies, and the source bibliography.
 
-Published with GitHub Pages at <https://lewis-u-lib.github.io/What-If-AI/>.
+[Open the tools](https://lewis-u-lib.github.io/What-If-AI/).
 
-## How this repository works
+## Repository contents
 
-- `data/` is a **release** exported from the project's corpus pipeline
-  (`Lewis-U-Lib/Faculty-AI-Evaluation-Tool`, `scripts/export_release.py`). It preserves the imported
-  use-case ideas and public fields; the publication review below determines the served subset. Don't edit it by hand: the build checks every file
-  against `data/release.json`.
-- The September 28 release is a documented **manual supplement** to that pipeline
-  export: 81 additional use-case ideas and 75 sources. Its manifest retains the original
-  pipeline commit, explicitly describes the supplement, and sets `clean: false`.
-  See [the import review](docs/DATA-UPDATE-2026-09-28.md). It is not a new pipeline export.
-- `content/editorial-corrections.json` records reviewed text corrections and an explicitly
-  evidenced scale correction to that release.
-  The build applies them to the public data shared by both tools and checks the expected
-  output hashes. The imported release stays intact, and `version.json` identifies both
-  its provenance and the applied editorial revision.
-- `content/publication-review.json` records the full-text review of all 81 additions.
-  It publishes **70 additions and 66 sources**, holds **11 additions** for incomplete
-  source verification or unresolved rights, and applies 14 field corrections across
-  seven accepted use-case ideas. That stage leaves 815 use-case ideas / 315 sources.
-  Both tools share this filtered, corrected data. Original records remain in `data/`;
-  every decision and evidence reference is retained. `version.json` identifies the
-  publication revision and public counts. See [the full-text review](docs/FULL-TEXT-REVIEW-2026-09-28.md).
-- `content/serial-comma-corrections.json` applies the reviewed Oxford-comma style to the
-  published prose after the editorial and publication stages. It pins every input,
-  target, insertion, and output; it preserves source quotations and matching codes.
-  `version.json` records this punctuation revision separately. See
-  [the punctuation review](docs/SERIAL-COMMAS-2026-09-28.md).
-- `content/curation.json` is the fourth stage ([the curation record](docs/CURATION-2026-09-29.md)).
-  It withdraws the 36 use-case ideas What If AI could never show, corrects licenses and source
-  records against the sources' own statements, retires the `prompt_specification` class
-  (keeping its no-reported-use fact as `use`), and applies American spelling to editorial
-  prose. The build refuses any published use-case idea the Finder cannot show. The public
-  collection is **779 use-case ideas / 309 sources**. The publication review stays in the
-  repository and is not published on the site.
-- `content/tiers.json` is the fifth stage ([the record](docs/TIERS-2026-10-05.md)). It adds
-  two labeled sets written for the collection and not yet tried: the **synthesis set** (211)
-  and the **remix set** (92). Each record carries its set, its provenance class (Hybrid or
-  Original Synthesis, or Licensed Adaptation), every work it draws on with the relation, and
-  the license it carries; 77 records with open review questions are held. The licensed
-  collection is unchanged. That stage leaves 1,082 use-case ideas / 640 sources.
-- `content/ai-use.json` is the sixth stage ([the record](docs/AI-USE-2026-10-05.md)).
-  It records on every use-case idea who operates an AI tool (`op`: students, faculty or staff
-  only, optional, no one, or not stated). Values were read from each summary in three review
-  passes, and each value other than `students` carries its evidence. The stage renames the
-  No-AI limit to **“My students won’t use an AI tool themselves”**, which now admits
-  use-case ideas in which only the instructor uses a tool. It withdraws four use-case ideas in which
-  AI is neither used nor discussed. That stage leaves 1,078 use-case ideas / 637 sources.
-- `content/record-review.json` is the seventh stage
-  ([the record](docs/RECORD-REVIEW-2026-10-06.md)). It applies corrections checked against the
-  sources, labels synthesis records whose source item is not openly licensed, holds records whose
-  own license wording breaks their source's terms, withdraws use-case ideas whose AI step was added
-  editorially to a source without AI, and refuses records in which who uses AI, the tool needed,
-  and the AI role disagree. Held and withdrawn records stay intact in the earlier stages. Both
-  tools serve **1,033 use-case ideas / 618 sources**.
-- `content/terminology.json` is the pinned terminology stage. It changes collection-authored
-  wording to **use-case idea / use-case ideas**, preserving source quotations, titles, citations,
-  licenses, identifiers, and earlier review records. Its pinned input and output hashes make
-  future source-boundary changes explicit. See [the terminology record](docs/TERMINOLOGY-2026-10-07.md).
-- `content/ai-type-guide.json` replaces the AI guide's prose after that stage. It supplies
-  the grouping, claim citations, source status, and revision provenance while preserving
-  the corpus, source bibliography, related-idea filters, and counts. See
-  [the sourcing record](docs/AI-TYPE-GUIDE-2026-10-08.md) and
-  [the restored-limits revision](docs/AI-TYPE-GUIDE-LIMITS-2026-10-08.md).
-- `content/tool-license.json` defines the tools’ CC BY-NC-ND 4.0 license and its
-  explicit content exceptions. A final scope pass clarifies 244 entry notes without
-  changing any entry or source license. See [the licensing review](docs/TOOL-LICENSE-2026-10-08.md).
-- `src/` holds the pages, partials, CSS, JS, fonts, and images.
-- `tools/build.py` turns `src/` and `data/` into `_site/`, fingerprinting every asset. It needs
-  only Python 3.
-- `.github/workflows/pages.yml` builds and tests every push and pull request, and deploys `main`
-  to Pages.
+- `data/` contains the reviewed public collection: **1,033 use-case ideas and 618 sources**, shared by both tools. `release.json` records the collection date, counts, and exact file fingerprints.
+- `content/ai-type-guide.json` supplies the AI guide's explanations, groups, claim-level citations, and 43 references. Its groupings are an editorial synthesis of the cited sources.
+- `content/tool-license.json` supplies the scoped tool license and the exact entry-note clarifications applied during the build.
+- `src/` contains page templates, partials, scripts, styles, fonts, and images.
+- `tools/build.py` checks the collection, combines it with the guide and license notices, and writes fingerprinted files to `_site/`. It needs only Python 3.
+- `tests/` checks data integrity, matching, page behavior, licensing, accessibility, and contrast.
+- `.github/workflows/pages.yml` runs the checks on pull requests and publishes `main` through GitHub Pages.
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the design, the data contract and the
-decisions still open.
+See the [architecture](docs/ARCHITECTURE.md), [matching contract](docs/MATCHING.md), [AI guide sources](docs/AI-TYPE-GUIDE-2026-10-08.md), and [license scope](docs/TOOL-LICENSE-2026-10-08.md).
 
-The Finder's [matching contract](docs/MATCHING.md) explains exact and compatible
-preferences, recovery when there are no close matches, and the separate group for
-use-case ideas whose selected requirements still need checking. Matching tests run on
-every deployment; unknown requirements never count as confirmed matches.
-
-## Run it locally
+## Run locally
 
 ```
-python3 tools/build.py          # → _site/
-node tests/serve.js             # → http://localhost:8080/What-If-AI/
+python3 tools/build.py
+node tests/serve.js
 ```
 
-The pages load their data over HTTP, so opening `_site/*.html` straight from disk shows a
-message asking you to serve them.
+Open `http://localhost:8080/What-If-AI/`. The pages load their data over HTTP.
 
 ## Test
 
 ```
 npm ci
 npx playwright install chromium
-npm test        # release check, build, site checks, page behavior, accessibility (axe), contrast
+npm test
 ```
 
-## Update the AI-system guide and examples
+## Update the collection
 
-`content/ai-type-guide.json` is the public guide's source of truth. Its ten capability/system
-entries are separate from two access/participation choices. The groupings are an editorial
-synthesis, not a taxonomy attributed to one publication. Citations appear beside claims and
-in each dialog; the full list identifies publication status and the consulted section.
-`docs/research/ai-type-sources.json` records the source IDs and URLs used during research.
-Keep those mappings in sync. The build rejects missing, unknown, and unused references,
-missing explanations, and changes to the related-idea keys.
-References are full APA 7 entries, numbered by first appearance in reading order. Each also
-carries a short `cite` label that in-text links use as their accessible name. Because the
-license-scope stage pins the `register.json` it receives, run
-`python3 tools/license_scope.py --pin` after changing the guide, and confirm that only the
-`register.json` hashes change.
+Review changes to `data/acts.json`, `data/register.json`, and `data/guide.json` together. Keep identifiers, source relationships, quotations, attributions, and license terms consistent. Update the release date, collection fingerprints, and file hashes in `data/release.json` after reviewing the complete changes.
 
-`src/js/register-type-examples.js` holds the illustrative product names, short capability
-notes, official source links, and their checked date. Review those links when updating
-examples. These are editorial additions to the type guide, separate from the exported
-corpus release. Product links need no additional numbered citations. The October 8 guide
-supersedes the imported descriptions; its references establish this revision's basis, not
-the earlier prose's origin. Counts of related use-case ideas reflect the published subset.
+`python3 tools/check_release.py` checks file fingerprints, the public field contract, counts, source backlinks, remix parents, AI-operator consistency, and related-idea counts. After a reviewed data change, run `python3 tools/license_scope.py --pin`, inspect its exact changes, and run `npm test`. Merging a passing pull request to `main` publishes the site.
 
-The Register shows compact type cards. Opening a card displays the full description and
-details in a fixed-size dialog; current examples start collapsed. The type-dialog test checks
-keyboard focus, scroll-position restoration, content preservation, and narrow screens.
+## Update the AI guide and examples
+
+`content/ai-type-guide.json` is the guide's source of truth. Ten capability and system entries are separate from two access and participation choices. Citations appear beside claims and in each dialog; the full reference list identifies publication status and the consulted section. Keep source IDs, URLs, and titles synchronized with `docs/research/ai-type-sources.json`.
+
+The guide changes explanations while preserving the collection's related-idea keys, capabilities, IDs, and counts. The build rejects missing explanations, unknown citations, and unused references. References use APA-style entries with short `cite` labels for accessible in-text links. After a guide edit, run `python3 tools/license_scope.py --pin` and confirm that only the `register.json` hashes change.
+
+`src/js/register-type-examples.js` contains illustrative product names, capability notes, official links, and their checked date. Product links need no additional numbered citations. Review those links when updating the examples.
 
 ## Edit the walkthroughs
 
-The Register’s header and floating menu open the same nine-step illustrated walkthrough
-dialog in `src/partials/register-tour.html`; existing `#about` links also open it. It preserves the
-help topics, uses Previous/Next, step lamps, and arrow/Home/End keys, and never advances
-automatically. Its frame stays the same height across steps, opening and changing steps
-at the top. Hidden steps are inert; printing the open walkthrough exposes all nine steps
-as dark text without illustrations or controls and
-restores the selected step afterward. Behavior and styles live in `src/js/register.js`
-and `src/css/register.css`.
-
-What If AI keeps its separate seven-step walkthrough in `src/partials/tour.html`.
-The Register’s first step links to it. Page tests cover keyboard focus, links and Back,
-all nine steps at six widths, and printing; accessibility checks cover every step.
-
-## Update the use-case ideas
-
-1. In the pipeline repo, run `python3 scripts/corpus_pages.py`, then
-   `python3 scripts/export_release.py --out ../What-If-AI/data`.
-2. Here, run `npm test`, then open a pull request. Merging to `main` deploys.
-
-Before building a new upstream release, reconcile `content/editorial-corrections.json`,
-`content/publication-review.json`, `content/serial-comma-corrections.json`,
-`content/curation.json`, `content/tiers.json`, and `content/ai-use.json`:
-remove corrections already incorporated upstream, review any remaining targets, and
-update the base release and reviewed output hashes. A mismatched release, target text,
-occurrence count, or output hash fails the build rather than silently dropping or
-misapplying corrections. Recheck the publication decisions, source coverage, license
-evidence, typed field updates, and final public totals before updating either manifest. See [the editorial correction record](docs/EDITORIAL-CORRECTIONS.md).
-
-For a data supplement, also update the reviewed import fixture after comparing every
-retained record. `tests/data-integration.test.js` verifies the prior collection is intact,
-checks labels and source/count consistency, and proves selectable, zero-mismatch matcher
-paths for every approved new use-case idea. Held additions remain absent from both public datasets. Browser checks follow those paths through pagination and
-verify the same use-case idea details in both tools. Matching tests read the built public data.
+The Register's header and floating menu open the nine-step walkthrough in `src/partials/register-tour.html`; `#about` links open it too. What If AI uses the seven-step walkthrough in `src/partials/tour.html`. Page tests cover keyboard operation, focus, links, browser history, printing, and narrow screens.
 
 ## Licenses
 
-The original tools are **CC BY-NC-ND 4.0**, with explicit exceptions in
-[LICENSE.md](LICENSE.md) and [NOTICE.md](NOTICE.md). Every use-case idea keeps its
-existing license, including synthesis and remix entries. Separately licensed guide
-content, policy quotations, sources, fonts, and dependencies retain their own terms.
-Earlier CC BY-NC-SA permissions remain in effect for earlier releases.
+The original tools are **CC BY-NC-ND 4.0**, with the exceptions in [LICENSE.md](LICENSE.md) and [NOTICE.md](NOTICE.md). Every use-case idea keeps its own license, including synthesis and remix entries. Separately licensed guide content, policy quotations, sources, fonts, and dependencies retain their own terms. Earlier CC BY-NC-SA permissions remain in effect for earlier releases.

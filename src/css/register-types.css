@@ -80,10 +80,6 @@ html.type-dialog-open{overflow:hidden;}
 
 /* Research citations remain visible beside claims; full references supply context. */
 .type-cite{display:inline-block;margin-left:4px;padding:0 2px;color:var(--gold);font-size:.8em;font-weight:700;vertical-align:super;text-decoration:underline;text-underline-offset:2px;}
-.type-provenance{border-left:3px solid var(--gold);padding:14px 20px;margin:22px 0;background:var(--navy-card);}
-.type-provenance p{font-size:15px;line-height:1.55;color:var(--ink-2);max-width:100ch;margin:0;}
-.type-provenance p+p{margin-top:9px;}
-.type-provenance strong{color:var(--gold);}
 .type-group{margin:30px 0 38px;}
 .type-group>h3,.type-bibliography>h3{font-size:28px;line-height:1.2;color:var(--gold);margin:0 0 9px;}
 .type-group-intro{font-size:17px;line-height:1.5;color:var(--ink-2);margin:0 0 18px;max-width:85ch;}

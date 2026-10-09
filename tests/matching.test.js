@@ -109,7 +109,7 @@ for(let mask=0;mask<128;mask++)for(let i=0;i<7;i++)if(!(mask&(1<<i))){
 // Single-option scale questions are skipped by the normal wizard.
 const eligible=A.filter(a=>!['active','passive'].includes(a.icap));
 let states=0,withRecovery=0,withMatches=0,expectedStates=0;
-const originalGrid=require('./fixtures/release-2026-09-28.json').original_grid;
+const originalGrid=require('./fixtures/matching-grid.json');
 let originalStates=0;
 for(const [focus,d] of Object.entries(originalGrid)){
   for(const task of [null,...d.task])for(const disc of [null,...d.disc])for(const depth of d.depth.length>1?[null,...d.depth]:[null])for(const lvl of [null,...d.lvl])for(const mod of [null,...d.mod]){
