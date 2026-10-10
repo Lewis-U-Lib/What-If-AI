@@ -218,7 +218,9 @@ function typeCitations(refs){
 function typeParagraph(p){return '<p>'+esc(p.text)+typeCitations(p.refs)+'</p>';}
 function typeReferences(ids){
   return '<ol class="type-sources">'+R.types.sources.filter(function(s){return !ids || ids.indexOf(s.id)!==-1;}).map(function(s){
-    return '<li value="'+s.id+'">'+S_.externalLink(s.url,esc(s.title)+'<span class="sr-only"> (opens in a new tab)</span>')+'<span class="type-source-kind">'+esc(s.kind)+'</span><p>'+esc(s.locator)+'</p></li>';
+    // Keep research classifications in the ledger; citations need only useful version notes.
+    var note = /^Peer-reviewed\b/i.test(s.kind) ? (/author manuscript/i.test(s.kind) ? 'Author manuscript' : '') : s.kind.replace(/\s*\(not peer reviewed\)/i, '');
+    return '<li value="'+s.id+'">'+S_.externalLink(s.url,esc(s.title)+'<span class="sr-only"> (opens in a new tab)</span>')+(note ? '<span class="type-source-kind">'+esc(note)+'</span>' : '')+'<p>'+esc(s.locator)+'</p></li>';
   }).join('')+'</ol>';
 }
 var typeDialog = document.getElementById('aiTypeDialog');
