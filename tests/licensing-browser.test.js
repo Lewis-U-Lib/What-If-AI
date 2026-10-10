@@ -24,7 +24,8 @@ const SITE = path.join(ROOT, '_site'), license = cfg.tool_license;
       assert.equal((await page.locator('[data-license-exceptions]').textContent()).trim(), license.exceptions);
       await page.locator('#license-details summary').click();
       assert.equal((await page.locator('[data-license-history]').textContent()).trim(), license.history_notice);
-      assert.ok(await page.locator('.cc-icons img').evaluate(img => img.complete && img.naturalWidth === 88 && img.naturalHeight === 31));
+      assert.deepEqual(await page.locator('.cc-icons svg').evaluateAll(icons => icons.map(icon => icon.dataset.ccSymbol)), ['cc','by','nc','nd']);
+      assert.ok(await page.locator('.cc-icons').evaluate(link => link.getAttribute('aria-label').includes('Attribution-NonCommercial-NoDerivatives')));
       for (const width of [320,1280]) {
         await page.setViewportSize({width,height:900});
         assert.ok(await page.locator('.site-foot').evaluate(el => el.scrollWidth <= el.clientWidth + 1), file + ' footer at ' + width);
