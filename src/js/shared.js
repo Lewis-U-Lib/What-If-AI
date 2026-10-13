@@ -185,8 +185,21 @@ window.addEventListener('storage', function(e){
 });
 
 /* ─────────── status announcements ─────────── */
+/* A modal dialog makes the rest of the page inert, so a live region outside it is not announced while it is
+   open. Each dialog carries its own status region (added when it is wired, so it exists before any message);
+   messages go to the region of the open dialog, or to the page's region when no dialog is open. */
+function statusRegion(host){
+  var el = host.querySelector('.dlg-status');
+  if(!el){
+    el = document.createElement('div'); el.className = 'dlg-status sr-only';
+    el.setAttribute('role','status'); el.setAttribute('aria-live','polite'); el.setAttribute('aria-atomic','true');
+    host.appendChild(el);
+  }
+  return el;
+}
 function announce(msg){
-  var el = document.getElementById('srStatus'); if(!el) return;
+  var open = document.querySelectorAll('dialog[open]'), host = open.length ? open[open.length-1] : null;
+  var el = host ? statusRegion(host) : document.getElementById('srStatus'); if(!el) return;
   el.textContent = ''; setTimeout(function(){ el.textContent = msg; }, 40);
 }
 
@@ -395,15 +408,37 @@ function closeDialog(dlg){
   if(typeof dlg.close === 'function' && dlg.open) dlg.close(); else dlg.removeAttribute('open');
 }
 function wireDialog(dlg){
+  statusRegion(dlg);
   dlg.addEventListener('click', function(e){
     if(e.target === dlg) closeDialog(dlg);                        /* backdrop */
     if(e.target.closest('[data-close]')) closeDialog(dlg);
   });
   dlg.addEventListener('close', function(){
-    var op = dlg._opener; dlg._opener = null;
+    var op = dlg._opener; dlg._opener = null; dlg._lastOpener = op;
     var closedHost = op && op.closest ? op.closest('dialog') : null;
     if(op && document.contains(op) && (!closedHost || closedHost.open)) { try{ op.focus({preventScroll:true}); }catch(_){} }
   });
+}
+
+/* Going back in history to a section address (#activities, #policies) makes the browser move focus to the
+   page itself, after the dialog's close handler has already returned focus to its opener. Put focus back on
+   that control once the history step has finished, but only if focus was lost (never move it away from
+   something the reader has since chosen). */
+function refocusAfterBack(el){
+  if(!el || !el.focus) return;
+  var until = Date.now() + 1500;
+  function fix(){
+    if(Date.now() > until || !document.contains(el) || document.querySelector('dialog[open]')) return;
+    var ae = document.activeElement;
+    if(ae && ae !== document.body && ae !== document.documentElement) return;
+    try{ el.focus({preventScroll:true}); }catch(_){ return; }
+    var r = el.getBoundingClientRect();
+    if(r.bottom < 0 || r.top > (window.innerHeight || document.documentElement.clientHeight)) el.scrollIntoView({block:'center'});
+  }
+  function soon(){ setTimeout(fix, 0); setTimeout(fix, 80); }
+  window.addEventListener('popstate', soon, {once:true});
+  window.addEventListener('hashchange', soon, {once:true});
+  setTimeout(fix, 250); setTimeout(fix, 700);
 }
 
 var CTX = {page:'finder'};
@@ -420,6 +455,7 @@ function openActivity(id, opener){
     (CTX.page==='register'
       ? '<button type="button" class="btn btn--sm" data-copy-act="'+esc(a.id)+'">Copy a link to this use-case idea</button>'
       : '<a class="btn btn--sm" href="register.html#act='+encodeURIComponent(a.id)+'">'+icon('i-crt')+' Open in The Register</a>') +
+    '<button type="button" class="btn btn--sm" data-print-act="'+esc(a.id)+'">Print or save as PDF</button>'+
     '<button type="button" class="btn btn--sm btn--quiet" data-close>Close</button>'+storageNotice();
   syncStorageUI();
   var wasOpen = dlg.open;
@@ -447,13 +483,14 @@ function renderSaved(){
   if(!ids.length){
     box.innerHTML = storageNotice(true)+'<div class="saved-empty"><p><strong>No saved use-case ideas yet.</strong></p>'+
       '<p>Use the Save button on any use-case idea to keep it here while you browse. You can then review your selection and print it or save it as a PDF.</p></div>'+
-      '<p class="privacy">Your selection is kept in this browser only. There is no account, and nothing is sent anywhere.</p>';
+      '<p class="privacy">Your selection is kept in this browser only. There is no account, and your saved list is not sent to the library or anyone else.</p>';
     if(foot) foot.hidden = true;
     return;
   }
   var h = storageNotice(true)+'<ol class="saved-list">';
   ids.forEach(function(id){
-    var a = BYID[id];
+    /* an idea saved under an earlier edition's identifier is still shown (and removed by that identifier) */
+    var a = BYID[id] || BYID[ALIAS[id]];
     if(!a){
       h += '<li class="saved-item"><div class="saved-item__t">A use-case idea that is no longer in the collection</div>'+
         '<div class="saved-item__m">ID '+esc(id)+'</div><div class="saved-item__a">'+
@@ -462,9 +499,9 @@ function renderSaved(){
     }
     h += '<li class="saved-item"><div class="saved-item__t">'+esc(a.t)+'</div><div class="saved-item__m">'+esc(savedMeta(a))+'</div>'+
       '<div class="saved-item__a"><button type="button" class="btn btn--sm" data-open="'+esc(a.id)+'">View<span class="sr-only"> '+esc(a.t)+'</span></button>'+
-      '<button type="button" class="btn btn--sm btn--quiet" data-unsave="'+esc(a.id)+'">Remove<span class="sr-only"> '+esc(a.t)+'</span></button></div></li>';
+      '<button type="button" class="btn btn--sm btn--quiet" data-unsave="'+esc(id)+'">Remove<span class="sr-only"> '+esc(a.t)+'</span></button></div></li>';
   });
-  h += '</ol><p class="privacy">Your selection is kept in this browser only. There is no account, and nothing is sent anywhere.</p>';
+  h += '</ol><p class="privacy">Your selection is kept in this browser only. There is no account, and your saved list is not sent to the library or anyone else.</p>';
   h += '<div class="confirm" id="clearConfirm" hidden><p>Remove all '+ids.length+' saved use-case idea'+(ids.length===1?'':'s')+'?</p>'+
        '<button type="button" class="btn btn--sm" id="clearYes">Remove all</button> '+
        '<button type="button" class="btn btn--sm btn--quiet" id="clearNo">Keep them</button></div>';
@@ -487,31 +524,65 @@ function syncSaveUI(){
   var dr = document.getElementById('savedDrawer'); if(dr && dr.open) renderSaved();
 }
 
-/* ─────────── print the saved collection ─────────── */
-function printSaved(){
-  var ids = Saved.ids().filter(function(id){ return BYID[id]; });
-  if(!ids.length){ announce('There are no saved use-case ideas to print.'); return; }
-  var root = document.getElementById('printRoot');
+/* ─────────── printing ─────────── */
+/* Every printout is built in #printRoot from the full record, so each idea keeps its source, license,
+   attribution, and change notes on paper. Pages under an open dialog are never printed in its place. */
+var printCleanup = null;
+function toolName(){ return CTX.page==='register' ? 'The Register' : 'What If AI'; }
+function fillPrintRoot(ids, single){
+  var root = document.getElementById('printRoot'); if(!root) return null;
   var today = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-  var h = '<h1>Saved use-case ideas</h1><div class="pr-sub">What If AI · Lewis University Library · '+ids.length+
-    ' use-case idea'+(ids.length===1?'':'s')+' · printed '+esc(today)+'</div>';
-  ids.forEach(function(id){
-    var a = BYID[id];
-    h += '<article><div class="kicker">'+esc(kickerOf(a))+'</div><h2>'+esc(a.t)+'</h2>'+detailHTML(a,{print:true})+'</article>';
-  });
+  var h;
+  if(single){
+    var one = BYID[ids[0]];
+    h = '<h1>'+esc(one.t)+'</h1><div class="pr-sub">'+esc(kickerOf(one))+' · '+toolName()+' · Lewis University Library · printed '+esc(today)+'</div>'+
+      '<article>'+detailHTML(one,{print:true})+'</article>';
+  } else {
+    h = '<h1>Saved use-case ideas</h1><div class="pr-sub">'+toolName()+' · Lewis University Library · '+ids.length+
+      ' use-case idea'+(ids.length===1?'':'s')+' · printed '+esc(today)+'</div>';
+    ids.forEach(function(id){
+      var a = BYID[id];
+      h += '<article><div class="kicker">'+esc(kickerOf(a))+'</div><h2>'+esc(a.t)+'</h2>'+detailHTML(a,{print:true})+'</article>';
+    });
+  }
   h += '<div class="pr-foot">Tool credit: What If AI and The Register, Lewis University Library. '+
     esc(TOOL_LICENSE.scope)+' are licensed '+esc(TOOL_LICENSE.label)+' ('+esc(TOOL_LICENSE.url)+'). '+
     esc(TOOL_LICENSE.exceptions)+' Retain each entry’s own attribution, license, and change notices.</div>';
   root.innerHTML = h;
-  var dr = document.getElementById('savedDrawer'); if(dr && dr.open) closeDialog(dr);
+  return root;
+}
+function preparePrint(ids, single){
+  var root = fillPrintRoot(ids, single); if(!root) return false;
   document.body.classList.add('print-saved');
   /* the print copy is hidden from assistive technology on screen, but a saved PDF needs its headings
      and reading order, so it is exposed while printing (as the Register walkthrough's print is) */
   root.removeAttribute('aria-hidden');
-  var done = function(){ document.body.classList.remove('print-saved'); root.setAttribute('aria-hidden','true'); window.removeEventListener('afterprint', done); };
+  var done = function(){
+    document.body.classList.remove('print-saved'); root.setAttribute('aria-hidden','true');
+    window.removeEventListener('afterprint', done); if(printCleanup === done) printCleanup = null;
+  };
+  printCleanup = done;
   window.addEventListener('afterprint', done);
+  return done;
+}
+function printSaved(){
+  var ids = Saved.ids().map(function(id){ return BYID[id] ? id : ALIAS[id]; }).filter(function(id, i, all){ return id && BYID[id] && all.indexOf(id) === i; });
+  if(!ids.length){ announce('There are no saved use-case ideas to print.'); return; }
+  var dr = document.getElementById('savedDrawer'); if(dr && dr.open) closeDialog(dr);
+  var done = preparePrint(ids, false); if(!done) return;
   setTimeout(function(){ window.print(); setTimeout(done, 1500); }, 60);
 }
+function printActivity(id){
+  var a = BYID[id] || BYID[ALIAS[id]]; if(!a) return;
+  var done = preparePrint([a.id], true); if(!done) return;
+  setTimeout(function(){ window.print(); setTimeout(done, 1500); }, 60);
+}
+/* the browser's own Print command while an idea is open prints that idea, not the page underneath */
+window.addEventListener('beforeprint', function(){
+  if(document.body.classList.contains('print-saved') || document.body.classList.contains('print-register-tour')) return;
+  var dlg = document.getElementById('actDialog');
+  if(dlg && dlg.open && dlg.getAttribute('data-act') && BYID[dlg.getAttribute('data-act')]) preparePrint([dlg.getAttribute('data-act')], true);
+});
 
 /* ─────────── wiring ─────────── */
 function init(ctx){
@@ -544,18 +615,20 @@ function init(ctx){
     if(op){ e.preventDefault(); openActivity(op.getAttribute('data-open'), op); return; }
     var un = t.closest('[data-unsave]');
     if(un){
-      var uid = un.getAttribute('data-unsave'), ua = BYID[uid];
+      var uid = un.getAttribute('data-unsave'), ua = BYID[uid] || BYID[ALIAS[uid]];
       Saved.remove(uid); announce('Removed from saved'+(Saved.isPersistent()?'':' in this tab only')+': ' + (ua ? ua.t : uid) + '.'+(Saved.isPersistent()?'':' Browser storage is unavailable; it may return after reloading.'));
       var first = document.querySelector('#savedBody [data-unsave], #savedDrawer [data-close]'); if(first) first.focus();
       return;
     }
     if(t.closest('[data-open-saved]')){ renderSaved(); openDialog(sd, t.closest('[data-open-saved]')); return; }
     if(t.closest('#printSaved')){ printSaved(); return; }
+    var pa = t.closest('[data-print-act]');
+    if(pa){ printActivity(pa.getAttribute('data-print-act')); return; }
     if(t.closest('#clearSaved')){ var c=document.getElementById('clearConfirm'); if(c){ c.hidden=false; document.getElementById('clearYes').focus(); } return; }
     if(t.closest('#clearNo')){ var c2=document.getElementById('clearConfirm'); if(c2) c2.hidden=true; var cs=document.getElementById('clearSaved'); if(cs) cs.focus(); return; }
     if(t.closest('#clearYes')){ Saved.clear(); announce('All saved use-case ideas removed'+(Saved.isPersistent()?'.':' in this tab only. Browser storage is unavailable; earlier selections may return after reloading.')); var cl=sd.querySelector('[data-close]'); if(cl) cl.focus(); return; }
     var cp = t.closest('[data-copy-act]');
-    if(cp){ copyText(location.href.split('#')[0]+'#act='+encodeURIComponent(cp.getAttribute('data-copy-act')), 'Link to this use-case idea copied.'); return; }
+    if(cp){ copyText(location.href.split('#')[0]+'#act='+encodeURIComponent(cp.getAttribute('data-copy-act')), 'Link to this use-case idea copied.', cp); return; }
   });
   Saved.onChange(syncSaveUI);
   syncSaveUI();
@@ -565,15 +638,37 @@ function init(ctx){
   });
   /* the footer's "Updated" date is written at build time from the latest reviewed data stage */
 }
-function copyText(text, okMsg){
-  function fallback(){ announce('Copying is not available here. The address is: ' + text); }
+function copyStatus(btn){
+  if(!btn || !btn.parentNode) return null;
+  var box = btn.parentNode.querySelector('.copy-status');
+  if(!box){ box = document.createElement('p'); box.className = 'copy-status'; btn.parentNode.insertBefore(box, btn.nextSibling); }
+  return box;
+}
+function copyText(text, okMsg, btn){
+  var box = copyStatus(btn);
+  function ok(){
+    var msg = okMsg || 'Copied.';
+    if(box){ box.textContent = msg; clearTimeout(box._t); box._t = setTimeout(function(){ if(box.parentNode) box.textContent = ''; }, 8000); }
+    announce(msg);
+  }
+  function fallback(){
+    var msg = 'Copying is not available here. Select the address and copy it:';
+    if(box){
+      clearTimeout(box._t); box.textContent = msg + ' ';
+      var input = document.createElement('input');
+      input.type = 'text'; input.readOnly = true; input.className = 'copy-status__url'; input.value = text;
+      input.setAttribute('aria-label', 'Address to copy');
+      box.appendChild(input); input.focus(); input.select();
+    }
+    announce(msg + ' ' + text);
+  }
   try{
-    navigator.clipboard.writeText(text).then(function(){ announce(okMsg || 'Copied.'); }, fallback);
+    navigator.clipboard.writeText(text).then(ok, fallback);
   }catch(_){ fallback(); }
 }
 
 window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, TIER:TIER, tierOf:tierOf, OPERATOR:OPERATOR, operatorLabel:operatorLabel, noToolForStudents:noToolForStudents, usedItems:usedItems, esc:esc, safeURL:safeURL, externalLink:externalLink, costLabel:costLabel, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
   taskLabel:taskLabel, depthLabel:depthLabel, discLabel:discLabel, lvlLabel:lvlLabel, modLabel:modLabel, familyLabel:familyLabel,
   cardHTML:cardHTML, detailHTML:detailHTML, openActivity:openActivity, openDialog:openDialog, closeDialog:closeDialog, wireDialog:wireDialog, resetDialogScroll:resetDialogScroll,
-  Saved:Saved, announce:announce, decode:decode, printSaved:printSaved, copyText:copyText, howItWorks:howItWorks, init:init, kickerOf:kickerOf};
+  Saved:Saved, announce:announce, decode:decode, printSaved:printSaved, printActivity:printActivity, refocusAfterBack:refocusAfterBack, copyText:copyText, howItWorks:howItWorks, init:init, kickerOf:kickerOf};
 })();

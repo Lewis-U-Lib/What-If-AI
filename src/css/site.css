@@ -193,6 +193,13 @@ dialog::backdrop{background:rgba(20,2,8,.72);}
 .detail .cite-block{background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:10px;padding:12px 14px;
   color:var(--ink);overflow-wrap:anywhere;}
 .detail .meta-line{font-size:15px;color:var(--ink-2);}
+/* long unbroken addresses (attribution lines, source links) wrap instead of widening the dialog (WCAG 1.4.10) */
+.detail p,.detail li,.detail dd,.detail dt,.detail h4,.detail a,.detail .meta-line{overflow-wrap:anywhere;}
+/* copy-link status, shown beside the button that asked for it */
+.copy-status{flex-basis:100%;margin:2px 0 0;font-size:15px;color:var(--ink);overflow-wrap:anywhere;}
+.copy-status:empty{display:none;}
+.copy-status__url{display:block;width:100%;max-width:100%;margin-top:6px;padding:6px 8px;font:inherit;font-size:14px;
+  color:var(--ink);background:rgba(0,0,0,.35);border:1px solid var(--gold);border-radius:6px;}
 .detail .idline{font-size:14px;color:var(--ink-2);margin-top:12px;}
 .detail .idline code{font-family:var(--font-m);font-size:13px;color:var(--ink);}
 
@@ -254,13 +261,16 @@ dialog::backdrop{background:rgba(20,2,8,.72);}
 @media(min-width:761px){
   .dlg{max-height:calc((100vh - 40px) / 1.25);width:min(900px,calc((100vw - 40px) / 1.25));}
   .drawer{height:calc(100vh / 1.25);max-height:calc(100vh / 1.25);width:min(480px,calc(100vw / 1.25));}
+  /* the Ask Us panel, likewise: unscaled it is taller than a 720–768px laptop screen and its header sits above the top */
+  .chat-modal{width:min(430px,calc((100vw - 24px) / 1.25));height:min(640px,calc((100vh - 112px) / 1.25));}
   .rail{top:70px;}
   /* the sticky top bar is 64px zoomed to 125% (80px), so anchors land 12px below it */
   html{scroll-padding-top:92px;}
 }
 
-/* ═══ print root (hidden on screen) ═══ */
+/* ═══ print root and print-only notes (hidden on screen) ═══ */
 #printRoot{display:none;}
+.print-note{display:none;}
 
 /* ═══ responsive ═══ */
 @media(max-width:980px){
@@ -317,6 +327,10 @@ dialog::backdrop{background:rgba(20,2,8,.72);}
   /* printing a page without the saved view: keep it readable */
   .acard,.panel,.card{background:none !important;border:0.5pt solid #999 !important;box-shadow:none !important;color:#111 !important;break-inside:avoid;}
   .acard *,.panel *,.card *{color:#111 !important;}
+  /* the screen theme's light-on-dark text (gold headings, cream and white text) would print pale or white on paper */
+  body *{color:#111 !important;text-shadow:none !important;box-shadow:none !important;}
+  h1,h2,h3,h4,h5,h6,.kicker,.sec-eyebrow{color:#5c0420 !important;}
+  .print-note{display:block !important;margin:10pt 0 0;font-size:9.5pt;}
   .btn,.save{display:none !important;}
 }
 

@@ -156,6 +156,7 @@ function resultsHTML(){
   h += '<p class="countline" id="actCount">Showing <strong>'+Math.min(shown, list.length)+'</strong> of <strong>'+list.length+'</strong> '+
     (list.length===1?'use-case idea':'use-case ideas')+(keys.length?' matching your filters':'')+'.'+
     (ws.length ? ' <a href="#sources" data-goto-sources>'+ws.length+' source'+(ws.length===1?' also matches':'s also match')+' your search</a>.' : '')+'</p>';
+  h += '<p class="print-note">This printout lists summaries only. Each use-case idea’s source, license, and attribution are in its full details. To keep them, print an idea from its details, or save ideas and print them from Saved use-case ideas.</p>';
   if(!list.length){
     return h + '<div class="empty"><strong>No use-case ideas match these filters</strong><p>Try removing a filter, or use What If AI to describe what you are working on.</p>'+
       '<button type="button" class="btn" id="resetFilters2">Clear all filters</button></div>';
@@ -451,7 +452,7 @@ function drawAbout(){
   S_.wireDialog(rtour);
   rtour.addEventListener('close', function(){
     if(location.hash !== '#about') return;
-    if(rtourPushed){ rtourPushed = false; routed = rtourBase; history.back(); }
+    if(rtourPushed){ rtourPushed = false; routed = rtourBase; history.back(); S_.refocusAfterBack(rtour._lastOpener || rtour._opener); }
     else { try { history.replaceState({reg:1}, '', base); } catch(_){} routed = location.hash; }
   });
   var menu = document.getElementById('fabMenu');
@@ -615,11 +616,16 @@ document.addEventListener('click', function(e){
   }
   var c = t.closest('[data-clear]');
   if(c){ var k = c.getAttribute('data-clear'); F[k] = (typeof F[k]==='boolean') ? false : ''; shown = PAGE; syncFilterControls(); refreshResults(true); if(k==='q') drawSources();
-         var next = document.querySelector('#actResults .fchip') || document.getElementById('h-use-case ideas'); if(next) next.focus(); return; }
+         var next = document.querySelector('#actResults .fchip') || document.getElementById('h-activities'); if(next) next.focus(); return; }
   var ft = t.closest('#filtersToggle');
   if(ft){ var fl=document.getElementById('filters'), open = fl.classList.toggle('is-collapsed')===false;
           ft.setAttribute('aria-expanded', String(open)); ft.textContent = open ? 'Hide filters' : 'Show filters'; return; }
-  if(t.closest('#resetFilters') || t.closest('#resetFilters2')){ resetF(); shown = PAGE; syncFilterControls(); refreshResults(true); drawSources(); return; }
+  if(t.closest('#resetFilters') || t.closest('#resetFilters2')){
+    var inResults = !!t.closest('#resetFilters2');
+    resetF(); shown = PAGE; syncFilterControls(); refreshResults(true); drawSources();
+    /* the second Clear filters button is inside the results it rebuilds, so focus goes to the section heading */
+    if(inResults || !document.contains(t)){ var hd = document.getElementById('h-activities'); if(hd) hd.focus(); }
+    return; }
   if(t.closest('#moreActs')){
     var before = shown; shown += PAGE; refreshResults(false);
     var cards = document.querySelectorAll('#actResults .acard'); var nb = cards[before] && cards[before].querySelector('[data-open]'); if(nb) nb.focus();
@@ -647,7 +653,7 @@ window.addEventListener('popstate', function(){ route(false); });
    otherwise (it arrived by link) by replacing the address */
 document.getElementById('actDialog').addEventListener('close', function(){
   if(!/^#act=/.test(location.hash)) return;
-  if(actPushed){ actPushed = false; routed = base; history.back(); }
+  if(actPushed){ actPushed = false; routed = base; history.back(); S_.refocusAfterBack(this._lastOpener); }
   else { try { history.replaceState({reg:1}, '', base); } catch(_){} routed = location.hash; }
 });
 

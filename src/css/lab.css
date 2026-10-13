@@ -166,7 +166,7 @@ button.hdr-cta{font:inherit;font-family:var(--font-h);font-weight:700;letter-spa
 .tour__dots{display:flex;gap:4px;}
 .tour__dot{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;padding:0;border:0;border-radius:50%;
   background:none;cursor:pointer;}
-.tour__dot .lamp{width:11px;height:11px;}
+.tour__dot .lamp{width:11px;height:11px;box-shadow:inset 0 1px 1px rgba(255,255,255,.25),0 0 0 1.5px #b8975a;}
 .tour__dot[aria-current="step"] .lamp{background:radial-gradient(circle at 40% 35%,#fff4d1,var(--lamp-amber) 60%);box-shadow:0 0 0 1.5px rgba(10,1,3,.7),0 0 6px rgba(255,201,92,.75);}
 .tour__dot:hover .lamp{box-shadow:0 0 0 2px var(--gold);}
 .tour-cta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:0 0 14px;color:var(--ink-2);font-size:15.5px;}

@@ -174,7 +174,7 @@ body::before{
   background:linear-gradient(90deg,rgba(199,72,95,.9),rgba(222,187,112,.9)) 0 0/100% 3px no-repeat,
     linear-gradient(180deg,#5a1020,#2c060e);
   box-shadow:inset 0 1px 0 rgba(255,230,234,.14),inset 0 -1px 0 rgba(0,0,0,.6),0 2px 4px rgba(0,0,0,.45);}
-.pos__dot{border:0;background:radial-gradient(circle at 40% 35%,#e7b7be,#a9646f 45%,#5b1a26 80%,#2a060d);color:#fff;
+.pos__dot{border:0;background:radial-gradient(circle at 40% 35%,#8f4553,#6c1221 45%,#4a0d18 80%,#2a060d);color:#fff;
   text-shadow:0 1px 1px rgba(0,0,0,.7);}
 .pos[aria-selected="true"] .pos__dot{background:radial-gradient(circle at 40% 35%,var(--brass-hi),var(--brass) 55%,var(--brass-lo));color:var(--brass-ink);text-shadow:none;}
 .pos{border-radius:var(--r);}
