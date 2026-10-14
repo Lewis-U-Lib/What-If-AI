@@ -156,13 +156,23 @@ function dataTool(a){ return a.op==='none' ? 'a third-party tool' : 'an AI tool'
 /* ─────────── saved activities (this browser only) ─────────── */
 var KEY = 'lul-whatifai-saved-v1';
 var mem = null, listeners = [], storageOK = true;
+function savedId(id){
+  return Object.prototype.hasOwnProperty.call(BYID,id) ? id :
+    (Object.prototype.hasOwnProperty.call(ALIAS,id) ? ALIAS[id] : id);
+}
+function normalizeIds(ids){
+  /* Keep unavailable ideas so readers can remove them, but count an alias and its current ID once. */
+  return ids.filter(function(id){return typeof id==='string';}).map(savedId)
+    .filter(function(id,i,all){return all.indexOf(id)===i;});
+}
 function readIds(){
   if(mem) return mem.slice();
-  try { var v = JSON.parse(window.localStorage.getItem(KEY)||'[]'); mem = Array.isArray(v) ? v.filter(function(x){return typeof x==='string';}) : []; }
+  try { var v = JSON.parse(window.localStorage.getItem(KEY)||'[]'); mem = Array.isArray(v) ? normalizeIds(v) : []; }
   catch(_){ mem = []; storageOK = false; }
   return mem.slice();
 }
 function writeIds(ids){
+  ids = normalizeIds(ids);
   mem = ids.slice();
   try { var value=JSON.stringify(ids); window.localStorage.setItem(KEY,value); storageOK=window.localStorage.getItem(KEY)===value; }
   catch(_){ storageOK=false; }
@@ -171,10 +181,10 @@ function writeIds(ids){
 }
 var Saved = {
   ids: readIds,
-  has: function(id){ return readIds().indexOf(id) >= 0; },
+  has: function(id){ return readIds().indexOf(savedId(id)) >= 0; },
   isPersistent: function(){ readIds(); return storageOK; },
-  add: function(id){ var ids=readIds(); if(ids.indexOf(id)<0){ ids.push(id); return writeIds(ids); } return storageOK; },
-  remove: function(id){ return writeIds(readIds().filter(function(x){return x!==id;})); },
+  add: function(id){ id=savedId(id); var ids=readIds(); if(ids.indexOf(id)<0){ ids.push(id); return writeIds(ids); } return storageOK; },
+  remove: function(id){ id=savedId(id); return writeIds(readIds().filter(function(x){return x!==id;})); },
   toggle: function(id){ if(Saved.has(id)){ Saved.remove(id); return false; } Saved.add(id); return true; },
   clear: function(){ return writeIds([]); },
   onChange: function(fn){ listeners.push(fn); }
@@ -185,9 +195,10 @@ window.addEventListener('storage', function(e){
 });
 
 /* ─────────── status announcements ─────────── */
+var dialogStack = [];
 /* A modal dialog makes the rest of the page inert, so a live region outside it is not announced while it is
    open. Each dialog carries its own status region (added when it is wired, so it exists before any message);
-   messages go to the region of the open dialog, or to the page's region when no dialog is open. */
+   messages go to the most recently opened dialog, or to the page's region when no dialog is open. */
 function statusRegion(host){
   var el = host.querySelector('.dlg-status');
   if(!el){
@@ -198,7 +209,8 @@ function statusRegion(host){
   return el;
 }
 function announce(msg){
-  var open = document.querySelectorAll('dialog[open]'), host = open.length ? open[open.length-1] : null;
+  dialogStack = dialogStack.filter(function(dlg){return dlg.open;});
+  var host = dialogStack.length ? dialogStack[dialogStack.length-1] : null;
   var el = host ? statusRegion(host) : document.getElementById('srStatus'); if(!el) return;
   el.textContent = ''; setTimeout(function(){ el.textContent = msg; }, 40);
 }
@@ -397,9 +409,14 @@ function resetDialogScroll(dlg){
   });
 }
 function openDialog(dlg, opener){
+  var wasOpen = dlg.open;
   if(!dlg.open) dlg._opener = opener || document.activeElement;
   if(typeof dlg.showModal === 'function'){ if(!dlg.open) dlg.showModal(); }
   else { dlg.setAttribute('open',''); }
+  if(!wasOpen){
+    dialogStack = dialogStack.filter(function(open){return open.open && open!==dlg;});
+    dialogStack.push(dlg);
+  }
   var t = dlg.querySelector('[data-dlg-title]'); if(t){ t.setAttribute('tabindex','-1'); t.focus({preventScroll:true}); }
   // Reset only after showModal and focus: a hidden dialog has no usable scroll layout.
   resetDialogScroll(dlg);
@@ -489,7 +506,7 @@ function renderSaved(){
   }
   var h = storageNotice(true)+'<ol class="saved-list">';
   ids.forEach(function(id){
-    /* an idea saved under an earlier edition's identifier is still shown (and removed by that identifier) */
+    /* readIds normalizes earlier-edition identifiers before rendering or changing saved state. */
     var a = BYID[id] || BYID[ALIAS[id]];
     if(!a){
       h += '<li class="saved-item"><div class="saved-item__t">A use-case idea that is no longer in the collection</div>'+

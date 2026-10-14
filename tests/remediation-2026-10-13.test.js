@@ -72,6 +72,52 @@ pass('data: student input, accounts, U.S. Government label, change notes, attrib
     assert.equal(await p.evaluate(()=>getComputedStyle(document.getElementById('printRoot')).display),'none');
     pass('the browser’s Print command while an idea is open prints that idea with its license and attribution');
 
+    // Earlier-edition IDs and current IDs represent one saved idea in both tools, including after reload.
+    const aliased=D.acts.find(a=>(a.al||[]).length),legacy=aliased.al[0],missing='unavailable-pr23-test';
+    for(const file of ['what-if-ai.html','register.html']){
+      await go(file);
+      await p.evaluate(({legacy,id,missing})=>localStorage.setItem('lul-whatifai-saved-v1',JSON.stringify([legacy,id,legacy,missing,missing,42])),{legacy,id:aliased.id,missing});
+      await p.reload();await ready(p);
+      assert.deepEqual(await p.evaluate(()=>SITE.Saved.ids()),[aliased.id,missing],file+': aliases and duplicates normalize; unavailable ideas are retained');
+      assert.ok(await p.evaluate(legacy=>SITE.Saved.has(legacy),legacy),file+': an alias is saved');
+      await p.locator('[data-open-saved]:visible').first().click();
+      assert.equal(await p.locator('#savedBody .saved-item').count(),2);
+      await p.locator('#savedBody [data-open]').click();
+      assert.equal(await p.locator('#actDialog [data-save]').getAttribute('aria-pressed'),'true');
+      await p.locator('#actDialog [data-save]').click();
+      assert.deepEqual(await p.evaluate(()=>SITE.Saved.ids()),[missing],file+': toggling the current ID removes the legacy save');
+      await p.evaluate(({legacy,id})=>{SITE.Saved.add(legacy);SITE.Saved.add(id);},{legacy,id:aliased.id});
+      assert.deepEqual(await p.evaluate(()=>JSON.parse(localStorage.getItem('lul-whatifai-saved-v1'))),[missing,aliased.id]);
+      await p.evaluate(legacy=>SITE.Saved.remove(legacy),legacy);
+      assert.deepEqual(await p.evaluate(()=>SITE.Saved.ids()),[missing],file+': removing by alias removes the current ID');
+      await p.evaluate(()=>SITE.Saved.clear());
+    }
+    pass('legacy saves normalize in both tools: correct count and pressed state, no duplicates, alias removal, unavailable IDs retained');
+
+    // A details dialog opened from Saved is above the drawer despite occurring first in the DOM.
+    for(const file of ['what-if-ai.html','register.html']){
+      await go(file);
+      await p.evaluate(id=>SITE.Saved.add(id),aliased.id);
+      await p.locator('[data-open-saved]:visible').first().click();
+      await p.locator('#savedBody [data-open]').click();
+      await p.locator('#actDialog [data-save]').click();
+      await p.waitForFunction(()=>document.querySelector('#actDialog .dlg-status').textContent.includes('Removed from saved:'));
+      assert.equal(await p.locator('#savedDrawer .dlg-status').textContent(),'');
+      if(file==='register.html'){
+        await p.evaluate(()=>Object.defineProperty(navigator,'clipboard',{value:{writeText:()=>Promise.resolve()},configurable:true}));
+        await p.locator('#actDialog [data-copy-act]').click();
+        await p.waitForFunction(()=>document.querySelector('#actDialog .dlg-status').textContent==='Link to this use-case idea copied.');
+        assert.equal(await p.locator('#savedDrawer .dlg-status').textContent(),'');
+      }
+      await p.keyboard.press('Escape');await p.waitForSelector('#actDialog',{state:'hidden'});
+      await p.evaluate(()=>SITE.announce('Drawer is active.'));
+      await p.waitForFunction(()=>document.querySelector('#savedDrawer .dlg-status').textContent==='Drawer is active.');
+      await p.keyboard.press('Escape');await p.waitForSelector('#savedDrawer',{state:'hidden'});
+      await p.evaluate(()=>SITE.announce('Page is active.'));
+      await p.waitForFunction(()=>document.getElementById('srStatus').textContent==='Page is active.');
+    }
+    pass('nested dialogs announce saves and copies in the top modal, then return announcements to the drawer and page');
+
     // no sideways scrolling at 320 px for ideas with long attribution addresses
     await p.setViewportSize({width:320,height:700});
     const long=D.acts.filter(a=>/\S{70,}/.test(a.attr||'')).slice(0,6).map(a=>a.id);

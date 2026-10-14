@@ -173,4 +173,15 @@ The ones with the widest effect are:
 - **Unreadable sources.** For CAN-W-lis-020, CAN-A2-A-011, CAN-A2-A-009/-010 (Wang & Cai), and the Anders (2026) book, change notes rest on abstracts or metadata and say so.
 - **Dropped source requirements.** Several ideas omit requirements the source sets, such as a consent form, an equity check, aggregate-only data, or an AI-use acknowledgment. Their change notes disclose the omission, and the library may restore them.
 
-These corrections were made on the branch `audit-fixes-2026-10-13`; nothing has been merged or deployed.
+## PR #23 review follow-up (October 14)
+
+Two code-review findings were reproduced in the saved-idea and dialog logic and corrected before release:
+
+- Saved selections normalize earlier-edition aliases to current identifiers and remove duplicates. Both identifiers refer to the same saved state when checking, adding, removing, or toggling an idea. Unavailable identifiers remain in the drawer so readers can remove them. Writes store the normalized list; reading alone does not rewrite browser storage.
+- Status announcements follow dialog opening order. When an idea opens above the Saved drawer, save and copy-link messages go to the idea's live region. Closing it returns announcements to the drawer, then to the page when the drawer closes.
+
+The browser regression checks in `tests/remediation-2026-10-13.test.js` cover both tools, duplicate legacy/current saves, unavailable identifiers, saved-button state, alias removal, nested-dialog save/copy announcements, and announcement routing after each dialog closes. These checks verify live-region placement in the browser, not actual speech output from a screen reader.
+
+The 428 library decisions above remain open; the technical follow-up does not resolve source, rights, content, or policy questions.
+
+These corrections are prepared on `audit-fixes-2026-10-13`. Merging PR #23 to `main` triggers the tested GitHub Pages release; this document alone does not establish deployment status.
