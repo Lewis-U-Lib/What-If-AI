@@ -17,13 +17,13 @@ async function ready(p){await p.waitForSelector('html[data-ready]',{state:'attac
  const server=await start({dir:SITE}),browser=await engines[process.env.AUDIT_BROWSER||'chromium'].launch();
  try{
   for(const na of [undefined,'','  \n ',false,true,[]])assert.equal(M.requirement({op:'students',na},'noai'),'excluded');
-  const cost=D.acts.filter(a=>a.eq==='no_tool_needed'&&a.op==='faculty_or_staff');assert.equal(cost.length,44);
+  const cost=D.acts.filter(a=>a.eq==='no_tool_needed'&&a.op==='faculty_or_staff');assert.equal(cost.length,46);
   for(const a of cost)for(const k of ['nopaid','noaccount','noapproval'])assert.notEqual(M.requirement(a,k),'confirmed',a.id+': '+k);
   const optional=D.acts.find(a=>a.id==='CAN-A2-A-097');assert.equal(optional.op,'optional');assert.ok(optional.na.trim());
   assert.equal(M.requirement(optional,'noai'),'confirmed');
   assert.equal(M.requirement(optional,'nostudent'),'excluded');
   assert.equal(M.requirement(optional,'nodisclose'),'excluded');
-  pass('route validation and all 44 preparation candidates stay conservative; optional participation preserves other restrictions');
+  pass('route validation and all 46 preparation candidates stay conservative; optional participation preserves other restrictions');
   const ctx=await createContext(browser,{viewport:{width:1280,height:900},reducedMotion:'reduce'}),p=await ctx.newPage();
   const errors=[];p.on('pageerror',e=>errors.push(e.message));
   const go=async(file,hash='')=>{await p.goto('about:blank');await p.goto(server.url(file+hash));await ready(p);};
@@ -69,7 +69,8 @@ async function ready(p){await p.waitForSelector('html[data-ready]',{state:'attac
    const persistent=mode==='normal';
    assert.equal(await q.evaluate(()=>SITE.Saved.isPersistent()),persistent);
    assert.equal(await q.locator('#actDialog [data-save] .save__txt').innerText(),persistent?'Saved':'Saved temporarily');
-   assert.match(await q.locator('#srStatus').textContent(),persistent?/Saved:/:/Saved temporarily in this tab/);
+   // status goes to the open dialog's own live region (the page region is inert while a modal dialog is open)
+   assert.match(await q.locator('#actDialog .dlg-status').textContent(),persistent?/Saved:/:/Saved temporarily in this tab/);
    if(!persistent){
     assert.ok(await q.locator('#actDialog [data-storage-warning]').isVisible());
     assert.deepEqual((await new AxeBuilder({page:q}).include('#actDialog').withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze()).violations,[]);
@@ -86,7 +87,7 @@ async function ready(p){await p.waitForSelector('html[data-ready]',{state:'attac
   await go('register.html','#act='+ID);await p.evaluate(id=>SITE.Saved.add(id),ID);
   await p.evaluate(()=>{window.__saveSet=Storage.prototype.setItem;Storage.prototype.setItem=function(){throw new Error('blocked');};});
   await p.locator('#actDialog [data-save]').click();await p.waitForTimeout(100);
-  assert.match(await p.locator('#srStatus').textContent(),/storage is unavailable/i);
+  assert.match(await p.locator('#actDialog .dlg-status').textContent(),/storage is unavailable/i);
   assert.equal(await p.evaluate(key=>JSON.parse(localStorage.getItem(key)).includes('CAN-L-014'),KEY),true);
   await p.evaluate(()=>{Storage.prototype.setItem=window.__saveSet;SITE.Saved.add('CAN-L-014');});
   assert.equal(await p.evaluate(()=>SITE.Saved.isPersistent()),true);
@@ -133,7 +134,8 @@ async function ready(p){await p.waitForSelector('html[data-ready]',{state:'attac
   await badCtx.close();pass('unsafe external-link fixtures are never rendered as executable links');
   assert.deepEqual(errors,[]);await ctx.close();
   // Fixed byte budgets catch material growth; network timing remains an observation, not a portable promise.
-  for(const [file,budget] of [['what-if-ai.html',1250000],['register.html',1450000]]){
+  // Raised on 2026-10-13 for the source-checked change notes and attribution lines (+~170 KB compressed).
+  for(const [file,budget] of [['what-if-ai.html',1450000],['register.html',1650000]]){
    const log=[],s=await start({dir:SITE,log}),c=await createContext(browser),q=await c.newPage();
    await q.goto(s.url(file));await ready(q);await q.waitForTimeout(200);
    const paths=[...new Set(log.map(x=>x.path))];

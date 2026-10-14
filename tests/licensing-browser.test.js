@@ -63,11 +63,11 @@ const SITE = path.join(ROOT, '_site'), license = cfg.tool_license;
         return {licenses:representatives.map(a=>a.lic), rendered:[...document.querySelectorAll('#printRoot [data-entry-license]')].map(e=>e.textContent),
           footer:document.querySelector('#printRoot .pr-foot').textContent, scopes:document.querySelectorAll('#printRoot [data-entry-license-scope]').length};
       });
-      assert.equal(printed.licenses.length,18); assert.equal(printed.scopes,18);
+      assert.equal(printed.licenses.length,17); assert.equal(printed.scopes,17);
       printed.licenses.forEach((value,i)=>assert.ok(printed.rendered[i].includes(value), value));
       assert.ok(printed.footer.includes(license.label) && printed.footer.includes(license.exceptions));
       assert.ok(!printed.footer.includes('collection is licensed CC BY-NC-SA'));
-      console.log('PASS: '+file+' preserves each license, source statement, deed, attribution, and scope across 2,066 entry views and an 18-license saved printout.');
+      console.log('PASS: '+file+' preserves each license, source statement, deed, attribution, and scope across 2,066 entry views and a 17-license saved printout.');
     }
     await page.goto(server.url('register.html#sources')); await page.waitForSelector('html[data-ready]');
     const sources = await page.evaluate(() => window.SITE_DATA.register.works.map(w=>({id:w.id,ok:!w.lic || document.getElementById('src-'+w.id)?.textContent.includes('License: '+w.lic)})));

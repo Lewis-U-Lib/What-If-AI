@@ -74,9 +74,9 @@ function filtersHTML(){
   h += selectField('f-cap','Kind of AI tool','cap', counted(caps,'cap'));
   h += selectField('f-pol','Course AI policy it assumes','pol', counted(pols,'pol'));
   h += '<fieldset class="field field--bare"><legend class="label">Requirements</legend>'+
-    '<label class="check"><input type="checkbox" data-fc="cost"'+(F.cost?' checked':'')+'> No cost to participants</label>'+
+    '<label class="check"><input type="checkbox" data-fc="cost"'+(F.cost?' checked':'')+'> Nothing anyone has to pay for</label>'+
     '<label class="check"><input type="checkbox" data-fc="noai"'+(F.noai?' checked':'')+'> Students use no AI tool</label>'+
-    '<label class="check"><input type="checkbox" data-fc="nostudent"'+(F.nostudent?' checked':'')+'> Keeps student work out of AI tools</label>'+
+    '<label class="check"><input type="checkbox" data-fc="nostudent"'+(F.nostudent?' checked':'')+'> Nothing students wrote goes into a tool</label>'+
     '<label class="check"><input type="checkbox" data-fc="open"'+(F.open?' checked':'')+'> Source items open to adapt</label></fieldset>';
   h += '<details'+((F.role||F.move||F.op)?' open':'')+'><summary>How the AI and people divide the work</summary>'+
     selectField('f-op','Who uses an AI tool','op', counted(ops,'op'))+
@@ -100,7 +100,7 @@ function matches(a){
   if(F.cost && FINDER_MATCH.requirement(a,'nopaid')!=='confirmed') return false;
   if(F.op && a.op!==F.op) return false;
   if(F.noai && S_.noToolForStudents(a)!=='confirmed') return false;
-  if(F.nostudent && ['none','research_participant_deidentified'].indexOf(a.sen)<0) return false;
+  if(F.nostudent && FINDER_MATCH.requirement(a,'nostudent')!=='confirmed') return false;
   if(F.open && a.sa) return false;
   if(F.type && TYPE_IDS[F.type] && TYPE_IDS[F.type].ids.indexOf(a.id)<0) return false;
   if(F.q){
@@ -130,9 +130,9 @@ function chipLabel(k){
     case 'role': return L.role[v];
     case 'move': return L.move[v];
     case 'op': return 'Who uses an AI tool: '+S_.operatorLabel(v);
-    case 'cost': return 'No cost to participants';
+    case 'cost': return 'Nothing anyone has to pay for';
     case 'noai': return 'Students use no AI tool';
-    case 'nostudent': return 'Keeps student work out of AI tools';
+    case 'nostudent': return 'Nothing students wrote goes into a tool';
     case 'open': return 'Source items open to adapt';
     case 'type': return (TYPE_IDS[v]||{}).name;
   }
@@ -145,6 +145,15 @@ function worksMatching(q){
     var hay = (w.cit+' '+w.t+' '+w.a+' '+w.y+' '+w.id).toLowerCase();
     return words.every(function(x){ return hay.indexOf(x)>=0; });
   });
+}
+/* With "Students use no AI tool" on, an idea whose main design has students (or unnamed people) operating AI
+   qualifies only through its stated route without AI. Say so on the card, as What If AI does. */
+function firstSentence(t){ var m=/^[\s\S]*?[.!?](?=\s|$)/.exec(String(t||'').trim()); return m?m[0]:String(t||'').trim(); }
+function cardWithNote(a){
+  var html = S_.cardHTML(a,{h:3});
+  if(F.noai && a.na && ['faculty_or_staff','optional','none'].indexOf(a.op)<0)
+    html = html.replace('<div class="acard__foot','<div class="match-note"><p><strong>Qualifies through its route without AI:</strong> '+esc(firstSentence(a.na))+'</p></div><div class="acard__foot');
+  return html;
 }
 function resultsHTML(){
   var list = filtered();
@@ -161,7 +170,7 @@ function resultsHTML(){
     return h + '<div class="empty"><strong>No use-case ideas match these filters</strong><p>Try removing a filter, or use What If AI to describe what you are working on.</p>'+
       '<button type="button" class="btn" id="resetFilters2">Clear all filters</button></div>';
   }
-  h += '<div class="cards">'+list.slice(0, shown).map(function(a){ return S_.cardHTML(a,{h:3}); }).join('')+'</div>';
+  h += '<div class="cards">'+list.slice(0, shown).map(cardWithNote).join('')+'</div>';
   if(list.length > shown) h += '<div class="more"><button type="button" class="btn" id="moreActs">Show '+Math.min(PAGE, list.length-shown)+' more</button></div>';
   return h;
 }
@@ -245,7 +254,12 @@ typeDialog.addEventListener('close', function(){
 });
 
 function typeActivityLink(t){
-  if(t.key==='noai') return '<a class="btn btn--sm" data-type-activities href="#activities?noai=1">See '+R.types.no_ai.n+' use-case ideas where students use no AI tool</a>';
+  if(t.key==='noai'){
+    /* the entry describes teaching choices, so it opens the teaching ideas only (administrative and research
+       ideas without student participants also have no student AI use, but are not what the entry describes) */
+    var nTeach = A.filter(function(a){ return a.focus==='teaching' && S_.noToolForStudents(a)==='confirmed'; }).length;
+    return '<a class="btn btn--sm" data-type-activities href="#activities?focus=teaching&noai=1">See '+nTeach+' teaching use-case ideas where students use no AI tool</a>';
+  }
   if(t.ids && t.ids.length) return '<a class="btn btn--sm" data-type-activities href="#activities?type='+t.key+'">See '+t.n+' related use-case idea'+(t.n===1?'':'s')+'</a>';
   if(t.caps && t.caps.length && t.n) return '<a class="btn btn--sm" data-type-activities href="#activities?cap='+t.caps[0]+'">See '+t.n+' related use-case idea'+(t.n===1?'':'s')+'</a>';
   return '';

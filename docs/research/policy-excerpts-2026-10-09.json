@@ -1,7 +1,7 @@
 {
   "accessed": "2026-10-09",
   "source_tab": "Policies",
-  "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179",
+  "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=0",
   "normalization": "Whitespace only; source wording and punctuation retained. Ellipses mark leading, intervening, and trailing omissions.",
   "csv_sha256": "1341866c0c3196a878bdb605e0b6a660b7472fa6156471641397f88aa9741249",
   "examples": [
@@ -290,11 +290,11 @@
       "source_text_sha256": "4876c3c45d7dde62cfd8efa29472ea76df8dad05ff3d434ca109e9b81bac5ffb",
       "ranges": [
         [
-          377,
-          668
+          700,
+          1079
         ]
       ],
-      "quote": "… Students are not allowed to use advanced automated tools (artificial intelligence or machine learning tools such as ChatGPT or Dall-E 2) on assignments in this course. Each student is expected to complete each assignment without substantive assistance from others, including automated tools. …",
+      "quote": "… Students are allowed to use advanced automated tools (artificial intelligence or machine learning tools such as ChatGPT or Dall-E 2) on assignments in this course if instructor permission is obtained in advance. Unless given permission to use those tools, each student is expected to complete each assignment without substantive assistance from others, including automated tools. …",
       "previous_display": {
         "course": "Sample statement: “use only with prior permission”",
         "inst": "University of Delaware",
@@ -311,7 +311,8 @@
         "source_row": 132,
         "accessed": "2026-10-09",
         "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A132:F132"
-      }
+      },
+      "correction_2026_10_13": "The 2026-10-09 display quoted the \"Use prohibited\" statement (characters 377–668) under the label \"Use only with prior permission\". The range now selects the permission statement that follows that heading, as the earlier display did."
     },
     {
       "contributor": "Aycan Kara",
@@ -853,5 +854,6 @@
         "source_url": "https://docs.google.com/spreadsheets/d/1lM6g4yveQMyWeUbEwBM6FZVxEWCLfvWDh1aWUErWWbQ/edit#gid=368226179&range=A171:F171"
       }
     }
-  ]
+  ],
+  "source_url_note": "Corrected 2026-10-13: the Policies tab is gid=0; gid=368226179 is not a tab in this workbook."
 }

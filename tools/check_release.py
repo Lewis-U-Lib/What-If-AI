@@ -108,6 +108,8 @@ def check(data_dir):
             errors.append(f"{key}: AI operator and capabilities disagree")
         if "none_required" in a["cap"] and len(a["cap"]) != 1:
             errors.append(f"{key}: no-tool capability cannot be combined with a tool")
+        if a["op"] == "students" and a["sen"] == "none":
+            errors.append(f"{key}: students operate a tool, so something students wrote goes into it; the input category cannot say nothing student-written goes in")
         if a.get("ar") == "withheld" and a["op"] == "students":
             errors.append(f"{key}: no-tool role conflicts with student operation")
         if "sa" in a and (a["sa"] not in {"not_open", "unmodified", "restricted"} or

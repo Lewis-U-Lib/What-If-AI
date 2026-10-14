@@ -1,11 +1,11 @@
 {
   "contract": 2,
-  "release": "e585e8135279",
-  "built": "2026-10-09",
+  "release": "5fb0a19800a9",
+  "built": "2026-10-14",
   "source": {
     "repo": "Lewis-U-Lib/What-If-AI",
-    "commit": "d2545fa7108b2c38e7383a6414739d681558e013",
-    "description": "Public collection with source-checked October 9 audit corrections; see dated policy excerpt snapshot and remediation record."
+    "commit": "c86a610c9e7122a5e7fe3047f1de3fd21f90724f",
+    "description": "Public collection with the October 13 corrections: source-checked change notes, prompt checks, requirement metadata, attribution lines, and license corrections; see docs/AUDIT_REMEDIATION_2026-10-13.md."
   },
   "counts": {
     "activities": 1033,
@@ -13,12 +13,12 @@
   },
   "files": {
     "acts.json": {
-      "bytes": 4103021,
-      "sha256": "de5828595e86df11dde697be23f4d476d263a1da8c270dc0748a7e50fe17931f"
+      "bytes": 4874201,
+      "sha256": "96f6ddc29e5c80dd10fab10e8f24498aed331f251a3f021f98458cf2ac4848cd"
     },
     "register.json": {
-      "bytes": 561000,
-      "sha256": "095514191b3591d2854878edd1baf149811cd2825f07ea78cb00731af76dd49a"
+      "bytes": 561321,
+      "sha256": "1c1746f2859f46d4270eb194e92e0ecdffd589402e741a5639397334aafaf03b"
     },
     "guide.json": {
       "bytes": 8327,

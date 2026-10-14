@@ -33,6 +33,9 @@
       return has(['faculty_or_staff','optional','none'],v)?'confirmed':'unknown';
     }
     if(key==='nostudent'){
+      /* students who operate a tool type, paste, or upload something into it, so nothing students
+         wrote can be said to stay out of it, whatever else the input category records */
+      if(a.op==='students') return 'excluded';
       v=a.sen;
       /* information derived from students' own writing, even de-identified, still needs checking */
       if(!v || v==='not_specified' || v==='student_derived_deidentified') return 'unknown';

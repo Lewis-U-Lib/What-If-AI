@@ -38,6 +38,8 @@ assert.equal(M.requirement({...fixture,op:'students',cap:['none_required']},'noa
 // Information derived from students' writing, even de-identified, is not a confirmed absence of student work.
 assert.equal(M.requirement({...fixture,sen:'student_derived_deidentified'},'nostudent'),'unknown');
 for(const sen of ['none','research_participant_deidentified'])assert.equal(M.requirement({...fixture,sen},'nostudent'),'confirmed');
+// students who operate a tool put something they wrote into it, whatever the input category says
+for(const sen of ['none','research_participant_deidentified'])assert.equal(M.requirement({...fixture,op:'students',sen},'nostudent'),'excluded');
 for(const sen of ['student_work','identifiable_student_data','own_personal_data'])assert.equal(M.requirement({...fixture,sen},'nostudent'),'excluded');
 for(const [k,field] of [['nopaid','eq'],['nostudent','sen'],['nodisclose','dis']]){
   for(const v of [undefined,'not_specified'])assert.equal(M.requirement({...fixture,[field]:v},k),'unknown');

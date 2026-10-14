@@ -55,14 +55,14 @@ requirements before considering” group. Its card names each requirement to che
 | Limit | Confirmed under the current release | Excluded | Unknown |
 |---|---|---|---|
 | My students won’t use an AI tool themselves (`noai`) | A nonempty `na` route, or `op` of `faculty_or_staff`, `optional`, or `none` | `op: students` with no `na` route | `op: not_specified` or missing, with no `na` route |
-| No student-authored input | `none`, `research_participant_deidentified` sensitivity | Other recorded sensitivity categories | Missing or `not_specified` sensitivity, or `student_derived_deidentified` (information derived from students' own writing still needs checking) |
+| Nothing my students wrote goes into a tool (`nostudent`) | `none`, `research_participant_deidentified` sensitivity, when students do not operate the tool | `op: students` (students type, paste, or upload into the tool); other recorded sensitivity categories | Missing or `not_specified` sensitivity, or `student_derived_deidentified` (information derived from students' own writing still needs checking) |
 | No payment | `no_tool_needed`, `free_tier`, `institution_provided`, unless the source item is `sa: restricted` or the preparation exception below applies | `paid_required`; `paid_with_stated_alternative` under the existing route contract | Missing, unspecified, or unrecognized cost; restricted source access; or instructor preparation with unverified access |
 | No account | `pc: none`, except unverified instructor preparation below | `account_verification` | Every other prerequisite category; unverified instructor preparation |
 | No equipment/travel/purchases | `pc: none`, unless the source item is `sa: restricted` | `equipment_required`, `travel_or_attendance`, `purchased_material` | Every other prerequisite category; or `pc: none` on a record whose source item is `sa: restricted` |
 | No formal disclosure | `none_required`, `informal_acknowledgement`, `documented_log`, `anonymity_by_design` | `formal_statement` | Missing, unspecified, or unrecognized disclosure |
 | No approval | `pc: none`, except unverified instructor preparation below | `institutional_approval_required` | Every other prerequisite category; unverified instructor preparation |
 
-The 44 records combining `no_tool_needed` and `faculty_or_staff` do not establish the
+The 46 records combining `no_tool_needed` and `faculty_or_staff` do not establish the
 instructor's tool cost, account, or approval requirements. These three requirements stay
 unknown (unless explicitly excluded) pending source and local-access review. Both tools
 use the same no-payment rule. Their labels distinguish student participation from
@@ -72,7 +72,7 @@ instructor preparation; institutional access still needs local confirmation.
 item, as published and by link, that is not openly licensed. Only `restricted` (the item needs a
 purchase, membership, subscription, or permission first) affects matching: such a record is never
 a confirmed fit for the payment or purchase limits, so it appears among the activities to check.
-The Register's **No cost to participants** requirement applies the same test. `not_open` and
+The Register's **Nothing anyone has to pay for** requirement applies the same test. `not_open` and
 `unmodified` change no limit; the card and page say what they mean.
 
 `op` (who operates an AI tool) is recorded on every public idea.
@@ -85,6 +85,8 @@ its route without AI (students operate the tool in the main design, or the recor
 say who does), the card says “Qualifies through its route without AI” with the route's first
 sentence. Every card shows **Who uses AI**. `tests/data-integration.test.js` checks the rule's
 result for every published activity against the reviewed values.
+
+Since the October 13 corrections, every idea in which students operate a tool records what goes into it (`sen` is never `none` when `op` is `students`; `tools/check_release.py` enforces this), and the matcher also excludes `op: students` for this limit. Where students operate a free-tier tool and nothing establishes whether an account is needed, `pc` is `not_specified`, so the account, equipment, and approval limits show such ideas under "Check requirements" rather than as confirmed. The Register's **Nothing anyone has to pay for** and **Nothing students wrote goes into a tool** filters use the same requirement rules as What If AI, and its cards show the route note when **Students use no AI tool** admits an idea through its route without AI.
 
 `pc` is a single legacy prerequisite category. For example, `human_checking_required`
 does not establish whether an account, equipment, or approval is also necessary. Treat
