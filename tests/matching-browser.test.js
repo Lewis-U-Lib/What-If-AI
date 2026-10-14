@@ -30,7 +30,11 @@ async function shot(p,name){if(SHOTS){fs.mkdirSync(SHOTS,{recursive:true});await
   await go('#a=focus:teaching;task:assessment;disc:humanities;depth:module;lvl:firstyear;mod:in_person');
   assert.ok(await p.locator('[data-match-group="compatible"] [data-card="CAN-B-ASMT-01"]').isVisible());
   assert.equal(await p.locator('[data-match-group="exact"] [data-card="CAN-B-ASMT-01"]').count(),0);
+  const detailBase=p.url();
   await p.locator('[data-card="CAN-B-ASMT-01"] [data-open]').click();await p.keyboard.press('Escape');
+  // Closing restores focus before the asynchronous history traversal finishes. Let Back settle
+  // before starting the next case so it cannot interrupt that case's navigation.
+  await p.waitForURL(detailBase);await tick(p);
   assert.ok(await p.locator('[data-card="CAN-B-ASMT-01"] [data-open]').evaluate(n=>n===document.activeElement));
   // A valid but sparse preference set gets a visible recovery state, never a false claim of fit.
   await go('#a=focus:research_own;task:creative;disc:arts;depth:grant_proposal;lvl:grad;mod:hybrid;lim:nopaid');

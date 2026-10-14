@@ -182,6 +182,8 @@ Two code-review findings were reproduced in the saved-idea and dialog logic and 
 
 The browser regression checks in `tests/remediation-2026-10-13.test.js` cover both tools, duplicate legacy/current saves, unavailable identifiers, saved-button state, alias removal, nested-dialog save/copy announcements, and announcement routing after each dialog closes. These checks verify live-region placement in the browser, not actual speech output from a screen reader.
 
+The matching browser test now waits for the dialog's asynchronous Back navigation before starting its next case. A local full-suite run exposed that test timing race; the wait preserves the focus and routing assertions.
+
 The 428 library decisions above remain open; the technical follow-up does not resolve source, rights, content, or policy questions.
 
 These corrections are prepared on `audit-fixes-2026-10-13`. Merging PR #23 to `main` triggers the tested GitHub Pages release; this document alone does not establish deployment status.
