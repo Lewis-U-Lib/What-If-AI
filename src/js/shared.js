@@ -99,6 +99,18 @@ function lines(s){ return String(s||'').split('\n').filter(function(x){ return x
 function taskLabel(v, focus){ var o=(D.task_labels||{})[focus]||{}; return o[v] || lab(IN.task, v) || pretty(v); }
 function depthLabel(v){ return lab(IN.depth, v) || pretty(v); }
 function discLabel(v){ return lab(IN.disc, v) || ''; }
+/* a few use-case ideas carry only field codes; show them as words */
+var FIELD_LABELS = {discipline_general:'Any discipline', business_management:'business and management', computer_science:'computer science',
+  data_science_ml:'data science and machine learning', english_composition_rhetoric:'English composition and rhetoric',
+  environmental_science:'environmental science', health_informatics:'health informatics', journalism_media:'journalism and media',
+  library_information_science:'library and information science', research_and_scholarly_practice:'research and scholarly practice',
+  tvet_professional:'technical and vocational education (TVET)'};
+function fieldLabel(v){
+  v = String(v||'');
+  if(!/^[a-z_]+(, [a-z_]+)*$/.test(v)) return v;
+  var s = v.split(', ').map(function(k){ return FIELD_LABELS[k] || pretty(k); }).join(', ');
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
 function lvlLabel(v){ return v==='any' ? 'Any level' : (lab(IN.lvl, v) || pretty(v)); }
 function modLabel(v){ return v==='any' ? 'Any setting' : (lab(IN.mod, v) || pretty(v)); }
 function capsShort(a){ return (a.cap||[]).map(function(c){ return L.cap[c]||pretty(c); }).join(', '); }
@@ -113,7 +125,8 @@ var FAMILY_LABELS = {
   "Style, Genre and Language Through AI Imitation": "Style, Genre, and Language Through AI Imitation",
   "Verifying AI Output: Facts, Sources and Fabrication": "Verifying AI Output: Facts, Sources, and Fabrication",
   "Visual, Multimodal and Performance Making": "Visual, Multimodal, and Performance Making",
-  "AI in the Writing Process: Invention, Feedback and Revision": "AI in the Writing Process: Invention, Feedback, and Revision"
+  "AI in the Writing Process: Invention, Feedback and Revision": "AI in the Writing Process: Invention, Feedback, and Revision",
+  "How Generative AI Works—and What It Can and Can't Do": "How Generative AI Works — and What It Can and Can’t Do"
 };
 function familyLabel(key){ return FAMILY_LABELS[key] || key; }
 function kickerOf(a){ return a.f ? familyLabel(a.f) : taskLabel((a.task||[])[0], a.focus); }
@@ -133,7 +146,7 @@ function howItWorks(a){
    critique:'participants judge what came back against a standard they already hold.',
    revise:'participants change their own work in light of what came back.',
    analyze_as_data:'participants treat what it produced as evidence about the tool.',
-   constrain:'participants set the limits of its use, or decide not to use it.'}[a.hm]||'';
+   constrain:'participants set the limits of its use or decide not to use it.'}[a.hm]||'';
   /* with the tool kept out, nothing "comes back" from it: these moves describe the work without it */
   if(a.ar==='withheld'){
     var without={produce_first:'participants produce their own version without it.',
@@ -283,7 +296,7 @@ function detailHTML(a, opts){
   if(a.st && L.stakes[a.st]) f += '<dt>Stakes</dt><dd>'+esc(L.stakes[a.st])+'</dd>';
   if(a.dl) f += '<dt>What is produced</dt><dd>'+esc(a.dl)+'</dd>';
   if(a.rf) f += '<dt>Reflection or assessment</dt><dd>'+esc(a.rf)+'</dd>';
-  var disc = discLabel(a.disc) || a.fld;
+  var disc = discLabel(a.disc) || fieldLabel(a.fld);
   if(disc) f += '<dt>Discipline</dt><dd>'+esc(disc)+'</dd>';
   f += '<dt>Level</dt><dd>'+esc((a.lvl||[]).map(lvlLabel).join(', ')||'Not stated')+'</dd>';
   f += '<dt>Setting</dt><dd>'+esc((a.mod||[]).map(modLabel).join(', ')||'Not stated')+'</dd>';
@@ -519,7 +532,7 @@ function renderSaved(){
       '<button type="button" class="btn btn--sm btn--quiet" data-unsave="'+esc(id)+'">Remove<span class="sr-only"> '+esc(a.t)+'</span></button></div></li>';
   });
   h += '</ol><p class="privacy">Your selection is kept in this browser only. There is no account, and your saved list is not sent to the library or anyone else.</p>';
-  h += '<div class="confirm" id="clearConfirm" hidden><p>Remove all '+ids.length+' saved use-case idea'+(ids.length===1?'':'s')+'?</p>'+
+  h += '<div class="confirm" id="clearConfirm" hidden><p>Remove '+(ids.length===1?'the saved use-case idea':'all '+ids.length+' saved use-case ideas')+'?</p>'+
        '<button type="button" class="btn btn--sm" id="clearYes">Remove all</button> '+
        '<button type="button" class="btn btn--sm btn--quiet" id="clearNo">Keep them</button></div>';
   box.innerHTML = h;
