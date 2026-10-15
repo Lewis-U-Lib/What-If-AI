@@ -327,7 +327,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   await go(page, 'register.html#activities');
   const regTotal = +(await page.textContent('#secnav [data-count="activities"]')).replace(/,/g, '');
   await go(page, 'what-if-ai.html#a='); await page.waitForTimeout(40);
-  const finderTotal = +((await page.textContent('#plan .browse')).match(/Browse all (\d+)/) || [])[1];
+  const finderTotal = +((await page.textContent('#plan .browse')).replace(/,/g, '').match(/Browse all (\d+)/) || [])[1];
   check('Both pages report the same activity total, derived from the published store', regTotal === ACTS.acts.length && finderTotal === ACTS.acts.length && ACTS.n === ACTS.acts.length && REGD.counts.activities === ACTS.acts.length,
     [regTotal, finderTotal, ACTS.n, REGD.counts.activities].join(' / '));
   const synthCls = ['original_synthesis', 'hybrid_synthesis'], tierKeys = (ACTS.tiers || []).map(t => t[0]);
@@ -349,10 +349,10 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   }
   await go(page, 'register.html#activities?set=remix');
   const remixCount = ACTS.acts.filter(a => a.tier === 'remix').length;
-  check('The Register: filtering by where an activity comes from returns the set', (await page.textContent('#actCount')).includes('of ' + remixCount) &&
+  check('The Register: filtering by where an activity comes from returns the set', (await page.textContent('#actCount')).includes('of ' + Number(remixCount).toLocaleString('en-US')) &&
     (await page.$$eval('#actResults [data-card] .acard__facts', d => d.every(x => x.textContent.includes('Remix set')))), remixCount + ' expected');
   await go(page, 'register.html#activities?set=licensed');
-  check('The Register: the licensed collection carries no set label', (await page.textContent('#actCount')).includes('of ' + ACTS.acts.filter(a => !a.tier).length) &&
+  check('The Register: the licensed collection carries no set label', (await page.textContent('#actCount')).includes('of ' + Number(ACTS.acts.filter(a => !a.tier).length).toLocaleString('en-US')) &&
     (await page.$$eval('#actResults [data-card] .acard__facts', d => d.every(x => !/ set · not yet tried/.test(x.textContent)))));
   // Who uses the AI tool, and the renamed No-AI option
   const OPS = Object.fromEntries(ACTS.operators.map(o => [o[0], o]));
@@ -369,12 +369,12 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
     await page.keyboard.press('Escape');
   }
   await go(page, 'register.html#activities?noai=1');
-  check('The Register: “Students use no AI tool” returns what the limit admits', (await page.textContent('#actCount')).includes('of ' + REGD.types.no_ai.n) &&
+  check('The Register: “Students use no AI tool” returns what the limit admits', (await page.textContent('#actCount')).includes('of ' + Number(REGD.types.no_ai.n).toLocaleString('en-US')) &&
     REGD.types.no_ai.n === ACTS.acts.filter(a => a.na || ['faculty_or_staff','optional','none'].includes(a.op)).length && !!(await page.$('.fchip[data-clear="noai"]')) && (await page.textContent('.fchip[data-clear="noai"]')).includes('Students use no AI tool'), REGD.types.no_ai.n + ' expected');
   await go(page, 'what-if-ai.html');
   await go(page, 'register.html#activities?op=none');
   const noneCount = ACTS.acts.filter(a => a.op === 'none').length;
-  check('The Register: filtering by who uses an AI tool returns the activities with that value', (await page.textContent('#actCount')).includes('of ' + noneCount) &&
+  check('The Register: filtering by who uses an AI tool returns the activities with that value', (await page.textContent('#actCount')).includes('of ' + Number(noneCount).toLocaleString('en-US')) &&
     (await page.$eval('#f-op', s => s.value)) === 'none' && (await page.textContent('.fchip[data-clear="op"]')).includes('No one'), noneCount + ' expected');
   await go(page, 'what-if-ai.html');   // a fresh load, so the checks below start with no filters
   const unknownId = 'UNKNOWN-ACTIVITY';
@@ -385,13 +385,13 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
 
   await go(page, 'register.html#activities');
   const cl = await page.textContent('#actCount');
-  check('The Register: activity count equals the published collection', cl.includes('of ' + ACTS.acts.length), cl.trim());
+  check('The Register: activity count equals the published collection', cl.includes('of ' + Number(ACTS.acts.length).toLocaleString('en-US')), cl.trim());
   await page.selectOption('#f-cap', 'image_generation');
   const want = ACTS.acts.filter(a => a.cap.includes('image_generation')).length;
-  check('The Register: filtering by kind of AI tool returns the right count', (await page.textContent('#actCount')).includes('of ' + want), want + ' expected');
+  check('The Register: filtering by kind of AI tool returns the right count', (await page.textContent('#actCount')).includes('of ' + Number(want).toLocaleString('en-US')), want + ' expected');
   check('The Register: an active filter can be removed from its chip', !!(await page.$('.fchip[data-clear="cap"]')));
   await page.click('.fchip[data-clear="cap"]');
-  check('The Register: removing the chip restores the full list', (await page.textContent('#actCount')).includes('of ' + ACTS.acts.length));
+  check('The Register: removing the chip restores the full list', (await page.textContent('#actCount')).includes('of ' + Number(ACTS.acts.length).toLocaleString('en-US')));
   // filters live in the address, survive an activity being opened and closed, and Back works
   await page.selectOption('#f-cap', 'image_generation'); await page.waitForTimeout(40);
   check('The Register: a filter change updates the address', /#activities\?cap=image_generation$/.test(page.url()), page.url().split('#')[1]);
@@ -399,7 +399,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   check('The Register: opening an activity gives it an address', /#act=/.test(page.url()));
   await page.keyboard.press('Escape');
   await page.waitForFunction(() => /^#activities/.test(location.hash), null, { timeout: 3000 }).catch(() => {});
-  check('The Register: closing it restores the filtered address and list', /#activities\?cap=image_generation$/.test(page.url()) && (await page.textContent('#actCount')).includes('of ' + want), page.url().split('#')[1]);
+  check('The Register: closing it restores the filtered address and list', /#activities\?cap=image_generation$/.test(page.url()) && (await page.textContent('#actCount')).includes('of ' + Number(want).toLocaleString('en-US')), page.url().split('#')[1]);
   const fback = await page.evaluate(() => document.activeElement && document.activeElement.hasAttribute('data-open'));
   check('The Register: focus returns to the activity\'s button, not the page heading', fback);
   await page.click('#actResults [data-open]'); await page.waitForTimeout(60);
@@ -407,7 +407,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   check('The Register: browser Back closes the activity and keeps the filters', !(await page.$eval('#actDialog', d => d.open)) && /cap=image_generation/.test(page.url()));
   await page.click('#secnav a[data-sec="policies"]'); await page.waitForTimeout(60);
   await page.goBack(); await page.waitForTimeout(100);
-  check('The Register: Back from another section returns to the filtered list', await page.isVisible('#h-activities') && (await page.textContent('#actCount')).includes('of ' + want));
+  check('The Register: Back from another section returns to the filtered list', await page.isVisible('#h-activities') && (await page.textContent('#actCount')).includes('of ' + Number(want).toLocaleString('en-US')));
   await page.goForward(); await page.waitForTimeout(100);
   check('The Register: Forward returns to that section', await page.isVisible('#h-policies'));
   await go(page, 'register.html#activities'); await page.click('.fchip[data-clear="cap"]').catch(() => {});
@@ -416,12 +416,12 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   check('The Register: the filter panel has no inner scrollbar and is not a fixed-height sticky box', fs1.ov === 'visible' && fs1.sh <= fs1.ch + 1 && fs1.pos === 'static' && fs1.mh === 'none', JSON.stringify(fs1));
   await go(page, 'register.html#activities?pol=open&cost=1');
   const want2 = ACTS.acts.filter(a => a.pol === 'open' && ['no_tool_needed', 'free_tier', 'institution_provided'].includes(a.eq) && a.sa !== 'restricted' && !(a.eq === 'no_tool_needed' && a.op === 'faculty_or_staff')).length;
-  check('The Register: a filtered address restores those filters', (await page.textContent('#actCount')).includes('of ' + want2), want2 + ' expected');
+  check('The Register: a filtered address restores those filters', (await page.textContent('#actCount')).includes('of ' + Number(want2).toLocaleString('en-US')), want2 + ' expected');
   await page.goto('about:blank'); await go(page, 'register.html#activities');
   await page.fill('#gq', 'debate');
   await page.waitForTimeout(400);
   const nSearch = ACTS.acts.filter(a => (a.t + ' ' + a.sum + ' ' + (a.cit || '') + ' ' + (a.cr || '') + ' ' + (a.fld || '') + ' ' + (a.f || '') + ' ' + a.id + ' ' + (a.al || []).join(' ')).toLowerCase().includes('debate')).length;
-  check('The Register: search finds activities', (await page.textContent('#actCount')).includes('of ' + nSearch), nSearch + ' expected');
+  check('The Register: search finds activities', (await page.textContent('#actCount')).includes('of ' + Number(nSearch).toLocaleString('en-US')), nSearch + ' expected');
   await page.click('#moreActs').catch(() => {});
   // AI system types
   await go(page, 'register.html#ai-types');
@@ -449,7 +449,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   await page.click('[data-open-type="image"]');
   await page.click('#aiTypeDialog a[href="#activities?cap=image_generation"]');
   await page.waitForTimeout(80);
-  check('The Register: "see activities" from a type lands on the filtered list', (await page.textContent('#actCount')).includes('of ' + want));
+  check('The Register: "see activities" from a type lands on the filtered list', (await page.textContent('#actCount')).includes('of ' + Number(want).toLocaleString('en-US')));
   // policies
   await go(page, 'register.html#policies');
   const tabs = await page.$$('#policies [role="tab"]');

@@ -69,7 +69,7 @@ pass('data: curly, paired, non-nested quotation marks; no doubled punctuation or
         return chip && chip.textContent.includes('Search: “' + q + '”');
       }, query);
       return p.evaluate(() => ({
-        total: Number(document.querySelectorAll('#actCount strong')[1].textContent),
+        total: Number(document.querySelectorAll('#actCount strong')[1].textContent.replace(/,/g, '')),
         ideas: [...document.querySelectorAll('#actResults .acard [data-open]')].map(el => el.getAttribute('data-open')),
         sources: [...document.querySelectorAll('#sources .src')].map(el => el.id)
       }));
@@ -107,6 +107,36 @@ pass('data: curly, paired, non-nested quotation marks; no doubled punctuation or
     assert.equal(missing.total, 0, 'all search words still need to match');
     assert.deepEqual(missing.sources, []);
     pass('Register ideas and sources match straight/curly quotation marks in both directions');
+
+    // counts read with a thousands separator; labels in a list read as one sentence
+    await p.goto('about:blank'); await p.goto(server.url('register.html#activities'));
+    await p.waitForSelector('#actCount');
+    const total = D.acts.length.toLocaleString('en-US');
+    assert.match(await p.locator('#actCount').innerText(), new RegExp('of ' + total + ' use-case ideas'));
+    assert.match(await p.locator('#activities').innerText(), new RegExp('All ' + total + ' use-case ideas in the collection'));
+    const multi = D.acts.find(a => (a.task || []).length > 1 && (a.lvl || []).length > 1);
+    assert.ok(multi, 'an idea with several tasks and levels');
+    await p.goto('about:blank'); await p.goto(server.url('register.html#act=' + encodeURIComponent(multi.id)));
+    await p.waitForSelector('#actDialog[open]');
+    const rows = await p.evaluate(() => Object.fromEntries([...document.querySelectorAll('#actDialog dt')].map(d => [d.textContent, d.nextElementSibling.textContent])));
+    assert.ok(!/; [A-Z][a-z]/.test(rows['Area of work']), 'Area of work: ' + rows['Area of work']);
+    assert.ok(!/, [A-Z][a-z]/.test(rows['Level']), 'Level: ' + rows['Level']);
+    assert.match(rows['AI tool needed'], /^[A-Z]/);
+    pass('counts use a thousands separator, and label lists read as one sentence (' + multi.id + ')');
+
+    // The results plan and saved badges use the same count format as the Register.
+    await p.evaluate(ids => localStorage.setItem('lul-whatifai-saved-v1', JSON.stringify(ids)), D.acts.map(a => a.id));
+    await p.goto('about:blank'); await p.goto(server.url('what-if-ai.html#a='));
+    await p.waitForSelector('#plan .browse a');
+    assert.ok((await p.locator('#plan .browse a').innerText()).includes('Browse all ' + total + ' use-case ideas'));
+    const visible = await p.locator('[data-match-group="exact"] [data-card]').count();
+    assert.ok((await p.locator('#moreExact').innerText()).includes('(' + (D.acts.length - visible).toLocaleString('en-US') + ' more)'));
+    const badges = await p.locator('[data-saved-count]').allTextContents();
+    assert.ok(badges.length && badges.every(text => text === total), 'saved counts: ' + badges.join(', '));
+    assert.ok((await p.locator('[data-saved-label]').allTextContents()).every(text => text === total + ' saved use-case ideas'));
+    await p.evaluate(() => window.SITE.Saved.clear());
+    pass('results browse link, remaining matches, and saved badges use thousands separators');
+
 
     assert.deepEqual(errors, []);
   } finally { await browser.close(); await server.close(); }

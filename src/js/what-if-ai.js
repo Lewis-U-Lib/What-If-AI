@@ -98,7 +98,7 @@ function drawRail(){
   });
   h += '<button type="button" class="railitem" data-goto="plan"'+(onPlan?' aria-current="step"':'')+'>'+
     '<span class="railitem__n" aria-hidden="true">✓</span><span class="railitem__txt"><span>Results</span>'+
-    '<span class="railitem__ans">'+(function(n){ return n+(n===1?' match':' matches'); })(results().near)+' to explore</span></span></button>';
+    '<span class="railitem__ans">'+(function(n){ return S_.num(n)+(n===1?' match':' matches'); })(results().near)+' to explore</span></span></button>';
   document.getElementById('rail').innerHTML = h;
 }
 
@@ -192,7 +192,7 @@ function band(key,title,note,list){
   var visible=list.slice(0,shown[key]);
   return '<section class="band" data-match-group="'+key+'" aria-labelledby="b-'+key+'"><h3 class="band__h" id="b-'+key+'">'+esc(title)+'</h3>'+
     '<p class="band__note">'+esc(note)+'</p><div class="cards">'+visible.map(matchCard).join('')+'</div>'+
-    (list.length>visible.length?'<div class="more no-print"><button type="button" class="btn" '+(key==='exact'?'id="moreExact" ':'')+'data-more-matches="'+key+'">Show more '+(key==='unknown'?'use-case ideas to check':'matches')+' ('+(list.length-visible.length)+' more)</button></div>':'')+'</section>';
+    (list.length>visible.length?'<div class="more no-print"><button type="button" class="btn" '+(key==='exact'?'id="moreExact" ':'')+'data-more-matches="'+key+'">Show more '+(key==='unknown'?'use-case ideas to check':'matches')+' ('+S_.num(list.length-visible.length)+' more)</button></div>':'')+'</section>';
 }
 function recoveryHTML(){
   var h='<div class="empty"><strong>No close matches for those preferences</strong><p>Try adjusting a preference. Any broader starting points below keep your selected limits and name every preference they miss.</p><div class="ractions">';
@@ -209,9 +209,9 @@ function drawPlan(focusTitle){
     '<div class="ractions no-print"><button type="button" class="btn" id="redo">Change my answers</button>'+
     '<button type="button" class="btn" id="copylink">Copy a link to these results</button>'+
     '<button type="button" class="btn" data-open-saved aria-haspopup="dialog">View saved use-case ideas (<span data-saved-count>0</span>)</button></div></div>';
-  h+='<p class="countline"><strong>'+p.exact.length+'</strong> '+(n?(p.exact.length===1?'exact match':'exact matches'):(p.exact.length===1?'use-case idea to explore':'use-case ideas to explore'))+
-    '; <strong>'+p.compatible.length+'</strong> possible fit'+(p.compatible.length===1?'':'s')+' to check; <strong>'+p.close.length+'</strong> close match'+(p.close.length===1?'':'es')+'.'+
-    (p.unknown.length?' <strong>'+p.unknown.length+'</strong> additional use-case idea'+(p.unknown.length===1?' has':'s have')+' requirements to check.':'')+'</p>';
+  h+='<p class="countline"><strong>'+S_.num(p.exact.length)+'</strong> '+(n?(p.exact.length===1?'exact match':'exact matches'):(p.exact.length===1?'use-case idea to explore':'use-case ideas to explore'))+
+    '; <strong>'+S_.num(p.compatible.length)+'</strong> possible fit'+(p.compatible.length===1?'':'s')+' to check; <strong>'+S_.num(p.close.length)+'</strong> close match'+(p.close.length===1?'':'es')+'.'+
+    (p.unknown.length?' <strong>'+S_.num(p.unknown.length)+'</strong> additional use-case idea'+(p.unknown.length===1?' has':'s have')+' requirements to check.':'')+'</p>';
   h+='<p class="print-note">This printout lists summaries only. Each use-case idea’s source, license, and attribution are in its full details. To keep them, print an idea from its details, or save ideas and print them from Saved use-case ideas.</p>';
   if(!p.confirmed){
     h+='<div class="empty"><strong>No use-case ideas have all selected limits confirmed.</strong><p>'+
@@ -224,16 +224,16 @@ function drawPlan(focusTitle){
     if(!p.near){ h+=recoveryHTML();h+=band('broader','Broader starting points','These miss more than one preference. Review the differences before choosing a use-case idea.',p.broader); }
   }
   if(p.unknown.length){
-    h+='<details class="requirement-checks"><summary>Check requirements before considering ('+p.unknown.length+')</summary><div class="requirement-checks__body">'+
+    h+='<details class="requirement-checks"><summary>Check requirements before considering ('+S_.num(p.unknown.length)+')</summary><div class="requirement-checks__body">'+
       band('unknown','Requirements not yet confirmed','These are outside the confirmed results. Each card names the requirement to verify and any preference differences. Known conflicts with your limits are excluded.',p.unknown)+'</div></details>';
   }
-  h+='<div class="browse no-print"><p>Want to look further? <a href="register.html#activities">'+icon('i-crt')+' Browse all '+A.length+
+  h+='<div class="browse no-print"><p>Want to look further? <a href="register.html#activities">'+icon('i-crt')+' Browse all '+S_.num(A.length)+
     ' use-case ideas in The Register</a>, where you can search and filter the whole collection.</p></div>';
   document.getElementById('plan').innerHTML=h;afterDraw(focusTitle);
 }
 function afterDraw(focusTitle){
   if(focusTitle){ var t=document.getElementById('rTitle'); if(t) t.focus(); }
-  [].forEach.call(document.querySelectorAll('#plan [data-saved-count]'),function(el){ el.textContent=S_.Saved.ids().length; });
+  [].forEach.call(document.querySelectorAll('#plan [data-saved-count]'),function(el){ el.textContent=S_.num(S_.Saved.ids().length); });
 }
 
 /* ─────────── addresses ─────────── */

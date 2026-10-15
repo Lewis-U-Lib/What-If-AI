@@ -265,11 +265,11 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
   }
   const openLicensed=D.acts.filter(a=>!a.sa).length;
   await go('register.html','#activities?open=1');
-  assert.match(await p.locator('#actCount').textContent(),new RegExp('of '+openLicensed+' use-case ideas'));
+  assert.match(await p.locator('#actCount').textContent(),new RegExp('of '+openLicensed.toLocaleString('en-US')+' use-case ideas'));
   assert.ok((await p.locator('.activechips').textContent()).includes('Source items open to adapt'));
   const free=D.acts.filter(a=>M.requirement(a,'nopaid')==='confirmed').length;
   await go('register.html','#activities?cost=1');
-  assert.match(await p.locator('#actCount').textContent(),new RegExp('of '+free+' use-case ideas'),'the no-cost filter confirms exactly what What If AI confirms');
+  assert.match(await p.locator('#actCount').textContent(),new RegExp('of '+free.toLocaleString('en-US')+' use-case ideas'),'the no-cost filter confirms exactly what What If AI confirms');
   assert.ok(D.acts.some(a=>a.sa==='restricted'&&['no_tool_needed','free_tier','institution_provided'].includes(a.eq)),'a restricted activity with a free tool is left out');
   pass('WIA-01: source-access labels on cards, details and print; the open-license and no-cost filters in The Register');
 
