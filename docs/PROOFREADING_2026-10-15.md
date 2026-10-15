@@ -74,15 +74,25 @@ Other fixes found along the way:
   do not.
 - **The library guide** is named three ways (“Gen AI Faculty & Staff Guide”, “Gen AI Faculty Guide”, “the
   Faculty Guide”).
-- **203 points for review**, such as a title that may be misprinted in its source (“Though Generative AI”),
+- **193 points for review**, such as a title that may be misprinted in its source (“Though Generative AI”),
   counts that disagree within one idea, and inconsistent model names. These are listed in the review file.
-  A few were settled later in this pass: straight apostrophes in attribution titles, the nested quotation
-  marks in CAN-B-RSCH-06, and the attribution notices that named only what was drawn from a source.
+  Ten resolved or no-action notes were removed: four attribution-title apostrophe reports, the nested
+  quotation marks in CAN-B-RSCH-06, the already-correct CAN-D-ADM-005 quotation marks, the license-quotation
+  consistency note, raw discipline codes, the origin description’s terminology, and the cleared-answer list.
+  The WIA-R attribution note now identifies a remaining noun-phrase notice instead of the corrected AGNT-01 example.
+
+## PR review follow-up
+
+Register searches now normalize straight and curly single and double quotation marks on both sides of
+matching. This restores keyboard-apostrophe searches after the typography pass without changing displayed
+text, identifiers, or filter values. The same normalization is used for ideas and source records.
 
 ## Tests
 
 `tests/proofreading-2026-10-15.test.js` checks that the text readers see has curly, paired, non-nested
 quotation marks, no doubled punctuation or hyphens used as dashes, lowercase after semicolons in step lists,
 final periods where they belong, and a statement of change in every synthesis attribution line. It also
-checks that the Discipline row never shows codes. It runs with
+checks that the Discipline row never shows codes, that straight and curly apostrophes find the same
+published results, and that ideas and sources match both styles of single and double quotation marks in
+either direction while retaining case-insensitive, all-words matching. It runs with
 `npm run test:review`.

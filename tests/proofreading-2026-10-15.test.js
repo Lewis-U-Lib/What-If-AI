@@ -59,6 +59,55 @@ pass('data: curly, paired, non-nested quotation marks; no doubled punctuation or
       assert.ok(disc && !/_/.test(disc), a.id + ': Discipline shows words, not codes (' + disc + ')');
     }
     pass('the Discipline row shows words for ideas that carry only field codes (' + coded.length + ' checked)');
+
+    await p.goto('about:blank'); await p.goto(server.url('register.html#activities'));
+    await p.waitForSelector('#actCount');
+    async function searchSnapshot(query){
+      await p.locator('#gq').fill(query);
+      await p.waitForFunction(q => {
+        const chip = document.querySelector('#actResults [data-clear="q"]');
+        return chip && chip.textContent.includes('Search: “' + q + '”');
+      }, query);
+      return p.evaluate(() => ({
+        total: Number(document.querySelectorAll('#actCount strong')[1].textContent),
+        ideas: [...document.querySelectorAll('#actResults .acard [data-open]')].map(el => el.getAttribute('data-open')),
+        sources: [...document.querySelectorAll('#sources .src')].map(el => el.id)
+      }));
+    }
+    const curly = await searchSnapshot('student’s');
+    assert.ok(curly.total > 0, 'the published collection has student’s matches');
+    assert.deepEqual(await searchSnapshot("student's"), curly, 'keyboard apostrophes find the same published ideas and sources');
+    pass('Register search preserves published matches for keyboard and curly apostrophes');
+
+    // Exercise both query-to-data directions, single/double quotes, case, multiple words,
+    // and source matches through the actual search input; mutations stay in this browser page.
+    const fixtureIDs = await p.evaluate(() => {
+      const a = window.SITE.A[0], w = window.SITE_DATA.register.works[0];
+      a.t = 'Proofreadneedle student’s “curly” ‘single’';
+      w.t = 'Proofreadneedle student’s “curly” ‘single’';
+      return {idea: a.id, source: 'src-' + w.id};
+    });
+    for(const query of ['proofreadneedle student’s “curly” ‘single’', 'PROOFREADNEEDLE STUDENT\'S "CURLY" \'SINGLE\'']){
+      const result = await searchSnapshot(query);
+      assert.equal(result.total, 1);
+      assert.deepEqual(result.ideas, [fixtureIDs.idea]);
+      assert.deepEqual(result.sources, [fixtureIDs.source]);
+    }
+    await p.evaluate(() => {
+      window.SITE.A[0].t = 'Proofreadneedle student\'s "straight" \'single\'';
+      window.SITE_DATA.register.works[0].t = 'Proofreadneedle student\'s "straight" \'single\'';
+    });
+    for(const query of ['proofreadneedle student’s “straight” ‘single’', 'proofreadneedle student\'s "straight" \'single\'']){
+      const result = await searchSnapshot(query);
+      assert.equal(result.total, 1);
+      assert.deepEqual(result.ideas, [fixtureIDs.idea]);
+      assert.deepEqual(result.sources, [fixtureIDs.source]);
+    }
+    const missing = await searchSnapshot('proofreadneedle nonexistentterm');
+    assert.equal(missing.total, 0, 'all search words still need to match');
+    assert.deepEqual(missing.sources, []);
+    pass('Register ideas and sources match straight/curly quotation marks in both directions');
+
     assert.deepEqual(errors, []);
   } finally { await browser.close(); await server.close(); }
   console.log(count + ' October 15 proofreading checks passed.');

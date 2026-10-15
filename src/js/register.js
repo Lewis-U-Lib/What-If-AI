@@ -85,6 +85,10 @@ function filtersHTML(){
   h += '<button type="button" class="btn btn--sm" id="resetFilters">Clear all filters</button>';
   return h;
 }
+/* Search treats keyboard and typographic quotes alike without changing displayed text. */
+function searchText(s){
+  return String(s || '').toLowerCase().replace(/[‘’]/g, "'").replace(/[“”]/g, '"');
+}
 function matches(a){
   if(F.set && setOf(a)!==F.set) return false;
   if(F.focus && a.focus!==F.focus) return false;
@@ -104,8 +108,8 @@ function matches(a){
   if(F.open && a.sa) return false;
   if(F.type && TYPE_IDS[F.type] && TYPE_IDS[F.type].ids.indexOf(a.id)<0) return false;
   if(F.q){
-    var hay = (a.t+' '+a.sum+' '+(a.cit||'')+' '+(a.cr||'')+' '+(a.fld||'')+' '+(a.f||'')+' '+S_.familyLabel(a.f||'')+' '+a.id+' '+(a.al||[]).join(' ')).toLowerCase();
-    var words = F.q.toLowerCase().split(/\s+/).filter(Boolean);
+    var hay = searchText(a.t+' '+a.sum+' '+(a.cit||'')+' '+(a.cr||'')+' '+(a.fld||'')+' '+(a.f||'')+' '+S_.familyLabel(a.f||'')+' '+a.id+' '+(a.al||[]).join(' '));
+    var words = searchText(F.q).split(/\s+/).filter(Boolean);
     for(var i=0;i<words.length;i++) if(hay.indexOf(words[i])<0) return false;
   }
   return true;
@@ -140,9 +144,9 @@ function chipLabel(k){
 }
 function worksMatching(q){
   if(!q) return [];
-  var words = q.toLowerCase().split(/\s+/).filter(Boolean);
+  var words = searchText(q).split(/\s+/).filter(Boolean);
   return R.works.filter(function(w){
-    var hay = (w.cit+' '+w.t+' '+w.a+' '+w.y+' '+w.id).toLowerCase();
+    var hay = searchText(w.cit+' '+w.t+' '+w.a+' '+w.y+' '+w.id);
     return words.every(function(x){ return hay.indexOf(x)>=0; });
   });
 }
