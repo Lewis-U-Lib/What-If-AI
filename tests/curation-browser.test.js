@@ -74,7 +74,7 @@ const SITE=path.resolve(process.argv[2]||path.join(__dirname,'../_site'));
   ok(!(await text('#actDialog .dlg__body')).includes('A published prompt or workflow.'),'no caution note on reported activities');
 
   // 4 · a license recorded without a version shows no invented deed link
-  const tge=D.acts.find(a=>a.lic==='CC BY-NC (version not stated)'&&(a.attr||'').includes('TextGenEd'));
+  const tge=D.acts.find(a=>a.lic==='CC BY-NC (version not stated)'&&a.rel.some(r=>['CSR-0206','CSR-0210','CSR-0213'].includes(r[0])));
   await go('register.html#act='+tge.id);
   ok(await p.locator('#actDialog .dlg__body a[href*="creativecommons.org/licenses/by-nc/4.0"]').count()===0,'no 4.0 deed for an unversioned license');
   ok((await text('#actDialog .dlg__body')).includes('CC BY-NC (version not stated)'),'the unversioned license is shown as stated');

@@ -212,6 +212,7 @@ function drawPlan(focusTitle){
   h+='<p class="countline"><strong>'+p.exact.length+'</strong> '+(n?'exact matches':'use-case ideas to explore')+
     '; <strong>'+p.compatible.length+'</strong> possible fits to check; <strong>'+p.close.length+'</strong> close matches.'+
     (p.unknown.length?' <strong>'+p.unknown.length+'</strong> additional use-case ideas have requirements to check.':'')+'</p>';
+  h+='<p class="print-note">This printout lists summaries only. Each use-case idea’s source, license, and attribution are in its full details. To keep them, print an idea from its details, or save ideas and print them from Saved use-case ideas.</p>';
   if(!p.confirmed){
     h+='<div class="empty"><strong>No use-case ideas have all selected limits confirmed.</strong><p>'+
       (p.unknown.length?'You can inspect the separate group below to see what needs checking. Those use-case ideas are not confirmed matches.':'The collection does not currently establish a fit for these limits. Review them if you want to change your selection.')+
@@ -324,7 +325,7 @@ document.addEventListener('click', function(e){
     if(cards[old]) cards[old].focus();
     return;
   }
-  if(t.closest('#copylink')){ S_.copyText(location.href.split('#')[0]+'#'+answersHash(), 'Link to these results copied.'); return; }
+  if(t.closest('#copylink')){ S_.copyText(location.href.split('#')[0]+'#'+answersHash(), 'Link to these results copied.', t.closest('#copylink')); return; }
 });
 
 /* one router for load, Back/Forward (popstate) and typed or followed links (hashchange); it does nothing
@@ -443,7 +444,7 @@ if(tour){
 document.getElementById('actDialog').addEventListener('close', function(){
   /* closed because the address moved elsewhere (Back, or a typed or followed link): nothing to undo */
   if(!/^#act=/.test(location.hash)){ actPushed = false; actBase = null; return; }
-  if(actPushed){ actPushed = false; routed = actBase; actBase = null; history.back(); }
+  if(actPushed){ actPushed = false; routed = actBase; actBase = null; history.back(); S_.refocusAfterBack(this._lastOpener); }
   else { actBase = null; record(false); }
 });
 

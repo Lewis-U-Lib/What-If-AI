@@ -173,3 +173,7 @@
   .rtour .tour__slide{grid-template-columns:1fr !important;}
   .rtour__foot{display:none !important;}
 }
+
+/* route note on cards when "Students use no AI tool" admits an idea through its route without AI */
+.match-note{margin:14px 0 0;padding:12px 0;border-top:1px solid var(--line);color:var(--ink-2);font-size:15px;line-height:1.5;}
+.match-note p{margin:0;max-width:none;}
