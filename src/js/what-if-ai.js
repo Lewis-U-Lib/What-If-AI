@@ -192,7 +192,7 @@ function band(key,title,note,list){
   var visible=list.slice(0,shown[key]);
   return '<section class="band" data-match-group="'+key+'" aria-labelledby="b-'+key+'"><h3 class="band__h" id="b-'+key+'">'+esc(title)+'</h3>'+
     '<p class="band__note">'+esc(note)+'</p><div class="cards">'+visible.map(matchCard).join('')+'</div>'+
-    (list.length>visible.length?'<div class="more no-print"><button type="button" class="btn" '+(key==='exact'?'id="moreExact" ':'')+'data-more-matches="'+key+'">Show more '+(key==='unknown'?'use-case ideas to check':'matches')+' ('+(list.length-visible.length)+' more)</button></div>':'')+'</section>';
+    (list.length>visible.length?'<div class="more no-print"><button type="button" class="btn" '+(key==='exact'?'id="moreExact" ':'')+'data-more-matches="'+key+'">Show more '+(key==='unknown'?'use-case ideas to check':'matches')+' ('+S_.num(list.length-visible.length)+' more)</button></div>':'')+'</section>';
 }
 function recoveryHTML(){
   var h='<div class="empty"><strong>No close matches for those preferences</strong><p>Try adjusting a preference. Any broader starting points below keep your selected limits and name every preference they miss.</p><div class="ractions">';
@@ -227,13 +227,13 @@ function drawPlan(focusTitle){
     h+='<details class="requirement-checks"><summary>Check requirements before considering ('+S_.num(p.unknown.length)+')</summary><div class="requirement-checks__body">'+
       band('unknown','Requirements not yet confirmed','These are outside the confirmed results. Each card names the requirement to verify and any preference differences. Known conflicts with your limits are excluded.',p.unknown)+'</div></details>';
   }
-  h+='<div class="browse no-print"><p>Want to look further? <a href="register.html#activities">'+icon('i-crt')+' Browse all '+A.length+
+  h+='<div class="browse no-print"><p>Want to look further? <a href="register.html#activities">'+icon('i-crt')+' Browse all '+S_.num(A.length)+
     ' use-case ideas in The Register</a>, where you can search and filter the whole collection.</p></div>';
   document.getElementById('plan').innerHTML=h;afterDraw(focusTitle);
 }
 function afterDraw(focusTitle){
   if(focusTitle){ var t=document.getElementById('rTitle'); if(t) t.focus(); }
-  [].forEach.call(document.querySelectorAll('#plan [data-saved-count]'),function(el){ el.textContent=S_.Saved.ids().length; });
+  [].forEach.call(document.querySelectorAll('#plan [data-saved-count]'),function(el){ el.textContent=S_.num(S_.Saved.ids().length); });
 }
 
 /* ─────────── addresses ─────────── */

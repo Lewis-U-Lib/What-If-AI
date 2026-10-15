@@ -124,6 +124,20 @@ pass('data: curly, paired, non-nested quotation marks; no doubled punctuation or
     assert.match(rows['AI tool needed'], /^[A-Z]/);
     pass('counts use a thousands separator, and label lists read as one sentence (' + multi.id + ')');
 
+    // The results plan and saved badges use the same count format as the Register.
+    await p.evaluate(ids => localStorage.setItem('lul-whatifai-saved-v1', JSON.stringify(ids)), D.acts.map(a => a.id));
+    await p.goto('about:blank'); await p.goto(server.url('what-if-ai.html#a='));
+    await p.waitForSelector('#plan .browse a');
+    assert.ok((await p.locator('#plan .browse a').innerText()).includes('Browse all ' + total + ' use-case ideas'));
+    const visible = await p.locator('[data-match-group="exact"] [data-card]').count();
+    assert.ok((await p.locator('#moreExact').innerText()).includes('(' + (D.acts.length - visible).toLocaleString('en-US') + ' more)'));
+    const badges = await p.locator('[data-saved-count]').allTextContents();
+    assert.ok(badges.length && badges.every(text => text === total), 'saved counts: ' + badges.join(', '));
+    assert.ok((await p.locator('[data-saved-label]').allTextContents()).every(text => text === total + ' saved use-case ideas'));
+    await p.evaluate(() => window.SITE.Saved.clear());
+    pass('results browse link, remaining matches, and saved badges use thousands separators');
+
+
     assert.deepEqual(errors, []);
   } finally { await browser.close(); await server.close(); }
   console.log(count + ' October 15 proofreading checks passed.');

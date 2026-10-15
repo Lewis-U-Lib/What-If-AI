@@ -552,9 +552,9 @@ function renderSaved(){
 function syncSaveUI(){
   var ids = Saved.ids();
   syncStorageUI();
-  [].forEach.call(document.querySelectorAll('[data-saved-count]'), function(el){ el.textContent = ids.length; });
+  [].forEach.call(document.querySelectorAll('[data-saved-count]'), function(el){ el.textContent = num(ids.length); });
   [].forEach.call(document.querySelectorAll('[data-saved-label]'), function(el){
-    el.textContent = ids.length===1 ? '1 saved use-case idea' : ids.length+' saved use-case ideas'; });
+    el.textContent = ids.length===1 ? '1 saved use-case idea' : num(ids.length)+' saved use-case ideas'; });
   [].forEach.call(document.querySelectorAll('button[data-save]'), function(b){
     var on = ids.indexOf(b.getAttribute('data-save')) >= 0;
     b.setAttribute('aria-pressed', String(on));
@@ -579,7 +579,7 @@ function fillPrintRoot(ids, single){
     h = '<h1>'+esc(one.t)+'</h1><div class="pr-sub">'+esc(kickerOf(one))+' · '+toolName()+' · Lewis University Library · printed '+esc(today)+'</div>'+
       '<article>'+detailHTML(one,{print:true})+'</article>';
   } else {
-    h = '<h1>Saved use-case ideas</h1><div class="pr-sub">'+toolName()+' · Lewis University Library · '+ids.length+
+    h = '<h1>Saved use-case ideas</h1><div class="pr-sub">'+toolName()+' · Lewis University Library · '+num(ids.length)+
       ' use-case idea'+(ids.length===1?'':'s')+' · printed '+esc(today)+'</div>';
     ids.forEach(function(id){
       var a = BYID[id];
@@ -649,7 +649,7 @@ function init(ctx){
       var on = Saved.toggle(id);
       announce((on ? (Saved.isPersistent()?'Saved: ':'Saved temporarily in this tab: ') : 'Removed from saved: ') + (a ? a.t : id) + '. ' +
         (Saved.isPersistent()?'':'Browser storage is unavailable. This selection may disappear when you reload or open the other tool. Print or save it as a PDF now. ')+
-        Saved.ids().length + ' saved use-case idea'+(Saved.ids().length===1?'':'s') + '.');
+        num(Saved.ids().length) + ' saved use-case idea'+(Saved.ids().length===1?'':'s') + '.');
       return;
     }
     var op = t.closest('[data-open]');
