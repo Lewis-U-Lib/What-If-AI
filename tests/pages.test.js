@@ -327,7 +327,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   await go(page, 'register.html#activities');
   const regTotal = +(await page.textContent('#secnav [data-count="activities"]')).replace(/,/g, '');
   await go(page, 'what-if-ai.html#a='); await page.waitForTimeout(40);
-  const finderTotal = +((await page.textContent('#plan .browse')).match(/Browse all (\d+)/) || [])[1];
+  const finderTotal = +((await page.textContent('#plan .browse')).replace(/,/g, '').match(/Browse all (\d+)/) || [])[1];
   check('Both pages report the same activity total, derived from the published store', regTotal === ACTS.acts.length && finderTotal === ACTS.acts.length && ACTS.n === ACTS.acts.length && REGD.counts.activities === ACTS.acts.length,
     [regTotal, finderTotal, ACTS.n, REGD.counts.activities].join(' / '));
   const synthCls = ['original_synthesis', 'hybrid_synthesis'], tierKeys = (ACTS.tiers || []).map(t => t[0]);
