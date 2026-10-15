@@ -8,7 +8,38 @@
   var KEYS=['task','disc','depth','lvl','mod'];
   var LIMITS=['noai','nostudent','nopaid','noaccount','nokit','nodisclose','noapproval'];
   var WEIGHTS={task:8,disc:4,depth:3,lvl:2,mod:1};
+  /* How near a miss is, on the answers that have a natural order. Distances are in sixths, so sums stay
+     whole numbers: 0 is as near as a miss can be, 6 means nothing comparable (a different task or field). */
+  var LEVEL_STEPS={firstyear:0,upper:1,grad:2,scholarly:3};             // first-year → own scholarship
+  var SETTING_STEPS={in_person:0,hybrid:1,online:2};                    // hybrid sits between the two
+  var SCALE_STEPS={quick:0,assignment:1,module:2,writing_cycle:2,litreview_phase:2,
+                   capstone:3,grant_proposal:3,research_phase:3};       // one class → term-long; recurring work has no place on it
   function has(list,value){ return (list||[]).indexOf(value)>=0; }
+  function list(v){ return Array.isArray(v)?v:(v?[v]:[]); }
+  function steps(map,vals,want,span){
+    var best=span;
+    if(map[want]===undefined) return 6;
+    vals.forEach(function(v){ if(map[v]!==undefined) best=Math.min(best,Math.abs(map[v]-map[want])); });
+    return best*6/span;
+  }
+  function nearness(a,key,want){
+    var v=list(a[key]);
+    if(key==='lvl') return steps(LEVEL_STEPS,v,want,3);
+    if(key==='mod') return steps(SETTING_STEPS,v,want,2);
+    if(key==='depth') return steps(SCALE_STEPS,v,want,3);
+    return 6;
+  }
+  /* How targeted a use-case idea is to what the reader asked: the number of tasks, levels, and settings it
+     lists, counted only for the questions answered. "Any" level counts as all four, "any" setting as all three. */
+  function breadth(a,s){
+    var n=0;
+    ['task','lvl','mod'].forEach(function(k){
+      if(!s[k]) return;
+      var v=list(a[k]);
+      n+=has(v,'any') ? (k==='lvl'?4:3) : v.length;
+    });
+    return n;
+  }
   function hasRoute(a){ return typeof a.na==='string' && !!a.na.trim(); }
   function admitted(a){ return a.icap!=='active' && a.icap!=='passive'; }
   function compare(a,key,value){
@@ -69,7 +100,7 @@
     return 'unknown';
   }
   function assess(a,s,index){
-    var row={activity:a,index:index||0,score:0,exact:[],compatible:[],mismatch:[],unknown:[],excluded:[],status:'confirmed'};
+    var row={activity:a,index:index||0,score:0,near:0,breadth:breadth(a,s),exact:[],compatible:[],mismatch:[],unknown:[],excluded:[],status:'confirmed'};
     if(!admitted(a) || (s.focus && a.focus!==s.focus)) row.status='excluded';
     LIMITS.forEach(function(k){
       if(!(s.limits||{})[k]) return;
@@ -83,18 +114,20 @@
       var c=compare(a,k,s[k]);
       if(c==='unasked') return;
       row[c].push(k);
+      if(c==='mismatch') row.near+=nearness(a,k,s[k]);
       if(c==='exact') row.score+=WEIGHTS[k];
       else if(c==='compatible') row.score+=k==='disc'||k==='lvl'?1:0;
     });
     return row;
   }
-  /* Order within a group: how well the record matches the reader's answers (score), then the corpus
-     quality tier (gr), then evidence of use (a source that reports running the activity before one that
-     only publishes it, or one written for the collection and not yet tried). Records equal on all three are ordered by a fixed hash of their identifier, so no
-     import batch, source, or alphabetical position is favored. The top results are the best matches even
-     when they share a source; nothing enforces source diversity. */
-  /* Only an explicit reported status earns this tie-break. Missing, unknown, and unreported
-     statuses remain neutral. The sets written for the collection do not claim reported use. */
+  /* Order within a group, by fit first:
+     1. the match score (how many answers match, weighted by question);
+     2. how near the misses are, where an answer has a natural order (level, setting, scale);
+     3. how targeted the use-case idea is to what was asked (fewer tasks, levels, and settings listed);
+     4. origin: an adaptation of a published activity before one written for the collection;
+     5. explicit evidence of use (only use "reported" on an adaptation; missing or unknown is neutral);
+     6. a fixed hash of the identifier, which favors no import batch, source, or letter.
+     The top results are the best matches even when they share a source; nothing enforces source diversity. */
   function used(a){ return a.use==='reported' && !a.tier ? 1 : 0; }
   function neutral(id){                       // FNV-1a, 32-bit: stable across releases and browsers
     var h=0x811c9dc5; for(var i=0;i<id.length;i++){ h^=id.charCodeAt(i); h=Math.imul(h,0x01000193)>>>0; }
@@ -102,7 +135,7 @@
   }
   function rank(x,y){
     var a=x.activity, b=y.activity;
-    return y.score-x.score || (b.gr||0)-(a.gr||0) || used(b)-used(a) ||
+    return y.score-x.score || x.near-y.near || x.breadth-y.breadth || (a.tier?1:0)-(b.tier?1:0) || used(b)-used(a) ||
       neutral(a.id)-neutral(b.id) || (a.id<b.id?-1:a.id>b.id?1:0);
   }
   function search(activities,s){
@@ -134,5 +167,5 @@
     });
     return seen;
   }
-  return {keys:KEYS,limits:LIMITS,compare:compare,requirement:requirement,assess:assess,rank:rank,admitted:admitted,search:search,viable:viable};
+  return {keys:KEYS,limits:LIMITS,compare:compare,requirement:requirement,assess:assess,rank:rank,nearness:nearness,breadth:breadth,admitted:admitted,search:search,viable:viable};
 });
