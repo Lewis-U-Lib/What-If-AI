@@ -15,6 +15,17 @@ A.forEach(function(a){ BYID[a.id] = a; (a.al||[]).forEach(function(x){ if(!ALIAS
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
   return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
 function pretty(s){ return String(s||'').replace(/_/g,' '); }
+/* counts read with a thousands separator everywhere (1,033) */
+function num(n){ return Number(n||0).toLocaleString('en-US'); }
+/* labels in a run: the first is capitalized and the rest read as part of the sentence;
+   a first word with more capitals or a digit (AI, GPT-4) keeps its form */
+function labelList(items, sep){
+  return (items||[]).filter(Boolean).map(function(s, i){
+    s = String(s);
+    if(/[A-Z].*[A-Z]|\d/.test(s.split(' ')[0])) return s;
+    return (i ? s.charAt(0).toLowerCase() : s.charAt(0).toUpperCase()) + s.slice(1);
+  }).join(sep || '; ');
+}
 function G(s){ return (typeof linkifyGuide==='function') ? linkifyGuide(esc(s)) : esc(s); }
 function lab(list, v){ for(var i=0;i<(list||[]).length;i++) if(list[i][0]===v) return list[i][1]; return ''; }
 function safeURL(value){
@@ -113,7 +124,7 @@ function fieldLabel(v){
 }
 function lvlLabel(v){ return v==='any' ? 'Any level' : (lab(IN.lvl, v) || pretty(v)); }
 function modLabel(v){ return v==='any' ? 'Any setting' : (lab(IN.mod, v) || pretty(v)); }
-function capsShort(a){ return (a.cap||[]).map(function(c){ return L.cap[c]||pretty(c); }).join(', '); }
+function capsShort(a){ return labelList((a.cap||[]).map(function(c){ return L.cap[c]||pretty(c); }), ', '); }
 // Keep theme filter values stable while applying the site's punctuation style to labels.
 var FAMILY_LABELS = {
   "Auditing AI Outputs for Bias, Defaults and Influence": "Auditing AI Outputs for Bias, Defaults, and Influence",
@@ -291,17 +302,17 @@ function detailHTML(a, opts){
   /* 2 · at a glance */
   var f = '<dl class="facts">';
   f += '<dt>Who does it</dt><dd>'+esc(L.actor[a.ac]||pretty(a.ac))+'</dd>';
-  f += '<dt>Area of work</dt><dd>'+esc(L.focus[a.focus]||pretty(a.focus))+' · '+esc((a.task||[]).map(function(t){return taskLabel(t,a.focus);}).join('; '))+'</dd>';
+  f += '<dt>Area of work</dt><dd>'+esc(L.focus[a.focus]||pretty(a.focus))+' · '+esc(labelList((a.task||[]).map(function(t){return taskLabel(t,a.focus);})))+'</dd>';
   f += '<dt>Scale</dt><dd>'+esc(scaleText(a))+'</dd>';
   if(a.st && L.stakes[a.st]) f += '<dt>Stakes</dt><dd>'+esc(L.stakes[a.st])+'</dd>';
   if(a.dl) f += '<dt>What is produced</dt><dd>'+esc(a.dl)+'</dd>';
   if(a.rf) f += '<dt>Reflection or assessment</dt><dd>'+esc(a.rf)+'</dd>';
   var disc = discLabel(a.disc) || fieldLabel(a.fld);
   if(disc) f += '<dt>Discipline</dt><dd>'+esc(disc)+'</dd>';
-  f += '<dt>Level</dt><dd>'+esc((a.lvl||[]).map(lvlLabel).join(', ')||'Not stated')+'</dd>';
-  f += '<dt>Setting</dt><dd>'+esc((a.mod||[]).map(modLabel).join(', ')||'Not stated')+'</dd>';
+  f += '<dt>Level</dt><dd>'+esc(labelList((a.lvl||[]).map(lvlLabel), ', ')||'Not stated')+'</dd>';
+  f += '<dt>Setting</dt><dd>'+esc(labelList((a.mod||[]).map(modLabel), ', ')||'Not stated')+'</dd>';
   if(OPERATOR[a.op]) f += '<dt>Who uses an AI tool</dt><dd>'+esc(OPERATOR[a.op].text)+'</dd>';
-  f += '<dt>AI tool needed</dt><dd>'+esc((a.cap||[]).map(function(c){return L.capLong[c]||pretty(c);}).join('; ')||'Not stated')+'</dd>';
+  f += '<dt>AI tool needed</dt><dd>'+esc(labelList((a.cap||[]).map(function(c){return L.capLong[c]||pretty(c);}))||'Not stated')+'</dd>';
   if(a.eq && a.eq!=='not_specified') f += '<dt>Cost and access</dt><dd>'+esc(costLabel(a))+'</dd>';
   if(a.pc && L.pc[a.pc]) f += '<dt>Also required</dt><dd>'+esc(a.pc==='none' && a.eq==='no_tool_needed' && a.op==='faculty_or_staff'?'Instructor account and approval requirements need checking':L.pc[a.pc])+'</dd>';
   if(sourceAccess(a)) f += '<dt>Source item</dt><dd>'+esc(L.sa[a.sa])+'</dd>';
@@ -508,7 +519,7 @@ function renderSaved(){
   var box = document.getElementById('savedBody'); if(!box) return;
   var ids = Saved.ids();
   var head = document.getElementById('savedTitle');
-  if(head) head.textContent = 'Saved use-case ideas' + (ids.length ? ' ('+ids.length+')' : '');
+  if(head) head.textContent = 'Saved use-case ideas' + (ids.length ? ' ('+num(ids.length)+')' : '');
   var foot = document.getElementById('savedFoot');
   if(!ids.length){
     box.innerHTML = storageNotice(true)+'<div class="saved-empty"><p><strong>No saved use-case ideas yet.</strong></p>'+
@@ -532,7 +543,7 @@ function renderSaved(){
       '<button type="button" class="btn btn--sm btn--quiet" data-unsave="'+esc(id)+'">Remove<span class="sr-only"> '+esc(a.t)+'</span></button></div></li>';
   });
   h += '</ol><p class="privacy">Your selection is kept in this browser only. There is no account, and your saved list is not sent to the library or anyone else.</p>';
-  h += '<div class="confirm" id="clearConfirm" hidden><p>Remove '+(ids.length===1?'the saved use-case idea':'all '+ids.length+' saved use-case ideas')+'?</p>'+
+  h += '<div class="confirm" id="clearConfirm" hidden><p>Remove '+(ids.length===1?'the saved use-case idea':'all '+num(ids.length)+' saved use-case ideas')+'?</p>'+
        '<button type="button" class="btn btn--sm" id="clearYes">Remove all</button> '+
        '<button type="button" class="btn btn--sm btn--quiet" id="clearNo">Keep them</button></div>';
   box.innerHTML = h;
@@ -698,7 +709,7 @@ function copyText(text, okMsg, btn){
 }
 
 window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, TIER:TIER, tierOf:tierOf, OPERATOR:OPERATOR, operatorLabel:operatorLabel, noToolForStudents:noToolForStudents, usedItems:usedItems, esc:esc, safeURL:safeURL, externalLink:externalLink, costLabel:costLabel, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
-  taskLabel:taskLabel, depthLabel:depthLabel, discLabel:discLabel, lvlLabel:lvlLabel, modLabel:modLabel, familyLabel:familyLabel,
+  taskLabel:taskLabel, depthLabel:depthLabel, discLabel:discLabel, lvlLabel:lvlLabel, modLabel:modLabel, familyLabel:familyLabel, num:num, labelList:labelList,
   cardHTML:cardHTML, detailHTML:detailHTML, openActivity:openActivity, openDialog:openDialog, closeDialog:closeDialog, wireDialog:wireDialog, resetDialogScroll:resetDialogScroll,
   Saved:Saved, announce:announce, decode:decode, printSaved:printSaved, printActivity:printActivity, refocusAfterBack:refocusAfterBack, copyText:copyText, howItWorks:howItWorks, init:init, kickerOf:kickerOf};
 })();

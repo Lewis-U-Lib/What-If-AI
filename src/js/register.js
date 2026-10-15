@@ -166,9 +166,9 @@ function resultsHTML(){
   if(keys.length) h += '<ul class="activechips" aria-label="Active filters">'+keys.map(function(k){
     return '<li><button type="button" class="fchip" data-clear="'+k+'">'+esc(chipLabel(k))+' <span class="x" aria-hidden="true">✕</span><span class="sr-only"> — remove this filter</span></button></li>'; }).join('')+'</ul>';
   var ws = worksMatching(F.q);
-  h += '<p class="countline" id="actCount">Showing <strong>'+Math.min(shown, list.length)+'</strong> of <strong>'+list.length+'</strong> '+
+  h += '<p class="countline" id="actCount">Showing <strong>'+S_.num(Math.min(shown, list.length))+'</strong> of <strong>'+S_.num(list.length)+'</strong> '+
     (list.length===1?'use-case idea':'use-case ideas')+(keys.length?' matching your filters':'')+'.'+
-    (ws.length ? ' <a href="#sources" data-goto-sources>'+ws.length+' source'+(ws.length===1?' also matches':'s also match')+' your search</a>.' : '')+'</p>';
+    (ws.length ? ' <a href="#sources" data-goto-sources>'+S_.num(ws.length)+' source'+(ws.length===1?' also matches':'s also match')+' your search</a>.' : '')+'</p>';
   h += '<p class="print-note">This printout lists summaries only. Each use-case idea’s source, license, and attribution are in its full details. To keep them, print an idea from its details, or save ideas and print them from Saved use-case ideas.</p>';
   if(!list.length){
     return h + '<div class="empty"><strong>No use-case ideas match these filters</strong><p>Try removing a filter, or use What If AI to describe what you are working on.</p>'+
@@ -181,7 +181,7 @@ function resultsHTML(){
 function drawActivities(){
   var sec = document.getElementById('activities');
   sec.innerHTML = '<div class="sec-head"><div class="sec-eyebrow">The collection</div><h2 id="h-activities" tabindex="-1">Use-case ideas</h2>'+
-    '<p>All '+A.length+' use-case ideas in the collection. Each one lists its source, license, and what to consider before using it. '+
+    '<p>All '+S_.num(A.length)+' use-case ideas in the collection. Each one lists its source, license, and what to consider before using it. '+
     'Filter by the kind of work, the kind of AI tool, or the course AI policy a use-case idea assumes; open any use-case idea for the full description, or save it to print later.</p></div>'+
     '<div class="catalog"><div><button type="button" class="btn btn--sm filters-toggle" id="filtersToggle" aria-expanded="false" aria-controls="filters">Show filters</button>'+
     '<aside class="filters is-collapsed" aria-labelledby="filtersTitle" id="filters">'+filtersHTML()+'</aside></div>'+
@@ -262,10 +262,10 @@ function typeActivityLink(t){
     /* the entry describes teaching choices, so it opens the teaching ideas only (administrative and research
        ideas without student participants also have no student AI use, but are not what the entry describes) */
     var nTeach = A.filter(function(a){ return a.focus==='teaching' && S_.noToolForStudents(a)==='confirmed'; }).length;
-    return '<a class="btn btn--sm" data-type-activities href="#activities?focus=teaching&noai=1">See '+nTeach+' teaching use-case idea'+(nTeach===1?'':'s')+' where students use no AI tool</a>';
+    return '<a class="btn btn--sm" data-type-activities href="#activities?focus=teaching&noai=1">See '+S_.num(nTeach)+' teaching use-case idea'+(nTeach===1?'':'s')+' where students use no AI tool</a>';
   }
-  if(t.ids && t.ids.length) return '<a class="btn btn--sm" data-type-activities href="#activities?type='+t.key+'">See '+t.n+' related use-case idea'+(t.n===1?'':'s')+'</a>';
-  if(t.caps && t.caps.length && t.n) return '<a class="btn btn--sm" data-type-activities href="#activities?cap='+t.caps[0]+'">See '+t.n+' related use-case idea'+(t.n===1?'':'s')+'</a>';
+  if(t.ids && t.ids.length) return '<a class="btn btn--sm" data-type-activities href="#activities?type='+t.key+'">See '+S_.num(t.n)+' related use-case idea'+(t.n===1?'':'s')+'</a>';
+  if(t.caps && t.caps.length && t.n) return '<a class="btn btn--sm" data-type-activities href="#activities?cap='+t.caps[0]+'">See '+S_.num(t.n)+' related use-case idea'+(t.n===1?'':'s')+'</a>';
   return '';
 }
 function typeExampleDisclosure(t){
@@ -340,7 +340,7 @@ function drawTypes(){
     '<div class="protocols__screen"><ul class="protocols__list">'+
     T.general.map(function(g){ return '<li><span class="lamp lamp--on" aria-hidden="true"></span><span>'+esc(g.text)+typeCitations(g.refs)+'</span></li>'; }).join('')+'</ul></div></section>';
   h += '<section class="type-bibliography" aria-labelledby="typeReferencesHeading"><h3 id="typeReferencesHeading">Sources for this guide</h3><p>These references support the AI explanations above. They are separate from the collection’s use-case source bibliography. Product links are examples, not evidence for the whole category.</p><p>'+esc(T.scope)+'</p>'+
-    '<details class="type-bibliography__list"><summary>All '+T.sources.length+' references'+icon('i-chevron')+'</summary>'+typeReferences()+'</details></section>';
+    '<details class="type-bibliography__list"><summary>All '+S_.num(T.sources.length)+' references'+icon('i-chevron')+'</summary>'+typeReferences()+'</details></section>';
   h += '<p class="meta-line" data-guide-license>'+esc(window.TOOL_LICENSE.guide_notice)+'</p>';
   document.getElementById('ai-types').innerHTML = h;
 }
@@ -369,7 +369,7 @@ function drawPolicies(){
   h += '<div class="polpanel" role="tabpanel" id="pp" aria-labelledby="pt-'+t.key+'" tabindex="0">'+
     '<div class="kicker">'+esc(t.pill)+'</div><h3>'+esc(t.label)+'</h3><p class="gist">'+esc(t.gist)+'</p>'+
     '<p><strong>What a use-case idea at this position assumes:</strong> '+esc(t.reads)+'</p>'+
-    (t.n ? '<p><a href="#activities?pol='+t.key+'">'+t.n+(t.n===1?' use-case idea in the collection assumes':' use-case ideas in the collection assume')+' this position</a></p>' : '')+
+    (t.n ? '<p><a href="#activities?pol='+t.key+'">'+S_.num(t.n)+(t.n===1?' use-case idea in the collection assumes':' use-case ideas in the collection assume')+' this position</a></p>' : '')+
     '<h4 class="pol-examples-h">Course policies and sample statements</h4><ul class="quotes">'+
     (t.items||[]).map(function(q){
       return '<li><blockquote><p>“'+esc(q.quote)+'”</p></blockquote><div class="who"><span><strong>'+esc(q.who)+'</strong> · '+esc(q.course)+' · '+esc(q.inst)+'</span>'+
@@ -377,7 +377,7 @@ function drawPolicies(){
         (q.version_note?'<p class="meta-line">'+esc(q.version_note)+'</p>':'')+'</li>'; }).join('')+'</ul></div>';
   var a = P.aside;
   h += '<div class="aside-card"><div class="kicker">'+esc(a.pill)+'</div><h3>'+esc(a.label)+'</h3><p>'+esc(a.gist)+'</p><p>'+esc(a.reads)+'</p>'+
-    (a.n ? '<p><a href="#activities?pol=instructor_side">'+a.n+(a.n===1?' use-case idea in the collection is':' use-case ideas in the collection are')+' the instructor’s or staff member’s own work</a></p>' : '')+'</div>';
+    (a.n ? '<p><a href="#activities?pol=instructor_side">'+S_.num(a.n)+(a.n===1?' use-case idea in the collection is':' use-case ideas in the collection are')+' the instructor’s or staff member’s own work</a></p>' : '')+'</div>';
   h += '<p class="polsrc">Examples are drawn from '+S_.externalLink(P.source.url,esc(P.source.name)+
     '<span class="sr-only"> (opens in a new tab)</span>')+', '+esc(P.source.who)+'. '+esc(P.source.note)+' '+S_.externalLink(P.source.snapshot,'View the dated source snapshot and excerpt record<span class="sr-only"> (opens in a new tab)</span>')+'. '+
     'For guidance at Lewis, see '+S_.externalLink(P.local.url,esc(P.local.label)+'<span class="sr-only"> (opens in a new tab)</span>')+'.</p>';
@@ -409,8 +409,8 @@ function drawSources(){
     '<p class="muted">Use-case ideas adapt only works published under a Creative Commons license or another open license, and keep the original license, with any ShareAlike or NonCommercial terms, when they are reused. '+
     'Some synthesis use-case ideas also use a published source item as is, by link; the item keeps its own terms, which may rule out adapting it, and the use-case idea says what using it requires. '+
     'Works cited for their ideas alone also keep their own terms.</p><p class="muted" data-source-license>'+esc(window.TOOL_LICENSE.exceptions)+'</p></details>';
-  h += '<p class="countline">'+(q ? '<strong>'+list.length+'</strong> of '+R.works.length+' sources '+(list.length===1?'matches':'match')+' “'+esc(q)+'”. <button type="button" class="btn btn--sm btn--quiet" id="clearSrcSearch">Show all sources</button>'
-                                   : '<strong>'+list.length+'</strong> sources.')+'</p>';
+  h += '<p class="countline">'+(q ? '<strong>'+S_.num(list.length)+'</strong> of '+S_.num(R.works.length)+' sources '+(list.length===1?'matches':'match')+' “'+esc(q)+'”. <button type="button" class="btn btn--sm btn--quiet" id="clearSrcSearch">Show all sources</button>'
+                                   : '<strong>'+S_.num(list.length)+'</strong> sources.')+'</p>';
   if(!list.length){ document.getElementById('sources').innerHTML = h + '<div class="empty"><strong>No sources match that search</strong></div>'; return; }
   var groups = {}, order = [];
   list.forEach(function(w){ var l = letterOf(w); if(!groups[l]){ groups[l]=[]; order.push(l); } groups[l].push(w); });
@@ -425,7 +425,7 @@ function drawSources(){
       h += '<li class="src" id="src-'+esc(w.id)+'"><div class="src__cit">'+esc(citeOf(w))+'</div><div class="src__meta">'+
         (link ? '<span>'+link+'</span>' : '')+(w.lic ? '<span>License: '+esc(w.lic)+'</span>' : '')+'</div>'+
         (w.access?'<p class="meta-line">'+esc(w.access)+'</p>':'')+
-        (acts.length ? '<details><summary>Used in '+acts.length+' use-case idea'+(acts.length===1?'':'s')+'</summary><ul>'+acts.map(function(id){
+        (acts.length ? '<details><summary>Used in '+S_.num(acts.length)+' use-case idea'+(acts.length===1?'':'s')+'</summary><ul>'+acts.map(function(id){
             return '<li><button type="button" data-open="'+esc(id)+'">'+esc(S_.BYID[id].t)+'</button></li>'; }).join('')+'</ul></details>' : '')+'</li>';
     });
     h += '</ul>';
