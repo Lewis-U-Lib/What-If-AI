@@ -51,7 +51,7 @@ function selectField(id, label, key, options){
 /* the licensed collection has no set; each of the two sets written for the collection is its own value */
 var LICENSED_SET = 'licensed';
 function setOf(a){ return a.tier || LICENSED_SET; }
-function setLabel(v){ return v===LICENSED_SET ? 'Adapted from published use-case ideas' : ((S_.TIER[v]||{}).label || v); }
+function setLabel(v){ return v===LICENSED_SET ? 'Adapted from published activities' : ((S_.TIER[v]||{}).label || v); }
 function counted(list, key){
   var c = {}; A.forEach(function(a){ var v = key==='set' ? setOf(a) : a[key]; (Array.isArray(v)?v:[v]).forEach(function(x){ if(x) c[x]=(c[x]||0)+1; }); });
   return list.filter(function(o){ return c[o[0]]; }).map(function(o){ return [o[0], o[1]+' ('+c[o[0]]+')']; });
@@ -85,6 +85,10 @@ function filtersHTML(){
   h += '<button type="button" class="btn btn--sm" id="resetFilters">Clear all filters</button>';
   return h;
 }
+/* Search treats keyboard and typographic quotes alike without changing displayed text. */
+function searchText(s){
+  return String(s || '').toLowerCase().replace(/[‘’]/g, "'").replace(/[“”]/g, '"');
+}
 function matches(a){
   if(F.set && setOf(a)!==F.set) return false;
   if(F.focus && a.focus!==F.focus) return false;
@@ -104,8 +108,8 @@ function matches(a){
   if(F.open && a.sa) return false;
   if(F.type && TYPE_IDS[F.type] && TYPE_IDS[F.type].ids.indexOf(a.id)<0) return false;
   if(F.q){
-    var hay = (a.t+' '+a.sum+' '+(a.cit||'')+' '+(a.cr||'')+' '+(a.fld||'')+' '+(a.f||'')+' '+S_.familyLabel(a.f||'')+' '+a.id+' '+(a.al||[]).join(' ')).toLowerCase();
-    var words = F.q.toLowerCase().split(/\s+/).filter(Boolean);
+    var hay = searchText(a.t+' '+a.sum+' '+(a.cit||'')+' '+(a.cr||'')+' '+(a.fld||'')+' '+(a.f||'')+' '+S_.familyLabel(a.f||'')+' '+a.id+' '+(a.al||[]).join(' '));
+    var words = searchText(F.q).split(/\s+/).filter(Boolean);
     for(var i=0;i<words.length;i++) if(hay.indexOf(words[i])<0) return false;
   }
   return true;
@@ -140,9 +144,9 @@ function chipLabel(k){
 }
 function worksMatching(q){
   if(!q) return [];
-  var words = q.toLowerCase().split(/\s+/).filter(Boolean);
+  var words = searchText(q).split(/\s+/).filter(Boolean);
   return R.works.filter(function(w){
-    var hay = (w.cit+' '+w.t+' '+w.a+' '+w.y+' '+w.id).toLowerCase();
+    var hay = searchText(w.cit+' '+w.t+' '+w.a+' '+w.y+' '+w.id);
     return words.every(function(x){ return hay.indexOf(x)>=0; });
   });
 }
@@ -258,7 +262,7 @@ function typeActivityLink(t){
     /* the entry describes teaching choices, so it opens the teaching ideas only (administrative and research
        ideas without student participants also have no student AI use, but are not what the entry describes) */
     var nTeach = A.filter(function(a){ return a.focus==='teaching' && S_.noToolForStudents(a)==='confirmed'; }).length;
-    return '<a class="btn btn--sm" data-type-activities href="#activities?focus=teaching&noai=1">See '+nTeach+' teaching use-case ideas where students use no AI tool</a>';
+    return '<a class="btn btn--sm" data-type-activities href="#activities?focus=teaching&noai=1">See '+nTeach+' teaching use-case idea'+(nTeach===1?'':'s')+' where students use no AI tool</a>';
   }
   if(t.ids && t.ids.length) return '<a class="btn btn--sm" data-type-activities href="#activities?type='+t.key+'">See '+t.n+' related use-case idea'+(t.n===1?'':'s')+'</a>';
   if(t.caps && t.caps.length && t.n) return '<a class="btn btn--sm" data-type-activities href="#activities?cap='+t.caps[0]+'">See '+t.n+' related use-case idea'+(t.n===1?'':'s')+'</a>';
@@ -269,7 +273,7 @@ function typeExampleDisclosure(t){
   var items = examples.types[t.key] || [];
   if(!items.length) return '';
   var arrow = '<svg class="type-example__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  return '<details class="type-example-disclosure"><summary><span class="lamp" aria-hidden="true"></span><span class="type-example-disclosure__title">Current examples</span><span class="type-example-disclosure__count">'+items.length+' tools</span>'+icon('i-chevron')+'</summary>'+
+  return '<details class="type-example-disclosure"><summary><span class="lamp" aria-hidden="true"></span><span class="type-example-disclosure__title">Current examples</span><span class="type-example-disclosure__count">'+items.length+(items.length===1?' tool':' tools')+'</span>'+icon('i-chevron')+'</summary>'+
     '<div class="type-example-disclosure__content"><p class="type-example-disclosure__note">Examples may span several types. Inclusion does not indicate Lewis access or approval.</p><ul>'+items.map(function(x){
       return '<li>'+S_.externalLink(x[2],'<span class="type-example__name">'+esc(x[0])+'</span><span class="type-example__desc">'+esc(x[1])+'</span>'+arrow+'<span class="sr-only"> (opens in a new tab)</span>',' class="type-example"')+'</li>';
     }).join('')+'</ul><p class="type-example-disclosure__date">Official sources · Examples checked <time datetime="'+esc(examples.checked)+'">'+esc(examples.checkedLabel)+'</time></p></div></details>';
@@ -365,7 +369,7 @@ function drawPolicies(){
   h += '<div class="polpanel" role="tabpanel" id="pp" aria-labelledby="pt-'+t.key+'" tabindex="0">'+
     '<div class="kicker">'+esc(t.pill)+'</div><h3>'+esc(t.label)+'</h3><p class="gist">'+esc(t.gist)+'</p>'+
     '<p><strong>What a use-case idea at this position assumes:</strong> '+esc(t.reads)+'</p>'+
-    (t.n ? '<p><a href="#activities?pol='+t.key+'">'+t.n+' use-case ideas in the collection assume this position</a></p>' : '')+
+    (t.n ? '<p><a href="#activities?pol='+t.key+'">'+t.n+(t.n===1?' use-case idea in the collection assumes':' use-case ideas in the collection assume')+' this position</a></p>' : '')+
     '<h4 class="pol-examples-h">Course policies and sample statements</h4><ul class="quotes">'+
     (t.items||[]).map(function(q){
       return '<li><blockquote><p>“'+esc(q.quote)+'”</p></blockquote><div class="who"><span><strong>'+esc(q.who)+'</strong> · '+esc(q.course)+' · '+esc(q.inst)+'</span>'+
@@ -373,7 +377,7 @@ function drawPolicies(){
         (q.version_note?'<p class="meta-line">'+esc(q.version_note)+'</p>':'')+'</li>'; }).join('')+'</ul></div>';
   var a = P.aside;
   h += '<div class="aside-card"><div class="kicker">'+esc(a.pill)+'</div><h3>'+esc(a.label)+'</h3><p>'+esc(a.gist)+'</p><p>'+esc(a.reads)+'</p>'+
-    (a.n ? '<p><a href="#activities?pol=instructor_side">'+a.n+' use-case ideas in the collection are the instructor’s or staff member’s own work</a></p>' : '')+'</div>';
+    (a.n ? '<p><a href="#activities?pol=instructor_side">'+a.n+(a.n===1?' use-case idea in the collection is':' use-case ideas in the collection are')+' the instructor’s or staff member’s own work</a></p>' : '')+'</div>';
   h += '<p class="polsrc">Examples are drawn from '+S_.externalLink(P.source.url,esc(P.source.name)+
     '<span class="sr-only"> (opens in a new tab)</span>')+', '+esc(P.source.who)+'. '+esc(P.source.note)+' '+S_.externalLink(P.source.snapshot,'View the dated source snapshot and excerpt record<span class="sr-only"> (opens in a new tab)</span>')+'. '+
     'For guidance at Lewis, see '+S_.externalLink(P.local.url,esc(P.local.label)+'<span class="sr-only"> (opens in a new tab)</span>')+'.</p>';
@@ -405,7 +409,7 @@ function drawSources(){
     '<p class="muted">Use-case ideas adapt only works published under a Creative Commons license or another open license, and keep the original license, with any ShareAlike or NonCommercial terms, when they are reused. '+
     'Some synthesis use-case ideas also use a published source item as is, by link; the item keeps its own terms, which may rule out adapting it, and the use-case idea says what using it requires. '+
     'Works cited for their ideas alone also keep their own terms.</p><p class="muted" data-source-license>'+esc(window.TOOL_LICENSE.exceptions)+'</p></details>';
-  h += '<p class="countline">'+(q ? '<strong>'+list.length+'</strong> of '+R.works.length+' sources match “'+esc(q)+'”. <button type="button" class="btn btn--sm btn--quiet" id="clearSrcSearch">Show all sources</button>'
+  h += '<p class="countline">'+(q ? '<strong>'+list.length+'</strong> of '+R.works.length+' sources '+(list.length===1?'matches':'match')+' “'+esc(q)+'”. <button type="button" class="btn btn--sm btn--quiet" id="clearSrcSearch">Show all sources</button>'
                                    : '<strong>'+list.length+'</strong> sources.')+'</p>';
   if(!list.length){ document.getElementById('sources').innerHTML = h + '<div class="empty"><strong>No sources match that search</strong></div>'; return; }
   var groups = {}, order = [];

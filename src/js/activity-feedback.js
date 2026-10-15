@@ -154,7 +154,7 @@ document.addEventListener('submit', function(event){
   Promise.resolve().then(function(){ return send(id, form.getAttribute('data-surface'), value, previous); }).then(function(){
     remember(id, value); delete pending[id];
     var active = currentForm(id);
-    if(active){ refresh(active); status(active, 'Thank you—your feedback was sent. You can update it later.'); }
+    if(active){ refresh(active); status(active, 'Thank you — your feedback was sent. You can update it later.'); }
   }, function(){
     delete pending[id];
     var active = currentForm(id);

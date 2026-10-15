@@ -100,7 +100,7 @@
       "what": "A large language model generates text by predicting likely continuations of what it is given. Chat assistants are language models further trained, often with human feedback, to follow instructions; the conversation is an interface to that system, not a separate kind of AI.",
       "does": "Produces drafts, explanations, summaries, and answers in plain language, and revises them in response to feedback. Research evaluations show such models translating, answering questions, and following a wide range of written instructions.",
       "io": "Typed instructions, questions, examples, or pasted text go in; generated text comes out, such as prose, lists, outlines, tables, or code. Image input, web search, and tool use are features of a wider system and are described separately.",
-      "why": "Most use-case ideas in the collection need at least this capability. Related ideas use a model as a drafting partner, a conversation partner, or the object of study—for example, comparing a model’s interpretation of a short story with a group’s own readings of the text.",
+      "why": "Most use-case ideas in the collection need at least this capability. Related ideas use a model as a drafting partner, a conversation partner, or the object of study — for example, comparing a model’s interpretation of a short story with a group’s own readings of the text.",
       "limits": "Output can be fluent and wrong, including invented references. Responses vary from one attempt to the next, can reflect social biases in training data, and may not reflect recent events unless the system retrieves current information. Consider checking factual claims and references against sources you can inspect.",
       "citations": {
         "what": [
@@ -129,7 +129,7 @@
       "what": "Multimodal models process and relate more than one form of information, such as language, images, and sound. A common kind, the multimodal large language model, accepts photographs, scanned pages, charts, diagrams, or screenshots alongside a question and answers in text.",
       "does": "Describes and interprets images, reads text in photographs and scans, explains figures and charts, and answers questions about what an image shows.",
       "io": "Images or files plus a question go in; descriptions, transcriptions, or explanations come out as text. Accepting images does not by itself mean a system can also generate them.",
-      "why": "Related ideas involve visual sources in teaching and research—for example, checking a machine transcription of handwritten archival pages line by line against the page image, or drafting image descriptions for course materials and then verifying each one.",
+      "why": "Related ideas involve visual sources in teaching and research — for example, checking a machine transcription of handwritten archival pages line by line against the page image, or drafting image descriptions for course materials and then verifying each one.",
       "limits": "Interpretations can be confidently wrong, especially for specialist images, handwriting, and charts. Benchmark studies report weaknesses with handwritten text and accuracy well short of expert level on college-level questions about charts, diagrams, maps, and tables. Images can show identifiable people or sensitive information, so consider whether they need to be uploaded at all.",
       "citations": {
         "what": [
@@ -157,7 +157,7 @@
       "what": "Image generators produce new images from a text description and, in some tools, edit or extend an existing image. Diffusion models, one widely used approach, build an image through a series of denoising steps that can be guided by text or other inputs.",
       "does": "Produces illustrations, concept images, and visual variations from written descriptions. The cited research also demonstrates filling in missing parts of an image and increasing its resolution; not every tool offers these features.",
       "io": "A text prompt goes in, sometimes with a reference image or a layout; one or more images come out.",
-      "why": "Related ideas appear mostly in teaching, often in arts and design courses and in activities that examine how generated images represent people—for example, giving peer feedback on portraits generated from partners’ sketches, or composing prompts to surface gender bias and analyzing where it appears.",
+      "why": "Related ideas appear mostly in teaching, often in arts and design courses and in activities that examine how generated images represent people — for example, giving peer feedback on portraits generated from partners’ sketches, or composing prompts to surface gender bias and analyzing where it appears.",
       "limits": "Outputs can reproduce stereotypes even when a prompt asks for something different, and they sometimes closely copy images from their training data. How copyright applies to generated images and to training on others’ work is still being debated; U.S. Copyright Office guidance concludes that prompts alone are unlikely to make a user the author of the output. Realistic images of real people or events can mislead if they are not labeled.",
       "citations": {
         "what": [
@@ -183,7 +183,7 @@
       "what": "Video generators produce moving images, typically from a written description. Research systems such as Imagen Video extend diffusion methods from single images to sequences of frames.",
       "does": "Generates or animates scenes from a description. Imagen Video, one research example, combines a base video model with stages that raise spatial and temporal resolution; this is one design, not the architecture of every product.",
       "io": "In the cited research, a text prompt conditions the generated video. Products may also accept images, footage, or scripts; check each product’s documentation for its inputs and editing controls.",
-      "why": "Related ideas are few and mostly in teaching—for example, checking a generated previsualization clip against a handwritten shot specification, or building matched sets of filmed and generated clips to practice recognizing synthetic video.",
+      "why": "Related ideas are few and mostly in teaching — for example, checking a generated previsualization clip against a handwritten shot specification, or building matched sets of filmed and generated clips to practice recognizing synthetic video.",
       "limits": "Motion can depart from physical reality: in one study, video models imitated the closest training examples rather than learning physical laws, and they failed on unfamiliar scenarios. Realistic synthetic video of people raises consent, disclosure, and misinformation concerns, and across many studies people detected deepfakes at about chance levels. Consider how any generated video will be labeled and whether every participant can access the tool.",
       "citations": {
         "what": [
@@ -208,7 +208,7 @@
       "what": "These systems work with sound. Speech recognition converts speech into text; speech synthesis produces spoken audio from text; audio generation produces or continues sounds such as speech or music.",
       "does": "Transcribes recorded speech, reads text aloud in a synthetic voice, and continues speech or music from a short audio prompt. These are separate tasks: evidence about one does not establish performance on another.",
       "io": "Recognition takes audio and returns a transcript. Text-to-speech takes text and returns audio. In the cited audio-generation research, a short audio prompt conditions further audio.",
-      "why": "Related ideas include accessibility, qualitative research, language learning, and media projects—for example, comparing an automated first-pass interview transcript with a manual one, or correcting automatic captions for course video before publishing them.",
+      "why": "Related ideas include accessibility, qualitative research, language learning, and media projects — for example, comparing an automated first-pass interview transcript with a manual one, or correcting automatic captions for course video before publishing them.",
       "limits": "Recognition accuracy varies across speakers, with documented differences by age, gender, and accent, so transcripts need checking; one study found that about 1 percent of transcriptions contained entire invented phrases, more often for speakers with longer pauses. Consider consent, and any required ethics approval, when recording people. Synthetic and cloned voices raise consent and impersonation concerns, and listeners often cannot reliably tell them from real speech.",
       "citations": {
         "what": [
@@ -240,7 +240,7 @@
       "what": "Code models generate program text from a description, a partial program, or surrounding code. Some tools also run the code they write and return the results; writing code and running it are separate operations.",
       "does": "Proposes code from a description and, when connected to a runtime, runs analyses and produces charts and tables from data. In research, handing calculations to an interpreter made results more accurate than having the model reason them out in text.",
       "io": "A description, data file, or existing code goes in; proposed code comes out, along with charts, tables, and written interpretations when the code is run.",
-      "why": "Related ideas are split between teaching and faculty research and administration—for example, translating a reporting request into a database query, or classifying measured infrared spectra in a Python practical.",
+      "why": "Related ideas are split between teaching and faculty research and administration — for example, translating a reporting request into a database query, or classifying measured infrared spectra in a Python practical.",
       "limits": "Code can run and still be wrong. On a benchmark of realistic data-science problems, the best system of its time solved fewer than half, and in one user study, people with an AI assistant wrote less secure code while believing it more secure. Analyses can apply inappropriate methods or silently mishandle data, so consider reviewing the code, not only the result. Uploading research or student data raises confidentiality questions.",
       "citations": {
         "what": [
@@ -267,9 +267,9 @@
       "name": "Prediction, classification, and pattern finding",
       "preview": "Learn from data to assign labels, estimate outcomes, or find structure.",
       "what": "Machine learning also includes models that predict, classify, or find structure rather than generate content. Supervised learning learns from examples with known answers; unsupervised learning looks for structure without them. Many such models are built for one field or one kind of data.",
-      "does": "Assigns categories, estimates values, or groups similar observations—for example, filtering spam, recognizing faces in images, or predicting a protein’s structure.",
+      "does": "Assigns categories, estimates values, or groups similar observations — for example, filtering spam, recognizing faces in images, or predicting a protein’s structure.",
       "io": "Measurements, images, documents, sequences, or other data go in; labels, estimates, groupings, or predicted structures come out.",
-      "why": "Related ideas come mostly from faculty research in the sciences—for example, adapting a microscopy segmentation model through corrective annotation, or ordering systematic-review screening with active learning while a person makes every inclusion decision. These ideas were linked individually, so they are a selection rather than every predictive use in the collection.",
+      "why": "Related ideas come mostly from faculty research in the sciences — for example, adapting a microscopy segmentation model through corrective annotation, or ordering systematic-review screening with active learning while a person makes every inclusion decision. These ideas were linked individually, so they are a selection rather than every predictive use in the collection.",
       "limits": "Results depend on the data a model learned from and may not transfer to local conditions. Data leakage, a common methodological error, has been found in hundreds of published studies across many fields, in some cases producing wildly overoptimistic conclusions, and even high-confidence structure predictions can differ from experimental data. Consider validating against known cases and examining errors for relevant groups, not only overall accuracy.",
       "citations": {
         "what": [
@@ -296,7 +296,7 @@
       "what": "A document-grounded system answers from documents you supply, such as readings, a syllabus, transcripts, or policies, rather than only from what the model learned in training. Some document-grounded systems place supplied text directly in the model’s context. Retrieval-augmented generation (RAG) instead uses a retriever to select relevant passages, which a generator uses to compose an answer.",
       "does": "Finds and summarizes relevant passages, answers questions about the material, compares documents, and points back to the passages it used. Researchers developed retrieval partly to give answers traceable sources and knowledge that can be updated.",
       "io": "Uploaded files or linked sources plus questions go in; answers, summaries, or notes come out, usually with references to the supplied passages. These tools typically start with a collection you supply; check whether the tool also searches other sources.",
-      "why": "Related ideas keep an activity inside a defined set of sources—for example, reviewing a faculty-authored proposal against a supplied solicitation, or auditing the quotations in a history essay with an assistant limited to the course sources.",
+      "why": "Related ideas keep an activity inside a defined set of sources — for example, reviewing a faculty-authored proposal against a supplied solicitation, or auditing the quotations in a history essay with an assistant limited to the course sources.",
       "limits": "Answers are only as good as what is retrieved: a system can misread, overgeneralize, or miss passages, and language models use information in the middle of long inputs less reliably. An evaluation of legal research tools built on retrieval found incorrect or misgrounded answers in 17 to 33 percent of queries, despite providers’ claims. Uploading documents raises copyright, privacy, and retention questions, especially for student work and unpublished research.",
       "citations": {
         "what": [
@@ -321,7 +321,7 @@
       "what": "An AI search system retrieves current or external information from the web, a scholarly index, or a database and composes a response from what it finds, with in-line citations. The service determines its available indexes and sources, and some tools also let you limit the search.",
       "does": "Searches, gathers, and summarizes sources, suggests related literature, and attaches links or citations to its answers.",
       "io": "A question or search terms go in; a synthesized answer with links, citations, or lists of papers comes out. What it can find depends on what the service indexes and can reach.",
-      "why": "Related ideas center on finding and checking information—for example, exploring a subject literature with AI tools alongside library keyword searching, or looking for newer measurements comparable to a cited statistic.",
+      "why": "Related ideas center on finding and checking information — for example, exploring a subject literature with AI tools alongside library keyword searching, or looking for newer measurements comparable to a cited statistic.",
       "limits": "Coverage depends on what the system can reach: in one evaluation across four reviews, an AI research tool found, on average, fewer than half of the studies that structured database searches found, though it surfaced some they missed. Citations can be attached to statements they do not support, and summaries of research often state findings more broadly than the original studies do. Consider checking key claims against the original source and the databases your field relies on.",
       "citations": {
         "what": [
@@ -348,7 +348,7 @@
       "what": "An agent is a system in which a model carries out multi-step tasks, calling other tools, moving between applications, or taking actions with some degree of autonomy. ReAct, an early research example, interleaves the model’s reasoning with actions and the observations they return.",
       "does": "Chains steps together, such as gathering information, filling in documents, sorting records, drafting messages, or updating connected systems. The tools it is given determine what actions are possible.",
       "io": "A goal or instruction goes in, along with access to tools or data; outputs include action requests, completed steps, documents, or changes in connected systems.",
-      "why": "Related ideas appear mainly in administrative and research workflows and in activities that audit an agent’s work—for example, scoring a read-only email-triage agent on a simulated inbox before any real deployment, or auditing a coding agent’s commits in a research repository.",
+      "why": "Related ideas appear mainly in administrative and research workflows and in activities that audit an agent’s work — for example, scoring a read-only email-triage agent on a simulated inbox before any real deployment, or auditing a coding agent’s commits in a research repository.",
       "limits": "Errors can compound across steps: in a realistic web-task benchmark, the best agent tested completed about 14 percent of tasks, compared with 78 percent for people. Content an agent reads, such as a web page or document, can carry hidden instructions that redirect it. Consider what the system may access or change, where a person reviews its work, and who is accountable for the result.",
       "citations": {
         "what": [
@@ -376,7 +376,7 @@
       "what": "This is an access and deployment choice, not a model capability: versions of the systems above provided through an institutional agreement, or run on infrastructure the institution controls, rather than through a personal account.",
       "does": "Can offer similar capabilities under negotiated terms, such as limits on how submitted data is retained or used, sign-in with institutional credentials, and access for everyone in a course. The OECD treats the context of use as its own classification dimension, and NIST assesses trustworthiness across deployment and use.",
       "io": "Inputs and outputs depend on the underlying model and connected tools; the access arrangement does not tell you whether a system handles text, images, audio, or other data.",
-      "why": "Related ideas ask what goes into a model and who can see it—for example, mapping where data goes during a training job in an institution’s managed environment, or checking a confidential draft review on a local, offline model so the manuscript stays out of outside services.",
+      "why": "Related ideas ask what goes into a model and who can see it — for example, mapping where data goes during a training job in an institution’s managed environment, or checking a confidential draft review on a local, offline model so the manuscript stays out of outside services.",
       "limits": "An institutional label is not evidence of accuracy, privacy, or approval for a particular use; terms differ, and not every feature is available in every environment. As NIST puts it, a transparent system is not necessarily accurate, privacy-enhanced, secure, or fair. Consider checking institutional guidance on approved tools and data classification before using any AI tool with student work, research data, or confidential information.",
       "citations": {
         "what": [],

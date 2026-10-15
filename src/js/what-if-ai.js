@@ -77,13 +77,13 @@ function answerText(key){
 function hasAnswer(){ return !!(S.focus||S.task||S.disc||S.depth||S.lvl||S.mod||Object.keys(S.limits).some(function(k){return S.limits[k];})); }
 /* A changed work focus can invalidate a task. Limits never clear preferences;
    the results explain conflicts and let the reader decide what to adjust. */
-var RAIL = {task:'The task', disc:'Your field', lvl:'Level', mod:'Setting', depth:'Scale'};
+var RAIL = {task:'the task', disc:'your field', lvl:'level', mod:'setting', depth:'scale'};
 function prune(){
   var gone=[];
   ['task','disc','lvl','mod','depth'].forEach(function(k){
     if(S[k] && !viable(k)[S[k]]){ S[k]=null; gone.push(RAIL[k]); }
   });
-  if(gone.length) S_.announce('Cleared '+gone.join(' and ')+', which no longer match'+(gone.length===1?'es':'')+' anything with your other answers.');
+  if(gone.length) S_.announce('Cleared '+(gone.length<3 ? gone.join(' and ') : gone.slice(0,-1).join(', ')+', and '+gone[gone.length-1])+', which no longer match'+(gone.length===1?'es':'')+' anything with your other answers.');
   return gone;
 }
 
@@ -98,7 +98,7 @@ function drawRail(){
   });
   h += '<button type="button" class="railitem" data-goto="plan"'+(onPlan?' aria-current="step"':'')+'>'+
     '<span class="railitem__n" aria-hidden="true">✓</span><span class="railitem__txt"><span>Results</span>'+
-    '<span class="railitem__ans">'+results().near+' matches to explore</span></span></button>';
+    '<span class="railitem__ans">'+(function(n){ return n+(n===1?' match':' matches'); })(results().near)+' to explore</span></span></button>';
   document.getElementById('rail').innerHTML = h;
 }
 
@@ -209,9 +209,9 @@ function drawPlan(focusTitle){
     '<div class="ractions no-print"><button type="button" class="btn" id="redo">Change my answers</button>'+
     '<button type="button" class="btn" id="copylink">Copy a link to these results</button>'+
     '<button type="button" class="btn" data-open-saved aria-haspopup="dialog">View saved use-case ideas (<span data-saved-count>0</span>)</button></div></div>';
-  h+='<p class="countline"><strong>'+p.exact.length+'</strong> '+(n?'exact matches':'use-case ideas to explore')+
-    '; <strong>'+p.compatible.length+'</strong> possible fits to check; <strong>'+p.close.length+'</strong> close matches.'+
-    (p.unknown.length?' <strong>'+p.unknown.length+'</strong> additional use-case ideas have requirements to check.':'')+'</p>';
+  h+='<p class="countline"><strong>'+p.exact.length+'</strong> '+(n?(p.exact.length===1?'exact match':'exact matches'):(p.exact.length===1?'use-case idea to explore':'use-case ideas to explore'))+
+    '; <strong>'+p.compatible.length+'</strong> possible fit'+(p.compatible.length===1?'':'s')+' to check; <strong>'+p.close.length+'</strong> close match'+(p.close.length===1?'':'es')+'.'+
+    (p.unknown.length?' <strong>'+p.unknown.length+'</strong> additional use-case idea'+(p.unknown.length===1?' has':'s have')+' requirements to check.':'')+'</p>';
   h+='<p class="print-note">This printout lists summaries only. Each use-case idea’s source, license, and attribution are in its full details. To keep them, print an idea from its details, or save ideas and print them from Saved use-case ideas.</p>';
   if(!p.confirmed){
     h+='<div class="empty"><strong>No use-case ideas have all selected limits confirmed.</strong><p>'+
