@@ -137,7 +137,7 @@ console.log('PASS: all 128 limit combinations; '+comparisons+' single-limit addi
 console.log('PASS: original '+originalStates+' states retained; '+states+' expanded states: '+withMatches+' have exact/compatible/close matches; '+withRecovery+' have explicitly labeled broader recovery. No silent blank plan; activity data unchanged.');
 
 // Result order reflects match quality, never array position. Reversing or shuffling the
-// activities must not change any ordered group, and the tie-breaks are quality-first.
+// activities must not change any ordered group, and the tie-breaks are fit-first.
 {
   const shuffled=A.slice().reverse(), seeded=A.slice();
   let seed=7;for(let i=seeded.length-1;i>0;i--){seed=(seed*1103515245+12345)%2147483648;const j=seed%(i+1);[seeded[i],seeded[j]]=[seeded[j],seeded[i]];}
@@ -152,19 +152,46 @@ console.log('PASS: original '+originalStates+' states retained; '+states+' expan
   const mk=(id,extra)=>({id,focus:'teaching',task:['design'],disc:'',depth:'assignment',lvl:['any'],mod:['any'],icap:'constructive',pc:'none',eq:'free_tier',sen:'none',dis:'none_required',cap:['text_chat'],gr:1,...extra});
   const s={focus:'teaching',task:'design',limits:{}};
   const order=list=>M.search(list,s).exact.map(r=>r.activity.id);
-  // better recorded match first, then the quality tier, then reported use
-  assert.deepEqual(order([mk('a',{gr:0}),mk('b',{gr:3})]),['b','a']);
+  // 1. the match score comes first: a higher score is never displaced by a nearer miss, targeting, or origin
+  {
+    const st={focus:'teaching',task:'design',lvl:'firstyear',mod:'in_person',limits:{}};
+    const far=mk('far',{lvl:['grad'],mod:['in_person'],tier:undefined}), better=mk('better',{lvl:['firstyear'],mod:['online'],task:['design','feedback','materials'],tier:'remix'});
+    assert.deepEqual(M.search([far,better],st).close.map(r=>r.activity.id),['better','far'],'score before nearness, targeting, and origin');
+  }
+  // 2. among equal scores, the nearer miss first: level, setting, and scale have a natural order
+  {
+    const st={focus:'teaching',task:'design',lvl:'firstyear',limits:{}};
+    assert.deepEqual(M.search([mk('grad',{lvl:['grad']}),mk('upper',{lvl:['upper']}),mk('scholarly',{lvl:['scholarly']})],st).close.map(r=>r.activity.id),['upper','grad','scholarly']);
+    const sm={focus:'teaching',task:'design',mod:'in_person',limits:{}};
+    assert.deepEqual(M.search([mk('online',{mod:['online']}),mk('hybrid',{mod:['hybrid']})],sm).close.map(r=>r.activity.id),['hybrid','online'],'hybrid sits between in person and online');
+    const sd={focus:'teaching',task:'design',depth:'quick',limits:{}};
+    assert.deepEqual(M.search([mk('capstone',{depth:'capstone'}),mk('assignment',{depth:'assignment'}),mk('recurring',{depth:'professional_workflow'})],sd).close.map(r=>r.activity.id),['assignment','capstone','recurring']);
+    assert.equal(M.nearness(mk('x',{task:['feedback']}),'task','design'),6,'a different task has no nearer or farther');
+    assert.deepEqual(M.search([mk('grad',{lvl:['grad'],tier:'remix'}),mk('upper',{lvl:['upper'],tier:'remix'})],{focus:'teaching',task:'design',lvl:'firstyear',depth:'quick',limits:{}}).broader.map(r=>r.activity.id),['upper','grad'],'broader starting points use the same order after the number of misses');
+  }
+  // 3. then the more targeted use-case idea, counting only what was asked
+  assert.deepEqual(order([mk('broad',{task:['design','feedback']}),mk('targeted',{task:['design']})]),['targeted','broad']);
+  assert.equal(M.rank(M.assess(mk('same',{lvl:['upper','grad']}),s),M.assess(mk('same',{lvl:['grad']}),s)),0,'level breadth does not count when level was not asked');
+  {
+    const sl={focus:'teaching',task:'design',lvl:'grad',limits:{}};
+    assert.deepEqual(M.search([mk('two',{lvl:['upper','grad']}),mk('one',{lvl:['grad']})],sl).exact.map(r=>r.activity.id),['one','two']);
+  }
+  // 4. then origin: an adaptation of a published activity before one written for the collection
+  assert.deepEqual(order([mk('s',{tier:'remix'}),mk('a',{})]),['a','s']);
+  assert.deepEqual(order([mk('s',{tier:'synthesis',gr:0}),mk('a',{gr:0})]),['a','s']);
+  // 5. then reported use, only on adaptations; missing and unknown statuses are neutral
   assert.deepEqual(order([mk('u',{use:'unreported'}),mk('r',{use:'reported'})]),['r','u']);
-  assert.deepEqual(order([mk('s',{tier:'remix'}),mk('r',{use:'reported'})]),['r','s'],'a set record written for the collection has no reported use');
+  assert.deepEqual(order([mk('s',{tier:'remix'}),mk('r',{use:'reported'})]),['r','s'],'a use-case idea written for the collection has no reported use');
   for(const use of [undefined,'',false,'unknown','unreported']){
     assert.equal(M.rank(M.assess(mk('same',{use}),s),M.assess(mk('same',{use:'unreported'}),s)),0,'missing and unknown usage must be neutral');
   }
-  assert.equal(M.rank(M.assess(mk('same',{use:'reported',tier:'remix'}),s),M.assess(mk('same',{use:'unreported'}),s)),0);
-  assert.deepEqual(order([mk('u',{use:'unreported',gr:3}),mk('r',{gr:1})]),['u','r'],'quality tier outranks evidence of use');
+  assert.ok(M.rank(M.assess(mk('same',{use:'reported',tier:'remix'}),s),M.assess(mk('same',{use:'unreported'}),s))>0,'origin decides before use');
+  // the former import-era tier no longer affects order
+  assert.equal(M.rank(M.assess(mk('same',{gr:0}),s),M.assess(mk('same',{gr:3}),s)),0,'the import-era tier (gr) does not order results');
   const plan=M.search([mk('x',{task:['design','feedback']}),mk('y',{gr:3,task:['feedback']})],{focus:'teaching',task:'design',limits:{}});
-  assert.deepEqual(plan.exact.map(r=>r.activity.id),['x'],'a better match is never displaced by a higher tier');
+  assert.deepEqual(plan.exact.map(r=>r.activity.id),['x'],'a better match is never displaced');
   // same-source results are not broken up when they are the best matches
-  const same=['s1','s2','s3'].map(id=>mk(id,{gr:3,rel:[['CSR-1','Source of this activity','',''] ]})), other=mk('o',{gr:2,rel:[['CSR-2','','','']]});
+  const same=['s1','s2','s3'].map(id=>mk(id,{rel:[['CSR-1','Source of this activity','',''] ]})), other=mk('o',{task:['design','feedback'],rel:[['CSR-2','','','']]});
   assert.deepEqual(order([other,...same]).slice(0,3).sort(),['s1','s2','s3']);
-  console.log('PASS: result order is independent of array position across '+orders+' focus/task/limit states; score, quality tier, and reported use decide ties before a neutral fixed order.');
+  console.log('PASS: result order is independent of array position across '+orders+' focus/task/limit states; score, nearness of a miss, targeting, origin, and reported use decide ties before a neutral fixed order.');
 }

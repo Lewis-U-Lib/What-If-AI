@@ -26,15 +26,29 @@ Counts and the navigation rail describe these groups, not the entire focus pool.
 
 ## Result order
 
-Within a group, results are ordered by quality, never by where a record sits in the data:
+Within a group, results are ordered by fit first, never by where a record sits in the data
+(changed October 15, 2026; examples in `docs/research/ordering-2026-10-15-examples.md`):
 
-1. the match score above;
-2. the corpus quality tier (`gr`, ranking-only and not shown to readers);
-3. explicit evidence of use: only `use: "reported"` on a record outside the authored sets
-   earns this tie-break. Missing, empty, unknown, and `unreported` statuses are neutral.
-   No reported-use statuses were added by the October 9 correction;
-4. a fixed FNV-1a hash of the identifier, a neutral last resort that favors no import batch,
+1. **the match score** above;
+2. **how near the misses are**, on the answers that have a natural order. Level runs first-year,
+   upper-level, graduate, own scholarship; setting runs in person, hybrid, online (hybrid sits
+   between); scale runs one class, single assignment, a unit or writing cycle or literature-review
+   phase (several weeks), and capstone, grant proposal, or research stage (term-long). A recurring
+   administrative process has no place on that scale. Each miss counts 0–6 (sixths of its scale, so
+   sums stay whole numbers); a different task or field counts 6, since nothing is nearer or farther;
+3. **how targeted the use-case idea is** to what was asked: the number of tasks, levels, and settings
+   it lists, counted only for the questions answered. “Any” level counts as all four levels and “any”
+   setting as all three;
+4. **origin**: an adaptation of a published activity before one written for the collection (the
+   synthesis and remix sets, which say they are not yet taught or tried). Origin never outranks fit;
+5. **explicit evidence of use**: only `use: "reported"` on an adaptation earns this tie-break. Missing,
+   empty, unknown, and `unreported` statuses are neutral. No record currently reports use;
+6. **a fixed FNV-1a hash of the identifier**, a neutral last resort that favors no import batch,
    source, or letter.
+
+The import-era quality tier (`gr`) no longer affects order. It followed import batches rather than a
+documented judgment about each idea (every administrative idea was 1, most of one batch 2 or 3, and
+every idea written for the collection 0), and readers never saw it. The field remains in the data for now.
 
 Source diversity is not enforced. If the best matches share a source, they stay on top.
 The mismatch-sorted groups (broader recovery, requirements to check) use the same order
