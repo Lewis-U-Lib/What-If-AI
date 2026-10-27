@@ -181,7 +181,7 @@ function resultsHTML(){
 function drawActivities(){
   var sec = document.getElementById('activities');
   sec.innerHTML = '<div class="sec-head"><div class="sec-eyebrow">The collection</div><h2 id="h-activities" tabindex="-1">Use-case ideas</h2>'+
-    '<p>All '+S_.num(A.length)+' use-case ideas in the collection. Each one lists its source, license, and what to consider before using it. '+
+    '<p>All '+S_.num(A.length)+' use-case ideas in the collection. Each one lists what to consider before using it. '+
     'Filter by the kind of work, the kind of AI tool, or the course AI policy a use-case idea assumes; open any use-case idea for the full description, or save it to print later.</p></div>'+
     '<div class="catalog"><div><button type="button" class="btn btn--sm filters-toggle" id="filtersToggle" aria-expanded="false" aria-controls="filters">Show filters</button>'+
     '<aside class="filters is-collapsed" aria-labelledby="filtersTitle" id="filters">'+filtersHTML()+'</aside></div>'+
@@ -276,7 +276,7 @@ function typeExampleDisclosure(t){
   return '<details class="type-example-disclosure"><summary><span class="lamp" aria-hidden="true"></span><span class="type-example-disclosure__title">Current examples</span><span class="type-example-disclosure__count">'+items.length+(items.length===1?' tool':' tools')+'</span>'+icon('i-chevron')+'</summary>'+
     '<div class="type-example-disclosure__content"><p class="type-example-disclosure__note">Examples may span several types. Inclusion does not indicate Lewis access or approval.</p><ul>'+items.map(function(x){
       return '<li>'+S_.externalLink(x[2],'<span class="type-example__name">'+esc(x[0])+'</span><span class="type-example__desc">'+esc(x[1])+'</span>'+arrow+'<span class="sr-only"> (opens in a new tab)</span>',' class="type-example"')+'</li>';
-    }).join('')+'</ul><p class="type-example-disclosure__date">Official sources · Examples checked <time datetime="'+esc(examples.checked)+'">'+esc(examples.checkedLabel)+'</time></p></div></details>';
+    }).join('')+'</ul><p class="type-example-disclosure__date">Examples checked <time datetime="'+esc(examples.checked)+'">'+esc(examples.checkedLabel)+'</time></p></div></details>';
 }
 function openType(key, opener){
   var t = R.types.types.filter(function(x){return x.key===key;})[0];
@@ -324,9 +324,9 @@ function typeCard(t){
 }
 function drawTypes(){
   var T = R.types;
-  var h = '<div class="sec-head"><div class="sec-eyebrow">A guide with sources</div><h2 id="h-ai-types" tabindex="-1">'+esc(T.title)+'</h2>'+
+  var h = '<div class="sec-head"><div class="sec-eyebrow">A guide</div><h2 id="h-ai-types" tabindex="-1">'+esc(T.title)+'</h2>'+
     T.intro.map(typeParagraph).join('')+'</div>';
-  h += '<p class="type-grid-guide">Choose a card for an explanation, supporting sources, and linked product examples. Full guide references appear below.</p>';
+  h += '<p class="type-grid-guide">Choose a card for an explanation and linked product examples.</p>';
   T.groups.forEach(function(group){
     h += '<section class="type-group" aria-labelledby="tg-'+group.key+'"><h3 id="tg-'+group.key+'">'+esc(group.name)+'</h3><p class="type-group-intro">'+esc(group.description)+'</p><div class="types types--compact">';
     group.keys.forEach(function(key){
@@ -339,7 +339,7 @@ function drawTypes(){
     '<div class="protocols__head">'+icon('i-bolt')+'<h3 id="h-protocols">Whatever the tool</h3><span class="protocols__tag">Practical recommendations</span></div>'+
     '<div class="protocols__screen"><ul class="protocols__list">'+
     T.general.map(function(g){ return '<li><span class="lamp lamp--on" aria-hidden="true"></span><span>'+esc(g.text)+typeCitations(g.refs)+'</span></li>'; }).join('')+'</ul></div></section>';
-  h += '<section class="type-bibliography" aria-labelledby="typeReferencesHeading"><h3 id="typeReferencesHeading">Sources for this guide</h3><p>These references support the AI explanations above. They are separate from the collection’s use-case source bibliography. Product links are examples, not evidence for the whole category.</p><p>'+esc(T.scope)+'</p>'+
+  h += '<section class="type-bibliography" aria-labelledby="typeReferencesHeading"><h3 id="typeReferencesHeading">Sources for this guide</h3><p>Product links are examples, not evidence for the whole category.</p><p>'+esc(T.scope)+'</p>'+
     '<details class="type-bibliography__list"><summary>All '+S_.num(T.sources.length)+' references'+icon('i-chevron')+'</summary>'+typeReferences()+'</details></section>';
   h += '<p class="meta-line" data-guide-license>'+esc(window.TOOL_LICENSE.guide_notice)+'</p>';
   document.getElementById('ai-types').innerHTML = h;
@@ -398,7 +398,7 @@ function citeOf(w){ return w.cit || [w.a, w.y ? '('+w.y+').' : '', w.t].filter(B
 function drawSources(){
   var q = F.q, list = (q ? worksMatching(q) : R.works.slice()).sort(function(x,y){ return (sortKey(x) < sortKey(y) ? -1 : sortKey(x) > sortKey(y) ? 1 : 0) || String(x.y).localeCompare(String(y.y)); });
   var h = '<div class="sec-head"><div class="sec-eyebrow">Works cited</div><h2 id="h-sources" tabindex="-1">Sources</h2>'+
-    '<p>Every published work a use-case idea in the collection draws on, with a link to the work or to the library catalog. Each use-case idea also lists its own source, license, and the changes made in adapting it.</p></div>';
+    '<p>Every published work a use-case idea in the collection draws on, with a link to the work or to the library catalog.</p></div>';
   h += '<p class="meta-line">'+esc(window.SITE_DATA['source-links'].notice)+'</p>';
   h += '<details class="card card--origins"><summary class="card--origins__sum">Where the use-case ideas come from</summary>'+
     '<dl class="legend">'+R.origin.filter(function(o){ return o[3]; }).map(function(o){
