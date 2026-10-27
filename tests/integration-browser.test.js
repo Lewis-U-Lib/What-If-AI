@@ -2,6 +2,7 @@ const assert=require('assert/strict'), fs=require('fs'), path=require('path');
 const {chromium}=require('playwright'), {start}=require('./serve'), {createContext}=require('./browser');
 const {witnesses}=require('./data-integration.test');
 const D=require('./public-data');
+const sourcePolicy=require('../src/js/source-links').create(require('../content/source-links.json'));
 const report=[];
 const hash=w=>'#a='+Object.entries(w.state).map(([k,v])=>k+':'+encodeURIComponent(v)).join(';');
 (async()=>{
@@ -20,7 +21,15 @@ const hash=w=>'#a='+Object.entries(w.state).map(([k,v])=>k+':'+encodeURIComponen
       await card.locator('[data-open]').click();
       assert.equal(await p.locator('#actDialogTitle').textContent(),w.title);
       assert.ok(await p.locator('#actDialog').evaluate(d=>d.open));
-      assert.ok(await p.locator('#actDialog a[href*="'+D.acts.find(a=>a.id===w.id).url.replace(/"/g,'')+'"]').count(),w.id+' source link');
+      const sourceURL=D.acts.find(a=>a.id===w.id).url;
+      const sourceDecision=sourcePolicy.lookup(sourceURL);
+      const expectedSource=(sourceDecision&&sourceDecision.page)||sourcePolicy.noticeURL(sourceURL)||sourceURL;
+      const sourceHrefs=await p.locator('#actDialog a').evaluateAll(anchors=>anchors.map(a=>a.getAttribute('href')));
+      assert.ok(sourceHrefs.includes(expectedSource),w.id+' source webpage or file notice');
+      if(sourcePolicy.file(sourceURL)){
+        assert.ok(sourceHrefs.includes(sourcePolicy.noticeURL(sourceURL)),w.id+' retains its original file through the notice');
+        assert.ok(!sourceHrefs.includes(sourceURL),w.id+' does not open a file without a notice');
+      }
       const finder=(await p.locator('#actDialog .dlg__body').textContent()).replace(' Open in The Register','');
       await go('register.html#act='+w.id);
       assert.equal(await p.locator('#actDialogTitle').textContent(),w.title);

@@ -399,6 +399,7 @@ function drawSources(){
   var q = F.q, list = (q ? worksMatching(q) : R.works.slice()).sort(function(x,y){ return (sortKey(x) < sortKey(y) ? -1 : sortKey(x) > sortKey(y) ? 1 : 0) || String(x.y).localeCompare(String(y.y)); });
   var h = '<div class="sec-head"><div class="sec-eyebrow">Works cited</div><h2 id="h-sources" tabindex="-1">Sources</h2>'+
     '<p>Every published work a use-case idea in the collection draws on, with a link to the work or to the library catalog. Each use-case idea also lists its own source, license, and the changes made in adapting it.</p></div>';
+  h += '<p class="meta-line">'+esc(window.SITE_DATA['source-links'].notice)+'</p>';
   h += '<details class="card card--origins"><summary class="card--origins__sum">Where the use-case ideas come from</summary>'+
     '<dl class="legend">'+R.origin.filter(function(o){ return o[3]; }).map(function(o){
       var O = S_.ORIGIN[o[0]]||{label:o[1],text:o[2]};
@@ -419,7 +420,7 @@ function drawSources(){
   order.forEach(function(l){
     h += '<h3 class="letterhead" id="letter-'+(l==='#'?'num':l)+'" tabindex="-1">'+l+'</h3><ul class="srclist">';
     groups[l].forEach(function(w){
-      var link = w.link ? S_.externalLink(w.link,(w.link.indexOf('doi.org')>=0?'Open via DOI':'Open the work')+'<span class="sr-only"> (opens in a new tab)</span> ↗')
+      var link = w.link ? S_.sourceLink(w.link,(w.link.indexOf('doi.org')>=0?'Open via DOI':'Open the work')+'<span class="sr-only"> (opens in a new tab)</span> ↗')
                : (w.search ? S_.externalLink(w.search,'Find it in the library catalog<span class="sr-only"> (opens in a new tab)</span> ↗') : '');
       var acts = (w.acts||[]).filter(function(id){ return S_.BYID[id]; });
       h += '<li class="src" id="src-'+esc(w.id)+'"><div class="src__cit">'+esc(citeOf(w))+'</div><div class="src__meta">'+

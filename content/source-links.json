@@ -1,0 +1,2337 @@
+{
+  "reviewed": "2026-10-27",
+  "source_commit": "1fc6298df72b2f82f2bcb7d48976292fd76eb0a8",
+  "notice": "Source links open in a new tab. External sites and browser settings may still cause a file to download.",
+  "entries": [
+    {
+      "urls": [
+        "https://jula.sljol.info/articles/8083/files/67121a0716dcd.pdf",
+        "https://doi.org/10.4038/jula.v27i2.8083"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Retrieve candidate bibliographic metadata by ISBN",
+      "page": "https://reference-global.com/article/10.4038/jula.v27i2.8083",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://jula.sljol.info/articles/8083/files/67121a0716dcd.pdf",
+        "https://reference-global.com/article/10.4038/jula.v27i2.8083"
+      ],
+      "observation": "File retained; corresponding HTML source page retrieved"
+    },
+    {
+      "urls": [
+        "https://aalhe.scholasticahq.com/article/162788.pdf",
+        "https://doi.org/10.61669/001c.162788"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Test accreditation evidence mapping against expert coding",
+      "page": "https://otear.rutgers.edu/exploring-generative-ai-to-enhance-data-artifact-use-in-accreditation/",
+      "note": "This author-institution page identifies the paper and links to its publication.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://aalhe.scholasticahq.com/article/162788.pdf",
+        "https://otear.rutgers.edu/exploring-generative-ai-to-enhance-data-artifact-use-in-accreditation/"
+      ],
+      "observation": "File retained; corresponding HTML source page retrieved"
+    },
+    {
+      "urls": [
+        "https://ora.ox.ac.uk/objects/uuid:220f0b6b-071c-4ac8-968f-8af579e5b7b2/files/r8336h346v"
+      ],
+      "kind": "file",
+      "title": "Source for: Classify measured infrared spectra to identify regioisomers in a Python machine-learning practical",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ora.ox.ac.uk/objects/uuid:220f0b6b-071c-4ac8-968f-8af579e5b7b2/files/r8336h346v"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://udspace.udel.edu/server/api/core/bitstreams/183167c3-8986-4164-9a60-2c727458f632/content"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Build an affordable closed-loop optical experiment in which machine learning matches a target spectrum",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://udspace.udel.edu/server/api/core/bitstreams/183167c3-8986-4164-9a60-2c727458f632/content"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.jmlr.org/papers/volume23/21-0862/21-0862.pdf"
+      ],
+      "kind": "pdf",
+      "title": "DoubleML: An object-oriented implementation of double machine learning in Python",
+      "page": "https://www.jmlr.org/papers/v23/21-0862.html",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.jmlr.org/papers/volume23/21-0862/21-0862.pdf",
+        "https://www.jmlr.org/papers/v23/21-0862.html"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://connormwood.com/wp-content/uploads/2021/02/kahl.etal-2021-birdnet-a-deep-learning-solution-for-avian-diversity-monitoring.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Detect bird species in field soundscapes with BirdNET and check detections against reference data",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://connormwood.com/wp-content/uploads/2021/02/kahl.etal-2021-birdnet-a-deep-learning-solution-for-avian-diversity-monitoring.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://espace2.etsmtl.ca/id/eprint/29752/1/Ilinca-A-2024-29752.pdf",
+        "https://doi.org/10.3390/en17184714"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Model campus building energy demand from meter and weather data and compare prediction errors",
+      "page": "https://espace2.etsmtl.ca/id/eprint/29752/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://espace2.etsmtl.ca/id/eprint/29752/1/Ilinca-A-2024-29752.pdf",
+        "https://espace2.etsmtl.ca/id/eprint/29752/"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.turing.ac.uk/sites/default/files/2022-09/midi_quantisation_paper_ismir_2022_0.pdf",
+        "https://doi.org/10.5281/zenodo.7316682"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Convert expressive MIDI performances into quantized scores with neural beat tracking",
+      "page": "https://www.turing.ac.uk/news/publications/performance-midi-score-conversion-neural-beat-tracking",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.turing.ac.uk/sites/default/files/2022-09/midi_quantisation_paper_ismir_2022_0.pdf",
+        "https://www.turing.ac.uk/news/publications/performance-midi-score-conversion-neural-beat-tracking"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://aclanthology.org/2024.nlp4science-1.18.pdf",
+        "https://doi.org/10.18653/v1/2024.nlp4science-1.18"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Generate proof tactics with a language model and check them in the Lean theorem prover",
+      "page": "https://aclanthology.org/2024.nlp4science-1.18/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://aclanthology.org/2024.nlp4science-1.18.pdf",
+        "https://aclanthology.org/2024.nlp4science-1.18/"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://interparestrustai.org/assets/public/dissemination/HumphriesCaseStudy.pdf"
+      ],
+      "kind": "pdf",
+      "title": "InterPARES Trust AI",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://interparestrustai.org/assets/public/dissemination/HumphriesCaseStudy.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://arxiv.org/pdf/2302.08497"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Analyze how child-welfare case narratives change over time with anchored topic models",
+      "page": "https://arxiv.org/abs/2302.08497",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://arxiv.org/pdf/2302.08497",
+        "https://arxiv.org/abs/2302.08497"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://tales.journals.publicknowledgeproject.org/index.php/tales/article/download/3491/3203"
+      ],
+      "kind": "file",
+      "title": "Source for: Write first, then prompt: students grade the chatbot’s answer against their own in business ethics",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://tales.journals.publicknowledgeproject.org/index.php/tales/article/download/3491/3203"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://thepromptjournal.com/index.php/prompt/article/download/204/415",
+        "https://doi.org/10.31719/pjaw.v9i1.204"
+      ],
+      "kind": "file",
+      "title": "Source for: Substantive edit of a deliberately flawed AI recommendation report, with a letter of transmittal",
+      "page": "https://thepromptjournal.com/index.php/prompt/article/view/204",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://thepromptjournal.com/index.php/prompt/article/download/204/415",
+        "https://thepromptjournal.com/index.php/prompt/article/view/204"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://icono14.net/ojs/index.php/icono14/es/article/download/1515/1697",
+        "https://doi.org/10.7195/ri14.v18i2.1515"
+      ],
+      "kind": "file",
+      "title": "Source for: Three-phase bot-identification workshop for journalism students, with pretest and self-assessment",
+      "page": "https://icono14.net/ojs/index.php/icono14/en/article/view/1515",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://icono14.net/ojs/index.php/icono14/es/article/download/1515/1697",
+        "https://icono14.net/ojs/index.php/icono14/en/article/view/1515"
+      ],
+      "observation": "File retained; corresponding HTML source page retrieved"
+    },
+    {
+      "urls": [
+        "https://vestsutmb.elpub.ru/jour/article/download/1807/1562",
+        "https://doi.org/10.20310/1810-0201-2026-31-2-359-372"
+      ],
+      "kind": "file",
+      "title": "Source for: Eight-stage method for professional essays in a foreign language, with an instructor-supplied assessment prompt and a both-drafts debrief",
+      "page": "https://journals.rcsi.science/1810-0201/article/view/414518",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://vestsutmb.elpub.ru/jour/article/download/1807/1562",
+        "https://journals.rcsi.science/1810-0201/article/view/414518"
+      ],
+      "observation": "File retained; corresponding HTML source page retrieved"
+    },
+    {
+      "urls": [
+        "https://studentsuccessjournal.org/index.php/studentsuccess/article/download/4067/1592/15577"
+      ],
+      "kind": "file",
+      "title": "Source for: AI as Socratic questioner through Gibbs’ Reflective Cycle, with two-stage submission of dialogue and revised reflection",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://studentsuccessjournal.org/index.php/studentsuccess/article/download/4067/1592/15577"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://journal.aldinhe.ac.uk/index.php/jldhe/article/view/1354/895"
+      ],
+      "kind": "pdf-view",
+      "title": "Source for: Audit a degree program against four AI literacy dimensions, find the gaps, and close them module by module or extracurricularly",
+      "page": "https://journal.aldinhe.ac.uk/index.php/jldhe/article/view/1354",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://journal.aldinhe.ac.uk/index.php/jldhe/article/view/1354/895",
+        "https://journal.aldinhe.ac.uk/index.php/jldhe/article/view/1354"
+      ],
+      "observation": "text/html"
+    },
+    {
+      "urls": [
+        "https://discovery.ucl.ac.uk/id/eprint/10196729/1/UNESCO_AI_CFT_Final.pdf"
+      ],
+      "kind": "pdf",
+      "title": "AI competency framework for teachers",
+      "page": "https://discovery.ucl.ac.uk/id/eprint/10196729/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://discovery.ucl.ac.uk/id/eprint/10196729/1/UNESCO_AI_CFT_Final.pdf",
+        "https://discovery.ucl.ac.uk/id/eprint/10196729/"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://www.cedefop.europa.eu/files/unesco_ai_competency_framework_for_students_.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Conflict-based and scenario-based assessment tasks built from a competency-by-level matrix",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.cedefop.europa.eu/files/unesco_ai_competency_framework_for_students_.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.teachinganthropology.org/ojs/index.php/teach_anth/article/download/776/772",
+        "https://doi.org/10.22582/ta.v14i2.776"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Design an end-of-term theory essay around hyper-local material that is harder to hand over to generative AI",
+      "page": "https://www.teachinganthropology.org/ojs/index.php/teach_anth/article/view/776",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.teachinganthropology.org/ojs/index.php/teach_anth/article/download/776/772",
+        "https://www.teachinganthropology.org/ojs/index.php/teach_anth/article/view/776"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.teachinganthropology.org/ojs/index.php/teach_anth/article/download/778/770/4259"
+      ],
+      "kind": "pdf",
+      "title": "Generative AI in Anthropology: Redefining Fieldwork, Textualisation, and Collaborative Knowledge Production",
+      "page": "https://www.teachinganthropology.org/ojs/index.php/teach_anth/article/view/778",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.teachinganthropology.org/ojs/index.php/teach_anth/article/download/778/770/4259",
+        "https://www.teachinganthropology.org/ojs/index.php/teach_anth/article/view/778"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://github.com/ssciwr/generative-AI-coding-course/blob/main/generative-AI-research-software-2026.pdf"
+      ],
+      "kind": "page",
+      "title": "Source for: Turning a Vague Coding Request into a Gherkin Acceptance Criterion for an AI Agent",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://github.com/ssciwr/generative-AI-coding-course/blob/main/generative-AI-research-software-2026.pdf",
+        "https://api.github.com/repos/ssciwr/generative-AI-coding-course/contents/"
+      ],
+      "observation": "repository-file-confirmed"
+    },
+    {
+      "urls": [
+        "https://thecenter.mit.edu/wp-content/uploads/2020/07/MIT-AI-Ethics-Education-Curriculum.pdf"
+      ],
+      "kind": "pdf",
+      "title": "An Ethics of Artificial Intelligence Curriculum for Middle School Students",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://thecenter.mit.edu/wp-content/uploads/2020/07/MIT-AI-Ethics-Education-Curriculum.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://jite.org/documents/Vol24/JITE-Rv24Art008Yusof11348.pdf"
+      ],
+      "kind": "pdf",
+      "title": "ChatGPT-Assisted Retrieval Practice and Exam Scores: Does It Work?",
+      "page": "https://www.informingscience.org/Publications/5474",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://jite.org/documents/Vol24/JITE-Rv24Art008Yusof11348.pdf",
+        "https://www.informingscience.org/Publications/5474"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://crl.acrl.org/index.php/crl/article/view/26102/34024"
+      ],
+      "kind": "page",
+      "title": "How Well Does ChatGPT Handle Reference Inquiries? An Analysis Based on Question Types and Question Complexities",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://crl.acrl.org/index.php/crl/article/view/26102/34024"
+      ],
+      "observation": "text/html"
+    },
+    {
+      "urls": [
+        "https://ceur-ws.org/Vol-3961/paper4.pdf"
+      ],
+      "kind": "pdf",
+      "title": "The COMPAS case: an educational journey for explaining fairness in AI-based applications",
+      "page": "https://ceur-ws.org/Vol-3961/",
+      "note": "On the proceedings page, choose “The COMPAS Case”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ceur-ws.org/Vol-3961/paper4.pdf",
+        "https://ceur-ws.org/Vol-3961/"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.cdc.gov/science-ambassador/documents/drink-up-2016.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Drink Up: Lesson in Survey Methodology",
+      "page": "https://www.cdc.gov/science-ambassador/stem-lesson-plans/index-activities.html",
+      "note": "On the activities index, choose “Drink Up: Lesson in Survey Methodology”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.cdc.gov/science-ambassador/documents/drink-up-2016.pdf",
+        "https://www.cdc.gov/science-ambassador/stem-lesson-plans/index-activities.html"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.cdc.gov/science-ambassador/documents/hs-rage-outbreak-cleared.pdf"
+      ],
+      "kind": "pdf",
+      "title": "RAGE Outbreak: Making Grueling Public Health Decisions",
+      "page": "https://www.cdc.gov/science-ambassador/stem-lesson-plans/index-activities.html",
+      "note": "On the activities index, choose “RAGE Outbreak: Making Grueling Public Health Decisions”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.cdc.gov/science-ambassador/documents/hs-rage-outbreak-cleared.pdf",
+        "https://www.cdc.gov/science-ambassador/stem-lesson-plans/index-activities.html"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.cdc.gov/science-ambassador/documents/ms-spatial-analysis-of-obesity-2014.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Spatial Analysis of Obesity: Geographic Information Systems and Descriptive Epidemiology",
+      "page": "https://www.cdc.gov/science-ambassador/stem-lesson-plans/index-activities.html",
+      "note": "On the activities index, choose “Spatial Analysis of Obesity: GIS and descriptive epidemiology”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.cdc.gov/science-ambassador/documents/ms-spatial-analysis-of-obesity-2014.pdf",
+        "https://www.cdc.gov/science-ambassador/stem-lesson-plans/index-activities.html"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.bristol.ac.uk/media-library/sites/vetscience/documents/clinical-skills/Cruciate%20Suture.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Cruciate Sutures (Document number: CSL_S14; Year Group: BVSc4 +)",
+      "page": "https://www.bristol.ac.uk/vet-school/research/veterinary-education/clinical-skills-booklets/sutures/",
+      "note": "On the sutures page, choose “Cruciate Suture”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.bristol.ac.uk/media-library/sites/vetscience/documents/clinical-skills/Cruciate%20Suture.pdf",
+        "https://www.bristol.ac.uk/vet-school/research/veterinary-education/clinical-skills-booklets/sutures/"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.acs.org/content/dam/acsorg/msc/downloads/chapter-1/lesson-1/ch1-l1-lesson-plan.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Chapter 1, Lesson 1: Molecules Matter",
+      "page": "https://www.acs.org/middleschoolchemistry/lessonplans/chapter1/lesson1.html",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.acs.org/content/dam/acsorg/msc/downloads/chapter-1/lesson-1/ch1-l1-lesson-plan.pdf",
+        "https://www.acs.org/middleschoolchemistry/lessonplans/chapter1/lesson1.html"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.amstat.org/asa/files/pdfs/stew/Choosing-a-Study-Design-for-the-Polio-Vaccine_finalCC1.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Choosing a Study Design for the Polio Vaccine",
+      "page": "https://www.amstat.org/education/stew",
+      "note": "Find “Choosing a Study Design for the Polio Vaccine” in the lesson list.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.amstat.org/asa/files/pdfs/stew/Choosing-a-Study-Design-for-the-Polio-Vaccine_finalCC1.pdf",
+        "https://www.amstat.org/education/stew"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://naclo.org/resources/problems/2021/N2021-A.pdf"
+      ],
+      "kind": "pdf",
+      "title": "The Tortoise and the Rabbit",
+      "page": "https://naclo.org/practice.php",
+      "note": "Find the 2021 problem “The Tortoise and the Rabbit”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://naclo.org/resources/problems/2021/N2021-A.pdf",
+        "https://naclo.org/practice.php"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://ashmolean.web.ox.ac.uk/sites/default/files/ashmolean/documents/media/learn_pdf_focus_on_latin_inscriptions.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Focus on Latin Inscriptions: Death and Burial in Rome",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ashmolean.web.ox.ac.uk/sites/default/files/ashmolean/documents/media/learn_pdf_focus_on_latin_inscriptions.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.povertyactionlab.org/sites/default/files/ToC%20and%20Measurement_Summer%20Jobs_USA_2024.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Case Study 1: Summer Youth Employment Programs in Chicago: Theory of Change and Measurement",
+      "page": "https://www.povertyactionlab.org/media/file/toc_and_measurement_case_study_1",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.povertyactionlab.org/sites/default/files/ToC%20and%20Measurement_Summer%20Jobs_USA_2024.pdf",
+        "https://www.povertyactionlab.org/media/file/toc_and_measurement_case_study_1"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.povertyactionlab.org/sites/default/files/Why%20and%20When%20to%20Randomize_Piped%20Water_Morocco_2023.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Happiness on Tap: Piped Water Adoption in Urban Morocco (case study for Why and When to Randomize)",
+      "page": "https://www.povertyactionlab.org/media/file/why_and_when_to_randomize_case_study_1",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.povertyactionlab.org/sites/default/files/Why%20and%20When%20to%20Randomize_Piped%20Water_Morocco_2023.pdf",
+        "https://www.povertyactionlab.org/media/file/why_and_when_to_randomize_case_study_1"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.povertyactionlab.org/sites/default/files/PowerCalc_Exercise_2023.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Exercise: How to Do Power Calculations",
+      "page": "https://www.povertyactionlab.org/media/file/power-calculations-exercise",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.povertyactionlab.org/sites/default/files/PowerCalc_Exercise_2023.pdf",
+        "https://www.povertyactionlab.org/media/file/power-calculations-exercise"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.icrc.org/data/files/ehl/ehl-english-module1.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Exploration 1A: What can bystanders do? (Exploring Humanitarian Law, Module 1: The humanitarian perspective)",
+      "page": "https://www.icrc.org/en/document/exploring-humanitarian-law-ehl-resource-pack",
+      "note": "Under English, choose Module 1.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.icrc.org/data/files/ehl/ehl-english-module1.pdf",
+        "https://www.icrc.org/en/document/exploring-humanitarian-law-ehl-resource-pack"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.icrc.org/data/files/ehl/ehl-english-module2.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Exploration 2C: Focus on child soldiers (Exploring Humanitarian Law, Module 2: Limits in armed conflict)",
+      "page": "https://www.icrc.org/en/document/exploring-humanitarian-law-ehl-resource-pack",
+      "note": "Under English, choose Module 2.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.icrc.org/data/files/ehl/ehl-english-module2.pdf",
+        "https://www.icrc.org/en/document/exploring-humanitarian-law-ehl-resource-pack"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://iaswg.memberclicks.net/assets/Somali-Boys-Abdi.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Somali Boys Group",
+      "page": "https://iaswg.memberclicks.net/media-resource-project",
+      "note": "On the resource page, choose “Somali Boys Group”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://iaswg.memberclicks.net/assets/Somali-Boys-Abdi.pdf",
+        "https://iaswg.memberclicks.net/media-resource-project"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://catalog.fdic.gov/catalog/sfc/servlet.shepherd/document/download/069t000000BcgymAAB"
+      ],
+      "kind": "file",
+      "title": "Try It: Exploring Borrowing Options (Module 7: Borrowing Basics, Instructor Guide)",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://catalog.fdic.gov/catalog/sfc/servlet.shepherd/document/download/069t000000BcgymAAB"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://nsrfharmony.org/wp-content/uploads/2026/02/TextRender-Brief-byNSRF.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Text Rendering: In Brief",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://nsrfharmony.org/wp-content/uploads/2026/02/TextRender-Brief-byNSRF.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://nsrfharmony.org/wp-content/uploads/2026/02/HiddenIssues-Brief-byNSRF.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Hidden Issues: In Brief",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://nsrfharmony.org/wp-content/uploads/2026/02/HiddenIssues-Brief-byNSRF.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://iris.peabody.vanderbilt.edu/wp-content/uploads/pdf_activities/independent/IA_Conduct_an_ABC_Analysis.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Behavior Assessment: Conduct an A-B-C Analysis",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://iris.peabody.vanderbilt.edu/wp-content/uploads/pdf_activities/independent/IA_Conduct_an_ABC_Analysis.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://ambitiousscienceteaching.org/wp-content/uploads/2014/08/Guide-Face-to-Face-Tools.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Face-to-Face Tools: Making Changes in Student Thinking Visible Over Time",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ambitiousscienceteaching.org/wp-content/uploads/2014/08/Guide-Face-to-Face-Tools.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://bdl2jezatgadvbda.public.blob.vercel-storage.com/pdf/Example%20A-QYJT0yMgsw42IN7g6OCzdyXlwTzsVC.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Understanding Cultural Diversity -- Western Shoshone Land Rights (listed on the TILT page as \"Example A: Sociology\")",
+      "page": "https://www.tilthighered.com/resources",
+      "note": "On the resources page, choose “Example A: Sociology”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://bdl2jezatgadvbda.public.blob.vercel-storage.com/pdf/Example%20A-QYJT0yMgsw42IN7g6OCzdyXlwTzsVC.pdf",
+        "https://www.tilthighered.com/resources"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://bdl2jezatgadvbda.public.blob.vercel-storage.com/pdf/Example%20F-PGIiXOAGuDu2ALFM2JJCsur1S0EUcC.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Practicing Library Research (listed on the TILT page as \"Example F: Library research Assignment\")",
+      "page": "https://www.tilthighered.com/resources",
+      "note": "On the resources page, choose “Example F: Library Research Assignment”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://bdl2jezatgadvbda.public.blob.vercel-storage.com/pdf/Example%20F-PGIiXOAGuDu2ALFM2JJCsur1S0EUcC.pdf",
+        "https://www.tilthighered.com/resources"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://bdl2jezatgadvbda.public.blob.vercel-storage.com/pdf/Example%20G-dmJibTKEzAzlwOafhWGVRXvnU0lB7X.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Consensus and Conflict Models of Justice (listed on the TILT page as \"Example G: Criminal Justice In-Class activity\")",
+      "page": "https://www.tilthighered.com/resources",
+      "note": "On the resources page, choose “Example G: Criminal Justice In-Class activity”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://bdl2jezatgadvbda.public.blob.vercel-storage.com/pdf/Example%20G-dmJibTKEzAzlwOafhWGVRXvnU0lB7X.pdf",
+        "https://www.tilthighered.com/resources"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://iris.peabody.vanderbilt.edu/wp-content/uploads/pdf_case_studies/IRIS_early_childhood_behavior_management_case_study.pdf"
+      ],
+      "kind": "page",
+      "title": "Early Childhood Behavior Management (Case Study Unit)",
+      "page": "https://iris.peabody.vanderbilt.edu/case-study/early-childhood-behavior-management/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://iris.peabody.vanderbilt.edu/wp-content/uploads/pdf_case_studies/IRIS_early_childhood_behavior_management_case_study.pdf",
+        "https://iris.peabody.vanderbilt.edu/case-study/early-childhood-behavior-management/"
+      ],
+      "observation": "text/html"
+    },
+    {
+      "urls": [
+        "https://www.carnegiehall.org/-/media/CarnegieHall/Files/PDFs/Education/Educators/Toolbox/Grade-4/Toolbox-Grade-4-Activities.pdf?la=en"
+      ],
+      "kind": "pdf",
+      "title": "Rhythm and Meter/Pitch - Name Melody (in 4th Grade Activity Worksheets, Music Educators Toolbox)",
+      "page": "https://www.carnegiehall.org/Education/Programs/Music-Educators-Toolbox/4-Composing-a-Melody",
+      "note": "This page explains the name-melody activity. The original PDF contains the full Grade 4 worksheet packet.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.carnegiehall.org/-/media/CarnegieHall/Files/PDFs/Education/Educators/Toolbox/Grade-4/Toolbox-Grade-4-Activities.pdf?la=en",
+        "https://www.carnegiehall.org/Education/Programs/Music-Educators-Toolbox/4-Composing-a-Melody"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.yorku.ca/unit/vpacad/academic-integrity/wp-content/uploads/sites/576/2026/05/AI_Use_Declaration.pdf"
+      ],
+      "kind": "pdf",
+      "title": "AI-Based Tools: Declaration of Use",
+      "page": "https://www.yorku.ca/unit/vpacad/academic-integrity/using-academic-integrity-resources/",
+      "note": "Under “AI Use: Disclosure and Reflection”, choose “AI-Based Tools: Declaration of Use”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.yorku.ca/unit/vpacad/academic-integrity/wp-content/uploads/sites/576/2026/05/AI_Use_Declaration.pdf",
+        "https://www.yorku.ca/unit/vpacad/academic-integrity/using-academic-integrity-resources/"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://www.yorku.ca/unit/vpacad/academic-integrity/wp-content/uploads/sites/576/2026/05/AI_Use_Review_and_Reflection.pdf"
+      ],
+      "kind": "pdf",
+      "title": "AI Use: Review and Reflection",
+      "page": "https://www.yorku.ca/unit/vpacad/academic-integrity/using-academic-integrity-resources/",
+      "note": "Under “AI Use: Disclosure and Reflection”, choose “AI Use: Review and Reflection”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.yorku.ca/unit/vpacad/academic-integrity/wp-content/uploads/sites/576/2026/05/AI_Use_Review_and_Reflection.pdf",
+        "https://www.yorku.ca/unit/vpacad/academic-integrity/using-academic-integrity-resources/"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://ukdataservice.ac.uk/app/uploads/teachingresourcefolkdevilsmoralpanics.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Teaching resource: Folk devils and moral panics",
+      "page": "https://ukdataservice.ac.uk/learning-hub/teach-with-real-data/",
+      "note": "Under qualitative teaching resources, choose “Folk devils and moral panics”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ukdataservice.ac.uk/app/uploads/teachingresourcefolkdevilsmoralpanics.pdf",
+        "https://ukdataservice.ac.uk/learning-hub/teach-with-real-data/"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://ukdataservice.ac.uk/app/uploads/exercise_consent_form_statements.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Assessing consent form statements",
+      "page": "https://ukdataservice.ac.uk/learning-hub/teach-with-real-data/teaching-resources-data-management/managing-data-training-exercises/",
+      "note": "Choose “Exercise and answers: Assessing consent form statements”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ukdataservice.ac.uk/app/uploads/exercise_consent_form_statements.pdf",
+        "https://ukdataservice.ac.uk/learning-hub/teach-with-real-data/teaching-resources-data-management/managing-data-training-exercises/"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://cancercontrol.cancer.gov/sites/default/files/2020-06/SGA_9182511.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Effective Training Models for Implementing Health-Promoting Practices Afterschool",
+      "page": "https://cancercontrol.cancer.gov/brp/funding/sample-grant-applications",
+      "note": "Find “R21: Effective Training Models for Implementing Health-Promoting Practices Afterschool”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://cancercontrol.cancer.gov/sites/default/files/2020-06/SGA_9182511.pdf",
+        "https://cancercontrol.cancer.gov/brp/funding/sample-grant-applications"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://sites.berry.edu/csnider/wp-content/uploads/sites/13/2025/05/Teaching-and-Work-at-the-Dawn-of-Generative-AI.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Teaching & Work at the Dawn of Generative AI",
+      "page": "https://sites.berry.edu/csnider/2025/05/20/exploring-ais-impact-on-higher-ed-insights-from-a-four-session-workshop/",
+      "note": "The workshop article links to the full set of lesson plans and assignments.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://sites.berry.edu/csnider/wp-content/uploads/sites/13/2025/05/Teaching-and-Work-at-the-Dawn-of-Generative-AI.pdf",
+        "https://sites.berry.edu/csnider/2025/05/20/exploring-ais-impact-on-higher-ed-insights-from-a-four-session-workshop/"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://ceur-ws.org/Vol-3994/paper3.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Retrieval-Augmented Chatbots for Scalable Educational Support in Higher Education",
+      "page": "https://ceur-ws.org/Vol-3994/",
+      "note": "On the proceedings page, choose “Retrieval-Augmented Chatbots for Scalable Educational Support in Higher Education”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ceur-ws.org/Vol-3994/paper3.pdf",
+        "https://ceur-ws.org/Vol-3994/"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.digital.gov.au/sites/default/files/documents/2024-10/Copilot%20Microsoft%20365%20summary%20of%20evaluation%20findings.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Evaluation of the whole-of-government trial of Microsoft 365 Copilot: Summary of evaluation findings",
+      "page": "https://www.digital.gov.au/initiatives/copilot-trial/summary-evaluation-findings",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.digital.gov.au/sites/default/files/documents/2024-10/Copilot%20Microsoft%20365%20summary%20of%20evaluation%20findings.pdf",
+        "https://www.digital.gov.au/initiatives/copilot-trial/summary-evaluation-findings"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://ceur-ws.org/Vol-3834/paper1.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Explainable Search and Discovery of Visual Cultural Heritage Collections with Multimodal Large Language Models",
+      "page": "https://ceur-ws.org/Vol-3834/",
+      "note": "On the proceedings page, choose “Explainable Search and Discovery of Visual Cultural Heritage Collections with Multimodal Large Language Models”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ceur-ws.org/Vol-3834/paper1.pdf",
+        "https://ceur-ws.org/Vol-3834/"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.2478/atd-2026-0014"
+      ],
+      "kind": "page",
+      "title": "Reading with Machines: Artificial Intelligence and the...",
+      "page": "https://reference-global.com/article/10.2478/atd-2026-0014?tab=article",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://reference-global.com/article/10.2478/atd-2026-0014?tab=article"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.5860/ital.v43i3.17234"
+      ],
+      "kind": "page",
+      "title": "The Jack in the Black Box: Teaching College Students to Use ChatGPT Critically | Information Technology and Libraries",
+      "page": "https://ital.corejournals.org/index.php/ital/article/view/17234",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ital.corejournals.org/index.php/ital/article/view/17234"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1002/ece3.9644"
+      ],
+      "kind": "page",
+      "title": "Teaching the process of science with primary literature: Using the CREATE pedagogy in ecological courses - Smith - 2022 - Ecology and Evolution - Wiley Online Library",
+      "page": "https://onlinelibrary.wiley.com/doi/10.1002/ece3.9644",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://onlinelibrary.wiley.com/doi/10.1002/ece3.9644"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1177/16094069251326412"
+      ],
+      "kind": "page",
+      "title": "A Protocol for Evaluating Learning Outcomes Using Reverse Jigsaw and Edpuzzle in Doctoral Business Education: A Q-Methodology Study - Liwen Chen, 2025",
+      "page": "https://journals.sagepub.com/doi/10.1177/16094069251326412",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://journals.sagepub.com/doi/10.1177/16094069251326412"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1177/09697330261428627"
+      ],
+      "kind": "page",
+      "title": "Generative AI Ethics Toolkit for Clinical Prioritization in Nursing Education - Jennie C. De Gagne, David J. Carrejo, Hyeyoung Hwang, 2026",
+      "page": "https://journals.sagepub.com/doi/10.1177/09697330261428627",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://journals.sagepub.com/doi/10.1177/09697330261428627"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1177/14782103251395436"
+      ],
+      "kind": "page",
+      "title": "Exploring the affordances of generative AI in academic writing for students with disabilities: A bottom-up approach to inform GenAI policies - Xin Zhao, Xuanning Chen, Andrew Cox, 2026",
+      "page": "https://journals.sagepub.com/doi/10.1177/14782103251395436",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://journals.sagepub.com/doi/10.1177/14782103251395436"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1186/s41239-026-00609-6"
+      ],
+      "kind": "page",
+      "title": "Shaping responsible GenAI use in research through AI literacy-oriented guidelines: insights from postgraduate students | International Journal of Educational Technology in Higher Education | Springer Nature Link",
+      "page": "https://link.springer.com/article/10.1186/s41239-026-00609-6",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/article/10.1186/s41239-026-00609-6"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1186/s41239-025-00558-6"
+      ],
+      "kind": "page",
+      "title": "The value of GenAI for peer feedback provision: student perceptions and impacts | International Journal of Educational Technology in Higher Education | Springer Nature Link",
+      "page": "https://link.springer.com/article/10.1186/s41239-025-00558-6",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/article/10.1186/s41239-025-00558-6"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1057/s41599-026-06928-3"
+      ],
+      "kind": "page",
+      "title": "Integrating artificial intelligence to enhance frequency of learning cycles: a proof-of-concept study | Humanities and Social Sciences Communications",
+      "page": "https://www.nature.com/articles/s41599-026-06928-3",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.nature.com/articles/s41599-026-06928-3"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1128/jmbe.00040-26"
+      ],
+      "kind": "page",
+      "title": "Teaching microbiology with generative AI: a survey-style playbook to empower microbiology faculty to integrate AI into courses | Journal of Microbiology & Biology Education",
+      "page": "https://journals.asm.org/doi/10.1128/jmbe.00040-26",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://journals.asm.org/doi/10.1128/jmbe.00040-26"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.34190/ejel.24.1.4416"
+      ],
+      "kind": "page",
+      "title": "From Assistance to Autonomy: AI Integration in Structured Research-Based Learning for Higher Education | Electronic Journal of e-Learning",
+      "page": "https://academic-publishing.org/index.php/ejel/article/view/4416",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://academic-publishing.org/index.php/ejel/article/view/4416"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1186/s41239-023-00391-9"
+      ],
+      "kind": "page",
+      "title": "Developing a gamified artificial intelligence educational robot to promote learning effectiveness and behavior in laboratory safety courses for undergraduate students | International Journal of Educational Technology in Higher Education | Springer Nature Link",
+      "page": "https://link.springer.com/article/10.1186/s41239-023-00391-9",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/article/10.1186/s41239-023-00391-9"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1007/978-3-031-55272-4_8"
+      ],
+      "kind": "page",
+      "title": "Students’ Perspective on the Use of Artificial Intelligence in Education | Springer Nature Link",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_8",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_8"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1007/s11528-024-00967-w"
+      ],
+      "kind": "page",
+      "title": "Utilizing Generative AI for Instructional Design: Exploring Strengths, Weaknesses, Opportunities, and Threats | TechTrends | Springer Nature Link",
+      "page": "https://link.springer.com/article/10.1007/s11528-024-00967-w",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/article/10.1007/s11528-024-00967-w"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.5281/zenodo.8072950"
+      ],
+      "kind": "page",
+      "title": "101 creative ideas to use AI in education, A crowdsourced collection | Zenodo",
+      "page": "https://zenodo.org/records/8072950",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://zenodo.org/records/8072950"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.5281/zenodo.11613520"
+      ],
+      "kind": "page",
+      "title": "Towards AI Literacy: 101+ Creative and Critical Practices, Perspectives and Purposes | Zenodo",
+      "page": "https://zenodo.org/records/11613520",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://zenodo.org/records/11613520"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.24132/jbt.2024.14.2.77_84"
+      ],
+      "kind": "page",
+      "title": "Implementation of generative AI as tool for marketing communication seminars in universities",
+      "page": "https://dspace.zcu.cz/items/dac065ee-e7da-4177-b9ec-5c46b9bfae53",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://dspace.zcu.cz/items/dac065ee-e7da-4177-b9ec-5c46b9bfae53"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1007/s10639-026-13952-y"
+      ],
+      "kind": "page",
+      "title": "Doctoral students’ interdisciplinary research proposal development supported by generative AI | Education and Information Technologies | Springer Nature Link",
+      "page": "https://link.springer.com/article/10.1007/s10639-026-13952-y",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/article/10.1007/s10639-026-13952-y"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.3389/feduc.2025.1629513"
+      ],
+      "kind": "page",
+      "title": "Frontiers | GIFT-AI: The Cringe Test: student evaluations of intelligence with LLMs in a Turing Test adapted for classroom use",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1629513/full",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1629513/full"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.3389/fcomm.2025.1554052"
+      ],
+      "kind": "page",
+      "title": "Frontiers | GIFT-AI: designing generative AI tools for organizational communication",
+      "page": "https://www.frontiersin.org/journals/communication/articles/10.3389/fcomm.2025.1554052/full",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.frontiersin.org/journals/communication/articles/10.3389/fcomm.2025.1554052/full"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.3389/feduc.2025.1612398"
+      ],
+      "kind": "page",
+      "title": "Frontiers | GIFT-AI: “I’m scared that the AI feedback is too much!”—preservice (English) teachers’ feedback strategies and their use of GenAI for feedback",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1612398/full",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1612398/full"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.3389/feduc.2026.1916444"
+      ],
+      "kind": "page",
+      "title": "Frontiers | Replicating and expanding the use of artificial intelligence to support special education practice: a mixed-methods investigation",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2026.1916444/full",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2026.1916444/full"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.3389/feduc.2025.1605921"
+      ],
+      "kind": "page",
+      "title": "Frontiers | Using AI chatbots to facilitate mathematics preservice teachers’ noticing skills",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1605921/full",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1605921/full"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.18103/mra.v13i7.6786"
+      ],
+      "kind": "page",
+      "title": "Evaluation of ChatGPT artificial intelligence dialogues and simulated scenarios to prepare nursing students for telehealth practicum | Medical Research Archives",
+      "page": "https://esmed.org/MRA/mra/article/view/6786",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://esmed.org/MRA/mra/article/view/6786"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.3389/fmed.2026.1910543"
+      ],
+      "kind": "page",
+      "title": "Frontiers | Guiding student use of generative AI in undergraduate pharmacology: a narrative review and proposed source-checking process framework",
+      "page": "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2026.1910543/full",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2026.1910543/full"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1371/journal.pcbi.1011863"
+      ],
+      "kind": "page",
+      "title": "Ten simple rules to leverage large language models for getting grants | PLOS Computational Biology",
+      "page": "https://journals.plos.org/ploscompbiol/article?id=10.1371%2Fjournal.pcbi.1011863",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://journals.plos.org/ploscompbiol/article?id=10.1371%2Fjournal.pcbi.1011863"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1111/jmwh.70015"
+      ],
+      "kind": "page",
+      "title": "Telehealth Simulations with Generative Artificial Intelligence in Midwifery Education: Practice for Person‐Centered and Culturally Responsive Care<inlineGraphic alt='image' href='urn:x-wiley:15269523:media:jmwh70015:jmwh70015-gra-0001' location='graphic/jmwh70015-gra-0001.png'></inlineGraphic> - McGrew - 2025 - Journal of Midwifery & Women's Health - Wiley Online Library",
+      "page": "https://onlinelibrary.wiley.com/doi/10.1111/jmwh.70015",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://onlinelibrary.wiley.com/doi/10.1111/jmwh.70015"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.3389/fcomm.2025.1610111"
+      ],
+      "kind": "page",
+      "title": "Frontiers | Operationalizing positive-constructive pedagogy to artificial intelligence: the 3E model for scaffolding AI technology adoption",
+      "page": "https://www.frontiersin.org/journals/communication/articles/10.3389/fcomm.2025.1610111/full",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.frontiersin.org/journals/communication/articles/10.3389/fcomm.2025.1610111/full"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1177/16094069251404329"
+      ],
+      "kind": "page",
+      "title": "Generative AI in Qualitative Research and Related Transparency Problems: A Novel Heuristic for Disclosing Uses of AI - Kyle M. L. Jones, 2025",
+      "page": "https://journals.sagepub.com/doi/10.1177/16094069251404329",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://journals.sagepub.com/doi/10.1177/16094069251404329"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.2196/87118"
+      ],
+      "kind": "page",
+      "title": "Journal of Medical Internet Research - Plain Language Summarization of Environmental Health Research Using Generative AI: Community-Engaged Qualitative Study",
+      "page": "https://www.jmir.org/2026/1/e87118",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.jmir.org/2026/1/e87118"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.5772/intechopen.1012995"
+      ],
+      "kind": "page",
+      "title": "Engaging Students with AI for Code Comprehension, Critique, and Explanation | IntechOpen",
+      "page": "https://www.intechopen.com/chapters/1232255",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.intechopen.com/chapters/1232255"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.37514/TWR-J.2023.2982.2.15"
+      ],
+      "kind": "page",
+      "title": "Who's Talking: Dada, Machine Writing, and the Found - WAC",
+      "page": "https://wacclearinghouse.org/repository/collections/textgened/creative-explorations/whos-talking/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://wacclearinghouse.org/repository/collections/textgened/creative-explorations/whos-talking/",
+        "https://wacclearinghouse.org/repository/collections/textgened/"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.37514/TWR-J.2023.2982.2.14"
+      ],
+      "kind": "page",
+      "title": "Deconstructing and Reconstructing Genre and Form with Tracery - WAC",
+      "page": "https://wacclearinghouse.org/repository/collections/textgened/creative-explorations/deconstructing-and-reconstructing-genre-and-form-with-tracery/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://wacclearinghouse.org/repository/collections/textgened/creative-explorations/deconstructing-and-reconstructing-genre-and-form-with-tracery/",
+        "https://wacclearinghouse.org/repository/collections/textgened/"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1007/978-3-031-55272-4"
+      ],
+      "kind": "page",
+      "title": "Creative Applications of Artificial Intelligence in Education | Springer Nature Link",
+      "page": "https://link.springer.com/book/10.1007/978-3-031-55272-4",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/book/10.1007/978-3-031-55272-4"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.37514/TWR-J.2023.2982.2.33"
+      ],
+      "kind": "page",
+      "title": "Using AI Text as Prompts for Critical Analysis - WAC",
+      "page": "https://wacclearinghouse.org/repository/collections/textgened/rhetorical-engagements/using-ai-text-as-prompts-for-critical-analysis/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://wacclearinghouse.org/repository/collections/textgened/rhetorical-engagements/using-ai-text-as-prompts-for-critical-analysis/",
+        "https://wacclearinghouse.org/repository/collections/textgened/"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.37514/TWR-J.2023.2982.2.10"
+      ],
+      "kind": "page",
+      "title": "Made Not Only By Me: Coauthoring a Children's Book with Text and Image Generation - WAC",
+      "page": "https://wacclearinghouse.org/repository/collections/textgened/creative-explorations/made-not-only-by-me/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://wacclearinghouse.org/repository/collections/textgened/creative-explorations/made-not-only-by-me/",
+        "https://wacclearinghouse.org/repository/collections/textgened/"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.3389/fcomm.2025.1629478"
+      ],
+      "kind": "page",
+      "title": "Frontiers | Reflection AI: teaching with AI: Facial Subjects and the politics of the face",
+      "page": "https://www.frontiersin.org/journals/communication/articles/10.3389/fcomm.2025.1629478/full",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.frontiersin.org/journals/communication/articles/10.3389/fcomm.2025.1629478/full"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.3389/fvets.2024.1504598"
+      ],
+      "kind": "page",
+      "title": "Frontiers | Introducing AI-generated cases (AI-cases) & standardized clients (AI-SCs) in communication training for veterinary students: perceptions and adoption challenges",
+      "page": "https://www.frontiersin.org/journals/veterinary-science/articles/10.3389/fvets.2024.1504598/full",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.frontiersin.org/journals/veterinary-science/articles/10.3389/fvets.2024.1504598/full"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.56059/jl4d.v12i2.1934"
+      ],
+      "kind": "page",
+      "title": "Teacher in the Loop AI (TiL-AI): A Strategy for Empowering Educators in Developing Countries through OER Adaptation | Journal of Learning for Development",
+      "page": "https://jl4d.org/index.php/ejl4d/article/view/1934",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://jl4d.org/index.php/ejl4d/article/view/1934"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.46430/phen0104"
+      ],
+      "kind": "page",
+      "title": "Interrogating a National Narrative with GPT-2 | Programming Historian",
+      "page": "https://programminghistorian.org/en/lessons/interrogating-national-narrative-gpt",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://programminghistorian.org/en/lessons/interrogating-national-narrative-gpt"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1186/s41073-026-00245-8"
+      ],
+      "kind": "page",
+      "title": "Disclosure is not documentation: an open science framework for documenting generative AI use in scholarly research and publication workflows | Research Integrity and Peer Review | Springer Nature Link",
+      "page": "https://link.springer.com/article/10.1186/s41073-026-00245-8",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/article/10.1186/s41073-026-00245-8"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1017/s2058631026101214"
+      ],
+      "kind": "page",
+      "title": "An experimental creative writing course: rewriting classical myths with ChatGPT | Journal of Classics Teaching | Cambridge Core",
+      "page": "https://www.cambridge.org/core/journals/journal-of-classics-teaching/article/an-experimental-creative-writing-course-rewriting-classical-myths-with-chatgpt/B17BC4AB6E43CEED044577E5D5079F28",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.cambridge.org/core/journals/journal-of-classics-teaching/article/an-experimental-creative-writing-course-rewriting-classical-myths-with-chatgpt/B17BC4AB6E43CEED044577E5D5079F28"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.5281/zenodo.19483119"
+      ],
+      "kind": "page",
+      "title": "AI Literacy for Researchers | Zenodo",
+      "page": "https://zenodo.org/records/19483119",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://zenodo.org/records/17398118/latest",
+        "https://zenodo.org/records/19483119"
+      ],
+      "observation": "Latest-version route retrieved the exact cited record 19483119; destination pinned to that record"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.3389/feduc.2025.1417642"
+      ],
+      "kind": "page",
+      "title": "Frontiers | Who is solving the challenge? The use of ChatGPT in mathematics and biology courses using challenge-based learning",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1417642/full",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1417642/full"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.3389/feduc.2025.1596462"
+      ],
+      "kind": "page",
+      "title": "Frontiers | Balancing AI-assisted learning and traditional assessment: the FACT assessment in environmental data science education",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1596462/full",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1596462/full"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.20310/1810-0201-2024-29-4-985-998"
+      ],
+      "kind": "page",
+      "title": "Stages of teaching law students to draft international legal documents in English based on artificial intelligence tools - Gavrilov - Tambov University Review. Series: Humanities",
+      "page": "https://journals.rcsi.science/1810-0201/article/view/297791",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://journals.rcsi.science/1810-0201/article/view/297791"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.5281/zenodo.20724315"
+      ],
+      "kind": "page",
+      "title": "Using Generative AI to Reduce Manual Burden in Research Data Management | Zenodo",
+      "page": "https://zenodo.org/records/20724315",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://zenodo.org/records/20724315"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.3389/feduc.2026.1879758"
+      ],
+      "kind": "page",
+      "title": "Frontiers | Examining AI-assisted writing revision through assignment design and implementation in an undergraduate course",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2026.1879758/full",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2026.1879758/full"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.46430/phen0038"
+      ],
+      "kind": "page",
+      "title": "Supervised Classification: The Naive Bayesian Returns to the Old Bailey | Programming Historian",
+      "page": "https://programminghistorian.org/en/lessons/naive-bayesian",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://programminghistorian.org/en/lessons/naive-bayesian"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.5281/zenodo.21269983"
+      ],
+      "kind": "page",
+      "title": "WORKSHOP: Generative AI Essentials for Life Sciences | Zenodo",
+      "page": "https://zenodo.org/records/21269983",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://zenodo.org/records/21269983"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.5281/zenodo.21132114"
+      ],
+      "kind": "page",
+      "title": "Judgement Across Nodes - A reflective framework for AI-mediated learning and academic practice | Zenodo",
+      "page": "https://zenodo.org/records/21132114",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://zenodo.org/records/21132114"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.61756/KYQU7678"
+      ],
+      "kind": "page",
+      "title": "The AI Turn in Academic Research – Simple Book Publishing",
+      "page": "https://pressbooks.atlanticoer-relatlantique.ca/theaiturn/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://pressbooks.atlanticoer-relatlantique.ca/theaiturn/"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.5281/zenodo.18452320"
+      ],
+      "kind": "page",
+      "title": "Expertise before augmentation: a practical guide to using generative AI during research training | Zenodo",
+      "page": "https://zenodo.org/records/18452320",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://zenodo.org/records/18452320"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.48550/arxiv.2503.15120"
+      ],
+      "kind": "page",
+      "title": "[2503.15120] Communication Access Real-Time Translation Through Collaborative Correction of Automatic Speech Recognition",
+      "page": "https://arxiv.org/abs/2503.15120",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://arxiv.org/abs/2503.15120"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1371/journal.pone.0346127"
+      ],
+      "kind": "page",
+      "title": "Designing life science assessments in the era of generative artificial intelligence | PLOS One",
+      "page": "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0346127",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0346127"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.54254/2755-2721/2026.29763"
+      ],
+      "kind": "page",
+      "title": "Efficiency Gains and Risk Exposure of Generative AI Interventions in Academic Administration",
+      "page": "https://ace.ewapub.com/article/view/29763",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ace.ewapub.com/article/view/29763"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.3389/fcomm.2023.1129082"
+      ],
+      "kind": "page",
+      "title": "Frontiers | Artificial intelligence for health message generation: an empirical study using a large language model (LLM) and prompt engineering",
+      "page": "https://www.frontiersin.org/journals/communication/articles/10.3389/fcomm.2023.1129082/full",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.frontiersin.org/journals/communication/articles/10.3389/fcomm.2023.1129082/full"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1063/5.0283529"
+      ],
+      "kind": "page",
+      "title": "aipp.silverchair-cdn.com",
+      "page": "https://pubs.aip.org/aip/aml/article/3/4/046105/3369966/Building-an-affordable-self-driving-lab-Practical",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://pubs.aip.org/aip/aml/article/3/4/046105/3369966/Building-an-affordable-self-driving-lab-Practical"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.3389/feduc.2025.1712743"
+      ],
+      "kind": "page",
+      "title": "Frontiers | Students' interactions with an artificial intelligence assistant in a remote chemistry laboratory",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1712743/full",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1712743/full"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.3389/feduc.2026.1783496"
+      ],
+      "kind": "page",
+      "title": "Frontiers | How preservice teachers evaluated the accuracy of ChatGPT-generated solutions of curriculum-based mathematical word problems in a self-directed context",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2026.1783496/full",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2026.1783496/full"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1038/s41592-022-01488-1"
+      ],
+      "kind": "page",
+      "title": "ColabFold: making protein folding accessible to all | Nature Methods",
+      "page": "https://www.nature.com/articles/s41592-022-01488-1",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.nature.com/articles/s41592-022-01488-1"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.29038/eejpl.2025.12.1.naq"
+      ],
+      "kind": "page",
+      "title": "Enhancing translation teaching for L2 learners through ChatGPT: A study of AI-assisted Arabic-German translation | East European Journal of Psycholinguistics",
+      "page": "https://eejpl.vnu.edu.ua/index.php/eejpl/article/view/925",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://eejpl.vnu.edu.ua/index.php/eejpl/article/view/925"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.5281/zenodo.8355454"
+      ],
+      "kind": "page",
+      "title": "101 creative ideas to use AI in education, A crowdsourced collection | Zenodo",
+      "page": "https://zenodo.org/records/8355454",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://zenodo.org/records/8355454"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1155/2024/8815424"
+      ],
+      "kind": "page",
+      "title": "Applying ChatGPT and AI‐Powered Tools to Accelerate Evidence Reviews - Nguyen-Trung - 2024 - Human Behavior and Emerging Technologies - Wiley Online Library",
+      "page": "https://onlinelibrary.wiley.com/doi/10.1155/2024/8815424",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://onlinelibrary.wiley.com/doi/10.1155/2024/8815424"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.82110/3sxr-z770"
+      ],
+      "kind": "page",
+      "title": "Generative AI in Higher Education Teaching and Learning: AI Literacy Training (PDF)",
+      "page": "https://hub.teachingandlearning.ie/genai/policy-framework",
+      "note": "On the resource portal, choose “AI Literacy Training (Dec 2025)” (PDF; may download).",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://hub.teachingandlearning.ie/genai/policy-framework",
+        "https://hub.teachingandlearning.ie/wp-content/uploads/2025/12/hea-genai-literacy-training-3sxr-z770.pdf"
+      ],
+      "observation": "Official portal retrieved; exact DOI confirmed in its PDF"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.82110/tgec-fq82"
+      ],
+      "kind": "page",
+      "title": "Generative AI in Higher Education Teaching & Learning: Alignment with the EU AI Act | Zenodo",
+      "page": "https://zenodo.org/records/17977006",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://zenodo.org/records/17977006"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.82110/073e-hg66"
+      ],
+      "kind": "page",
+      "title": "Generative AI in Higher Education Teaching & Learning: Policy Framework | Zenodo",
+      "page": "https://zenodo.org/records/18010302",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://zenodo.org/records/18010302"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.82110/wyh1-vs46"
+      ],
+      "kind": "page",
+      "title": "Generative AI in Higher Education Teaching & Learning: Procurement & Vendor Governance | Zenodo",
+      "page": "https://zenodo.org/records/17976532",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://zenodo.org/records/17976532"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.14434/jotlt.v14i1.41614"
+      ],
+      "kind": "page",
+      "title": "Prompted to Explore: A Microlearning Model for Faculty Development in Generative AI | Journal of Teaching and Learning with Technology",
+      "page": "https://scholarworks.iu.edu/journals/index.php/jotlt/article/view/41614",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://scholarworks.iu.edu/journals/index.php/jotlt/article/view/41614"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1371/journal.pone.0249769"
+      ],
+      "kind": "page",
+      "title": "Artificial intelligence based writer identification generates new evidence for the unknown scribes of the Dead Sea Scrolls exemplified by the Great Isaiah Scroll (1QIsaa) | PLOS One",
+      "page": "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0249769",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0249769"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.48550/arxiv.2305.11308"
+      ],
+      "kind": "page",
+      "title": "[2305.11308] MCD: A Model-Agnostic Counterfactual Search Method For Multi-modal Design Modifications",
+      "page": "https://arxiv.org/abs/2305.11308",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://arxiv.org/abs/2305.11308"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.5195/jmla.2025.2022"
+      ],
+      "kind": "page",
+      "title": "Integrating PICO principles into generative artificial intelligence prompt engineering to enhance information retrieval for medical librarians | Journal of the Medical Library Association",
+      "page": "https://jmla.pitt.edu/ojs/jmla/article/view/2022",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://jmla.pitt.edu/ojs/jmla/article/view/2022"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.48550/arXiv.2302.08497"
+      ],
+      "kind": "page",
+      "title": "[2302.08497] Rethinking \"Risk\" in Algorithmic Systems Through A Computational Narrative Analysis of Casenotes in Child-Welfare",
+      "page": "https://arxiv.org/abs/2302.08497",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://arxiv.org/abs/2302.08497"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.56059/jl4d.v13i1.1882"
+      ],
+      "kind": "page",
+      "title": "CodeMentor-AI: AI-Powered Feedback Application for Programming in Open and Distance Learning | Journal of Learning for Development",
+      "page": "https://jl4d.org/index.php/ejl4d/article/view/1882",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://jl4d.org/index.php/ejl4d/article/view/1882"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.56059/jl4d.v11i3.1657"
+      ],
+      "kind": "page",
+      "title": "Taming the Monster: How can Open Education Promote the Effective and Safe use of Generative AI in Education? | Journal of Learning for Development",
+      "page": "https://jl4d.org/index.php/ejl4d/article/view/1657",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://jl4d.org/index.php/ejl4d/article/view/1657"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.37514/TWR-J.2023.2982"
+      ],
+      "kind": "page",
+      "title": "TextGenEd: Teaching with Text Generation Technologies - WAC",
+      "page": "https://wacclearinghouse.org/repository/collections/textgened/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://wacclearinghouse.org/repository/collections/textgened/"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.37514/twr-j.2023.2982.2.25"
+      ],
+      "kind": "page",
+      "title": "Translating a Policy Document into Plain English - WAC",
+      "page": "https://wacclearinghouse.org/repository/collections/textgened/professional-writing/translating-a-policy-document-into-plain-english/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://wacclearinghouse.org/repository/collections/textgened/professional-writing/translating-a-policy-document-into-plain-english/",
+        "https://wacclearinghouse.org/repository/collections/textgened/"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.37514/twr-j.2023.2982.2.19"
+      ],
+      "kind": "page",
+      "title": "Professor Bot: An Exercise in Algorithmic Accountability - WAC",
+      "page": "https://wacclearinghouse.org/repository/collections/textgened/ethical-considerations/professor-bot-an-exercise-in-algorithmic-accountability/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://wacclearinghouse.org/repository/collections/textgened/ethical-considerations/professor-bot-an-exercise-in-algorithmic-accountability/",
+        "https://wacclearinghouse.org/repository/collections/textgened/"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.37514/twr-j.2023.2982.2.18"
+      ],
+      "kind": "page",
+      "title": "Teaching Social Identity and Cultural Bias Using AI Text Generation - WAC",
+      "page": "https://wacclearinghouse.org/repository/collections/textgened/ethical-considerations/teaching-social-identity-and-cultural-bias-using-ai-text-generation/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://wacclearinghouse.org/repository/collections/textgened/ethical-considerations/teaching-social-identity-and-cultural-bias-using-ai-text-generation/",
+        "https://wacclearinghouse.org/repository/collections/textgened/"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.5195/palrap.2024.302"
+      ],
+      "kind": "page",
+      "title": "Enhancing Information Literacy through Generative AI in the Library Classroom | Pennsylvania Libraries: Research & Practice",
+      "page": "https://palrap.org/ojs/palrap/article/view/302",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://palrap.org/ojs/palrap/article/view/302"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.15760/comminfolit.2025.19.1.7"
+      ],
+      "kind": "page",
+      "title": "\"Generative AI for College Students\" by Amber Willenborg and Tessa Withorn",
+      "page": "https://pdxscholar.library.pdx.edu/comminfolit/vol19/iss1/7/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://pdxscholar.library.pdx.edu/comminfolit/vol19/iss1/7/"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.47408/jldhe.vi31.1354"
+      ],
+      "kind": "page",
+      "title": "Developing a conceptual framework for Artificial Intelligence (AI) literacy in higher education | Journal of Learning Development in Higher Education",
+      "page": "https://journal.aldinhe.ac.uk/index.php/jldhe/article/view/1354",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://journal.aldinhe.ac.uk/index.php/jldhe/article/view/1354"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1007/978-3-030-58948-6_5"
+      ],
+      "kind": "page",
+      "title": "Artificial Intelligence and Machine Learning: An Instructor’s Exoskeleton in the Future of Education | Springer Nature Link",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_5",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_5"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1007/978-3-031-55272-4_2"
+      ],
+      "kind": "page",
+      "title": "Preserving Teacher and Student Agency: Insights from a Literature Review | Springer Nature Link",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_2",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_2"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1007/978-3-031-67011-4"
+      ],
+      "kind": "page",
+      "title": "A Practical Guide to Understanding and Implementing Challenge-Based Learning | Springer Nature Link",
+      "page": "https://link.springer.com/book/10.1007/978-3-031-67011-4",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/book/10.1007/978-3-031-67011-4"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1007/978-3-031-55272-4_11"
+      ],
+      "kind": "page",
+      "title": "Artificial Intelligence in Professional and Vocational Training | Springer Nature Link",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_11",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_11"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1007/978-981-99-6273-0_1"
+      ],
+      "kind": "page",
+      "title": "Introduction | Springer Nature Link",
+      "page": "https://link.springer.com/chapter/10.1007/978-981-99-6273-0_1",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/chapter/10.1007/978-981-99-6273-0_1"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1007/978-3-031-55272-4_12"
+      ],
+      "kind": "page",
+      "title": "Manifesto in Defence of Human-Centred Education in the Age of Artificial Intelligence | Springer Nature Link",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_12",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_12"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.11647/obp.0162.03"
+      ],
+      "kind": "page",
+      "title": "3. Developing a Professional Online Presence and Effective Network | Open Book Publishers",
+      "page": "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.03",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.03"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1007/978-3-030-58948-6_4"
+      ],
+      "kind": "page",
+      "title": "Cross Reality (XR): Challenges and Opportunities Across the Spectrum | Springer Nature Link",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_4",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_4"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.11647/obp.0162.11"
+      ],
+      "kind": "page",
+      "title": "Cambridge Analytica, Facebook, and Understanding Social Media Beyond the Screen | Open Book Publishers",
+      "page": "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.11",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.11"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1007/978-3-031-55272-4_6"
+      ],
+      "kind": "page",
+      "title": "International Initiatives and Regional Ecosystems for Supporting Artificial Intelligence Acculturation | Springer Nature Link",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_6",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_6"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1007/978-3-030-58948-6_2"
+      ],
+      "kind": "page",
+      "title": "Personalized and Adaptive Learning | Springer Nature Link",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_2",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_2"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1007/978-3-031-55272-4_10"
+      ],
+      "kind": "page",
+      "title": "Generative Artificial Intelligence in Higher Education | Springer Nature Link",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_10",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_10"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.11647/obp.0162.08"
+      ],
+      "kind": "page",
+      "title": "8. The Use of Social Media Tools and Their Application to Creative Students | Open Book Publishers",
+      "page": "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.08",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.08"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1007/978-3-030-58948-6_3"
+      ],
+      "kind": "page",
+      "title": "Multimodal Learning | Springer Nature Link",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_3",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_3"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.11647/obp.0162.10"
+      ],
+      "kind": "page",
+      "title": "10. Bursting Out of the Bubble: Social Media, Openness and Higher Education | Open Book Publishers",
+      "page": "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.10",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.10"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.11647/obp.0162.06"
+      ],
+      "kind": "page",
+      "title": "6. Open and Networked Scholarship | Open Book Publishers",
+      "page": "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.06",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.06"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.11647/obp.0162.12"
+      ],
+      "kind": "page",
+      "title": "12. Leadership and Social Media | Open Book Publishers",
+      "page": "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.12",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.12"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1007/978-3-030-58948-6_1"
+      ],
+      "kind": "page",
+      "title": "Introduction | Springer Nature Link",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_1",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_1"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.11647/obp.0162.20"
+      ],
+      "kind": "page",
+      "title": "20. Learning to Twalk: An Analysis of a New Learning Environment | Open Book Publishers",
+      "page": "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.20",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.20"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.1007/978-3-030-58948-6_7"
+      ],
+      "kind": "page",
+      "title": "X-FILEs Jam: Ideation Process and Outcomes | Springer Nature Link",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_7",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_7"
+      ],
+      "observation": "Exact source HTML retrieved"
+    },
+    {
+      "urls": [
+        "https://doi.org/10.11647/obp.0162.04"
+      ],
+      "kind": "page",
+      "title": "4. Re-Engineered Continuing Professional Development and Modelled Use of Cloud Tools and Social Media by Academic Developers | Open Book Publishers",
+      "page": "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.04",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.04"
+      ],
+      "observation": "Exact source HTML retrieved"
+    }
+  ]
+}

@@ -1,0 +1,657 @@
+{
+  "stats": {
+    "entries": 162,
+    "source_url_aliases": 171,
+    "webpage_defaults": 146,
+    "file_notice_only": 14,
+    "existing_html_unchanged": 2,
+    "covered_occurrences": 413,
+    "new_doi_decisions": 107,
+    "prior_doi_decisions_retained": 4,
+    "file_entries_upgraded": 4
+  },
+  "changes": [
+    {
+      "doi": "10.2478/atd-2026-0014",
+      "original_url": "https://doi.org/10.2478/atd-2026-0014",
+      "page": "https://reference-global.com/article/10.2478/atd-2026-0014?tab=article",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.5860/ital.v43i3.17234",
+      "original_url": "https://doi.org/10.5860/ital.v43i3.17234",
+      "page": "https://ital.corejournals.org/index.php/ital/article/view/17234",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1002/ece3.9644",
+      "original_url": "https://doi.org/10.1002/ece3.9644",
+      "page": "https://onlinelibrary.wiley.com/doi/10.1002/ece3.9644",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1177/16094069251326412",
+      "original_url": "https://doi.org/10.1177/16094069251326412",
+      "page": "https://journals.sagepub.com/doi/10.1177/16094069251326412",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1177/09697330261428627",
+      "original_url": "https://doi.org/10.1177/09697330261428627",
+      "page": "https://journals.sagepub.com/doi/10.1177/09697330261428627",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1177/14782103251395436",
+      "original_url": "https://doi.org/10.1177/14782103251395436",
+      "page": "https://journals.sagepub.com/doi/10.1177/14782103251395436",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1186/s41239-026-00609-6",
+      "original_url": "https://doi.org/10.1186/s41239-026-00609-6",
+      "page": "https://link.springer.com/article/10.1186/s41239-026-00609-6",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1186/s41239-025-00558-6",
+      "original_url": "https://doi.org/10.1186/s41239-025-00558-6",
+      "page": "https://link.springer.com/article/10.1186/s41239-025-00558-6",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1057/s41599-026-06928-3",
+      "original_url": "https://doi.org/10.1057/s41599-026-06928-3",
+      "page": "https://www.nature.com/articles/s41599-026-06928-3",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1128/jmbe.00040-26",
+      "original_url": "https://doi.org/10.1128/jmbe.00040-26",
+      "page": "https://journals.asm.org/doi/10.1128/jmbe.00040-26",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.34190/ejel.24.1.4416",
+      "original_url": "https://doi.org/10.34190/ejel.24.1.4416",
+      "page": "https://academic-publishing.org/index.php/ejel/article/view/4416",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1186/s41239-023-00391-9",
+      "original_url": "https://doi.org/10.1186/s41239-023-00391-9",
+      "page": "https://link.springer.com/article/10.1186/s41239-023-00391-9",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1007/978-3-031-55272-4_8",
+      "original_url": "https://doi.org/10.1007/978-3-031-55272-4_8",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_8",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1007/s11528-024-00967-w",
+      "original_url": "https://doi.org/10.1007/s11528-024-00967-w",
+      "page": "https://link.springer.com/article/10.1007/s11528-024-00967-w",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.5281/zenodo.8072950",
+      "original_url": "https://doi.org/10.5281/zenodo.8072950",
+      "page": "https://zenodo.org/records/8072950",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.5281/zenodo.11613520",
+      "original_url": "https://doi.org/10.5281/zenodo.11613520",
+      "page": "https://zenodo.org/records/11613520",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.24132/jbt.2024.14.2.77_84",
+      "original_url": "https://doi.org/10.24132/jbt.2024.14.2.77_84",
+      "page": "https://dspace.zcu.cz/items/dac065ee-e7da-4177-b9ec-5c46b9bfae53",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1007/s10639-026-13952-y",
+      "original_url": "https://doi.org/10.1007/s10639-026-13952-y",
+      "page": "https://link.springer.com/article/10.1007/s10639-026-13952-y",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.3389/feduc.2025.1629513",
+      "original_url": "https://doi.org/10.3389/feduc.2025.1629513",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1629513/full",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.3389/fcomm.2025.1554052",
+      "original_url": "https://doi.org/10.3389/fcomm.2025.1554052",
+      "page": "https://www.frontiersin.org/journals/communication/articles/10.3389/fcomm.2025.1554052/full",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.3389/feduc.2025.1612398",
+      "original_url": "https://doi.org/10.3389/feduc.2025.1612398",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1612398/full",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.3389/feduc.2026.1916444",
+      "original_url": "https://doi.org/10.3389/feduc.2026.1916444",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2026.1916444/full",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.3389/feduc.2025.1605921",
+      "original_url": "https://doi.org/10.3389/feduc.2025.1605921",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1605921/full",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.18103/mra.v13i7.6786",
+      "original_url": "https://doi.org/10.18103/mra.v13i7.6786",
+      "page": "https://esmed.org/MRA/mra/article/view/6786",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.3389/fmed.2026.1910543",
+      "original_url": "https://doi.org/10.3389/fmed.2026.1910543",
+      "page": "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2026.1910543/full",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1371/journal.pcbi.1011863",
+      "original_url": "https://doi.org/10.1371/journal.pcbi.1011863",
+      "page": "https://journals.plos.org/ploscompbiol/article?id=10.1371%2Fjournal.pcbi.1011863",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1111/jmwh.70015",
+      "original_url": "https://doi.org/10.1111/jmwh.70015",
+      "page": "https://onlinelibrary.wiley.com/doi/10.1111/jmwh.70015",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.3389/fcomm.2025.1610111",
+      "original_url": "https://doi.org/10.3389/fcomm.2025.1610111",
+      "page": "https://www.frontiersin.org/journals/communication/articles/10.3389/fcomm.2025.1610111/full",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1177/16094069251404329",
+      "original_url": "https://doi.org/10.1177/16094069251404329",
+      "page": "https://journals.sagepub.com/doi/10.1177/16094069251404329",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.2196/87118",
+      "original_url": "https://doi.org/10.2196/87118",
+      "page": "https://www.jmir.org/2026/1/e87118",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.5772/intechopen.1012995",
+      "original_url": "https://doi.org/10.5772/intechopen.1012995",
+      "page": "https://www.intechopen.com/chapters/1232255",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.37514/TWR-J.2023.2982.2.15",
+      "original_url": "https://doi.org/10.37514/TWR-J.2023.2982.2.15",
+      "page": "https://wacclearinghouse.org/repository/collections/textgened/creative-explorations/whos-talking/",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.37514/TWR-J.2023.2982.2.14",
+      "original_url": "https://doi.org/10.37514/TWR-J.2023.2982.2.14",
+      "page": "https://wacclearinghouse.org/repository/collections/textgened/creative-explorations/deconstructing-and-reconstructing-genre-and-form-with-tracery/",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1007/978-3-031-55272-4",
+      "original_url": "https://doi.org/10.1007/978-3-031-55272-4",
+      "page": "https://link.springer.com/book/10.1007/978-3-031-55272-4",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.37514/TWR-J.2023.2982.2.33",
+      "original_url": "https://doi.org/10.37514/TWR-J.2023.2982.2.33",
+      "page": "https://wacclearinghouse.org/repository/collections/textgened/rhetorical-engagements/using-ai-text-as-prompts-for-critical-analysis/",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.37514/TWR-J.2023.2982.2.10",
+      "original_url": "https://doi.org/10.37514/TWR-J.2023.2982.2.10",
+      "page": "https://wacclearinghouse.org/repository/collections/textgened/creative-explorations/made-not-only-by-me/",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.3389/fcomm.2025.1629478",
+      "original_url": "https://doi.org/10.3389/fcomm.2025.1629478",
+      "page": "https://www.frontiersin.org/journals/communication/articles/10.3389/fcomm.2025.1629478/full",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.3389/fvets.2024.1504598",
+      "original_url": "https://doi.org/10.3389/fvets.2024.1504598",
+      "page": "https://www.frontiersin.org/journals/veterinary-science/articles/10.3389/fvets.2024.1504598/full",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.56059/jl4d.v12i2.1934",
+      "original_url": "https://doi.org/10.56059/jl4d.v12i2.1934",
+      "page": "https://jl4d.org/index.php/ejl4d/article/view/1934",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.46430/phen0104",
+      "original_url": "https://doi.org/10.46430/phen0104",
+      "page": "https://programminghistorian.org/en/lessons/interrogating-national-narrative-gpt",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.7195/ri14.v18i2.1515",
+      "original_url": "https://doi.org/10.7195/ri14.v18i2.1515",
+      "page": "https://icono14.net/ojs/index.php/icono14/en/article/view/1515",
+      "decision": "Add verified webpage to original file and corresponding DOI"
+    },
+    {
+      "doi": "10.1186/s41073-026-00245-8",
+      "original_url": "https://doi.org/10.1186/s41073-026-00245-8",
+      "page": "https://link.springer.com/article/10.1186/s41073-026-00245-8",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1017/s2058631026101214",
+      "original_url": "https://doi.org/10.1017/s2058631026101214",
+      "page": "https://www.cambridge.org/core/journals/journal-of-classics-teaching/article/an-experimental-creative-writing-course-rewriting-classical-myths-with-chatgpt/B17BC4AB6E43CEED044577E5D5079F28",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.5281/zenodo.19483119",
+      "original_url": "https://doi.org/10.5281/zenodo.19483119",
+      "page": "https://zenodo.org/records/19483119",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.61669/001c.162788",
+      "original_url": "https://doi.org/10.61669/001c.162788",
+      "page": "https://otear.rutgers.edu/exploring-generative-ai-to-enhance-data-artifact-use-in-accreditation/",
+      "decision": "Add verified webpage to original file and corresponding DOI"
+    },
+    {
+      "doi": "10.3389/feduc.2025.1417642",
+      "original_url": "https://doi.org/10.3389/feduc.2025.1417642",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1417642/full",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.3389/feduc.2025.1596462",
+      "original_url": "https://doi.org/10.3389/feduc.2025.1596462",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1596462/full",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.4038/jula.v27i2.8083",
+      "original_url": "https://doi.org/10.4038/jula.v27i2.8083",
+      "page": "https://reference-global.com/article/10.4038/jula.v27i2.8083",
+      "decision": "Add verified webpage to original file and corresponding DOI"
+    },
+    {
+      "doi": "10.20310/1810-0201-2024-29-4-985-998",
+      "original_url": "https://doi.org/10.20310/1810-0201-2024-29-4-985-998",
+      "page": "https://journals.rcsi.science/1810-0201/article/view/297791",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.5281/zenodo.20724315",
+      "original_url": "https://doi.org/10.5281/zenodo.20724315",
+      "page": "https://zenodo.org/records/20724315",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.3389/feduc.2026.1879758",
+      "original_url": "https://doi.org/10.3389/feduc.2026.1879758",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2026.1879758/full",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.46430/phen0038",
+      "original_url": "https://doi.org/10.46430/phen0038",
+      "page": "https://programminghistorian.org/en/lessons/naive-bayesian",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.5281/zenodo.21269983",
+      "original_url": "https://doi.org/10.5281/zenodo.21269983",
+      "page": "https://zenodo.org/records/21269983",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.5281/zenodo.21132114",
+      "original_url": "https://doi.org/10.5281/zenodo.21132114",
+      "page": "https://zenodo.org/records/21132114",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.20310/1810-0201-2026-31-2-359-372",
+      "original_url": "https://doi.org/10.20310/1810-0201-2026-31-2-359-372",
+      "page": "https://journals.rcsi.science/1810-0201/article/view/414518",
+      "decision": "Add verified webpage to original file and corresponding DOI"
+    },
+    {
+      "doi": "10.61756/KYQU7678",
+      "original_url": "https://doi.org/10.61756/KYQU7678",
+      "page": "https://pressbooks.atlanticoer-relatlantique.ca/theaiturn/",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.5281/zenodo.18452320",
+      "original_url": "https://doi.org/10.5281/zenodo.18452320",
+      "page": "https://zenodo.org/records/18452320",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.48550/arxiv.2503.15120",
+      "original_url": "https://doi.org/10.48550/arxiv.2503.15120",
+      "page": "https://arxiv.org/abs/2503.15120",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1371/journal.pone.0346127",
+      "original_url": "https://doi.org/10.1371/journal.pone.0346127",
+      "page": "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0346127",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.54254/2755-2721/2026.29763",
+      "original_url": "https://doi.org/10.54254/2755-2721/2026.29763",
+      "page": "https://ace.ewapub.com/article/view/29763",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.3389/fcomm.2023.1129082",
+      "original_url": "https://doi.org/10.3389/fcomm.2023.1129082",
+      "page": "https://www.frontiersin.org/journals/communication/articles/10.3389/fcomm.2023.1129082/full",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1063/5.0283529",
+      "original_url": "https://doi.org/10.1063/5.0283529",
+      "page": "https://pubs.aip.org/aip/aml/article/3/4/046105/3369966/Building-an-affordable-self-driving-lab-Practical",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.3389/feduc.2025.1712743",
+      "original_url": "https://doi.org/10.3389/feduc.2025.1712743",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1712743/full",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.3389/feduc.2026.1783496",
+      "original_url": "https://doi.org/10.3389/feduc.2026.1783496",
+      "page": "https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2026.1783496/full",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1038/s41592-022-01488-1",
+      "original_url": "https://doi.org/10.1038/s41592-022-01488-1",
+      "page": "https://www.nature.com/articles/s41592-022-01488-1",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.29038/eejpl.2025.12.1.naq",
+      "original_url": "https://doi.org/10.29038/eejpl.2025.12.1.naq",
+      "page": "https://eejpl.vnu.edu.ua/index.php/eejpl/article/view/925",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.5281/zenodo.8355454",
+      "original_url": "https://doi.org/10.5281/zenodo.8355454",
+      "page": "https://zenodo.org/records/8355454",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1155/2024/8815424",
+      "original_url": "https://doi.org/10.1155/2024/8815424",
+      "page": "https://onlinelibrary.wiley.com/doi/10.1155/2024/8815424",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.82110/3sxr-z770",
+      "original_url": "https://doi.org/10.82110/3sxr-z770",
+      "page": "https://hub.teachingandlearning.ie/genai/policy-framework",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.82110/tgec-fq82",
+      "original_url": "https://doi.org/10.82110/tgec-fq82",
+      "page": "https://zenodo.org/records/17977006",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.82110/073e-hg66",
+      "original_url": "https://doi.org/10.82110/073e-hg66",
+      "page": "https://zenodo.org/records/18010302",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.82110/wyh1-vs46",
+      "original_url": "https://doi.org/10.82110/wyh1-vs46",
+      "page": "https://zenodo.org/records/17976532",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.14434/jotlt.v14i1.41614",
+      "original_url": "https://doi.org/10.14434/jotlt.v14i1.41614",
+      "page": "https://scholarworks.iu.edu/journals/index.php/jotlt/article/view/41614",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1371/journal.pone.0249769",
+      "original_url": "https://doi.org/10.1371/journal.pone.0249769",
+      "page": "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0249769",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.48550/arxiv.2305.11308",
+      "original_url": "https://doi.org/10.48550/arxiv.2305.11308",
+      "page": "https://arxiv.org/abs/2305.11308",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.5195/jmla.2025.2022",
+      "original_url": "https://doi.org/10.5195/jmla.2025.2022",
+      "page": "https://jmla.pitt.edu/ojs/jmla/article/view/2022",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.48550/arXiv.2302.08497",
+      "original_url": "https://doi.org/10.48550/arXiv.2302.08497",
+      "page": "https://arxiv.org/abs/2302.08497",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.56059/jl4d.v13i1.1882",
+      "original_url": "https://doi.org/10.56059/jl4d.v13i1.1882",
+      "page": "https://jl4d.org/index.php/ejl4d/article/view/1882",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.56059/jl4d.v11i3.1657",
+      "original_url": "https://doi.org/10.56059/jl4d.v11i3.1657",
+      "page": "https://jl4d.org/index.php/ejl4d/article/view/1657",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.37514/TWR-J.2023.2982",
+      "original_url": "https://doi.org/10.37514/TWR-J.2023.2982",
+      "page": "https://wacclearinghouse.org/repository/collections/textgened/",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.37514/twr-j.2023.2982.2.25",
+      "original_url": "https://doi.org/10.37514/twr-j.2023.2982.2.25",
+      "page": "https://wacclearinghouse.org/repository/collections/textgened/professional-writing/translating-a-policy-document-into-plain-english/",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.37514/twr-j.2023.2982.2.19",
+      "original_url": "https://doi.org/10.37514/twr-j.2023.2982.2.19",
+      "page": "https://wacclearinghouse.org/repository/collections/textgened/ethical-considerations/professor-bot-an-exercise-in-algorithmic-accountability/",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.37514/twr-j.2023.2982.2.18",
+      "original_url": "https://doi.org/10.37514/twr-j.2023.2982.2.18",
+      "page": "https://wacclearinghouse.org/repository/collections/textgened/ethical-considerations/teaching-social-identity-and-cultural-bias-using-ai-text-generation/",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.5195/palrap.2024.302",
+      "original_url": "https://doi.org/10.5195/palrap.2024.302",
+      "page": "https://palrap.org/ojs/palrap/article/view/302",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.15760/comminfolit.2025.19.1.7",
+      "original_url": "https://doi.org/10.15760/comminfolit.2025.19.1.7",
+      "page": "https://pdxscholar.library.pdx.edu/comminfolit/vol19/iss1/7/",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.47408/jldhe.vi31.1354",
+      "original_url": "https://doi.org/10.47408/jldhe.vi31.1354",
+      "page": "https://journal.aldinhe.ac.uk/index.php/jldhe/article/view/1354",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1007/978-3-030-58948-6_5",
+      "original_url": "https://doi.org/10.1007/978-3-030-58948-6_5",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_5",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1007/978-3-031-55272-4_2",
+      "original_url": "https://doi.org/10.1007/978-3-031-55272-4_2",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_2",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1007/978-3-031-67011-4",
+      "original_url": "https://doi.org/10.1007/978-3-031-67011-4",
+      "page": "https://link.springer.com/book/10.1007/978-3-031-67011-4",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1007/978-3-031-55272-4_11",
+      "original_url": "https://doi.org/10.1007/978-3-031-55272-4_11",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_11",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1007/978-981-99-6273-0_1",
+      "original_url": "https://doi.org/10.1007/978-981-99-6273-0_1",
+      "page": "https://link.springer.com/chapter/10.1007/978-981-99-6273-0_1",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1007/978-3-031-55272-4_12",
+      "original_url": "https://doi.org/10.1007/978-3-031-55272-4_12",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_12",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.11647/obp.0162.03",
+      "original_url": "https://doi.org/10.11647/obp.0162.03",
+      "page": "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.03",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1007/978-3-030-58948-6_4",
+      "original_url": "https://doi.org/10.1007/978-3-030-58948-6_4",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_4",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.11647/obp.0162.11",
+      "original_url": "https://doi.org/10.11647/obp.0162.11",
+      "page": "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.11",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1007/978-3-031-55272-4_6",
+      "original_url": "https://doi.org/10.1007/978-3-031-55272-4_6",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_6",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1007/978-3-030-58948-6_2",
+      "original_url": "https://doi.org/10.1007/978-3-030-58948-6_2",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_2",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1007/978-3-031-55272-4_10",
+      "original_url": "https://doi.org/10.1007/978-3-031-55272-4_10",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-031-55272-4_10",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.11647/obp.0162.08",
+      "original_url": "https://doi.org/10.11647/obp.0162.08",
+      "page": "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.08",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1007/978-3-030-58948-6_3",
+      "original_url": "https://doi.org/10.1007/978-3-030-58948-6_3",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_3",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.11647/obp.0162.10",
+      "original_url": "https://doi.org/10.11647/obp.0162.10",
+      "page": "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.10",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.11647/obp.0162.06",
+      "original_url": "https://doi.org/10.11647/obp.0162.06",
+      "page": "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.06",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.11647/obp.0162.12",
+      "original_url": "https://doi.org/10.11647/obp.0162.12",
+      "page": "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.12",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1007/978-3-030-58948-6_1",
+      "original_url": "https://doi.org/10.1007/978-3-030-58948-6_1",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_1",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.11647/obp.0162.20",
+      "original_url": "https://doi.org/10.11647/obp.0162.20",
+      "page": "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.20",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.1007/978-3-030-58948-6_7",
+      "original_url": "https://doi.org/10.1007/978-3-030-58948-6_7",
+      "page": "https://link.springer.com/chapter/10.1007/978-3-030-58948-6_7",
+      "decision": "Add verified source webpage for DOI"
+    },
+    {
+      "doi": "10.11647/obp.0162.04",
+      "original_url": "https://doi.org/10.11647/obp.0162.04",
+      "page": "https://www.openbookpublishers.com/books/10.11647/obp.0162/chapters/10.11647/obp.0162.04",
+      "decision": "Add verified source webpage for DOI"
+    }
+  ]
+}

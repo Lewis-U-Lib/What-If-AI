@@ -13,10 +13,11 @@
   },
   "js": {
    "boot": ["boot.js"],
-   "core": ["matching.js", "linkify.js", "activity-feedback.js", "shared.js"],
+   "core": ["source-links.js", "matching.js", "linkify.js", "activity-feedback.js", "shared.js"],
    "what-if-ai": ["what-if-ai.js"],
    "register": ["register-type-examples.js", "register.js"],
-   "engines": ["lul-core.js"]
+   "engines": ["lul-core.js"],
+   "source-file": ["source-links.js", "source-file.js"]
   }
  },
  "_note_bundles": "Order matters. CSS: base, then the page's own rules, then the theme layers (as in the single-file pages). JS runs in list order after the data has loaded.",
@@ -24,10 +25,12 @@
   {"src": "index.html", "out": "index.html", "css": ["base", "theme"]},
   {"src": "what-if-ai.html", "out": "what-if-ai.html", "css": ["base", "what-if-ai", "theme"],
    "companion": {"href": "register.html", "label": "The Register", "icon": "i-crt"},
-   "data": ["acts", "guide"], "scripts": ["core", "what-if-ai", "engines"]},
+   "data": ["acts", "guide", "source-links"], "scripts": ["core", "what-if-ai", "engines"]},
   {"src": "register.html", "out": "register.html", "css": ["base", "register", "theme", "register-types"],
    "companion": {"href": "what-if-ai.html", "label": "What If AI", "icon": "i-bulb"},
-   "data": ["acts", "register", "guide"], "scripts": ["core", "register", "engines"]},
+   "data": ["acts", "register", "guide", "source-links"], "scripts": ["core", "register", "engines"]},
+  {"src": "source-file.html", "out": "source-file.html", "css": ["base", "theme"],
+   "data": ["source-links"], "scripts": ["source-file"], "sitemap": false},
   {"src": "404.html", "out": "404.html", "css": ["base", "theme"], "absolute": true, "sitemap": false}
  ],
  "analytics": {
