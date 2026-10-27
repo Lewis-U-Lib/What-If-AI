@@ -23,7 +23,7 @@ function render(){
   }
   text('h2', e.title);
   text('p','Opening this source may download a file instead of displaying it in your browser. The source website and your browser settings control what happens.');
-  text('p','The source file has not been opened. Continue only if you are comfortable with a possible download.');
+  text('p','This page does not open or download the source file automatically. Choose an option below to continue.');
   text('p','Source host: ' + new URL(file).hostname);
   var address = text('p',file); address.className = 'source-file-address';
   if(e.page){

@@ -57,3 +57,9 @@ The Register's header and floating menu open the nine-step walkthrough in `src/p
 ## Licenses
 
 The original tools are **CC BY-NC-ND 4.0**, with the exceptions in [LICENSE.md](LICENSE.md) and [NOTICE.md](NOTICE.md). Every use-case idea keeps its own license, including synthesis and remix entries. Separately licensed guide content, policy quotations, sources, fonts, and dependencies retain their own terms. Earlier CC BY-NC-SA permissions remain in effect for earlier releases.
+
+## Source links and file notices
+
+`content/source-links.json` is a reviewed presentation overlay for activity sources and their references. Verified publisher/resource pages are preferred. Known file links go to `source-file.html`, which explains the possible download and requires a separate choice before contacting the file host. Original release data and PDF locators are preserved.
+
+`tools/source_links.py` rejects new unreviewed file-like primary URLs. Add a verified webpage only after checking its source identity; keep uncertain endpoints behind a notice. Run `npm run test:source-links` after building. See [the October 2026 audit](docs/SOURCE-LINKS-2026-10-27.md) for the complete inventory, evidence, and limits.

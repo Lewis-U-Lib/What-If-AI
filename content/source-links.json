@@ -322,9 +322,10 @@
       "note": "",
       "reviewed": "2026-10-27",
       "evidence": [
-        "https://github.com/ssciwr/generative-AI-coding-course/blob/main/generative-AI-research-software-2026.pdf"
+        "https://github.com/ssciwr/generative-AI-coding-course/blob/main/generative-AI-research-software-2026.pdf",
+        "https://api.github.com/repos/ssciwr/generative-AI-coding-course/contents/"
       ],
-      "observation": "retrieval-inconclusive"
+      "observation": "repository-file-confirmed"
     },
     {
       "urls": [
@@ -390,11 +391,12 @@
       ],
       "kind": "pdf",
       "title": "Drink Up: Lesson in Survey Methodology",
-      "page": "",
-      "note": "",
+      "page": "https://www.cdc.gov/science-ambassador/stem-lesson-plans/index-activities.html",
+      "note": "On the activities index, choose “Drink Up: Lesson in Survey Methodology”.",
       "reviewed": "2026-10-27",
       "evidence": [
-        "https://www.cdc.gov/science-ambassador/documents/drink-up-2016.pdf"
+        "https://www.cdc.gov/science-ambassador/documents/drink-up-2016.pdf",
+        "https://www.cdc.gov/science-ambassador/stem-lesson-plans/index-activities.html"
       ],
       "observation": "application/pdf"
     },
@@ -404,11 +406,12 @@
       ],
       "kind": "pdf",
       "title": "RAGE Outbreak: Making Grueling Public Health Decisions",
-      "page": "",
-      "note": "",
+      "page": "https://www.cdc.gov/science-ambassador/stem-lesson-plans/index-activities.html",
+      "note": "On the activities index, choose “RAGE Outbreak: Making Grueling Public Health Decisions”.",
       "reviewed": "2026-10-27",
       "evidence": [
-        "https://www.cdc.gov/science-ambassador/documents/hs-rage-outbreak-cleared.pdf"
+        "https://www.cdc.gov/science-ambassador/documents/hs-rage-outbreak-cleared.pdf",
+        "https://www.cdc.gov/science-ambassador/stem-lesson-plans/index-activities.html"
       ],
       "observation": "application/pdf"
     },
@@ -418,11 +421,12 @@
       ],
       "kind": "pdf",
       "title": "Spatial Analysis of Obesity: Geographic Information Systems and Descriptive Epidemiology",
-      "page": "",
-      "note": "",
+      "page": "https://www.cdc.gov/science-ambassador/stem-lesson-plans/index-activities.html",
+      "note": "On the activities index, choose “Spatial Analysis of Obesity: GIS and descriptive epidemiology”.",
       "reviewed": "2026-10-27",
       "evidence": [
-        "https://www.cdc.gov/science-ambassador/documents/ms-spatial-analysis-of-obesity-2014.pdf"
+        "https://www.cdc.gov/science-ambassador/documents/ms-spatial-analysis-of-obesity-2014.pdf",
+        "https://www.cdc.gov/science-ambassador/stem-lesson-plans/index-activities.html"
       ],
       "observation": "application/pdf"
     },
@@ -432,11 +436,12 @@
       ],
       "kind": "pdf",
       "title": "Cruciate Sutures (Document number: CSL_S14; Year Group: BVSc4 +)",
-      "page": "",
-      "note": "",
+      "page": "https://www.bristol.ac.uk/vet-school/research/veterinary-education/clinical-skills-booklets/sutures/",
+      "note": "On the sutures page, choose “Cruciate Suture”.",
       "reviewed": "2026-10-27",
       "evidence": [
-        "https://www.bristol.ac.uk/media-library/sites/vetscience/documents/clinical-skills/Cruciate%20Suture.pdf"
+        "https://www.bristol.ac.uk/media-library/sites/vetscience/documents/clinical-skills/Cruciate%20Suture.pdf",
+        "https://www.bristol.ac.uk/vet-school/research/veterinary-education/clinical-skills-booklets/sutures/"
       ],
       "observation": "application/pdf"
     },
@@ -461,11 +466,12 @@
       ],
       "kind": "pdf",
       "title": "Choosing a Study Design for the Polio Vaccine",
-      "page": "",
-      "note": "",
+      "page": "https://www.amstat.org/education/stew",
+      "note": "Find “Choosing a Study Design for the Polio Vaccine” in the lesson list.",
       "reviewed": "2026-10-27",
       "evidence": [
-        "https://www.amstat.org/asa/files/pdfs/stew/Choosing-a-Study-Design-for-the-Polio-Vaccine_finalCC1.pdf"
+        "https://www.amstat.org/asa/files/pdfs/stew/Choosing-a-Study-Design-for-the-Polio-Vaccine_finalCC1.pdf",
+        "https://www.amstat.org/education/stew"
       ],
       "observation": "application/pdf"
     },
@@ -549,11 +555,12 @@
       ],
       "kind": "pdf",
       "title": "Exploration 1A: What can bystanders do? (Exploring Humanitarian Law, Module 1: The humanitarian perspective)",
-      "page": "",
-      "note": "",
+      "page": "https://www.icrc.org/en/document/exploring-humanitarian-law-ehl-resource-pack",
+      "note": "Under English, choose Module 1.",
       "reviewed": "2026-10-27",
       "evidence": [
-        "https://www.icrc.org/data/files/ehl/ehl-english-module1.pdf"
+        "https://www.icrc.org/data/files/ehl/ehl-english-module1.pdf",
+        "https://www.icrc.org/en/document/exploring-humanitarian-law-ehl-resource-pack"
       ],
       "observation": "application/pdf"
     },
@@ -563,11 +570,12 @@
       ],
       "kind": "pdf",
       "title": "Exploration 2C: Focus on child soldiers (Exploring Humanitarian Law, Module 2: Limits in armed conflict)",
-      "page": "",
-      "note": "",
+      "page": "https://www.icrc.org/en/document/exploring-humanitarian-law-ehl-resource-pack",
+      "note": "Under English, choose Module 2.",
       "reviewed": "2026-10-27",
       "evidence": [
-        "https://www.icrc.org/data/files/ehl/ehl-english-module2.pdf"
+        "https://www.icrc.org/data/files/ehl/ehl-english-module2.pdf",
+        "https://www.icrc.org/en/document/exploring-humanitarian-law-ehl-resource-pack"
       ],
       "observation": "application/pdf"
     },
@@ -577,11 +585,12 @@
       ],
       "kind": "pdf",
       "title": "Somali Boys Group",
-      "page": "",
-      "note": "",
+      "page": "https://iaswg.memberclicks.net/media-resource-project",
+      "note": "On the resource page, choose “Somali Boys Group”.",
       "reviewed": "2026-10-27",
       "evidence": [
-        "https://iaswg.memberclicks.net/assets/Somali-Boys-Abdi.pdf"
+        "https://iaswg.memberclicks.net/assets/Somali-Boys-Abdi.pdf",
+        "https://iaswg.memberclicks.net/media-resource-project"
       ],
       "observation": "application/pdf"
     },
@@ -721,11 +730,12 @@
       ],
       "kind": "pdf",
       "title": "Rhythm and Meter/Pitch - Name Melody (in 4th Grade Activity Worksheets, Music Educators Toolbox)",
-      "page": "",
-      "note": "",
+      "page": "https://www.carnegiehall.org/Education/Programs/Music-Educators-Toolbox/4-Composing-a-Melody",
+      "note": "This page explains the name-melody activity. The original PDF contains the full Grade 4 worksheet packet.",
       "reviewed": "2026-10-27",
       "evidence": [
-        "https://www.carnegiehall.org/-/media/CarnegieHall/Files/PDFs/Education/Educators/Toolbox/Grade-4/Toolbox-Grade-4-Activities.pdf?la=en"
+        "https://www.carnegiehall.org/-/media/CarnegieHall/Files/PDFs/Education/Educators/Toolbox/Grade-4/Toolbox-Grade-4-Activities.pdf?la=en",
+        "https://www.carnegiehall.org/Education/Programs/Music-Educators-Toolbox/4-Composing-a-Melody"
       ],
       "observation": "application/pdf"
     },
@@ -765,11 +775,12 @@
       ],
       "kind": "pdf",
       "title": "Teaching resource: Folk devils and moral panics",
-      "page": "",
-      "note": "",
+      "page": "https://ukdataservice.ac.uk/learning-hub/teach-with-real-data/",
+      "note": "Under qualitative teaching resources, choose “Folk devils and moral panics”.",
       "reviewed": "2026-10-27",
       "evidence": [
-        "https://ukdataservice.ac.uk/app/uploads/teachingresourcefolkdevilsmoralpanics.pdf"
+        "https://ukdataservice.ac.uk/app/uploads/teachingresourcefolkdevilsmoralpanics.pdf",
+        "https://ukdataservice.ac.uk/learning-hub/teach-with-real-data/"
       ],
       "observation": "application/pdf"
     },
@@ -779,11 +790,12 @@
       ],
       "kind": "pdf",
       "title": "Assessing consent form statements",
-      "page": "",
-      "note": "",
+      "page": "https://ukdataservice.ac.uk/learning-hub/teach-with-real-data/teaching-resources-data-management/managing-data-training-exercises/",
+      "note": "Choose “Exercise and answers: Assessing consent form statements”.",
       "reviewed": "2026-10-27",
       "evidence": [
-        "https://ukdataservice.ac.uk/app/uploads/exercise_consent_form_statements.pdf"
+        "https://ukdataservice.ac.uk/app/uploads/exercise_consent_form_statements.pdf",
+        "https://ukdataservice.ac.uk/learning-hub/teach-with-real-data/teaching-resources-data-management/managing-data-training-exercises/"
       ],
       "observation": "application/pdf"
     },
@@ -793,11 +805,12 @@
       ],
       "kind": "pdf",
       "title": "Effective Training Models for Implementing Health-Promoting Practices Afterschool",
-      "page": "",
-      "note": "",
+      "page": "https://cancercontrol.cancer.gov/brp/funding/sample-grant-applications",
+      "note": "Find “R21: Effective Training Models for Implementing Health-Promoting Practices Afterschool”.",
       "reviewed": "2026-10-27",
       "evidence": [
-        "https://cancercontrol.cancer.gov/sites/default/files/2020-06/SGA_9182511.pdf"
+        "https://cancercontrol.cancer.gov/sites/default/files/2020-06/SGA_9182511.pdf",
+        "https://cancercontrol.cancer.gov/brp/funding/sample-grant-applications"
       ],
       "observation": "application/pdf"
     },
@@ -807,11 +820,12 @@
       ],
       "kind": "pdf",
       "title": "Teaching & Work at the Dawn of Generative AI",
-      "page": "",
-      "note": "",
+      "page": "https://sites.berry.edu/csnider/2025/05/20/exploring-ais-impact-on-higher-ed-insights-from-a-four-session-workshop/",
+      "note": "The workshop article links to the full set of lesson plans and assignments.",
       "reviewed": "2026-10-27",
       "evidence": [
-        "https://sites.berry.edu/csnider/wp-content/uploads/sites/13/2025/05/Teaching-and-Work-at-the-Dawn-of-Generative-AI.pdf"
+        "https://sites.berry.edu/csnider/wp-content/uploads/sites/13/2025/05/Teaching-and-Work-at-the-Dawn-of-Generative-AI.pdf",
+        "https://sites.berry.edu/csnider/2025/05/20/exploring-ais-impact-on-higher-ed-insights-from-a-four-session-workshop/"
       ],
       "observation": "application/pdf"
     },
