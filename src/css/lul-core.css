@@ -341,6 +341,9 @@ body.chat-open{overflow:hidden;}
 .chat-modal__title{font-family:var(--font-h);font-size:20px;font-weight:700;color:var(--white);
   text-decoration:underline;text-decoration-color:var(--cyan);text-underline-offset:4px;}
 .chat-modal__sub{font-size:12px;color:var(--muted);margin-top:2px;}
+/* who answers: staff during staffed hours, otherwise the library's fixed decision tree */
+.chat-modal__note{flex:none;margin:0;padding:9px 16px;border-bottom:1px solid rgba(222,187,112,.22);
+  background:rgba(0,0,0,.22);color:var(--white);font-size:13px;line-height:1.45;}
 .chat-modal__head-actions{display:flex;align-items:center;gap:8px;}
 .chat-modal__link{border:1px solid rgba(222,187,112,.32);border-radius:999px;padding:7px 12px;
   background:rgba(255,255,255,.05);color:var(--cyan);text-decoration:none;

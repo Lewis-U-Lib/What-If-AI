@@ -31,6 +31,7 @@ const STATES = [
     const s = await p.$$('#plan button[data-save]'); await s[0].click(); await s[1].click(); await p.click('.topbar [data-open-saved]'); }],
   ['What If AI · walkthrough, first step', 'what-if-ai.html', async p => { await p.click('.hdr [data-open-tour]'); }],
   ['What If AI · walkthrough, last step', 'what-if-ai.html#tour', async p => { await p.keyboard.press('End'); }],
+  ['What If AI · how this site works', 'what-if-ai.html', async p => { await p.click('.hdr [data-open-about]'); }],
   ['What If AI · question two (back navigation available)', 'what-if-ai.html#q=task&a=focus:teaching', async p => {}],
     ['What If AI · saved drawer empty', 'what-if-ai.html', async p => { await p.evaluate(() => SITE.Saved.clear()); await p.click('.topbar [data-open-saved]'); }],
   ['The Register · activities', 'register.html#activities', async p => {}],
@@ -54,6 +55,7 @@ const STATES = [
     await p.click('[data-open-type="conversational"]'); await p.click('.type-example-disclosure > summary');
     await p.$eval('#aiTypeDialog .dlg__body', e => e.scrollTop = e.scrollHeight); }],
   ['The Register · course AI policies', 'register.html#policies', async p => {}],
+  ['The Register · how this site works', 'register.html', async p => { await p.click('.hdr [data-open-about]'); }],
   ['The Register · sources, one opened', 'register.html#sources', async p => { await p.$$eval('#sources details', ds => ds.slice(0, 3).forEach(d => d.open = true)); }],
   ...Array.from({length:9}, (_,i) => ['The Register · how to use, step '+(i+1), 'register.html#about', async p => {
     await p.focus('#rtourNext'); for(let n=0;n<i;n++) await p.keyboard.press('ArrowRight'); }]),

@@ -628,11 +628,15 @@ window.addEventListener('beforeprint', function(){
 /* ─────────── wiring ─────────── */
 function init(ctx){
   CTX = ctx || CTX;
-  var ad = document.getElementById('actDialog'), sd = document.getElementById('savedDrawer');
+  var ad = document.getElementById('actDialog'), sd = document.getElementById('savedDrawer'), about = document.getElementById('aboutDialog');
   if(ad) wireDialog(ad);
   if(sd) wireDialog(sd);
+  if(about) wireDialog(about);
   document.addEventListener('click', function(e){
     var t = e.target;
+    /* "How this site works": the same dialog from the header on both pages and from the Finder's rail */
+    var ab = t.closest('[data-open-about]');
+    if(ab && about){ openDialog(about, ab); return; }
     if(t.closest('[data-give-feedback]')){
       var feedback = ad.querySelector('.activity-feedback');
       if(feedback){

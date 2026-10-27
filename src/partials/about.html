@@ -1,0 +1,44 @@
+<!-- ══ How this site works: what runs on these pages, what leaves the browser, and how the site was made.
+     Shared by What If AI and The Register. Every statement here must stay literally true of the built site:
+     matching (src/js/matching.js), analytics (site.json, data-exclude-search/-hash), and the Ask Us setup. ══ -->
+<dialog class="dlg about" id="aboutDialog" aria-labelledby="aboutTitle">
+  <div class="dlg__head">
+    <div>
+      <div class="kicker">About What If AI and The Register</div>
+      <h2 id="aboutTitle" data-dlg-title>How this site works</h2>
+    </div>
+    <button type="button" class="dlg__close" data-close aria-label="Close How this site works"><span aria-hidden="true">✕</span></button>
+  </div>
+  <!-- no links inside, so the scrolling body itself takes focus for keyboard scrolling -->
+  <div class="dlg__body detail about__body" role="region" aria-label="How this site works" tabindex="0">
+    <section aria-labelledby="aboutFinder">
+      <h3 id="aboutFinder"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-bulb"/></svg> What If AI</h3>
+      <p>Results come from fixed matching rules set by the library. No AI system reads your answers or generates your results, and your interactions stay in this browser.</p>
+      <p>Your answers are compared with the details recorded for each use-case idea: the task, field, scale, level, and setting. A closer match ranks higher, and any limits you choose, such as no AI tool for students, narrow the list. Results are grouped by how closely they match, and a card notes anything that differs from your answers or that you should check. The same answers always return the same results.</p>
+    </section>
+    <section aria-labelledby="aboutRegister">
+      <h3 id="aboutRegister"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-crt"/></svg> The Register</h3>
+      <p>Every entry is a fixed, static record you can read, search, and print; nothing is generated as you browse.</p>
+      <p>Search looks for the words you type in those records, here in your browser.</p>
+    </section>
+    <section aria-labelledby="aboutBrowser">
+      <h3 id="aboutBrowser">What leaves your browser</h3>
+      <p>Your answers, searches, and saved use-case ideas are not sent anywhere. The library counts visits to these pages with Umami, a web analytics service that does not use cookies; it records which page was visited, not your answers or search terms. If you choose to answer the question at the end of a use-case idea, that answer is recorded with the visit. The full details are under “Privacy, saved selections, and site usage” at the bottom of the page.</p>
+    </section>
+    <section aria-labelledby="aboutAskUs">
+      <h3 id="aboutAskUs"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-chat"/></svg> Ask Us</h3>
+      <p>During staffed hours, Ask Us connects you to library staff. At other times it shows a set menu of answers written by the library and a form for leaving your email. No AI system writes the replies.</p>
+    </section>
+    <section aria-labelledby="aboutLinks">
+      <h3 id="aboutLinks">Links to other sites</h3>
+      <p>Links to sources, and to AI products’ own pages such as those in The Register’s guide to types of AI systems, lead to separate sites that are not part of this one.</p>
+    </section>
+    <section aria-labelledby="aboutMade">
+      <h3 id="aboutMade">How it was made</h3>
+      <p>AI assistance was used to realize this resource, utilized for coding, collation, editing, and certain visual elements. Its use followed a Human-Centered AI (HCAI) framework.</p>
+    </section>
+  </div>
+  <div class="dlg__foot">
+    <button type="button" class="btn btn--sm btn--quiet" data-close>Close</button>
+  </div>
+</dialog>

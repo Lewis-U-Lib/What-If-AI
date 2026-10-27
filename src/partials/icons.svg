@@ -15,6 +15,11 @@
       <rect x="5.2" y="5.9" width="13.6" height="10.6" rx="2.4"/>
       <circle cx="9.3" cy="10.3" r="1.6"/><circle cx="14.7" cy="10.3" r="1.6"/>
       <path d="M9.2 13.9h5.6M10 16.5v2h4v-2"/><path d="M3.2 3.2l17.6 17.6" stroke-width="2.2"/></g></symbol>
+    <!-- branching flowchart: fixed rules, how the site itself works (kept distinct from i-robot-off,
+         which means "students use no AI tool") -->
+    <symbol id="i-flow" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="8.4" y="2.8" width="7.2" height="5" rx="1.2"/><path d="M12 7.8v3.4M6 14.4v-3.2h12v3.2"/>
+      <rect x="2.6" y="14.4" width="6.8" height="5" rx="1.2"/><rect x="14.6" y="14.4" width="6.8" height="5" rx="1.2"/></g></symbol>
     <!-- CRT terminal: The Register, detail and data views -->
     <symbol id="i-crt" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <rect x="2.4" y="3.4" width="19.2" height="14" rx="2.6"/><rect x="4.9" y="5.9" width="11" height="9" rx="1.6"/>

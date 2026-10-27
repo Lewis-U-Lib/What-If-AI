@@ -54,6 +54,10 @@ The guide changes explanations while preserving the collection's related-idea ke
 
 The Register's header and floating menu open the nine-step walkthrough in `src/partials/register-tour.html`; `#about` links open it too. What If AI uses the seven-step walkthrough in `src/partials/tour.html`. Page tests cover keyboard operation, focus, links, browser history, printing, and narrow screens.
 
+## Edit "How this site works"
+
+Both tools state in their headers that results come from fixed rules rather than an AI system, and a "How this site works" button opens the shared dialog in `src/partials/about.html`, which covers matching, what leaves the browser, Ask Us, outside links, and how the site was made. The Finder repeats a short version beside the questions (`drawRail` and `drawWizard` in `src/js/what-if-ai.js`), and the Ask Us panel in `src/partials/help.html` says when staff answer. These statements must stay literally true. `tests/how-this-site-works-2026-10-27.test.js` checks the wording and the facts behind it: each page's security policy lets it contact only itself and the visit counter, the only embedded service is Ask Us, and visit counting leaves out answers and search text. If the site starts calling another service, or the library changes how Ask Us answers after hours, revise the wording before changing the test.
+
 ## Licenses
 
 The original tools are **CC BY-NC-ND 4.0**, with the exceptions in [LICENSE.md](LICENSE.md) and [NOTICE.md](NOTICE.md). Every use-case idea keeps its own license, including synthesis and remix entries. Separately licensed guide content, policy quotations, sources, fonts, and dependencies retain their own terms. Earlier CC BY-NC-SA permissions remain in effect for earlier releases.
