@@ -11,11 +11,11 @@ let count=0;function pass(m){count++;console.log('PASS '+m);}
 async function ready(p){await p.waitForSelector('html[data-ready]',{state:'attached'});}
 const norm=s=>String(s||'').replace(/\s+/g,' ').trim();
 
-const FINDER='Results come from fixed matching rules set by the library. No AI system reads your answers or generates your results, and your interactions stay in this browser.';
+const FINDER='Results come from fixed matching rules set by the Library. No AI system reads your answers or generates your results, and your answers stay in this browser.';
 const REGISTER='Every entry is a fixed, static record you can read, search, and print; nothing is generated as you browse.';
 const MADE='AI assistance was used to realize this resource, utilized for coding, collation, editing, and certain visual elements.';
-const ASKUS='During staffed hours, Ask Us connects you to library staff. At other times it shows a set menu of answers written by the library and a form for leaving your email. No AI system writes the replies.';
-const RAIL='Matched by fixed rules set by the library. No AI system reads your answers.';
+const ASKUS='During staffed hours, Ask Us connects you to library staff. At other times it shows a set menu of answers written by the Library and a form for leaving your email. No AI system writes the replies.';
+const RAIL='Matched by fixed rules set by the Library. No AI system reads your answers.';
 
 (async()=>{
   const server=await start({dir:SITE}),browser=await engines.chromium.launch();
@@ -90,8 +90,14 @@ const RAIL='Matched by fixed rules set by the library. No AI system reads your a
       const tag=await p.$eval('script[data-website-id]',s=>({search:s.dataset.excludeSearch,hash:s.dataset.excludeHash}));
       assert.deepEqual(tag,{search:'true',hash:'true'},f+': visit counting leaves out search text and the answers after #');
     }
+    /* the footer's disclosure says the same thing as the dialog's "How it was made", on every page */
+    for(const f of ['','what-if-ai.html','register.html']){
+      await p.goto(server.url(f));
+      assert.equal(norm(await p.textContent('.site-foot .hcai')),'HCAI Disclosure: '+MADE+' Its use followed a Human-Centered AI (HCAI) framework.',(f||'landing page')+': footer disclosure');
+    }
     await ctx.close();
     pass('facts: each page can contact only itself and the visit counter, embeds only Ask Us, and visit counting omits answers and search text');
+    pass('the footer disclosure on every page matches “How it was made”');
   }finally{await browser.close();await server.close();}
   console.log('\n'+count+' checks passed.');
 })().catch(e=>{console.error(e);process.exit(1);});

@@ -91,7 +91,7 @@ function drawRail(){
   var onPlan = step>=STEPS.length;
   var h = '<div class="rail__label">Your answers</div>'+
     /* beside the questions, where a reader decides whether to answer: how the answers are used */
-    '<p class="rail__note">'+icon('i-flow')+'<span>Matched by fixed rules set by the library. No AI system reads your answers. '+
+    '<p class="rail__note">'+icon('i-flow')+'<span>Matched by fixed rules set by the Library. No AI system reads your answers. '+
     '<button type="button" class="rail__about" data-open-about aria-haspopup="dialog" aria-controls="aboutDialog">How this site works</button></span></p>';
   realSteps().forEach(function(i, n){
     var st=STEPS[i], ans=answerText(st.key);
@@ -131,7 +131,7 @@ function drawWizard(focusTitle){
   if(step===0) h += '<p class="tour-cta no-print">New to What If AI? <button type="button" class="btn btn--sm" data-open-tour aria-haspopup="dialog">'+
     icon('i-manual')+' How to use What If AI</button></p>';
   /* below 980px the rail (and its note) is hidden, so the first question carries the same note */
-  if(step===0) h += '<p class="qsignal no-print">'+icon('i-flow')+'<span>Matched by fixed rules set by the library. No AI system reads your answers. '+
+  if(step===0) h += '<p class="qsignal no-print">'+icon('i-flow')+'<span>Matched by fixed rules set by the Library. No AI system reads your answers. '+
     '<button type="button" class="rail__about" data-open-about aria-haspopup="dialog" aria-controls="aboutDialog">How this site works</button></span></p>';
   h += '<div class="qbar" aria-hidden="true">'+real.map(function(i){
     return '<span class="'+(i===step?'on':(real.indexOf(i)<real.indexOf(step)?'done':''))+'"></span>'; }).join('')+'</div>';
