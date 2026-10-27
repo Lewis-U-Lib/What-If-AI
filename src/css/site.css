@@ -336,3 +336,10 @@ dialog::backdrop{background:rgba(20,2,8,.72);}
 
 /* headings that receive focus only to move the reader's place (never interactive) */
 [tabindex="-1"]:focus:not(:focus-visible),h1[tabindex="-1"]:focus,h2[tabindex="-1"]:focus,h3[tabindex="-1"]:focus,main[tabindex="-1"]:focus{outline:none;box-shadow:none;}
+
+/* Source pages and explicit file choices. */
+.source-link-note, .source-file-option { display: block; margin-top: .4rem; }
+.source-link-note { font-size: .95em; }
+.source-file-address { overflow-wrap: anywhere; }
+#file-details { padding: 1.5rem; }
+#file-details .btn { white-space: normal; }

@@ -37,6 +37,17 @@ function externalLink(url, html, attrs){
   var safe=safeURL(url);
   return safe ? '<a href="'+esc(safe)+'" target="_blank" rel="noopener noreferrer"'+(attrs||'')+'>'+html+'</a>' : '<span>'+html+'</span>';
 }
+var SOURCE_POLICY = window.SourceLinks.create(window.SITE_DATA['source-links']);
+function sourceLink(url, html){
+  var e = SOURCE_POLICY.lookup(url);
+  if(!e) return externalLink(url, html);
+  var newTab = '<span class="sr-only"> (opens in a new tab)</span> ↗';
+  var fileNotice = SOURCE_POLICY.noticeURL(url);
+  var fileLink = fileNotice ? '<a href="'+esc(fileNotice)+'" target="_blank" rel="noopener noreferrer" data-source-file>Read file notice — '+(e.kind==='pdf' ? 'PDF' : 'file')+' may download'+newTab+'</a>' : '';
+  var primary = e.page ? externalLink(e.page, 'Open source webpage'+newTab) : (fileLink || externalLink(url, html));
+  return primary + (e.note ? '<span class="source-link-note">'+esc(e.note)+'</span>' : '') +
+    (e.page && fileLink ? '<span class="source-file-option">'+fileLink+'</span>' : '');
+}
 
 /* ─────────── plain-language labels ─────────── */
 var L = {
@@ -395,12 +406,13 @@ function detailHTML(a, opts){
     (opts.print ? '“'+esc(BYID[a.par].t)+'”' : '<a href="#" data-open="'+esc(a.par)+'">'+esc(BYID[a.par].t)+'</a>')+' in this collection.</p>';
   if(T && a.cit){
     src += '<h4>Sources</h4><div class="cite-block">'+lines(a.cit).map(function(c){ return '<p>'+esc(c)+'</p>'; }).join('')+
-      (a.url && !opts.print ? '<p>'+externalLink(a.url,'Open the primary source<span class="sr-only"> (opens in a new tab)</span> ↗')+'</p>' : (safeURL(a.url) ? '<p>'+esc(a.url)+'</p>' : ''))+'</div>';
+      (a.url && !opts.print ? '<p>'+sourceLink(a.url,'Open the primary source<span class="sr-only"> (opens in a new tab)</span> ↗')+'</p>' : (safeURL(a.url) ? '<p>'+esc(a.url)+'</p>' : ''))+'</div>';
   } else if(a.cit){
     src += '<h4>Source</h4><div class="cite-block">'+esc(a.cit)+
-      (a.url && !opts.print ? ' '+externalLink(a.url,'Open the source<span class="sr-only"> (opens in a new tab)</span> ↗') : (safeURL(a.url) ? ' '+esc(a.url) : ''))+'</div>';
+      (a.url && !opts.print ? ' '+sourceLink(a.url,'Open the source<span class="sr-only"> (opens in a new tab)</span> ↗') : (safeURL(a.url) ? ' '+esc(a.url) : ''))+'</div>';
     if(a.loc) src += '<p class="meta-line">Location in the source: '+esc(a.loc)+'</p>';
   }
+  if(a.url && !opts.print) src += '<p class="meta-line">'+esc(window.SITE_DATA['source-links'].notice)+'</p>';
   src += '<h4>License for this use-case idea</h4><p data-entry-license>'+(a.licu && !opts.print ? externalLink(a.licu,esc(a.lic)) : esc(a.lic||'Not stated'))+
     (a.lics ? ' <span class="meta-line">— as stated by the source: '+esc(a.lics)+'</span>' : '')+'</p>';
   src += '<p class="meta-line" data-entry-license-scope>'+esc(TOOL_LICENSE.entry_notice)+'</p>';
@@ -708,7 +720,7 @@ function copyText(text, okMsg, btn){
   }catch(_){ fallback(); }
 }
 
-window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, TIER:TIER, tierOf:tierOf, OPERATOR:OPERATOR, operatorLabel:operatorLabel, noToolForStudents:noToolForStudents, usedItems:usedItems, esc:esc, safeURL:safeURL, externalLink:externalLink, costLabel:costLabel, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
+window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, TIER:TIER, tierOf:tierOf, OPERATOR:OPERATOR, operatorLabel:operatorLabel, noToolForStudents:noToolForStudents, usedItems:usedItems, esc:esc, safeURL:safeURL, externalLink:externalLink, sourceLink:sourceLink, costLabel:costLabel, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
   taskLabel:taskLabel, depthLabel:depthLabel, discLabel:discLabel, lvlLabel:lvlLabel, modLabel:modLabel, familyLabel:familyLabel, num:num, labelList:labelList,
   cardHTML:cardHTML, detailHTML:detailHTML, openActivity:openActivity, openDialog:openDialog, closeDialog:closeDialog, wireDialog:wireDialog, resetDialogScroll:resetDialogScroll,
   Saved:Saved, announce:announce, decode:decode, printSaved:printSaved, printActivity:printActivity, refocusAfterBack:refocusAfterBack, copyText:copyText, howItWorks:howItWorks, init:init, kickerOf:kickerOf};

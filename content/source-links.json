@@ -1,0 +1,864 @@
+{
+  "reviewed": "2026-10-27",
+  "source_commit": "1fc6298df72b2f82f2bcb7d48976292fd76eb0a8",
+  "notice": "Source links open in a new tab. External sites and browser settings may still cause a file to download.",
+  "entries": [
+    {
+      "urls": [
+        "https://jula.sljol.info/articles/8083/files/67121a0716dcd.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Retrieve candidate bibliographic metadata by ISBN",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://jula.sljol.info/articles/8083/files/67121a0716dcd.pdf"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://aalhe.scholasticahq.com/article/162788.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Test accreditation evidence mapping against expert coding",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://aalhe.scholasticahq.com/article/162788.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://ora.ox.ac.uk/objects/uuid:220f0b6b-071c-4ac8-968f-8af579e5b7b2/files/r8336h346v"
+      ],
+      "kind": "file",
+      "title": "Source for: Classify measured infrared spectra to identify regioisomers in a Python machine-learning practical",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ora.ox.ac.uk/objects/uuid:220f0b6b-071c-4ac8-968f-8af579e5b7b2/files/r8336h346v"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://udspace.udel.edu/server/api/core/bitstreams/183167c3-8986-4164-9a60-2c727458f632/content"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Build an affordable closed-loop optical experiment in which machine learning matches a target spectrum",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://udspace.udel.edu/server/api/core/bitstreams/183167c3-8986-4164-9a60-2c727458f632/content"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.jmlr.org/papers/volume23/21-0862/21-0862.pdf"
+      ],
+      "kind": "pdf",
+      "title": "DoubleML: An object-oriented implementation of double machine learning in Python",
+      "page": "https://www.jmlr.org/papers/v23/21-0862.html",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.jmlr.org/papers/volume23/21-0862/21-0862.pdf",
+        "https://www.jmlr.org/papers/v23/21-0862.html"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://connormwood.com/wp-content/uploads/2021/02/kahl.etal-2021-birdnet-a-deep-learning-solution-for-avian-diversity-monitoring.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Detect bird species in field soundscapes with BirdNET and check detections against reference data",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://connormwood.com/wp-content/uploads/2021/02/kahl.etal-2021-birdnet-a-deep-learning-solution-for-avian-diversity-monitoring.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://espace2.etsmtl.ca/id/eprint/29752/1/Ilinca-A-2024-29752.pdf",
+        "https://doi.org/10.3390/en17184714"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Model campus building energy demand from meter and weather data and compare prediction errors",
+      "page": "https://espace2.etsmtl.ca/id/eprint/29752/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://espace2.etsmtl.ca/id/eprint/29752/1/Ilinca-A-2024-29752.pdf",
+        "https://espace2.etsmtl.ca/id/eprint/29752/"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.turing.ac.uk/sites/default/files/2022-09/midi_quantisation_paper_ismir_2022_0.pdf",
+        "https://doi.org/10.5281/zenodo.7316682"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Convert expressive MIDI performances into quantized scores with neural beat tracking",
+      "page": "https://www.turing.ac.uk/news/publications/performance-midi-score-conversion-neural-beat-tracking",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.turing.ac.uk/sites/default/files/2022-09/midi_quantisation_paper_ismir_2022_0.pdf",
+        "https://www.turing.ac.uk/news/publications/performance-midi-score-conversion-neural-beat-tracking"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://aclanthology.org/2024.nlp4science-1.18.pdf",
+        "https://doi.org/10.18653/v1/2024.nlp4science-1.18"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Generate proof tactics with a language model and check them in the Lean theorem prover",
+      "page": "https://aclanthology.org/2024.nlp4science-1.18/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://aclanthology.org/2024.nlp4science-1.18.pdf",
+        "https://aclanthology.org/2024.nlp4science-1.18/"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://interparestrustai.org/assets/public/dissemination/HumphriesCaseStudy.pdf"
+      ],
+      "kind": "pdf",
+      "title": "InterPARES Trust AI",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://interparestrustai.org/assets/public/dissemination/HumphriesCaseStudy.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://arxiv.org/pdf/2302.08497"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Analyze how child-welfare case narratives change over time with anchored topic models",
+      "page": "https://arxiv.org/abs/2302.08497",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://arxiv.org/pdf/2302.08497",
+        "https://arxiv.org/abs/2302.08497"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://tales.journals.publicknowledgeproject.org/index.php/tales/article/download/3491/3203"
+      ],
+      "kind": "file",
+      "title": "Source for: Write first, then prompt: students grade the chatbot’s answer against their own in business ethics",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://tales.journals.publicknowledgeproject.org/index.php/tales/article/download/3491/3203"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://thepromptjournal.com/index.php/prompt/article/download/204/415",
+        "https://doi.org/10.31719/pjaw.v9i1.204"
+      ],
+      "kind": "file",
+      "title": "Source for: Substantive edit of a deliberately flawed AI recommendation report, with a letter of transmittal",
+      "page": "https://thepromptjournal.com/index.php/prompt/article/view/204",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://thepromptjournal.com/index.php/prompt/article/download/204/415",
+        "https://thepromptjournal.com/index.php/prompt/article/view/204"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://icono14.net/ojs/index.php/icono14/es/article/download/1515/1697"
+      ],
+      "kind": "file",
+      "title": "Source for: Three-phase bot-identification workshop for journalism students, with pretest and self-assessment",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://icono14.net/ojs/index.php/icono14/es/article/download/1515/1697"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://vestsutmb.elpub.ru/jour/article/download/1807/1562"
+      ],
+      "kind": "file",
+      "title": "Source for: Eight-stage method for professional essays in a foreign language, with an instructor-supplied assessment prompt and a both-drafts debrief",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://vestsutmb.elpub.ru/jour/article/download/1807/1562"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://studentsuccessjournal.org/index.php/studentsuccess/article/download/4067/1592/15577"
+      ],
+      "kind": "file",
+      "title": "Source for: AI as Socratic questioner through Gibbs’ Reflective Cycle, with two-stage submission of dialogue and revised reflection",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://studentsuccessjournal.org/index.php/studentsuccess/article/download/4067/1592/15577"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://journal.aldinhe.ac.uk/index.php/jldhe/article/view/1354/895"
+      ],
+      "kind": "pdf-view",
+      "title": "Source for: Audit a degree program against four AI literacy dimensions, find the gaps, and close them module by module or extracurricularly",
+      "page": "https://journal.aldinhe.ac.uk/index.php/jldhe/article/view/1354",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://journal.aldinhe.ac.uk/index.php/jldhe/article/view/1354/895",
+        "https://journal.aldinhe.ac.uk/index.php/jldhe/article/view/1354"
+      ],
+      "observation": "text/html"
+    },
+    {
+      "urls": [
+        "https://discovery.ucl.ac.uk/id/eprint/10196729/1/UNESCO_AI_CFT_Final.pdf"
+      ],
+      "kind": "pdf",
+      "title": "AI competency framework for teachers",
+      "page": "https://discovery.ucl.ac.uk/id/eprint/10196729/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://discovery.ucl.ac.uk/id/eprint/10196729/1/UNESCO_AI_CFT_Final.pdf",
+        "https://discovery.ucl.ac.uk/id/eprint/10196729/"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://www.cedefop.europa.eu/files/unesco_ai_competency_framework_for_students_.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Conflict-based and scenario-based assessment tasks built from a competency-by-level matrix",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.cedefop.europa.eu/files/unesco_ai_competency_framework_for_students_.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.teachinganthropology.org/ojs/index.php/teach_anth/article/download/776/772",
+        "https://doi.org/10.22582/ta.v14i2.776"
+      ],
+      "kind": "pdf",
+      "title": "Source for: Design an end-of-term theory essay around hyper-local material that is harder to hand over to generative AI",
+      "page": "https://www.teachinganthropology.org/ojs/index.php/teach_anth/article/view/776",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.teachinganthropology.org/ojs/index.php/teach_anth/article/download/776/772",
+        "https://www.teachinganthropology.org/ojs/index.php/teach_anth/article/view/776"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.teachinganthropology.org/ojs/index.php/teach_anth/article/download/778/770/4259"
+      ],
+      "kind": "pdf",
+      "title": "Generative AI in Anthropology: Redefining Fieldwork, Textualisation, and Collaborative Knowledge Production",
+      "page": "https://www.teachinganthropology.org/ojs/index.php/teach_anth/article/view/778",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.teachinganthropology.org/ojs/index.php/teach_anth/article/download/778/770/4259",
+        "https://www.teachinganthropology.org/ojs/index.php/teach_anth/article/view/778"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://github.com/ssciwr/generative-AI-coding-course/blob/main/generative-AI-research-software-2026.pdf"
+      ],
+      "kind": "page",
+      "title": "Source for: Turning a Vague Coding Request into a Gherkin Acceptance Criterion for an AI Agent",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://github.com/ssciwr/generative-AI-coding-course/blob/main/generative-AI-research-software-2026.pdf"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://thecenter.mit.edu/wp-content/uploads/2020/07/MIT-AI-Ethics-Education-Curriculum.pdf"
+      ],
+      "kind": "pdf",
+      "title": "An Ethics of Artificial Intelligence Curriculum for Middle School Students",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://thecenter.mit.edu/wp-content/uploads/2020/07/MIT-AI-Ethics-Education-Curriculum.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://jite.org/documents/Vol24/JITE-Rv24Art008Yusof11348.pdf"
+      ],
+      "kind": "pdf",
+      "title": "ChatGPT-Assisted Retrieval Practice and Exam Scores: Does It Work?",
+      "page": "https://www.informingscience.org/Publications/5474",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://jite.org/documents/Vol24/JITE-Rv24Art008Yusof11348.pdf",
+        "https://www.informingscience.org/Publications/5474"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://crl.acrl.org/index.php/crl/article/view/26102/34024"
+      ],
+      "kind": "page",
+      "title": "How Well Does ChatGPT Handle Reference Inquiries? An Analysis Based on Question Types and Question Complexities",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://crl.acrl.org/index.php/crl/article/view/26102/34024"
+      ],
+      "observation": "text/html"
+    },
+    {
+      "urls": [
+        "https://ceur-ws.org/Vol-3961/paper4.pdf"
+      ],
+      "kind": "pdf",
+      "title": "The COMPAS case: an educational journey for explaining fairness in AI-based applications",
+      "page": "https://ceur-ws.org/Vol-3961/",
+      "note": "On the proceedings page, choose “The COMPAS Case”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ceur-ws.org/Vol-3961/paper4.pdf",
+        "https://ceur-ws.org/Vol-3961/"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.cdc.gov/science-ambassador/documents/drink-up-2016.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Drink Up: Lesson in Survey Methodology",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.cdc.gov/science-ambassador/documents/drink-up-2016.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.cdc.gov/science-ambassador/documents/hs-rage-outbreak-cleared.pdf"
+      ],
+      "kind": "pdf",
+      "title": "RAGE Outbreak: Making Grueling Public Health Decisions",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.cdc.gov/science-ambassador/documents/hs-rage-outbreak-cleared.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.cdc.gov/science-ambassador/documents/ms-spatial-analysis-of-obesity-2014.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Spatial Analysis of Obesity: Geographic Information Systems and Descriptive Epidemiology",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.cdc.gov/science-ambassador/documents/ms-spatial-analysis-of-obesity-2014.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.bristol.ac.uk/media-library/sites/vetscience/documents/clinical-skills/Cruciate%20Suture.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Cruciate Sutures (Document number: CSL_S14; Year Group: BVSc4 +)",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.bristol.ac.uk/media-library/sites/vetscience/documents/clinical-skills/Cruciate%20Suture.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.acs.org/content/dam/acsorg/msc/downloads/chapter-1/lesson-1/ch1-l1-lesson-plan.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Chapter 1, Lesson 1: Molecules Matter",
+      "page": "https://www.acs.org/middleschoolchemistry/lessonplans/chapter1/lesson1.html",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.acs.org/content/dam/acsorg/msc/downloads/chapter-1/lesson-1/ch1-l1-lesson-plan.pdf",
+        "https://www.acs.org/middleschoolchemistry/lessonplans/chapter1/lesson1.html"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.amstat.org/asa/files/pdfs/stew/Choosing-a-Study-Design-for-the-Polio-Vaccine_finalCC1.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Choosing a Study Design for the Polio Vaccine",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.amstat.org/asa/files/pdfs/stew/Choosing-a-Study-Design-for-the-Polio-Vaccine_finalCC1.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://naclo.org/resources/problems/2021/N2021-A.pdf"
+      ],
+      "kind": "pdf",
+      "title": "The Tortoise and the Rabbit",
+      "page": "https://naclo.org/practice.php",
+      "note": "Find the 2021 problem “The Tortoise and the Rabbit”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://naclo.org/resources/problems/2021/N2021-A.pdf",
+        "https://naclo.org/practice.php"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://ashmolean.web.ox.ac.uk/sites/default/files/ashmolean/documents/media/learn_pdf_focus_on_latin_inscriptions.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Focus on Latin Inscriptions: Death and Burial in Rome",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ashmolean.web.ox.ac.uk/sites/default/files/ashmolean/documents/media/learn_pdf_focus_on_latin_inscriptions.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.povertyactionlab.org/sites/default/files/ToC%20and%20Measurement_Summer%20Jobs_USA_2024.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Case Study 1: Summer Youth Employment Programs in Chicago: Theory of Change and Measurement",
+      "page": "https://www.povertyactionlab.org/media/file/toc_and_measurement_case_study_1",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.povertyactionlab.org/sites/default/files/ToC%20and%20Measurement_Summer%20Jobs_USA_2024.pdf",
+        "https://www.povertyactionlab.org/media/file/toc_and_measurement_case_study_1"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.povertyactionlab.org/sites/default/files/Why%20and%20When%20to%20Randomize_Piped%20Water_Morocco_2023.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Happiness on Tap: Piped Water Adoption in Urban Morocco (case study for Why and When to Randomize)",
+      "page": "https://www.povertyactionlab.org/media/file/why_and_when_to_randomize_case_study_1",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.povertyactionlab.org/sites/default/files/Why%20and%20When%20to%20Randomize_Piped%20Water_Morocco_2023.pdf",
+        "https://www.povertyactionlab.org/media/file/why_and_when_to_randomize_case_study_1"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.povertyactionlab.org/sites/default/files/PowerCalc_Exercise_2023.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Exercise: How to Do Power Calculations",
+      "page": "https://www.povertyactionlab.org/media/file/power-calculations-exercise",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.povertyactionlab.org/sites/default/files/PowerCalc_Exercise_2023.pdf",
+        "https://www.povertyactionlab.org/media/file/power-calculations-exercise"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.icrc.org/data/files/ehl/ehl-english-module1.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Exploration 1A: What can bystanders do? (Exploring Humanitarian Law, Module 1: The humanitarian perspective)",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.icrc.org/data/files/ehl/ehl-english-module1.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.icrc.org/data/files/ehl/ehl-english-module2.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Exploration 2C: Focus on child soldiers (Exploring Humanitarian Law, Module 2: Limits in armed conflict)",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.icrc.org/data/files/ehl/ehl-english-module2.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://iaswg.memberclicks.net/assets/Somali-Boys-Abdi.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Somali Boys Group",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://iaswg.memberclicks.net/assets/Somali-Boys-Abdi.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://catalog.fdic.gov/catalog/sfc/servlet.shepherd/document/download/069t000000BcgymAAB"
+      ],
+      "kind": "file",
+      "title": "Try It: Exploring Borrowing Options (Module 7: Borrowing Basics, Instructor Guide)",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://catalog.fdic.gov/catalog/sfc/servlet.shepherd/document/download/069t000000BcgymAAB"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://nsrfharmony.org/wp-content/uploads/2026/02/TextRender-Brief-byNSRF.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Text Rendering: In Brief",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://nsrfharmony.org/wp-content/uploads/2026/02/TextRender-Brief-byNSRF.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://nsrfharmony.org/wp-content/uploads/2026/02/HiddenIssues-Brief-byNSRF.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Hidden Issues: In Brief",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://nsrfharmony.org/wp-content/uploads/2026/02/HiddenIssues-Brief-byNSRF.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://iris.peabody.vanderbilt.edu/wp-content/uploads/pdf_activities/independent/IA_Conduct_an_ABC_Analysis.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Behavior Assessment: Conduct an A-B-C Analysis",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://iris.peabody.vanderbilt.edu/wp-content/uploads/pdf_activities/independent/IA_Conduct_an_ABC_Analysis.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://ambitiousscienceteaching.org/wp-content/uploads/2014/08/Guide-Face-to-Face-Tools.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Face-to-Face Tools: Making Changes in Student Thinking Visible Over Time",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ambitiousscienceteaching.org/wp-content/uploads/2014/08/Guide-Face-to-Face-Tools.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://bdl2jezatgadvbda.public.blob.vercel-storage.com/pdf/Example%20A-QYJT0yMgsw42IN7g6OCzdyXlwTzsVC.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Understanding Cultural Diversity -- Western Shoshone Land Rights (listed on the TILT page as \"Example A: Sociology\")",
+      "page": "https://www.tilthighered.com/resources",
+      "note": "On the resources page, choose “Example A: Sociology”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://bdl2jezatgadvbda.public.blob.vercel-storage.com/pdf/Example%20A-QYJT0yMgsw42IN7g6OCzdyXlwTzsVC.pdf",
+        "https://www.tilthighered.com/resources"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://bdl2jezatgadvbda.public.blob.vercel-storage.com/pdf/Example%20F-PGIiXOAGuDu2ALFM2JJCsur1S0EUcC.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Practicing Library Research (listed on the TILT page as \"Example F: Library research Assignment\")",
+      "page": "https://www.tilthighered.com/resources",
+      "note": "On the resources page, choose “Example F: Library Research Assignment”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://bdl2jezatgadvbda.public.blob.vercel-storage.com/pdf/Example%20F-PGIiXOAGuDu2ALFM2JJCsur1S0EUcC.pdf",
+        "https://www.tilthighered.com/resources"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://bdl2jezatgadvbda.public.blob.vercel-storage.com/pdf/Example%20G-dmJibTKEzAzlwOafhWGVRXvnU0lB7X.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Consensus and Conflict Models of Justice (listed on the TILT page as \"Example G: Criminal Justice In-Class activity\")",
+      "page": "https://www.tilthighered.com/resources",
+      "note": "On the resources page, choose “Example G: Criminal Justice In-Class activity”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://bdl2jezatgadvbda.public.blob.vercel-storage.com/pdf/Example%20G-dmJibTKEzAzlwOafhWGVRXvnU0lB7X.pdf",
+        "https://www.tilthighered.com/resources"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://iris.peabody.vanderbilt.edu/wp-content/uploads/pdf_case_studies/IRIS_early_childhood_behavior_management_case_study.pdf"
+      ],
+      "kind": "page",
+      "title": "Early Childhood Behavior Management (Case Study Unit)",
+      "page": "https://iris.peabody.vanderbilt.edu/case-study/early-childhood-behavior-management/",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://iris.peabody.vanderbilt.edu/wp-content/uploads/pdf_case_studies/IRIS_early_childhood_behavior_management_case_study.pdf",
+        "https://iris.peabody.vanderbilt.edu/case-study/early-childhood-behavior-management/"
+      ],
+      "observation": "text/html"
+    },
+    {
+      "urls": [
+        "https://www.carnegiehall.org/-/media/CarnegieHall/Files/PDFs/Education/Educators/Toolbox/Grade-4/Toolbox-Grade-4-Activities.pdf?la=en"
+      ],
+      "kind": "pdf",
+      "title": "Rhythm and Meter/Pitch - Name Melody (in 4th Grade Activity Worksheets, Music Educators Toolbox)",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.carnegiehall.org/-/media/CarnegieHall/Files/PDFs/Education/Educators/Toolbox/Grade-4/Toolbox-Grade-4-Activities.pdf?la=en"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.yorku.ca/unit/vpacad/academic-integrity/wp-content/uploads/sites/576/2026/05/AI_Use_Declaration.pdf"
+      ],
+      "kind": "pdf",
+      "title": "AI-Based Tools: Declaration of Use",
+      "page": "https://www.yorku.ca/unit/vpacad/academic-integrity/using-academic-integrity-resources/",
+      "note": "Under “AI Use: Disclosure and Reflection”, choose “AI-Based Tools: Declaration of Use”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.yorku.ca/unit/vpacad/academic-integrity/wp-content/uploads/sites/576/2026/05/AI_Use_Declaration.pdf",
+        "https://www.yorku.ca/unit/vpacad/academic-integrity/using-academic-integrity-resources/"
+      ],
+      "observation": "retrieval-inconclusive"
+    },
+    {
+      "urls": [
+        "https://www.yorku.ca/unit/vpacad/academic-integrity/wp-content/uploads/sites/576/2026/05/AI_Use_Review_and_Reflection.pdf"
+      ],
+      "kind": "pdf",
+      "title": "AI Use: Review and Reflection",
+      "page": "https://www.yorku.ca/unit/vpacad/academic-integrity/using-academic-integrity-resources/",
+      "note": "Under “AI Use: Disclosure and Reflection”, choose “AI Use: Review and Reflection”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.yorku.ca/unit/vpacad/academic-integrity/wp-content/uploads/sites/576/2026/05/AI_Use_Review_and_Reflection.pdf",
+        "https://www.yorku.ca/unit/vpacad/academic-integrity/using-academic-integrity-resources/"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://ukdataservice.ac.uk/app/uploads/teachingresourcefolkdevilsmoralpanics.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Teaching resource: Folk devils and moral panics",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ukdataservice.ac.uk/app/uploads/teachingresourcefolkdevilsmoralpanics.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://ukdataservice.ac.uk/app/uploads/exercise_consent_form_statements.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Assessing consent form statements",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ukdataservice.ac.uk/app/uploads/exercise_consent_form_statements.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://cancercontrol.cancer.gov/sites/default/files/2020-06/SGA_9182511.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Effective Training Models for Implementing Health-Promoting Practices Afterschool",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://cancercontrol.cancer.gov/sites/default/files/2020-06/SGA_9182511.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://sites.berry.edu/csnider/wp-content/uploads/sites/13/2025/05/Teaching-and-Work-at-the-Dawn-of-Generative-AI.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Teaching & Work at the Dawn of Generative AI",
+      "page": "",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://sites.berry.edu/csnider/wp-content/uploads/sites/13/2025/05/Teaching-and-Work-at-the-Dawn-of-Generative-AI.pdf"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://ceur-ws.org/Vol-3994/paper3.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Retrieval-Augmented Chatbots for Scalable Educational Support in Higher Education",
+      "page": "https://ceur-ws.org/Vol-3994/",
+      "note": "On the proceedings page, choose “Retrieval-Augmented Chatbots for Scalable Educational Support in Higher Education”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ceur-ws.org/Vol-3994/paper3.pdf",
+        "https://ceur-ws.org/Vol-3994/"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://www.digital.gov.au/sites/default/files/documents/2024-10/Copilot%20Microsoft%20365%20summary%20of%20evaluation%20findings.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Evaluation of the whole-of-government trial of Microsoft 365 Copilot: Summary of evaluation findings",
+      "page": "https://www.digital.gov.au/initiatives/copilot-trial/summary-evaluation-findings",
+      "note": "",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://www.digital.gov.au/sites/default/files/documents/2024-10/Copilot%20Microsoft%20365%20summary%20of%20evaluation%20findings.pdf",
+        "https://www.digital.gov.au/initiatives/copilot-trial/summary-evaluation-findings"
+      ],
+      "observation": "application/pdf"
+    },
+    {
+      "urls": [
+        "https://ceur-ws.org/Vol-3834/paper1.pdf"
+      ],
+      "kind": "pdf",
+      "title": "Explainable Search and Discovery of Visual Cultural Heritage Collections with Multimodal Large Language Models",
+      "page": "https://ceur-ws.org/Vol-3834/",
+      "note": "On the proceedings page, choose “Explainable Search and Discovery of Visual Cultural Heritage Collections with Multimodal Large Language Models”.",
+      "reviewed": "2026-10-27",
+      "evidence": [
+        "https://ceur-ws.org/Vol-3834/paper1.pdf",
+        "https://ceur-ws.org/Vol-3834/"
+      ],
+      "observation": "application/pdf"
+    }
+  ]
+}
