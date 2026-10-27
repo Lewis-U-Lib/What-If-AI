@@ -28,6 +28,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 from check_release import check as check_release  # noqa: E402
 from ai_type_guide import ai_type_guide_files  # noqa: E402
 from license_scope import license_scope_files  # noqa: E402
+from source_links import source_links_bytes  # noqa: E402
 
 MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August", "September",
           "October", "November", "December")
@@ -73,6 +74,7 @@ def build(out):
             public_data, ROOT / "content" / "ai-type-guide.json")
         public_data, license_scope, tool_license = license_scope_files(
             public_data, ROOT / "content" / "tool-license.json")
+        source_links = source_links_bytes(ROOT / "content" / "source-links.json", public_data)
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
     # Display the most recent public content date.
@@ -118,6 +120,7 @@ def build(out):
         site.emit(f"js/{name}.js", body.encode("utf-8"), "assets/js")
     for name in ("acts", "register", "guide"):
         site.emit(f"data/{name}.json", public_data[f"{name}.json"], "data")
+    site.emit("data/source-links.json", source_links, "data")
     base_url = CFG["base_url"]
     base_path = "/" + base_url.split("://", 1)[1].split("/", 1)[1] if base_url.count("/") > 3 else "/"
     commit = git_commit()

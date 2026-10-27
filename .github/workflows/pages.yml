@@ -44,6 +44,8 @@ jobs:
         run: node tests/site.test.js
       - name: Tool license and all included-material rights
         run: npm run test:licensing
+      - name: Source links and download notices
+        run: npm run test:source-links
       - name: Matching rules, recovery, ranking and broken links
         run: npm run test:matching
       - name: Page behavior

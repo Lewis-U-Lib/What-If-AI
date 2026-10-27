@@ -19,7 +19,7 @@ const results = [];
 function check(name, ok, detail) { results.push({ ok: !!ok }); console.log((ok ? 'PASS ' : 'FAIL ') + name + (detail ? ' — ' + detail : '')); }
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 function walk(d, base = d) { return fs.readdirSync(d, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(path.join(d, e.name), base) : [path.relative(base, path.join(d, e.name))]); }
-const PAGES = ['index.html', 'what-if-ai.html', 'register.html', '404.html'];
+const PAGES = ['index.html', 'what-if-ai.html', 'register.html', 'source-file.html', '404.html'];
 const html = f => fs.readFileSync(path.join(SITE, f), 'utf8');
 const CFG = require('../site.json');
 const ANALYTICS = CFG.analytics;
@@ -53,7 +53,7 @@ const ANALYTICS = CFG.analytics;
   check('the AI guide starts from the public collection', Object.entries(release.files).every(([name,meta])=>typeGuide.input_sha256[name]===meta.sha256));
   check('the AI guide preserves activities and evaluation guidance byte for byte', ['acts.json','guide.json'].every(n=>typeGuide.input_sha256[n]===typeGuide.output_sha256[n]));
   check('the AI guide revision matches its content and references', typeGuide.revision === sha(fs.readFileSync(path.join(ROOT,'content/ai-type-guide.json'))).slice(0,12));
-  check('the site publishes exactly the three public data files', files.filter(f=>f.startsWith('data/')).length === 3);
+  check('the site publishes three released data files and the source-link presentation overlay', files.filter(f=>f.startsWith('data/')).length === 4);
   check('.nojekyll, robots.txt, sitemap.xml and version.json are present', ['.nojekyll', 'robots.txt', 'sitemap.xml', 'version.json'].every(f => files.includes(f)));
   check('version.json identifies the collection and its source', v.release === release.release && JSON.stringify(v.collection_source) === JSON.stringify(release.source));
   check('version.json contains only the current build metadata', JSON.stringify(Object.keys(v).sort()) === JSON.stringify(['release','release_built','collection_source','site_commit','ai_type_guide','license_scope','tool_license','assets'].sort()));
