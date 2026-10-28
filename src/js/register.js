@@ -245,6 +245,12 @@ var typeSlide = 0;
 function typeSlideTo(i){
   var slides = [].slice.call(typeDialog.querySelectorAll('[data-type-slide]'));
   if(!slides.length || i<0 || i>=slides.length) return;
+  /* A citation can own focus when an arrow key changes the slide. Move that focus
+     into the incoming slide before hiding the old one; footer controls keep focus. */
+  var activeSlide = document.activeElement.closest('[data-type-slide]');
+  var transferFocus = activeSlide && activeSlide!==slides[i];
+  slides[i].hidden = false;
+  if(transferFocus) slides[i].focus({preventScroll:true});
   typeSlide = i;
   slides.forEach(function(sl, n){ sl.hidden = n!==i; });
   document.getElementById('typePos').textContent = (i+1)+' of '+slides.length;
@@ -338,7 +344,9 @@ function openType(key, opener){
     var titles = TYPE_SLIDES.map(function(row){return row[0];}).concat(['References']);
     h += '<section class="type-info type-deck" aria-roledescription="carousel" aria-label="'+(key==='institutional'?'More about this choice':'More about this type')+'">'+
       '<div class="type-deck__slides" aria-live="polite">'+slides.map(function(body, i){
-        return '<div class="type-slide" role="group" aria-roledescription="slide" aria-label="'+(i+1)+' of '+slides.length+'" data-type-slide'+(i?' hidden':'')+'>'+body+'</div>';
+        return '<div class="type-slide" role="group" aria-roledescription="slide" aria-label="'+(i+1)+' of '+slides.length+': '+esc(titles[i])+'" tabindex="-1" data-type-slide'+(i?' hidden':'')+'>'+
+          '<div class="type-slide__art type-slide__art--'+esc(key)+' type-slide__art--'+i+'" aria-hidden="true"></div>'+
+          '<div class="type-slide__text">'+body+'</div></div>';
       }).join('')+'</div></section>'+typeExampleDisclosure(t);
     foot = typeActivityLink(t)+'<div class="type-deck__nav">'+
       '<button type="button" class="btn btn--sm" id="typePrev" aria-disabled="true">'+icon('i-arrow-left')+' Previous</button>'+

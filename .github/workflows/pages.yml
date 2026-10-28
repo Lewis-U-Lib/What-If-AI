@@ -53,7 +53,16 @@ jobs:
       - name: Fixes from the October 2026 audit (field fit, route note, Ask Us focus, print, history)
         run: npm run test:review
       - name: AI-system type dialogs
+        env:
+          TYPE_SCREENSHOTS: test-results/type-illustrations
         run: node tests/types.test.js
+      - name: Save type-dialog screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: type-dialog-screenshots
+          path: test-results/type-illustrations
+          if-no-files-found: ignore
       - name: Activity feedback
         run: node tests/feedback.test.js
       - name: Accessibility (axe, WCAG 2.2 A/AA)

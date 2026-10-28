@@ -50,6 +50,12 @@ The guide changes explanations while preserving the collection's related-idea ke
 
 `src/js/register-type-examples.js` contains illustrative product names, capability notes, official links, and their checked date. Product links need no additional numbered citations. Review those links when updating the examples.
 
+Every carousel slide has a topic-specific painted illustration. The 55 drawings
+are stored as 11 transparent WebP atlases in `src/img/types-*.webp`; CSS selects
+one of five cells per type and the build fingerprints each asset. The artwork is
+decorative and hidden from assistive technology; the adjacent text remains the
+complete explanation. See [the illustration map](docs/AI-TYPE-ILLUSTRATIONS.md).
+
 ## Edit the walkthroughs
 
 The Register's header and floating menu open the nine-step walkthrough in `src/partials/register-tour.html`; `#about` links open it too. What If AI uses the seven-step walkthrough in `src/partials/tour.html`. Page tests cover keyboard operation, focus, links, browser history, printing, and narrow screens.

@@ -56,6 +56,27 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
    assert.deepEqual(await page.locator('.type-slide h3').allTextContents(),['What it does','Inputs and outputs','Illustrative faculty use','Limits and open questions','References']);
    assert.deepEqual(await page.locator('.type-slide').evaluateAll(ns=>ns.map(n=>n.hidden)),[false,true,true,true,true]);
    assert.equal(await page.locator('#typePos').textContent(),'1 of 5');
+   /* All five illustrations resolve locally and select different cells in this type's atlas. */
+   const art=await page.locator('.type-slide__art').evaluateAll(async ns=>{
+     return Promise.all(ns.map(async n=>{
+       const css=getComputedStyle(n),url=css.backgroundImage.slice(5,-2),img=new Image();
+       img.src=url;await img.decode();
+       return {hidden:n.getAttribute('aria-hidden'),url,position:css.backgroundPosition,size:css.backgroundSize,width:img.naturalWidth,height:img.naturalHeight};
+     }));
+   });
+   assert.equal(art.length,5,t.key+' has an illustration on every slide');
+   assert.ok(art.every(a=>a.hidden==='true'&&a.width===1536&&a.height===1024&&a.size==='300% 200%'&&new URL(a.url).origin===new URL(server.origin).origin),JSON.stringify(art));
+   assert.equal(new Set(art.map(a=>a.url)).size,1,'one cached atlas per type');
+   assert.equal(new Set(art.map(a=>a.position)).size,5,'each slide has its own illustration');
+   assert.ok(art[0].url.includes('/types-'+t.key+'.'),'the atlas matches the entry');
+   if(out){
+     for(let i=0;i<5;i++){
+       await page.locator('.type-slide:not([hidden])').scrollIntoViewIfNeeded();
+       await screenshot(page,'type-'+t.key+'-'+(i+1)+'.png');
+       if(i<4) await page.locator('#typeNext').click();
+     }
+     await page.keyboard.press('Home');
+   }
    assert.equal(await page.locator('.type-slide').nth(4).locator('.type-sources li').count(),[...new Set(Object.values(t.citations).flat())].length);
    const cited=[...new Set(Object.values(t.citations).flat())].sort((a,b)=>a-b);
    assert.deepEqual(await page.locator('#aiTypeDialog .type-sources li').evaluateAll(ns=>ns.map(n=>Number(n.value))),cited);
@@ -79,6 +100,17 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
      assert.equal((await page.locator('#typeNext .tour__nextlabel').textContent()),'Back to types');
      await page.keyboard.press('Home');assert.equal(await shown(),0);
      if(await page.locator('[data-type-dot="2"]').isVisible()){await page.locator('[data-type-dot="2"]').click();assert.equal(await shown(),2);await page.keyboard.press('Home');}
+     /* PR #32 review regression: hiding a focused citation must not strand focus on body. */
+     await page.locator('.type-slide:not([hidden]) a').first().focus();
+     await page.keyboard.press('ArrowRight');assert.equal(await shown(),1);
+     assert.ok(await page.evaluate(()=>document.activeElement.matches('.type-slide:not([hidden])')));
+     await page.keyboard.press('End');assert.equal(await shown(),4);
+     await page.locator('.type-slide:not([hidden]) a').first().focus();
+     await page.keyboard.press('Home');assert.equal(await shown(),0);
+     assert.ok(await page.evaluate(()=>document.activeElement.matches('.type-slide:not([hidden])')));
+     await page.locator('#typeNext').focus();await page.keyboard.press('ArrowRight');
+     assert.equal(await page.evaluate(()=>document.activeElement.id),'typeNext','footer focus stays on its control');
+     await page.keyboard.press('Home');
      /* nothing on a hidden slide can take focus */
      assert.ok(await page.locator('#aiTypeDialog').evaluate(d=>[...d.querySelectorAll('.type-slide[hidden] a')].every(a=>a.getClientRects().length===0)));
      await screenshot(page,'register-type-popups-dialog.png');
@@ -112,6 +144,7 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
  assert.equal(await page.locator('#aiTypeDialog .type-sources li').count(),2);
  assert.equal(await page.locator('#typeEvidenceHeading').textContent(),'References');
  assert.equal(await page.locator('#aiTypeDialog [data-type-slide]').count(),0,'the no-AI choice has no slides');
+ assert.equal(await page.locator('#aiTypeDialog .type-slide__art').count(),0,'the no-AI choice retains its single page');
  await page.keyboard.press('Escape');await tick(page);
  for(const width of [1440,1024,768,761,760,700,650,390,320]){
    await page.setViewportSize({width,height:900});

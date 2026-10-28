@@ -14,7 +14,7 @@ const ROOT = path.join(__dirname, '..');
 const CFG = JSON.parse(fs.readFileSync(path.join(ROOT, 'site.json'), 'utf8'));
 const BASE = new URL(CFG.base_url).pathname;           // "/What-If-AI/"
 const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
-  '.json': 'application/json; charset=utf-8', '.png': 'image/png', '.woff2': 'font/woff2', '.svg': 'image/svg+xml',
+  '.json': 'application/json; charset=utf-8', '.png': 'image/png', '.webp': 'image/webp', '.woff2': 'font/woff2', '.svg': 'image/svg+xml',
   '.txt': 'text/plain; charset=utf-8', '.xml': 'application/xml; charset=utf-8' };
 
 function start({ dir = path.join(ROOT, '_site'), port = 0, fail = null, log = null, tls = null } = {}) {
