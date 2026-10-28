@@ -41,8 +41,9 @@ Original interface icons (`src/partials/icons.svg`), walkthrough illustrations
 covered by the tool license, except for separately identified third-party material.
 
 The 55 AI-system carousel illustrations in `src/img/types-*.webp` were generated
-with OpenAI image generation using the existing walkthrough artwork as the style
-reference. They are illustrative metaphors, not research figures or evidence for
+and repainted with OpenAI image generation using both existing walkthroughs as
+style references for the watercolor washes, palette, and linework. They are
+illustrative metaphors, not research figures or evidence for
 the guide's claims. The existing tool-license grant applies only to the extent
 the Library holds the relevant rights. See `docs/AI-TYPE-ILLUSTRATIONS.md` for the
 slide mapping and asset layout.

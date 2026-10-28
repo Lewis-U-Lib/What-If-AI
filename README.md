@@ -50,9 +50,9 @@ The guide changes explanations while preserving the collection's related-idea ke
 
 `src/js/register-type-examples.js` contains illustrative product names, capability notes, official links, and their checked date. Product links need no additional numbered citations. Review those links when updating the examples.
 
-Every carousel slide has a topic-specific painted illustration. The 55 drawings
+Every carousel slide has a topic-specific watercolor illustration. The 55 drawings
 are stored as 11 transparent WebP atlases in `src/img/types-*.webp`; CSS selects
-one of five cells per type and the build fingerprints each asset. The artwork is
+one of five measured scene viewports per type and the build fingerprints each asset. The artwork is
 decorative and hidden from assistive technology; the adjacent text remains the
 complete explanation. See [the illustration map](docs/AI-TYPE-ILLUSTRATIONS.md).
 

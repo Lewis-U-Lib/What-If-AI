@@ -4,13 +4,14 @@ The 55 illustrations supplement the five slides in each of the 11 type dialogs f
 
 ## Visual direction and provenance
 
-Generated with OpenAI image generation on October 28, 2026, using the existing What If AI walkthrough robot in `src/partials/tour.html` as the visual reference. The palette follows the walkthrough's maroon, mustard gold, cream, steel, sage, and sky-blue washes. Each drawing is an illustrative metaphor rather than a research figure; all factual explanations and citations remain in the adjacent text.
+Generated and repainted with OpenAI image generation on October 28, 2026, using the existing drawings in both `src/partials/tour.html` (What If AI) and `src/partials/register-tour.html` (The Register) as visual references. The watercolor revision preserves all 55 scenes while replacing the smooth, heavy outlines with soft pigment washes, fine paper grain inside the painted objects, lighter contours, and irregular brush edges. The palette follows both walkthroughs' maroon, mustard gold, cream, steel, sage, and sky-blue washes. Each drawing is an illustrative metaphor rather than a research figure; all factual explanations and citations remain in the adjacent text.
 
 ## Asset contract
 
 - `src/img/types-<key>.webp`: one transparent 1536 × 1024 atlas per type, encoded at quality 88 with full-quality alpha.
-- Each atlas is a 3-column × 2-row grid of 512 × 512 cells. Reading order: What it does; Inputs and outputs; Illustrative faculty use; Limits and open questions; References; unused cell.
-- `src/css/register-types.css` selects a distinct cell with background size `300% 200%` and positions `0 0`, `50% 0`, `100% 0`, `0 100%`, `50% 100%`.
+- Each atlas arranges five scenes in three columns and two rows. Reading order: What it does; Inputs and outputs; Illustrative faculty use; Limits and open questions; References; unused space.
+- `src/css/register-types.css` gives each scene an individually measured viewport, with transparent padding around its full painted extent. A centered `::before` displays the selected region at its original proportions inside the unchanged square layout slot. The `--art-size` and `--art-position` properties select the region; `--art-width` and `--art-height` fit it within 94% of the slot. This retains watercolor edges that extend beyond a nominal 512-pixel grid boundary, without clipping or showing neighboring artwork.
+- WebP encoding preserves the generated canvas and transparency. The illustrations are repainted by image generation; the site selects their display regions with CSS.
 - The existing build fingerprints the images and rewrites their CSS URLs. Only an opened type needs its atlas; subsequent slides reuse that asset.
 - Artwork has `aria-hidden="true"`, contains no required information, and never takes focus. The complete textual explanation and citations stay readable if images are unavailable.
 - Desktop slides put the drawing alongside the text; narrow screens put a smaller drawing above it. Navigation remains in the fixed dialog footer. No animation or automatic advance was added.
@@ -65,5 +66,5 @@ INSTITUTIONAL ACCESS AND SELF-HOSTED AI. Top-left: modest campus building beside
 
 When ArrowLeft, ArrowRight, Home, or End changes a slide while a citation owns focus, the incoming slide receives focus before the old slide is hidden. Keyboard navigation can continue. Focus originating in a persistent footer control stays there.
 
-`tests/types.test.js` checks all 55 atlas cells, image decoding, same-origin loading, decorative semantics, keyboard focus, and the existing nine responsive widths. The sourced guide, product examples, collection, and license pins are preserved from PR #32.
+`tests/types.test.js` checks all 55 scene viewports, image decoding, same-origin loading, original proportions, transparent edges (to catch clipping), decorative semantics, keyboard focus, and the existing nine responsive widths. The sourced guide, product examples, collection, and license pins are preserved from PR #32.
 

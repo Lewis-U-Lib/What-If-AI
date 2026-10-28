@@ -68,24 +68,77 @@ html.type-dialog-open{overflow:hidden;}
 .type-slide:focus-visible{outline:2px solid var(--focus);outline-offset:5px;}
 .type-slide__text{min-width:0;}
 .type-slide .type-slide__text h3{margin:0 0 12px;padding:0;border:0;}
-/* Five separate illustrations per type, packed in a 3 × 2 transparent atlas.
-   CSS selects a cell without downloading five separate files. No text is in the artwork. */
-.type-slide__art{width:100%;aspect-ratio:1;background-repeat:no-repeat;background-size:300% 200%;background-position:0 0;pointer-events:none;}
-.type-slide__art--1{background-position:50% 0;}
-.type-slide__art--2{background-position:100% 0;}
-.type-slide__art--3{background-position:0 100%;}
-.type-slide__art--4{background-position:50% 100%;}
-.type-slide__art--conversational{background-image:url(../img/types-conversational.webp);}
-.type-slide__art--multimodal{background-image:url(../img/types-multimodal.webp);}
-.type-slide__art--image{background-image:url(../img/types-image.webp);}
-.type-slide__art--video{background-image:url(../img/types-video.webp);}
-.type-slide__art--audio{background-image:url(../img/types-audio.webp);}
-.type-slide__art--code{background-image:url(../img/types-code.webp);}
-.type-slide__art--discipline{background-image:url(../img/types-discipline.webp);}
-.type-slide__art--grounded{background-image:url(../img/types-grounded.webp);}
-.type-slide__art--search{background-image:url(../img/types-search.webp);}
-.type-slide__art--agentic{background-image:url(../img/types-agentic.webp);}
-.type-slide__art--institutional{background-image:url(../img/types-institutional.webp);}
+/* Five watercolor scenes per transparent atlas. Individually measured viewports
+   retain the painted edges and gutters; the square layout slot stays constant. */
+.type-slide__art{position:relative;width:100%;aspect-ratio:1;pointer-events:none;}
+.type-slide__art::before{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:var(--art-width);height:var(--art-height);background-image:var(--art-image);background-repeat:no-repeat;background-size:var(--art-size);background-position:var(--art-position);}
+.type-slide__art--conversational{--art-image:url(../img/types-conversational.webp);}
+.type-slide__art--multimodal{--art-image:url(../img/types-multimodal.webp);}
+.type-slide__art--image{--art-image:url(../img/types-image.webp);}
+.type-slide__art--video{--art-image:url(../img/types-video.webp);}
+.type-slide__art--audio{--art-image:url(../img/types-audio.webp);}
+.type-slide__art--code{--art-image:url(../img/types-code.webp);}
+.type-slide__art--discipline{--art-image:url(../img/types-discipline.webp);}
+.type-slide__art--grounded{--art-image:url(../img/types-grounded.webp);}
+.type-slide__art--search{--art-image:url(../img/types-search.webp);}
+.type-slide__art--agentic{--art-image:url(../img/types-agentic.webp);}
+.type-slide__art--institutional{--art-image:url(../img/types-institutional.webp);}
+/* watercolor scene viewports */
+.type-slide__art--conversational.type-slide__art--0{--art-width:94.000000%;--art-height:85.658009%;--art-size:332.467532% 243.230404%;--art-position:3.351955% 12.769486%;}
+.type-slide__art--conversational.type-slide__art--1{--art-width:94.000000%;--art-height:56.665323%;--art-size:309.677419% 342.474916%;--art-position:50.096154% 21.517241%;}
+.type-slide__art--conversational.type-slide__art--2{--art-width:94.000000%;--art-height:81.577909%;--art-size:302.958580% 232.727273%;--art-position:99.611273% 14.041096%;}
+.type-slide__art--conversational.type-slide__art--3{--art-width:94.000000%;--art-height:92.164859%;--art-size:333.188720% 226.548673%;--art-position:2.511628% 95.104895%;}
+.type-slide__art--conversational.type-slide__art--4{--art-width:94.000000%;--art-height:74.824000%;--art-size:307.200000% 257.286432%;--art-position:50.772201% 90.095847%;}
+.type-slide__art--multimodal.type-slide__art--0{--art-width:94.000000%;--art-height:84.853002%;--art-size:318.012422% 234.862385%;--art-position:3.893637% 12.244898%;}
+.type-slide__art--multimodal.type-slide__art--1{--art-width:84.767857%;--art-height:94.000000%;--art-size:380.198020% 228.571429%;--art-position:50.265018% 12.673611%;}
+.type-slide__art--multimodal.type-slide__art--2{--art-width:94.000000%;--art-height:77.058140%;--art-size:297.674419% 242.080378%;--art-position:99.411765% 16.139767%;}
+.type-slide__art--multimodal.type-slide__art--3{--art-width:94.000000%;--art-height:87.496855%;--art-size:322.012579% 230.630631%;--art-position:4.060434% 93.965517%;}
+.type-slide__art--multimodal.type-slide__art--4{--art-width:94.000000%;--art-height:86.487705%;--art-size:314.754098% 228.062361%;--art-position:51.431298% 92.869565%;}
+.type-slide__art--image.type-slide__art--0{--art-width:94.000000%;--art-height:88.226488%;--art-size:294.817658% 209.406953%;--art-position:1.280788% 5.607477%;}
+.type-slide__art--image.type-slide__art--1{--art-width:94.000000%;--art-height:84.858351%;--art-size:324.735729% 239.812646%;--art-position:50.235183% 13.902848%;}
+.type-slide__art--image.type-slide__art--2{--art-width:94.000000%;--art-height:81.976744%;--art-size:297.674419% 227.555556%;--art-position:98.725490% 12.195122%;}
+.type-slide__art--image.type-slide__art--3{--art-width:94.000000%;--art-height:77.723735%;--art-size:298.832685% 240.941176%;--art-position:1.761252% 90.984975%;}
+.type-slide__art--image.type-slide__art--4{--art-width:94.000000%;--art-height:77.433663%;--art-size:304.158416% 246.153846%;--art-position:51.600388% 91.118421%;}
+.type-slide__art--video.type-slide__art--0{--art-width:94.000000%;--art-height:75.008163%;--art-size:313.469388% 261.892583%;--art-position:2.198853% 18.009479%;}
+.type-slide__art--video.type-slide__art--1{--art-width:94.000000%;--art-height:88.426877%;--art-size:303.557312% 215.126050%;--art-position:49.805825% 7.846715%;}
+.type-slide__art--video.type-slide__art--2{--art-width:94.000000%;--art-height:76.791339%;--art-size:302.362205% 246.746988%;--art-position:99.319066% 21.510673%;}
+.type-slide__art--video.type-slide__art--3{--art-width:94.000000%;--art-height:71.940803%;--art-size:324.735729% 282.872928%;--art-position:2.822201% 88.821752%;}
+.type-slide__art--video.type-slide__art--4{--art-width:94.000000%;--art-height:78.681481%;--art-size:284.444444% 226.548673%;--art-position:51.807229% 95.979021%;}
+.type-slide__art--audio.type-slide__art--0{--art-width:94.000000%;--art-height:84.326622%;--art-size:343.624161% 255.361596%;--art-position:5.417815% 16.693419%;}
+.type-slide__art--audio.type-slide__art--1{--art-width:94.000000%;--art-height:88.070093%;--art-size:358.878505% 255.361596%;--art-position:50.180505% 17.014446%;}
+.type-slide__art--audio.type-slide__art--2{--art-width:94.000000%;--art-height:88.550725%;--art-size:318.012422% 225.054945%;--art-position:96.676163% 10.017575%;}
+.type-slide__art--audio.type-slide__art--3{--art-width:94.000000%;--art-height:80.717391%;--art-size:333.913043% 259.240506%;--art-position:3.996283% 88.553259%;}
+.type-slide__art--audio.type-slide__art--4{--art-width:94.000000%;--art-height:79.507495%;--art-size:328.907923% 259.240506%;--art-position:50.420954% 88.076312%;}
+.type-slide__art--code.type-slide__art--0{--art-width:94.000000%;--art-height:82.297189%;--art-size:308.433735% 234.862385%;--art-position:2.408478% 12.074830%;}
+.type-slide__art--code.type-slide__art--1{--art-width:94.000000%;--art-height:89.042194%;--art-size:324.050633% 228.062361%;--art-position:51.506591% 11.304348%;}
+.type-slide__art--code.type-slide__art--2{--art-width:94.000000%;--art-height:76.445783%;--art-size:308.433735% 252.839506%;--art-position:98.940270% 16.801292%;}
+.type-slide__art--code.type-slide__art--3{--art-width:94.000000%;--art-height:77.207392%;--art-size:315.400411% 256.000000%;--art-position:4.194471% 87.660256%;}
+.type-slide__art--code.type-slide__art--4{--art-width:94.000000%;--art-height:79.975806%;--art-size:309.677419% 242.654028%;--art-position:53.461538% 90.199336%;}
+.type-slide__art--discipline.type-slide__art--0{--art-width:94.000000%;--art-height:73.656716%;--art-size:286.567164% 243.809524%;--art-position:1.600000% 14.072848%;}
+.type-slide__art--discipline.type-slide__art--1{--art-width:94.000000%;--art-height:78.762105%;--art-size:323.368421% 257.286432%;--art-position:52.309142% 15.335463%;}
+.type-slide__art--discipline.type-slide__art--2{--art-width:94.000000%;--art-height:76.838174%;--art-size:318.672199% 259.898477%;--art-position:98.292220% 18.095238%;}
+.type-slide__art--discipline.type-slide__art--3{--art-width:94.000000%;--art-height:71.505837%;--art-size:298.832685% 261.892583%;--art-position:1.272016% 90.521327%;}
+.type-slide__art--discipline.type-slide__art--4{--art-width:94.000000%;--art-height:77.484112%;--art-size:287.102804% 232.199546%;--art-position:53.546454% 94.168096%;}
+.type-slide__art--grounded.type-slide__art--0{--art-width:94.000000%;--art-height:89.390192%;--art-size:327.505330% 229.596413%;--art-position:2.530459% 11.591696%;}
+.type-slide__art--grounded.type-slide__art--1{--art-width:94.000000%;--art-height:85.954071%;--art-size:320.668058% 233.789954%;--art-position:50.047304% 10.750853%;}
+.type-slide__art--grounded.type-slide__art--2{--art-width:94.000000%;--art-height:82.367265%;--art-size:306.586826% 233.257403%;--art-position:98.550725% 13.675214%;}
+.type-slide__art--grounded.type-slide__art--3{--art-width:94.000000%;--art-height:74.151394%;--art-size:305.976096% 258.585859%;--art-position:2.514507% 90.445860%;}
+.type-slide__art--grounded.type-slide__art--4{--art-width:94.000000%;--art-height:81.532632%;--art-size:323.368421% 248.543689%;--art-position:51.555137% 92.156863%;}
+.type-slide__art--search.type-slide__art--0{--art-width:94.000000%;--art-height:85.705882%;--art-size:322.689076% 235.944700%;--art-position:2.264151% 12.033898%;}
+.type-slide__art--search.type-slide__art--1{--art-width:94.000000%;--art-height:84.135802%;--art-size:316.049383% 235.402299%;--art-position:50.666667% 11.884550%;}
+.type-slide__art--search.type-slide__art--2{--art-width:94.000000%;--art-height:93.044715%;--art-size:312.195122% 210.266940%;--art-position:98.754789% 7.448790%;}
+.type-slide__art--search.type-slide__art--3{--art-width:94.000000%;--art-height:81.747863%;--art-size:328.205128% 251.597052%;--art-position:3.277154% 91.085900%;}
+.type-slide__art--search.type-slide__art--4{--art-width:94.000000%;--art-height:82.564948%;--art-size:316.701031% 240.375587%;--art-position:50.428164% 93.143813%;}
+.type-slide__art--agentic.type-slide__art--0{--art-width:94.000000%;--art-height:76.870159%;--art-size:349.886105% 285.236769%;--art-position:5.651778% 17.744361%;}
+.type-slide__art--agentic.type-slide__art--1{--art-width:94.000000%;--art-height:80.748899%;--art-size:338.325991% 262.564103%;--art-position:51.293900% 12.618297%;}
+.type-slide__art--agentic.type-slide__art--2{--art-width:94.000000%;--art-height:86.769231%;--art-size:381.141439% 275.268817%;--art-position:94.086496% 18.558282%;}
+.type-slide__art--agentic.type-slide__art--3{--art-width:94.000000%;--art-height:69.948357%;--art-size:360.563380% 323.028391%;--art-position:6.396396% 85.572843%;}
+.type-slide__art--agentic.type-slide__art--4{--art-width:94.000000%;--art-height:72.052863%;--art-size:338.325991% 294.252874%;--art-position:50.831793% 86.834320%;}
+.type-slide__art--institutional.type-slide__art--0{--art-width:94.000000%;--art-height:69.163303%;--art-size:281.834862% 255.361596%;--art-position:0.302725% 15.890851%;}
+.type-slide__art--institutional.type-slide__art--1{--art-width:94.000000%;--art-height:89.158798%;--art-size:329.613734% 231.674208%;--art-position:51.214953% 10.481100%;}
+.type-slide__art--institutional.type-slide__art--2{--art-width:94.000000%;--art-height:73.192233%;--art-size:298.252427% 255.361596%;--art-position:99.314398% 17.014446%;}
+.type-slide__art--institutional.type-slide__art--3{--art-width:94.000000%;--art-height:74.416667%;--art-size:304.761905% 256.641604%;--art-position:2.325581% 90.720000%;}
+.type-slide__art--institutional.type-slide__art--4{--art-width:94.000000%;--art-height:82.008230%;--art-size:316.049383% 241.509434%;--art-position:51.428571% 91.333333%;}
 .type-slide p{color:var(--ink-2);font-size:17px;line-height:1.6;margin:0;max-width:82ch;}
 .type-slide .type-sources{margin:6px 0 0;}
 .type-deck__nav{display:flex;align-items:center;gap:10px 14px;margin-left:auto;}
