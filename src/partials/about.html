@@ -1,45 +1,196 @@
 <!-- ══ How this site works: what runs on these pages, what leaves the browser, and how the site was made.
-     Shared by What If AI and The Register. Every statement here must stay literally true of the built site:
-     matching (src/js/matching.js), analytics (site.json, data-exclude-search/-hash), and the Ask Us setup. ══ -->
-<dialog class="dlg about" id="aboutDialog" aria-labelledby="aboutTitle">
+     Shared by What If AI and The Register as a six-slide carousel in the walkthroughs' style; it never advances
+     by itself. Every statement here must stay literally true of the built site: matching (src/js/matching.js),
+     analytics (site.json, data-exclude-search/-hash), and the Ask Us setup.
+     The drawings use the paint filter and washes (#wc, #wcGold, #wcRed, ...) that each page's walkthrough
+     partial defines; they carry no text and are hidden from assistive technology. ══ -->
+<dialog class="dlg tour about" id="aboutDialog" aria-labelledby="aboutTitle">
   <div class="dlg__head">
     <div>
       <div class="kicker">About What If AI and The Register</div>
       <h2 id="aboutTitle" data-dlg-title>How this site works</h2>
     </div>
     <button type="button" class="dlg__close" data-close aria-label="Close How this site works"><span aria-hidden="true">✕</span></button>
+    <span class="current current--dlg" aria-hidden="true"></span>
   </div>
-  <!-- no links inside, so the scrolling body itself takes focus for keyboard scrolling -->
-  <div class="dlg__body detail about__body" role="region" aria-label="How this site works" tabindex="0">
-    <section aria-labelledby="aboutFinder">
-      <h3 id="aboutFinder"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-bulb"/></svg> What If AI</h3>
-      <p>Results come from fixed matching rules set by the Library. No AI system reads your answers or generates your results, and your answers stay in this browser.</p>
-      <p>Your answers are compared with the details recorded for each use-case idea: the task, field, scale, level, and setting. A closer match ranks higher, and any limits you choose, such as no AI tool for students, narrow the list. Results are grouped by how closely they match, and a card notes anything that differs from your answers or that you should check. The same answers always return the same results.</p>
-    </section>
-    <section aria-labelledby="aboutRegister">
-      <h3 id="aboutRegister"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-crt"/></svg> The Register</h3>
-      <p>Every entry is a fixed, static record you can read, search, and print; nothing is generated as you browse.</p>
-      <p>Search looks for the words you type in those records, here in your browser.</p>
-    </section>
-    <section aria-labelledby="aboutBrowser">
-      <h3 id="aboutBrowser">What leaves your browser</h3>
-      <p>Your answers, searches, and saved use-case ideas are not sent anywhere. The Library counts visits to these pages with Umami, a web analytics service that does not use cookies; it records which page was visited, not your answers or search terms. If you choose to answer the question at the end of a use-case idea, that answer is recorded with the visit. The full details are under “Privacy, saved selections, and site usage” at the bottom of the page.</p>
-    </section>
-    <section aria-labelledby="aboutAskUs">
-      <h3 id="aboutAskUs"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-chat"/></svg> Ask Us</h3>
-      <p>During staffed hours, Ask Us connects you to library staff. At other times it shows a set menu of answers written by the Library and a form for leaving your email. No AI system writes the replies.</p>
-    </section>
-    <section aria-labelledby="aboutLinks">
-      <h3 id="aboutLinks">Links to other sites</h3>
-      <p>Links to sources, and to AI products’ own pages such as those in The Register’s guide to types of AI systems, lead to separate sites that are not part of this one.</p>
-      <p>Where a source webpage has been verified, its link opens that page first. Known source-file links show a notice before you choose to open the file. External sites and your browser settings may still cause a download.</p>
-    </section>
-    <section aria-labelledby="aboutMade">
-      <h3 id="aboutMade">How it was made</h3>
-      <p>AI assistance was used to realize this resource, utilized for coding, collation, editing, and certain visual elements. Its use followed a Human-Centered AI (HCAI) framework.</p>
+  <div class="dlg__body tour__body" role="region" aria-label="How this site works, slides" tabindex="0">
+    <section class="tour__deck" aria-roledescription="carousel" aria-label="How this site works">
+      <div class="tour__slides" id="aboutSlides" aria-live="polite">
+
+        <div class="tour__slide" role="group" aria-roledescription="slide" aria-label="1 of 6" data-slide>
+          <!-- What If AI: answers drop into a machine whose branching track is fixed; the same cards come out -->
+          <div class="tour__art" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><g filter="url(#wc)">
+            <rect x="14" y="44" width="68" height="100" rx="5" fill="#fbf6ec" stroke="#9a8f80" stroke-width="2"/>
+            <circle cx="48" cy="48" r="5" fill="url(#wcRed)" stroke="#7e1a2d" stroke-width="1.4"/>
+            <g fill="#e2b554"><circle cx="27" cy="70" r="3.4"/><circle cx="27" cy="89" r="3.4"/><circle cx="27" cy="108" r="3.4"/><circle cx="27" cy="127" r="3.4"/></g>
+            <g stroke="#c9b9a3" stroke-width="3.4" stroke-linecap="round"><path d="M36 70h36M36 89h28M36 108h32M36 127h24"/></g>
+            <path d="M112 32h96l-18 26h-60z" fill="url(#wcSteel)" stroke="#6d7580" stroke-width="2"/>
+            <g transform="rotate(-12 141 16)"><rect x="126" y="6" width="30" height="20" rx="3" fill="#fbf6ec" stroke="#9a8f80" stroke-width="1.6"/><rect x="130" y="10" width="16" height="4" rx="2" fill="#e2b554"/></g>
+            <g transform="rotate(10 179 14)"><rect x="164" y="4" width="30" height="20" rx="3" fill="#fbf6ec" stroke="#9a8f80" stroke-width="1.6"/><rect x="168" y="8" width="18" height="4" rx="2" fill="#e2b554"/></g>
+            <rect x="96" y="58" width="128" height="114" rx="10" fill="url(#wcSteel)" stroke="#6d7580" stroke-width="2"/>
+            <rect x="108" y="70" width="104" height="80" rx="6" fill="#4f5660"/>
+            <path d="M160 74v14M160 88l-26 18M160 88l26 18M134 106l-12 18M134 106l12 18M186 106l-12 18M186 106l12 18M122 124v20M146 124v20M174 124v20M198 124v20" fill="none" stroke="#e2b554" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <g fill="url(#wcGold)" stroke="#b07f2c" stroke-width="1.4"><circle cx="160" cy="88" r="5"/><circle cx="134" cy="106" r="5"/><circle cx="186" cy="106" r="5"/></g>
+            <circle cx="114" cy="161" r="5" fill="#8fbf96" stroke="#4f7d58" stroke-width="1.6"/><rect x="140" y="157" width="40" height="8" rx="4" fill="#4f5660"/>
+            <path d="M224 134h18" stroke="#6d7580" stroke-width="6" stroke-linecap="round"/>
+            <g transform="rotate(-4 274 158)">
+              <rect x="238" y="142" width="66" height="44" rx="4" fill="#fbf6ec" stroke="#9a8f80" stroke-width="1.8"/>
+              <rect x="242" y="134" width="66" height="44" rx="4" fill="#fbf6ec" stroke="#9a8f80" stroke-width="1.8"/>
+              <rect x="249" y="142" width="34" height="6" rx="2" fill="url(#wcRed)"/>
+              <path d="M249 156h44M249 165h34" stroke="#c9b9a3" stroke-width="3" stroke-linecap="round"/>
+            </g>
+            <path d="M262 104l9 9 16-20" fill="none" stroke="#4f7d58" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </g></svg></div>
+          <div class="tour__text">
+            <h3>What If AI</h3>
+            <p>Results come from fixed matching rules set by the Library. No AI system reads your answers or generates your results, and your answers stay in this browser.</p>
+            <p>Your answers are compared with the details recorded for each use-case idea: the task, field, scale, level, and setting. A closer match ranks higher, and any limits you choose, such as no AI tool for students, narrow the list. Results are grouped by how closely they match, and a card notes anything that differs from your answers or that you should check. The same answers always return the same results.</p>
+          </div>
+        </div>
+
+        <div class="tour__slide" role="group" aria-roledescription="slide" aria-label="2 of 6" data-slide>
+          <!-- The Register: a card catalog with one drawer pulled out, a magnifier for search, a printed page -->
+          <div class="tour__art" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><g filter="url(#wc)">
+            <rect x="34" y="20" width="150" height="152" rx="8" fill="url(#wcRed)" stroke="#7e1a2d" stroke-width="2"/>
+            <g fill="#fbf6ec" stroke="#7e1a2d" stroke-width="1.6"><rect x="46" y="32" width="60" height="34" rx="3"/><rect x="112" y="32" width="60" height="34" rx="3"/><rect x="46" y="72" width="60" height="34" rx="3"/><rect x="112" y="72" width="60" height="34" rx="3"/></g>
+            <g fill="#e9d9c8"><rect x="64" y="38" width="24" height="8" rx="1.5"/><rect x="130" y="38" width="24" height="8" rx="1.5"/><rect x="64" y="78" width="24" height="8" rx="1.5"/><rect x="130" y="78" width="24" height="8" rx="1.5"/></g>
+            <g fill="url(#wcGold)" stroke="#b07f2c" stroke-width="1.4"><circle cx="76" cy="56" r="4"/><circle cx="142" cy="56" r="4"/><circle cx="76" cy="96" r="4"/><circle cx="142" cy="96" r="4"/></g>
+            <g fill="#fbf6ec" stroke="#9a8f80" stroke-width="1.4"><rect x="56" y="108" width="108" height="30" rx="2" transform="rotate(-3 110 123)"/><rect x="56" y="112" width="108" height="30" rx="2"/></g>
+            <rect x="62" y="116" width="26" height="6" rx="2" fill="#e2b554"/><path d="M94 119h58" stroke="#c9b9a3" stroke-width="3" stroke-linecap="round"/>
+            <rect x="42" y="126" width="136" height="44" rx="5" fill="url(#wcRed)" stroke="#7e1a2d" stroke-width="2"/>
+            <rect x="94" y="134" width="32" height="10" rx="2" fill="#e9d9c8" stroke="#7e1a2d" stroke-width="1.2"/>
+            <path d="M98 156h24" stroke="#e2b554" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="238" cy="80" r="36" fill="#e6f0f5" fill-opacity=".55" stroke="#7c848f" stroke-width="7"/>
+            <g stroke="#c9b9a3" stroke-width="3" stroke-linecap="round"><path d="M222 82h32M222 92h22"/></g>
+            <path d="M220 66a20 20 0 0 1 18-8" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none" opacity=".8"/>
+            <path d="M264 108l30 32" stroke="#b02a42" stroke-width="12" stroke-linecap="round"/>
+            <g transform="rotate(5 224 166)"><rect x="200" y="140" width="50" height="52" rx="3" fill="#fbf6ec" stroke="#9a8f80" stroke-width="1.8"/><rect x="207" y="147" width="26" height="5" rx="2" fill="url(#wcRed)"/><path d="M207 160h34M207 168h28M207 176h32" stroke="#c9b9a3" stroke-width="2.6" stroke-linecap="round"/></g>
+          </g></svg></div>
+          <div class="tour__text">
+            <h3>The Register</h3>
+            <p>Every entry is a fixed, static record you can read, search, and print; nothing is generated as you browse.</p>
+            <p>Search looks for the words you type in those records, here in your browser.</p>
+          </div>
+        </div>
+
+        <div class="tour__slide" role="group" aria-roledescription="slide" aria-label="3 of 6" data-slide>
+          <!-- What leaves your browser: cards, a search, and a bookmark stay inside the window; only a tally of visits leaves -->
+          <div class="tour__art" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><g filter="url(#wc)">
+            <rect x="12" y="22" width="202" height="158" rx="10" fill="#fbf6ec" stroke="#9a8f80" stroke-width="2"/>
+            <path d="M12 32a10 10 0 0 1 10-10h182a10 10 0 0 1 10 10v12H12z" fill="url(#wcRed)" stroke="#7e1a2d" stroke-width="2"/>
+            <g fill="#fbf6ec"><circle cx="26" cy="33" r="3.4"/><circle cx="38" cy="33" r="3.4"/><circle cx="50" cy="33" r="3.4"/></g>
+            <rect x="64" y="28" width="136" height="10" rx="5" fill="#e9d9c8"/>
+            <rect x="24" y="54" width="178" height="114" rx="8" fill="none" stroke="#e2b554" stroke-width="2.4" stroke-dasharray="6 5"/>
+            <g fill="#fff" stroke="#9a8f80" stroke-width="1.6"><rect x="36" y="66" width="64" height="40" rx="4"/><rect x="110" y="66" width="64" height="40" rx="4"/><rect x="36" y="116" width="64" height="40" rx="4"/></g>
+            <g fill="#e2b554"><rect x="42" y="72" width="30" height="5" rx="2"/><rect x="116" y="72" width="30" height="5" rx="2"/><rect x="42" y="122" width="26" height="5" rx="2"/></g>
+            <g stroke="#c9b9a3" stroke-width="3" stroke-linecap="round"><path d="M42 86h46M42 95h36M116 86h40M116 95h34M42 136h46M42 145h38"/></g>
+            <path d="M158 66v26l8-6 8 6V66z" fill="url(#wcRed)" stroke="#7e1a2d" stroke-width="1.4"/>
+            <rect x="110" y="126" width="82" height="20" rx="10" fill="#fff" stroke="#9a8f80" stroke-width="1.6"/>
+            <circle cx="123" cy="135" r="4.6" fill="none" stroke="#7c848f" stroke-width="2"/><path d="M126.5 138.5l4 4" stroke="#7c848f" stroke-width="2" stroke-linecap="round"/>
+            <path d="M136 136h44" stroke="#c9b9a3" stroke-width="2.6" stroke-linecap="round"/>
+            <path d="M214 98c14 0 24-4 34-8" fill="none" stroke="#7a5a4c" stroke-width="2.6" stroke-dasharray="4 5" stroke-linecap="round"/>
+            <circle cx="231" cy="95" r="4" fill="url(#wcGold)" stroke="#b07f2c" stroke-width="1.2"/>
+            <rect x="250" y="58" width="58" height="80" rx="5" fill="url(#wcCream)" stroke="#9a8f80" stroke-width="2"/>
+            <rect x="256" y="68" width="46" height="62" rx="2" fill="#fbf6ec" stroke="#9a8f80" stroke-width="1.2"/>
+            <rect x="266" y="52" width="26" height="12" rx="3" fill="url(#wcSteel)" stroke="#5f6771" stroke-width="1.6"/>
+            <path d="M262 80v18M267 80v18M272 80v18M277 80v18M259 95l22-12M287 80v18M292 80v18" stroke="#7e1a2d" stroke-width="2.6" stroke-linecap="round"/>
+            <path d="M262 112h32M262 120h22" stroke="#c9b9a3" stroke-width="2.6" stroke-linecap="round"/>
+          </g></svg></div>
+          <div class="tour__text">
+            <h3>What leaves your browser</h3>
+            <p>Your answers, searches, and saved use-case ideas are not sent anywhere. The Library counts visits to these pages with Umami, a web analytics service that does not use cookies; it records which page was visited, not your answers or search terms. If you choose to answer the question at the end of a use-case idea, that answer is recorded with the visit. The full details are under “Privacy, saved selections, and site usage” at the bottom of the page.</p>
+          </div>
+        </div>
+
+        <div class="tour__slide" role="group" aria-roledescription="slide" aria-label="4 of 6" data-slide>
+          <!-- Ask Us: by day a desk bell and a conversation; by night a menu written in advance and an envelope -->
+          <div class="tour__art" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><g filter="url(#wc)">
+            <rect x="12" y="18" width="144" height="164" rx="12" fill="url(#wcSky)" stroke="#7c848f" stroke-width="2"/>
+            <path d="M40 24v-2M40 70v-2M18 46h-2M64 46h-2M24 30l-2-2M56 30l2-2M24 62l-2 2M56 62l2 2" stroke="#e2b554" stroke-width="2.6" stroke-linecap="round"/>
+            <circle cx="40" cy="46" r="14" fill="url(#wcGold)" stroke="#b07f2c" stroke-width="1.6"/>
+            <path d="M74 44h62a10 10 0 0 1 10 10v26a10 10 0 0 1-10 10h-36l-14 12V90H74a10 10 0 0 1-10-10V54a10 10 0 0 1 10-10z" fill="#fbf6ec" stroke="#9a8f80" stroke-width="2"/>
+            <g fill="#b02a42"><circle cx="90" cy="67" r="4"/><circle cx="105" cy="67" r="4"/><circle cx="120" cy="67" r="4"/></g>
+            <rect x="24" y="152" width="120" height="12" rx="3" fill="url(#wcRed)" stroke="#7e1a2d" stroke-width="1.6"/>
+            <path d="M62 152a22 22 0 0 1 44 0z" fill="url(#wcGold)" stroke="#b07f2c" stroke-width="1.8"/>
+            <path d="M84 129v-6" stroke="#b07f2c" stroke-width="4" stroke-linecap="round"/>
+            <rect x="164" y="18" width="144" height="164" rx="12" fill="#33405a" stroke="#1f2738" stroke-width="2"/>
+            <circle cx="284" cy="42" r="13" fill="url(#wcCream)"/><circle cx="291" cy="37" r="11" fill="#33405a"/>
+            <g fill="#f3cf6e"><circle cx="182" cy="34" r="1.8"/><circle cx="214" cy="26" r="1.4"/><circle cx="248" cy="40" r="1.6"/><circle cx="196" cy="54" r="1.2"/><circle cx="262" cy="24" r="1.2"/></g>
+            <rect x="180" y="62" width="90" height="80" rx="6" fill="#fbf6ec" stroke="#9a8f80" stroke-width="2"/>
+            <path d="M225 82v6M203 88h44M203 88v8M247 88v8M203 108v8M247 108v8M203 116h44M225 116v6" fill="none" stroke="#7e1a2d" stroke-width="2" stroke-linecap="round"/>
+            <g fill="url(#wcGold)" stroke="#b07f2c" stroke-width="1.2"><rect x="213" y="70" width="24" height="12" rx="3"/><rect x="191" y="96" width="24" height="12" rx="3"/><rect x="235" y="96" width="24" height="12" rx="3"/><rect x="213" y="122" width="24" height="12" rx="3"/></g>
+            <rect x="244" y="138" width="54" height="36" rx="4" fill="#fbf6ec" stroke="#9a8f80" stroke-width="2"/>
+            <path d="M244 142l27 18 27-18" fill="none" stroke="#b02a42" stroke-width="2.4" stroke-linejoin="round"/>
+          </g></svg></div>
+          <div class="tour__text">
+            <h3>Ask Us</h3>
+            <p>During staffed hours, Ask Us connects you to library staff. At other times it shows a set menu of answers written by the Library and a form for leaving your email. No AI system writes the replies.</p>
+          </div>
+        </div>
+
+        <div class="tour__slide" role="group" aria-roledescription="slide" aria-label="5 of 6" data-slide>
+          <!-- Links to other sites: a link in this window leads out to a separate window -->
+          <div class="tour__art" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><g filter="url(#wc)">
+            <rect x="12" y="34" width="152" height="134" rx="9" fill="#fbf6ec" stroke="#9a8f80" stroke-width="2"/>
+            <path d="M12 43a9 9 0 0 1 9-9h134a9 9 0 0 1 9 9v10H12z" fill="url(#wcRed)" stroke="#7e1a2d" stroke-width="2"/>
+            <g fill="#fbf6ec"><circle cx="24" cy="44" r="3"/><circle cx="35" cy="44" r="3"/><circle cx="46" cy="44" r="3"/></g>
+            <g stroke="#c9b9a3" stroke-width="3.4" stroke-linecap="round"><path d="M26 70h114M26 82h98M26 94h106M26 130h92M26 142h108M26 154h70"/></g>
+            <path d="M26 112h66" stroke="#e2b554" stroke-width="5" stroke-linecap="round"/>
+            <path d="M98 117l9-9M100 108h7v7" fill="none" stroke="#b07f2c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <g transform="rotate(4 252 100)">
+              <rect x="196" y="38" width="112" height="120" rx="9" fill="url(#wcSky)" stroke="#5f6771" stroke-width="2"/>
+              <path d="M196 47a9 9 0 0 1 9-9h94a9 9 0 0 1 9 9v10H196z" fill="url(#wcSteel)" stroke="#5f6771" stroke-width="2"/>
+              <g fill="#fbf6ec"><circle cx="207" cy="48" r="3"/><circle cx="217" cy="48" r="3"/><circle cx="227" cy="48" r="3"/></g>
+              <rect x="208" y="68" width="88" height="42" rx="5" fill="#fbf6ec" fill-opacity=".75"/>
+              <path d="M220 100l18-18 14 12 10-8 22 14" fill="none" stroke="#7c848f" stroke-width="2.6" stroke-linejoin="round"/>
+              <g stroke="#7c848f" stroke-width="3" stroke-linecap="round"><path d="M210 126h80M210 138h62"/></g>
+            </g>
+            <path d="M110 112c30 0 52-8 78-14" fill="none" stroke="#7a5a4c" stroke-width="4" stroke-linecap="round"/>
+            <path d="M184 89l16 7-14 10z" fill="url(#wcGold)" stroke="#b07f2c" stroke-width="1.4" stroke-linejoin="round"/>
+          </g></svg></div>
+          <div class="tour__text">
+            <h3>Links to other sites</h3>
+            <p>Links to sources, and to AI products’ own pages such as those in The Register’s guide to types of AI systems, lead to separate sites that are not part of this one.</p>
+            <p>Where a source webpage has been verified, its link opens that page first. Known source-file links show a notice before you choose to open the file. External sites and your browser settings may still cause a download.</p>
+          </div>
+        </div>
+
+        <div class="tour__slide" role="group" aria-roledescription="slide" aria-label="6 of 6" data-slide>
+          <!-- How it was made: a workbench with code, collated pages, a pencil, and a palette; a brass arm assists -->
+          <div class="tour__art" aria-hidden="true"><svg viewBox="0 0 320 200" focusable="false"><g filter="url(#wc)">
+            <path d="M30 164v26M290 164v26" stroke="#7e1a2d" stroke-width="8" stroke-linecap="round"/>
+            <rect x="10" y="150" width="300" height="16" rx="4" fill="url(#wcRed)" stroke="#7e1a2d" stroke-width="2"/>
+            <path d="M66 118l-4 32h26l-4-32" fill="url(#wcCream)" stroke="#9a8f80" stroke-width="2"/>
+            <rect x="22" y="40" width="104" height="80" rx="10" fill="url(#wcCream)" stroke="#9a8f80" stroke-width="2"/>
+            <rect x="32" y="50" width="84" height="60" rx="6" fill="url(#wcScreen)" stroke="#4f7d58" stroke-width="2"/>
+            <path d="M56 66l-12 14 12 14M92 66l12 14-12 14M80 62l-12 36" fill="none" stroke="#e8f3df" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <g fill="#fbf6ec" stroke="#9a8f80" stroke-width="1.6"><rect x="142" y="104" width="56" height="44" rx="2" transform="rotate(-6 170 126)"/><rect x="142" y="104" width="56" height="44" rx="2" transform="rotate(3 170 126)"/><rect x="142" y="104" width="56" height="44" rx="2"/></g>
+            <g stroke="#c9b9a3" stroke-width="2.6" stroke-linecap="round"><path d="M150 120h40M150 128h32M150 136h36"/></g>
+            <path d="M160 98v14a4 4 0 0 0 8 0v-12" fill="none" stroke="#7c848f" stroke-width="2.4" stroke-linecap="round"/>
+            <g transform="rotate(-14 172 146)"><rect x="136" y="142" width="62" height="8" rx="1" fill="url(#wcGold)" stroke="#b07f2c" stroke-width="1.2"/><path d="M198 142l12 4-12 4z" fill="#e9d9c8" stroke="#9a8f80" stroke-width="1"/><path d="M206 144.7l4 1.3-4 1.3z" fill="#4f5660"/><rect x="129" y="142" width="8" height="8" rx="1.5" fill="#d98a9a" stroke="#9a5a68" stroke-width="1"/></g>
+            <path d="M222 112c0-18 22-30 44-28 22 2 36 16 34 32-1 10-12 10-16 16-4 6 2 14-12 16-26 4-50-14-50-36z" fill="url(#wcCream)" stroke="#9a8f80" stroke-width="2"/>
+            <g stroke="#7e1a2d" stroke-width="1"><circle cx="246" cy="100" r="6" fill="#b02a42"/><circle cx="266" cy="94" r="6" fill="#e2b554"/><circle cx="285" cy="106" r="6" fill="#3a5f6a"/><circle cx="244" cy="122" r="6" fill="#8fbf96"/></g>
+            <circle cx="272" cy="124" r="7" fill="#fbf3e4" stroke="#9a8f80" stroke-width="1.6"/>
+            <path d="M296 70l-26 30" stroke="#7a5a4c" stroke-width="4" stroke-linecap="round"/><path d="M272 96l-6 8 9-3z" fill="#b02a42"/>
+            <rect x="150" y="6" width="52" height="10" rx="3" fill="url(#wcSteel)" stroke="#5f6771" stroke-width="1.8"/>
+            <path d="M176 16l22 32-20 30" fill="none" stroke="#c8963a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M176 16l22 32-20 30" fill="none" stroke="#f6db94" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>
+            <g fill="url(#wcSteel)" stroke="#5f6771" stroke-width="1.6"><circle cx="176" cy="17" r="6"/><circle cx="198" cy="48" r="6"/><circle cx="178" cy="78" r="5"/></g>
+            <path d="M170 92l8-10 8 10M170 92v5M186 92v5" fill="none" stroke="#5f6771" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </g></svg></div>
+          <div class="tour__text">
+            <h3>How it was made</h3>
+            <p>AI assistance was used to realize this resource, utilized for coding, collation, editing, and certain visual elements. Its use followed a Human-Centered AI (HCAI) framework.</p>
+          </div>
+        </div>
+
+      </div>
     </section>
   </div>
-  <div class="dlg__foot">
-    <button type="button" class="btn btn--sm btn--quiet" data-close>Close</button>
+  <div class="dlg__foot tour__foot">
+    <button type="button" class="btn btn--sm" id="aboutPrev"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-arrow-left"/></svg> Previous</button>
+    <p class="tour__pos readout" id="aboutPos">1 of 6</p>
+    <div class="tour__dots" role="group" aria-label="Go to a slide"></div>
+    <button type="button" class="btn btn--sm btn--primary" id="aboutNext"><span class="tour__nextlabel">Next</span> <svg class="ico" aria-hidden="true" focusable="false"><use href="#i-arrow-right"/></svg></button>
   </div>
 </dialog>

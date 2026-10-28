@@ -326,7 +326,7 @@ function drawTypes(){
   var T = R.types;
   var h = '<div class="sec-head"><div class="sec-eyebrow">A guide</div><h2 id="h-ai-types" tabindex="-1">'+esc(T.title)+'</h2>'+
     T.intro.map(typeParagraph).join('')+'</div>';
-  h += '<p class="type-grid-guide">Choose a card for an explanation and linked product examples.</p>';
+  h += '<p class="type-grid-guide">Choose a card for an overview and linked product examples.</p>';
   T.groups.forEach(function(group){
     h += '<section class="type-group" aria-labelledby="tg-'+group.key+'"><h3 id="tg-'+group.key+'">'+esc(group.name)+'</h3><p class="type-group-intro">'+esc(group.description)+'</p><div class="types types--compact">';
     group.keys.forEach(function(key){
@@ -336,10 +336,10 @@ function drawTypes(){
     h += '</div></section>';
   });
   h += '<section class="protocols" aria-labelledby="h-protocols"><span class="current current--console" aria-hidden="true"></span>'+
-    '<div class="protocols__head">'+icon('i-bolt')+'<h3 id="h-protocols">Whatever the tool</h3><span class="protocols__tag">Open questions</span></div>'+
+    '<div class="protocols__head">'+icon('i-bolt')+'<h3 id="h-protocols">Whatever the tool</h3><span class="protocols__tag">Considerations</span></div>'+
     '<div class="protocols__screen"><ul class="protocols__list">'+
     T.general.map(function(g){ return '<li><span class="lamp lamp--on" aria-hidden="true"></span><span>'+esc(g.text)+typeCitations(g.refs)+'</span></li>'; }).join('')+'</ul></div></section>';
-  h += '<section class="type-bibliography" aria-labelledby="typeReferencesHeading"><h3 id="typeReferencesHeading">Sources for this guide</h3><p>Product links are examples, not evidence for the whole category.</p><p>'+esc(T.scope)+'</p>'+
+  h += '<section class="type-bibliography" aria-labelledby="typeReferencesHeading"><h3 id="typeReferencesHeading">Qualifiers</h3><ul class="type-qualifiers">'+T.qualifiers.map(function(q){ return '<li>'+esc(q)+'</li>'; }).join('')+'</ul>'+
     '<details class="type-bibliography__list"><summary>All '+S_.num(T.sources.length)+' references'+icon('i-chevron')+'</summary>'+typeReferences()+'</details></section>';
   h += '<p class="meta-line" data-guide-license>'+esc(window.TOOL_LICENSE.guide_notice)+'</p>';
   document.getElementById('ai-types').innerHTML = h;

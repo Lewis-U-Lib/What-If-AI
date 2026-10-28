@@ -16,6 +16,7 @@ const REGISTER='Every entry is a fixed, static record you can read, search, and 
 const MADE='AI assistance was used to realize this resource, utilized for coding, collation, editing, and certain visual elements.';
 const ASKUS='During staffed hours, Ask Us connects you to library staff. At other times it shows a set menu of answers written by the Library and a form for leaving your email. No AI system writes the replies.';
 const RAIL='Matched by fixed rules set by the Library. No AI system reads your answers.';
+const TITLES=['What If AI','The Register','What leaves your browser','Ask Us','Links to other sites','How it was made'];
 
 (async()=>{
   const server=await start({dir:SITE}),browser=await engines.chromium.launch();
@@ -49,18 +50,48 @@ const RAIL='Matched by fixed rules set by the Library. No AI system reads your a
       if(wide) assert.equal(await p.$$eval('.rail__note',e=>e.length),1,'the rail note stays while answering');
       pass('What If AI @'+width+'px: header statement, one note beside the questions, dialog opens from it and returns focus');
 
+      /* the dialog is a six-slide carousel in the walkthroughs' style (changed October 28) */
       await p.click('.hdr [data-open-about]');await p.waitForSelector('#aboutDialog[open]');
-      await p.click('#aboutDialog .dlg__foot [data-close]');
+      /* the reduced-motion rule gives every transition 1ms, so wait until the one slide showing is the current one */
+      const state=async()=>{await p.waitForFunction(()=>{const v=[...document.querySelectorAll('#aboutDialog [data-slide]')].filter(s=>getComputedStyle(s).visibility!=='hidden');return v.length===1&&!v[0].inert;});return p.evaluate(()=>{const d=document.getElementById('aboutDialog'),ss=[...d.querySelectorAll('[data-slide]')];
+        return {pos:d.querySelector('#aboutPos').textContent,on:ss.filter(s=>getComputedStyle(s).visibility!=='hidden'&&!s.inert).map(s=>s.querySelector('h3').textContent),
+          next:d.querySelector('#aboutNext .tour__nextlabel').textContent,prevDisabled:d.querySelector('#aboutPrev').getAttribute('aria-disabled')};});};
+      let st=await state();
+      assert.deepEqual(st,{pos:'1 of 6',on:['What If AI'],next:'Next',prevDisabled:'true'});
+      assert.deepEqual(await p.$$eval('#aboutDialog [data-slide] h3',hs=>hs.map(h=>h.textContent)),TITLES);
+      const nextY=async()=>Math.round((await p.locator('#aboutNext').boundingBox()).y),y0=await nextY();
+      await p.click('#aboutNext');st=await state();
+      assert.deepEqual([st.pos,st.on],['2 of 6',['The Register']]);
+      assert.equal(await nextY(),y0,'Next stays in place from slide to slide');
+      await p.focus('#aboutDialog .tour__body');await p.keyboard.press('ArrowRight');st=await state();
+      assert.deepEqual([st.pos,st.on],['3 of 6',['What leaves your browser']]);
+      await p.click('#aboutPrev');assert.equal((await state()).pos,'2 of 6');
+      await p.keyboard.press('End');st=await state();
+      assert.deepEqual([st.pos,st.on,st.next],['6 of 6',['How it was made'],'Finish']);
+      assert.equal(await nextY(),y0,'Next stays in place on the last slide');
+      if(wide){await p.click('#aboutDialog [data-about-dot="3"]');assert.equal((await state()).pos,'4 of 6');await p.keyboard.press('End');}
+      /* each slide has its own drawing in the walkthroughs' painted style, with no text, hidden from assistive technology */
+      const art=await p.$$eval('#aboutDialog [data-slide]',ss=>ss.map(s=>{const a=s.querySelector('.tour__art');
+        return {hidden:a&&a.getAttribute('aria-hidden'),text:a?a.querySelectorAll('text').length:-1,paint:!!(a&&a.querySelector('g[filter="url(#wc)"]'))};}));
+      assert.ok(art.every(a=>a.hidden==='true'&&a.text===0&&a.paint),JSON.stringify(art));
+      assert.ok(await p.evaluate(()=>!!document.getElementById('wc')&&!!document.getElementById('wcGold')),'the paint filter and washes are on the page');
+      await p.click('#aboutNext');
       await p.waitForFunction(()=>!document.getElementById('aboutDialog').open);
-      assert.ok(await p.evaluate(()=>document.activeElement.matches('.hdr [data-open-about]')));
+      assert.ok(await p.evaluate(()=>document.activeElement.matches('.hdr [data-open-about]')),'Finish returns focus to the button');
+      await p.click('.hdr [data-open-about]');await p.waitForSelector('#aboutDialog[open]');
+      assert.equal((await state()).pos,'1 of 6','reopening starts at the first slide');
+      await p.click('#aboutDialog .dlg__close');
+      await p.waitForFunction(()=>!document.getElementById('aboutDialog').open);
+      assert.ok(await p.evaluate(()=>document.activeElement.matches('.hdr [data-open-about]')),'✕ returns focus to the button');
       assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth<=0),'no sideways scrolling');
-      pass('What If AI @'+width+'px: the header button opens the dialog; Close returns focus');
+      pass('What If AI @'+width+'px: six slides with drawings; Next, Previous, arrow keys, End'+(wide?', dots':'')+'; Next stays put; Finish and ✕ close and return focus; reopening starts at slide 1');
 
       /* The Register: the header statement and the same dialog */
       await p.goto(server.url('register.html'));await ready(p);
       assert.equal(norm(await p.textContent('.hdr__signal')),REGISTER);
       await p.click('.hdr [data-open-about]');await p.waitForSelector('#aboutDialog[open]');
       assert.equal(norm(await p.textContent('#aboutDialog .dlg__body')),finderText,'both pages show the same dialog');
+      assert.ok(await p.evaluate(()=>!!document.getElementById('wc')&&!!document.getElementById('wcGold')),'the paint filter and washes are on this page too');
       await p.keyboard.press('Escape');
       await p.waitForFunction(()=>!document.getElementById('aboutDialog').open);
       assert.ok(await p.evaluate(()=>document.activeElement.matches('.hdr [data-open-about]')));

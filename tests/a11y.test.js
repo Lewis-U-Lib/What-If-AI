@@ -32,6 +32,7 @@ const STATES = [
   ['What If AI · walkthrough, first step', 'what-if-ai.html', async p => { await p.click('.hdr [data-open-tour]'); }],
   ['What If AI · walkthrough, last step', 'what-if-ai.html#tour', async p => { await p.keyboard.press('End'); }],
   ['What If AI · how this site works', 'what-if-ai.html', async p => { await p.click('.hdr [data-open-about]'); }],
+  ['What If AI · how this site works, last slide', 'what-if-ai.html', async p => { await p.click('.hdr [data-open-about]'); await p.keyboard.press('End'); }],
   ['What If AI · question two (back navigation available)', 'what-if-ai.html#q=task&a=focus:teaching', async p => {}],
     ['What If AI · saved drawer empty', 'what-if-ai.html', async p => { await p.evaluate(() => SITE.Saved.clear()); await p.click('.topbar [data-open-saved]'); }],
   ['The Register · activities', 'register.html#activities', async p => {}],

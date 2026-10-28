@@ -51,6 +51,8 @@ module.exports = async function checkDialogScroll(browser, go, check) {
     for (const [file, dialog, launch, next] of [
       ['what-if-ai.html', 'tourDialog', '.hdr [data-open-tour]', '#tourNext'],
       ['register.html', 'rtour', '.hdr [data-open-register-tour]', '#rtourNext'],
+      ['what-if-ai.html', 'aboutDialog', '.hdr [data-open-about]', '#aboutNext'],
+      ['register.html', 'aboutDialog', '.hdr [data-open-about]', '#aboutNext'],
     ]) {
       await page.goto('about:blank'); await go(page, file);
       await page.locator(launch).click(); await atTop(dialog);

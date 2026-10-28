@@ -26,7 +26,11 @@
       "refs": []
     }
   ],
-  "scope": "Research studies explain how kinds of systems work and what researchers found when they tested particular systems at a particular time; they are not ratings of the products available today. The illustrative uses describe related ideas in this collection; they are not tested teaching interventions or institutional approval.",
+  "qualifiers": [
+    "Product links are examples, not evidence for the whole category.",
+    "Sources outline how kinds of systems work and what researchers found when they tested at a particular time — they are not analyses of current iterations available today.",
+    "The illustrative uses describe related ideas in this collection — they are not tested teaching interventions or institutional approval."
+  ],
   "groups": [
     {
       "key": "capabilities",

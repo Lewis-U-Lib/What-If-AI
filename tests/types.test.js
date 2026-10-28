@@ -27,7 +27,7 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
  assert.equal(await page.locator('.type-group').count(),3);
  assert.deepEqual(await page.locator('[aria-labelledby="tg-choices"] [data-open-type]').evaluateAll(ns=>ns.map(n=>n.dataset.openType)),['institutional','noai']);
  assert.equal(await page.locator('.type-bibliography .type-sources li').count(),source.sources.length);
- assert.ok((await page.locator('.type-bibliography').textContent()).includes(source.scope));
+ assert.deepEqual(await page.locator('.type-bibliography .type-qualifiers li').allTextContents(),source.qualifiers);
  assert.equal((await page.locator('#ai-types').textContent()).includes('Source check:'),false);
  for(const s of source.sources){
    assert.equal(await page.locator('.type-bibliography li[value="'+s.id+'"] a').getAttribute('href'),s.url);

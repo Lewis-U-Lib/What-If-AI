@@ -87,6 +87,9 @@ html.type-dialog-open{overflow:hidden;}
 .type-evidence>h3{font-size:23px;color:var(--gold);margin:0 0 14px;}
 .type-bibliography{margin-top:38px;padding-top:28px;border-top:1px solid var(--line-strong);}
 .type-bibliography>p{font-size:16px;color:var(--ink-2);max-width:95ch;}
+.type-qualifiers{margin:0;padding-left:1.25em;font-size:16px;color:var(--ink-2);max-width:95ch;}
+.type-qualifiers li{margin:0 0 6px;padding-left:.2em;}
+.type-qualifiers li::marker{color:var(--gold);}
 .type-sources{padding-left:28px;margin:20px 0;}
 .type-bibliography__list{margin-top:16px;border:1px solid var(--line);}
 .type-bibliography__list > summary{display:flex;align-items:center;justify-content:space-between;gap:10px;list-style:none;cursor:pointer;min-height:48px;padding:10px 16px;color:var(--gold);font-family:var(--font-h);font-size:18px;font-weight:700;}

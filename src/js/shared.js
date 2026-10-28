@@ -637,18 +637,55 @@ window.addEventListener('beforeprint', function(){
   if(dlg && dlg.open && dlg.getAttribute('data-act') && BYID[dlg.getAttribute('data-act')]) preparePrint([dlg.getAttribute('data-act')], true);
 });
 
+/* ─────────── "How this site works": a six-slide carousel, like the walkthroughs; never advances by itself ─────────── */
+function wireAbout(dlg){
+  var slides = [].slice.call(dlg.querySelectorAll('[data-slide]')), at = 0;
+  var pos = dlg.querySelector('#aboutPos'), prev = dlg.querySelector('#aboutPrev'), next = dlg.querySelector('#aboutNext'), dots = dlg.querySelector('.tour__dots');
+  dots.innerHTML = slides.map(function(s, i){
+    var h = s.querySelector('h3');
+    return '<button type="button" class="tour__dot" data-about-dot="'+i+'" aria-label="Slide '+(i+1)+': '+esc(h ? h.textContent : '')+'"><span class="lamp"></span></button>';
+  }).join('');
+  function draw(){
+    /* the other slides stay in place, invisible and inert, so the frame keeps one height and the controls stay put */
+    slides.forEach(function(s, i){ var off = i !== at; s.classList.toggle('is-off', off); s.inert = off;
+      if(off) s.setAttribute('aria-hidden','true'); else s.removeAttribute('aria-hidden'); });
+    pos.textContent = (at+1)+' of '+slides.length;
+    prev.setAttribute('aria-disabled', String(at === 0));
+    next.querySelector('.tour__nextlabel').textContent = at === slides.length-1 ? 'Finish' : 'Next';
+    [].forEach.call(dots.children, function(d, i){ if(i === at) d.setAttribute('aria-current','step'); else d.removeAttribute('aria-current'); });
+  }
+  function go(i){ if(i < 0 || i >= slides.length) return; at = i; draw(); resetDialogScroll(dlg); }
+  dlg.addEventListener('click', function(e){
+    var t = e.target;
+    if(t.closest('#aboutPrev')){ go(at-1); return; }
+    if(t.closest('#aboutNext')){ if(at < slides.length-1) go(at+1); else closeDialog(dlg); return; }
+    var d = t.closest('[data-about-dot]'); if(d) go(+d.getAttribute('data-about-dot'));
+  });
+  dlg.addEventListener('keydown', function(e){
+    var tag = (e.target.tagName||'').toLowerCase(); if(tag==='input'||tag==='textarea'||tag==='select') return;
+    var n = -1;
+    if(e.key==='ArrowRight') n = at+1; else if(e.key==='ArrowLeft') n = at-1;
+    else if(e.key==='Home') n = 0; else if(e.key==='End') n = slides.length-1;
+    if(n >= 0 && n < slides.length){ e.preventDefault(); go(n); }
+  });
+  draw();
+  /* every opening starts at the first slide */
+  return function(){ at = 0; draw(); };
+}
+
 /* ─────────── wiring ─────────── */
 function init(ctx){
   CTX = ctx || CTX;
   var ad = document.getElementById('actDialog'), sd = document.getElementById('savedDrawer'), about = document.getElementById('aboutDialog');
   if(ad) wireDialog(ad);
   if(sd) wireDialog(sd);
-  if(about) wireDialog(about);
+  var aboutFromStart = null;
+  if(about){ wireDialog(about); aboutFromStart = wireAbout(about); }
   document.addEventListener('click', function(e){
     var t = e.target;
     /* "How this site works": the same dialog from the header on both pages and from the Finder's rail */
     var ab = t.closest('[data-open-about]');
-    if(ab && about){ openDialog(about, ab); return; }
+    if(ab && about){ if(!about.open) aboutFromStart(); openDialog(about, ab); return; }
     if(t.closest('[data-give-feedback]')){
       var feedback = ad.querySelector('.activity-feedback');
       if(feedback){
