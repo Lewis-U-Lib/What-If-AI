@@ -48,6 +48,8 @@ const STATES = [
     await p.$eval('#actDialog .note--caution', e => e.scrollIntoView({block:'center'})); }],
   ['The Register · source items open to adapt', 'register.html#activities?set=synthesis&open=1', async p => {}],
   ['The Register · types of AI systems', 'register.html#ai-types', async p => {}],
+  ['The Register · AI-system details, References slide', 'register.html#ai-types', async p => {
+    await p.click('[data-open-type="agentic"]'); await p.keyboard.press('End'); }],
   ['The Register · AI guide references expanded', 'register.html#ai-types', async p => {
     await p.click('.type-bibliography__list > summary'); }],
   ['The Register · AI-system details dialog', 'register.html#ai-types', async p => {

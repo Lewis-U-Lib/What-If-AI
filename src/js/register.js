@@ -238,15 +238,52 @@ function typeReferences(ids){
   }).join('')+'</ol>';
 }
 var typeDialog = document.getElementById('aiTypeDialog');
+/* Each capability or system entry is a five-slide carousel in the walkthroughs' style: the four explanation
+   fields, then References. It never advances by itself; the last slide's Next returns to the types. */
+var TYPE_SLIDES = [['What it does','does'],['Inputs and outputs','io'],['Illustrative faculty use','why'],['Limits and open questions','limits']];
+var typeSlide = 0;
+function typeSlideTo(i){
+  var slides = [].slice.call(typeDialog.querySelectorAll('[data-type-slide]'));
+  if(!slides.length || i<0 || i>=slides.length) return;
+  typeSlide = i;
+  slides.forEach(function(sl, n){ sl.hidden = n!==i; });
+  document.getElementById('typePos').textContent = (i+1)+' of '+slides.length;
+  document.getElementById('typePrev').setAttribute('aria-disabled', String(i===0));
+  document.getElementById('typeNext').querySelector('.tour__nextlabel').textContent = i===slides.length-1 ? 'Back to types' : 'Next';
+  [].forEach.call(typeDialog.querySelectorAll('[data-type-dot]'), function(d, n){ if(n===i) d.setAttribute('aria-current','step'); else d.removeAttribute('aria-current'); });
+  var deck = typeDialog.querySelector('.type-deck'), body = typeDialog.querySelector('.dlg__body');
+  /* keep the start of the new slide in view when the reader has scrolled past it */
+  if(deck && body && deck.getBoundingClientRect().top < body.getBoundingClientRect().top) body.scrollTop += deck.getBoundingClientRect().top - body.getBoundingClientRect().top - 12;
+}
 var typeReturn = null;
 var typeNavigating = false;
 S_.wireDialog(typeDialog);
 typeDialog.addEventListener('keydown', function(e){
   if(e.key!=='Tab') return;
-  var stops = [].filter.call(typeDialog.querySelectorAll('button:not([disabled]), a[href], summary, [tabindex="0"]'), function(n){return n.getClientRects().length>0;});
+  var stops = [].filter.call(typeDialog.querySelectorAll('button:not([disabled]), a[href], summary, [tabindex="0"]'), function(n){
+    return n.getClientRects().length>0 && !n.closest('[hidden],[inert]') && getComputedStyle(n).visibility!=='hidden';
+  });
   var first = stops[0], last = stops[stops.length-1];
   if(e.shiftKey && (document.activeElement===first || document.activeElement.hasAttribute('data-dlg-title'))){e.preventDefault();last.focus();}
   else if(!e.shiftKey && document.activeElement===last){e.preventDefault();first.focus();}
+});
+typeDialog.addEventListener('click', function(e){
+  var t = e.target;
+  if(t.closest('#typePrev')){ typeSlideTo(typeSlide-1); return; }
+  if(t.closest('#typeNext')){
+    var n = typeDialog.querySelectorAll('[data-type-slide]').length;
+    if(typeSlide < n-1) typeSlideTo(typeSlide+1); else S_.closeDialog(typeDialog);
+    return;
+  }
+  var d = t.closest('[data-type-dot]'); if(d) typeSlideTo(+d.getAttribute('data-type-dot'));
+});
+typeDialog.addEventListener('keydown', function(e){
+  var n = typeDialog.querySelectorAll('[data-type-slide]').length; if(!n) return;
+  var tag = (e.target.tagName||'').toLowerCase(); if(tag==='input'||tag==='textarea'||tag==='select') return;
+  var to = -1;
+  if(e.key==='ArrowRight') to = typeSlide+1; else if(e.key==='ArrowLeft') to = typeSlide-1;
+  else if(e.key==='Home') to = 0; else if(e.key==='End') to = n-1;
+  if(to>=0 && to<n){ e.preventDefault(); typeSlideTo(to); }
 });
 typeDialog.addEventListener('close', function(){
   document.documentElement.classList.remove('type-dialog-open');
@@ -291,21 +328,35 @@ function openType(key, opener){
   typeDialog.querySelector('.kicker').textContent = key==='noai' || key==='institutional' ? 'Access and teaching choices' : 'Types of AI systems';
   var refs = t.citations || {};
   var h = '<p class="type-dialog__description"><span class="type-field-text">'+esc(t.what)+'</span>'+typeCitations(refs.what)+'</p>';
-  var cited = [];
+  var cited = [], foot;
   if(key!=='noai'){
-    h += '<section class="type-info" aria-labelledby="typeMoreHeading"><h3 id="typeMoreHeading">'+(key==='institutional'?'More about this choice':'More about this type')+'</h3><dl>'+
-      [['What it does','does'],['Inputs and outputs','io'],['Illustrative faculty use','why'],['Limits and open questions','limits']].map(function(row){
-        return '<div class="type-info__row"><dt>'+esc(row[0])+'</dt><dd><span class="type-field-text">'+esc(t[row[1]])+'</span>'+typeCitations(refs[row[1]])+'</dd></div>';
-      }).join('')+'</dl></section>'+typeExampleDisclosure(t);
     Object.keys(refs).forEach(function(field){cited=cited.concat(refs[field]);});
+    /* five slides, like the walkthroughs: four explanation fields, then the references they cite */
+    var slides = TYPE_SLIDES.map(function(row){
+      return '<h3>'+esc(row[0])+'</h3><p><span class="type-field-text">'+esc(t[row[1]])+'</span>'+typeCitations(refs[row[1]])+'</p>';
+    }).concat(['<h3>References</h3>'+typeReferences(cited)]);
+    var titles = TYPE_SLIDES.map(function(row){return row[0];}).concat(['References']);
+    h += '<section class="type-info type-deck" aria-roledescription="carousel" aria-label="'+(key==='institutional'?'More about this choice':'More about this type')+'">'+
+      '<div class="type-deck__slides" aria-live="polite">'+slides.map(function(body, i){
+        return '<div class="type-slide" role="group" aria-roledescription="slide" aria-label="'+(i+1)+' of '+slides.length+'" data-type-slide'+(i?' hidden':'')+'>'+body+'</div>';
+      }).join('')+'</div></section>'+typeExampleDisclosure(t);
+    foot = typeActivityLink(t)+'<div class="type-deck__nav">'+
+      '<button type="button" class="btn btn--sm" id="typePrev" aria-disabled="true">'+icon('i-arrow-left')+' Previous</button>'+
+      '<p class="tour__pos readout" id="typePos">1 of '+slides.length+'</p>'+
+      '<div class="tour__dots" role="group" aria-label="Go to a slide">'+titles.map(function(title, i){
+        return '<button type="button" class="tour__dot" data-type-dot="'+i+'" aria-label="Slide '+(i+1)+': '+esc(title)+'"'+(i?'':' aria-current="step"')+'><span class="lamp"></span></button>';
+      }).join('')+'</div>'+
+      '<button type="button" class="btn btn--sm btn--primary" id="typeNext"><span class="tour__nextlabel">Next</span> '+icon('i-arrow-right')+'</button></div>';
   } else {
     h += typeParagraph(R.types.no_ai.rationale)+'<p>'+esc(R.types.no_ai.suggestion)+'</p>';
     cited = R.types.no_ai.rationale.refs;
+    h += '<section class="type-evidence" aria-labelledby="typeEvidenceHeading"><h3 id="typeEvidenceHeading">References</h3>'+typeReferences(cited)+'</section>';
+    foot = typeActivityLink(t)+'<button type="button" class="btn btn--sm btn--quiet" data-close>Back to types</button>';
   }
-  h += '<section class="type-evidence" aria-labelledby="typeEvidenceHeading"><h3 id="typeEvidenceHeading">Sources for this explanation</h3>'+typeReferences(cited)+'</section>';
   h += '<p class="meta-line" data-guide-license>'+esc(window.TOOL_LICENSE.guide_notice)+'</p>';
   typeDialog.querySelector('.dlg__body').innerHTML = h;
-  typeDialog.querySelector('.dlg__foot').innerHTML = typeActivityLink(t)+'<button type="button" class="btn btn--sm btn--quiet" data-close>Back to types</button>';
+  typeDialog.querySelector('.dlg__foot').innerHTML = foot;
+  typeSlide = 0;
   S_.openDialog(typeDialog, opener);
 }
 document.addEventListener('click', function(e){
@@ -340,7 +391,7 @@ function drawTypes(){
     '<div class="protocols__screen"><ul class="protocols__list">'+
     T.general.map(function(g){ return '<li><span class="lamp lamp--on" aria-hidden="true"></span><span>'+esc(g.text)+typeCitations(g.refs)+'</span></li>'; }).join('')+'</ul></div></section>';
   h += '<section class="type-bibliography" aria-labelledby="typeReferencesHeading"><h3 id="typeReferencesHeading">Qualifiers</h3><ul class="type-qualifiers">'+T.qualifiers.map(function(q){ return '<li>'+esc(q)+'</li>'; }).join('')+'</ul>'+
-    '<details class="type-bibliography__list"><summary>All '+S_.num(T.sources.length)+' references'+icon('i-chevron')+'</summary>'+typeReferences()+'</details></section>';
+    '<details class="type-bibliography__list"><summary>References'+icon('i-chevron')+'</summary>'+typeReferences()+'</details></section>';
   h += '<p class="meta-line" data-guide-license>'+esc(window.TOOL_LICENSE.guide_notice)+'</p>';
   document.getElementById('ai-types').innerHTML = h;
 }

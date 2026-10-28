@@ -2,8 +2,8 @@
  * Each link is the official source used to check the described capability.
  * Kept separate from the fingerprinted corpus release in data/. */
 window.REGISTER_TYPE_EXAMPLES = {
-  "checked": "2026-09-25",
-  "checkedLabel": "September 25, 2026",
+  "checked": "2026-10-28",
+  "checkedLabel": "October 28, 2026",
   "types": {
     "conversational": [
       [
@@ -19,14 +19,14 @@ window.REGISTER_TYPE_EXAMPLES = {
       [
         "Gemini",
         "Brainstorms, explains concepts, and responds to follow-up questions.",
-        "https://gemini.google/overview/"
+        "https://support.google.com/gemini/answer/13275745?hl=en"
       ]
     ],
     "grounded": [
       [
         "Gemini Notebook",
         "Explores your sources and links answers to supporting passages.",
-        "https://support.google.com/gemininotebook/answer/16179559?hl=en-SG"
+        "https://support.google.com/gemininotebook/answer/16179559?hl=en"
       ],
       [
         "Adobe Acrobat AI Assistant",
@@ -43,17 +43,17 @@ window.REGISTER_TYPE_EXAMPLES = {
       [
         "Perplexity",
         "Searches the web and synthesizes answers with linked sources.",
-        "https://www.perplexity.ai/help-center/en/articles/10352903-what-is-pro-search"
+        "https://www.perplexity.ai/help-center/en/articles/10352895-how-does-perplexity-work"
       ],
       [
         "Elicit",
-        "Finds research papers and organizes evidence into comparison tables.",
+        "Finds research papers and extracts data into tables and reports.",
         "https://elicit.com/"
       ],
       [
         "Consensus",
         "Searches scholarly literature and summarizes findings across papers.",
-        "https://help.consensus.app/en/articles/9922660-how-to-search-best-practices"
+        "https://help.consensus.app/en/articles/9922673-how-consensus-works"
       ]
     ],
     "multimodal": [
@@ -76,7 +76,7 @@ window.REGISTER_TYPE_EXAMPLES = {
     "image": [
       [
         "Adobe Firefly",
-        "Generates images and visual variations from text prompts.",
+        "Generates and edits images from text prompts.",
         "https://www.adobe.com/products/firefly.html"
       ],
       [
@@ -148,9 +148,9 @@ window.REGISTER_TYPE_EXAMPLES = {
         "https://claude.com/product/overview"
       ],
       [
-        "Zapier Agents",
+        "AI by Zapier",
         "Uses connected apps and organizational information to perform tasks.",
-        "https://zapier.com/agents"
+        "https://help.zapier.com/hc/en-us/articles/45863491098893-Add-tools-to-your-AI-by-Zapier-step"
       ],
       [
         "Microsoft Copilot Studio",
@@ -166,7 +166,7 @@ window.REGISTER_TYPE_EXAMPLES = {
       ],
       [
         "Claude for higher education",
-        "Offers institutional ways to bring Claude into campus work.",
+        "Provides university-wide Claude plans for students, faculty, and staff.",
         "https://claude.com/solutions/education"
       ],
       [
