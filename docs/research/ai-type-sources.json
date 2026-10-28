@@ -40,7 +40,8 @@
       "checked": "Publication overview (first posted September 7, 2023; updated January 16, 2026). The full report, https://doi.org/10.54675/EWZM9535, was not reachable for this check, so only the overview is cited.",
       "quotes": [
         "ethical, safe, equitable and meaningful use",
-        "a human-agent and age-appropriate approach to the ethical validation and pedagogical design"
+        "a human-agent and age-appropriate approach to the ethical validation and pedagogical design",
+        "validate GenAI systems on their ethical and pedagogical appropriateness"
       ]
     },
     {
@@ -63,7 +64,7 @@
       "url": "https://doi.org/10.6028/NIST.AI.100-1",
       "title": "National Institute of Standards and Technology. (2023). Artificial intelligence risk management framework (AI RMF 1.0) (NIST AI 100-1). U.S. Department of Commerce. https://doi.org/10.6028/NIST.AI.100-1",
       "cite": "NIST, 2023",
-      "checked": "Section 3 (p. 13: whether AI is an appropriate or necessary tool), 3.1 Valid and Reliable (pp. 13–14), 3.4 Accountable and Transparent (pp. 15–16), and 3.6 Privacy-Enhanced (p. 17).",
+      "checked": "Section 3 introduction (trustworthiness balanced against context of use; p. 13: whether AI is an appropriate or necessary tool), 3.1 Valid and Reliable (pp. 13–14), 3.4 Accountable and Transparent (pp. 15–16), and 3.6 Privacy-Enhanced (p. 17).",
       "quotes": [
         "determine whether AI technology is an appropriate or necessary tool for a given context or purpose",
         "A transparent system is not necessarily an accurate, privacy-enhanced, secure, or fair system."
@@ -72,7 +73,7 @@
     {
       "id": 7,
       "url": "https://proceedings.neurips.cc/paper_files/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html",
-      "title": "Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J. D., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A., Agarwal, S., Herbert-Voss, A., Krueger, G., Henighan, T., Child, R., Ramesh, A., Ziegler, D., Wu, J., Winter, C., . . . Amodei, D. (2020). Language models are few-shot learners. Advances in Neural Information Processing Systems, 33, 1877–1901.",
+      "title": "Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J. D., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A., Agarwal, S., Herbert-Voss, A., Krueger, G., Henighan, T., Child, R., Ramesh, A., Ziegler, D., Wu, J., Winter, C., . . . Amodei, D. (2020). Language models are few-shot learners. Advances in Neural Information Processing Systems, 33, 1877–1901. https://proceedings.neurips.cc/paper_files/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html",
       "cite": "Brown et al., 2020",
       "checked": "Abstract: autoregressive language modeling; tasks specified through text, including translation and question answering. NeurIPS 2020.",
       "quotes": [
@@ -82,7 +83,7 @@
     {
       "id": 8,
       "url": "https://doi.org/10.52202/068431-2011",
-      "title": "Ouyang, L., Wu, J., Jiang, X., Almeida, D., Wainwright, C., Mishkin, P., Zhang, C., Agarwal, S., Slama, K., Ray, A., Schulman, J., Hilton, J., Kelton, F., Miller, L., Simens, M., Askell, A., Welinder, P., Christiano, P., Leike, J., & Lowe, R. (2022). Training language models to follow instructions with human feedback. Advances in Neural Information Processing Systems, 35, 27730–27744. https://doi.org/10.52202/068431-2011",
+      "title": "Ouyang, L., Wu, J., Jiang, X., Almeida, D., Wainwright, C., Mishkin, P., Zhang, C., Agarwal, S., Slama, K., Ray, A., Schulman, J., Hilton, J., Kelton, F., Miller, L., Simens, M., Askell, A., Welinder, P., Christiano, P. F., Leike, J., & Lowe, R. (2022). Training language models to follow instructions with human feedback. Advances in Neural Information Processing Systems, 35, 27730–27744. https://doi.org/10.52202/068431-2011",
       "cite": "Ouyang et al., 2022",
       "checked": "Abstract: fine-tuning language models with human feedback to follow instructions across a wide range of tasks. NeurIPS 2022.",
       "quotes": [
@@ -143,7 +144,7 @@
       "id": 14,
       "url": "https://doi.org/10.1007/s11432-024-4235-6",
       "title": "Liu, Y., Li, Z., Huang, M., Yang, B., Yu, W., Li, C., Yin, X.-C., Liu, C.-L., Jin, L., & Bai, X. (2024). OCRBench: On the hidden mystery of OCR in large multimodal models. Science China Information Sciences, 67(12), Article 220102. https://doi.org/10.1007/s11432-024-4235-6",
-      "cite": "Liu et al., 2024a",
+      "cite": "Y. Liu et al., 2024",
       "checked": "Abstract (open author manuscript, arXiv:2305.07895): text reading in images and documents, with weaknesses on handwritten and multilingual text.",
       "quotes": [
         "particularly in handling multilingual text, handwritten text, non-semantic text"
@@ -194,7 +195,7 @@
       "url": "https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf",
       "title": "U.S. Copyright Office. (2025). Copyright and artificial intelligence, part 2: Copyrightability. https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf",
       "cite": "U.S. Copyright Office, 2025",
-      "checked": "Section on prompts (p. 18) and Conclusion (p. 41): prompts alone are unlikely to make a user the author of the output. U.S. guidance only; not legal advice.",
+      "checked": "Section II.D, Prompts (pp. 12–18; analysis at p. 18), and Executive Summary (p. iii): with current generally available technology, prompts alone do not provide sufficient control. U.S. guidance only; not legal advice.",
       "quotes": [
         "prompts alone do not provide sufficient human control to make users of an AI system the authors of the output"
       ]
@@ -212,7 +213,7 @@
     {
       "id": 21,
       "url": "https://proceedings.mlr.press/v267/kang25g.html",
-      "title": "Kang, B., Yue, Y., Lu, R., Lin, Z., Zhao, Y., Wang, K., Huang, G., & Feng, J. (2025). How far is video generation from world model: A physical law perspective. Proceedings of Machine Learning Research, 267, 28991–29017.",
+      "title": "Kang, B., Yue, Y., Lu, R., Lin, Z., Zhao, Y., Wang, K., Huang, G., & Feng, J. (2025). How far is video generation from world model: A physical law perspective. Proceedings of Machine Learning Research, 267, 28991–29017. https://proceedings.mlr.press/v267/kang25g.html",
       "cite": "Kang et al., 2025",
       "checked": "Abstract: video models trained on simulated motion failed out of distribution and imitated the closest training examples. ICML 2025.",
       "quotes": [
@@ -232,7 +233,7 @@
     {
       "id": 23,
       "url": "https://proceedings.mlr.press/v202/radford23a.html",
-      "title": "Radford, A., Kim, J. W., Xu, T., Brockman, G., McLeavey, C., & Sutskever, I. (2023). Robust speech recognition via large-scale weak supervision. Proceedings of Machine Learning Research, 202, 28492–28518.",
+      "title": "Radford, A., Kim, J. W., Xu, T., Brockman, G., McLeavey, C., & Sutskever, I. (2023). Robust speech recognition via large-scale weak supervision. Proceedings of Machine Learning Research, 202, 28492–28518. https://proceedings.mlr.press/v202/radford23a.html",
       "cite": "Radford et al., 2023",
       "checked": "Abstract: speech recognition trained to predict transcripts of audio. ICML 2023.",
       "quotes": [
@@ -274,7 +275,7 @@
       "url": "https://doi.org/10.1145/3630106.3658996",
       "title": "Koenecke, A., Choi, A. S. G., Mei, K. X., Schellmann, H., & Sloane, M. (2024). Careless Whisper: Speech-to-text hallucination harms. In Proceedings of the 2024 ACM Conference on Fairness, Accountability, and Transparency (pp. 1672–1681). Association for Computing Machinery. https://doi.org/10.1145/3630106.3658996",
       "cite": "Koenecke et al., 2024",
-      "checked": "Abstract: about 1% of transcriptions in the study contained invented phrases, more often for speakers with longer pauses.",
+      "checked": "Abstract; Section 3, Results, including the December 2023 rerun of segments that had produced invented text: about 1% of transcriptions in the study contained invented phrases, more often for speakers with longer pauses.",
       "quotes": [
         "entire hallucinated phrases or sentences which did not exist in any form"
       ]
@@ -292,7 +293,7 @@
     {
       "id": 29,
       "url": "https://proceedings.mlr.press/v202/gao23f.html",
-      "title": "Gao, L., Madaan, A., Zhou, S., Alon, U., Liu, P., Yang, Y., Callan, J., & Neubig, G. (2023). PAL: Program-aided language models. Proceedings of Machine Learning Research, 202, 10764–10799.",
+      "title": "Gao, L., Madaan, A., Zhou, S., Alon, U., Liu, P., Yang, Y., Callan, J., & Neubig, G. (2023). PAL: Program-aided language models. Proceedings of Machine Learning Research, 202, 10764–10799. https://proceedings.mlr.press/v202/gao23f.html",
       "cite": "Gao et al., 2023",
       "checked": "Abstract: a model writes a program and a Python interpreter runs it. ICML 2023.",
       "quotes": [
@@ -302,7 +303,7 @@
     {
       "id": 30,
       "url": "https://proceedings.mlr.press/v202/lai23b.html",
-      "title": "Lai, Y., Li, C., Wang, Y., Zhang, T., Zhong, R., Zettlemoyer, L., Yih, W.-t., Fried, D., Wang, S., & Yu, T. (2023). DS-1000: A natural and reliable benchmark for data science code generation. Proceedings of Machine Learning Research, 202, 18319–18345.",
+      "title": "Lai, Y., Li, C., Wang, Y., Zhang, T., Zhong, R., Zettlemoyer, L., Yih, W.-t., Fried, D., Wang, S., & Yu, T. (2023). DS-1000: A natural and reliable benchmark for data science code generation. Proceedings of Machine Learning Research, 202, 18319–18345. https://proceedings.mlr.press/v202/lai23b.html",
       "cite": "Lai et al., 2023",
       "checked": "Abstract: realistic data-science problems in libraries such as NumPy and pandas; the best system tested solved 43.3%. ICML 2023.",
       "quotes": [
@@ -342,7 +343,7 @@
     {
       "id": 34,
       "url": "https://proceedings.neurips.cc/paper_files/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html",
-      "title": "Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W.-t., Rocktäschel, T., Riedel, S., & Kiela, D. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. Advances in Neural Information Processing Systems, 33, 9459–9474.",
+      "title": "Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W.-t., Rocktäschel, T., Riedel, S., & Kiela, D. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. Advances in Neural Information Processing Systems, 33, 9459–9474. https://proceedings.neurips.cc/paper_files/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html",
       "cite": "Lewis et al., 2020",
       "checked": "Abstract: a retriever selects passages that condition generation; provenance and updatable knowledge as motivations. NeurIPS 2020.",
       "quotes": [
@@ -353,7 +354,7 @@
       "id": 35,
       "url": "https://doi.org/10.1162/tacl_a_00638",
       "title": "Liu, N. F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua, M., Petroni, F., & Liang, P. (2024). Lost in the middle: How language models use long contexts. Transactions of the Association for Computational Linguistics, 12, 157–173. https://doi.org/10.1162/tacl_a_00638",
-      "cite": "Liu et al., 2024b",
+      "cite": "N. F. Liu et al., 2024",
       "checked": "Abstract: performance drops when relevant information sits in the middle of a long input.",
       "quotes": [
         "significantly degrades when models must access relevant information in the middle of long contexts"
@@ -373,7 +374,7 @@
       "id": 37,
       "url": "https://doi.org/10.18653/v1/2023.findings-emnlp.467",
       "title": "Liu, N., Zhang, T., & Liang, P. (2023). Evaluating verifiability in generative search engines. In Findings of the Association for Computational Linguistics: EMNLP 2023 (pp. 7001–7025). Association for Computational Linguistics. https://doi.org/10.18653/v1/2023.findings-emnlp.467",
-      "cite": "Liu et al., 2023",
+      "cite": "N. Liu et al., 2023",
       "checked": "Abstract: citation support in four generative search engines as studied in 2023; not a rating of current products.",
       "quotes": [
         "frequently contain unsupported statements and inaccurate citations"
@@ -411,10 +412,10 @@
     },
     {
       "id": 41,
-      "url": "https://doi.org/10.48550/arXiv.2210.03629",
-      "title": "Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., & Cao, Y. (2023). ReAct: Synergizing reasoning and acting in language models. International Conference on Learning Representations. https://doi.org/10.48550/arXiv.2210.03629",
+      "url": "https://openreview.net/forum?id=WE_vluYUL-X",
+      "title": "Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., & Cao, Y. (2023). ReAct: Synergizing reasoning and acting in language models. In International Conference on Learning Representations. https://openreview.net/forum?id=WE_vluYUL-X",
       "cite": "Yao et al., 2023",
-      "checked": "Abstract of the ICLR 2023 camera-ready version (arXiv v3): interleaved reasoning, actions, and observations.",
+      "checked": "Abstract (checked in the camera-ready author manuscript, arXiv:2210.03629v3): interleaved reasoning, actions, and observations. ICLR 2023.",
       "quotes": [
         "actions allow it to interface with external sources, such as knowledge bases or environments"
       ]
@@ -422,9 +423,9 @@
     {
       "id": 42,
       "url": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/4410c0711e9154a7a2d26f9b3816d1ef-Abstract-Conference.html",
-      "title": "Zhou, S., Xu, F. F., Zhu, H., Zhou, X., Lo, R., Sridhar, A., Cheng, X., Ou, T., Bisk, Y., Fried, D., Alon, U., & Neubig, G. (2024). WebArena: A realistic web environment for building autonomous agents. In International Conference on Learning Representations (pp. 15585–15606).",
+      "title": "Zhou, S., Xu, F. F., Zhu, H., Zhou, X., Lo, R., Sridhar, A., Cheng, X., Ou, T., Bisk, Y., Fried, D., Alon, U., & Neubig, G. (2024). WebArena: A realistic web environment for building autonomous agents. In International Conference on Learning Representations (pp. 15585–15606). https://proceedings.iclr.cc/paper_files/paper/2024/hash/4410c0711e9154a7a2d26f9b3816d1ef-Abstract-Conference.html",
       "cite": "Zhou et al., 2024",
-      "checked": "Abstract: realistic web tasks; best agent tested 14.41% end-to-end success against 78.24% for people. ICLR 2024.",
+      "checked": "Abstract: realistic web tasks; best agent tested 14.41% end-to-end success against 78.24% for people. ICLR 2024. Section 3: task intents, including content and configuration operations.",
       "quotes": [
         "our best GPT-4-based agent only achieves an end-to-end task success rate of 14.41%"
       ]
@@ -434,7 +435,7 @@
       "url": "https://doi.org/10.1145/3605764.3623985",
       "title": "Greshake, K., Abdelnabi, S., Mishra, S., Endres, C., Holz, T., & Fritz, M. (2023). Not what you’ve signed up for: Compromising real-world LLM-integrated applications with indirect prompt injection. In Proceedings of the 16th ACM Workshop on Artificial Intelligence and Security (pp. 79–90). Association for Computing Machinery. https://doi.org/10.1145/3605764.3623985",
       "cite": "Greshake et al., 2023",
-      "checked": "Abstract: instructions planted in content an application retrieves can redirect it.",
+      "checked": "Abstract; Section 3.1, injection methods: prompts planted in retrieved web pages, emails, and documents, including ones invisible to the user (checked in arXiv:2302.12173v2).",
       "quotes": [
         "LLM-Integrated Applications blur the line between data and instructions"
       ]

@@ -40,6 +40,8 @@ Intergovernmental education guidance · publication overview. Publication overvi
 > ethical, safe, equitable and meaningful use
 > a human-agent and age-appropriate approach to the ethical validation and pedagogical design
 
+> validate GenAI systems on their ethical and pedagogical appropriateness
+
 ## Source 5
 
 [National Institute of Standards and Technology. (2024). Artificial intelligence risk management framework: Generative artificial intelligence profile (NIST AI 600-1). U.S. Department of Commerce. https://doi.org/10.6028/NIST.AI.600-1](https://doi.org/10.6028/NIST.AI.600-1)
@@ -57,14 +59,14 @@ U.S. government guidance. Sections 2.2 Confabulation (p. 6), 2.4 Data Privacy (p
 
 [National Institute of Standards and Technology. (2023). Artificial intelligence risk management framework (AI RMF 1.0) (NIST AI 100-1). U.S. Department of Commerce. https://doi.org/10.6028/NIST.AI.100-1](https://doi.org/10.6028/NIST.AI.100-1)
 
-U.S. government framework. Section 3 (p. 13: whether AI is an appropriate or necessary tool), 3.1 Valid and Reliable (pp. 13–14), 3.4 Accountable and Transparent (pp. 15–16), and 3.6 Privacy-Enhanced (p. 17).
+U.S. government framework. Section 3 introduction (trustworthiness balanced against context of use; p. 13: whether AI is an appropriate or necessary tool), 3.1 Valid and Reliable (pp. 13–14), 3.4 Accountable and Transparent (pp. 15–16), and 3.6 Privacy-Enhanced (p. 17).
 
 > determine whether AI technology is an appropriate or necessary tool for a given context or purpose
 > A transparent system is not necessarily an accurate, privacy-enhanced, secure, or fair system.
 
 ## Source 7
 
-[Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J. D., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A., Agarwal, S., Herbert-Voss, A., Krueger, G., Henighan, T., Child, R., Ramesh, A., Ziegler, D., Wu, J., Winter, C., . . . Amodei, D. (2020). Language models are few-shot learners. Advances in Neural Information Processing Systems, 33, 1877–1901.](https://proceedings.neurips.cc/paper_files/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html)
+[Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J. D., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A., Agarwal, S., Herbert-Voss, A., Krueger, G., Henighan, T., Child, R., Ramesh, A., Ziegler, D., Wu, J., Winter, C., . . . Amodei, D. (2020). Language models are few-shot learners. Advances in Neural Information Processing Systems, 33, 1877–1901. https://proceedings.neurips.cc/paper_files/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html](https://proceedings.neurips.cc/paper_files/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html)
 
 Peer-reviewed conference paper. Abstract: autoregressive language modeling; tasks specified through text, including translation and question answering. NeurIPS 2020.
 
@@ -72,7 +74,7 @@ Peer-reviewed conference paper. Abstract: autoregressive language modeling; task
 
 ## Source 8
 
-[Ouyang, L., Wu, J., Jiang, X., Almeida, D., Wainwright, C., Mishkin, P., Zhang, C., Agarwal, S., Slama, K., Ray, A., Schulman, J., Hilton, J., Kelton, F., Miller, L., Simens, M., Askell, A., Welinder, P., Christiano, P., Leike, J., & Lowe, R. (2022). Training language models to follow instructions with human feedback. Advances in Neural Information Processing Systems, 35, 27730–27744. https://doi.org/10.52202/068431-2011](https://doi.org/10.52202/068431-2011)
+[Ouyang, L., Wu, J., Jiang, X., Almeida, D., Wainwright, C., Mishkin, P., Zhang, C., Agarwal, S., Slama, K., Ray, A., Schulman, J., Hilton, J., Kelton, F., Miller, L., Simens, M., Askell, A., Welinder, P., Christiano, P. F., Leike, J., & Lowe, R. (2022). Training language models to follow instructions with human feedback. Advances in Neural Information Processing Systems, 35, 27730–27744. https://doi.org/10.52202/068431-2011](https://doi.org/10.52202/068431-2011)
 
 Peer-reviewed conference paper. Abstract: fine-tuning language models with human feedback to follow instructions across a wide range of tasks. NeurIPS 2022.
 
@@ -162,7 +164,7 @@ Peer-reviewed conference paper. Abstract: generated images that replicate conten
 
 [U.S. Copyright Office. (2025). Copyright and artificial intelligence, part 2: Copyrightability. https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf](https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf)
 
-U.S. government report. Section on prompts (p. 18) and Conclusion (p. 41): prompts alone are unlikely to make a user the author of the output. U.S. guidance only; not legal advice.
+U.S. government report. Section II.D, Prompts (pp. 12–18; analysis at p. 18), and Executive Summary (p. iii): with current generally available technology, prompts alone do not provide sufficient control. U.S. guidance only; not legal advice.
 
 > prompts alone do not provide sufficient human control to make users of an AI system the authors of the output
 
@@ -176,7 +178,7 @@ Research preprint (not peer reviewed). Abstract: one text-conditioned video syst
 
 ## Source 21
 
-[Kang, B., Yue, Y., Lu, R., Lin, Z., Zhao, Y., Wang, K., Huang, G., & Feng, J. (2025). How far is video generation from world model: A physical law perspective. Proceedings of Machine Learning Research, 267, 28991–29017.](https://proceedings.mlr.press/v267/kang25g.html)
+[Kang, B., Yue, Y., Lu, R., Lin, Z., Zhao, Y., Wang, K., Huang, G., & Feng, J. (2025). How far is video generation from world model: A physical law perspective. Proceedings of Machine Learning Research, 267, 28991–29017. https://proceedings.mlr.press/v267/kang25g.html](https://proceedings.mlr.press/v267/kang25g.html)
 
 Peer-reviewed conference paper. Abstract: video models trained on simulated motion failed out of distribution and imitated the closest training examples. ICML 2025.
 
@@ -192,7 +194,7 @@ Peer-reviewed systematic review and meta-analysis. Abstract: pooled human detect
 
 ## Source 23
 
-[Radford, A., Kim, J. W., Xu, T., Brockman, G., McLeavey, C., & Sutskever, I. (2023). Robust speech recognition via large-scale weak supervision. Proceedings of Machine Learning Research, 202, 28492–28518.](https://proceedings.mlr.press/v202/radford23a.html)
+[Radford, A., Kim, J. W., Xu, T., Brockman, G., McLeavey, C., & Sutskever, I. (2023). Robust speech recognition via large-scale weak supervision. Proceedings of Machine Learning Research, 202, 28492–28518. https://proceedings.mlr.press/v202/radford23a.html](https://proceedings.mlr.press/v202/radford23a.html)
 
 Peer-reviewed conference paper. Abstract: speech recognition trained to predict transcripts of audio. ICML 2023.
 
@@ -226,7 +228,7 @@ Peer-reviewed journal article. Abstract: speech-recognition bias by gender, age,
 
 [Koenecke, A., Choi, A. S. G., Mei, K. X., Schellmann, H., & Sloane, M. (2024). Careless Whisper: Speech-to-text hallucination harms. In Proceedings of the 2024 ACM Conference on Fairness, Accountability, and Transparency (pp. 1672–1681). Association for Computing Machinery. https://doi.org/10.1145/3630106.3658996](https://doi.org/10.1145/3630106.3658996)
 
-Peer-reviewed conference paper. Abstract: about 1% of transcriptions in the study contained invented phrases, more often for speakers with longer pauses.
+Peer-reviewed conference paper. Abstract; Section 3, Results, including the December 2023 rerun of segments that had produced invented text: about 1% of transcriptions in the study contained invented phrases, more often for speakers with longer pauses.
 
 > entire hallucinated phrases or sentences which did not exist in any form
 
@@ -240,7 +242,7 @@ Research preprint (not peer reviewed). Abstract: generating programs from descri
 
 ## Source 29
 
-[Gao, L., Madaan, A., Zhou, S., Alon, U., Liu, P., Yang, Y., Callan, J., & Neubig, G. (2023). PAL: Program-aided language models. Proceedings of Machine Learning Research, 202, 10764–10799.](https://proceedings.mlr.press/v202/gao23f.html)
+[Gao, L., Madaan, A., Zhou, S., Alon, U., Liu, P., Yang, Y., Callan, J., & Neubig, G. (2023). PAL: Program-aided language models. Proceedings of Machine Learning Research, 202, 10764–10799. https://proceedings.mlr.press/v202/gao23f.html](https://proceedings.mlr.press/v202/gao23f.html)
 
 Peer-reviewed conference paper. Abstract: a model writes a program and a Python interpreter runs it. ICML 2023.
 
@@ -248,7 +250,7 @@ Peer-reviewed conference paper. Abstract: a model writes a program and a Python 
 
 ## Source 30
 
-[Lai, Y., Li, C., Wang, Y., Zhang, T., Zhong, R., Zettlemoyer, L., Yih, W.-t., Fried, D., Wang, S., & Yu, T. (2023). DS-1000: A natural and reliable benchmark for data science code generation. Proceedings of Machine Learning Research, 202, 18319–18345.](https://proceedings.mlr.press/v202/lai23b.html)
+[Lai, Y., Li, C., Wang, Y., Zhang, T., Zhong, R., Zettlemoyer, L., Yih, W.-t., Fried, D., Wang, S., & Yu, T. (2023). DS-1000: A natural and reliable benchmark for data science code generation. Proceedings of Machine Learning Research, 202, 18319–18345. https://proceedings.mlr.press/v202/lai23b.html](https://proceedings.mlr.press/v202/lai23b.html)
 
 Peer-reviewed conference paper. Abstract: realistic data-science problems in libraries such as NumPy and pandas; the best system tested solved 43.3%. ICML 2023.
 
@@ -280,7 +282,7 @@ Peer-reviewed journal article. Abstract: data leakage found in 17 fields, affect
 
 ## Source 34
 
-[Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W.-t., Rocktäschel, T., Riedel, S., & Kiela, D. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. Advances in Neural Information Processing Systems, 33, 9459–9474.](https://proceedings.neurips.cc/paper_files/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html)
+[Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W.-t., Rocktäschel, T., Riedel, S., & Kiela, D. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. Advances in Neural Information Processing Systems, 33, 9459–9474. https://proceedings.neurips.cc/paper_files/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html](https://proceedings.neurips.cc/paper_files/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html)
 
 Peer-reviewed conference paper. Abstract: a retriever selects passages that condition generation; provenance and updatable knowledge as motivations. NeurIPS 2020.
 
@@ -336,17 +338,17 @@ Peer-reviewed survey article. Abstract; Section 2.1.4, Action Module: agents tha
 
 ## Source 41
 
-[Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., & Cao, Y. (2023). ReAct: Synergizing reasoning and acting in language models. International Conference on Learning Representations. https://doi.org/10.48550/arXiv.2210.03629](https://doi.org/10.48550/arXiv.2210.03629)
+[Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., & Cao, Y. (2023). ReAct: Synergizing reasoning and acting in language models. In International Conference on Learning Representations. https://openreview.net/forum?id=WE_vluYUL-X](https://openreview.net/forum?id=WE_vluYUL-X)
 
-Peer-reviewed conference paper · author manuscript. Abstract of the ICLR 2023 camera-ready version (arXiv v3): interleaved reasoning, actions, and observations.
+Peer-reviewed conference paper. Abstract (checked in the camera-ready author manuscript, arXiv:2210.03629v3): interleaved reasoning, actions, and observations. ICLR 2023.
 
 > actions allow it to interface with external sources, such as knowledge bases or environments
 
 ## Source 42
 
-[Zhou, S., Xu, F. F., Zhu, H., Zhou, X., Lo, R., Sridhar, A., Cheng, X., Ou, T., Bisk, Y., Fried, D., Alon, U., & Neubig, G. (2024). WebArena: A realistic web environment for building autonomous agents. In International Conference on Learning Representations (pp. 15585–15606).](https://proceedings.iclr.cc/paper_files/paper/2024/hash/4410c0711e9154a7a2d26f9b3816d1ef-Abstract-Conference.html)
+[Zhou, S., Xu, F. F., Zhu, H., Zhou, X., Lo, R., Sridhar, A., Cheng, X., Ou, T., Bisk, Y., Fried, D., Alon, U., & Neubig, G. (2024). WebArena: A realistic web environment for building autonomous agents. In International Conference on Learning Representations (pp. 15585–15606). https://proceedings.iclr.cc/paper_files/paper/2024/hash/4410c0711e9154a7a2d26f9b3816d1ef-Abstract-Conference.html](https://proceedings.iclr.cc/paper_files/paper/2024/hash/4410c0711e9154a7a2d26f9b3816d1ef-Abstract-Conference.html)
 
-Peer-reviewed conference paper. Abstract: realistic web tasks; best agent tested 14.41% end-to-end success against 78.24% for people. ICLR 2024.
+Peer-reviewed conference paper. Abstract: realistic web tasks; best agent tested 14.41% end-to-end success against 78.24% for people. ICLR 2024. Section 3: task intents, including content and configuration operations.
 
 > our best GPT-4-based agent only achieves an end-to-end task success rate of 14.41%
 
@@ -354,6 +356,6 @@ Peer-reviewed conference paper. Abstract: realistic web tasks; best agent tested
 
 [Greshake, K., Abdelnabi, S., Mishra, S., Endres, C., Holz, T., & Fritz, M. (2023). Not what you’ve signed up for: Compromising real-world LLM-integrated applications with indirect prompt injection. In Proceedings of the 16th ACM Workshop on Artificial Intelligence and Security (pp. 79–90). Association for Computing Machinery. https://doi.org/10.1145/3605764.3623985](https://doi.org/10.1145/3605764.3623985)
 
-Peer-reviewed workshop paper. Abstract: instructions planted in content an application retrieves can redirect it.
+Peer-reviewed workshop paper. Abstract; Section 3.1, injection methods: prompts planted in retrieved web pages, emails, and documents, including ones invisible to the user (checked in arXiv:2302.12173v2).
 
 > LLM-Integrated Applications blur the line between data and instructions

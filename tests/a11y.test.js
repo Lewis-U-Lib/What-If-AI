@@ -32,6 +32,7 @@ const STATES = [
   ['What If AI · walkthrough, first step', 'what-if-ai.html', async p => { await p.click('.hdr [data-open-tour]'); }],
   ['What If AI · walkthrough, last step', 'what-if-ai.html#tour', async p => { await p.keyboard.press('End'); }],
   ['What If AI · how this site works', 'what-if-ai.html', async p => { await p.click('.hdr [data-open-about]'); }],
+  ['What If AI · how this site works, last slide', 'what-if-ai.html', async p => { await p.click('.hdr [data-open-about]'); await p.keyboard.press('End'); }],
   ['What If AI · question two (back navigation available)', 'what-if-ai.html#q=task&a=focus:teaching', async p => {}],
     ['What If AI · saved drawer empty', 'what-if-ai.html', async p => { await p.evaluate(() => SITE.Saved.clear()); await p.click('.topbar [data-open-saved]'); }],
   ['The Register · activities', 'register.html#activities', async p => {}],
@@ -47,6 +48,8 @@ const STATES = [
     await p.$eval('#actDialog .note--caution', e => e.scrollIntoView({block:'center'})); }],
   ['The Register · source items open to adapt', 'register.html#activities?set=synthesis&open=1', async p => {}],
   ['The Register · types of AI systems', 'register.html#ai-types', async p => {}],
+  ['The Register · AI-system details, References slide', 'register.html#ai-types', async p => {
+    await p.click('[data-open-type="agentic"]'); await p.keyboard.press('End'); }],
   ['The Register · AI guide references expanded', 'register.html#ai-types', async p => {
     await p.click('.type-bibliography__list > summary'); }],
   ['The Register · AI-system details dialog', 'register.html#ai-types', async p => {

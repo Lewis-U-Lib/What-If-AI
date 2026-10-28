@@ -158,6 +158,12 @@ button.hdr-cta{font:inherit;font-family:var(--font-h);font-weight:700;letter-spa
 .tour__art{padding:10px;border-radius:10px;background:var(--paper);
   box-shadow:0 0 0 5px #3d0a15,0 0 0 6px rgba(222,187,112,.35),0 10px 24px rgba(0,0,0,.45);}
 .tour__art svg{display:block;width:100%;height:auto;}
+/* How this site works: every slide shares one grid cell, like The Register's walkthrough, so the frame keeps
+   the height of the tallest slide and Previous and Next never move */
+.about .tour__slides{display:grid;}
+.about .tour__slide{grid-area:1/1;}
+.about .tour__slide.is-off{visibility:hidden;}
+.about .tour__slide.is-off *{transition:none;}
 .tour__text h3{font-size:clamp(24px,2.6vw,29px);font-weight:800;color:var(--gold);margin:0 0 10px;}
 .tour__text p{color:var(--ink);font-size:17px;margin:0 0 10px;}
 .tour__foot{align-items:center;gap:10px 14px;}

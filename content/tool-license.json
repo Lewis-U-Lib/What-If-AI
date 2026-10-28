@@ -39,12 +39,12 @@
   ],
   "input_sha256": {
     "acts.json": "9c077c6f9c6a20f7a94ece50cbd44b759dd93a6876307a483865882fcbab1f59",
-    "register.json": "7fd3db5a89d0414075e1e5bb0760caf578cc01b9acb8dc03fca72490a6249dc9",
+    "register.json": "ce8beeaf246c08b8fca0118c072b2c3e6f095e9c54751682c609bd726dec206b",
     "guide.json": "22dbfe42766273bbf490c52711d20ef97df9cb3c5b45ac3e08495684db13b4eb"
   },
   "output_sha256": {
     "acts.json": "7f0d5dff0b215ca93aff2e94612348d7ffc93312b624a32a4d01bc6b0f241a8a",
-    "register.json": "7fd3db5a89d0414075e1e5bb0760caf578cc01b9acb8dc03fca72490a6249dc9",
+    "register.json": "ce8beeaf246c08b8fca0118c072b2c3e6f095e9c54751682c609bd726dec206b",
     "guide.json": "22dbfe42766273bbf490c52711d20ef97df9cb3c5b45ac3e08495684db13b4eb"
   },
   "clarified_ids": [
@@ -314,6 +314,6 @@
     "src/fonts/jetbrains-mono-latin-ext.woff2": "db5ff4db83e580426280e9337a58dc57d3a83784a1b03ad80914651594441d52",
     "src/fonts/jetbrains-mono-latin.woff2": "83c005d49d8a6a50474c73a5a36ac0468076e9c4a29da7bdb14995d80560a5be",
     "src/img/logo.png": "95179ca7b620eee75cf0ebc357e414fe87a535fde8ffc68728979d02fa6fb6fb",
-    "src/js/register-type-examples.js": "58db8e07fc9138e7ac99a5e1c1867fac7948e46aac1a7e6658ec5224312b23a0"
+    "src/js/register-type-examples.js": "5ddd7230d9f14b7378166f5576db89776d744a217f407644ebb7d5baac38613a"
   }
 }

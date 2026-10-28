@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "reviewed": "2026-10-08",
-  "reviewed_label": "October 8, 2026",
+  "reviewed": "2026-10-28",
+  "reviewed_label": "October 28, 2026",
   "title": "Types of AI systems",
   "intro": [
     {
-      "text": "Use-case ideas in this collection do not require a particular product. Each one records what a tool has to be able to do, such as hold a text conversation, answer from documents you supply, or generate an image. This guide describes those kinds of systems in general terms, so you can recognize which kind a tool is, whatever it is called this year.",
+      "text": "Each use-case idea in this collection records what a tool has to be able to do, such as hold a text conversation, answer from documents you supply, or generate an image — or that no tool is needed. This guide describes those kinds of systems in general terms, so you can recognize which kind a tool is, whatever it is called this year.",
       "refs": []
     },
     {
@@ -17,6 +17,7 @@
     {
       "text": "A modality is a form of information, such as text, images, or sound; multimodal systems work across more than one. A task is what a system does with that information, such as generating new content or predicting and classifying. Learning approaches, such as supervised learning from labeled examples, are a further distinction.",
       "refs": [
+        1,
         2,
         3
       ]
@@ -26,7 +27,11 @@
       "refs": []
     }
   ],
-  "scope": "Research studies explain how kinds of systems work and what researchers found when they tested particular systems at a particular time; they are not ratings of the products available today. The illustrative uses describe related ideas in this collection; they are not tested teaching interventions or institutional approval.",
+  "qualifiers": [
+    "Product links are examples, not evidence for the whole category.",
+    "Sources outline how kinds of systems work and what researchers found when they tested at a particular time — they are not analyses of current iterations available today.",
+    "The illustrative uses describe related ideas in this collection — they are not tested teaching interventions or institutional approval."
+  ],
   "groups": [
     {
       "key": "capabilities",
@@ -64,30 +69,29 @@
   ],
   "general": [
     {
-      "text": "Consider whether an AI tool serves the learning goal at all. UNESCO’s guidance treats that question as part of ethical validation and pedagogical design, with attention to human agency and age-appropriate use.",
+      "text": "Does an AI tool serve the learning goal at all? UNESCO’s guidance calls for educational institutions to validate generative AI systems for their ethical and pedagogical appropriateness.",
       "refs": [
         4
       ]
     },
     {
-      "text": "Consider what information goes into a tool and where it goes. Generative models can leak or infer personal information, and how a tool is hosted or labeled does not by itself establish privacy or accuracy.",
-      "refs": [
-        5,
-        6
-      ]
-    },
-    {
-      "text": "Consider whether every participant can use the tool at no cost, without creating a personal account, and with assistive technology.",
-      "refs": []
-    },
-    {
-      "text": "Consider how outputs will be checked. Generative systems can present false content confidently, including invented citations, and people tend to over-rely on automated output.",
+      "text": "What information goes into a tool, and where does it go? Generative models can leak or infer personal information.",
       "refs": [
         5
       ]
     },
     {
-      "text": "Consider how the use of AI will be acknowledged: what was generated, what was checked, and who is responsible for the final work. NIST treats accountability and transparency as characteristics of trustworthy AI.",
+      "text": "Can every participant use the tool at no cost, without creating a personal account, and with assistive technology?",
+      "refs": []
+    },
+    {
+      "text": "How will outputs be checked? Generative systems can present false content confidently, including invented citations, and people may over-rely on automated output.",
+      "refs": [
+        5
+      ]
+    },
+    {
+      "text": "How will the use of AI be acknowledged: what was generated, what was checked, and who is responsible for the final work? NIST treats accountability and transparency as characteristics of trustworthy AI.",
       "refs": [
         6
       ]
@@ -97,11 +101,11 @@
     "conversational": {
       "name": "Language models and conversational AI",
       "preview": "Generate and revise text through instructions and conversation.",
-      "what": "A large language model generates text by predicting likely continuations of what it is given. Chat assistants are language models further trained, often with human feedback, to follow instructions; the conversation is an interface to that system, not a separate kind of AI.",
-      "does": "Produces drafts, explanations, summaries, and answers in plain language, and revises them in response to feedback. Research evaluations show such models translating, answering questions, and following a wide range of written instructions.",
-      "io": "Typed instructions, questions, examples, or pasted text go in; generated text comes out, such as prose, lists, outlines, tables, or code. Image input, web search, and tool use are features of a wider system and are described separately.",
+      "what": "A large language model generates text by predicting likely continuations of what it is given. Language models can be further trained, often with human feedback, to follow written instructions; a chat assistant is an interface to such a model, not a separate kind of AI.",
+      "does": "Produces drafts, explanations, summaries, and answers in plain language. Research evaluations show such models translating, answering questions, and following a wide range of written instructions.",
+      "io": "Typed instructions, questions, examples, or pasted text go in; generated text comes out, such as prose, lists, outlines, or tables. Image input, web search, and tool use are features of a wider system and are described separately.",
       "why": "Most use-case ideas in the collection need at least this capability. Related ideas use a model as a drafting partner, a conversation partner, or the object of study — for example, comparing a model’s interpretation of a short story with a group’s own readings of the text.",
-      "limits": "Output can be fluent and wrong, including invented references. Responses vary from one attempt to the next, can reflect social biases in training data, and may not reflect recent events unless the system retrieves current information. Consider checking factual claims and references against sources you can inspect.",
+      "limits": "Output can be fluent and wrong, including invented references. Responses vary from one attempt to the next, can reflect social biases in training data, and may not reflect recent events unless the system retrieves current information. How will factual claims and references be checked against sources you can inspect?",
       "citations": {
         "what": [
           7,
@@ -126,11 +130,11 @@
     "multimodal": {
       "name": "Image understanding and multimodal AI",
       "preview": "Describe, transcribe, and answer questions about images, scans, and figures.",
-      "what": "Multimodal models process and relate more than one form of information, such as language, images, and sound. A common kind, the multimodal large language model, accepts photographs, scanned pages, charts, diagrams, or screenshots alongside a question and answers in text.",
+      "what": "Multimodal models process and relate more than one form of information, such as language, images, and sound. A common kind, the multimodal large language model, builds on a language model and extends it to images and other inputs.",
       "does": "Describes and interprets images, reads text in photographs and scans, explains figures and charts, and answers questions about what an image shows.",
       "io": "Images or files plus a question go in; descriptions, transcriptions, or explanations come out as text. Accepting images does not by itself mean a system can also generate them.",
       "why": "Related ideas involve visual sources in teaching and research — for example, checking a machine transcription of handwritten archival pages line by line against the page image, or drafting image descriptions for course materials and then verifying each one.",
-      "limits": "Interpretations can be confidently wrong, especially for specialist images, handwriting, and charts. Benchmark studies report weaknesses with handwritten text and accuracy well short of expert level on college-level questions about charts, diagrams, maps, and tables. Images can show identifiable people or sensitive information, so consider whether they need to be uploaded at all.",
+      "limits": "Interpretations can be confidently wrong, especially for specialist images and handwriting. Benchmark studies of models tested in 2023 and 2024 reported weaknesses with handwritten text and, on college-level questions built around charts, diagrams, maps, tables, and other images, accuracy well below that of human experts. Images can show identifiable people or sensitive information. Do they need to be uploaded at all?",
       "citations": {
         "what": [
           2,
@@ -154,11 +158,11 @@
     "image": {
       "name": "Image generation",
       "preview": "Create or edit images from text descriptions or visual guidance.",
-      "what": "Image generators produce new images from a text description and, in some tools, edit or extend an existing image. Diffusion models, one widely used approach, build an image through a series of denoising steps that can be guided by text or other inputs.",
+      "what": "Image generators produce new images from a text description and, in some tools, edit an existing image. Diffusion models, the approach in the cited research, build an image through a series of denoising steps that can be guided by text or other inputs.",
       "does": "Produces illustrations, concept images, and visual variations from written descriptions. The cited research also demonstrates filling in missing parts of an image and increasing its resolution; not every tool offers these features.",
       "io": "A text prompt goes in, sometimes with a reference image or a layout; one or more images come out.",
       "why": "Related ideas appear mostly in teaching, often in arts and design courses and in activities that examine how generated images represent people — for example, giving peer feedback on portraits generated from partners’ sketches, or composing prompts to surface gender bias and analyzing where it appears.",
-      "limits": "Outputs can reproduce stereotypes even when a prompt asks for something different, and they sometimes closely copy images from their training data. How copyright applies to generated images and to training on others’ work is still being debated; U.S. Copyright Office guidance concludes that prompts alone are unlikely to make a user the author of the output. Realistic images of real people or events can mislead if they are not labeled.",
+      "limits": "Outputs can reproduce stereotypes even when a prompt asks for something different, and they sometimes closely copy images from their training data. How copyright applies to generated images and to training on others’ work is still being debated; in a 2025 report, the U.S. Copyright Office concluded that, with current generally available technology, prompts alone do not give a user enough control to be the author of the output. Realistic images of real people or events can mislead if they are not labeled.",
       "citations": {
         "what": [
           16
@@ -182,9 +186,9 @@
       "preview": "Produce short video clips from text, images, or footage.",
       "what": "Video generators produce moving images, typically from a written description. Research systems such as Imagen Video extend diffusion methods from single images to sequences of frames.",
       "does": "Generates or animates scenes from a description. Imagen Video, one research example, combines a base video model with stages that raise spatial and temporal resolution; this is one design, not the architecture of every product.",
-      "io": "In the cited research, a text prompt conditions the generated video. Products may also accept images, footage, or scripts; check each product’s documentation for its inputs and editing controls.",
+      "io": "In the cited research, a text prompt conditions the generated video. Products may also accept images, footage, or scripts, and their inputs and editing controls vary.",
       "why": "Related ideas are few and mostly in teaching — for example, checking a generated previsualization clip against a handwritten shot specification, or building matched sets of filmed and generated clips to practice recognizing synthetic video.",
-      "limits": "Motion can depart from physical reality: in one study, video models imitated the closest training examples rather than learning physical laws, and they failed on unfamiliar scenarios. Realistic synthetic video of people raises consent, disclosure, and misinformation concerns, and across many studies people detected deepfakes at about chance levels. Consider how any generated video will be labeled and whether every participant can access the tool.",
+      "limits": "Motion can depart from physical reality: in one study, video models trained on simple simulated motion imitated the closest training examples rather than learning the underlying physical laws, and they failed on scenarios unlike their training data. Realistic synthetic video of people raises consent, disclosure, and misinformation concerns, and across many studies people detected deepfakes at about chance levels. How will any generated video be labeled?",
       "citations": {
         "what": [
           20
@@ -208,8 +212,8 @@
       "what": "These systems work with sound. Speech recognition converts speech into text; speech synthesis produces spoken audio from text; audio generation produces or continues sounds such as speech or music.",
       "does": "Transcribes recorded speech, reads text aloud in a synthetic voice, and continues speech or music from a short audio prompt. These are separate tasks: evidence about one does not establish performance on another.",
       "io": "Recognition takes audio and returns a transcript. Text-to-speech takes text and returns audio. In the cited audio-generation research, a short audio prompt conditions further audio.",
-      "why": "Related ideas include accessibility, qualitative research, language learning, and media projects — for example, comparing an automated first-pass interview transcript with a manual one, or correcting automatic captions for course video before publishing them.",
-      "limits": "Recognition accuracy varies across speakers, with documented differences by age, gender, and accent, so transcripts need checking; one study found that about 1 percent of transcriptions contained entire invented phrases, more often for speakers with longer pauses. Consider consent, and any required ethics approval, when recording people. Synthetic and cloned voices raise consent and impersonation concerns, and listeners often cannot reliably tell them from real speech.",
+      "why": "Related ideas include voice role-play rehearsal, accessibility, qualitative research, language learning, and media projects — for example, comparing an automated first-pass transcript of qualitative research audio with a manual one, or correcting automatic captions for course video before publishing them.",
+      "limits": "Recognition accuracy varies across speakers, with documented differences by age, gender, and accent. In one study of OpenAI’s Whisper service, run in April and May 2023, about 1 percent of transcriptions contained entire invented phrases, more often for speakers with longer pauses; when the authors reran those segments in December 2023, far fewer produced invented text. How will transcripts be checked, and what consent or ethics approval does recording people require? Synthetic and cloned voices raise consent and impersonation concerns, and listeners often cannot reliably tell them from real speech.",
       "citations": {
         "what": [
           23,
@@ -238,10 +242,10 @@
       "name": "Code generation and data analysis",
       "preview": "Write, explain, and run code, including analyses of uploaded data.",
       "what": "Code models generate program text from a description, a partial program, or surrounding code. Some tools also run the code they write and return the results; writing code and running it are separate operations.",
-      "does": "Proposes code from a description and, when connected to a runtime, runs analyses and produces charts and tables from data. In research, handing calculations to an interpreter made results more accurate than having the model reason them out in text.",
-      "io": "A description, data file, or existing code goes in; proposed code comes out, along with charts, tables, and written interpretations when the code is run.",
-      "why": "Related ideas are split between teaching and faculty research and administration — for example, translating a reporting request into a database query, or classifying measured infrared spectra in a Python practical.",
-      "limits": "Code can run and still be wrong. On a benchmark of realistic data-science problems, the best system of its time solved fewer than half, and in one user study, people with an AI assistant wrote less secure code while believing it more secure. Analyses can apply inappropriate methods or silently mishandle data, so consider reviewing the code, not only the result. Uploading research or student data raises confidentiality questions.",
+      "does": "Proposes code from a description and, when connected to a runtime, runs analyses and produces charts and tables from data. In one study of math, symbolic, and algorithmic reasoning tasks, having the model write a program for an interpreter to run gave more accurate answers than having it reason in text.",
+      "io": "A description, data, or existing code goes in; proposed code comes out, along with the results of running it when a tool runs the code.",
+      "why": "Related ideas are split almost evenly between teaching and faculty research, with a few in administration — for example, translating a reporting request into a database query, or having a coding assistant build an epidemic curve from an outbreak dataset and auditing it against the raw records.",
+      "limits": "Code can run and still be wrong. On a benchmark of realistic data-science problems, the best public system its authors tested solved fewer than half, and in one user study, participants with an AI assistant wrote less secure code and were more likely to believe it was secure. Has the code been reviewed, not only the result?",
       "citations": {
         "what": [
           28,
@@ -254,39 +258,40 @@
         ],
         "io": [
           28,
-          29
+          29,
+          30
         ],
         "limits": [
           30,
-          31,
-          5
+          31
         ]
       }
     },
     "discipline": {
       "name": "Prediction, classification, and pattern finding",
       "preview": "Learn from data to assign labels, estimate outcomes, or find structure.",
-      "what": "Machine learning also includes models that predict, classify, or find structure rather than generate content. Supervised learning learns from examples with known answers; unsupervised learning looks for structure without them. Many such models are built for one field or one kind of data.",
+      "what": "Machine learning also includes models that predict, classify, or find structure rather than generate content. Supervised learning learns from examples with known answers; unsupervised learning looks for structure without them. Some such models are built for one field or one kind of data, such as protein structure prediction.",
       "does": "Assigns categories, estimates values, or groups similar observations — for example, filtering spam, recognizing faces in images, or predicting a protein’s structure.",
       "io": "Measurements, images, documents, sequences, or other data go in; labels, estimates, groupings, or predicted structures come out.",
-      "why": "Related ideas come mostly from faculty research in the sciences — for example, adapting a microscopy segmentation model through corrective annotation, or ordering systematic-review screening with active learning while a person makes every inclusion decision. These ideas were linked individually, so they are a selection rather than every predictive use in the collection.",
-      "limits": "Results depend on the data a model learned from and may not transfer to local conditions. Data leakage, a common methodological error, has been found in hundreds of published studies across many fields, in some cases producing wildly overoptimistic conclusions, and even high-confidence structure predictions can differ from experimental data. Consider validating against known cases and examining errors for relevant groups, not only overall accuracy.",
+      "why": "Most related ideas come from faculty research, much of it in the sciences — for example, adapting a microscopy segmentation model through corrective annotation, or ordering systematic-review screening with active learning while a person makes every inclusion decision. These ideas were linked individually, so they are a selection rather than every predictive use in the collection.",
+      "limits": "Results depend on the data a model learned from and may not transfer to local conditions. Data leakage, a common methodological error, has been found in hundreds of published studies across many fields, in some cases producing greatly overstated results, and even high-confidence structure predictions can differ from experimental data. Has the model been validated against known cases, with errors examined for relevant groups and not only overall accuracy?",
       "citations": {
         "what": [
-          3
+          3,
+          32
         ],
         "does": [
           3,
           32
         ],
         "io": [
-          3
+          3,
+          32
         ],
         "limits": [
           33,
           32,
-          6,
-          5
+          6
         ]
       }
     },
@@ -294,38 +299,41 @@
       "name": "Document-grounded generation and RAG",
       "preview": "Answer from a set of documents you choose.",
       "what": "A document-grounded system answers from documents you supply, such as readings, a syllabus, transcripts, or policies, rather than only from what the model learned in training. Some document-grounded systems place supplied text directly in the model’s context. Retrieval-augmented generation (RAG) instead uses a retriever to select relevant passages, which a generator uses to compose an answer.",
-      "does": "Finds and summarizes relevant passages, answers questions about the material, compares documents, and points back to the passages it used. Researchers developed retrieval partly to give answers traceable sources and knowledge that can be updated.",
-      "io": "Uploaded files or linked sources plus questions go in; answers, summaries, or notes come out, usually with references to the supplied passages. These tools typically start with a collection you supply; check whether the tool also searches other sources.",
+      "does": "Finds relevant passages, answers questions about the material, summarizes it, and cites the passages it drew on. Researchers developed retrieval-augmented generation partly to give answers traceable sources and knowledge that can be updated.",
+      "io": "Uploaded files or linked sources plus questions go in; answers, summaries, or notes come out, often with citations to the passages used. Does the tool answer only from the supplied collection, or does it also search other sources?",
       "why": "Related ideas keep an activity inside a defined set of sources — for example, reviewing a faculty-authored proposal against a supplied solicitation, or auditing the quotations in a history essay with an assistant limited to the course sources.",
-      "limits": "Answers are only as good as what is retrieved: a system can misread, overgeneralize, or miss passages, and language models use information in the middle of long inputs less reliably. An evaluation of legal research tools built on retrieval found incorrect or misgrounded answers in 17 to 33 percent of queries, despite providers’ claims. Uploading documents raises copyright, privacy, and retention questions, especially for student work and unpublished research.",
+      "limits": "Errors can come from retrieval or from what the model does with retrieved text: a system can miss relevant passages, misread them, or rely on ones that do not apply, and language models use information in the middle of long inputs less reliably. An evaluation of legal research tools built on retrieval found incorrect or misgrounded answers in 17 to 33 percent of queries, despite providers’ claims. Who can see uploaded documents, how long are they kept, and do copyright and privacy terms allow uploading them — especially student work and unpublished research?",
       "citations": {
         "what": [
-          34
+          34,
+          35
         ],
         "does": [
-          34
+          34,
+          36
         ],
         "io": [
-          34
+          34,
+          36
         ],
         "limits": [
           35,
-          36,
-          5
+          36
         ]
       }
     },
     "search": {
       "name": "AI-assisted search and research",
       "preview": "Search the web or scholarly indexes and synthesize answers with links.",
-      "what": "An AI search system retrieves current or external information from the web, a scholarly index, or a database and composes a response from what it finds, with in-line citations. The service determines its available indexes and sources, and some tools also let you limit the search.",
+      "what": "An AI search system retrieves information from the web or a scholarly index and composes a response from what it finds, often with in-line citations.",
       "does": "Searches, gathers, and summarizes sources, suggests related literature, and attaches links or citations to its answers.",
       "io": "A question or search terms go in; a synthesized answer with links, citations, or lists of papers comes out. What it can find depends on what the service indexes and can reach.",
       "why": "Related ideas center on finding and checking information — for example, exploring a subject literature with AI tools alongside library keyword searching, or looking for newer measurements comparable to a cited statistic.",
-      "limits": "Coverage depends on what the system can reach: in one evaluation across four reviews, an AI research tool found, on average, fewer than half of the studies that structured database searches found, though it surfaced some they missed. Citations can be attached to statements they do not support, and summaries of research often state findings more broadly than the original studies do. Consider checking key claims against the original source and the databases your field relies on.",
+      "limits": "In one 2025 evaluation against four published evidence syntheses, an AI research tool found, on average, fewer than half of the studies those reviews included, though it surfaced some eligible studies their searches had missed. Citations can be attached to statements they do not support, and model-written summaries of research often state findings more broadly than the original studies do. How will key claims be checked against the original source and the databases your field relies on?",
       "citations": {
         "what": [
-          37
+          37,
+          38
         ],
         "does": [
           37,
@@ -346,10 +354,10 @@
       "name": "Tool-using agents and workflows",
       "preview": "Carry out multi-step tasks by taking actions in tools or applications.",
       "what": "An agent is a system in which a model carries out multi-step tasks, calling other tools, moving between applications, or taking actions with some degree of autonomy. ReAct, an early research example, interleaves the model’s reasoning with actions and the observations they return.",
-      "does": "Chains steps together, such as gathering information, filling in documents, sorting records, drafting messages, or updating connected systems. The tools it is given determine what actions are possible.",
+      "does": "Chains steps together, such as searching for information, navigating websites, posting messages, or changing content and settings in connected systems. The tools it is given determine what actions are possible.",
       "io": "A goal or instruction goes in, along with access to tools or data; outputs include action requests, completed steps, documents, or changes in connected systems.",
-      "why": "Related ideas appear mainly in administrative and research workflows and in activities that audit an agent’s work — for example, scoring a read-only email-triage agent on a simulated inbox before any real deployment, or auditing a coding agent’s commits in a research repository.",
-      "limits": "Errors can compound across steps: in a realistic web-task benchmark, the best agent tested completed about 14 percent of tasks, compared with 78 percent for people. Content an agent reads, such as a web page or document, can carry hidden instructions that redirect it. Consider what the system may access or change, where a person reviews its work, and who is accountable for the result.",
+      "why": "Related ideas span teaching, administrative, and research settings, and many check or audit an agent’s work — for example, scoring a read-only email-triage agent on a simulated inbox before any real deployment, or auditing a coding agent’s commits in a research repository.",
+      "limits": "In a realistic web-task benchmark published in 2024, the best agent its authors tested completed about 14 percent of tasks end to end, compared with 78 percent for people. Content an agent reads, such as a web page or document, can carry hidden instructions that redirect it. What may the system access or change, where does a person review its work, and who is accountable for the result?",
       "citations": {
         "what": [
           40,
@@ -357,7 +365,8 @@
         ],
         "does": [
           40,
-          41
+          41,
+          42
         ],
         "io": [
           41,
@@ -372,16 +381,15 @@
     },
     "institutional": {
       "name": "Institutional access and self-hosted AI",
-      "preview": "Ask who provides the system, controls access, and handles data.",
+      "preview": "Who provides the system, controls access, and handles data?",
       "what": "This is an access and deployment choice, not a model capability: versions of the systems above provided through an institutional agreement, or run on infrastructure the institution controls, rather than through a personal account.",
-      "does": "Can offer similar capabilities under negotiated terms, such as limits on how submitted data is retained or used, sign-in with institutional credentials, and access for everyone in a course. The OECD treats the context of use as its own classification dimension, and NIST assesses trustworthiness across deployment and use.",
+      "does": "Can offer similar capabilities under terms the institution sets, such as how submitted data is retained or used, how people sign in, and who has access. NIST’s framework weighs a system’s trustworthiness in light of its context of use.",
       "io": "Inputs and outputs depend on the underlying model and connected tools; the access arrangement does not tell you whether a system handles text, images, audio, or other data.",
-      "why": "Related ideas ask what goes into a model and who can see it — for example, mapping where data goes during a training job in an institution’s managed environment, or checking a confidential draft review on a local, offline model so the manuscript stays out of outside services.",
-      "limits": "An institutional label is not evidence of accuracy, privacy, or approval for a particular use; terms differ, and not every feature is available in every environment. As NIST puts it, a transparent system is not necessarily accurate, privacy-enhanced, secure, or fair. Consider checking institutional guidance on approved tools and data classification before using any AI tool with student work, research data, or confidential information.",
+      "why": "Related ideas ask what goes into a model and who can see it — for example, mapping where data goes during a training job in an institution’s managed environment, or checking a confidential draft peer review on a local, offline model, with the manuscript kept out of every tool.",
+      "limits": "An institutional agreement is not by itself evidence of accuracy, privacy, or approval for a particular use. Published terms can make a system more transparent, but as NIST puts it, a transparent system is not necessarily accurate, privacy-enhanced, secure, or fair. What does institutional guidance say about approved tools and data classification for student work, research data, or confidential information?",
       "citations": {
         "what": [],
         "does": [
-          1,
           6
         ],
         "io": [],
@@ -450,12 +458,12 @@
       "title": "National Institute of Standards and Technology. (2023). Artificial intelligence risk management framework (AI RMF 1.0) (NIST AI 100-1). U.S. Department of Commerce. https://doi.org/10.6028/NIST.AI.100-1",
       "url": "https://doi.org/10.6028/NIST.AI.100-1",
       "kind": "U.S. government framework",
-      "locator": "Section 3 (p. 13: whether AI is an appropriate or necessary tool), 3.1 Valid and Reliable (pp. 13–14), 3.4 Accountable and Transparent (pp. 15–16), and 3.6 Privacy-Enhanced (p. 17).",
+      "locator": "Section 3 introduction (trustworthiness balanced against context of use; p. 13: whether AI is an appropriate or necessary tool), 3.1 Valid and Reliable (pp. 13–14), 3.4 Accountable and Transparent (pp. 15–16), and 3.6 Privacy-Enhanced (p. 17).",
       "cite": "NIST, 2023"
     },
     {
       "id": 7,
-      "title": "Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J. D., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A., Agarwal, S., Herbert-Voss, A., Krueger, G., Henighan, T., Child, R., Ramesh, A., Ziegler, D., Wu, J., Winter, C., . . . Amodei, D. (2020). Language models are few-shot learners. Advances in Neural Information Processing Systems, 33, 1877–1901.",
+      "title": "Brown, T., Mann, B., Ryder, N., Subbiah, M., Kaplan, J. D., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A., Agarwal, S., Herbert-Voss, A., Krueger, G., Henighan, T., Child, R., Ramesh, A., Ziegler, D., Wu, J., Winter, C., . . . Amodei, D. (2020). Language models are few-shot learners. Advances in Neural Information Processing Systems, 33, 1877–1901. https://proceedings.neurips.cc/paper_files/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html",
       "url": "https://proceedings.neurips.cc/paper_files/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html",
       "kind": "Peer-reviewed conference paper",
       "locator": "Abstract: autoregressive language modeling; tasks specified through text, including translation and question answering. NeurIPS 2020.",
@@ -463,7 +471,7 @@
     },
     {
       "id": 8,
-      "title": "Ouyang, L., Wu, J., Jiang, X., Almeida, D., Wainwright, C., Mishkin, P., Zhang, C., Agarwal, S., Slama, K., Ray, A., Schulman, J., Hilton, J., Kelton, F., Miller, L., Simens, M., Askell, A., Welinder, P., Christiano, P., Leike, J., & Lowe, R. (2022). Training language models to follow instructions with human feedback. Advances in Neural Information Processing Systems, 35, 27730–27744. https://doi.org/10.52202/068431-2011",
+      "title": "Ouyang, L., Wu, J., Jiang, X., Almeida, D., Wainwright, C., Mishkin, P., Zhang, C., Agarwal, S., Slama, K., Ray, A., Schulman, J., Hilton, J., Kelton, F., Miller, L., Simens, M., Askell, A., Welinder, P., Christiano, P. F., Leike, J., & Lowe, R. (2022). Training language models to follow instructions with human feedback. Advances in Neural Information Processing Systems, 35, 27730–27744. https://doi.org/10.52202/068431-2011",
       "url": "https://doi.org/10.52202/068431-2011",
       "kind": "Peer-reviewed conference paper",
       "locator": "Abstract: fine-tuning language models with human feedback to follow instructions across a wide range of tasks. NeurIPS 2022.",
@@ -515,7 +523,7 @@
       "url": "https://doi.org/10.1007/s11432-024-4235-6",
       "kind": "Peer-reviewed journal article",
       "locator": "Abstract (open author manuscript, arXiv:2305.07895): text reading in images and documents, with weaknesses on handwritten and multilingual text.",
-      "cite": "Liu et al., 2024a"
+      "cite": "Y. Liu et al., 2024"
     },
     {
       "id": 15,
@@ -554,7 +562,7 @@
       "title": "U.S. Copyright Office. (2025). Copyright and artificial intelligence, part 2: Copyrightability. https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf",
       "url": "https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf",
       "kind": "U.S. government report",
-      "locator": "Section on prompts (p. 18) and Conclusion (p. 41): prompts alone are unlikely to make a user the author of the output. U.S. guidance only; not legal advice.",
+      "locator": "Section II.D, Prompts (pp. 12–18; analysis at p. 18), and Executive Summary (p. iii): with current generally available technology, prompts alone do not provide sufficient control. U.S. guidance only; not legal advice.",
       "cite": "U.S. Copyright Office, 2025"
     },
     {
@@ -567,7 +575,7 @@
     },
     {
       "id": 21,
-      "title": "Kang, B., Yue, Y., Lu, R., Lin, Z., Zhao, Y., Wang, K., Huang, G., & Feng, J. (2025). How far is video generation from world model: A physical law perspective. Proceedings of Machine Learning Research, 267, 28991–29017.",
+      "title": "Kang, B., Yue, Y., Lu, R., Lin, Z., Zhao, Y., Wang, K., Huang, G., & Feng, J. (2025). How far is video generation from world model: A physical law perspective. Proceedings of Machine Learning Research, 267, 28991–29017. https://proceedings.mlr.press/v267/kang25g.html",
       "url": "https://proceedings.mlr.press/v267/kang25g.html",
       "kind": "Peer-reviewed conference paper",
       "locator": "Abstract: video models trained on simulated motion failed out of distribution and imitated the closest training examples. ICML 2025.",
@@ -583,7 +591,7 @@
     },
     {
       "id": 23,
-      "title": "Radford, A., Kim, J. W., Xu, T., Brockman, G., McLeavey, C., & Sutskever, I. (2023). Robust speech recognition via large-scale weak supervision. Proceedings of Machine Learning Research, 202, 28492–28518.",
+      "title": "Radford, A., Kim, J. W., Xu, T., Brockman, G., McLeavey, C., & Sutskever, I. (2023). Robust speech recognition via large-scale weak supervision. Proceedings of Machine Learning Research, 202, 28492–28518. https://proceedings.mlr.press/v202/radford23a.html",
       "url": "https://proceedings.mlr.press/v202/radford23a.html",
       "kind": "Peer-reviewed conference paper",
       "locator": "Abstract: speech recognition trained to predict transcripts of audio. ICML 2023.",
@@ -618,7 +626,7 @@
       "title": "Koenecke, A., Choi, A. S. G., Mei, K. X., Schellmann, H., & Sloane, M. (2024). Careless Whisper: Speech-to-text hallucination harms. In Proceedings of the 2024 ACM Conference on Fairness, Accountability, and Transparency (pp. 1672–1681). Association for Computing Machinery. https://doi.org/10.1145/3630106.3658996",
       "url": "https://doi.org/10.1145/3630106.3658996",
       "kind": "Peer-reviewed conference paper",
-      "locator": "Abstract: about 1% of transcriptions in the study contained invented phrases, more often for speakers with longer pauses.",
+      "locator": "Abstract; Section 3, Results, including the December 2023 rerun of segments that had produced invented text: about 1% of transcriptions in the study contained invented phrases, more often for speakers with longer pauses.",
       "cite": "Koenecke et al., 2024"
     },
     {
@@ -631,7 +639,7 @@
     },
     {
       "id": 29,
-      "title": "Gao, L., Madaan, A., Zhou, S., Alon, U., Liu, P., Yang, Y., Callan, J., & Neubig, G. (2023). PAL: Program-aided language models. Proceedings of Machine Learning Research, 202, 10764–10799.",
+      "title": "Gao, L., Madaan, A., Zhou, S., Alon, U., Liu, P., Yang, Y., Callan, J., & Neubig, G. (2023). PAL: Program-aided language models. Proceedings of Machine Learning Research, 202, 10764–10799. https://proceedings.mlr.press/v202/gao23f.html",
       "url": "https://proceedings.mlr.press/v202/gao23f.html",
       "kind": "Peer-reviewed conference paper",
       "locator": "Abstract: a model writes a program and a Python interpreter runs it. ICML 2023.",
@@ -639,7 +647,7 @@
     },
     {
       "id": 30,
-      "title": "Lai, Y., Li, C., Wang, Y., Zhang, T., Zhong, R., Zettlemoyer, L., Yih, W.-t., Fried, D., Wang, S., & Yu, T. (2023). DS-1000: A natural and reliable benchmark for data science code generation. Proceedings of Machine Learning Research, 202, 18319–18345.",
+      "title": "Lai, Y., Li, C., Wang, Y., Zhang, T., Zhong, R., Zettlemoyer, L., Yih, W.-t., Fried, D., Wang, S., & Yu, T. (2023). DS-1000: A natural and reliable benchmark for data science code generation. Proceedings of Machine Learning Research, 202, 18319–18345. https://proceedings.mlr.press/v202/lai23b.html",
       "url": "https://proceedings.mlr.press/v202/lai23b.html",
       "kind": "Peer-reviewed conference paper",
       "locator": "Abstract: realistic data-science problems in libraries such as NumPy and pandas; the best system tested solved 43.3%. ICML 2023.",
@@ -671,7 +679,7 @@
     },
     {
       "id": 34,
-      "title": "Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W.-t., Rocktäschel, T., Riedel, S., & Kiela, D. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. Advances in Neural Information Processing Systems, 33, 9459–9474.",
+      "title": "Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W.-t., Rocktäschel, T., Riedel, S., & Kiela, D. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. Advances in Neural Information Processing Systems, 33, 9459–9474. https://proceedings.neurips.cc/paper_files/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html",
       "url": "https://proceedings.neurips.cc/paper_files/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html",
       "kind": "Peer-reviewed conference paper",
       "locator": "Abstract: a retriever selects passages that condition generation; provenance and updatable knowledge as motivations. NeurIPS 2020.",
@@ -683,7 +691,7 @@
       "url": "https://doi.org/10.1162/tacl_a_00638",
       "kind": "Peer-reviewed journal article",
       "locator": "Abstract: performance drops when relevant information sits in the middle of a long input.",
-      "cite": "Liu et al., 2024b"
+      "cite": "N. F. Liu et al., 2024"
     },
     {
       "id": 36,
@@ -699,7 +707,7 @@
       "url": "https://doi.org/10.18653/v1/2023.findings-emnlp.467",
       "kind": "Peer-reviewed conference paper",
       "locator": "Abstract: citation support in four generative search engines as studied in 2023; not a rating of current products.",
-      "cite": "Liu et al., 2023"
+      "cite": "N. Liu et al., 2023"
     },
     {
       "id": 38,
@@ -727,18 +735,18 @@
     },
     {
       "id": 41,
-      "title": "Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., & Cao, Y. (2023). ReAct: Synergizing reasoning and acting in language models. International Conference on Learning Representations. https://doi.org/10.48550/arXiv.2210.03629",
-      "url": "https://doi.org/10.48550/arXiv.2210.03629",
-      "kind": "Peer-reviewed conference paper · author manuscript",
-      "locator": "Abstract of the ICLR 2023 camera-ready version (arXiv v3): interleaved reasoning, actions, and observations.",
+      "title": "Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., & Cao, Y. (2023). ReAct: Synergizing reasoning and acting in language models. In International Conference on Learning Representations. https://openreview.net/forum?id=WE_vluYUL-X",
+      "url": "https://openreview.net/forum?id=WE_vluYUL-X",
+      "kind": "Peer-reviewed conference paper",
+      "locator": "Abstract (checked in the camera-ready author manuscript, arXiv:2210.03629v3): interleaved reasoning, actions, and observations. ICLR 2023.",
       "cite": "Yao et al., 2023"
     },
     {
       "id": 42,
-      "title": "Zhou, S., Xu, F. F., Zhu, H., Zhou, X., Lo, R., Sridhar, A., Cheng, X., Ou, T., Bisk, Y., Fried, D., Alon, U., & Neubig, G. (2024). WebArena: A realistic web environment for building autonomous agents. In International Conference on Learning Representations (pp. 15585–15606).",
+      "title": "Zhou, S., Xu, F. F., Zhu, H., Zhou, X., Lo, R., Sridhar, A., Cheng, X., Ou, T., Bisk, Y., Fried, D., Alon, U., & Neubig, G. (2024). WebArena: A realistic web environment for building autonomous agents. In International Conference on Learning Representations (pp. 15585–15606). https://proceedings.iclr.cc/paper_files/paper/2024/hash/4410c0711e9154a7a2d26f9b3816d1ef-Abstract-Conference.html",
       "url": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/4410c0711e9154a7a2d26f9b3816d1ef-Abstract-Conference.html",
       "kind": "Peer-reviewed conference paper",
-      "locator": "Abstract: realistic web tasks; best agent tested 14.41% end-to-end success against 78.24% for people. ICLR 2024.",
+      "locator": "Abstract: realistic web tasks; best agent tested 14.41% end-to-end success against 78.24% for people. ICLR 2024. Section 3: task intents, including content and configuration operations.",
       "cite": "Zhou et al., 2024"
     },
     {
@@ -746,7 +754,7 @@
       "title": "Greshake, K., Abdelnabi, S., Mishra, S., Endres, C., Holz, T., & Fritz, M. (2023). Not what you’ve signed up for: Compromising real-world LLM-integrated applications with indirect prompt injection. In Proceedings of the 16th ACM Workshop on Artificial Intelligence and Security (pp. 79–90). Association for Computing Machinery. https://doi.org/10.1145/3605764.3623985",
       "url": "https://doi.org/10.1145/3605764.3623985",
       "kind": "Peer-reviewed workshop paper",
-      "locator": "Abstract: instructions planted in content an application retrieves can redirect it.",
+      "locator": "Abstract; Section 3.1, injection methods: prompts planted in retrieved web pages, emails, and documents, including ones invisible to the user (checked in arXiv:2302.12173v2).",
       "cite": "Greshake et al., 2023"
     }
   ]

@@ -40,6 +40,13 @@ Original interface icons (`src/partials/icons.svg`), walkthrough illustrations
 (`src/partials/tour.html` and `src/partials/register-tour.html`), and CSS textures are
 covered by the tool license, except for separately identified third-party material.
 
+The 55 AI-system carousel illustrations in `src/img/types-*.webp` were generated
+with OpenAI image generation using the existing walkthrough artwork as the style
+reference. They are illustrative metaphors, not research figures or evidence for
+the guide's claims. The existing tool-license grant applies only to the extent
+the Library holds the relevant rights. See `docs/AI-TYPE-ILLUSTRATIONS.md` for the
+slide mapping and asset layout.
+
 The unmodified CC BY-NC-ND badge in `src/img/cc-by-nc-nd.png` comes from the
 [Creative Commons downloads page](https://creativecommons.org/mission/downloads/),
 which links to [this badge file](https://licensebuttons.net/l/by-nc-nd/3.0/88x31.png).

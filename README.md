@@ -46,9 +46,15 @@ Review changes to `data/acts.json`, `data/register.json`, and `data/guide.json` 
 
 `content/ai-type-guide.json` is the guide's source of truth. Ten capability and system entries are separate from two access and participation choices. Citations appear beside claims and in each dialog; the full reference list identifies publication status and the consulted section. Keep source IDs, URLs, and titles synchronized with `docs/research/ai-type-sources.json`.
 
-The guide changes explanations while preserving the collection's related-idea keys, capabilities, IDs, and counts. The build rejects missing explanations, unknown citations, and unused references. References use APA-style entries with short `cite` labels for accessible in-text links. After a guide edit, run `python3 tools/license_scope.py --pin` and confirm that only the `register.json` hashes change.
+The guide changes explanations while preserving the collection's related-idea keys, capabilities, IDs, and counts. The build rejects missing explanations, unknown citations, and unused references. References use APA-style entries with short `cite` labels for accessible in-text links. After a guide edit, run `python3 tools/license_scope.py --pin` and confirm that only the `register.json` hashes change. Each capability or system entry opens as a five-slide carousel — the four explanation fields, then References — defined by `TYPE_SLIDES` in `src/js/register.js`; its controls sit in the window's fixed footer. Editing `src/js/register-type-examples.js` also requires updating its pinned hash in `content/tool-license.json` (`preserved_files_sha256`), which guards that separately licensed file; record the checked date in the file itself.
 
 `src/js/register-type-examples.js` contains illustrative product names, capability notes, official links, and their checked date. Product links need no additional numbered citations. Review those links when updating the examples.
+
+Every carousel slide has a topic-specific painted illustration. The 55 drawings
+are stored as 11 transparent WebP atlases in `src/img/types-*.webp`; CSS selects
+one of five cells per type and the build fingerprints each asset. The artwork is
+decorative and hidden from assistive technology; the adjacent text remains the
+complete explanation. See [the illustration map](docs/AI-TYPE-ILLUSTRATIONS.md).
 
 ## Edit the walkthroughs
 
@@ -56,7 +62,7 @@ The Register's header and floating menu open the nine-step walkthrough in `src/p
 
 ## Edit "How this site works"
 
-Both tools state in their headers that results come from fixed rules rather than an AI system, and a "How this site works" button opens the shared dialog in `src/partials/about.html`, which covers matching, what leaves the browser, Ask Us, outside links, and how the site was made. The Finder repeats a short version beside the questions (`drawRail` and `drawWizard` in `src/js/what-if-ai.js`), and the Ask Us panel in `src/partials/help.html` says when staff answer. These statements must stay literally true. `tests/how-this-site-works-2026-10-27.test.js` checks the wording and the facts behind it: each page's security policy lets it contact only itself and the visit counter, the only embedded service is Ask Us, and visit counting leaves out answers and search text. If the site starts calling another service, or the library changes how Ask Us answers after hours, revise the wording before changing the test.
+Both tools state in their headers that results come from fixed rules rather than an AI system, and a "How this site works" button opens the shared six-slide carousel in `src/partials/about.html`: What If AI, The Register, what leaves the browser, Ask Us, links to other sites, and how the site was made. It behaves like the walkthroughs (Previous, Next, dots, arrow keys, Home and End; it never advances by itself), and its slides share one grid cell so the controls never move. Each slide has a painted drawing that uses the `#wc` filter and `wc*` washes defined by the page's walkthrough partial, so a page that includes `about.html` must also include `tour.html` or `register-tour.html`; drawings carry no text and are hidden from assistive technology. The Finder repeats a short version beside the questions (`drawRail` and `drawWizard` in `src/js/what-if-ai.js`), and the Ask Us panel in `src/partials/help.html` says when staff answer. These statements must stay literally true. `tests/how-this-site-works-2026-10-27.test.js` checks the wording and the facts behind it: each page's security policy lets it contact only itself and the visit counter, the only embedded service is Ask Us, and visit counting leaves out answers and search text. If the site starts calling another service, or the library changes how Ask Us answers after hours, revise the wording before changing the test.
 
 ## Licenses
 
