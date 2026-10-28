@@ -294,7 +294,7 @@ function openType(key, opener){
   var cited = [];
   if(key!=='noai'){
     h += '<section class="type-info" aria-labelledby="typeMoreHeading"><h3 id="typeMoreHeading">'+(key==='institutional'?'More about this choice':'More about this type')+'</h3><dl>'+
-      [['What it does','does'],['Inputs and outputs','io'],['Illustrative faculty use','why'],['Limits and practical checks','limits']].map(function(row){
+      [['What it does','does'],['Inputs and outputs','io'],['Illustrative faculty use','why'],['Limits and open questions','limits']].map(function(row){
         return '<div class="type-info__row"><dt>'+esc(row[0])+'</dt><dd><span class="type-field-text">'+esc(t[row[1]])+'</span>'+typeCitations(refs[row[1]])+'</dd></div>';
       }).join('')+'</dl></section>'+typeExampleDisclosure(t);
     Object.keys(refs).forEach(function(field){cited=cited.concat(refs[field]);});
@@ -336,7 +336,7 @@ function drawTypes(){
     h += '</div></section>';
   });
   h += '<section class="protocols" aria-labelledby="h-protocols"><span class="current current--console" aria-hidden="true"></span>'+
-    '<div class="protocols__head">'+icon('i-bolt')+'<h3 id="h-protocols">Whatever the tool</h3><span class="protocols__tag">Practical recommendations</span></div>'+
+    '<div class="protocols__head">'+icon('i-bolt')+'<h3 id="h-protocols">Whatever the tool</h3><span class="protocols__tag">Open questions</span></div>'+
     '<div class="protocols__screen"><ul class="protocols__list">'+
     T.general.map(function(g){ return '<li><span class="lamp lamp--on" aria-hidden="true"></span><span>'+esc(g.text)+typeCitations(g.refs)+'</span></li>'; }).join('')+'</ul></div></section>';
   h += '<section class="type-bibliography" aria-labelledby="typeReferencesHeading"><h3 id="typeReferencesHeading">Sources for this guide</h3><p>Product links are examples, not evidence for the whole category.</p><p>'+esc(T.scope)+'</p>'+

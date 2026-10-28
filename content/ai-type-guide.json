@@ -64,30 +64,30 @@
   ],
   "general": [
     {
-      "text": "Consider whether an AI tool serves the learning goal at all. UNESCO’s guidance treats that question as part of ethical validation and pedagogical design, with attention to human agency and age-appropriate use.",
+      "text": "Does an AI tool serve the learning goal at all? UNESCO’s guidance treats that question as part of ethical validation and pedagogical design, with attention to human agency and age-appropriate use.",
       "refs": [
         4
       ]
     },
     {
-      "text": "Consider what information goes into a tool and where it goes. Generative models can leak or infer personal information, and how a tool is hosted or labeled does not by itself establish privacy or accuracy.",
+      "text": "What information goes into a tool, and where does it go? Generative models can leak or infer personal information, and how a tool is hosted or labeled does not by itself establish privacy or accuracy.",
       "refs": [
         5,
         6
       ]
     },
     {
-      "text": "Consider whether every participant can use the tool at no cost, without creating a personal account, and with assistive technology.",
+      "text": "Can every participant use the tool at no cost, without creating a personal account, and with assistive technology?",
       "refs": []
     },
     {
-      "text": "Consider how outputs will be checked. Generative systems can present false content confidently, including invented citations, and people tend to over-rely on automated output.",
+      "text": "How will outputs be checked? Generative systems can present false content confidently, including invented citations, and people tend to over-rely on automated output.",
       "refs": [
         5
       ]
     },
     {
-      "text": "Consider how the use of AI will be acknowledged: what was generated, what was checked, and who is responsible for the final work. NIST treats accountability and transparency as characteristics of trustworthy AI.",
+      "text": "How will the use of AI be acknowledged: what was generated, what was checked, and who is responsible for the final work? NIST treats accountability and transparency as characteristics of trustworthy AI.",
       "refs": [
         6
       ]
@@ -101,7 +101,7 @@
       "does": "Produces drafts, explanations, summaries, and answers in plain language, and revises them in response to feedback. Research evaluations show such models translating, answering questions, and following a wide range of written instructions.",
       "io": "Typed instructions, questions, examples, or pasted text go in; generated text comes out, such as prose, lists, outlines, tables, or code. Image input, web search, and tool use are features of a wider system and are described separately.",
       "why": "Most use-case ideas in the collection need at least this capability. Related ideas use a model as a drafting partner, a conversation partner, or the object of study — for example, comparing a model’s interpretation of a short story with a group’s own readings of the text.",
-      "limits": "Output can be fluent and wrong, including invented references. Responses vary from one attempt to the next, can reflect social biases in training data, and may not reflect recent events unless the system retrieves current information. Consider checking factual claims and references against sources you can inspect.",
+      "limits": "Output can be fluent and wrong, including invented references. Responses vary from one attempt to the next, can reflect social biases in training data, and may not reflect recent events unless the system retrieves current information. How will factual claims and references be checked against sources you can inspect?",
       "citations": {
         "what": [
           7,
@@ -184,7 +184,7 @@
       "does": "Generates or animates scenes from a description. Imagen Video, one research example, combines a base video model with stages that raise spatial and temporal resolution; this is one design, not the architecture of every product.",
       "io": "In the cited research, a text prompt conditions the generated video. Products may also accept images, footage, or scripts; check each product’s documentation for its inputs and editing controls.",
       "why": "Related ideas are few and mostly in teaching — for example, checking a generated previsualization clip against a handwritten shot specification, or building matched sets of filmed and generated clips to practice recognizing synthetic video.",
-      "limits": "Motion can depart from physical reality: in one study, video models imitated the closest training examples rather than learning physical laws, and they failed on unfamiliar scenarios. Realistic synthetic video of people raises consent, disclosure, and misinformation concerns, and across many studies people detected deepfakes at about chance levels. Consider how any generated video will be labeled and whether every participant can access the tool.",
+      "limits": "Motion can depart from physical reality: in one study, video models imitated the closest training examples rather than learning physical laws, and they failed on unfamiliar scenarios. Realistic synthetic video of people raises consent, disclosure, and misinformation concerns, and across many studies people detected deepfakes at about chance levels. How will any generated video be labeled, and can every participant access the tool?",
       "citations": {
         "what": [
           20
@@ -209,7 +209,7 @@
       "does": "Transcribes recorded speech, reads text aloud in a synthetic voice, and continues speech or music from a short audio prompt. These are separate tasks: evidence about one does not establish performance on another.",
       "io": "Recognition takes audio and returns a transcript. Text-to-speech takes text and returns audio. In the cited audio-generation research, a short audio prompt conditions further audio.",
       "why": "Related ideas include accessibility, qualitative research, language learning, and media projects — for example, comparing an automated first-pass interview transcript with a manual one, or correcting automatic captions for course video before publishing them.",
-      "limits": "Recognition accuracy varies across speakers, with documented differences by age, gender, and accent, so transcripts need checking; one study found that about 1 percent of transcriptions contained entire invented phrases, more often for speakers with longer pauses. Consider consent, and any required ethics approval, when recording people. Synthetic and cloned voices raise consent and impersonation concerns, and listeners often cannot reliably tell them from real speech.",
+      "limits": "Recognition accuracy varies across speakers, with documented differences by age, gender, and accent, so transcripts need checking; one study found that about 1 percent of transcriptions contained entire invented phrases, more often for speakers with longer pauses. Recording people raises questions of consent and of any required ethics approval. Synthetic and cloned voices raise consent and impersonation concerns, and listeners often cannot reliably tell them from real speech.",
       "citations": {
         "what": [
           23,
@@ -270,7 +270,7 @@
       "does": "Assigns categories, estimates values, or groups similar observations — for example, filtering spam, recognizing faces in images, or predicting a protein’s structure.",
       "io": "Measurements, images, documents, sequences, or other data go in; labels, estimates, groupings, or predicted structures come out.",
       "why": "Related ideas come mostly from faculty research in the sciences — for example, adapting a microscopy segmentation model through corrective annotation, or ordering systematic-review screening with active learning while a person makes every inclusion decision. These ideas were linked individually, so they are a selection rather than every predictive use in the collection.",
-      "limits": "Results depend on the data a model learned from and may not transfer to local conditions. Data leakage, a common methodological error, has been found in hundreds of published studies across many fields, in some cases producing wildly overoptimistic conclusions, and even high-confidence structure predictions can differ from experimental data. Consider validating against known cases and examining errors for relevant groups, not only overall accuracy.",
+      "limits": "Results depend on the data a model learned from and may not transfer to local conditions. Data leakage, a common methodological error, has been found in hundreds of published studies across many fields, in some cases producing wildly overoptimistic conclusions, and even high-confidence structure predictions can differ from experimental data. Has the model been validated against known cases, with errors examined for relevant groups and not only overall accuracy?",
       "citations": {
         "what": [
           3
@@ -322,7 +322,7 @@
       "does": "Searches, gathers, and summarizes sources, suggests related literature, and attaches links or citations to its answers.",
       "io": "A question or search terms go in; a synthesized answer with links, citations, or lists of papers comes out. What it can find depends on what the service indexes and can reach.",
       "why": "Related ideas center on finding and checking information — for example, exploring a subject literature with AI tools alongside library keyword searching, or looking for newer measurements comparable to a cited statistic.",
-      "limits": "Coverage depends on what the system can reach: in one evaluation across four reviews, an AI research tool found, on average, fewer than half of the studies that structured database searches found, though it surfaced some they missed. Citations can be attached to statements they do not support, and summaries of research often state findings more broadly than the original studies do. Consider checking key claims against the original source and the databases your field relies on.",
+      "limits": "Coverage depends on what the system can reach: in one evaluation across four reviews, an AI research tool found, on average, fewer than half of the studies that structured database searches found, though it surfaced some they missed. Citations can be attached to statements they do not support, and summaries of research often state findings more broadly than the original studies do. How will key claims be checked against the original source and the databases your field relies on?",
       "citations": {
         "what": [
           37
@@ -349,7 +349,7 @@
       "does": "Chains steps together, such as gathering information, filling in documents, sorting records, drafting messages, or updating connected systems. The tools it is given determine what actions are possible.",
       "io": "A goal or instruction goes in, along with access to tools or data; outputs include action requests, completed steps, documents, or changes in connected systems.",
       "why": "Related ideas appear mainly in administrative and research workflows and in activities that audit an agent’s work — for example, scoring a read-only email-triage agent on a simulated inbox before any real deployment, or auditing a coding agent’s commits in a research repository.",
-      "limits": "Errors can compound across steps: in a realistic web-task benchmark, the best agent tested completed about 14 percent of tasks, compared with 78 percent for people. Content an agent reads, such as a web page or document, can carry hidden instructions that redirect it. Consider what the system may access or change, where a person reviews its work, and who is accountable for the result.",
+      "limits": "Errors can compound across steps: in a realistic web-task benchmark, the best agent tested completed about 14 percent of tasks, compared with 78 percent for people. Content an agent reads, such as a web page or document, can carry hidden instructions that redirect it. What may the system access or change, where does a person review its work, and who is accountable for the result?",
       "citations": {
         "what": [
           40,
@@ -372,12 +372,12 @@
     },
     "institutional": {
       "name": "Institutional access and self-hosted AI",
-      "preview": "Ask who provides the system, controls access, and handles data.",
+      "preview": "Who provides the system, controls access, and handles data?",
       "what": "This is an access and deployment choice, not a model capability: versions of the systems above provided through an institutional agreement, or run on infrastructure the institution controls, rather than through a personal account.",
       "does": "Can offer similar capabilities under negotiated terms, such as limits on how submitted data is retained or used, sign-in with institutional credentials, and access for everyone in a course. The OECD treats the context of use as its own classification dimension, and NIST assesses trustworthiness across deployment and use.",
       "io": "Inputs and outputs depend on the underlying model and connected tools; the access arrangement does not tell you whether a system handles text, images, audio, or other data.",
       "why": "Related ideas ask what goes into a model and who can see it — for example, mapping where data goes during a training job in an institution’s managed environment, or checking a confidential draft review on a local, offline model so the manuscript stays out of outside services.",
-      "limits": "An institutional label is not evidence of accuracy, privacy, or approval for a particular use; terms differ, and not every feature is available in every environment. As NIST puts it, a transparent system is not necessarily accurate, privacy-enhanced, secure, or fair. Consider checking institutional guidance on approved tools and data classification before using any AI tool with student work, research data, or confidential information.",
+      "limits": "An institutional label is not evidence of accuracy, privacy, or approval for a particular use; terms differ, and not every feature is available in every environment. As NIST puts it, a transparent system is not necessarily accurate, privacy-enhanced, secure, or fair. What does institutional guidance say about approved tools and data classification for student work, research data, or confidential information?",
       "citations": {
         "what": [],
         "does": [
