@@ -50,7 +50,8 @@ async function ready(p){await p.waitForSelector('html[data-ready]',{state:'attac
   for(const tier of policies.tiers){
    await p.locator('#pt-'+tier.key).click();
    assert.deepEqual(await p.locator('#policies blockquote p').allTextContents(),tier.items.map(q=>'“'+q.quote+'”'));
-   assert.equal(await p.locator('#policies .quotes a').count(),tier.items.length);
+   // License badges also link to their deeds; verify each quotation's source separately.
+   assert.deepEqual(await p.locator('#policies .quotes > li > .meta-line a').evaluateAll(links=>links.map(a=>a.getAttribute('href'))),tier.items.map(q=>q.source_url));
    assert.match(await p.locator('#policies').innerText(),/accessed 2026-10-09/);
   }
   await go('register.html','#src=SRC-0181');assert.match(await p.locator('#src-SRC-0181').innerText(),/replacement has not been verified/);
