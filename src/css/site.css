@@ -250,13 +250,19 @@ dialog::backdrop{background:rgba(20,2,8,.72);}
 .empty p{margin:0 auto 10px;}
 .more{display:flex;justify-content:center;margin-top:18px;}
 
+/* Official license artwork stays beside its full, versioned label. */
+.license-mark{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px 10px;max-width:100%;vertical-align:middle;}
+a.license-mark{min-height:44px;}
+.license-mark > span{min-width:0;overflow-wrap:anywhere;}
+.license-badge{display:inline-block;width:88px;height:31px;max-width:none;flex:none;vertical-align:middle;}
+.license-deed{overflow-wrap:anywhere;}
+
 /* ═══ footer (license, attribution, AI-use disclosure) ═══ */
 .site-foot{position:relative;z-index:1;margin-top:40px;padding:26px 20px 30px;border-top:1.5px solid var(--line-strong);
   background:rgba(40,5,14,.35);color:var(--ink-2);text-align:center;}
 .site-foot__inner{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:12px;align-items:center;}
 .site-foot__license{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 14px;}
 .site-foot .cc-icons{margin:0;color:var(--gold);gap:6px;min-height:44px;}
-.site-foot .cc-icons svg{width:30px;height:30px;flex:none;overflow:visible;}
 .site-foot__details{max-width:760px;font-size:14.5px;text-align:left;}
 .site-foot__details summary{cursor:pointer;color:var(--gold);}
 .site-foot__details p{margin-top:10px;}
@@ -318,6 +324,9 @@ dialog::backdrop{background:rgba(20,2,8,.72);}
   html,body{background:#fff !important;color:#111 !important;zoom:1 !important;font-size:11pt;}
   body::before,.topbar,.skip,.fab-wrap,.fab-scrim,.chat-overlay,#progress,.rail,.site-foot .cc-icons,dialog{display:none !important;}
   a{color:#111 !important;text-decoration:underline;}
+  .license-mark{break-inside:avoid;page-break-inside:avoid;}
+  a.license-mark{min-height:0;}
+  .license-badge{print-color-adjust:exact;-webkit-print-color-adjust:exact;}
   body.print-saved .app,body.print-saved .site-foot{display:none !important;}
   body.print-saved #printRoot{display:block !important;}
   #printRoot{color:#111;font-family:Georgia,'Times New Roman',serif;}

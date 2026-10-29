@@ -48,13 +48,18 @@ the guide's claims. The existing tool-license grant applies only to the extent
 the Library holds the relevant rights. See `docs/AI-TYPE-ILLUSTRATIONS.md` for the
 slide mapping and asset layout.
 
-The unmodified CC BY-NC-ND badge in `src/img/cc-by-nc-nd.png` comes from the
+The unmodified CC license badges in `src/img/cc-*.png` come from the
 [Creative Commons downloads page](https://creativecommons.org/mission/downloads/),
-which links to [this badge file](https://licensebuttons.net/l/by-nc-nd/3.0/88x31.png).
-The artwork itself displays no version; the adjacent text and deed link identify 4.0.
+which links to the official 88 × 31 web badges at
+`https://licensebuttons.net/l/{by,by-sa,by-nd,by-nc,by-nc-sa,by-nc-nd}/3.0/88x31.png`
+and the [CC0 badge](https://licensebuttons.net/p/zero/1.0/88x31.png).
+The artwork displays no version; each adjacent label and deed link identifies the
+recorded license and version, including 3.0, 3.0 IGO, and 4.0. An unspecified
+version stays unspecified, without an invented deed link. Ambiguous source rights
+statements and non-CC terms retain their text without an inferred CC badge.
 Creative Commons marks follow its [trademark policy](https://creativecommons.org/policies/).
 The Lewis University Library logo remains subject to its owner's rights. Neither
-logo nor the CC badge is relicensed as original tool artwork.
+logo nor the CC badges are relicensed as original tool artwork.
 
 ## Fonts and third-party software
 

@@ -17,7 +17,7 @@
     "test:feedback": "node tests/feedback.test.js",
     "test:a11y": "node tests/a11y.test.js",
     "test:contrast": "node tests/contrast.test.js",
-    "test:licensing": "node tests/licensing-browser.test.js",
+    "test:licensing": "node tests/license-badges.test.js && node tests/licensing-browser.test.js",
     "test:source-links": "node tests/source-links.test.js && node tests/source-links-browser.test.js"
   },
   "devDependencies": {

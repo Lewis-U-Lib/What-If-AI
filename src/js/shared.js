@@ -37,6 +37,16 @@ function externalLink(url, html, attrs){
   var safe=safeURL(url);
   return safe ? '<a href="'+esc(safe)+'" target="_blank" rel="noopener noreferrer"'+(attrs||'')+'>'+html+'</a>' : '<span>'+html+'</span>';
 }
+function licenseHTML(label, url, print){
+  var info = window.LicenseBadges.identify(label);
+  var deed = safeURL(url || (info && info.url));
+  var asset = info && window.LICENSE_BADGES[info.family];
+  var badge = asset ? '<img class="license-badge" data-license-badge="'+info.family+'" src="'+esc(asset)+'" width="88" height="31" alt=""/>' : '';
+  var text = '<span>'+esc(label || 'Not stated')+'</span>';
+  if(print) return '<span class="license-mark">'+badge+text+'</span>'+(deed ? ' <span class="license-deed">('+esc(deed)+')</span>' : '');
+  if(deed) return '<a class="license-mark" href="'+esc(deed)+'" target="_blank" rel="noopener noreferrer">'+badge+text+'<span class="sr-only"> (opens in a new tab)</span></a>';
+  return '<span class="license-mark">'+badge+text+'</span>';
+}
 var SOURCE_POLICY = window.SourceLinks.create(window.SITE_DATA['source-links']);
 function sourceLink(url, html){
   var e = SOURCE_POLICY.lookup(url);
@@ -413,7 +423,7 @@ function detailHTML(a, opts){
     if(a.loc) src += '<p class="meta-line">Location in the source: '+esc(a.loc)+'</p>';
   }
   if(a.url && !opts.print) src += '<p class="meta-line">'+esc(window.SITE_DATA['source-links'].notice)+'</p>';
-  src += '<h4>License for this use-case idea</h4><p data-entry-license>'+(a.licu && !opts.print ? externalLink(a.licu,esc(a.lic)) : esc(a.lic||'Not stated'))+
+  src += '<h4>License for this use-case idea</h4><p data-entry-license>'+licenseHTML(a.lic,a.licu,opts.print)+
     (a.lics ? ' <span class="meta-line">— as stated by the source: '+esc(a.lics)+'</span>' : '')+'</p>';
   src += '<p class="meta-line" data-entry-license-scope>'+esc(TOOL_LICENSE.entry_notice)+'</p>';
   if(a.licn) src += '<p class="meta-line">'+esc(a.licn)+'</p>';
@@ -599,7 +609,7 @@ function fillPrintRoot(ids, single){
     });
   }
   h += '<div class="pr-foot">Tool credit: What If AI and The Register, Lewis University Library. '+
-    esc(TOOL_LICENSE.scope)+' are licensed '+esc(TOOL_LICENSE.label)+' ('+esc(TOOL_LICENSE.url)+'). '+
+    esc(TOOL_LICENSE.scope)+' are licensed '+licenseHTML(TOOL_LICENSE.label,TOOL_LICENSE.url,true)+'. '+
     esc(TOOL_LICENSE.exceptions)+' Retain each entry’s own attribution, license, and change notices.</div>';
   root.innerHTML = h;
   return root;
@@ -761,7 +771,7 @@ function copyText(text, okMsg, btn){
   }catch(_){ fallback(); }
 }
 
-window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, TIER:TIER, tierOf:tierOf, OPERATOR:OPERATOR, operatorLabel:operatorLabel, noToolForStudents:noToolForStudents, usedItems:usedItems, esc:esc, safeURL:safeURL, externalLink:externalLink, sourceLink:sourceLink, costLabel:costLabel, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
+window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, TIER:TIER, tierOf:tierOf, OPERATOR:OPERATOR, operatorLabel:operatorLabel, noToolForStudents:noToolForStudents, usedItems:usedItems, esc:esc, safeURL:safeURL, externalLink:externalLink, licenseHTML:licenseHTML, sourceLink:sourceLink, costLabel:costLabel, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
   taskLabel:taskLabel, depthLabel:depthLabel, discLabel:discLabel, lvlLabel:lvlLabel, modLabel:modLabel, familyLabel:familyLabel, num:num, labelList:labelList,
   cardHTML:cardHTML, detailHTML:detailHTML, openActivity:openActivity, openDialog:openDialog, closeDialog:closeDialog, wireDialog:wireDialog, resetDialogScroll:resetDialogScroll,
   Saved:Saved, announce:announce, decode:decode, printSaved:printSaved, printActivity:printActivity, refocusAfterBack:refocusAfterBack, copyText:copyText, howItWorks:howItWorks, init:init, kickerOf:kickerOf};

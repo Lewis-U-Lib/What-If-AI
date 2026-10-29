@@ -156,11 +156,17 @@ def build(out):
             styles.append(f'<link rel="preload" href="{a("fonts/" + f)}" as="font" type="font/woff2" crossorigin/>')
         for d in page.get("data", []):
             styles.append(f'<link rel="preload" href="{a("data/" + d + ".json")}" as="fetch" crossorigin/>')
+        # These tiny images also appear in print copies assembled immediately before printing.
+        if "core" in page.get("scripts", []):
+            for badge in ("by", "by-sa", "by-nd", "by-nc", "by-nc-sa", "by-nc-nd", "zero"):
+                styles.append(f'<link rel="preload" href="{a("img/cc-" + badge + ".png")}" as="image"/>')
         for c in page["css"]:
             styles.append(f'<link rel="stylesheet" href="{a("css/" + c + ".css")}"/>')
         scripts = ""
         if page.get("scripts"):
             man = {"release": rel["release"], "toolLicense": tool_license,
+                   "licenseBadges": {key: a("img/cc-" + key + ".png") for key in
+                                     ("by", "by-sa", "by-nd", "by-nc", "by-nc-sa", "by-nc-nd", "zero")},
                    "data": {d: a("data/" + d + ".json") for d in page.get("data", [])},
                    "scripts": [a("js/" + s + ".js") for s in page["scripts"]]}
             scripts = ('<script id="site-manifest" type="application/json">' + json.dumps(man, separators=(",", ":")) + "</script>\n"

@@ -13,7 +13,7 @@
   },
   "js": {
    "boot": ["boot.js"],
-   "core": ["source-links.js", "matching.js", "linkify.js", "activity-feedback.js", "shared.js"],
+   "core": ["source-links.js", "license-badges.js", "matching.js", "linkify.js", "activity-feedback.js", "shared.js"],
    "what-if-ai": ["what-if-ai.js"],
    "register": ["register-type-examples.js", "register.js"],
    "engines": ["lul-core.js"],

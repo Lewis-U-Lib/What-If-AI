@@ -361,7 +361,6 @@ function openType(key, opener){
     h += '<section class="type-evidence" aria-labelledby="typeEvidenceHeading"><h3 id="typeEvidenceHeading">References</h3>'+typeReferences(cited)+'</section>';
     foot = typeActivityLink(t)+'<button type="button" class="btn btn--sm btn--quiet" data-close>Back to types</button>';
   }
-  h += '<p class="meta-line" data-guide-license>'+esc(window.TOOL_LICENSE.guide_notice)+'</p>';
   typeDialog.querySelector('.dlg__body').innerHTML = h;
   typeDialog.querySelector('.dlg__foot').innerHTML = foot;
   typeSlide = 0;
@@ -400,7 +399,6 @@ function drawTypes(){
     T.general.map(function(g){ return '<li><span class="lamp lamp--on" aria-hidden="true"></span><span>'+esc(g.text)+typeCitations(g.refs)+'</span></li>'; }).join('')+'</ul></div></section>';
   h += '<section class="type-bibliography" aria-labelledby="typeReferencesHeading"><h3 id="typeReferencesHeading">Qualifiers</h3><ul class="type-qualifiers">'+T.qualifiers.map(function(q){ return '<li>'+esc(q)+'</li>'; }).join('')+'</ul>'+
     '<details class="type-bibliography__list"><summary>References'+icon('i-chevron')+'</summary>'+typeReferences()+'</details></section>';
-  h += '<p class="meta-line" data-guide-license>'+esc(window.TOOL_LICENSE.guide_notice)+'</p>';
   document.getElementById('ai-types').innerHTML = h;
 }
 
@@ -432,7 +430,7 @@ function drawPolicies(){
     '<h4 class="pol-examples-h">Course policies and sample statements</h4><ul class="quotes">'+
     (t.items||[]).map(function(q){
       return '<li><blockquote><p>“'+esc(q.quote)+'”</p></blockquote><div class="who"><span><strong>'+esc(q.who)+'</strong> · '+esc(q.course)+' · '+esc(q.inst)+'</span>'+
-        '<span>'+esc(q.lic)+'</span></div><p class="meta-line">'+S_.externalLink(q.source_url,'Policies tab, row '+esc(q.source_row)+'<span class="sr-only"> (opens in a new tab)</span>')+' · accessed '+esc(q.accessed)+'. Exact excerpts; omissions marked with ellipses. Read the complete policy before relying on it.</p>'+
+        '<span>'+S_.licenseHTML(q.lic)+'</span></div><p class="meta-line">'+S_.externalLink(q.source_url,'Policies tab, row '+esc(q.source_row)+'<span class="sr-only"> (opens in a new tab)</span>')+' · accessed '+esc(q.accessed)+'. Exact excerpts; omissions marked with ellipses. Read the complete policy before relying on it.</p>'+
         (q.version_note?'<p class="meta-line">'+esc(q.version_note)+'</p>':'')+'</li>'; }).join('')+'</ul></div>';
   var a = P.aside;
   h += '<div class="aside-card"><div class="kicker">'+esc(a.pill)+'</div><h3>'+esc(a.label)+'</h3><p>'+esc(a.gist)+'</p><p>'+esc(a.reads)+'</p>'+
@@ -440,7 +438,6 @@ function drawPolicies(){
   h += '<p class="polsrc">Examples are drawn from '+S_.externalLink(P.source.url,esc(P.source.name)+
     '<span class="sr-only"> (opens in a new tab)</span>')+', '+esc(P.source.who)+'. '+esc(P.source.note)+' '+S_.externalLink(P.source.snapshot,'View the dated source snapshot and excerpt record<span class="sr-only"> (opens in a new tab)</span>')+'. '+
     'For guidance at Lewis, see '+S_.externalLink(P.local.url,esc(P.local.label)+'<span class="sr-only"> (opens in a new tab)</span>')+'.</p>';
-  h += '<p class="meta-line" data-policy-license>'+esc(window.TOOL_LICENSE.guide_notice)+'</p>';
   document.getElementById('policies').innerHTML = h;
 }
 function selectPol(key, focus){
@@ -483,7 +480,7 @@ function drawSources(){
                : (w.search ? S_.externalLink(w.search,'Find it in the library catalog<span class="sr-only"> (opens in a new tab)</span> ↗') : '');
       var acts = (w.acts||[]).filter(function(id){ return S_.BYID[id]; });
       h += '<li class="src" id="src-'+esc(w.id)+'"><div class="src__cit">'+esc(citeOf(w))+'</div><div class="src__meta">'+
-        (link ? '<span>'+link+'</span>' : '')+(w.lic ? '<span>License: '+esc(w.lic)+'</span>' : '')+'</div>'+
+        (link ? '<span>'+link+'</span>' : '')+(w.lic ? '<span>License: '+S_.licenseHTML(w.lic)+'</span>' : '')+'</div>'+
         (w.access?'<p class="meta-line">'+esc(w.access)+'</p>':'')+
         (acts.length ? '<details><summary>Used in '+S_.num(acts.length)+' use-case idea'+(acts.length===1?'':'s')+'</summary><ul>'+acts.map(function(id){
             return '<li><button type="button" data-open="'+esc(id)+'">'+esc(S_.BYID[id].t)+'</button></li>'; }).join('')+'</ul></details>' : '')+'</li>';
