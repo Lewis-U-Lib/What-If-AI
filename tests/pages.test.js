@@ -489,7 +489,9 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   // from a record to its source
   const withRel = ACTS.acts.find(a => a.rel && a.rel.length);
   await go(page, 'register.html#act=' + withRel.id); await page.waitForTimeout(80);
-  await page.click('#actDialog a[href*="#src="]'); await page.waitForTimeout(120);
+  const works = page.locator('#actDialog .use-case-accordion').filter({ has: page.getByRole('heading', {name:'Works it draws on',exact:true}) });
+  await works.locator('summary').click();
+  await works.locator('a[href*="#src="]').first().click(); await page.waitForTimeout(120);
   check('The Register: a record links to the works it draws on', !(await page.$eval('#actDialog', d => d.open)) && await page.isVisible('#src-' + withRel.rel[0][0]));
   // shared saved list
   await go(page, 'register.html#activities');

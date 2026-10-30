@@ -1,0 +1,34 @@
+/* Compact disclosures share the existing maroon, cream, and gold palette. */
+.use-case-accordion{margin:10px 0;border:1px solid var(--line-strong);border-radius:10px;background:rgba(15,1,5,.2);}
+.use-case-accordion>summary,.feedback-accordion>summary{
+  display:flex;align-items:center;justify-content:space-between;gap:18px;list-style:none;
+  min-height:48px;padding:11px 14px;cursor:pointer;color:var(--gold);border-radius:9px;
+  font-family:var(--font-h);font-size:22px;font-weight:800;line-height:1.25;
+}
+.use-case-accordion>summary::-webkit-details-marker,.feedback-accordion>summary::-webkit-details-marker{display:none;}
+.use-case-accordion>summary::after,.feedback-accordion>summary::after{
+  content:'';width:9px;height:9px;flex:0 0 9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+  transform:rotate(45deg);margin:0 3px 5px 0;
+}
+.use-case-accordion[open]>summary::after,.feedback-accordion[open]>summary::after{transform:rotate(225deg);margin-bottom:-4px;}
+.use-case-accordion>summary:hover,.feedback-accordion>summary:hover{background:rgba(222,187,112,.1);color:var(--cream-lt,var(--ink));}
+.use-case-accordion>summary:focus-visible,.feedback-accordion>summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px;}
+.detail .use-case-accordion>summary h3{margin:0;padding:0;border:0;color:inherit;font:inherit;}
+.use-case-accordion[open]>summary{border-radius:9px 9px 0 0;border-bottom:1px solid var(--line);}
+.use-case-accordion__body{padding:14px 16px 6px;}
+.feedback-accordion{border:1px solid var(--line-strong);border-radius:10px;background:rgba(15,1,5,.2);}
+.feedback-accordion>summary{font-size:20px;color:var(--ink);}
+.feedback-accordion__body{padding:4px 14px 14px;}
+@media(max-width:600px){
+  .use-case-accordion>summary{font-size:21px;padding:12px;}
+  .use-case-accordion__body{padding:12px 12px 4px;}
+  .feedback-accordion>summary{font-size:19px;}
+}
+@media(forced-colors:active){
+  .use-case-accordion,.feedback-accordion{border-color:CanvasText;}
+  .use-case-accordion>summary,.feedback-accordion>summary{color:CanvasText;}
+}
+@media print{
+  /* The print renderer emits plain sections, with no collapsed descendants. */
+  #printRoot .detail>section{break-inside:auto;page-break-inside:auto;}
+}

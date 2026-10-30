@@ -11,7 +11,7 @@
     "test:editorial": "python3 -m unittest discover -s tests -p '*_test.py'",
     "test:matching": "node tests/data-integration.test.js && node tests/matching.test.js && node tests/matching-browser.test.js && node tests/integration-browser.test.js && node tests/curation-browser.test.js",
     "test:site": "node tests/site.test.js",
-    "test:pages": "node tests/pages.test.js",
+    "test:pages": "node tests/pages.test.js && node tests/use-case-accordions.test.js",
     "test:review": "node tests/review-fixes-browser.test.js && node tests/audit-remediation.test.js && node tests/remediation-2026-10-13.test.js && node tests/proofreading-2026-10-15.test.js && node tests/how-this-site-works-2026-10-27.test.js",
     "test:types": "node tests/types.test.js",
     "test:feedback": "node tests/feedback.test.js",

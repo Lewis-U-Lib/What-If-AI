@@ -5,7 +5,7 @@
  "_note_base_url": "Used for canonical links, the sitemap and the 404 page. Change it here (and only here) if the site moves to a custom domain.",
  "bundles": {
   "css": {
-   "base": ["fonts.css", "lul-core.css", "site.css", "shell.css", "activity-feedback.css"],
+   "base": ["fonts.css", "lul-core.css", "site.css", "shell.css", "activity-feedback.css", "use-case-accordions.css"],
    "what-if-ai": ["what-if-ai.css"],
    "register": ["register.css"],
    "register-types": ["register-types.css"],

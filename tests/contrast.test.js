@@ -15,7 +15,7 @@ let SRV = null;
 const URL = f => SRV.url(f);
 /* pages with data are ready once boot.js has loaded it; the landing and 404 pages have none */
 async function ready(page) { await page.waitForFunction(() => document.documentElement.hasAttribute('data-ready') || !document.getElementById('site-manifest'), null, { timeout: 15000 }); }
-const SURFACES = '.topbar, .hdr, .panel__head, .dlg__head, .site-foot, .polpanel, .sec-eyebrow, .btn--primary, .secnav a, .save, .rail .railitem, .protocols, .countline, .readout, .ftag, .type--compact, .type-dialog, .type-example-disclosure > summary, .type-bibliography, .tour__text, .activity-feedback, .match-note, .requirement-checks > summary';
+const SURFACES = '.topbar, .hdr, .panel__head, .dlg__head, .site-foot, .polpanel, .sec-eyebrow, .btn--primary, .secnav a, .save, .rail .railitem, .protocols, .countline, .readout, .ftag, .type--compact, .type-dialog, .type-example-disclosure > summary, .type-bibliography, .tour__text, .activity-feedback, .match-note, .requirement-checks > summary, .use-case-accordion > summary';
 const PCT = 0.9;   // background percentile compared (0.9 = brighter than 90% of the pixels behind the text)
 
 const STATES = [
@@ -27,6 +27,8 @@ const STATES = [
     await p.click('.requirement-checks > summary');
     await p.$eval('[data-match-group="unknown"] .match-note', e=>e.scrollIntoView({block:'center'})); }],
   ['finder, details open', 'what-if-ai.html#a=focus:teaching;task:feedback', async p => { await p.click('#plan [data-open]'); }],
+  ['register, use-case accordion buttons', 'register.html#act=CAN-G-GAP-004', async p => {
+    await p.locator('#actDialog .use-case-accordion summary').first().scrollIntoViewIfNeeded(); }],
   ['finder, activity feedback', 'what-if-ai.html#a=focus:teaching;task:feedback', async p => {
     await p.click('#plan [data-open]'); await p.click('[data-give-feedback]');
     await p.check('[name="activity-response"][value="used"]'); await p.check('[value="worked_well"]'); }],
@@ -37,6 +39,7 @@ const STATES = [
     const s = await p.$$('#plan button[data-save]'); await s[0].click(); await p.click('.topbar [data-open-saved]'); }],
   ['register, activities', 'register.html#activities', async p => {}],
   ['register, source-access note', 'register.html#act=WIA-S-BUS-B-04', async p => {
+    await p.locator('#actDialog summary').filter({hasText:'Before you use it'}).click();
     await p.$eval('#actDialog .note--caution', e => e.scrollIntoView({block:'center'})); }],
   ['register, source-access card', 'register.html#activities?q=WIA-S-BUS-B-04', async p => {}],
   ['register, policies', 'register.html#policies', async p => {}],
