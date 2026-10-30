@@ -311,6 +311,13 @@ function fieldTags(a){
 
 /* ─────────── full activity detail (screen dialog and print) ─────────── */
 function sec(title, body){ return body ? '<section><h3>'+title+'</h3>'+body+'</section>' : ''; }
+/* Screen sections use native disclosures; print copies are ordinary, fully visible
+   sections built from the record, independent of every disclosure's open state. */
+function detailSection(title, body, opts){
+  if(!body) return '';
+  if(opts.print) return sec(title, body);
+  return '<details class="use-case-accordion"><summary><h3>'+title+'</h3></summary><div class="use-case-accordion__body">'+body+'</div></details>';
+}
 function p(t, cls){ return t ? '<p'+(cls?' class="'+cls+'"':'')+'>'+G(t)+'</p>' : ''; }
 function detailHTML(a, opts){
   opts = opts || {};
@@ -338,7 +345,7 @@ function detailHTML(a, opts){
   if(a.pc && L.pc[a.pc]) f += '<dt>Also required</dt><dd>'+esc(a.pc==='none' && a.eq==='no_tool_needed' && a.op==='faculty_or_staff'?'Instructor account and approval requirements need checking':L.pc[a.pc])+'</dd>';
   if(sourceAccess(a)) f += '<dt>Source item</dt><dd>'+esc(L.sa[a.sa])+'</dd>';
   f += '</dl>';
-  h += sec('At a glance', f);
+  h += detailSection('At a glance', f, opts);
 
   /* 3 · how people and the tool divide the work */
   var how = '';
@@ -346,7 +353,7 @@ function detailHTML(a, opts){
   if(a.gate) how += '<h4>'+(a.ac==='student'?(a.ar==='withheld'?'What students produce':'What students produce that the tool did not'):'The judgment that stays with you')+'</h4>'+p(a.gate);
   if(a.dep) how += '<h4>What it depends on the AI tool for</h4>'+p(a.dep);
   if(a.chk) how += '<h4>What the output is checked against</h4>'+p(a.chk);
-  h += sec('How people and the AI tool divide the work', how);
+  h += detailSection('How people and the AI tool divide the work', how, opts);
 
   /* 4 · before you use it */
   var b = '';
@@ -374,7 +381,7 @@ function detailHTML(a, opts){
     'This use-case idea is part of the '+esc(tierOf(a).label.toLowerCase())+'. No one has reported teaching or running it yet. Consider treating it as a starting design rather than a tested one.</div>';
   if(a.use==='unreported') b +='<div class="note"><strong>A published prompt or workflow.</strong> '+
     'It is openly licensed and cited, but no results from using it have been reported. Consider treating it as a starting design rather than a tested one.</div>';
-  h += sec('Before you use it', b);
+  h += detailSection('Before you use it', b, opts);
 
   /* 5 · without AI */
   var na = '';
@@ -382,7 +389,7 @@ function detailHTML(a, opts){
   else if(a.op==='none') na = '<p>This use-case idea runs without any AI tool.</p>';
   else if(a.op==='optional') na = '<p>The use-case idea as described is complete without an AI tool; the AI step it mentions is optional.</p>';
   else if(!a.op && (a.cap||[]).indexOf('none_required')>=0) na = '<p>This use-case idea runs without any AI tool.</p>';
-  h += sec('A route without AI', na);
+  h += detailSection('A route without AI', na, opts);
 
   /* 6 · adapting it */
   var ad = '';
@@ -395,7 +402,7 @@ function detailHTML(a, opts){
   if(a.ev && a.ev.length) ad += '<h4>Also described for</h4><ul>'+a.ev.map(function(v){return '<li>'+esc(v[0])+(v[1]?' ('+esc(v[1])+')':'')+'</li>';}).join('')+'</ul>';
   if(a.var && BYID[a.var]) ad += '<h4>Related use-case idea</h4><p>A variation of '+
       (opts.print ? '“'+esc(BYID[a.var].t)+'”' : '<a href="#" data-open="'+esc(a.var)+'">'+esc(BYID[a.var].t)+'</a>')+'.</p>';
-  h += sec('Adapting it', ad);
+  h += detailSection('Adapting it', ad, opts);
 
   /* 7 · what the source reports */
   var sr = '';
@@ -405,7 +412,7 @@ function detailHTML(a, opts){
   }
   if(a.pr) sr += '<h4>A prompt the source provides</h4><p>“'+G(a.pr)+'”</p>';
   if(a.tool) sr += '<p class="meta-line">Tool named in the source: '+esc(a.tool)+'. Recorded as reported, not as a recommendation.</p>';
-  h += sec('What the source reports', sr);
+  h += detailSection('What the source reports', sr, opts);
 
   /* 8 · source, license, attribution */
   var o = ORIGIN[a.cls], T = tierOf(a);
@@ -429,8 +436,9 @@ function detailHTML(a, opts){
   if(a.licn) src += '<p class="meta-line">'+esc(a.licn)+'</p>';
   if(a.attr) src += '<h4>Attribution to keep when reusing</h4>'+lines(a.attr).map(function(x){ return '<p>'+esc(x)+'</p>'; }).join('');
   if(a.chg) src += '<h4>'+(T ? 'How it was put together' : 'How this version differs from the source')+'</h4>'+p(a.chg);
+  var works = '';
   if(a.rel && a.rel.length){
-    src += '<h4>Works it draws on</h4><ul>'+a.rel.map(function(r){
+    works = '<ul>'+a.rel.map(function(r){
       var t = esc(r[2]);
       var link = opts.print ? t : '<a href="'+reg+'#src='+encodeURIComponent(r[0])+'">'+t+'</a>';
       return '<li>'+esc(r[1])+': '+link+(r[3]?' <span class="meta-line">('+esc(r[3])+')</span>':'')+'</li>';
@@ -439,7 +447,8 @@ function detailHTML(a, opts){
   /* the identifier stays internal (deep links, saving, sources); only the way into The Register is shown */
   if(!opts.print && !opts.inRegister)
     src += '<p class="idline"><a href="'+reg+'#act='+encodeURIComponent(a.id)+'">'+icon('i-crt')+' Open in The Register</a></p>';
-  h += sec('Source and license', src);
+  h += detailSection('Source and license', src, opts);
+  h += detailSection('Works it draws on', works, opts);
 
   return '<div class="detail">'+h+'</div>';
 }
@@ -699,6 +708,8 @@ function init(ctx){
     if(t.closest('[data-give-feedback]')){
       var feedback = ad.querySelector('.activity-feedback');
       if(feedback){
+        var disclosure = feedback.querySelector('details');
+        if(disclosure) disclosure.open = true;
         var input = feedback.querySelector('.activity-feedback__main input:checked') || feedback.querySelector('.activity-feedback__main input');
         input.focus({preventScroll:true});
         var body = getComputedStyle(ad).overflowY==='auto' ? ad : ad.querySelector('.dlg__body'), zoom = parseFloat(getComputedStyle(document.body).zoom) || 1;

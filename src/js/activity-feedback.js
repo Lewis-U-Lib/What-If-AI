@@ -50,15 +50,16 @@ function render(id, surface){
   var saved = (pending[id] && pending[id].value) || receipt(id) || {};
   return '<form class="activity-feedback no-print" data-activity="'+esc(id)+'" data-surface="'+esc(surface)+'" aria-labelledby="activity-feedback-title">'+
     '<div class="activity-feedback__heading"><h3 id="activity-feedback-title">Share your experience</h3><span class="kicker">Optional</span></div>'+
-    '<p class="activity-feedback__note" id="activity-feedback-privacy">Help us improve the collection. No name or email is collected, and only the library team sees the answers.</p>'+
-    '<fieldset class="activity-feedback__main" aria-describedby="activity-feedback-privacy"><legend>Where are you with this use-case idea?</legend>'+
+    '<p class="activity-feedback__note" id="activity-feedback-privacy">Help us improve the collection. No name or email is collected and only the library team sees the answers.</p>'+
+    '<details class="feedback-accordion"><summary id="activity-feedback-question">Where are you with this use-case idea?</summary><div class="feedback-accordion__body">'+
+    '<fieldset class="activity-feedback__main" aria-labelledby="activity-feedback-question" aria-describedby="activity-feedback-privacy">'+
     radios('activity-response', RESPONSES, saved.response)+'</fieldset>'+
     '<fieldset class="activity-feedback__followup" data-followup="used" hidden><legend>How did it go? <span>(Optional)</span></legend>'+
     radios('activity-outcome', OUTCOMES, saved.outcome)+'<button type="button" class="btn btn--sm btn--quiet" data-clear-followup>Clear optional answer</button></fieldset>'+
     '<fieldset class="activity-feedback__followup" data-followup="not_fit" hidden><legend>What was the main reason? <span>(Optional)</span></legend>'+
     radios('activity-reason', REASONS, saved.reason)+'<button type="button" class="btn btn--sm btn--quiet" data-clear-followup>Clear optional answer</button></fieldset>'+
     '<div class="activity-feedback__actions"><button type="submit" class="btn btn--sm btn--primary" disabled>Send feedback</button>'+
-    '<p class="activity-feedback__status" role="status" aria-live="polite" aria-atomic="true"></p></div></form>';
+    '<p class="activity-feedback__status" role="status" aria-live="polite" aria-atomic="true"></p></div></div></details></form>';
 }
 function selection(form){
   function value(name){ var input = form.querySelector('input[name="'+name+'"]:checked'); return input ? input.value : ''; }

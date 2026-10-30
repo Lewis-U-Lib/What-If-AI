@@ -27,6 +27,8 @@ const STATES = [
   ['What If AI · unconfirmed requirements', 'what-if-ai.html#a=focus:teaching;task:design;lim:noaccount+nodisclose', async p => {
     await p.click('.requirement-checks > summary'); }],
   ['What If AI · activity details open', 'what-if-ai.html#a=focus:teaching;task:design', async p => { await p.click('#plan [data-open]'); }],
+  ['What If AI · every use-case section expanded', 'what-if-ai.html#act=CAN-G-GAP-004', async p => {
+    await p.locator('#actDialog details').evaluateAll(ds => ds.forEach(d => d.open = true)); }],
   ['What If AI · saved drawer with items', 'what-if-ai.html#a=focus:teaching;task:design', async p => {
     const s = await p.$$('#plan button[data-save]'); await s[0].click(); await s[1].click(); await p.click('.topbar [data-open-saved]'); }],
   ['What If AI · walkthrough, first step', 'what-if-ai.html', async p => { await p.click('.hdr [data-open-tour]'); }],
@@ -39,12 +41,15 @@ const STATES = [
   ['The Register · floating navigation open', 'register.html#activities', async p => { await p.click('#fabToggle'); }],
   ['The Register · activities filtered', 'register.html#activities?cap=text_chat&pol=open', async p => {}],
   ['The Register · activity details open', 'register.html#activities', async p => { await p.click('#activities [data-open]'); }],
+  ['The Register · every use-case section expanded', 'register.html#act=CAN-G-GAP-004', async p => {
+    await p.locator('#actDialog details').evaluateAll(ds => ds.forEach(d => d.open = true)); }],
   ['The Register · remix set, filtered', 'register.html#activities?set=remix', async p => {}],
   ['The Register · remix activity details open', 'register.html#activities?set=remix', async p => { await p.click('#activities [data-open]'); }],
   ['The Register · who uses an AI tool, filtered', 'register.html#activities?op=faculty_or_staff&noai=1', async p => {}],
   ['What If AI · the renamed No-AI limit', 'what-if-ai.html#q=limits&a=focus:teaching;task:design', async p => {}],
   ['The Register · synthesis activity details open', 'register.html#activities?set=synthesis', async p => { await p.click('#activities [data-open]'); }],
   ['The Register · source item that needs access, details open', 'register.html#act=WIA-S-BUS-B-04', async p => {
+    await p.locator('#actDialog summary').filter({hasText:'Before you use it'}).click();
     await p.$eval('#actDialog .note--caution', e => e.scrollIntoView({block:'center'})); }],
   ['The Register · source items open to adapt', 'register.html#activities?set=synthesis&open=1', async p => {}],
   ['The Register · types of AI systems', 'register.html#ai-types', async p => {}],

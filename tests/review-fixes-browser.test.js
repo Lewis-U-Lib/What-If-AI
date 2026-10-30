@@ -51,11 +51,12 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
     await p.evaluate(()=>SITE.Saved.clear());
     for(const id of examples){
       await go(page,'#act='+id);await p.waitForSelector('#actDialog[open]');
+      await p.locator('#actDialog summary').filter({hasText:'Before you use it'}).click();
       const heading=p.locator('#actDialog h4',{hasText:'Evidence and limitations'});
       await heading.scrollIntoViewIfNeeded();
       assert.ok(await heading.isVisible(),page+': evidence heading is visible');
       assert.equal(await heading.evaluate(h=>h.nextElementSibling.textContent),BY.get(id).evs,id+': original qualification');
-      assert.equal(await heading.evaluate(h=>h.closest('section').querySelector('h3').textContent),'Before you use it');
+      assert.equal(await heading.evaluate(h=>h.closest('details').querySelector('summary h3').textContent),'Before you use it');
       await p.locator('#actDialog [data-save]').click();
       await p.keyboard.press('Escape');await p.waitForFunction(()=>!document.querySelector('#actDialog').open);
     }
