@@ -29,6 +29,7 @@ async function ready(p){await p.waitForSelector('html[data-ready]',{state:'attac
   const go=async(file,hash='')=>{await p.goto('about:blank');await p.goto(server.url(file+hash));await ready(p);};
   for(const file of ['what-if-ai.html','register.html']){
    await go(file,'#act='+optional.id);await p.waitForSelector('#actDialog[open]');
+   await p.locator('#actDialog summary').filter({hasText:'A route without AI'}).click();
    assert.match(await p.locator('#actDialog').innerText(),/without a generative AI tool/);
    assert.match(await p.locator('#actDialog').innerText(),/requirements recorded above describe the main design/);
    assert.equal(await p.evaluate(id=>FINDER_MATCH.search(SITE.A.filter(a=>a.id===id),{limits:{noai:true}}).confirmed,optional.id),1);
