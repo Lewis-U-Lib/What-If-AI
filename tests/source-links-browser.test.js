@@ -52,6 +52,7 @@ const policy = api.create(data);
       assert.deepEqual(failures, []);
       const a = acts.find(a => a.url && a.url.endsWith('#page=14'));
       await page.evaluate(id => SITE.openActivity(id), a.id);
+      await page.locator('#actDialog summary').filter({hasText:'Source and license'}).click();
       await page.waitForSelector('dialog[open] [data-source-file]');
       assert.ok((await page.locator('dialog[open] [data-source-file]').first().getAttribute('href')).includes('source-file.html#'));
     }
