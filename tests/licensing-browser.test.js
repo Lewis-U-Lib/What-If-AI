@@ -30,7 +30,7 @@ const SITE = path.join(ROOT, '_site'), license = cfg.tool_license;
         const symbols=link.querySelector('.cc-license-symbols');
         return getComputedStyle(link).backgroundColor==='rgba(0, 0, 0, 0)' &&
           getComputedStyle(symbols).filter.includes('drop-shadow') &&
-          getComputedStyle(symbols.querySelector('path')).fill===getComputedStyle(document.querySelector('.site-foot__text a')).color;
+          getComputedStyle(symbols.querySelector('path')).fill===getComputedStyle(link).color;
       }));
       assert.equal(await page.locator('[data-guide-license]').count(),0);
       assert.ok(await page.locator('.cc-icons').evaluate(link => link.getAttribute('aria-label').includes('Attribution-NonCommercial-NoDerivatives')));

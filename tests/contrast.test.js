@@ -15,10 +15,16 @@ let SRV = null;
 const URL = f => SRV.url(f);
 /* pages with data are ready once boot.js has loaded it; the landing and 404 pages have none */
 async function ready(page) { await page.waitForFunction(() => document.documentElement.hasAttribute('data-ready') || !document.getElementById('site-manifest'), null, { timeout: 15000 }); }
-const SURFACES = '.topbar, .hdr, .panel__head, .dlg__head, .site-foot, .polpanel, .sec-eyebrow, .btn--primary, .secnav a, .save, .rail .railitem, .protocols, .countline, .readout, .ftag, .type--compact, .type-dialog, .type-example-disclosure > summary, .type-bibliography, .tour__text, .activity-feedback, .match-note, .requirement-checks > summary, .use-case-accordion > summary';
+const SURFACES = '.topbar, .hdr, .panel__head, .dlg__head, .site-foot, .polpanel, .sec-eyebrow, .btn--primary, .secnav a, .save, .rail .railitem, .protocols, .countline, .readout, .ftag, .type--compact, .type-dialog, .type-example-disclosure > summary, .type-bibliography, .tour__text, .activity-feedback, .match-note, .requirement-checks > summary, .use-case-accordion > summary, .fab-menu, .chat-modal__head';
 const PCT = 0.9;   // background percentile compared (0.9 = brighter than 90% of the pixels behind the text)
 
 const STATES = [
+  ...['what-if-ai.html', 'register.html#ai-types'].flatMap(file => [
+    [file + ', footer and disclosure', file, async p => { await p.locator('.site-foot').scrollIntoViewIfNeeded(); }],
+    [file + ', FAB open', file, async p => { await p.click('#fabToggle'); await p.mouse.move(1,1); }],
+    [file + ', FAB hovered', file, async p => { await p.click('#fabToggle'); await p.locator('.fab-item').first().hover(); }],
+    [file + ', FAB keyboard focus', file, async p => { await p.focus('#fabToggle'); await p.keyboard.press('Enter'); await p.locator('.fab-item').last().focus(); }],
+  ]),
   ['finder, first question', 'what-if-ai.html', async p => {}],
   ['finder, results', 'what-if-ai.html#a=focus:teaching;task:feedback', async p => {}],
   ['finder, compatibility notes', 'what-if-ai.html#a=focus:research_own;task:qualitative;disc:education;mod:online', async p => {
@@ -108,7 +114,9 @@ const ratio = (a, b) => { const [hi, lo] = a > b ? [a, b] : [b, a]; return (hi +
           }
           out.y0 = scrollY; return { out, y0: scrollY };
         }, SURFACES).then(r => Object.assign(r.out, { y0: r.y0 }));
-        await page.addStyleTag({ content: '*,*::before,*::after{color:transparent !important;-webkit-text-fill-color:transparent !important;text-shadow:none !important;caret-color:transparent !important}.fab-wrap,.fab-scrim{visibility:hidden !important}' });
+        if (name.includes('FAB') && !runs.some(r => /Ask Us/.test(r.t))) throw new Error(name + ': no menu text was sampled');
+        // Keep the actual overlay layers: hiding them would miss translucent hover bugs.
+        await page.addStyleTag({ content: '*,*::before,*::after{color:transparent !important;-webkit-text-fill-color:transparent !important;text-shadow:none !important;caret-color:transparent !important}' });
         await page.waitForTimeout(80);
         const y0 = runs.y0, buf = await page.screenshot();
         if (await page.evaluate(() => scrollY) !== y0) throw new Error(name + ': page scrolled between measuring text and reading pixels'); const shot = buf.toString('base64');

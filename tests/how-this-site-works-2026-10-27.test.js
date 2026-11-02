@@ -13,7 +13,7 @@ const norm=s=>String(s||'').replace(/\s+/g,' ').trim();
 
 const FINDER='Results come from fixed matching rules set by the Library. No AI system reads your answers or generates your results, and your answers stay in this browser.';
 const REGISTER='Every entry is a fixed, static record you can read, search, and print; nothing is generated as you browse.';
-const MADE='AI assistance was used to realize this resource, utilized for coding, collation, editing, and certain visual elements.';
+const MADE='HCAI and HITL Disclosure: AI assistance was used to realize this resource, utilized for coding, collation, editing, and certain visual elements. Claude Opus 5.5, Claude Fable, ChatGPT GPT-6 Astra, and Canva AI were employed in building the resource and followed a Human-Centered AI framework (HCAI) and Human-in-the-Loop deployment (HITL).';
 const ASKUS='During staffed hours, Ask Us connects you to library staff. At other times it shows a set menu of answers written by the Library and a form for leaving your email. No AI system writes the replies.';
 const RAIL='Matched by fixed rules set by the Library. No AI system reads your answers.';
 const TITLES=['What If AI','The Register','What leaves your browser','Ask Us','Links to other sites','How it was made'];
@@ -124,7 +124,7 @@ const TITLES=['What If AI','The Register','What leaves your browser','Ask Us','L
     /* the footer's disclosure says the same thing as the dialog's "How it was made", on every page */
     for(const f of ['','what-if-ai.html','register.html']){
       await p.goto(server.url(f));
-      assert.equal(norm(await p.textContent('.site-foot .hcai')),'HCAI Disclosure: '+MADE+' Its use followed a Human-Centered AI (HCAI) framework.',(f||'landing page')+': footer disclosure');
+      assert.equal(norm(await p.textContent('.site-foot .hcai')),MADE,(f||'landing page')+': footer disclosure');
     }
     await ctx.close();
     pass('facts: each page can contact only itself and the visit counter, embeds only Ask Us, and visit counting omits answers and search text');

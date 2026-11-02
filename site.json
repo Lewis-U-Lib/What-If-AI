@@ -9,7 +9,7 @@
    "what-if-ai": ["what-if-ai.css"],
    "register": ["register.css"],
    "register-types": ["register-types.css"],
-   "theme": ["theme-plate.css", "lab.css", "inline-moved.css"]
+   "theme": ["theme-plate.css", "lab.css", "inline-moved.css", "incandescent.css"]
   },
   "js": {
    "boot": ["boot.js"],

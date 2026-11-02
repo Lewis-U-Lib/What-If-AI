@@ -14,6 +14,11 @@ const URL = f => SRV.url(f);
 async function ready(page) { await page.waitForFunction(() => document.documentElement.hasAttribute('data-ready') || !document.getElementById('site-manifest'), null, { timeout: 15000 }); }
 
 const STATES = [
+  ...['what-if-ai.html', 'register.html#ai-types'].flatMap(file => [
+    [file + ' · floating button hovered', file, async p => { await p.click('#fabToggle'); await p.locator('.fab-item').first().hover(); }],
+    [file + ' · floating button keyboard focus', file, async p => { await p.focus('#fabToggle'); await p.keyboard.press('Enter'); await p.locator('.fab-item').last().focus(); }],
+    [file + ' · footer and disclosure', file, async p => { await p.locator('.site-foot').scrollIntoViewIfNeeded(); }],
+  ]),
   ['What If AI · first question', 'what-if-ai.html', async p => {}],
   ['What If AI · floating navigation open', 'what-if-ai.html', async p => { await p.click('#fabToggle'); }],
   ['What If AI · field, with level and setting open', 'what-if-ai.html', async p => {
