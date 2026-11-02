@@ -137,7 +137,9 @@ async function ready(p){await p.waitForSelector('html[data-ready]',{state:'attac
   assert.deepEqual(errors,[]);await ctx.close();
   // Fixed byte budgets catch material growth; network timing remains an observation, not a portable promise.
   // Raised on 2026-10-13 for the source-checked change notes and attribution lines (+~170 KB compressed).
-  for(const [file,budget] of [['what-if-ai.html',1450000],['register.html',1650000]]){
+  // 2026-11-02: the incandescent CSS, SVG logo/filaments, and linked disclosure
+  // add ~4.6 KB gzip to What If AI (1,454,044 bytes measured); retain ~6 KB headroom.
+  for(const [file,budget] of [['what-if-ai.html',1460000],['register.html',1650000]]){
    const log=[],s=await start({dir:SITE,log}),c=await createContext(browser),q=await c.newPage();
    await q.goto(s.url(file));await ready(q);await q.waitForTimeout(200);
    const paths=[...new Set(log.map(x=>x.path))];

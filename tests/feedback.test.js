@@ -135,6 +135,9 @@ const fixture = 'window.umami = { track: function(){}, getSession: function(){ r
       await page.emulateMedia({ forcedColors: 'active' });
       check(file + ': radios remain visible in forced colors', await form.locator('[value="not_fit"]').isVisible());
       check(file + ': no script errors or CSP violations', errors.length === 0 && (await page.evaluate(() => window.__violations)).length === 0);
+      // Finish local proxy responses, including the forced-color logo asset,
+      // before closing the context that owns their requests.
+      await ctx.unrouteAll({ behavior: 'wait' });
       await ctx.close();
     }
     const local = await createContext(browser);

@@ -32,6 +32,7 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
  for(const s of source.sources){
    assert.equal(await page.locator('.type-bibliography li[value="'+s.id+'"] a').getAttribute('href'),s.url);
    assert.ok(!(await page.locator('.type-bibliography li[value="'+s.id+'"]').textContent()).includes(s.locator), 'reference annotations stay out of the bibliography');
+   assert.equal((await page.locator('.type-bibliography li[value="'+s.id+'"]').textContent()).trim(),s.title+' (opens in a new tab)','bibliography contains only the citation and accessible link cue');
  }
  const bibliography=page.locator('.type-bibliography__list');
  const bibliographyToggle=bibliography.locator('summary');
@@ -95,7 +96,7 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
    assert.equal(await page.locator('.type-slide').nth(4).locator('.type-sources li').count(),[...new Set(Object.values(t.citations).flat())].length);
    const cited=[...new Set(Object.values(t.citations).flat())].sort((a,b)=>a-b);
    assert.deepEqual(await page.locator('#aiTypeDialog .type-sources li').evaluateAll(ns=>ns.map(n=>Number(n.value))),cited);
-   for(const id of cited) assert.ok(!(await page.locator('#aiTypeDialog .type-sources li[value="'+id+'"]').textContent()).includes(source.sources.find(s=>s.id===id).locator), 'reference annotations stay out of the dialog');
+   for(const id of cited) assert.equal((await page.locator('#aiTypeDialog .type-sources li[value="'+id+'"]').textContent()).trim(),source.sources.find(s=>s.id===id).title+' (opens in a new tab)','dialog references contain only the citation and accessible link cue');
    assert.equal((await page.locator('#aiTypeDialog').textContent()).includes('Source check:'),false);
    assert.ok(await page.locator('#aiTypeDialog .type-cite').count()>0);
    assert.equal(await page.locator('.type-example .type-cite').count(),0);
