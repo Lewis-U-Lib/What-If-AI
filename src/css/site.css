@@ -262,7 +262,8 @@ a.license-mark{min-height:44px;}
   background:rgba(40,5,14,.35);color:var(--ink-2);text-align:center;}
 .site-foot__inner{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:12px;align-items:center;}
 .site-foot__license{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 14px;}
-.site-foot .cc-icons{margin:0;color:var(--gold);gap:6px;min-height:44px;}
+.site-foot .cc-icons{margin:0;color:var(--gold);gap:6px;min-height:44px;background:none;}
+.cc-license-symbols{display:block;flex:none;width:152px;height:32px;fill:currentColor;}
 .site-foot__details{max-width:760px;font-size:14.5px;text-align:left;}
 .site-foot__details summary{cursor:pointer;color:var(--gold);}
 .site-foot__details p{margin-top:10px;}
