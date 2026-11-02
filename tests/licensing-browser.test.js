@@ -24,8 +24,14 @@ const SITE = path.join(ROOT, '_site'), license = cfg.tool_license;
       assert.equal((await page.locator('[data-license-exceptions]').textContent()).trim(), license.exceptions);
       await page.locator('#license-details summary').click();
       assert.equal((await page.locator('[data-license-history]').textContent()).trim(), license.history_notice);
-      assert.equal(await page.locator('.cc-icons img').getAttribute('data-license-badge'), 'by-nc-nd');
-      assert.ok(await page.locator('.cc-icons img').evaluate(img=>img.complete && img.naturalWidth===88));
+      assert.equal(await page.locator('.cc-license-symbols').getAttribute('data-license-badge'), 'by-nc-nd');
+      assert.deepEqual(await page.locator('.cc-icons [data-cc-symbol]').evaluateAll(symbols=>symbols.map(s=>s.dataset.ccSymbol)), ['cc','by','nc','nd']);
+      assert.ok(await page.locator('.cc-icons').evaluate(link=>{
+        const symbols=link.querySelector('.cc-license-symbols');
+        return getComputedStyle(link).backgroundColor==='rgba(0, 0, 0, 0)' &&
+          getComputedStyle(symbols).filter.includes('drop-shadow') &&
+          getComputedStyle(symbols.querySelector('path')).fill===getComputedStyle(document.querySelector('.site-foot__text a')).color;
+      }));
       assert.equal(await page.locator('[data-guide-license]').count(),0);
       assert.ok(await page.locator('.cc-icons').evaluate(link => link.getAttribute('aria-label').includes('Attribution-NonCommercial-NoDerivatives')));
       for (const width of [320,1280]) {

@@ -58,6 +58,10 @@ recorded license and version, including 3.0, 3.0 IGO, and 4.0. An unspecified
 version stays unspecified, without an invented deed link. Ambiguous source rights
 statements and non-CC terms retain their text without an inferred CC badge.
 Creative Commons marks follow its [trademark policy](https://creativecommons.org/policies/).
+The footer symbols in `src/partials/cc-license.svg` use the official CC, BY, NC,
+and ND paths from `https://mirrors.creativecommons.org/presskit/icons/{cc,by,nc,nd}.svg`,
+linked from the same downloads page. The white background circles are omitted;
+the paths use compact decimal precision and the site's gold color and glow.
 The Lewis University Library logo remains subject to its owner's rights. Neither
 logo nor the CC badges are relicensed as original tool artwork.
 
