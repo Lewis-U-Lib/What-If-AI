@@ -27,6 +27,10 @@
 /* the logo is pressed into the plate (icons.svg); it does not lift on hover or focus, its outline lights */
 .hdr__logo img,.hdr__logo:hover img{filter:url(#f-press);transform:none;transition:none;}
 .hdr__link:hover .hdr__logo img,.hdr__link:focus-visible .hdr__logo img{filter:url(#f-press) url(#f-glow);}
+@media(max-width:1100px){
+  .hdr__logo img,.hdr__logo:hover img{filter:url(#f-press-sm);}
+  .hdr__link:hover .hdr__logo img,.hdr__link:focus-visible .hdr__logo img{filter:url(#f-press-sm) url(#f-glow);}
+}
 .hdr--lab .hdr__identity{text-align:center;}
 .hdr--lab .hdr__masthead{min-height:6rem;padding:0 250px;display:flex;flex-direction:column;justify-content:center;}
 .hdr--lab .hdr__tagline{max-width:54rem;margin:.6rem auto 0;}

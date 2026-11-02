@@ -120,6 +120,23 @@
       <feComposite in2="seam" operator="in"/>
       <feMerge><feMergeNode/><feMergeNode in="metal"/></feMerge>
     </filter>
+    <!-- f-press-sm: a finer bevel and seam for the smaller logo on narrow screens -->
+    <filter id="f-press-sm" x="-3%" y="-8%" width="106%" height="116%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation=".55"/>
+      <feComponentTransfer><feFuncA type="table" tableValues="1 0"/></feComponentTransfer>
+      <feDiffuseLighting surfaceScale="1.25" lighting-color="#fff" result="light"><feDistantLight azimuth="240" elevation="52"/></feDiffuseLighting>
+      <feTurbulence type="fractalNoise" baseFrequency=".0045 .7" numOctaves="2" seed="4"/>
+      <feColorMatrix values="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 1" result="grain"/>
+      <feFlood flood-color="#efe7da"/>
+      <feComposite in2="grain" operator="arithmetic" k2="1" k3=".14" k4="-.07"/>
+      <feComposite in2="light" operator="arithmetic" k1="1.27"/>
+      <feComposite in2="SourceAlpha" operator="in" result="metal"/>
+      <feMorphology in="SourceAlpha" operator="dilate" radius=".6"/>
+      <feComposite in2="SourceAlpha" operator="out" result="seam"/>
+      <feFlood flood-color="#0c0104" flood-opacity=".62"/>
+      <feComposite in2="seam" operator="in"/>
+      <feMerge><feMergeNode/><feMergeNode in="metal"/></feMerge>
+    </filter>
     <filter id="f-glow" x="-20%" y="-50%" width="140%" height="200%" color-interpolation-filters="sRGB">
       <feMorphology in="SourceAlpha" operator="dilate" radius="5"/>
       <feMorphology operator="erode" radius="5" result="shape"/>

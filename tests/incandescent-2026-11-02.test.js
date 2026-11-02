@@ -55,6 +55,9 @@ async function pixels(ctx, buf) {
           { text: 'Report an Issue', href: REPORT, target: '_blank', rel: 'noopener noreferrer', sr: '(opens in a new tab)', icon: '#i-alert' });
         assert.ok(await p.$('#i-alert'), 'the alert icon is defined on the page');
         assert.ok((await p.textContent('#privacy')).includes('Report an Issue'), 'the privacy note names every Springshare form the footer links to');
+        // links inside running text need more than color to stand out
+        for (const sel of ['.site-foot__links a', '.site-foot .hcai a', '#aboutDialog .tour__text a'])
+          for (const d of await p.$$eval(sel, as => as.map(a => getComputedStyle(a).textDecorationLine))) assert.equal(d, 'underline', (f || 'landing') + ': ' + sel + ' is underlined');
       }
       await ctx.close();
       pass('footer: Report an Issue (new tab, labeled) follows Send feedback on the landing page, both tools, and the 404 page');
@@ -70,7 +73,7 @@ async function pixels(ctx, buf) {
       /* ── the pressed logo ── */
       const filt = () => p.$eval('.hdr__logo img', i => getComputedStyle(i).filter);
       assert.equal(await p.$eval('#f-press', n => n.tagName.toLowerCase()), 'filter');
-      assert.equal(await p.$eval('#f-glow', n => n.tagName.toLowerCase()), 'filter');
+      for (const id of ['#f-glow', '#f-press-sm']) assert.equal(await p.$eval(id, n => n.tagName.toLowerCase()), 'filter');
       await p.mouse.move(5, 600);
       assert.match(await filt(), /url\("#f-press"\)/, file + ': the logo rests pressed into the plate');
       assert.equal(await p.$eval('.hdr__logo img', i => getComputedStyle(i).transform), 'none', 'a pressing does not lift');
@@ -95,6 +98,9 @@ async function pixels(ctx, buf) {
       assert.ok(await p.evaluate(() => document.activeElement.matches('.hdr__link:focus-visible')), 'the logo link is reachable by keyboard');
       assert.match(await filt(), /url\("#f-press"\) url\("#f-glow"\)/, file + ': the outline lights on keyboard focus');
       await p.evaluate(() => document.activeElement.blur());
+      await p.setViewportSize({ width: 390, height: 844 }); await p.mouse.move(5, 600);
+      assert.match(await filt(), /^url\("#f-press-sm"\)$/, file + ': a finer pressing for the smaller logo on narrow screens');
+      await p.setViewportSize({ width: 1440, height: 900 });
       await p.emulateMedia({ contrast: 'more' }); assert.equal(await filt(), 'none', 'more contrast: plain logo');
       await p.emulateMedia({ contrast: 'no-preference', forcedColors: 'active' }); assert.equal(await filt(), 'none', 'forced colors: plain logo');
       await p.emulateMedia({ forcedColors: 'none', media: 'print' }); assert.equal(await filt(), 'brightness(0)', 'print: a black logo, visible on paper');
