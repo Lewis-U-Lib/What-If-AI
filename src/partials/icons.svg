@@ -102,6 +102,39 @@
     <!-- arrows for the walkthrough -->
     <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5.5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h13.5M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <!-- f-press: the logo as nickel pressed into the plate (lit inverted bevel, brushed face, dark seam).
+         f-glow, chained after it on hover and focus, lights the outline of the closed silhouette only. -->
+    <filter id="f-press" x="-3%" y="-8%" width="106%" height="116%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation=".75"/>
+      <feComponentTransfer><feFuncA type="table" tableValues="1 0"/></feComponentTransfer>
+      <feDiffuseLighting surfaceScale="1.7" lighting-color="#fff" result="light"><feDistantLight azimuth="240" elevation="52"/></feDiffuseLighting>
+      <feTurbulence type="fractalNoise" baseFrequency=".0045 .7" numOctaves="2" seed="4"/>
+      <feColorMatrix values="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 1" result="grain"/>
+      <feFlood flood-color="#efe7da"/>
+      <feComposite in2="grain" operator="arithmetic" k2="1" k3=".14" k4="-.07"/>
+      <feComposite in2="light" operator="arithmetic" k1="1.27"/>
+      <feComposite in2="SourceAlpha" operator="in" result="metal"/>
+      <feMorphology in="SourceAlpha" operator="dilate" radius=".9"/>
+      <feComposite in2="SourceAlpha" operator="out" result="seam"/>
+      <feFlood flood-color="#0c0104" flood-opacity=".78"/>
+      <feComposite in2="seam" operator="in"/>
+      <feMerge><feMergeNode/><feMergeNode in="metal"/></feMerge>
+    </filter>
+    <filter id="f-glow" x="-20%" y="-50%" width="140%" height="200%" color-interpolation-filters="sRGB">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="5"/>
+      <feMorphology operator="erode" radius="5" result="shape"/>
+      <feGaussianBlur stdDeviation="1.1"/>
+      <feComponentTransfer result="b1"><feFuncA type="linear" slope="2.4"/></feComponentTransfer>
+      <feGaussianBlur in="shape" stdDeviation="3.6" result="b2"/>
+      <feGaussianBlur in="shape" stdDeviation="9" result="b3"/>
+      <feFlood flood-color="#f2a900" flood-opacity=".34"/><feComposite in2="b3" operator="in"/><feComposite in2="shape" operator="out" result="g3"/>
+      <feFlood flood-color="#ffc72c" flood-opacity=".72"/><feComposite in2="b2" operator="in"/><feComposite in2="shape" operator="out" result="g2"/>
+      <feFlood flood-color="#fff3cf"/><feComposite in2="b1" operator="in"/><feComposite in2="shape" operator="out"/>
+      <feMerge><feMergeNode in="g3"/><feMergeNode in="g2"/><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- warning triangle -->
+    <symbol id="i-alert" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10.4 4.4 2.9 17.6a1.8 1.8 0 0 0 1.6 2.7h15a1.8 1.8 0 0 0 1.6-2.7L13.6 4.4a1.8 1.8 0 0 0-3.2 0z"/><path d="M12 9.2v4.4"/></g><circle cx="12" cy="16.8" r="1.1" fill="currentColor"/></symbol>
     <!-- printer -->
     <symbol id="i-print" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <path d="M6.4 8.6V3.2h11.2v5.4"/><rect x="2.8" y="8.6" width="18.4" height="8.4" rx="1.8"/><path d="M6.4 14.2h11.2v6.6H6.4z"/><path d="M17.4 11.6h.01" stroke-width="2.4"/></g></symbol>

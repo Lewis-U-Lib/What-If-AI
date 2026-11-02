@@ -196,6 +196,5 @@ html.type-dialog-open{overflow:hidden;}
 .type-sources li{padding-left:5px;margin:0 0 18px;max-width:95ch;font-size:16px;line-height:1.5;overflow-wrap:anywhere;}
 .type-sources li::marker{color:var(--gold);font-weight:700;}
 .type-sources a{color:var(--gold);text-decoration:underline;text-underline-offset:3px;}
-.type-source-kind{display:block;color:var(--ink);font-size:13px;font-weight:700;margin-top:4px;}
 .type-sources p,.type-evidence-note{color:var(--ink-2);font-size:14px;line-height:1.5;margin:4px 0 0;}
 .type-cite:focus-visible,.type-sources a:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
