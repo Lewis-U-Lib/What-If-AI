@@ -104,8 +104,8 @@
     <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5.5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h13.5M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <!-- f-cut: the logo cut into the plate. The cut floor is bright bare metal (so the mark stays very visible); the
-         plate's upper-left lip casts a shadow into the cut and the lower-right wall catches the light; a dark edge and a lit
-         lower lip run around the outside. Bevels follow a closed copy of the silhouette, so hairline lettering stays clean.
+         plate's upper-left lip casts a shadow into the cut and the lower-right wall catches the light; a dark edge and a
+         copper-amber lower lip run around the outside. Bevels follow a closed copy of the silhouette, so hairline lettering stays clean.
          f-cut-sm is the same cut, shallower, for the smaller logo. f-glow, chained after it, lights the outline. -->
     <filter id="f-cut" x="-4%" y="-10%" width="108%" height="120%" color-interpolation-filters="sRGB">
       <feMorphology in="SourceAlpha" operator="dilate" radius="1.20"/>
@@ -132,7 +132,7 @@
       <feComposite in2="ring" operator="in" result="edge"/>
       <feOffset in="solid" dx="0.90" dy="1.20" result="o2"/>
       <feComposite in="o2" in2="solid" operator="out" result="br"/>
-      <feFlood flood-color="#ffd9df" flood-opacity="0.42"/>
+      <feFlood flood-color="#edb979" flood-opacity=".62"/>
       <feComposite in2="br" operator="in" result="lip"/>
       <feMerge><feMergeNode in="lip"/><feMergeNode in="edge"/><feMergeNode in="floor"/><feMergeNode in="lit"/><feMergeNode in="shadow"/></feMerge>
     </filter>
@@ -161,7 +161,7 @@
       <feComposite in2="ring" operator="in" result="edge"/>
       <feOffset in="solid" dx="0.63" dy="0.84" result="o2"/>
       <feComposite in="o2" in2="solid" operator="out" result="br"/>
-      <feFlood flood-color="#ffd9df" flood-opacity="0.42"/>
+      <feFlood flood-color="#edb979" flood-opacity=".62"/>
       <feComposite in2="br" operator="in" result="lip"/>
       <feMerge><feMergeNode in="lip"/><feMergeNode in="edge"/><feMergeNode in="floor"/><feMergeNode in="lit"/><feMergeNode in="shadow"/></feMerge>
     </filter>
@@ -177,10 +177,9 @@
       <feFlood flood-color="#fff3cf"/><feComposite in2="b1" operator="in"/><feComposite in2="shape" operator="out"/>
       <feMerge><feMergeNode in="g3"/><feMergeNode in="g2"/><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <!-- an Edison squirrel-cage filament: the help button's round glass is the bulb around it -->
-    <symbol id="i-filament" viewBox="0 0 24 24"><g fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path class="fil-wire" stroke-width="1.1" d="M8.6 21.5v-7.4M15.4 21.5v-7.4M12 21.5v-5.2M12 6.4V4"/>
-      <path class="fil" stroke-width="1.5" d="M8.6 14.1 9.7 6.4l1.15 7.7L12 6.4l1.15 7.7 1.15-7.7 1.1 7.7"/></g></symbol>
+    <!-- one coiled tungsten filament (adapted from PR #36): the help button stacks three, which read as a menu icon
+         and swing into an × while the menu is open -->
+    <path id="fab-coil" d="M18 23h3c0.153 0.589 0.182 1.174 0.122 1.591c-0.06 0.417 -0.207 0.659 -0.355 0.659c-0.148 0 -0.295 -0.242 -0.355 -0.659c-0.06 -0.417 -0.031 -1.002 0.122 -1.591c0.153 -0.589 0.429 -1.174 0.795 -1.591c0.366 -0.417 0.818 -0.659 1.272 -0.659c0.454 0 0.906 0.242 1.272 0.659c0.366 0.417 0.642 1.002 0.795 1.591c0.153 0.589 0.182 1.174 0.122 1.591c-0.06 0.417 -0.207 0.659 -0.355 0.659c-0.148 0 -0.295 -0.242 -0.355 -0.659c-0.06 -0.417 -0.031 -1.002 0.122 -1.591c0.153 -0.589 0.429 -1.174 0.795 -1.591c0.366 -0.417 0.818 -0.659 1.272 -0.659c0.454 0 0.906 0.242 1.272 0.659c0.366 0.417 0.642 1.002 0.795 1.591c0.153 0.589 0.182 1.174 0.122 1.591c-0.06 0.417 -0.207 0.659 -0.355 0.659c-0.148 0 -0.295 -0.242 -0.355 -0.659c-0.06 -0.417 -0.031 -1.002 0.122 -1.591c0.153 -0.589 0.429 -1.174 0.795 -1.591c0.366 -0.417 0.818 -0.659 1.272 -0.659c0.454 0 0.906 0.242 1.272 0.659c0.366 0.417 0.642 1.002 0.795 1.591c0.153 0.589 0.182 1.174 0.122 1.591c-0.06 0.417 -0.207 0.659 -0.355 0.659c-0.148 0 -0.295 -0.242 -0.355 -0.659c-0.06 -0.417 -0.031 -1.002 0.122 -1.591c0.153 -0.589 0.429 -1.174 0.795 -1.591c0.366 -0.417 0.818 -0.659 1.272 -0.659c0.454 0 0.906 0.242 1.272 0.659c0.366 0.417 0.642 1.002 0.795 1.591c0.153 0.589 0.182 1.174 0.122 1.591c-0.06 0.417 -0.207 0.659 -0.355 0.659c-0.148 0 -0.295 -0.242 -0.355 -0.659c-0.06 -0.417 -0.031 -1.002 0.122 -1.591c0.153 -0.589 0.429 -1.174 0.795 -1.591c0.366 -0.417 0.818 -0.659 1.272 -0.659c0.454 0 0.906 0.242 1.272 0.659c0.366 0.417 0.642 1.002 0.795 1.591c0.153 0.589 0.182 1.174 0.122 1.591c-0.06 0.417 -0.207 0.659 -0.355 0.659c-0.148 0 -0.295 -0.242 -0.355 -0.659c-0.06 -0.417 -0.031 -1.002 0.122 -1.591c0.153 -0.589 0.429 -1.174 0.795 -1.591c0.366 -0.417 0.818 -0.659 1.272 -0.659c0.454 0 0.906 0.242 1.272 0.659c0.366 0.417 0.642 1.002 0.795 1.591h3"/>
     <!-- warning triangle -->
     <symbol id="i-alert" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <path d="M10.4 4.4 2.9 17.6a1.8 1.8 0 0 0 1.6 2.7h15a1.8 1.8 0 0 0 1.6-2.7L13.6 4.4a1.8 1.8 0 0 0-3.2 0z"/><path d="M12 9.2v4.4"/></g><circle cx="12" cy="16.8" r="1.1" fill="currentColor"/></symbol>

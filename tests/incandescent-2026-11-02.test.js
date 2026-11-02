@@ -59,8 +59,14 @@ async function pixels(ctx, buf) {
         for (const sel of ['.site-foot__links a', '.site-foot .hcai a', '#aboutDialog .tour__text a'])
           for (const d of await p.$$eval(sel, as => as.map(a => getComputedStyle(a).textDecorationLine))) assert.equal(d, 'underline', (f || 'landing') + ': ' + sel + ' is underlined');
       }
+      for (const [w, h] of [[1280, 900], [390, 844]]) {
+        await p.setViewportSize({ width: w, height: h }); await p.goto(server.url('register.html')); await p.waitForSelector('html[data-ready]', { state: 'attached' });
+        await p.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' })); await p.waitForTimeout(150);
+        const clear = await p.evaluate(() => { const f = document.getElementById('fabToggle').getBoundingClientRect(), d = document.querySelector('.hcai').getBoundingClientRect(); return f.top - d.bottom; });
+        assert.ok(clear >= 8, 'at the end of the page the help button sits below the disclosure, not over it (' + w + 'px: ' + clear + ')');
+      }
       await ctx.close();
-      pass('footer: Report an Issue (new tab, labeled) follows Send feedback on the landing page, both tools, and the 404 page');
+      pass('footer: Report an Issue (new tab, labeled) follows Send feedback on every page; the help button never covers the disclosure');
     }
 
     for (const file of ['what-if-ai.html', 'register.html']) {
@@ -73,7 +79,7 @@ async function pixels(ctx, buf) {
       /* ── the pressed logo ── */
       const filt = () => p.$eval('.hdr__logo img', i => getComputedStyle(i).filter);
       assert.equal(await p.$eval('#f-cut', n => n.tagName.toLowerCase()), 'filter');
-      for (const [id, tag] of [['#f-glow', 'filter'], ['#f-cut-sm', 'filter'], ['#i-filament', 'symbol']]) assert.equal(await p.$eval(id, n => n.tagName.toLowerCase()), tag);
+      for (const [id, tag] of [['#f-glow', 'filter'], ['#f-cut-sm', 'filter'], ['#fab-coil', 'path']]) assert.equal(await p.$eval(id, n => n.tagName.toLowerCase()), tag);
       await p.mouse.move(5, 600);
       assert.match(await filt(), /url\("#f-cut"\)/, file + ': the logo rests cut into the plate');
       assert.equal(await p.$eval('.hdr__logo img', i => getComputedStyle(i).transform), 'none', 'a cut mark does not lift');
@@ -103,6 +109,9 @@ async function pixels(ctx, buf) {
       await p.setViewportSize({ width: 1440, height: 900 });
       await p.emulateMedia({ contrast: 'more' }); assert.equal(await filt(), 'none', 'more contrast: plain logo');
       await p.emulateMedia({ contrast: 'no-preference', forcedColors: 'active' }); assert.equal(await filt(), 'none', 'forced colors: plain logo');
+      assert.deepEqual(await p.$eval('.hdr__logo', l => { const i = getComputedStyle(l.querySelector('img')), b = getComputedStyle(l, '::before');
+        return [i.opacity, b.maskImage.includes('logo.') || b.webkitMaskImage.includes('logo.'), b.forcedColorAdjust]; }), ['0', true, 'none'],
+        'forced colors: the logo is redrawn in the link color, so it never vanishes on a light Canvas');
       await p.emulateMedia({ forcedColors: 'none', media: 'print' }); assert.equal(await filt(), 'brightness(0)', 'print: a black logo, visible on paper');
       await p.emulateMedia({ media: 'screen' });
       pass(file + ': logo cut into the plate at rest, lit on hover and focus, ' + logoRatio.toFixed(1) + ':1 against the plate, with plain, forced-color, and print fallbacks');
@@ -175,9 +184,13 @@ async function pixels(ctx, buf) {
         assert.ok(cr >= 7, file + ' ' + state + ': menu text contrast ' + cr.toFixed(2) + ':1');
         console.log('      ' + file + ' menu item, ' + state + ': opaque; text ' + cr.toFixed(1) + ':1');
       }
-      // the help button is an Edison bulb: a filament that is orange at rest and white-hot while the menu is open
-      assert.equal(await p.$eval('#fabToggle use', u => u.getAttribute('href')), '#i-filament');
+      // the help button is an Edison bulb: three coils, orange at rest, white-hot and crossed into an × while the menu is open
+      assert.deepEqual(await p.$$eval('#fabToggle use', us => us.map(u => u.getAttribute('href'))), ['#fab-coil', '#fab-coil', '#fab-coil']);
       assert.equal(await p.$eval('#fabToggle', t => getComputedStyle(t).getPropertyValue('--fil').trim()), '#fffdf4', 'open: white-hot filament');
+      const coils = await p.$$eval('#fabToggle .fab-coils > g', gs => gs.map(g => [getComputedStyle(g).transform, getComputedStyle(g).opacity]));
+      assert.ok(coils[0][0] !== 'none' && coils[2][0] !== 'none' && coils[1][1] === '0', 'open: the coils form an × ' + JSON.stringify(coils));
+      // the menu's housing is opaque, so page content never shows between the items
+      assert.match(await p.$eval('#fabMenu', m => getComputedStyle(m).backgroundColor), /^rgb\(/, 'an opaque menu housing');
       const scrim = await p.$eval('#fabScrim', s => getComputedStyle(s).backgroundColor);
       assert.ok(Number(scrim.match(/[\d.]+/g)[3]) >= 0.65, 'the scrim dims the page firmly: ' + scrim);
       await p.evaluate(() => document.activeElement.blur()); await p.mouse.move(5, 300);

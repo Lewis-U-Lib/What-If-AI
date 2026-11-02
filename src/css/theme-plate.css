@@ -227,18 +227,42 @@ body::before{
 .site-foot .cc-icons:focus-visible{outline:2px solid var(--focus);outline-offset:4px;border-radius:4px;}
 .hcai{border-radius:var(--r);background:rgba(10,1,3,.5);border-color:rgba(0,0,0,.6);box-shadow:inset 0 2px 8px rgba(0,0,0,.5);}
 
-/* ═══ help button: an Edison bulb. Its round glass glows dimly at rest and lights fully on hover and while the
-   menu is open; the squirrel-cage filament (icons.svg) goes from orange to white-hot. ═══ */
-.fab-toggle{border:2px solid #b8914a;--fil:#ffb347;--fil-wire:#3a1a04;
-  background:radial-gradient(circle at 34% 27%,rgba(255,248,228,.6) 0 6%,rgba(255,248,228,0) 15%),
-    radial-gradient(circle at 50% 56%,#d98e1c 0,#a8600c 34%,#5e3006 72%,#2e1503 100%);
-  box-shadow:inset 0 -4px 8px rgba(0,0,0,.45),inset 0 2px 5px rgba(255,236,190,.2),0 6px 18px rgba(0,0,0,.5),0 0 12px 1px rgba(242,169,0,.28);}
-.fab-bulb{display:block;width:36px;height:36px;margin:auto;filter:drop-shadow(0 0 2px rgba(255,160,40,.85));}
-.fab-toggle:hover,.fab-wrap.open .fab-toggle{border-color:#e0c27a;--fil:#fffdf4;--fil-wire:#7a4c00;
-  background:radial-gradient(circle at 34% 27%,rgba(255,255,255,.75) 0 6%,rgba(255,255,255,0) 15%),
-    radial-gradient(circle at 50% 56%,#ffd36a 0,#f6b02a 30%,#d98a10 62%,#7a4600 100%);
-  box-shadow:inset 0 -4px 8px rgba(122,76,0,.35),0 6px 18px rgba(0,0,0,.5),var(--inc-glow);}
-.fab-toggle:hover .fab-bulb,.fab-wrap.open .fab-bulb{filter:drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 5px rgba(255,214,90,.95));}
+/* ═══ help button: an Edison bulb in a knurled, aged-brass bezel (bezel and coils adapted from PR #36). The amber
+   glass glows dimly at rest; on hover, keyboard focus, and while the menu is open the three coils run white-hot,
+   and while the menu is open they swing into an ×. ═══ */
+.fab-wrap{bottom:calc(24px + env(safe-area-inset-bottom,0px));}
+.fab-toggle{position:relative;isolation:isolate;width:60px;height:60px;padding:0;border:1px solid #b58a49;border-radius:50%;
+  --fil:#ffb347;--fil-wire:#4d2308;
+  background:var(--tx-speck),radial-gradient(ellipse at 15% 73%,rgba(20,12,5,.76),transparent 58%),
+    repeating-conic-gradient(from 8deg,transparent 0deg 5deg,rgba(15,9,4,.7) 5deg 7deg,transparent 7deg 12deg),
+    conic-gradient(from 25deg,#49351d,#b18a4a 18%,#302113 34%,#7a552b 60%,#bb945c 78%,#49351d);
+  box-shadow:inset 0 1px 1px #d1ae70,inset 0 -2px 2px #120804,0 4px 10px rgba(0,0,0,.6),0 0 14px 1px rgba(242,169,0,.3);}
+.fab-toggle::before{content:'';position:absolute;inset:6px;z-index:-1;border-radius:50%;border:1px solid #c98f3c;
+  background:radial-gradient(ellipse at 32% 20%,rgba(255,240,205,.5) 0,rgba(255,220,150,.1) 13%,transparent 26%),
+    radial-gradient(circle at 50% 54%,#c47a16 0,#8a4a0c 36%,#552806 68%,#2a1204 100%);
+  box-shadow:inset 0 0 6px rgba(247,180,58,.55),inset 0 2px 5px #341304;}
+.fab-toggle:hover,.fab-toggle:focus-visible,.fab-wrap.open .fab-toggle{transform:none;--fil:#fffdf4;--fil-wire:#7a4c00;
+  box-shadow:inset 0 1px 1px #e8c48a,inset 0 -2px 2px #120804,0 4px 10px rgba(0,0,0,.6),var(--inc-glow);}
+.fab-toggle:hover::before,.fab-toggle:focus-visible::before,.fab-wrap.open .fab-toggle::before{
+  background:radial-gradient(ellipse at 32% 20%,rgba(255,255,255,.7) 0,rgba(255,240,200,.15) 13%,transparent 26%),
+    radial-gradient(circle at 50% 54%,#f9bc45 0,#e99a1c 34%,#b86a0c 66%,#6a3a04 100%);
+  box-shadow:inset 0 0 10px #ffd269,inset 0 2px 5px #5a2a04;}
+.fab-bulb{display:block;width:100%;height:100%;overflow:visible;}
+.fab-coils{filter:drop-shadow(0 0 1px rgba(255,170,50,.9)) drop-shadow(0 0 3px rgba(255,130,20,.6));}
+.fab-toggle:hover .fab-coils,.fab-toggle:focus-visible .fab-coils,.fab-wrap.open .fab-coils{
+  filter:drop-shadow(0 0 .6px #fff) drop-shadow(0 0 2.5px #ffd65a) drop-shadow(0 0 6px rgba(255,140,20,.85));}
+.fab-coils .c1,.fab-coils .c2,.fab-coils .c3,.fab-posts{transition:transform .25s ease,opacity .2s ease;}
+.fab-wrap.open .fab-coils .c1{transform:translateY(9px) rotate(45deg);transform-origin:32px 23px;}
+.fab-wrap.open .fab-coils .c2,.fab-wrap.open .fab-posts{opacity:0;}
+.fab-wrap.open .fab-coils .c3{transform:translateY(-9px) rotate(-45deg);transform-origin:32px 41px;}
+/* the menu sits in an opaque dark-metal housing, so nothing behind it shows between the items (from PR #36) */
+.fab-menu{align-items:stretch;max-width:min(340px,calc(100vw - 32px));padding:14px;gap:10px;
+  background:var(--tx-brush-lt),var(--tx-brush-dk),linear-gradient(115deg,#2c1519,#1b090f 65%,#35151a) #1b090f;
+  border:1px solid #916942;border-radius:8px;box-shadow:inset 0 1px 0 #785344,inset 0 -1px 0 #080305,0 12px 30px rgba(0,0,0,.7);
+  overscroll-behavior:contain;}
+.fab-item{white-space:normal;text-align:left;}
+/* the footer keeps clear of the fixed help button, so the disclosure is never covered (from PR #36) */
+.site-foot{padding-bottom:calc(108px + env(safe-area-inset-bottom,0px));}
 /* menu items float over the page: opaque in every state, over a firmer scrim */
 .fab-scrim{background:rgba(16,2,5,.7);}
 .fab-item{border-radius:var(--r);border-color:#9a7637;background:linear-gradient(180deg,#5a1020,#4a0c18);color:var(--gold);
@@ -270,15 +294,23 @@ body::before{
   .fab-scrim{background:rgba(10,1,3,.86);}
   .fab-item,.fab-item:hover,.fab-item:focus-visible{background:#22040b;border:2px solid var(--gold);color:var(--cream-lt);box-shadow:0 4px 16px rgba(0,0,0,.6);}
   .fab-item:hover,.fab-item:focus-visible{border-color:var(--inc-bulb);text-decoration:underline;text-underline-offset:3px;}
+  .fab-menu{background:#140306;border-color:var(--gold);}
+  .fab-coils{filter:none;}
 }
+@media(prefers-reduced-motion:reduce){.fab-coils .c1,.fab-coils .c2,.fab-coils .c3,.fab-posts{transition:none;}}
 @media(forced-colors:active){
   .site-foot .cc-icons,.site-foot .cc-icons:hover{color:LinkText;}
+  .fab-toggle,.fab-toggle:hover,.fab-toggle:focus-visible,.fab-wrap.open .fab-toggle{background:ButtonFace;border-color:ButtonText;box-shadow:none;--fil:ButtonText;--fil-wire:ButtonText;}
+  .fab-toggle::before,.fab-posts{display:none;}
+  .fab-coils{filter:none;}
+  .fab-menu{background:Canvas;border-color:CanvasText;box-shadow:none;}
   .site-foot .cc-license-symbols{filter:none;}
   .topbar::after,.panel__head::before,.panel::after,.acard::before,.type::before,.polpanel::before,.dlg__head::before,.hdr.hdr--compact::after{display:none;}
 }
 
 /* ═══ print: hardware off ═══ */
 @media print{
+  .site-foot{padding-bottom:0 !important;}
   body::before,.topbar::after,.topbar::before,.panel__head::before,.panel__head::after,.panel::after,.acard::before,.type::before,
   .polpanel::before,.dlg__head::before,.hdr.hdr--compact::after,.acard__foot::before,.type__foot::before,.detail h3::before{display:none !important;}
   .hdr.hdr--compact,.site-foot{background:none !important;box-shadow:none !important;border:0 !important;}

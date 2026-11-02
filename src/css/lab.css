@@ -222,7 +222,11 @@ body:has(dialog[open]) .fab-wrap{opacity:0;}
   .countline{box-shadow:inset 0 0 0 2px var(--gold);}
 }
 @media(forced-colors:active){
-  .hdr__logo img,.hdr__logo:hover img,.hdr__link:hover .hdr__logo img,.hdr__link:focus-visible .hdr__logo img{filter:none;}
+  /* the white logo would vanish on a light Canvas, so it is drawn in the link color instead (from PR #36) */
+  .hdr__logo{position:relative;}
+  .hdr__logo img,.hdr__logo:hover img,.hdr__link:hover .hdr__logo img,.hdr__link:focus-visible .hdr__logo img{filter:none;opacity:0;}
+  .hdr__logo::before{content:'';position:absolute;inset:.1rem;background:LinkText;forced-color-adjust:none;
+    -webkit-mask:url('../img/logo.png') center/contain no-repeat;mask:url('../img/logo.png') center/contain no-repeat;}
   .current,.lamps,.protocols::before,.countline::before,.readout::before{display:none;}
   .ftag::before,.lamp{forced-color-adjust:auto;}
 }
