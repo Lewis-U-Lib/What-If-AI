@@ -26,9 +26,10 @@
       <path d="M7 9h4.2M7 11.8h6"/><circle cx="18.6" cy="13.9" r=".95" fill="currentColor" stroke="none"/><path d="M18 7.2h1.4"/>
       <path d="M9.2 17.4l-.9 3.2h7.4l-.9-3.2"/></g></symbol>
     <!-- light bulb: an idea, guidance; What If AI -->
-    <symbol id="i-bulb" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 2.8a6.2 6.2 0 0 0-3.7 11.2c.8.6 1.2 1.4 1.2 2.3v.8h5v-.8c0-.9.4-1.7 1.2-2.3A6.2 6.2 0 0 0 12 2.8z"/>
-      <path d="M9.7 19.6h4.6M10.6 21.6h2.8M10.4 12.6l1.6-2.2 1.6 2.2"/></g></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke-width="1.7" d="M12 2.4c-3.7 0-6.5 2.8-6.5 6.4 0 2.4 1.2 4 2.5 5.3.7.7 1.1 1.4 1.1 2.3v.6h5.8V16.4c0-.9.4-1.6 1.1-2.3 1.3-1.3 2.5-2.9 2.5-5.3 0-3.6-2.8-6.4-6.5-6.4z"/>
+      <path stroke-width="1.7" d="M9.3 19.3h5.4M9.8 21.4h4.4"/>
+      <path class="fil" stroke-width="1.25" d="M10.3 16.6v-5M13.7 16.6v-5M10.3 11.6l.85-2.3.85 2.3.85-2.3.85 2.3"/></g></symbol>
     <!-- lightning bolt: power, activation -->
     <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13.4 2.4 5 13.6h6.1l-1.1 8 8.4-11.3h-6.2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
     <!-- gear: a task, the work to do -->
@@ -102,53 +103,84 @@
     <!-- arrows for the walkthrough -->
     <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5.5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h13.5M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-    <!-- f-press: the logo as nickel pressed into the plate (lit inverted bevel, brushed face, dark seam).
-         f-glow, chained after it on hover and focus, lights the outline of the closed silhouette only. -->
-    <filter id="f-press" x="-3%" y="-8%" width="106%" height="116%" color-interpolation-filters="sRGB">
-      <feGaussianBlur in="SourceAlpha" stdDeviation=".75"/>
-      <feComponentTransfer><feFuncA type="table" tableValues="1 0"/></feComponentTransfer>
-      <feDiffuseLighting surfaceScale="1.7" lighting-color="#fff" result="light"><feDistantLight azimuth="240" elevation="52"/></feDiffuseLighting>
+    <!-- f-cut: the logo cut into the plate. The cut floor is bright bare metal (so the mark stays very visible); the
+         plate's upper-left lip casts a shadow into the cut and the lower-right wall catches the light; a dark edge and a lit
+         lower lip run around the outside. Bevels follow a closed copy of the silhouette, so hairline lettering stays clean.
+         f-cut-sm is the same cut, shallower, for the smaller logo. f-glow, chained after it, lights the outline. -->
+    <filter id="f-cut" x="-4%" y="-10%" width="108%" height="120%" color-interpolation-filters="sRGB">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="1.20"/>
+      <feMorphology operator="erode" radius="1.20" result="solid"/>
       <feTurbulence type="fractalNoise" baseFrequency=".0045 .7" numOctaves="2" seed="4"/>
       <feColorMatrix values="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 1" result="grain"/>
-      <feFlood flood-color="#efe7da"/>
-      <feComposite in2="grain" operator="arithmetic" k2="1" k3=".14" k4="-.07"/>
-      <feComposite in2="light" operator="arithmetic" k1="1.27"/>
-      <feComposite in2="SourceAlpha" operator="in" result="metal"/>
-      <feMorphology in="SourceAlpha" operator="dilate" radius=".9"/>
-      <feComposite in2="SourceAlpha" operator="out" result="seam"/>
-      <feFlood flood-color="#0c0104" flood-opacity=".78"/>
-      <feComposite in2="seam" operator="in"/>
-      <feMerge><feMergeNode/><feMergeNode in="metal"/></feMerge>
+      <feFlood flood-color="#f8f4ec"/>
+      <feComposite in2="grain" operator="arithmetic" k2="1" k3="0.08" k4="-0.04"/>
+      <feComposite in2="SourceAlpha" operator="in" result="floor"/>
+      <feOffset in="solid" dx="0.80" dy="1.10" result="down"/>
+      <feComposite in="solid" in2="down" operator="out"/>
+      <feGaussianBlur stdDeviation="0.35"/>
+      <feComposite in2="SourceAlpha" operator="in" result="sb"/>
+      <feFlood flood-color="#2a060d" flood-opacity="0.8"/>
+      <feComposite in2="sb" operator="in" result="shadow"/>
+      <feOffset in="solid" dx="-0.70" dy="-0.90" result="up"/>
+      <feComposite in="solid" in2="up" operator="out"/>
+      <feComposite in2="SourceAlpha" operator="in" result="lb"/>
+      <feFlood flood-color="#fff"/>
+      <feComposite in2="lb" operator="in" result="lit"/>
+      <feMorphology in="solid" operator="dilate" radius="0.70"/>
+      <feComposite in2="solid" operator="out" result="ring"/>
+      <feFlood flood-color="#0c0104" flood-opacity="0.8"/>
+      <feComposite in2="ring" operator="in" result="edge"/>
+      <feOffset in="solid" dx="0.90" dy="1.20" result="o2"/>
+      <feComposite in="o2" in2="solid" operator="out" result="br"/>
+      <feFlood flood-color="#ffd9df" flood-opacity="0.42"/>
+      <feComposite in2="br" operator="in" result="lip"/>
+      <feMerge><feMergeNode in="lip"/><feMergeNode in="edge"/><feMergeNode in="floor"/><feMergeNode in="lit"/><feMergeNode in="shadow"/></feMerge>
     </filter>
-    <!-- f-press-sm: a finer bevel and seam for the smaller logo on narrow screens -->
-    <filter id="f-press-sm" x="-3%" y="-8%" width="106%" height="116%" color-interpolation-filters="sRGB">
-      <feGaussianBlur in="SourceAlpha" stdDeviation=".55"/>
-      <feComponentTransfer><feFuncA type="table" tableValues="1 0"/></feComponentTransfer>
-      <feDiffuseLighting surfaceScale="1.25" lighting-color="#fff" result="light"><feDistantLight azimuth="240" elevation="52"/></feDiffuseLighting>
+    <filter id="f-cut-sm" x="-4%" y="-10%" width="108%" height="120%" color-interpolation-filters="sRGB">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="0.84"/>
+      <feMorphology operator="erode" radius="0.84" result="solid"/>
       <feTurbulence type="fractalNoise" baseFrequency=".0045 .7" numOctaves="2" seed="4"/>
       <feColorMatrix values="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 1" result="grain"/>
-      <feFlood flood-color="#efe7da"/>
-      <feComposite in2="grain" operator="arithmetic" k2="1" k3=".14" k4="-.07"/>
-      <feComposite in2="light" operator="arithmetic" k1="1.27"/>
-      <feComposite in2="SourceAlpha" operator="in" result="metal"/>
-      <feMorphology in="SourceAlpha" operator="dilate" radius=".6"/>
-      <feComposite in2="SourceAlpha" operator="out" result="seam"/>
-      <feFlood flood-color="#0c0104" flood-opacity=".62"/>
-      <feComposite in2="seam" operator="in"/>
-      <feMerge><feMergeNode/><feMergeNode in="metal"/></feMerge>
+      <feFlood flood-color="#f8f4ec"/>
+      <feComposite in2="grain" operator="arithmetic" k2="1" k3="0.08" k4="-0.04"/>
+      <feComposite in2="SourceAlpha" operator="in" result="floor"/>
+      <feOffset in="solid" dx="0.56" dy="0.77" result="down"/>
+      <feComposite in="solid" in2="down" operator="out"/>
+      <feGaussianBlur stdDeviation="0.24"/>
+      <feComposite in2="SourceAlpha" operator="in" result="sb"/>
+      <feFlood flood-color="#2a060d" flood-opacity="0.8"/>
+      <feComposite in2="sb" operator="in" result="shadow"/>
+      <feOffset in="solid" dx="-0.49" dy="-0.63" result="up"/>
+      <feComposite in="solid" in2="up" operator="out"/>
+      <feComposite in2="SourceAlpha" operator="in" result="lb"/>
+      <feFlood flood-color="#fff"/>
+      <feComposite in2="lb" operator="in" result="lit"/>
+      <feMorphology in="solid" operator="dilate" radius="0.49"/>
+      <feComposite in2="solid" operator="out" result="ring"/>
+      <feFlood flood-color="#0c0104" flood-opacity="0.8"/>
+      <feComposite in2="ring" operator="in" result="edge"/>
+      <feOffset in="solid" dx="0.63" dy="0.84" result="o2"/>
+      <feComposite in="o2" in2="solid" operator="out" result="br"/>
+      <feFlood flood-color="#ffd9df" flood-opacity="0.42"/>
+      <feComposite in2="br" operator="in" result="lip"/>
+      <feMerge><feMergeNode in="lip"/><feMergeNode in="edge"/><feMergeNode in="floor"/><feMergeNode in="lit"/><feMergeNode in="shadow"/></feMerge>
     </filter>
     <filter id="f-glow" x="-20%" y="-50%" width="140%" height="200%" color-interpolation-filters="sRGB">
-      <feMorphology in="SourceAlpha" operator="dilate" radius="5"/>
-      <feMorphology operator="erode" radius="5" result="shape"/>
+      <feMorphology in="SourceAlpha" operator="dilate" radius="3"/>
+      <feMorphology operator="erode" radius="3" result="shape"/>
       <feGaussianBlur stdDeviation="1.1"/>
       <feComponentTransfer result="b1"><feFuncA type="linear" slope="2.4"/></feComponentTransfer>
-      <feGaussianBlur in="shape" stdDeviation="3.6" result="b2"/>
-      <feGaussianBlur in="shape" stdDeviation="9" result="b3"/>
-      <feFlood flood-color="#f2a900" flood-opacity=".34"/><feComposite in2="b3" operator="in"/><feComposite in2="shape" operator="out" result="g3"/>
-      <feFlood flood-color="#ffc72c" flood-opacity=".72"/><feComposite in2="b2" operator="in"/><feComposite in2="shape" operator="out" result="g2"/>
+      <feGaussianBlur in="shape" stdDeviation="2.4" result="b2"/>
+      <feGaussianBlur in="shape" stdDeviation="7" result="b3"/>
+      <feFlood flood-color="#f2a900" flood-opacity=".3"/><feComposite in2="b3" operator="in"/><feComposite in2="shape" operator="out" result="g3"/>
+      <feFlood flood-color="#ffc72c" flood-opacity=".6"/><feComposite in2="b2" operator="in"/><feComposite in2="shape" operator="out" result="g2"/>
       <feFlood flood-color="#fff3cf"/><feComposite in2="b1" operator="in"/><feComposite in2="shape" operator="out"/>
       <feMerge><feMergeNode in="g3"/><feMergeNode in="g2"/><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+    <!-- an Edison squirrel-cage filament: the help button's round glass is the bulb around it -->
+    <symbol id="i-filament" viewBox="0 0 24 24"><g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path class="fil-wire" stroke-width="1.1" d="M8.6 21.5v-7.4M15.4 21.5v-7.4M12 21.5v-5.2M12 6.4V4"/>
+      <path class="fil" stroke-width="1.5" d="M8.6 14.1 9.7 6.4l1.15 7.7L12 6.4l1.15 7.7 1.15-7.7 1.1 7.7"/></g></symbol>
     <!-- warning triangle -->
     <symbol id="i-alert" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <path d="M10.4 4.4 2.9 17.6a1.8 1.8 0 0 0 1.6 2.7h15a1.8 1.8 0 0 0 1.6-2.7L13.6 4.4a1.8 1.8 0 0 0-3.2 0z"/><path d="M12 9.2v4.4"/></g><circle cx="12" cy="16.8" r="1.1" fill="currentColor"/></symbol>

@@ -3,8 +3,8 @@
  *    and their text keeps a high contrast ratio over busy page content;
  *  - lit lamps, the seam pulse, hover glows, and the CC symbols use the incandescent palette, and the CC
  *    symbols' glow no longer washes out the counters inside each mark;
- *  - the Library logo is pressed into the plate (SVG filter f-press), its outline lights on hover and on
- *    keyboard focus (f-glow, chained after f-press), and it keeps a high contrast against the plate; it falls back to plain
+ *  - the Library logo is cut into the plate (SVG filter f-cut), its outline lights on hover and on
+ *    keyboard focus (f-glow, chained after f-cut), and it keeps a high contrast against the plate; it falls back to plain
  *    white under "more contrast" and forced colors, and prints in black;
  *  - the footer links to Report an Issue beside Send feedback.
  * The disclosure wording and the citation-only references are checked in how-this-site-works and types. */
@@ -72,11 +72,11 @@ async function pixels(ctx, buf) {
 
       /* ── the pressed logo ── */
       const filt = () => p.$eval('.hdr__logo img', i => getComputedStyle(i).filter);
-      assert.equal(await p.$eval('#f-press', n => n.tagName.toLowerCase()), 'filter');
-      for (const id of ['#f-glow', '#f-press-sm']) assert.equal(await p.$eval(id, n => n.tagName.toLowerCase()), 'filter');
+      assert.equal(await p.$eval('#f-cut', n => n.tagName.toLowerCase()), 'filter');
+      for (const [id, tag] of [['#f-glow', 'filter'], ['#f-cut-sm', 'filter'], ['#i-filament', 'symbol']]) assert.equal(await p.$eval(id, n => n.tagName.toLowerCase()), tag);
       await p.mouse.move(5, 600);
-      assert.match(await filt(), /url\("#f-press"\)/, file + ': the logo rests pressed into the plate');
-      assert.equal(await p.$eval('.hdr__logo img', i => getComputedStyle(i).transform), 'none', 'a pressing does not lift');
+      assert.match(await filt(), /url\("#f-cut"\)/, file + ': the logo rests cut into the plate');
+      assert.equal(await p.$eval('.hdr__logo img', i => getComputedStyle(i).transform), 'none', 'a cut mark does not lift');
       // contrast: the logo's face against the plate around it, read from rendered pixels
       const box = await p.locator('.hdr__logo img').boundingBox();
       const clip = { x: Math.round(box.x), y: Math.round(box.y), width: Math.round(box.width), height: Math.round(box.height) };
@@ -92,20 +92,20 @@ async function pixels(ctx, buf) {
       const logoRatio = ratio(pct(face, 0.5), pct(ground, 0.9));
       assert.ok(face.length > 500 && logoRatio >= 7, file + ': logo face vs. plate ' + logoRatio.toFixed(2) + ':1');
       await p.hover('.hdr__link');
-      assert.match(await filt(), /url\("#f-press"\) url\("#f-glow"\)/, file + ': the outline lights on hover');
+      assert.match(await filt(), /url\("#f-cut"\) url\("#f-glow"\)/, file + ': the outline lights on hover');
       await p.mouse.move(5, 600);
       await p.focus('.skip'); for (let k = 0; k < 40 && !(await p.evaluate(() => document.activeElement.classList.contains('hdr__link'))); k++) await p.keyboard.press('Tab');
       assert.ok(await p.evaluate(() => document.activeElement.matches('.hdr__link:focus-visible')), 'the logo link is reachable by keyboard');
-      assert.match(await filt(), /url\("#f-press"\) url\("#f-glow"\)/, file + ': the outline lights on keyboard focus');
+      assert.match(await filt(), /url\("#f-cut"\) url\("#f-glow"\)/, file + ': the outline lights on keyboard focus');
       await p.evaluate(() => document.activeElement.blur());
       await p.setViewportSize({ width: 390, height: 844 }); await p.mouse.move(5, 600);
-      assert.match(await filt(), /^url\("#f-press-sm"\)$/, file + ': a finer pressing for the smaller logo on narrow screens');
+      assert.match(await filt(), /^url\("#f-cut-sm"\)$/, file + ': a shallower cut for the smaller logo on narrow screens');
       await p.setViewportSize({ width: 1440, height: 900 });
       await p.emulateMedia({ contrast: 'more' }); assert.equal(await filt(), 'none', 'more contrast: plain logo');
       await p.emulateMedia({ contrast: 'no-preference', forcedColors: 'active' }); assert.equal(await filt(), 'none', 'forced colors: plain logo');
       await p.emulateMedia({ forcedColors: 'none', media: 'print' }); assert.equal(await filt(), 'brightness(0)', 'print: a black logo, visible on paper');
       await p.emulateMedia({ media: 'screen' });
-      pass(file + ': logo pressed at rest, lit on hover and focus, ' + logoRatio.toFixed(1) + ':1 against the plate, with plain, forced-color, and print fallbacks');
+      pass(file + ': logo cut into the plate at rest, lit on hover and focus, ' + logoRatio.toFixed(1) + ':1 against the plate, with plain, forced-color, and print fallbacks');
 
       /* ── incandescent light ── */
       const lit = await p.evaluate(() => {
@@ -130,6 +130,14 @@ async function pixels(ctx, buf) {
         return ratio(pct(v, 0.92), pct(v, 0.2));
       });
       assert.ok(ccRatios.every(r => r >= 4.8), 'CC counters stay distinct from their strokes: ' + ccRatios.map(r => r.toFixed(2)).join(', '));
+      // Edison bulbs: the What If AI bulb icon has a filament that lights on hover; small Edison bulbs mark the considerations
+      // console (The Register) and the question rail's current step (What If AI)
+      assert.ok(await p.$('#i-bulb .fil'), 'the bulb icon has a filament');
+      const rest = await p.$eval('#fabToggle', t => getComputedStyle(t).getPropertyValue('--fil').trim());
+      assert.equal(rest, '#ffb347', 'the help bulb glows orange at rest');
+      const edison = await p.evaluate(() => { const ul = document.createElement('ul'); ul.className = 'protocols__list'; ul.innerHTML = '<li><span class="lamp lamp--on"></span></li>';
+        document.body.appendChild(ul); const bg = getComputedStyle(ul.querySelector('.lamp')).backgroundImage; ul.remove(); return bg; });
+      assert.ok(edison.startsWith('url("data:image/svg+xml') && edison.includes('radialGradient'), 'console bullets are Edison bulbs');
       pass(file + ': lamps, pulse, and CC symbols are incandescent; CC stroke/counter contrast ' + ccRatios.map(r => r.toFixed(1)).join(', '));
 
       /* ── the floating help menu ── */
@@ -167,6 +175,9 @@ async function pixels(ctx, buf) {
         assert.ok(cr >= 7, file + ' ' + state + ': menu text contrast ' + cr.toFixed(2) + ':1');
         console.log('      ' + file + ' menu item, ' + state + ': opaque; text ' + cr.toFixed(1) + ':1');
       }
+      // the help button is an Edison bulb: a filament that is orange at rest and white-hot while the menu is open
+      assert.equal(await p.$eval('#fabToggle use', u => u.getAttribute('href')), '#i-filament');
+      assert.equal(await p.$eval('#fabToggle', t => getComputedStyle(t).getPropertyValue('--fil').trim()), '#fffdf4', 'open: white-hot filament');
       const scrim = await p.$eval('#fabScrim', s => getComputedStyle(s).backgroundColor);
       assert.ok(Number(scrim.match(/[\d.]+/g)[3]) >= 0.65, 'the scrim dims the page firmly: ' + scrim);
       await p.evaluate(() => document.activeElement.blur()); await p.mouse.move(5, 300);

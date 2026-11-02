@@ -68,7 +68,9 @@ Both tools state in their headers that results come from fixed rules rather than
 
 Every glow on both tools uses one incandescent palette defined in `src/css/theme-plate.css` (`--inc-*`): a white-hot core inside the house golds (#ffe8a0, #ffc72c, #f2a900) with an amber bloom. Lit lamps, the occasional pulse along a seam, the help button while its menu is open, hover glows, and the footer's CC symbols all draw on it. The CC symbols' glow sits behind a thin dark rim so the counters inside each mark stay distinct.
 
-The Library logo is pressed into the plate by the SVG filter `f-press` in `src/partials/icons.svg` (`f-press-sm`, a finer version, below 1100px); on hover and keyboard focus `f-glow` is chained after it to light the outline. It returns to plain white under "more contrast" and forced colors and prints in black. Help-menu items are opaque in every state. `tests/incandescent-2026-11-02.test.js` measures the logo and menu contrast from rendered pixels and checks that nothing behind a menu item shows through it.
+The Library logo is cut into the plate by the SVG filter `f-cut` in `src/partials/icons.svg` (`f-cut-sm`, a shallower cut, below 1100px): the cut floor is bright bare metal, so the mark stays very visible. On hover and keyboard focus `f-glow` is chained after it to light the outline.
+
+Edison bulbs appear in a few places rather than everywhere: the What If AI bulb icon (`i-bulb`) has a filament that lights white-hot when its link is pointed at or focused; the help button is a round Edison bulb with a squirrel-cage filament (`i-filament`) that glows dimly at rest and fully while its menu is open; and small Edison bulbs (`--edison`) mark the considerations console in The Register and the current question in What If AI. It returns to plain white under "more contrast" and forced colors and prints in black. Help-menu items are opaque in every state. `tests/incandescent-2026-11-02.test.js` measures the logo and menu contrast from rendered pixels and checks that nothing behind a menu item shows through it.
 
 ## Licenses
 
