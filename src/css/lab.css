@@ -24,12 +24,12 @@
 /* ═══ header: logo in the upper-left of the plate, identity centered on the page ═══ */
 .hdr--lab .hdr__link{position:absolute;top:22px;left:26px;z-index:2;margin:0;}
 .hdr--lab .hdr__logo img{max-width:clamp(9.5rem,calc(4.85rem + 9.95vw),13.6rem);max-height:6.6rem;}
-/* the logo is cut into the plate (icons.svg); it does not lift on hover or focus, its outline lights */
+/* the logo is cut into the plate (icons.svg); on hover and focus the cut lights warm gold, crisply, without lifting */
 .hdr__logo img,.hdr__logo:hover img{filter:url(#f-cut);transform:none;transition:none;}
-.hdr__link:hover .hdr__logo img,.hdr__link:focus-visible .hdr__logo img{filter:url(#f-cut) url(#f-glow);}
+.hdr__link:hover .hdr__logo img,.hdr__link:focus-visible .hdr__logo img{filter:url(#f-cut) url(#f-lit);}
 @media(max-width:1100px){
   .hdr__logo img,.hdr__logo:hover img{filter:url(#f-cut-sm);}
-  .hdr__link:hover .hdr__logo img,.hdr__link:focus-visible .hdr__logo img{filter:url(#f-cut-sm) url(#f-glow);}
+  .hdr__link:hover .hdr__logo img,.hdr__link:focus-visible .hdr__logo img{filter:url(#f-cut-sm) url(#f-lit);}
 }
 .hdr--lab .hdr__identity{text-align:center;}
 .hdr--lab .hdr__masthead{min-height:6rem;padding:0 250px;display:flex;flex-direction:column;justify-content:center;}

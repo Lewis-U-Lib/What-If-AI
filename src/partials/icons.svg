@@ -106,7 +106,8 @@
     <!-- f-cut: the logo cut into the plate. The cut floor is bright bare metal (so the mark stays very visible); the
          plate's upper-left lip casts a shadow into the cut and the lower-right wall catches the light; a dark edge and a
          copper-amber lower lip run around the outside. Bevels follow a closed copy of the silhouette, so hairline lettering stays clean.
-         f-cut-sm is the same cut, shallower, for the smaller logo. f-glow, chained after it, lights the outline. -->
+         f-cut-sm is the same cut, shallower, for the smaller logo. On hover and focus f-lit, chained after it, turns the
+         cut warm gold, like light in the engraving; it is a color change only, so nothing blurs or bleeds. -->
     <filter id="f-cut" x="-4%" y="-10%" width="108%" height="120%" color-interpolation-filters="sRGB">
       <feMorphology in="SourceAlpha" operator="dilate" radius="1.20"/>
       <feMorphology operator="erode" radius="1.20" result="solid"/>
@@ -165,17 +166,8 @@
       <feComposite in2="br" operator="in" result="lip"/>
       <feMerge><feMergeNode in="lip"/><feMergeNode in="edge"/><feMergeNode in="floor"/><feMergeNode in="lit"/><feMergeNode in="shadow"/></feMerge>
     </filter>
-    <filter id="f-glow" x="-20%" y="-50%" width="140%" height="200%" color-interpolation-filters="sRGB">
-      <feMorphology in="SourceAlpha" operator="dilate" radius="3"/>
-      <feMorphology operator="erode" radius="3" result="shape"/>
-      <feGaussianBlur stdDeviation="1.1"/>
-      <feComponentTransfer result="b1"><feFuncA type="linear" slope="2.4"/></feComponentTransfer>
-      <feGaussianBlur in="shape" stdDeviation="2.4" result="b2"/>
-      <feGaussianBlur in="shape" stdDeviation="7" result="b3"/>
-      <feFlood flood-color="#f2a900" flood-opacity=".3"/><feComposite in2="b3" operator="in"/><feComposite in2="shape" operator="out" result="g3"/>
-      <feFlood flood-color="#ffc72c" flood-opacity=".6"/><feComposite in2="b2" operator="in"/><feComposite in2="shape" operator="out" result="g2"/>
-      <feFlood flood-color="#fff3cf"/><feComposite in2="b1" operator="in"/><feComposite in2="shape" operator="out"/>
-      <feMerge><feMergeNode in="g3"/><feMergeNode in="g2"/><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    <filter id="f-lit" x="-3%" y="-8%" width="106%" height="116%" color-interpolation-filters="sRGB">
+      <feColorMatrix values="1 0 0 0 0  0 .9 0 0 0  0 0 .58 0 0  0 0 0 1 0"/>
     </filter>
     <!-- warning triangle -->
     <symbol id="i-alert" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">

@@ -4,7 +4,7 @@
  *  - lit lamps, the seam pulse, hover glows, and the CC symbols use the incandescent palette, and the CC
  *    symbols' glow no longer washes out the counters inside each mark;
  *  - the Library logo is cut into the plate (SVG filter f-cut), its outline lights on hover and on
- *    keyboard focus (f-glow, chained after f-cut), and it keeps a high contrast against the plate; it falls back to plain
+ *    keyboard focus (f-lit, chained after f-cut, a color change with no blur), and it keeps a high contrast against the plate; it falls back to plain
  *    white under "more contrast" and forced colors, and prints in black;
  *  - the footer links to Report an Issue beside Send feedback.
  * The disclosure wording and the citation-only references are checked in how-this-site-works and types. */
@@ -79,7 +79,8 @@ async function pixels(ctx, buf) {
       /* ── the pressed logo ── */
       const filt = () => p.$eval('.hdr__logo img', i => getComputedStyle(i).filter);
       assert.equal(await p.$eval('#f-cut', n => n.tagName.toLowerCase()), 'filter');
-      for (const [id, tag] of [['#f-glow', 'filter'], ['#f-cut-sm', 'filter']]) assert.equal(await p.$eval(id, n => n.tagName.toLowerCase()), tag);
+      for (const [id, tag] of [['#f-lit', 'filter'], ['#f-cut-sm', 'filter']]) assert.equal(await p.$eval(id, n => n.tagName.toLowerCase()), tag);
+      assert.deepEqual(await p.$eval('#f-lit', f => [...f.children].map(c => c.tagName)), ['feColorMatrix'], 'the hover state is a color change only: nothing blurs or bleeds');
       await p.mouse.move(5, 600);
       assert.match(await filt(), /url\("#f-cut"\)/, file + ': the logo rests cut into the plate');
       assert.equal(await p.$eval('.hdr__logo img', i => getComputedStyle(i).transform), 'none', 'a cut mark does not lift');
@@ -98,11 +99,11 @@ async function pixels(ctx, buf) {
       const logoRatio = ratio(pct(face, 0.5), pct(ground, 0.9));
       assert.ok(face.length > 500 && logoRatio >= 7, file + ': logo face vs. plate ' + logoRatio.toFixed(2) + ':1');
       await p.hover('.hdr__link');
-      assert.match(await filt(), /url\("#f-cut"\) url\("#f-glow"\)/, file + ': the outline lights on hover');
+      assert.match(await filt(), /url\("#f-cut"\) url\("#f-lit"\)/, file + ': the cut lights warm gold on hover');
       await p.mouse.move(5, 600);
       await p.focus('.skip'); for (let k = 0; k < 40 && !(await p.evaluate(() => document.activeElement.classList.contains('hdr__link'))); k++) await p.keyboard.press('Tab');
       assert.ok(await p.evaluate(() => document.activeElement.matches('.hdr__link:focus-visible')), 'the logo link is reachable by keyboard');
-      assert.match(await filt(), /url\("#f-cut"\) url\("#f-glow"\)/, file + ': the outline lights on keyboard focus');
+      assert.match(await filt(), /url\("#f-cut"\) url\("#f-lit"\)/, file + ': the cut lights warm gold on keyboard focus');
       await p.evaluate(() => document.activeElement.blur());
       await p.setViewportSize({ width: 390, height: 844 }); await p.mouse.move(5, 600);
       assert.match(await filt(), /^url\("#f-cut-sm"\)$/, file + ': a shallower cut for the smaller logo on narrow screens');
