@@ -93,7 +93,6 @@ button.hdr-cta{font:inherit;font-family:var(--font-h);font-weight:700;letter-spa
    The What If AI bulb icon has a filament (.fil in icons.svg) that lights when its link or button is pointed at or
    focused. The considerations console and the question rail's current step use small Edison bulbs (--edison). */
 .fil{stroke:var(--fil,currentColor);}
-.fil-wire{stroke:var(--fil-wire,currentColor);}
 :is(a,button):is(:hover,:focus-visible){--fil:#fff3c4;}
 :is(a,button):is(:hover,:focus-visible) .ico:has(use[href="#i-bulb"]){filter:drop-shadow(0 0 1.5px rgba(255,199,44,.9)) drop-shadow(0 0 5px rgba(242,169,0,.55));}
 .protocols__list .lamp{top:3px;width:14px;height:21px;border-radius:0;background:var(--edison) center/contain no-repeat;box-shadow:none;

@@ -79,7 +79,7 @@ async function pixels(ctx, buf) {
       /* ── the pressed logo ── */
       const filt = () => p.$eval('.hdr__logo img', i => getComputedStyle(i).filter);
       assert.equal(await p.$eval('#f-cut', n => n.tagName.toLowerCase()), 'filter');
-      for (const [id, tag] of [['#f-glow', 'filter'], ['#f-cut-sm', 'filter'], ['#fab-coil', 'path']]) assert.equal(await p.$eval(id, n => n.tagName.toLowerCase()), tag);
+      for (const [id, tag] of [['#f-glow', 'filter'], ['#f-cut-sm', 'filter']]) assert.equal(await p.$eval(id, n => n.tagName.toLowerCase()), tag);
       await p.mouse.move(5, 600);
       assert.match(await filt(), /url\("#f-cut"\)/, file + ': the logo rests cut into the plate');
       assert.equal(await p.$eval('.hdr__logo img', i => getComputedStyle(i).transform), 'none', 'a cut mark does not lift');
@@ -140,10 +140,10 @@ async function pixels(ctx, buf) {
       });
       assert.ok(ccRatios.every(r => r >= 4.8), 'CC counters stay distinct from their strokes: ' + ccRatios.map(r => r.toFixed(2)).join(', '));
       // Edison bulbs: the What If AI bulb icon has a filament that lights on hover; small Edison bulbs mark the considerations
-      // console (The Register) and the question rail's current step (What If AI)
+      // console (The Register) and the question rail's current step (What If AI). The help button is a glowing rivet.
       assert.ok(await p.$('#i-bulb .fil'), 'the bulb icon has a filament');
-      const rest = await p.$eval('#fabToggle', t => getComputedStyle(t).getPropertyValue('--fil').trim());
-      assert.equal(rest, '#ffb347', 'the help bulb glows orange at rest');
+      const rest = await p.$eval('#fabToggle', t => [getComputedStyle(t).backgroundImage, getComputedStyle(t).boxShadow]);
+      assert.ok(rest[0].includes('rgb(255, 199, 44)') && rest[1].includes('rgba(255, 199, 44'), 'the help rivet is yellow brass and glows softly at rest');
       const edison = await p.evaluate(() => { const ul = document.createElement('ul'); ul.className = 'protocols__list'; ul.innerHTML = '<li><span class="lamp lamp--on"></span></li>';
         document.body.appendChild(ul); const bg = getComputedStyle(ul.querySelector('.lamp')).backgroundImage; ul.remove(); return bg; });
       assert.ok(edison.startsWith('url("data:image/svg+xml') && edison.includes('radialGradient'), 'console bullets are Edison bulbs');
@@ -184,11 +184,10 @@ async function pixels(ctx, buf) {
         assert.ok(cr >= 7, file + ' ' + state + ': menu text contrast ' + cr.toFixed(2) + ':1');
         console.log('      ' + file + ' menu item, ' + state + ': opaque; text ' + cr.toFixed(1) + ':1');
       }
-      // the help button is an Edison bulb: three coils, orange at rest, white-hot and crossed into an × while the menu is open
-      assert.deepEqual(await p.$$eval('#fabToggle use', us => us.map(u => u.getAttribute('href'))), ['#fab-coil', '#fab-coil', '#fab-coil']);
-      assert.equal(await p.$eval('#fabToggle', t => getComputedStyle(t).getPropertyValue('--fil').trim()), '#fffdf4', 'open: white-hot filament');
-      const coils = await p.$$eval('#fabToggle .fab-coils > g', gs => gs.map(g => [getComputedStyle(g).transform, getComputedStyle(g).opacity]));
-      assert.ok(coils[0][0] !== 'none' && coils[2][0] !== 'none' && coils[1][1] === '0', 'open: the coils form an × ' + JSON.stringify(coils));
+      // the help button is a glowing yellow rivet: brighter while the menu is open, when its ✦ turns into an ×
+      const open = await p.$eval('#fabToggle', t => ({ glow: getComputedStyle(t).boxShadow, icon: getComputedStyle(t.querySelector('.fab-toggle__icon')).transform, text: t.textContent.trim() }));
+      assert.equal(open.text, '✦');
+      assert.ok(open.glow.includes('rgba(242, 169, 0') && open.icon !== 'none', 'open: the rivet glows and the ✦ turns ' + JSON.stringify(open));
       // the menu's housing is opaque, so page content never shows between the items
       assert.match(await p.$eval('#fabMenu', m => getComputedStyle(m).backgroundColor), /^rgb\(/, 'an opaque menu housing');
       const scrim = await p.$eval('#fabScrim', s => getComputedStyle(s).backgroundColor);
