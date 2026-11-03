@@ -104,7 +104,11 @@ body::before{
 /* header links become recessed fittings, so gold text always sits on a dark well */
 .hdr-cta--secondary,.hdr-cta--primary{border-radius:var(--r);background:rgba(16,2,5,.5);border:1.5px solid var(--line-strong);
   color:var(--gold);box-shadow:inset 0 2px 5px rgba(0,0,0,.45),0 1px 0 rgba(255,230,234,.1);}
-.hdr-cta--secondary:hover,.hdr-cta--primary:hover{background:rgba(16,2,5,.7);border-color:var(--gold);color:var(--cream-lt);}
+.hdr-cta--secondary:hover{background:rgba(16,2,5,.7);border-color:var(--gold);color:var(--cream-lt);}
+/* the one primary action in the header is brass, like the finder's Next button */
+.hdr-cta--primary{background:linear-gradient(180deg,var(--brass-hi),var(--brass) 48%,var(--brass-lo));border-color:#8f6d31;color:var(--brass-ink);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 2px 0 rgba(0,0,0,.4);}
+.hdr-cta--primary:hover,.hdr-cta--primary:focus-visible{background:linear-gradient(180deg,#fff0c4,var(--brass-hi) 50%,var(--brass));border-color:#8f6d31;color:var(--brass-ink);}
 
 /* ═══ nameplates: section eyebrows become small brass plates ═══ */
 .sec-eyebrow{display:inline-flex;align-items:center;gap:0;padding:4px 20px;border-radius:3px;

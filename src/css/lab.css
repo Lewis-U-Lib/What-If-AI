@@ -75,6 +75,8 @@ button.hdr-cta{font:inherit;font-family:var(--font-h);font-weight:700;letter-spa
   7.6%{transform:translateX(100%);opacity:0;}
   100%{transform:translateX(100%);opacity:0;}
 }
+/* the pulse rests while a dialog or the Ask Us panel is open, so it never runs behind what is being read */
+body:has(dialog[open]) .current::before,body.chat-open .current::before{animation-play-state:paused;opacity:0;}
 .topbar .current--top{bottom:-2px;}
 .current--hdr{bottom:25px;}
 @media(max-width:760px){.current--hdr{bottom:19px;}}

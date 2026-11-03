@@ -58,7 +58,7 @@ complete explanation. See [the illustration map](docs/AI-TYPE-ILLUSTRATIONS.md).
 
 ## Edit the walkthroughs
 
-The Register's header and floating menu open the nine-step walkthrough in `src/partials/register-tour.html`; `#about` links open it too. What If AI uses the seven-step walkthrough in `src/partials/tour.html`. Page tests cover keyboard operation, focus, links, browser history, printing, and narrow screens.
+The Register's header and floating menu open the nine-step walkthrough in `src/partials/register-tour.html`; `#about` links open it too. What If AI's header and floating menu open the seven-step walkthrough in `src/partials/tour.html`. Each header keeps two buttons: the walkthrough, as the one brass primary, and "How this site works"; the companion tool, the Gen AI guide, and feedback are reached from the floating menu and the footer. Page tests cover keyboard operation, focus, links, browser history, printing, and narrow screens.
 
 ## Edit "How this site works"
 
