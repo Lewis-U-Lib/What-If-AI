@@ -261,7 +261,8 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   await page.keyboard.press('Escape');
 
   const guideIcons = await page.$$eval('a[href*="genaifacultystaff"]', as => as.map(a => (a.querySelector('use') || {}).getAttribute ? a.querySelector('use').getAttribute('href') : ''));
-  check('What If AI: every link to the Gen AI Guide carries the robot icon', guideIcons.length >= 3 && guideIcons.every(h => h === '#i-robot'), guideIcons.join(' '));
+  // the floating menu and the footer link to the guide (the header's copy was removed on 2026-11-03)
+  check('What If AI: every link to the Gen AI Guide carries the robot icon', guideIcons.length >= 2 && guideIcons.every(h => h === '#i-robot'), guideIcons.join(' '));
   check('What If AI: no internal project language in the page', leaks(await page.evaluate(() => document.body.innerText)).length === 0,
     leaks(await page.evaluate(() => document.body.innerText)).join(', ') || 'clean');
 
