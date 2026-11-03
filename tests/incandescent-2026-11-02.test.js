@@ -3,8 +3,7 @@
  *    and their text keeps a high contrast ratio over busy page content;
  *  - lit lamps, the seam pulse, hover glows, and the CC symbols use the incandescent palette, and the CC
  *    symbols' glow no longer washes out the counters inside each mark;
- *  - the Library logo is cut into the plate (SVG filter f-cut), its outline lights on hover and on
- *    keyboard focus (f-lit, chained after f-cut, a color change with no blur), and it keeps a high contrast against the plate; it falls back to plain
+ *  - the Library logo is the original white mark, lifting and glowing gold on hover and keyboard focus, and it keeps a high contrast against the plate; it falls back to plain
  *    white under "more contrast" and forced colors, and prints in black;
  *  - the footer links to Report an Issue beside Send feedback;
  *  - the header keeps two buttons with the walkthrough as its brass primary, the walkthrough also opens from the floating
@@ -78,15 +77,13 @@ async function pixels(ctx, buf) {
       await p.addStyleTag({ content: '*{transition:none !important;animation-duration:0s !important}' });
       await p.evaluate(() => document.fonts.ready);
 
-      /* ── the pressed logo ── */
+      /* ── the logo: the original white mark, lifting and glowing on hover and keyboard focus ── */
       const filt = () => p.$eval('.hdr__logo img', i => getComputedStyle(i).filter);
-      assert.equal(await p.$eval('#f-cut', n => n.tagName.toLowerCase()), 'filter');
-      for (const [id, tag] of [['#f-lit', 'filter'], ['#f-cut-sm', 'filter']]) assert.equal(await p.$eval(id, n => n.tagName.toLowerCase()), tag);
-      assert.deepEqual(await p.$eval('#f-lit', f => [...f.children].map(c => c.tagName)), ['feColorMatrix'], 'the hover state is a color change only: nothing blurs or bleeds');
+      const lift = () => p.$eval('.hdr__logo img', i => getComputedStyle(i).transform);
+      for (const id of ['#f-cut', '#f-cut-sm', '#f-lit', '#f-press', '#f-glow']) assert.equal(await p.$(id), null, id + ' is gone');
       await p.mouse.move(5, 600);
-      assert.match(await filt(), /url\("#f-cut"\)/, file + ': the logo rests cut into the plate');
-      assert.equal(await p.$eval('.hdr__logo img', i => getComputedStyle(i).transform), 'none', 'a cut mark does not lift');
-      // contrast: the logo's face against the plate around it, read from rendered pixels
+      assert.ok(!(await filt()).includes('url(') && (await lift()) === 'none', file + ': the logo rests plain, with only its soft drop shadow');
+      // contrast: the white logo against the plate, read from rendered pixels
       const box = await p.locator('.hdr__logo img').boundingBox();
       const clip = { x: Math.round(box.x), y: Math.round(box.y), width: Math.round(box.width), height: Math.round(box.height) };
       const withLogo = await pixels(ctx, await p.screenshot({ clip }));
@@ -99,25 +96,23 @@ async function pixels(ctx, buf) {
         if (Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]) + Math.abs(a[2] - b[2]) > 240) face.push(lum(a));
       }
       const logoRatio = ratio(pct(face, 0.5), pct(ground, 0.9));
-      assert.ok(face.length > 500 && logoRatio >= 7, file + ': logo face vs. plate ' + logoRatio.toFixed(2) + ':1');
-      await p.hover('.hdr__link');
-      assert.match(await filt(), /url\("#f-cut"\) url\("#f-lit"\)/, file + ': the cut lights warm gold on hover');
+      assert.ok(face.length > 500 && logoRatio >= 7, file + ': logo vs. plate ' + logoRatio.toFixed(2) + ':1');
+      await p.hover('.hdr__link'); await p.waitForTimeout(400);
+      assert.ok((await filt()).includes('rgba(222, 187, 112') && (await lift()) !== 'none', file + ': the logo lifts and glows gold on hover');
       await p.mouse.move(5, 600);
       await p.focus('.skip'); for (let k = 0; k < 40 && !(await p.evaluate(() => document.activeElement.classList.contains('hdr__link'))); k++) await p.keyboard.press('Tab');
       assert.ok(await p.evaluate(() => document.activeElement.matches('.hdr__link:focus-visible')), 'the logo link is reachable by keyboard');
-      assert.match(await filt(), /url\("#f-cut"\) url\("#f-lit"\)/, file + ': the cut lights warm gold on keyboard focus');
+      await p.waitForTimeout(400);
+      assert.ok((await filt()).includes('rgba(222, 187, 112') && (await lift()) !== 'none', file + ': the logo lifts and glows gold on keyboard focus');
       await p.evaluate(() => document.activeElement.blur());
-      await p.setViewportSize({ width: 390, height: 844 }); await p.mouse.move(5, 600);
-      assert.match(await filt(), /^url\("#f-cut-sm"\)$/, file + ': a shallower cut for the smaller logo on narrow screens');
-      await p.setViewportSize({ width: 1440, height: 900 });
-      await p.emulateMedia({ contrast: 'more' }); assert.equal(await filt(), 'none', 'more contrast: plain logo');
+      await p.emulateMedia({ contrast: 'more' }); assert.ok(!(await filt()).includes('url('), 'more contrast: plain logo');
       await p.emulateMedia({ contrast: 'no-preference', forcedColors: 'active' }); assert.equal(await filt(), 'none', 'forced colors: plain logo');
       assert.deepEqual(await p.$eval('.hdr__logo', l => { const i = getComputedStyle(l.querySelector('img')), b = getComputedStyle(l, '::before');
         return [i.opacity, b.maskImage.includes('logo.') || b.webkitMaskImage.includes('logo.'), b.forcedColorAdjust]; }), ['0', true, 'none'],
         'forced colors: the logo is redrawn in the link color, so it never vanishes on a light Canvas');
       await p.emulateMedia({ forcedColors: 'none', media: 'print' }); assert.equal(await filt(), 'brightness(0)', 'print: a black logo, visible on paper');
       await p.emulateMedia({ media: 'screen' });
-      pass(file + ': logo cut into the plate at rest, lit on hover and focus, ' + logoRatio.toFixed(1) + ':1 against the plate, with plain, forced-color, and print fallbacks');
+      pass(file + ': the white logo lifts and glows on hover and focus, ' + logoRatio.toFixed(1) + ':1 against the plate, with plain, forced-color, and print fallbacks');
 
       /* ── header hierarchy: two buttons, the walkthrough as the one brass primary ── */
       const ctas = await p.$$eval('.hdr .hdr-cta', as => as.map(a => ({ primary: a.classList.contains('hdr-cta--primary'), text: a.textContent.replace(/\s+/g, ' ').trim(), bg: getComputedStyle(a).backgroundImage })));

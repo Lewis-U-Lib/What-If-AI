@@ -24,13 +24,8 @@
 /* ═══ header: logo in the upper-left of the plate, identity centered on the page ═══ */
 .hdr--lab .hdr__link{position:absolute;top:22px;left:26px;z-index:2;margin:0;}
 .hdr--lab .hdr__logo img{max-width:clamp(9.5rem,calc(4.85rem + 9.95vw),13.6rem);max-height:6.6rem;}
-/* the logo is cut into the plate (icons.svg); on hover and focus the cut lights warm gold, crisply, without lifting */
-.hdr__logo img,.hdr__logo:hover img{filter:url(#f-cut);transform:none;transition:none;}
-.hdr__link:hover .hdr__logo img,.hdr__link:focus-visible .hdr__logo img{filter:url(#f-cut) url(#f-lit);}
-@media(max-width:1100px){
-  .hdr__logo img,.hdr__logo:hover img{filter:url(#f-cut-sm);}
-  .hdr__link:hover .hdr__logo img,.hdr__link:focus-visible .hdr__logo img{filter:url(#f-cut-sm) url(#f-lit);}
-}
+/* the logo is the original white mark; it lifts slightly and glows gold on hover (lul-core.css) and, here, on keyboard focus too */
+.hdr__link:focus-visible .hdr__logo img{filter:drop-shadow(0 0 14px rgba(222,187,112,.45)) drop-shadow(0 0 34px rgba(222,187,112,.22)) drop-shadow(0 6px 14px rgba(0,0,0,.35));transform:translateY(-3px);}
 .hdr--lab .hdr__identity{text-align:center;}
 .hdr--lab .hdr__masthead{min-height:6rem;padding:0 250px;display:flex;flex-direction:column;justify-content:center;}
 .hdr--lab .hdr__tagline{max-width:54rem;margin:.6rem auto 0;}
@@ -215,8 +210,7 @@ body:has(dialog[open]) .fab-wrap{opacity:0;}
   .type__more > summary .ico{transition:none;}
 }
 @media(prefers-contrast:more){
-  .hdr__logo img,.hdr__logo:hover img{filter:none;}
-  .hdr__link:hover .hdr__logo img,.hdr__link:focus-visible .hdr__logo img{filter:drop-shadow(0 0 1px var(--inc-bulb)) drop-shadow(0 0 1px var(--inc-bulb));}
+  .hdr__logo img,.hdr__logo:hover img,.hdr__link:focus-visible .hdr__logo img{filter:none;}
   .current,.lamps{display:none;}
   .protocols{background-image:none;background-color:#44091a;}
   .protocols::before{display:none;}
