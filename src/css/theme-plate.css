@@ -40,6 +40,16 @@
   /* a lap seam: dark groove with a lit lower lip */
   --seam:linear-gradient(180deg,rgba(0,0,0,0) 0,rgba(10,1,3,.85) 1px,rgba(10,1,3,.85) 3px,rgba(255,225,230,.13) 3px,rgba(255,225,230,.13) 4px,rgba(0,0,0,0) 4px);
 
+  /* incandescent light: a white-hot core in the house golds, amber at the edge; every glow uses these */
+  --inc-core:#fffaf0; --inc-hot:#ffe8a0; --inc-bulb:#ffc72c; --inc-amber:#f2a900; --inc-ember:#a86a00;
+  --inc-lit:radial-gradient(circle at 46% 40%,#fffdf7 0 10%,var(--inc-hot) 24%,var(--inc-bulb) 50%,var(--inc-amber) 76%,var(--inc-ember) 100%);
+  --inc-pilot:radial-gradient(circle at 44% 38%,var(--inc-hot) 0 12%,var(--inc-bulb) 34%,var(--inc-amber) 60%,#7a4c00 100%);
+  --inc-halo:0 0 0 1.5px rgba(10,1,3,.7),0 0 2px 1px rgba(255,232,160,.9),0 0 7px 2px rgba(255,199,44,.6),0 0 16px 4px rgba(242,169,0,.28);
+  --inc-halo-pilot:0 0 0 1.5px rgba(10,1,3,.7),0 0 4px 1px rgba(255,199,44,.5),0 0 11px 2px rgba(242,169,0,.24);
+  /* a small Edison bulb: amber glass, a zigzag filament, a brass screw base */
+  --edison:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 18'><defs><radialGradient id='g' cx='.5' cy='.42' r='.62'><stop offset='0' stop-color='%23fff6d6'/><stop offset='.4' stop-color='%23ffc72c'/><stop offset='.8' stop-color='%23e08e0b'/><stop offset='1' stop-color='%23a86a00'/></radialGradient></defs><path d='M6 .7C3.1.7.9 2.9.9 5.7c0 2 1 3.2 2 4.2.6.6.9 1.2.9 2v.6h4.4v-.6c0-.8.3-1.4.9-2 1-1 2-2.2 2-4.2C11.1 2.9 8.9.7 6 .7z' fill='url(%23g)'/><path d='M4.7 12.3V8.6M7.3 12.3V8.6' stroke='%23a86a00' stroke-width='.45'/><path d='M4.7 8.6l.43-1.6.43 1.6.44-1.6.43 1.6.43-1.6.43 1.6' fill='none' stroke='%23fffdf4' stroke-width='.65' stroke-linejoin='round'/><rect x='3.8' y='12.5' width='4.4' height='3.3' rx='.5' fill='%23c9a35c'/><path d='M3.8 13.6h4.4M3.8 14.7h4.4' stroke='%23705020' stroke-width='.45'/><path d='M5 15.8h2l-.35 1.3h-1.3z' fill='%23503814'/></svg>");
+  --inc-glow:0 0 1px 1px rgba(255,232,160,.7),0 0 8px 1px rgba(255,199,44,.48),0 0 20px 2px rgba(242,169,0,.26),0 0 40px 4px rgba(242,169,0,.12);
+
   --panel:linear-gradient(180deg,#541020,var(--steel-2));
   --line:rgba(222,187,112,.24);
   --line-strong:rgba(222,187,112,.55);
@@ -94,7 +104,11 @@ body::before{
 /* header links become recessed fittings, so gold text always sits on a dark well */
 .hdr-cta--secondary,.hdr-cta--primary{border-radius:var(--r);background:rgba(16,2,5,.5);border:1.5px solid var(--line-strong);
   color:var(--gold);box-shadow:inset 0 2px 5px rgba(0,0,0,.45),0 1px 0 rgba(255,230,234,.1);}
-.hdr-cta--secondary:hover,.hdr-cta--primary:hover{background:rgba(16,2,5,.7);border-color:var(--gold);color:var(--cream-lt);}
+.hdr-cta--secondary:hover{background:rgba(16,2,5,.7);border-color:var(--gold);color:var(--cream-lt);}
+/* the one primary action in the header is brass, like the finder's Next button */
+.hdr-cta--primary{background:linear-gradient(180deg,var(--brass-hi),var(--brass) 48%,var(--brass-lo));border-color:#8f6d31;color:var(--brass-ink);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 2px 0 rgba(0,0,0,.4);}
+.hdr-cta--primary:hover,.hdr-cta--primary:focus-visible{background:linear-gradient(180deg,#fff0c4,var(--brass-hi) 50%,var(--brass));border-color:#8f6d31;color:var(--brass-ink);}
 
 /* ═══ nameplates: section eyebrows become small brass plates ═══ */
 .sec-eyebrow{display:inline-flex;align-items:center;gap:0;padding:4px 20px;border-radius:3px;
@@ -211,17 +225,39 @@ body::before{
   background-size:260px 18px,100% 4px,340px 340px,520px 520px,520px 520px,900px 900px,100% 100%,100% 100%;
   background-position:48px 20px,0 0,0 0,0 0,0 0,0 0,0 0,0 0;
   box-shadow:0 -1px 0 rgba(255,225,230,.1);}
-/* Transparent CC symbols share the brass controls' warm light. */
-.site-foot .cc-license-symbols{filter:drop-shadow(0 0 3px rgba(255,232,160,.4)) drop-shadow(0 0 9px rgba(222,187,112,.2));}
+/* CC symbols: a dark rim keeps each mark's counters crisp; a softer incandescent glow sits behind it */
+.site-foot .cc-license-symbols{filter:drop-shadow(0 0 .7px rgba(22,2,7,.95)) drop-shadow(0 0 2px rgba(255,199,44,.3)) drop-shadow(0 0 7px rgba(242,169,0,.2));}
 .site-foot .cc-icons:hover{color:var(--cream-lt);}
 .site-foot .cc-icons:focus-visible{outline:2px solid var(--focus);outline-offset:4px;border-radius:4px;}
 .hcai{border-radius:var(--r);background:rgba(10,1,3,.5);border-color:rgba(0,0,0,.6);box-shadow:inset 0 2px 8px rgba(0,0,0,.5);}
 
-/* ═══ help button: a brass dome ═══ */
-.fab-toggle{border:1px solid #6d5224;background:radial-gradient(circle at 38% 32%,#fff3cf,var(--brass-hi) 22%,var(--brass) 52%,var(--brass-lo) 80%,#6d5224);
-  color:var(--brass-ink);box-shadow:inset 0 -3px 6px rgba(0,0,0,.25),0 6px 18px rgba(0,0,0,.5);}
-.fab-toggle__icon{color:var(--brass-ink);}
-.fab-item{border-radius:var(--r);background:linear-gradient(180deg,#5a1020,#4a0c18);box-shadow:var(--bevel),0 4px 16px rgba(0,0,0,.45);}
+/* ═══ help button: a domed yellow-brass rivet seated in the plate, with the ✦ stamped into its head. It glows softly
+   at rest and brighter on hover, keyboard focus, and while the menu is open (when the ✦ turns into an ×). ═══ */
+.fab-wrap{bottom:calc(24px + env(safe-area-inset-bottom,0px));}
+.fab-toggle{width:58px;height:58px;border:1px solid #7a4c00;color:var(--brass-ink);
+  background:radial-gradient(circle at 36% 30%,#fffdf2 0 6%,var(--inc-hot) 17%,var(--inc-bulb) 40%,var(--inc-amber) 64%,#a86a00 85%,#6a3f00 100%);
+  box-shadow:inset 0 -4px 7px rgba(90,50,0,.45),inset 0 2px 3px rgba(255,255,240,.6),
+    0 0 0 3px #22040b,0 0 0 4px rgba(255,199,44,.4),0 5px 14px rgba(0,0,0,.55),
+    0 0 14px 3px rgba(255,199,44,.42),0 0 30px 6px rgba(242,169,0,.2);}
+.fab-toggle__icon{color:var(--brass-ink);text-shadow:0 1px 0 rgba(255,244,214,.75),0 -1px 0 rgba(70,40,0,.35);}
+.fab-toggle:hover,.fab-toggle:focus-visible,.fab-wrap.open .fab-toggle{transform:none;
+  background:radial-gradient(circle at 36% 30%,#fff 0 7%,#fff3cf 19%,var(--inc-hot) 32%,var(--inc-bulb) 54%,var(--inc-amber) 76%,#8a5600 100%);
+  box-shadow:inset 0 -4px 7px rgba(90,50,0,.35),inset 0 2px 3px rgba(255,255,255,.75),
+    0 0 0 3px #22040b,0 0 0 4px rgba(255,214,90,.7),0 5px 14px rgba(0,0,0,.55),var(--inc-glow);}
+/* the menu sits in an opaque dark-metal housing, so nothing behind it shows between the items (from PR #36) */
+.fab-menu{align-items:stretch;max-width:min(340px,calc(100vw - 32px));padding:14px;gap:10px;
+  background:var(--tx-brush-lt),var(--tx-brush-dk),linear-gradient(115deg,#2c1519,#1b090f 65%,#35151a) #1b090f;
+  border:1px solid #916942;border-radius:8px;box-shadow:inset 0 1px 0 #785344,inset 0 -1px 0 #080305,0 12px 30px rgba(0,0,0,.7);
+  overscroll-behavior:contain;}
+.fab-item{white-space:normal;text-align:left;}
+/* the footer keeps clear of the fixed help button, so the disclosure is never covered (from PR #36) */
+.site-foot{padding-bottom:calc(108px + env(safe-area-inset-bottom,0px));}
+/* menu items float over the page: opaque in every state, over a firmer scrim */
+.fab-scrim{background:rgba(16,2,5,.7);}
+.fab-item{border-radius:var(--r);border-color:#9a7637;background:linear-gradient(180deg,#5a1020,#4a0c18);color:var(--gold);
+  box-shadow:var(--bevel),0 4px 16px rgba(0,0,0,.45);}
+.fab-item:hover,.fab-item:focus-visible{background:linear-gradient(180deg,#2c050d,#22040b);border-color:var(--inc-bulb);color:var(--cream-lt);}
+.fab-item:hover{box-shadow:var(--bevel),0 6px 22px rgba(0,0,0,.5),var(--inc-glow);}
 
 /* ═══ phones: smaller hardware, fewer bolts ═══ */
 @media(max-width:760px){
@@ -244,15 +280,24 @@ body::before{
   .topbar,.hdr.hdr--compact,.panel__head,.dlg__head,.site-foot,.polpanel,.qpanel .panel__head{background-image:none;background-color:#44091a;}
   .topbar::after,.panel__head::before,.panel::after,.acard::before,.type::before,.polpanel::before,.dlg__head::before{display:none;}
   .hdr.hdr--compact::after{background:var(--seam) 0 22px/100% 4px no-repeat;}
+  .fab-scrim{background:rgba(10,1,3,.86);}
+  .fab-item,.fab-item:hover,.fab-item:focus-visible{background:#22040b;border:2px solid var(--gold);color:var(--cream-lt);box-shadow:0 4px 16px rgba(0,0,0,.6);}
+  .fab-item:hover,.fab-item:focus-visible{border-color:var(--inc-bulb);text-decoration:underline;text-underline-offset:3px;}
+  .fab-menu{background:#140306;border-color:var(--gold);}
+  .fab-toggle,.fab-toggle:hover,.fab-toggle:focus-visible,.fab-wrap.open .fab-toggle{box-shadow:0 0 0 3px #22040b,0 0 0 5px var(--gold);}
 }
 @media(forced-colors:active){
   .site-foot .cc-icons,.site-foot .cc-icons:hover{color:LinkText;}
+  .fab-toggle,.fab-toggle:hover,.fab-toggle:focus-visible,.fab-wrap.open .fab-toggle{background:ButtonFace;border-color:ButtonText;box-shadow:none;}
+  .fab-toggle__icon{color:ButtonText;text-shadow:none;}
+  .fab-menu{background:Canvas;border-color:CanvasText;box-shadow:none;}
   .site-foot .cc-license-symbols{filter:none;}
   .topbar::after,.panel__head::before,.panel::after,.acard::before,.type::before,.polpanel::before,.dlg__head::before,.hdr.hdr--compact::after{display:none;}
 }
 
 /* ═══ print: hardware off ═══ */
 @media print{
+  .site-foot{padding-bottom:0 !important;}
   body::before,.topbar::after,.topbar::before,.panel__head::before,.panel__head::after,.panel::after,.acard::before,.type::before,
   .polpanel::before,.dlg__head::before,.hdr.hdr--compact::after,.acard__foot::before,.type__foot::before,.detail h3::before{display:none !important;}
   .hdr.hdr--compact,.site-foot{background:none !important;box-shadow:none !important;border:0 !important;}

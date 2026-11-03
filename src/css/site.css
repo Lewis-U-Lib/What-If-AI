@@ -277,6 +277,7 @@ a.license-mark{min-height:44px;}
 .hcai{max-width:1040px;width:100%;text-align:left;font-size:15px;line-height:1.6;color:var(--ink);
   padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:rgba(0,0,0,.18);}
 .hcai strong{color:var(--gold);}
+.hcai a{color:var(--gold);text-decoration:underline;}
 
 /* the house stylesheet zooms desktop to 125%; viewport units inside a zoomed body are
    scaled too, so anything sized to the viewport divides by the zoom */

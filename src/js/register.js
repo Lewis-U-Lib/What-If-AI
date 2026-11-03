@@ -232,9 +232,9 @@ function typeCitations(refs){
 function typeParagraph(p){return '<p>'+esc(p.text)+typeCitations(p.refs)+'</p>';}
 function typeReferences(ids){
   return '<ol class="type-sources">'+R.types.sources.filter(function(s){return !ids || ids.indexOf(s.id)!==-1;}).map(function(s){
-    // Keep research classifications in the ledger; citations need only useful version notes.
-    var note = /^Peer-reviewed\b/i.test(s.kind) ? (/author manuscript/i.test(s.kind) ? 'Author manuscript' : '') : s.kind.replace(/\s*\(not peer reviewed\)/i, '');
-    return '<li value="'+s.id+'">'+S_.externalLink(s.url,esc(s.title)+'<span class="sr-only"> (opens in a new tab)</span>')+(note ? '<span class="type-source-kind">'+esc(note)+'</span>' : '')+'</li>';
+    // A reference shows its citation and nothing else. Publication types and consulted sections stay in
+    // content/ai-type-guide.json and the research ledger.
+    return '<li value="'+s.id+'">'+S_.externalLink(s.url,esc(s.title)+'<span class="sr-only"> (opens in a new tab)</span>')+'</li>';
   }).join('')+'</ol>';
 }
 var typeDialog = document.getElementById('aiTypeDialog');

@@ -137,7 +137,9 @@ async function ready(p){await p.waitForSelector('html[data-ready]',{state:'attac
   assert.deepEqual(errors,[]);await ctx.close();
   // Fixed byte budgets catch material growth; network timing remains an observation, not a portable promise.
   // Raised on 2026-10-13 for the source-checked change notes and attribution lines (+~170 KB compressed).
-  for(const [file,budget] of [['what-if-ai.html',1450000],['register.html',1650000]]){
+  // What If AI raised 5 KB on 2026-11-02: it had 509 bytes of headroom, and the Report an Issue link, the HCAI and
+  // HITL disclosure (footer and "How it was made", each with two links), and the logo's filters add ~1.7 KB compressed.
+  for(const [file,budget] of [['what-if-ai.html',1455000],['register.html',1650000]]){
    const log=[],s=await start({dir:SITE,log}),c=await createContext(browser),q=await c.newPage();
    await q.goto(s.url(file));await ready(q);await q.waitForTimeout(200);
    const paths=[...new Set(log.map(x=>x.path))];
