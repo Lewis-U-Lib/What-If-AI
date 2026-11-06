@@ -1,10 +1,10 @@
 # Editorial pass, November 6, 2026
 
 A diagnostic of the current build (code, accessibility, spelling, grammar, punctuation, and voice) found
-the interface and the collection in good order and left five editorial decisions for the library. This
-pass carries out the decisions the library made. Every change to the collection, with before and after
-text, is in `docs/research/editorial-2026-11-06-changes.csv` (791 rows). Interface text changes are in
-the source files under `src/`.
+the interface and the collection in good order and left five editorial decisions for the library, and a
+sixth followed from the scan under the fifth. This pass carries out the decisions the library made. Every
+change to the collection, with before and after text, is in `docs/research/editorial-2026-11-06-changes.csv`
+(916 rows). Interface text changes are in the source files under `src/`.
 
 ## Decisions and what changed
 
@@ -77,16 +77,33 @@ run long because each sentence carries a component of the procedure:
 | Licensed adaptations in the synthesis set | 3 | 1,115 | 2 |
 
 Condensing the remix and synthesis sets to the adaptations' median would mean dropping components, which
-the library ruled out. A different, smaller target does exist: 128 summaries contain a sentence of 55 or
-more words, mostly semicolon lists of required steps (CAN-W-workflow-021, 103 words; CAN-B-WRIT-16, 99;
-CAN-B-CASE-07, 94). Splitting those sentences would improve readability without removing anything, and
-without changing the length. For the 29 long licensed adaptations, any trimming must keep every element the
-license-bearing source states, so the recommendation is to split sentences rather than cut. This is left
-for a library decision.
+the library ruled out. A different target did exist: 129 summaries contained a sentence of 55 or more
+words, mostly semicolon lists of required steps (CAN-W-workflow-021, 103 words; CAN-B-WRIT-16, 99;
+CAN-B-CASE-07, 94). Splitting those sentences improves readability without removing anything and without
+changing the length, and for the licensed adaptations it keeps every element the license-bearing source
+states. The library chose to run that pass.
+
+### 6. Long sentences split
+
+Each of the 129 long sentences was split at its natural seams: semicolon-separated steps, "and" or "then"
+joining independent clauses, a long participial opener, a dash insertion, or a "so that" tail. The only
+additions are the glue a split needs (a restated subject such as "Students" or "The instructor", a
+transition such as "Then", or a participle made finite: "Choosing an extract…, students" → "Students choose
+an extract…"), and the only removals are the conjunctions and semicolons the splits replace. Quoted spans,
+numbers, names, citations, and license phrases are untouched, and no sentence outside the listed ones was
+changed. 125 summaries changed; lengths moved between −0.3% and +5%.
+
+Four were left as they were: CAN-W-workflow-036, a counted list ("five dimensions: …") with a seven-word
+lead-in that cannot be split without inventing a verb, and CAN-B-PROC-10, CAN-W-human-024, and
+CAN-W-lis-016, where the detector had merged two sentences across a closing quotation mark and each was
+already under 45 words. Colon-introduced lists were split off from their lead-in and kept whole, so about
+forty resulting sentences still run 44–53 words; breaking those lists would have needed more glue than the
+rule allowed. One sentence of 55+ words remains in the collection (CAN-W-workflow-036); 311 summaries still
+contain a sentence of 45 or more words, which was not this pass's target.
 
 ## Release
 
-`data/release.json` is re-stamped: release `06479e306bbd`, built 2026-11-06, with new sizes and hashes.
+`data/release.json` is re-stamped: release `53ad5cbebd30`, built 2026-11-06, with new sizes and hashes.
 `tools/check_release.py` passes; `tools/license_scope.py --pin` re-pinned `content/tool-license.json` with no
 change to the clarified set (244 notes).
 
@@ -94,4 +111,5 @@ change to the clarified set (244 notes).
 
 - Change notes (`chg`) and attribution lines, where "you" or title case quote the source.
 - Work titles in The Register, which reproduce their sources.
-- The summaries of the remix and synthesis sets beyond the five above (see the scan).
+- The summaries of the remix and synthesis sets beyond the five condensed above; their sentences were split
+  where long, but no component was removed.

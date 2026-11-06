@@ -1,11 +1,11 @@
 {
   "contract": 2,
-  "release": "06479e306bbd",
+  "release": "53ad5cbebd30",
   "built": "2026-11-06",
   "source": {
     "repo": "Lewis-U-Lib/What-If-AI",
     "commit": "ea604ea1b376782f224aa0cb2d5fbcda6b891da5",
-    "description": "Public collection with the November 6 editorial pass: sentence-case titles, third-person descriptions of student work, condensed longest summaries, and reference and tagline corrections; see docs/EDITORIAL_2026-11-06.md."
+    "description": "Public collection with the November 6 editorial pass: sentence-case titles, third-person descriptions of student work, condensed longest summaries, split long sentences, and reference and tagline corrections; see docs/EDITORIAL_2026-11-06.md."
   },
   "counts": {
     "activities": 1033,
@@ -13,12 +13,12 @@
   },
   "files": {
     "acts.json": {
-      "bytes": 4911710,
-      "sha256": "3c37fdce67fae6c4b0ec0e140f4726c889be1ca5e765af9e006b07ec99d85cf6"
+      "bytes": 4912766,
+      "sha256": "7b6316f564c93fc8df01b47e7f92bf985f68e8a0d48bb589c64b43d1b4510afc"
     },
     "register.json": {
       "bytes": 561360,
-      "sha256": "d4c683f950bb25103a2efe1da23641de85b0c7d5424e23eee2973577fc80127b"
+      "sha256": "ecb33e1328757a5fc958d73bb97f0f7904ffde9c7da79a30b7a7fa1451b84e76"
     },
     "guide.json": {
       "bytes": 8327,
