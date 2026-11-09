@@ -11,7 +11,7 @@ let count=0;function pass(m){count++;console.log('PASS '+m);}
 async function ready(p){await p.waitForSelector('html[data-ready]',{state:'attached'});}
 const norm=s=>String(s||'').replace(/\s+/g,' ').trim();
 
-const FINDER='Results come from fixed matching rules set by the Library. No AI system reads your answers or generates your results, and your answers stay in this browser.';
+const FINDER='Results come from fixed matching rules set by the library. No AI system reads your answers or generates your results, and your answers stay in this browser.';
 const REGISTER='Every entry is a fixed, static record you can read, search, and print; nothing is generated as you browse.';
 const MADE='AI assistance was used to realize this resource, utilized for coding, collation, editing, and certain visual elements.';
 /* the November 2 disclosure: the tools used, and the two frameworks it names, each linked to Stanford HAI's definition */
@@ -20,8 +20,8 @@ const FRAMEWORKS=[['Human-Centered AI framework (HCAI)','https://hai.stanford.ed
 /* what a sighted reader sees: the text without screen-reader-only additions such as "(opens in a new tab)" */
 const shown=(p,sel)=>p.$eval(sel,e=>{const c=e.cloneNode(true);c.querySelectorAll('.sr-only').forEach(n=>n.remove());return c.textContent;}).then(norm);
 const framed=(p,sel)=>p.$$eval(sel+' a',as=>as.map(a=>[a.firstChild.textContent.trim(),a.getAttribute('href'),a.target,a.querySelector('.sr-only')?.textContent.trim()]));
-const ASKUS='During staffed hours, Ask Us connects you to library staff. At other times it shows a set menu of answers written by the Library and a form for leaving your email. No AI system writes the replies.';
-const RAIL='Matched by fixed rules set by the Library. No AI system reads your answers.';
+const ASKUS='During staffed hours, Ask Us connects you to library staff. At other times it shows a set menu of answers written by the library and a form for leaving your email. No AI system writes the replies.';
+const RAIL='Matched by fixed rules set by the library. No AI system reads your answers.';
 const TITLES=['What If AI','The Register','What leaves your browser','Ask Us','Links to other sites','How it was made'];
 
 (async()=>{

@@ -460,7 +460,7 @@ function drawSources(){
     '<dl class="legend">'+R.origin.filter(function(o){ return o[3]; }).map(function(o){
       var O = S_.ORIGIN[o[0]]||{label:o[1],text:o[2]};
       return '<div><dt>'+esc(O.label)+' <span class="tag">'+o[3]+'</span></dt><dd>'+esc(O.text)+'</dd></div>'; }).join('')+'</dl>'+
-    ((R.tiers||[]).length ? '<p class="muted">Two smaller sets were written for the collection and are labeled on every use-case idea they hold:</p>'+
+    ((R.tiers||[]).length ? '<p class="muted">Two smaller sets were written for the collection and are labeled on every use-case idea they hold. Three licensed adaptations also belong to the synthesis set, which is why the filter above counts 736 adapted use-case ideas:</p>'+
       '<dl class="legend">'+R.tiers.filter(function(t){ return t[3]; }).map(function(t){
         return '<div><dt>'+esc(t[1])+' <span class="tag">'+t[3]+'</span></dt><dd>'+esc(t[2])+'</dd></div>'; }).join('')+'</dl>' : '')+
     '<p class="muted">Use-case ideas adapt only works published under a Creative Commons license or another open license, and keep the original license, with any ShareAlike or NonCommercial terms, when they are reused. '+
