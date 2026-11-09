@@ -24,11 +24,10 @@
 /* ═══ header: logo in the upper-left of the plate, identity centered on the page ═══ */
 .hdr--lab .hdr__link{position:absolute;top:22px;left:26px;z-index:2;margin:0;}
 .hdr--lab .hdr__logo img{max-width:clamp(9.5rem,calc(4.85rem + 9.95vw),13.6rem);max-height:6.6rem;}
-/* Reuse the original mark's alpha as a mask: a gentle pearl/champagne sheen
-   keeps the fine RESEARCH lettering crisp. The shallow etched edge stays put
-   while its small warm halo brightens on hover and keyboard focus. */
-.hdr__logo{position:relative;transition:filter .25s ease;
-  filter:drop-shadow(0 -.4px .2px rgba(20,3,8,.7)) drop-shadow(0 .45px .2px rgba(255,238,216,.13)) drop-shadow(0 0 2px rgba(255,224,170,.1));}
+/* Reuse the original mark's alpha as a mask. Resting artwork has no filters,
+   keeping the fine RESEARCH lettering crisp; the etched edge and warm halo
+   appear only on hover and keyboard focus. */
+.hdr__logo{position:relative;transition:filter .18s ease;filter:none;}
 .hdr__logo img,.hdr__logo:hover img,.hdr__logo:focus-visible img,.hdr__link:focus-visible .hdr__logo img{
   filter:none;transform:none;transition:none;will-change:auto;}
 .hdr__link:hover .hdr__logo,.hdr__link:focus-visible .hdr__logo{

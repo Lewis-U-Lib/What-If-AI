@@ -50,6 +50,8 @@ async function checkLogoReflection(browser, server, file) {
       return { animation: a.animationName, opacity: a.opacity, display: a.display, filter: s.filter, transition: s.transitionDuration }; });
     const rest = await state();
     assert.equal(rest.animation, 'none', file + ': no idle reflection');
+    assert.equal(rest.filter, 'none', file + ': no resting glow or blur');
+    assert.equal(rest.opacity, '0', file + ': no resting highlight');
     const bounds = await p.locator('.hdr__logo').boundingBox();
     const onePass = async label => {
       const timing = await p.$eval('.hdr__logo', l => {
@@ -66,7 +68,10 @@ async function checkLogoReflection(browser, server, file) {
       assert.notEqual((await state()).filter, rest.filter, file + ': the gentle interactive light remains');
     };
     await p.hover('.hdr__link'); await onePass('hover');
-    await p.mouse.move(5, 600); await p.hover('.hdr__link'); await onePass('re-entry');
+    await p.mouse.move(5, 600);
+    await p.waitForFunction(() => getComputedStyle(document.querySelector('.hdr__logo')).filter === 'none');
+    assert.equal((await state()).opacity, '0', file + ': leaving the logo clears the highlight as well as the halo');
+    await p.hover('.hdr__link'); await onePass('re-entry');
     await p.mouse.move(5, 600);
     await p.focus('.skip');
     for (let k = 0; k < 40 && !(await p.evaluate(() => document.activeElement.classList.contains('hdr__link'))); k++) await p.keyboard.press('Tab');
@@ -133,7 +138,8 @@ async function checkLogoReflection(browser, server, file) {
       for (const id of ['#f-cut', '#f-cut-sm', '#f-lit', '#f-press', '#f-glow']) assert.equal(await p.$(id), null, id + ' is gone');
       await p.mouse.move(5, 600);
       const restFilter = await filt();
-      assert.ok(!restFilter.includes('url(') && (await lift()) === 'none', file + ': the etched logo rests without displacement');
+      assert.equal(restFilter, 'none', file + ': the pearl logo rests without a glow or blur');
+      assert.equal(await lift(), 'none', file + ': the resting logo stays in place');
       // Contrast uses the rendered pearl artwork, including its gradient, against the actual plate.
       const box = await p.locator('.hdr__logo img').boundingBox();
       const clip = { x: Math.round(box.x), y: Math.round(box.y), width: Math.round(box.width), height: Math.round(box.height) };
@@ -170,7 +176,7 @@ async function checkLogoReflection(browser, server, file) {
         return [i.opacity, i.filter, b.display, getComputedStyle(l).filter]; }), ['1', 'brightness(0)', 'none', 'none'],
         'print: the original image is visible in black, with no pearl overlay or glow');
       await p.emulateMedia({ media: 'screen' });
-      pass(file + ': the pearl logo stays etched while its halo responds to hover and focus, ' + logoRatio.toFixed(1) + ':1 against the plate, with flat, forced-color, and print fallbacks');
+      pass(file + ': the pearl logo stays crisp at rest and lights on hover and focus, ' + logoRatio.toFixed(1) + ':1 against the plate, with flat, forced-color, and print fallbacks');
 
       /* ── header hierarchy: two buttons, the walkthrough as the one brass primary ── */
       const ctas = await p.$$eval('.hdr .hdr-cta', as => as.map(a => ({ primary: a.classList.contains('hdr-cta--primary'), text: a.textContent.replace(/\s+/g, ' ').trim(), bg: getComputedStyle(a).backgroundImage })));
