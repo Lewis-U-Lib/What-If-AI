@@ -227,6 +227,10 @@ body::before{
   box-shadow:0 -1px 0 rgba(255,225,230,.1);}
 /* CC symbols: a dark rim keeps each mark's counters crisp; a softer incandescent glow sits behind it */
 .site-foot .cc-license-symbols{filter:drop-shadow(0 0 .7px rgba(22,2,7,.95)) drop-shadow(0 0 2px rgba(255,199,44,.3)) drop-shadow(0 0 7px rgba(242,169,0,.2));}
+/* The supplied artwork stays flat. A small halo preserves fine lines and open
+   counters, without a bevel, animation, or a bright pool behind the wordmark. */
+.site-foot__brand img{filter:drop-shadow(0 0 .6px rgba(22,2,7,.85)) drop-shadow(0 0 2px rgba(255,199,44,.18)) drop-shadow(0 0 6px rgba(242,169,0,.12));}
+.site-foot__brand:hover img,.site-foot__brand:focus-visible img{filter:drop-shadow(0 0 .6px rgba(22,2,7,.85)) drop-shadow(0 0 2px rgba(255,199,44,.28)) drop-shadow(0 0 7px rgba(242,169,0,.18));}
 .site-foot .cc-icons:hover{color:var(--cream-lt);}
 .site-foot .cc-icons:focus-visible{outline:2px solid var(--focus);outline-offset:4px;border-radius:4px;}
 .hcai{border-radius:var(--r);background:rgba(10,1,3,.5);border-color:rgba(0,0,0,.6);box-shadow:inset 0 2px 8px rgba(0,0,0,.5);}
@@ -275,6 +279,7 @@ body::before{
 
 /* ═══ when a reader asks for more contrast: plain surfaces, no texture ═══ */
 @media(prefers-contrast:more){
+  .site-foot__brand img,.site-foot__brand:hover img,.site-foot__brand:focus-visible img{filter:none;}
   .site-foot .cc-license-symbols{filter:none;}
   body::before{background:var(--steel-1);}
   .topbar,.hdr.hdr--compact,.panel__head,.dlg__head,.site-foot,.polpanel,.qpanel .panel__head{background-image:none;background-color:#44091a;}
@@ -287,6 +292,9 @@ body::before{
   .fab-toggle,.fab-toggle:hover,.fab-toggle:focus-visible,.fab-wrap.open .fab-toggle{box-shadow:0 0 0 3px #22040b,0 0 0 5px var(--gold);}
 }
 @media(forced-colors:active){
+  .site-foot__brand img,.site-foot__brand:hover img,.site-foot__brand:focus-visible img{filter:none;opacity:0;}
+  .site-foot__brand::before{content:'';position:absolute;inset:0;background:LinkText;forced-color-adjust:none;
+    -webkit-mask:url('../img/library-footer.svg') center/contain no-repeat;mask:url('../img/library-footer.svg') center/contain no-repeat;}
   .site-foot .cc-icons,.site-foot .cc-icons:hover{color:LinkText;}
   .fab-toggle,.fab-toggle:hover,.fab-toggle:focus-visible,.fab-wrap.open .fab-toggle{background:ButtonFace;border-color:ButtonText;box-shadow:none;}
   .fab-toggle__icon{color:ButtonText;text-shadow:none;}
