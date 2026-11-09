@@ -3,8 +3,9 @@
  *    and their text keeps a high contrast ratio over busy page content;
  *  - lit lamps, the seam pulse, hover glows, and the CC symbols use the incandescent palette, and the CC
  *    symbols' glow no longer washes out the counters inside each mark;
- *  - the Library logo is the original white mark, lifting and glowing gold on hover and keyboard focus, and it keeps a high contrast against the plate; it falls back to plain
- *    white under "more contrast" and forced colors, and prints in black;
+ *  - the Library logo keeps its original geometry with a soft pearl finish and an etched edge; its
+ *    halo brightens without movement on hover and keyboard focus. It stays high contrast against the
+ *    plate, becomes flat white under "more contrast", uses the system link color in forced colors, and prints in black;
  *  - the footer links to Report an Issue beside Send feedback;
  *  - the header keeps two buttons with the walkthrough as its brass primary, the walkthrough also opens from the floating
  *    menu, the seam pulse rests behind open dialogs, and placeholder text keeps AA contrast.
@@ -77,19 +78,20 @@ async function pixels(ctx, buf) {
       await p.addStyleTag({ content: '*{transition:none !important;animation-duration:0s !important}' });
       await p.evaluate(() => document.fonts.ready);
 
-      /* ── the logo: the original white mark, lifting and glowing on hover and keyboard focus ── */
-      const filt = () => p.$eval('.hdr__logo img', i => getComputedStyle(i).filter);
-      const lift = () => p.$eval('.hdr__logo img', i => getComputedStyle(i).transform);
+      /* ── the logo: pearl artwork, a stationary etched edge, and restrained interactive light ── */
+      const filt = () => p.$eval('.hdr__logo', i => getComputedStyle(i).filter);
+      const lift = () => p.$eval('.hdr__logo', i => getComputedStyle(i).transform);
       for (const id of ['#f-cut', '#f-cut-sm', '#f-lit', '#f-press', '#f-glow']) assert.equal(await p.$(id), null, id + ' is gone');
       await p.mouse.move(5, 600);
-      assert.ok(!(await filt()).includes('url(') && (await lift()) === 'none', file + ': the logo rests plain, with only its soft drop shadow');
-      // contrast: the white logo against the plate, read from rendered pixels
+      const restFilter = await filt();
+      assert.ok(!restFilter.includes('url(') && (await lift()) === 'none', file + ': the etched logo rests without displacement');
+      // Contrast uses the rendered pearl artwork, including its gradient, against the actual plate.
       const box = await p.locator('.hdr__logo img').boundingBox();
       const clip = { x: Math.round(box.x), y: Math.round(box.y), width: Math.round(box.width), height: Math.round(box.height) };
       const withLogo = await pixels(ctx, await p.screenshot({ clip }));
-      await p.$eval('.hdr__logo img', i => { i.style.visibility = 'hidden'; });
+      await p.$eval('.hdr__logo', i => { i.style.visibility = 'hidden'; });
       const plate = await pixels(ctx, await p.screenshot({ clip }));
-      await p.$eval('.hdr__logo img', i => { i.style.visibility = ''; });
+      await p.$eval('.hdr__logo', i => { i.style.visibility = ''; });
       const face = [], ground = [];
       for (let y = 0; y < plate.h; y += 2) for (let x = 0; x < plate.w; x += 2) {
         const a = withLogo.px(x, y), b = plate.px(x, y); ground.push(lum(b));
@@ -98,21 +100,28 @@ async function pixels(ctx, buf) {
       const logoRatio = ratio(pct(face, 0.5), pct(ground, 0.9));
       assert.ok(face.length > 500 && logoRatio >= 7, file + ': logo vs. plate ' + logoRatio.toFixed(2) + ':1');
       await p.hover('.hdr__link'); await p.waitForTimeout(400);
-      assert.ok((await filt()).includes('rgba(222, 187, 112') && (await lift()) !== 'none', file + ': the logo lifts and glows gold on hover');
+      const hoverFilter = await filt();
+      assert.ok(hoverFilter !== restFilter && (await lift()) === 'none', file + ': the logo light responds to hover without movement');
+      assert.deepEqual(await p.locator('.hdr__logo img').boundingBox(), box, file + ': hover keeps the artwork in place');
       await p.mouse.move(5, 600);
       await p.focus('.skip'); for (let k = 0; k < 40 && !(await p.evaluate(() => document.activeElement.classList.contains('hdr__link'))); k++) await p.keyboard.press('Tab');
       assert.ok(await p.evaluate(() => document.activeElement.matches('.hdr__link:focus-visible')), 'the logo link is reachable by keyboard');
       await p.waitForTimeout(400);
-      assert.ok((await filt()).includes('rgba(222, 187, 112') && (await lift()) !== 'none', file + ': the logo lifts and glows gold on keyboard focus');
+      assert.ok((await filt()) === hoverFilter && (await lift()) === 'none', file + ': keyboard focus receives the same light as hover without movement');
       await p.evaluate(() => document.activeElement.blur());
-      await p.emulateMedia({ contrast: 'more' }); assert.ok(!(await filt()).includes('url('), 'more contrast: plain logo');
+      await p.emulateMedia({ contrast: 'more' }); assert.equal(await filt(), 'none', 'more contrast: no halo or etched edge');
+      assert.deepEqual(await p.$eval('.hdr__logo', i => { const s = getComputedStyle(i, '::before'); return [s.backgroundImage, s.backgroundColor]; }),
+        ['none', 'rgb(255, 255, 255)'], 'more contrast: a flat white mark');
       await p.emulateMedia({ contrast: 'no-preference', forcedColors: 'active' }); assert.equal(await filt(), 'none', 'forced colors: plain logo');
       assert.deepEqual(await p.$eval('.hdr__logo', l => { const i = getComputedStyle(l.querySelector('img')), b = getComputedStyle(l, '::before');
         return [i.opacity, b.maskImage.includes('logo.') || b.webkitMaskImage.includes('logo.'), b.forcedColorAdjust]; }), ['0', true, 'none'],
         'forced colors: the logo is redrawn in the link color, so it never vanishes on a light Canvas');
-      await p.emulateMedia({ forcedColors: 'none', media: 'print' }); assert.equal(await filt(), 'brightness(0)', 'print: a black logo, visible on paper');
+      await p.emulateMedia({ forcedColors: 'none', media: 'print' });
+      assert.deepEqual(await p.$eval('.hdr__logo', l => { const i = getComputedStyle(l.querySelector('img')), b = getComputedStyle(l, '::before');
+        return [i.opacity, i.filter, b.display, getComputedStyle(l).filter]; }), ['1', 'brightness(0)', 'none', 'none'],
+        'print: the original image is visible in black, with no pearl overlay or glow');
       await p.emulateMedia({ media: 'screen' });
-      pass(file + ': the white logo lifts and glows on hover and focus, ' + logoRatio.toFixed(1) + ':1 against the plate, with plain, forced-color, and print fallbacks');
+      pass(file + ': the pearl logo stays etched while its halo responds to hover and focus, ' + logoRatio.toFixed(1) + ':1 against the plate, with flat, forced-color, and print fallbacks');
 
       /* ── header hierarchy: two buttons, the walkthrough as the one brass primary ── */
       const ctas = await p.$$eval('.hdr .hdr-cta', as => as.map(a => ({ primary: a.classList.contains('hdr-cta--primary'), text: a.textContent.replace(/\s+/g, ' ').trim(), bg: getComputedStyle(a).backgroundImage })));

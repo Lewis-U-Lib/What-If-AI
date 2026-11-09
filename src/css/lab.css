@@ -24,8 +24,22 @@
 /* ═══ header: logo in the upper-left of the plate, identity centered on the page ═══ */
 .hdr--lab .hdr__link{position:absolute;top:22px;left:26px;z-index:2;margin:0;}
 .hdr--lab .hdr__logo img{max-width:clamp(9.5rem,calc(4.85rem + 9.95vw),13.6rem);max-height:6.6rem;}
-/* the logo is the original white mark; it lifts slightly and glows gold on hover (lul-core.css) and, here, on keyboard focus too */
-.hdr__link:focus-visible .hdr__logo img{filter:drop-shadow(0 0 14px rgba(222,187,112,.45)) drop-shadow(0 0 34px rgba(222,187,112,.22)) drop-shadow(0 6px 14px rgba(0,0,0,.35));transform:translateY(-3px);}
+/* Reuse the original mark's alpha as a mask: a gentle pearl/champagne sheen
+   keeps the fine RESEARCH lettering crisp. The shallow etched edge stays put
+   while its small warm halo brightens on hover and keyboard focus. */
+.hdr__logo{position:relative;transition:filter .25s ease;
+  filter:drop-shadow(0 -.4px .2px rgba(20,3,8,.7)) drop-shadow(0 .45px .2px rgba(255,238,216,.13)) drop-shadow(0 0 2px rgba(255,224,170,.1));}
+.hdr__logo img,.hdr__logo:hover img,.hdr__logo:focus-visible img,.hdr__link:focus-visible .hdr__logo img{
+  filter:none;transform:none;transition:none;will-change:auto;}
+.hdr__link:hover .hdr__logo,.hdr__link:focus-visible .hdr__logo{
+  filter:drop-shadow(0 -.4px .2px rgba(20,3,8,.7)) drop-shadow(0 .45px .2px rgba(255,238,216,.2)) drop-shadow(0 0 2px rgba(255,224,170,.22)) drop-shadow(0 0 5px rgba(242,169,0,.1));}
+/* Browsers without masks retain the original image and its accessible name. */
+@supports (mask-image:linear-gradient(#000,#000)) or (-webkit-mask-image:linear-gradient(#000,#000)){
+  .hdr__logo img{opacity:0;}
+  .hdr__logo::before{content:'';position:absolute;inset:.1rem;pointer-events:none;
+    background:linear-gradient(108deg,#eee1d4 0%,#faf1e1 24%,#e6d5d0 48%,#fff5e4 64%,#ead7bd 100%);
+    -webkit-mask:url('../img/logo.png') center/contain no-repeat;mask:url('../img/logo.png') center/contain no-repeat;}
+}
 .hdr--lab .hdr__identity{text-align:center;}
 .hdr--lab .hdr__masthead{min-height:6rem;padding:0 250px;display:flex;flex-direction:column;justify-content:center;}
 .hdr--lab .hdr__tagline{max-width:54rem;margin:.6rem auto 0;}
@@ -208,17 +222,19 @@ body:has(dialog[open]) .fab-wrap{opacity:0;}
 @media(prefers-reduced-motion:reduce){
   .current{display:none;}
   .type__more > summary .ico{transition:none;}
+  .hdr__logo{transition:none;}
 }
 @media(prefers-contrast:more){
-  .hdr__logo img,.hdr__logo:hover img,.hdr__link:focus-visible .hdr__logo img{filter:none;}
+  .hdr__logo,.hdr__link:hover .hdr__logo,.hdr__link:focus-visible .hdr__logo{filter:none;}
+  .hdr__logo::before{background:#fff;}
   .current,.lamps{display:none;}
   .protocols{background-image:none;background-color:#44091a;}
   .protocols::before{display:none;}
   .countline{box-shadow:inset 0 0 0 2px var(--gold);}
 }
 @media(forced-colors:active){
-  /* the white logo would vanish on a light Canvas, so it is drawn in the link color instead (from PR #36) */
-  .hdr__logo{position:relative;}
+  /* Draw the mark in the system link color so it remains visible on any Canvas. */
+  .hdr__logo,.hdr__link:hover .hdr__logo,.hdr__link:focus-visible .hdr__logo{filter:none;}
   .hdr__logo img,.hdr__logo:hover img,.hdr__link:hover .hdr__logo img,.hdr__link:focus-visible .hdr__logo img{filter:none;opacity:0;}
   .hdr__logo::before{content:'';position:absolute;inset:.1rem;background:LinkText;forced-color-adjust:none;
     -webkit-mask:url('../img/logo.png') center/contain no-repeat;mask:url('../img/logo.png') center/contain no-repeat;}
@@ -227,7 +243,9 @@ body:has(dialog[open]) .fab-wrap{opacity:0;}
 }
 @media print{
   .current,.lamps,.tour,.tour-cta,.protocols::before{display:none !important;}
-  .hdr__logo img{filter:brightness(0) !important;}
+  .hdr__logo,.hdr__link:hover .hdr__logo,.hdr__link:focus-visible .hdr__logo{filter:none !important;}
+  .hdr__logo::before{display:none !important;}
+  .hdr__logo img{opacity:1 !important;filter:brightness(0) !important;}
   .countline{background:none !important;box-shadow:none !important;color:#111 !important;padding-left:0 !important;}
   .countline::before{display:none !important;}
   .ftag{color:#111 !important;background:none !important;border-color:#999 !important;}
