@@ -32,13 +32,28 @@
 .hdr__logo img,.hdr__logo:hover img,.hdr__logo:focus-visible img,.hdr__link:focus-visible .hdr__logo img{
   filter:none;transform:none;transition:none;will-change:auto;}
 .hdr__link:hover .hdr__logo,.hdr__link:focus-visible .hdr__logo{
-  filter:drop-shadow(0 -.4px .2px rgba(20,3,8,.7)) drop-shadow(0 .45px .2px rgba(255,238,216,.2)) drop-shadow(0 0 2px rgba(255,224,170,.22)) drop-shadow(0 0 5px rgba(242,169,0,.1));}
+  filter:brightness(1.04) drop-shadow(0 -.4px .2px rgba(20,3,8,.7)) drop-shadow(0 .45px .2px rgba(255,238,216,.2)) drop-shadow(0 0 2px rgba(255,224,170,.3)) drop-shadow(0 0 6px rgba(242,169,0,.14));}
 /* Browsers without masks retain the original image and its accessible name. */
 @supports (mask-image:linear-gradient(#000,#000)) or (-webkit-mask-image:linear-gradient(#000,#000)){
   .hdr__logo img{opacity:0;}
-  .hdr__logo::before{content:'';position:absolute;inset:.1rem;pointer-events:none;
-    background:linear-gradient(108deg,#eee1d4 0%,#faf1e1 24%,#e6d5d0 48%,#fff5e4 64%,#ead7bd 100%);
+  .hdr__logo::before,.hdr__logo::after{content:'';position:absolute;inset:.1rem;pointer-events:none;
     -webkit-mask:url('../img/logo.png') center/contain no-repeat;mask:url('../img/logo.png') center/contain no-repeat;}
+  .hdr__logo::before{background:linear-gradient(108deg,#eee1d4 0%,#faf1e1 24%,#e6d5d0 48%,#fff5e4 64%,#ead7bd 100%);}
+  /* Only the translucent light moves; the artwork and its mask stay fixed. */
+  .hdr__logo::after{opacity:0;
+    background:linear-gradient(110deg,rgba(255,239,202,0) 40%,rgba(255,239,202,.18) 46%,rgba(255,250,235,.58) 50%,rgba(255,239,202,.18) 54%,rgba(255,239,202,0) 60%) 100% 0/240% 100% no-repeat;}
+}
+@keyframes logo-pearl-sweep{
+  0%{background-position:100% 0;opacity:0;}
+  15%,85%{opacity:1;}
+  100%{background-position:0% 0;opacity:0;}
+}
+/* One pass on entry, with no idle loop or sticky touch-hover animation. */
+@media screen and (prefers-reduced-motion:no-preference) and (prefers-contrast:no-preference) and (forced-colors:none){
+  .hdr__link:focus-visible .hdr__logo::after{animation:logo-pearl-sweep .55s ease-in-out 1;}
+  @media(hover:hover){
+    .hdr__link:hover .hdr__logo::after{animation:logo-pearl-sweep .55s ease-in-out 1;}
+  }
 }
 .hdr--lab .hdr__identity{text-align:center;}
 .hdr--lab .hdr__masthead{min-height:6rem;padding:0 250px;display:flex;flex-direction:column;justify-content:center;}
@@ -223,10 +238,12 @@ body:has(dialog[open]) .fab-wrap{opacity:0;}
   .current{display:none;}
   .type__more > summary .ico{transition:none;}
   .hdr__logo{transition:none;}
+  .hdr__logo::after{display:none;}
 }
 @media(prefers-contrast:more){
   .hdr__logo,.hdr__link:hover .hdr__logo,.hdr__link:focus-visible .hdr__logo{filter:none;}
   .hdr__logo::before{background:#fff;}
+  .hdr__logo::after{display:none;}
   .current,.lamps{display:none;}
   .protocols{background-image:none;background-color:#44091a;}
   .protocols::before{display:none;}
@@ -238,13 +255,14 @@ body:has(dialog[open]) .fab-wrap{opacity:0;}
   .hdr__logo img,.hdr__logo:hover img,.hdr__link:hover .hdr__logo img,.hdr__link:focus-visible .hdr__logo img{filter:none;opacity:0;}
   .hdr__logo::before{content:'';position:absolute;inset:.1rem;background:LinkText;forced-color-adjust:none;
     -webkit-mask:url('../img/logo.png') center/contain no-repeat;mask:url('../img/logo.png') center/contain no-repeat;}
+  .hdr__logo::after{display:none;}
   .current,.lamps,.protocols::before,.countline::before,.readout::before{display:none;}
   .ftag::before,.lamp{forced-color-adjust:auto;}
 }
 @media print{
   .current,.lamps,.tour,.tour-cta,.protocols::before{display:none !important;}
   .hdr__logo,.hdr__link:hover .hdr__logo,.hdr__link:focus-visible .hdr__logo{filter:none !important;}
-  .hdr__logo::before{display:none !important;}
+  .hdr__logo::before,.hdr__logo::after{display:none !important;}
   .hdr__logo img{opacity:1 !important;filter:brightness(0) !important;}
   .countline{background:none !important;box-shadow:none !important;color:#111 !important;padding-left:0 !important;}
   .countline::before{display:none !important;}

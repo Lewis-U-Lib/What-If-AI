@@ -4,7 +4,7 @@
  *  - lit lamps, the seam pulse, hover glows, and the CC symbols use the incandescent palette, and the CC
  *    symbols' glow no longer washes out the counters inside each mark;
  *  - the Library logo keeps its original geometry with a soft pearl finish and an etched edge; its
- *    halo brightens without movement on hover and keyboard focus. It stays high contrast against the
+ *    halo brightens and one translucent highlight sweeps across the stationary artwork on hover and keyboard focus. It stays high contrast against the
  *    plate, becomes flat white under "more contrast", uses the system link color in forced colors, and prints in black;
  *  - the footer links to Report an Issue beside Send feedback;
  *  - the header keeps two buttons with the walkthrough as its brass primary, the walkthrough also opens from the floating
@@ -37,6 +37,54 @@ async function pixels(ctx, buf) {
   await scratch.close();
   const px = (x, y) => { const i = (y * data.w + x) * 4; return [data.d[i], data.d[i + 1], data.d[i + 2]]; };
   return { ...data, px };
+}
+
+/* Use real motion settings for the one-pass reflection; the contrast checks below
+   deliberately freeze animation and cannot verify its lifecycle or opt-outs. */
+async function checkLogoReflection(browser, server, file) {
+  const ctx = await createContext(browser, { viewport: { width: 1280, height: 900 }, reducedMotion: 'no-preference' });
+  try {
+    const p = await ctx.newPage();
+    await p.goto(server.url(file)); await p.waitForSelector('html[data-ready]', { state: 'attached' });
+    const state = () => p.$eval('.hdr__logo', l => { const a = getComputedStyle(l, '::after'), s = getComputedStyle(l);
+      return { animation: a.animationName, opacity: a.opacity, display: a.display, filter: s.filter, transition: s.transitionDuration }; });
+    const rest = await state();
+    assert.equal(rest.animation, 'none', file + ': no idle reflection');
+    const bounds = await p.locator('.hdr__logo').boundingBox();
+    const onePass = async label => {
+      const timing = await p.$eval('.hdr__logo', l => {
+        const a = l.getAnimations({ subtree: true }).find(a => a.animationName === 'logo-pearl-sweep');
+        if (!a) return null;
+        const t = a.effect.getTiming(); a.pause(); a.currentTime = Number(t.duration) / 2;
+        return { duration: t.duration, iterations: t.iterations };
+      });
+      assert.ok(timing && timing.iterations === 1 && timing.duration >= 450 && timing.duration <= 700, file + ': ' + label + ' starts one brief sweep');
+      assert.ok(Number((await state()).opacity) > 0, file + ': the highlight is visible during the pass');
+      assert.deepEqual(await p.locator('.hdr__logo').boundingBox(), bounds, file + ': the reflection does not move the artwork');
+      await p.$eval('.hdr__logo', l => l.getAnimations({ subtree: true }).find(a => a.animationName === 'logo-pearl-sweep').finish());
+      assert.equal((await state()).opacity, '0', file + ': the reflection disappears after one pass');
+      assert.notEqual((await state()).filter, rest.filter, file + ': the gentle interactive light remains');
+    };
+    await p.hover('.hdr__link'); await onePass('hover');
+    await p.mouse.move(5, 600); await p.hover('.hdr__link'); await onePass('re-entry');
+    await p.mouse.move(5, 600);
+    await p.focus('.skip');
+    for (let k = 0; k < 40 && !(await p.evaluate(() => document.activeElement.classList.contains('hdr__link'))); k++) await p.keyboard.press('Tab');
+    assert.ok(await p.evaluate(() => document.activeElement.matches('.hdr__link:focus-visible')), file + ': reflection is keyboard reachable');
+    await onePass('keyboard focus');
+    await p.emulateMedia({ reducedMotion: 'reduce' });
+    const reduced = await state();
+    assert.equal(reduced.animation, 'none', file + ': reduced motion removes the sweep');
+    assert.equal(reduced.display, 'none');
+    assert.ok(parseFloat(reduced.transition) <= .001 && reduced.filter !== rest.filter, file + ': reduced motion retains instant, stationary light feedback');
+    for (const media of [{ reducedMotion: 'no-preference', contrast: 'more' }, { contrast: 'no-preference', forcedColors: 'active' }, { forcedColors: 'none', media: 'print' }]) {
+      await p.emulateMedia(media);
+      const s = await state();
+      assert.equal(s.animation, 'none', file + ': reflection is disabled for ' + JSON.stringify(media));
+      assert.equal(s.display, 'none');
+    }
+    pass(file + ': reflection plays once on hover, re-entry, and keyboard focus; stationary feedback respects reduced motion, contrast, forced colors, and print');
+  } finally { await ctx.close(); }
 }
 
 (async () => {
@@ -72,6 +120,7 @@ async function pixels(ctx, buf) {
     }
 
     for (const file of ['what-if-ai.html', 'register.html']) {
+      await checkLogoReflection(browser, server, file);
       const ctx = await createContext(browser, { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2, reducedMotion: 'reduce', bypassCSP: true });
       const p = await ctx.newPage(), errors = []; p.on('pageerror', e => errors.push(e.message));
       await p.goto(server.url(file)); await p.waitForSelector('html[data-ready]', { state: 'attached' });
