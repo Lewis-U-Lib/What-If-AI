@@ -24,20 +24,22 @@
 /* ═══ header: logo in the upper-left of the plate, identity centered on the page ═══ */
 .hdr--lab .hdr__link{position:absolute;top:22px;left:26px;z-index:2;margin:0;}
 .hdr--lab .hdr__logo img{max-width:clamp(9.5rem,calc(4.85rem + 9.95vw),13.6rem);max-height:6.6rem;}
-/* Reuse the original mark's alpha as a mask. Resting artwork has no filters,
-   keeping the fine RESEARCH lettering crisp; the etched edge and warm halo
-   appear only on hover and keyboard focus. */
-.hdr__logo{position:relative;transition:filter .18s ease;filter:none;}
+/* Match the title's muted blush at rest, without bright gradient peaks or
+   filtering. Pointer hover alone illuminates the mark; keyboard focus uses
+   the shared visible outline. Reuse the original artwork's alpha as a mask. */
+.hdr__logo{position:relative;filter:none;}
 .hdr__logo img,.hdr__logo:hover img,.hdr__logo:focus-visible img,.hdr__link:focus-visible .hdr__logo img{
   filter:none;transform:none;transition:none;will-change:auto;}
-.hdr__link:hover .hdr__logo,.hdr__link:focus-visible .hdr__logo{
-  filter:brightness(1.04) drop-shadow(0 -.4px .2px rgba(20,3,8,.7)) drop-shadow(0 .45px .2px rgba(255,238,216,.2)) drop-shadow(0 0 2px rgba(255,224,170,.3)) drop-shadow(0 0 6px rgba(242,169,0,.14));}
+@media(hover:hover){
+  .hdr__link:hover .hdr__logo{transition:filter .18s ease;
+    filter:brightness(1.04) drop-shadow(0 0 2px rgba(255,224,170,.3)) drop-shadow(0 0 6px rgba(242,169,0,.14));}
+}
 /* Browsers without masks retain the original image and its accessible name. */
 @supports (mask-image:linear-gradient(#000,#000)) or (-webkit-mask-image:linear-gradient(#000,#000)){
   .hdr__logo img{opacity:0;}
   .hdr__logo::before,.hdr__logo::after{content:'';position:absolute;inset:.1rem;pointer-events:none;
     -webkit-mask:url('../img/logo.png') center/contain no-repeat;mask:url('../img/logo.png') center/contain no-repeat;}
-  .hdr__logo::before{background:linear-gradient(108deg,#eee1d4 0%,#faf1e1 24%,#e6d5d0 48%,#fff5e4 64%,#ead7bd 100%);}
+  .hdr__logo::before{background:var(--muted);}
   /* Only the translucent light moves; the artwork and its mask stay fixed. */
   .hdr__logo::after{opacity:0;
     background:linear-gradient(110deg,rgba(255,239,202,0) 40%,rgba(255,239,202,.18) 46%,rgba(255,250,235,.58) 50%,rgba(255,239,202,.18) 54%,rgba(255,239,202,0) 60%) 100% 0/240% 100% no-repeat;}
@@ -48,11 +50,8 @@
   100%{background-position:0% 0;opacity:0;}
 }
 /* One pass on entry, with no idle loop or sticky touch-hover animation. */
-@media screen and (prefers-reduced-motion:no-preference) and (prefers-contrast:no-preference) and (forced-colors:none){
-  .hdr__link:focus-visible .hdr__logo::after{animation:logo-pearl-sweep .55s ease-in-out 1;}
-  @media(hover:hover){
-    .hdr__link:hover .hdr__logo::after{animation:logo-pearl-sweep .55s ease-in-out 1;}
-  }
+@media screen and (hover:hover) and (prefers-reduced-motion:no-preference) and (prefers-contrast:no-preference) and (forced-colors:none){
+  .hdr__link:hover .hdr__logo::after{animation:logo-pearl-sweep .55s ease-in-out 1;}
 }
 .hdr--lab .hdr__identity{text-align:center;}
 .hdr--lab .hdr__masthead{min-height:6rem;padding:0 250px;display:flex;flex-direction:column;justify-content:center;}
@@ -236,7 +235,7 @@ body:has(dialog[open]) .fab-wrap{opacity:0;}
 @media(prefers-reduced-motion:reduce){
   .current{display:none;}
   .type__more > summary .ico{transition:none;}
-  .hdr__logo{transition:none;}
+  .hdr__logo,.hdr__link:hover .hdr__logo{transition:none;}
   .hdr__logo::after{display:none;}
 }
 @media(prefers-contrast:more){
