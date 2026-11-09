@@ -2,32 +2,40 @@
   <span class="current current--foot" aria-hidden="true"></span>
   <h2 id="footHeading" class="sr-only">License, privacy, attribution, and AI-use disclosure</h2>
   <div class="site-foot__inner">
-    <div class="site-foot__license">
-      <a class="cc-icons" href="{{license:url}}" target="_blank" rel="license noopener noreferrer"
-         aria-label="Tool license: {{license:name}} (opens in a new tab)">
-        {{partial:cc-license.svg}}
+    <div class="site-foot__main">
+      <a class="site-foot__brand" href="https://www.lewisu.edu/academics/library/" target="_blank" rel="noopener noreferrer"
+         aria-label="Lewis University Library homepage (opens in a new tab)">
+        <img src="{{asset:img/library-footer.svg}}" alt="Lewis Library" width="1024" height="1019" loading="lazy" decoding="async"/>
       </a>
-      <p class="site-foot__text">{{license:scope}} are licensed under the
-        <a href="{{license:url}}" target="_blank" rel="license noopener noreferrer">{{license:name}}<span class="sr-only"> (opens in a new tab)</span></a>.</p>
-      <p class="site-foot__meta">Lewis University Library · Tool license: {{license:label}} · <span data-updated>{{updated}}</span></p>
+      <div class="site-foot__copy">
+        <div class="site-foot__license">
+          <a class="cc-icons" href="{{license:url}}" target="_blank" rel="license noopener noreferrer"
+             aria-label="Tool license: {{license:name}} (opens in a new tab)">
+            {{partial:cc-license.svg}}
+          </a>
+          <p class="site-foot__text">{{license:scope}} are licensed under the
+            <a href="{{license:url}}" target="_blank" rel="license noopener noreferrer">{{license:name}}<span class="sr-only"> (opens in a new tab)</span></a>.</p>
+          <p class="site-foot__meta">Lewis University Library · Tool license: {{license:label}} · <span data-updated>{{updated}}</span></p>
+        </div>
+        <p class="site-foot__attr" data-license-exceptions>{{license:exceptions}}</p>
+        <details class="site-foot__details" id="privacy">
+          <summary>Privacy, saved selections, and site usage</summary>
+          <p><strong>Saved selections.</strong> Your saved use-case ideas are kept in this browser only. They are not sent to the library or anyone else. If browser storage is unavailable, the tools warn that the selection is temporary and offer printing or saving as a PDF.</p>
+          <p><strong>Site usage.</strong> The library uses Umami, a web analytics service that does not use cookies, to count visits to these pages. For each page visit it records the page address and title (without any search text or the part of the address after #), the site you came from, and your browser, operating system, device type, screen size, language, and country. It does not record your name or email address.</p>
+          <p><strong>Feedback on an idea.</strong> If you answer the question at the end of a use-case idea, your answer, any follow-up choices, the idea’s identifier, and which tool you used are recorded in the same Umami reports and linked to that visit. No name or email address is collected.</p>
+          <p><strong>Who sees it.</strong> Only the library team can view these reports. The library does not sell this information or share it outside the library team.</p>
+          <p>This site does not currently respond to the browser’s Do Not Track or Global Privacy Control settings. Blocking cloud.umami.is in your browser or with a content blocker stops site-usage reporting; the tools work without it.</p>
+          <p><strong>Ask Us, Send feedback, and Report an Issue.</strong> Ask Us opens the library’s LibAnswers chat; Send feedback and Report an Issue open library forms. All three run on Springshare services that the library uses. What you write there goes to the library team, and the Send feedback form does not require your name.</p>
+        </details>
+        <details class="site-foot__details" id="license-details">
+          <summary>License scope, reuse, and earlier releases</summary>
+          <p>{{license:summary}} Follow the <a href="{{license:legal_url}}" target="_blank" rel="noopener noreferrer">full license terms<span class="sr-only"> (opens in a new tab)</span></a>.</p>
+          <p>Fonts keep their SIL Open Font License. Logos and trademarks are excluded from the tool license. Public-domain material remains public domain; other permissions and copyright exceptions still apply.</p>
+          <p data-license-history>{{license:history_notice}}</p>
+          <p>Suggested credit for the tools: <em>What If AI</em> and <em>The Register</em>, Lewis University Library, {{license:label}}. For an individual use-case idea or source, retain its own credit, license, and change notices.</p>
+        </details>
+      </div>
     </div>
-    <p class="site-foot__attr" data-license-exceptions>{{license:exceptions}}</p>
-    <details class="site-foot__details" id="privacy">
-      <summary>Privacy, saved selections, and site usage</summary>
-      <p><strong>Saved selections.</strong> Your saved use-case ideas are kept in this browser only. They are not sent to the library or anyone else. If browser storage is unavailable, the tools warn that the selection is temporary and offer printing or saving as a PDF.</p>
-      <p><strong>Site usage.</strong> The library uses Umami, a web analytics service that does not use cookies, to count visits to these pages. For each page visit it records the page address and title (without any search text or the part of the address after #), the site you came from, and your browser, operating system, device type, screen size, language, and country. It does not record your name or email address.</p>
-      <p><strong>Feedback on an idea.</strong> If you answer the question at the end of a use-case idea, your answer, any follow-up choices, the idea’s identifier, and which tool you used are recorded in the same Umami reports and linked to that visit. No name or email address is collected.</p>
-      <p><strong>Who sees it.</strong> Only the library team can view these reports. The library does not sell this information or share it outside the library team.</p>
-      <p>This site does not currently respond to the browser’s Do Not Track or Global Privacy Control settings. Blocking cloud.umami.is in your browser or with a content blocker stops site-usage reporting; the tools work without it.</p>
-      <p><strong>Ask Us, Send feedback, and Report an Issue.</strong> Ask Us opens the library’s LibAnswers chat; Send feedback and Report an Issue open library forms. All three run on Springshare services that the library uses. What you write there goes to the library team, and the Send feedback form does not require your name.</p>
-    </details>
-    <details class="site-foot__details" id="license-details">
-      <summary>License scope, reuse, and earlier releases</summary>
-      <p>{{license:summary}} Follow the <a href="{{license:legal_url}}" target="_blank" rel="noopener noreferrer">full license terms<span class="sr-only"> (opens in a new tab)</span></a>.</p>
-      <p>Fonts keep their SIL Open Font License. Logos and trademarks are excluded from the tool license. Public-domain material remains public domain; other permissions and copyright exceptions still apply.</p>
-      <p data-license-history>{{license:history_notice}}</p>
-      <p>Suggested credit for the tools: <em>What If AI</em> and <em>The Register</em>, Lewis University Library, {{license:label}}. For an individual use-case idea or source, retain its own credit, license, and change notices.</p>
-    </details>
     <ul class="site-foot__links">
       <li><a href="what-if-ai.html"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-bulb"/></svg>What If AI</a></li>
       <li><a href="register.html"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-crt"/></svg>The Register</a></li>

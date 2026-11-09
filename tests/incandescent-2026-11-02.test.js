@@ -3,8 +3,9 @@
  *    and their text keeps a high contrast ratio over busy page content;
  *  - lit lamps, the seam pulse, hover glows, and the CC symbols use the incandescent palette, and the CC
  *    symbols' glow no longer washes out the counters inside each mark;
- *  - the Library logo is the original white mark, lifting and glowing gold on hover and keyboard focus, and it keeps a high contrast against the plate; it falls back to plain
- *    white under "more contrast" and forced colors, and prints in black;
+ *  - the Library logo keeps its original geometry and matches the title's muted blush at rest;
+ *    pointer hover alone adds a halo and one translucent reflection. Keyboard focus uses a visible outline. It stays high contrast against the
+ *    plate, becomes flat white under "more contrast", uses the system link color in forced colors, and prints in black;
  *  - the footer links to Report an Issue beside Send feedback;
  *  - the header keeps two buttons with the walkthrough as its brass primary, the walkthrough also opens from the floating
  *    menu, the seam pulse rests behind open dialogs, and placeholder text keeps AA contrast.
@@ -36,6 +37,64 @@ async function pixels(ctx, buf) {
   await scratch.close();
   const px = (x, y) => { const i = (y * data.w + x) * 4; return [data.d[i], data.d[i + 1], data.d[i + 2]]; };
   return { ...data, px };
+}
+
+/* Use real motion settings for the one-pass reflection; the contrast checks below
+   deliberately freeze animation and cannot verify its lifecycle or opt-outs. */
+async function checkLogoReflection(browser, server, file) {
+  const ctx = await createContext(browser, { viewport: { width: 1280, height: 900 }, reducedMotion: 'no-preference' });
+  try {
+    const p = await ctx.newPage();
+    await p.goto(server.url(file)); await p.waitForSelector('html[data-ready]', { state: 'attached' });
+    const state = () => p.$eval('.hdr__logo', l => { const a = getComputedStyle(l, '::after'), s = getComputedStyle(l);
+      return { animation: a.animationName, opacity: a.opacity, display: a.display, filter: s.filter, transition: s.transitionDuration }; });
+    const rest = await state();
+    assert.equal(rest.animation, 'none', file + ': no idle reflection');
+    assert.equal(rest.filter, 'none', file + ': no resting glow or blur');
+    assert.equal(rest.opacity, '0', file + ': no resting highlight');
+    const bounds = await p.locator('.hdr__logo').boundingBox();
+    const onePass = async label => {
+      const timing = await p.$eval('.hdr__logo', l => {
+        const a = l.getAnimations({ subtree: true }).find(a => a.animationName === 'logo-pearl-sweep');
+        if (!a) return null;
+        const t = a.effect.getTiming(); a.pause(); a.currentTime = Number(t.duration) / 2;
+        return { duration: t.duration, iterations: t.iterations };
+      });
+      assert.ok(timing && timing.iterations === 1 && timing.duration >= 450 && timing.duration <= 700, file + ': ' + label + ' starts one brief sweep');
+      assert.ok(Number((await state()).opacity) > 0, file + ': the highlight is visible during the pass');
+      assert.deepEqual(await p.locator('.hdr__logo').boundingBox(), bounds, file + ': the reflection does not move the artwork');
+      await p.$eval('.hdr__logo', l => l.getAnimations({ subtree: true }).find(a => a.animationName === 'logo-pearl-sweep').finish());
+      assert.equal((await state()).opacity, '0', file + ': the reflection disappears after one pass');
+      assert.notEqual((await state()).filter, rest.filter, file + ': the gentle interactive light remains');
+    };
+    await p.hover('.hdr__link'); await onePass('hover');
+    await p.mouse.move(5, 600);
+    await p.waitForFunction(() => getComputedStyle(document.querySelector('.hdr__logo')).filter === 'none');
+    assert.equal((await state()).opacity, '0', file + ': leaving the logo clears the highlight as well as the halo');
+    await p.hover('.hdr__link'); await onePass('re-entry');
+    await p.mouse.move(5, 600);
+    await p.focus('.skip');
+    for (let k = 0; k < 40 && !(await p.evaluate(() => document.activeElement.classList.contains('hdr__link'))); k++) await p.keyboard.press('Tab');
+    assert.ok(await p.evaluate(() => document.activeElement.matches('.hdr__link:focus-visible')), file + ': reflection is keyboard reachable');
+    const focused = await state();
+    assert.equal(focused.animation, 'none', file + ': keyboard focus does not trigger a reflection');
+    assert.equal(focused.filter, 'none', file + ': keyboard focus does not light the logo');
+    assert.ok(await p.$eval('.hdr__link', l => { const s = getComputedStyle(l); return s.outlineStyle !== 'none' && parseFloat(s.outlineWidth) >= 2; }),
+      file + ': keyboard focus retains a visible outline');
+    await p.hover('.hdr__link');
+    await p.emulateMedia({ reducedMotion: 'reduce' });
+    const reduced = await state();
+    assert.equal(reduced.animation, 'none', file + ': reduced motion removes the sweep');
+    assert.equal(reduced.display, 'none');
+    assert.ok(parseFloat(reduced.transition) <= .001 && reduced.filter !== rest.filter, file + ': reduced motion retains instant, stationary light feedback');
+    for (const media of [{ reducedMotion: 'no-preference', contrast: 'more' }, { contrast: 'no-preference', forcedColors: 'active' }, { forcedColors: 'none', media: 'print' }]) {
+      await p.emulateMedia(media);
+      const s = await state();
+      assert.equal(s.animation, 'none', file + ': reflection is disabled for ' + JSON.stringify(media));
+      assert.equal(s.display, 'none');
+    }
+    pass(file + ': reflection plays once on pointer hover and re-entry; keyboard focus uses only its outline; reduced motion, contrast, forced colors, and print are respected');
+  } finally { await ctx.close(); }
 }
 
 (async () => {
@@ -71,25 +130,30 @@ async function pixels(ctx, buf) {
     }
 
     for (const file of ['what-if-ai.html', 'register.html']) {
+      await checkLogoReflection(browser, server, file);
       const ctx = await createContext(browser, { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2, reducedMotion: 'reduce', bypassCSP: true });
       const p = await ctx.newPage(), errors = []; p.on('pageerror', e => errors.push(e.message));
       await p.goto(server.url(file)); await p.waitForSelector('html[data-ready]', { state: 'attached' });
       await p.addStyleTag({ content: '*{transition:none !important;animation-duration:0s !important}' });
       await p.evaluate(() => document.fonts.ready);
 
-      /* ── the logo: the original white mark, lifting and glowing on hover and keyboard focus ── */
-      const filt = () => p.$eval('.hdr__logo img', i => getComputedStyle(i).filter);
-      const lift = () => p.$eval('.hdr__logo img', i => getComputedStyle(i).transform);
+      /* ── the logo: title-colored artwork, hover-only light, and clear keyboard focus ── */
+      const filt = () => p.$eval('.hdr__logo', i => getComputedStyle(i).filter);
+      const lift = () => p.$eval('.hdr__logo', i => getComputedStyle(i).transform);
       for (const id of ['#f-cut', '#f-cut-sm', '#f-lit', '#f-press', '#f-glow']) assert.equal(await p.$(id), null, id + ' is gone');
       await p.mouse.move(5, 600);
-      assert.ok(!(await filt()).includes('url(') && (await lift()) === 'none', file + ': the logo rests plain, with only its soft drop shadow');
-      // contrast: the white logo against the plate, read from rendered pixels
+      const restFilter = await filt();
+      assert.equal(restFilter, 'none', file + ': the pearl logo rests without a glow or blur');
+      assert.equal(await lift(), 'none', file + ': the resting logo stays in place');
+      assert.equal(await p.$eval('.hdr__logo', l => getComputedStyle(l, '::before').backgroundColor),
+        await p.$eval('.hdr__title', t => getComputedStyle(t).color), file + ': the resting logo matches the title color');
+      // Contrast uses the rendered title-colored artwork against the actual plate.
       const box = await p.locator('.hdr__logo img').boundingBox();
       const clip = { x: Math.round(box.x), y: Math.round(box.y), width: Math.round(box.width), height: Math.round(box.height) };
       const withLogo = await pixels(ctx, await p.screenshot({ clip }));
-      await p.$eval('.hdr__logo img', i => { i.style.visibility = 'hidden'; });
+      await p.$eval('.hdr__logo', i => { i.style.visibility = 'hidden'; });
       const plate = await pixels(ctx, await p.screenshot({ clip }));
-      await p.$eval('.hdr__logo img', i => { i.style.visibility = ''; });
+      await p.$eval('.hdr__logo', i => { i.style.visibility = ''; });
       const face = [], ground = [];
       for (let y = 0; y < plate.h; y += 2) for (let x = 0; x < plate.w; x += 2) {
         const a = withLogo.px(x, y), b = plate.px(x, y); ground.push(lum(b));
@@ -98,21 +162,28 @@ async function pixels(ctx, buf) {
       const logoRatio = ratio(pct(face, 0.5), pct(ground, 0.9));
       assert.ok(face.length > 500 && logoRatio >= 7, file + ': logo vs. plate ' + logoRatio.toFixed(2) + ':1');
       await p.hover('.hdr__link'); await p.waitForTimeout(400);
-      assert.ok((await filt()).includes('rgba(222, 187, 112') && (await lift()) !== 'none', file + ': the logo lifts and glows gold on hover');
+      const hoverFilter = await filt();
+      assert.ok(hoverFilter !== restFilter && (await lift()) === 'none', file + ': the logo light responds to hover without movement');
+      assert.deepEqual(await p.locator('.hdr__logo img').boundingBox(), box, file + ': hover keeps the artwork in place');
       await p.mouse.move(5, 600);
       await p.focus('.skip'); for (let k = 0; k < 40 && !(await p.evaluate(() => document.activeElement.classList.contains('hdr__link'))); k++) await p.keyboard.press('Tab');
       assert.ok(await p.evaluate(() => document.activeElement.matches('.hdr__link:focus-visible')), 'the logo link is reachable by keyboard');
       await p.waitForTimeout(400);
-      assert.ok((await filt()).includes('rgba(222, 187, 112') && (await lift()) !== 'none', file + ': the logo lifts and glows gold on keyboard focus');
+      assert.ok((await filt()) === restFilter && (await lift()) === 'none', file + ': keyboard focus keeps the logo at its resting brightness');
       await p.evaluate(() => document.activeElement.blur());
-      await p.emulateMedia({ contrast: 'more' }); assert.ok(!(await filt()).includes('url('), 'more contrast: plain logo');
+      await p.emulateMedia({ contrast: 'more' }); assert.equal(await filt(), 'none', 'more contrast: no halo or etched edge');
+      assert.deepEqual(await p.$eval('.hdr__logo', i => { const s = getComputedStyle(i, '::before'); return [s.backgroundImage, s.backgroundColor]; }),
+        ['none', 'rgb(255, 255, 255)'], 'more contrast: a flat white mark');
       await p.emulateMedia({ contrast: 'no-preference', forcedColors: 'active' }); assert.equal(await filt(), 'none', 'forced colors: plain logo');
       assert.deepEqual(await p.$eval('.hdr__logo', l => { const i = getComputedStyle(l.querySelector('img')), b = getComputedStyle(l, '::before');
         return [i.opacity, b.maskImage.includes('logo.') || b.webkitMaskImage.includes('logo.'), b.forcedColorAdjust]; }), ['0', true, 'none'],
         'forced colors: the logo is redrawn in the link color, so it never vanishes on a light Canvas');
-      await p.emulateMedia({ forcedColors: 'none', media: 'print' }); assert.equal(await filt(), 'brightness(0)', 'print: a black logo, visible on paper');
+      await p.emulateMedia({ forcedColors: 'none', media: 'print' });
+      assert.deepEqual(await p.$eval('.hdr__logo', l => { const i = getComputedStyle(l.querySelector('img')), b = getComputedStyle(l, '::before');
+        return [i.opacity, i.filter, b.display, getComputedStyle(l).filter]; }), ['1', 'brightness(0)', 'none', 'none'],
+        'print: the original image is visible in black, with no pearl overlay or glow');
       await p.emulateMedia({ media: 'screen' });
-      pass(file + ': the white logo lifts and glows on hover and focus, ' + logoRatio.toFixed(1) + ':1 against the plate, with plain, forced-color, and print fallbacks');
+      pass(file + ': the logo matches the title at rest and lights only on hover, ' + logoRatio.toFixed(1) + ':1 against the plate, with flat, forced-color, and print fallbacks');
 
       /* ── header hierarchy: two buttons, the walkthrough as the one brass primary ── */
       const ctas = await p.$$eval('.hdr .hdr-cta', as => as.map(a => ({ primary: a.classList.contains('hdr-cta--primary'), text: a.textContent.replace(/\s+/g, ' ').trim(), bg: getComputedStyle(a).backgroundImage })));
