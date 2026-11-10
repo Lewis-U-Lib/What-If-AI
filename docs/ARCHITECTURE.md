@@ -15,7 +15,7 @@ Both tools read the same public collection. GitHub Actions builds and tests the 
 
 ## Pages and interface
 
-`src/pages/` supplies the landing page, Finder, Register, and 404 page. `src/partials/` supplies shared footers, dialogs, and walkthroughs. CSS and JavaScript bundles are listed in `site.json`.
+`src/pages/` supplies the landing page, Finder, Register, and 404 page. `src/partials/` supplies shared footers, dialogs, and walkthroughs. CSS and JavaScript bundles are listed in `site.json`. The look is layered: `lul-core.css` (house framework), the site and page rules, then `theme-alloy.css` and `lab.css`, which re-point the house tokens and draw the brushed-steel surfaces.
 
 - `src/js/boot.js` loads each page's manifest, data, and scripts, with visible loading and failure states.
 - `src/js/matching.js` implements the [matching contract](MATCHING.md).

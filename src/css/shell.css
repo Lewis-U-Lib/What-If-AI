@@ -9,8 +9,8 @@ html:not([data-ready]) #main > section:empty{min-height:0;}
 /* landing and 404: two large doors into the tools */
 .doors{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;}
 .door{display:flex;flex-direction:column;gap:10px;height:100%;padding:24px 26px;border:1px solid var(--line);border-radius:var(--r);
-  background:rgba(10,1,3,.42);color:var(--ink);text-decoration:none;}
-.door:hover,.door:focus-visible{border-color:var(--gold);background:rgba(10,1,3,.6);}
+  background:rgba(3,6,8,.42);color:var(--ink);text-decoration:none;}
+.door:hover,.door:focus-visible{border-color:var(--gold);background:rgba(3,6,8,.6);}
 .door__kicker{font-family:var(--font-h);letter-spacing:.06em;text-transform:uppercase;color:var(--gold);font-size:15px;font-weight:700;
   display:flex;align-items:center;gap:8px;}
 .door__title{font-family:var(--font-h);font-size:32px;font-weight:800;line-height:1.05;color:var(--cream-lt, #fff);}

@@ -1,13 +1,13 @@
 /* Checks for the November 2 changes on both tools:
  *  - the floating help menu's items are fully opaque in every state, so nothing behind them shows through,
  *    and their text keeps a high contrast ratio over busy page content;
- *  - lit lamps, the seam pulse, hover glows, and the CC symbols use the incandescent palette, and the CC
- *    symbols' glow no longer washes out the counters inside each mark;
- *  - the Library logo keeps its original geometry and matches the title's muted blush at rest;
+ *  - lit lamps, hover glows, and the CC symbols use the one lit-yellow palette (--inc-*), the seam pulse is icy
+ *    like the lit bar, and the CC symbols' glow does not wash out the counters inside each mark;
+ *  - the Library logo keeps its original geometry and matches the title's color at rest;
  *    pointer hover alone adds a halo and one translucent reflection. Keyboard focus uses a visible outline. It stays high contrast against the
  *    plate, becomes flat white under "more contrast", uses the system link color in forced colors, and prints in black;
  *  - the footer links to Report an Issue beside Send feedback;
- *  - the header keeps two buttons with the walkthrough as its brass primary, the walkthrough also opens from the floating
+ *  - the header keeps two buttons with the walkthrough as its one lit primary, the walkthrough also opens from the floating
  *    menu, the seam pulse rests behind open dialogs, and placeholder text keeps AA contrast.
  * The disclosure wording and the citation-only references are checked in how-this-site-works and types. */
 const assert = require('assert/strict'), path = require('path');
@@ -185,10 +185,10 @@ async function checkLogoReflection(browser, server, file) {
       await p.emulateMedia({ media: 'screen' });
       pass(file + ': the logo matches the title at rest and lights only on hover, ' + logoRatio.toFixed(1) + ':1 against the plate, with flat, forced-color, and print fallbacks');
 
-      /* ── header hierarchy: two buttons, the walkthrough as the one brass primary ── */
+      /* ── header hierarchy: two buttons, the walkthrough as the one lit primary ── */
       const ctas = await p.$$eval('.hdr .hdr-cta', as => as.map(a => ({ primary: a.classList.contains('hdr-cta--primary'), text: a.textContent.replace(/\s+/g, ' ').trim(), bg: getComputedStyle(a).backgroundImage })));
       assert.equal(ctas.length, 2, file + ': the header keeps two buttons (the rest live in the menu and footer): ' + JSON.stringify(ctas.map(c => c.text)));
-      assert.ok(ctas[0].primary && /^How to use/.test(ctas[0].text) && ctas[0].bg.includes('rgb(243, 220, 158)'), file + ': the walkthrough is the brass primary: ' + JSON.stringify(ctas[0]));
+      assert.ok(ctas[0].primary && /^How to use/.test(ctas[0].text) && ctas[0].bg.includes('rgb(255, 229, 132)'), file + ': the walkthrough is the lit primary: ' + JSON.stringify(ctas[0]));
       assert.ok(!ctas[1].primary && ctas[1].text === 'How this site works');
       const primary = p.locator('.hdr .hdr-cta--primary'), pc = (await primary.evaluate(e => getComputedStyle(e).color)).match(/[\d.]+/g).map(Number);
       const hideInk = await p.addStyleTag({ content: '.hdr-cta--primary,.hdr-cta--primary *{color:transparent !important}' });
@@ -220,20 +220,20 @@ async function checkLogoReflection(browser, server, file) {
       }
       pass(file + ': two header buttons with the walkthrough as brass primary; the walkthrough opens from the menu; the pulse rests behind dialogs; placeholders at AA');
 
-      /* ── incandescent light ── */
+      /* ── lit yellow ── */
       const lit = await p.evaluate(() => {
         const probe = (cls, pseudo) => { const e = document.createElement('span'); e.className = cls; document.body.appendChild(e); const cs = getComputedStyle(e, pseudo); const r = { bg: cs.backgroundImage, sh: cs.boxShadow }; e.remove(); return r; };
         return { on: probe('lamp lamp--on'), pilot: probe('lamp lamp--green'), cc: getComputedStyle(document.querySelector('.site-foot .cc-license-symbols')).filter };
       });
       for (const [name, l] of [['lit lamp', lit.on], ['pilot lamp', lit.pilot]]) {
-        assert.ok(l.bg.includes('rgb(255, 199, 44)') && l.bg.includes('rgb(242, 169, 0)'), name + ' glass runs through the house golds: ' + l.bg);
-        assert.ok(/rgba\(242, 169, 0/.test(l.sh), name + ' has an amber bloom: ' + l.sh);
+        assert.ok(l.bg.includes('rgb(255, 229, 132)') && l.bg.includes('rgb(232, 196, 70)'), name + ' glass runs from lit yellow to gold: ' + l.bg);
+        assert.ok(/rgba\(232, 196, 70/.test(l.sh), name + ' has a gold bloom: ' + l.sh);
         assert.ok(!/143, 224, 154|255, 201, 92/.test(l.bg + l.sh), name + ' no longer uses the pale yellow or green');
       }
       assert.ok(lit.on.bg.includes('rgb(255, 253, 247)'), 'a lit lamp has a white-hot filament');
       const pulse = await p.$eval('.current', e => getComputedStyle(e, '::before').backgroundImage);
-      assert.ok(pulse.includes('rgb(255, 250, 240)') && pulse.includes('rgba(242, 169, 0'), 'the seam pulse has a white-hot head and an amber tail');
-      assert.ok(/^drop-shadow\(rgba\(22, 2, 7/.test(lit.cc) && lit.cc.includes('rgba(255, 199, 44') && lit.cc.includes('rgba(242, 169, 0'), 'CC symbols: dark socket rim, then gold and amber glow: ' + lit.cc);
+      assert.ok(pulse.includes('rgb(255, 255, 255)') && pulse.includes('rgba(115, 196, 212'), 'the seam pulse has a white head and an icy tail');
+      assert.ok(/^drop-shadow\(rgba\(6, 9, 11/.test(lit.cc) && lit.cc.includes('rgba(255, 229, 132') && lit.cc.includes('rgba(232, 196, 70'), 'CC symbols: dark rim, then lit-yellow and gold glow: ' + lit.cc);
       // the CC glow keeps each mark's counters dark: compare stroke and counter brightness inside each ring
       const cc = p.locator('.site-foot .cc-license-symbols'); await cc.scrollIntoViewIfNeeded();
       const ccBox = await cc.boundingBox(), ccPx = await pixels(ctx, await p.screenshot({ clip: ccBox }));
@@ -243,15 +243,15 @@ async function checkLogoReflection(browser, server, file) {
         return ratio(pct(v, 0.92), pct(v, 0.2));
       });
       assert.ok(ccRatios.every(r => r >= 4.8), 'CC counters stay distinct from their strokes: ' + ccRatios.map(r => r.toFixed(2)).join(', '));
-      // Edison bulbs: the What If AI bulb icon has a filament that lights on hover; small Edison bulbs mark the considerations
-      // console (The Register) and the question rail's current step (What If AI). The help button is a glowing rivet.
+      // The What If AI bulb icon has a filament that lights on hover; small lit squares mark the considerations console
+      // (The Register). The help button is a glowing yellow orb.
       assert.ok(await p.$('#i-bulb .fil'), 'the bulb icon has a filament');
       const rest = await p.$eval('#fabToggle', t => [getComputedStyle(t).backgroundImage, getComputedStyle(t).boxShadow]);
-      assert.ok(rest[0].includes('rgb(255, 199, 44)') && rest[1].includes('rgba(255, 199, 44'), 'the help rivet is yellow brass and glows softly at rest');
-      const edison = await p.evaluate(() => { const ul = document.createElement('ul'); ul.className = 'protocols__list'; ul.innerHTML = '<li><span class="lamp lamp--on"></span></li>';
-        document.body.appendChild(ul); const bg = getComputedStyle(ul.querySelector('.lamp')).backgroundImage; ul.remove(); return bg; });
-      assert.ok(edison.startsWith('url("data:image/svg+xml') && edison.includes('radialGradient'), 'console bullets are Edison bulbs');
-      pass(file + ': lamps, pulse, and CC symbols are incandescent; CC stroke/counter contrast ' + ccRatios.map(r => r.toFixed(1)).join(', '));
+      assert.ok(rest[0].includes('rgb(255, 229, 132)') && rest[1].includes('rgba(255, 229, 132'), 'the help button is lit yellow and glows softly at rest');
+      const mark = await p.evaluate(() => { const ul = document.createElement('ul'); ul.className = 'protocols__list'; ul.innerHTML = '<li><span class="lamp lamp--on"></span></li>';
+        document.body.appendChild(ul); const cs = getComputedStyle(ul.querySelector('.lamp')), r = [cs.backgroundColor, cs.boxShadow]; ul.remove(); return r; });
+      assert.ok(mark[0] === 'rgb(255, 229, 132)' && mark[1].includes('rgba(255, 229, 132'), 'console bullets are small lit squares: ' + JSON.stringify(mark));
+      pass(file + ': lamps and CC symbols are lit yellow, the pulse is icy; CC stroke/counter contrast ' + ccRatios.map(r => r.toFixed(1)).join(', '));
 
       /* ── the floating help menu ── */
       await p.evaluate(() => window.scrollTo(0, 0));
@@ -260,7 +260,7 @@ async function checkLogoReflection(browser, server, file) {
       const items = p.locator('.fab-item'), n = await items.count();
       assert.ok(n >= 4, 'menu items');
       const toggleGlow = await p.$eval('#fabToggle', t => getComputedStyle(t).boxShadow);
-      assert.ok(toggleGlow.includes('rgba(242, 169, 0'), 'the toggle lights while its menu is open');
+      assert.ok(toggleGlow.includes('rgba(232, 196, 70'), 'the toggle lights while its menu is open');
       const states = [['rest', async () => { await p.mouse.move(5, 300); await p.evaluate(() => document.activeElement.blur()); }],
         ['hover', async () => { await p.evaluate(() => document.activeElement.blur()); await items.nth(1).hover(); }],
         // Escape closes the menu and returns focus to the toggle; Enter reopens it on the first item; Tab moves on
@@ -288,10 +288,10 @@ async function checkLogoReflection(browser, server, file) {
         assert.ok(cr >= 7, file + ' ' + state + ': menu text contrast ' + cr.toFixed(2) + ':1');
         console.log('      ' + file + ' menu item, ' + state + ': opaque; text ' + cr.toFixed(1) + ':1');
       }
-      // the help button is a glowing yellow rivet: brighter while the menu is open, when its ✦ turns into an ×
+      // the help button is a glowing yellow orb: brighter while the menu is open, when its ✦ turns into an ×
       const open = await p.$eval('#fabToggle', t => ({ glow: getComputedStyle(t).boxShadow, icon: getComputedStyle(t.querySelector('.fab-toggle__icon')).transform, text: t.textContent.trim() }));
       assert.equal(open.text, '✦');
-      assert.ok(open.glow.includes('rgba(242, 169, 0') && open.icon !== 'none', 'open: the rivet glows and the ✦ turns ' + JSON.stringify(open));
+      assert.ok(open.glow.includes('rgba(232, 196, 70') && open.icon !== 'none', 'open: the orb glows and the ✦ turns ' + JSON.stringify(open));
       // the menu's housing is opaque, so page content never shows between the items
       assert.match(await p.$eval('#fabMenu', m => getComputedStyle(m).backgroundColor), /^rgb\(/, 'an opaque menu housing');
       const scrim = await p.$eval('#fabScrim', s => getComputedStyle(s).backgroundColor);
@@ -300,7 +300,7 @@ async function checkLogoReflection(browser, server, file) {
       await p.emulateMedia({ contrast: 'more' });
       // (the desktop page zoom reports a 2px border as 1.6px)
       const hc = await items.nth(1).evaluate(e => { const c = getComputedStyle(e); return [c.backgroundColor, c.backgroundImage, parseFloat(c.borderTopWidth) >= 1.5, c.borderTopColor]; });
-      assert.deepEqual(hc, ['rgb(34, 4, 11)', 'none', true, 'rgb(222, 187, 112)'], 'more contrast: solid items with a full-strength gold border');
+      assert.deepEqual(hc, ['rgb(6, 9, 11)', 'none', true, 'rgb(255, 229, 132)'], 'more contrast: solid items with a full-strength lit border');
       await p.emulateMedia({ contrast: 'no-preference' });
       assert.deepEqual(errors, []);
       await ctx.close();

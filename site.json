@@ -9,14 +9,14 @@
    "what-if-ai": ["what-if-ai.css"],
    "register": ["register.css"],
    "register-types": ["register-types.css"],
-   "theme": ["theme-plate.css", "lab.css", "inline-moved.css"]
+   "theme": ["theme-alloy.css", "lab.css", "inline-moved.css"]
   },
   "js": {
    "boot": ["boot.js"],
    "core": ["source-links.js", "license-badges.js", "matching.js", "linkify.js", "activity-feedback.js", "shared.js"],
    "what-if-ai": ["what-if-ai.js"],
    "register": ["register-type-examples.js", "register.js"],
-   "engines": ["lul-core.js"],
+   "engines": ["lul-core.js", "motion.js"],
    "source-file": ["source-links.js", "source-file.js"]
   }
  },

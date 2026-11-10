@@ -37,12 +37,14 @@ relicensed through a site-wide footer or a saved-selection printout.
 ## Artwork, badges, and logos
 
 Original interface icons (`src/partials/icons.svg`), walkthrough illustrations
-(`src/partials/tour.html` and `src/partials/register-tour.html`), and CSS textures are
-covered by the tool license, except for separately identified third-party material.
+(`src/partials/tour.html`, `src/partials/register-tour.html`, and
+`src/partials/about.html`), and CSS textures are covered by the tool license, except
+for separately identified third-party material.
 
-The 55 AI-system carousel illustrations in `src/img/types-*.webp` were generated
-and repainted with OpenAI image generation using both existing walkthroughs as
-style references for the watercolor washes, palette, and linework. They are
+The 55 AI-system carousel illustrations in `src/img/types-*.svg`, the three step
+thumbnails in `src/img/step-*.svg`, and the walkthrough illustrations are line
+drawings written as SVG with AI assistance (Claude) under the Library's direction
+in November 2026. They replace the October 2026 watercolor atlases. They are
 illustrative metaphors, not research figures or evidence for
 the guide's claims. The existing tool-license grant applies only to the extent
 the Library holds the relevant rights. See `docs/AI-TYPE-ILLUSTRATIONS.md` for the

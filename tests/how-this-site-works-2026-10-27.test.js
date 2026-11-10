@@ -76,11 +76,11 @@ const TITLES=['What If AI','The Register','What leaves your browser','Ask Us','L
       assert.deepEqual([st.pos,st.on,st.next],['6 of 6',['How it was made'],'Finish']);
       assert.equal(await nextY(),y0,'Next stays in place on the last slide');
       if(wide){await p.click('#aboutDialog [data-about-dot="3"]');assert.equal((await state()).pos,'4 of 6');await p.keyboard.press('End');}
-      /* each slide has its own drawing in the walkthroughs' painted style, with no text, hidden from assistive technology */
+      /* each slide has its own line drawing in the walkthroughs' style, with no text, hidden from assistive technology */
       const art=await p.$$eval('#aboutDialog [data-slide]',ss=>ss.map(s=>{const a=s.querySelector('.tour__art');
-        return {hidden:a&&a.getAttribute('aria-hidden'),text:a?a.querySelectorAll('text').length:-1,paint:!!(a&&a.querySelector('g[filter="url(#wc)"]'))};}));
-      assert.ok(art.every(a=>a.hidden==='true'&&a.text===0&&a.paint),JSON.stringify(art));
-      assert.ok(await p.evaluate(()=>!!document.getElementById('wc')&&!!document.getElementById('wcGold')),'the paint filter and washes are on the page');
+        return {hidden:a&&a.getAttribute('aria-hidden'),text:a?a.querySelectorAll('text').length:-1,drawn:!!(a&&a.querySelector('svg.il'))&&!(a&&a.querySelector('[style]'))};}));
+      assert.ok(art.every(a=>a.hidden==='true'&&a.text===0&&a.drawn),JSON.stringify(art));
+      assert.ok(await p.evaluate(()=>{const l=document.querySelector('#aboutDialog .il-lit');return !!l&&getComputedStyle(l).filter.includes('drop-shadow');}),'the one lit element in a drawing glows, styled by the page stylesheet');
       await p.click('#aboutNext');
       await p.waitForFunction(()=>!document.getElementById('aboutDialog').open);
       assert.ok(await p.evaluate(()=>document.activeElement.matches('.hdr [data-open-about]')),'Finish returns focus to the button');
@@ -97,7 +97,7 @@ const TITLES=['What If AI','The Register','What leaves your browser','Ask Us','L
       assert.equal(norm(await p.textContent('.hdr__signal')),REGISTER);
       await p.click('.hdr [data-open-about]');await p.waitForSelector('#aboutDialog[open]');
       assert.equal(norm(await p.textContent('#aboutDialog .dlg__body')),finderText,'both pages show the same dialog');
-      assert.ok(await p.evaluate(()=>!!document.getElementById('wc')&&!!document.getElementById('wcGold')),'the paint filter and washes are on this page too');
+      assert.ok(await p.evaluate(()=>document.querySelectorAll('#aboutDialog .tour__art svg.il').length===6),'the same six drawings are on this page too');
       await p.keyboard.press('Escape');
       await p.waitForFunction(()=>!document.getElementById('aboutDialog').open);
       assert.ok(await p.evaluate(()=>document.activeElement.matches('.hdr [data-open-about]')));

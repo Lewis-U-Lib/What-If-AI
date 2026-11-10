@@ -1,4 +1,4 @@
-/* Pixel contrast check for the textured ("plate") surfaces.
+/* Pixel contrast check for the textured (brushed-steel) surfaces.
  * axe-core cannot judge text over background images (it reports those as "incomplete"), so this
  * measures what is actually rendered: it records every text run inside a textured surface, then
  * re-renders the page with all text made transparent and reads the background pixels behind each
@@ -15,7 +15,7 @@ let SRV = null;
 const URL = f => SRV.url(f);
 /* pages with data are ready once boot.js has loaded it; the landing and 404 pages have none */
 async function ready(page) { await page.waitForFunction(() => document.documentElement.hasAttribute('data-ready') || !document.getElementById('site-manifest'), null, { timeout: 15000 }); }
-const SURFACES = '.topbar, .hdr, .panel__head, .dlg__head, .site-foot, .polpanel, .sec-eyebrow, .btn--primary, .secnav a, .save, .rail .railitem, .protocols, .countline, .readout, .ftag, .type--compact, .type-dialog, .type-example-disclosure > summary, .type-bibliography, .tour__text, .activity-feedback, .match-note, .requirement-checks > summary, .use-case-accordion > summary';
+const SURFACES = '.topbar, .hdr, .panel__head, .dlg__head, .dlg__foot, .site-foot, .polpanel, .sec-head, .sec-eyebrow, .btn, .btn--primary, .secnav a, .secbar, .save, .rail, .rail .railitem, .filters, .toolbar, .acard, .opt, .fchip, .protocols, .countline, .readout, .ftag, .type--compact, .type-dialog, .type-example-disclosure > summary, .type-bibliography, .tour__text, .activity-feedback, .match-note, .requirement-checks > summary, .use-case-accordion > summary';
 const PCT = 0.9;   // background percentile compared (0.9 = brighter than 90% of the pixels behind the text)
 
 const STATES = [

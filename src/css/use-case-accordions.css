@@ -1,5 +1,5 @@
-/* Compact disclosures share the existing maroon, cream, and gold palette. */
-.use-case-accordion{margin:10px 0;border:1px solid var(--line-strong);border-radius:10px;background:rgba(15,1,5,.2);}
+/* Compact disclosures share the site palette. */
+.use-case-accordion{margin:10px 0;border:1px solid var(--line-strong);border-radius:10px;background:rgba(4,9,12,.2);}
 .use-case-accordion>summary,.feedback-accordion>summary{
   display:flex;align-items:center;justify-content:space-between;gap:18px;list-style:none;
   min-height:48px;padding:11px 14px;cursor:pointer;color:var(--gold);border-radius:9px;
@@ -11,12 +11,12 @@
   transform:rotate(45deg);margin:0 3px 5px 0;
 }
 .use-case-accordion[open]>summary::after,.feedback-accordion[open]>summary::after{transform:rotate(225deg);margin-bottom:-4px;}
-.use-case-accordion>summary:hover,.feedback-accordion>summary:hover{background:rgba(222,187,112,.1);color:var(--cream-lt,var(--ink));}
+.use-case-accordion>summary:hover,.feedback-accordion>summary:hover{background:rgba(115,196,212,.1);color:var(--cream-lt,var(--ink));}
 .use-case-accordion>summary:focus-visible,.feedback-accordion>summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px;}
 .detail .use-case-accordion>summary h3{margin:0;padding:0;border:0;color:inherit;font:inherit;}
 .use-case-accordion[open]>summary{border-radius:9px 9px 0 0;border-bottom:1px solid var(--line);}
 .use-case-accordion__body{padding:14px 16px 6px;}
-.feedback-accordion{border:1px solid var(--line-strong);border-radius:10px;background:rgba(15,1,5,.2);}
+.feedback-accordion{border:1px solid var(--line-strong);border-radius:10px;background:rgba(4,9,12,.2);}
 .feedback-accordion>summary{font-size:20px;color:var(--ink);}
 .feedback-accordion__body{padding:4px 14px 14px;}
 @media(max-width:600px){

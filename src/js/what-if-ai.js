@@ -128,8 +128,6 @@ function drawWizard(focusTitle){
     '<div class="qstep">Question '+at+' of '+real.length+'</div>'+
     '<h2 class="panel__title" id="qTitle" tabindex="-1">'+esc(st.q)+'</h2><p class="panel__sub">'+esc(st.sub)+'</p></div></div>';
   h += '<div class="panel__body">';
-  if(step===0) h += '<p class="tour-cta no-print">New to What If AI? <button type="button" class="btn btn--sm" data-open-tour aria-haspopup="dialog">'+
-    icon('i-manual')+' How to use What If AI</button></p>';
   /* below 980px the rail (and its note) is hidden, so the first question carries the same note */
   if(step===0) h += '<p class="qsignal no-print">'+icon('i-flow')+'<span>Matched by fixed rules set by the Library. No AI system reads your answers. '+
     '<button type="button" class="rail__about" data-open-about aria-haspopup="dialog" aria-controls="aboutDialog">How this site works</button></span></p>';

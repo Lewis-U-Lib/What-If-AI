@@ -58,7 +58,7 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
    assert.deepEqual(await page.locator('.type-slide h3').allTextContents(),['What it does','Inputs and outputs','Illustrative faculty use','Limits and open questions','References']);
    assert.deepEqual(await page.locator('.type-slide').evaluateAll(ns=>ns.map(n=>n.hidden)),[false,true,true,true,true]);
    assert.equal(await page.locator('#typePos').textContent(),'1 of 5');
-   /* All five watercolor scenes decode locally, keep their proportions, and have clear edges. */
+   /* All five line drawings decode locally, keep their proportions, and have clear edges. */
    const art=await page.locator('.type-slide__art').evaluateAll(async ns=>{
      return Promise.all(ns.map(async n=>{
        const css=getComputedStyle(n,'::before'),url=css.backgroundImage.slice(5,-2),img=new Image();
@@ -74,14 +74,16 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
        let edgeAlpha=0;
        for(let px=0;px<cw;px++)edgeAlpha=Math.max(edgeAlpha,alpha(px,0),alpha(px,ch-1));
        for(let py=0;py<ch;py++)edgeAlpha=Math.max(edgeAlpha,alpha(0,py),alpha(cw-1,py));
-       const ratio=parseFloat(css.getPropertyValue('--art-width'))/parseFloat(css.getPropertyValue('--art-height'));
+       /* the drawing fills --art-width by --art-height of its slot, so its shape is those shares times the slot's own shape */
+       const slot=getComputedStyle(n).aspectRatio.split('/').map(parseFloat),slotRatio=slot.length===2?slot[0]/slot[1]:(slot[0]||1);
+       const ratio=slotRatio*parseFloat(css.getPropertyValue('--art-width'))/parseFloat(css.getPropertyValue('--art-height'));
        return {hidden:n.getAttribute('aria-hidden'),url,position:css.backgroundPosition,width:img.naturalWidth,height:img.naturalHeight,
          validCrop:x>=0&&y>=0&&cw>0&&ch>0&&x+cw<=img.naturalWidth&&y+ch<=img.naturalHeight,
          undistorted:Math.abs(w/h-ratio)<.0001,edgeAlpha};
      }));
    });
    assert.equal(art.length,5,t.key+' has an illustration on every slide');
-   assert.ok(art.every(a=>a.hidden==='true'&&a.width===1536&&a.height===1024&&a.validCrop&&a.undistorted&&a.edgeAlpha<=8&&new URL(a.url).origin===new URL(server.origin).origin),JSON.stringify(art));
+   assert.ok(art.every(a=>a.hidden==='true'&&a.width===400&&a.height===1200&&a.validCrop&&a.undistorted&&a.edgeAlpha<=8&&new URL(a.url).origin===new URL(server.origin).origin),JSON.stringify(art));
    assert.equal(new Set(art.map(a=>a.url)).size,1,'one cached atlas per type');
    assert.equal(new Set(art.map(a=>a.position)).size,5,'each slide has its own illustration');
    assert.ok(art[0].url.includes('/types-'+t.key+'.'),'the atlas matches the entry');

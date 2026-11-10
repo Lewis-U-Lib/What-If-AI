@@ -132,7 +132,7 @@ def build(out):
         head = [f'<meta http-equiv="Content-Security-Policy" content="{html.escape(CFG["csp"])}"/>',
                 '<meta name="referrer" content="strict-origin-when-cross-origin"/>',
                 '<meta name="color-scheme" content="dark"/>',
-                '<meta name="theme-color" content="#5b0a1f"/>',
+                '<meta name="theme-color" content="#0b0d0f"/>',
                 f'<meta name="generator" content="tools/build.py · release {rel["release"]} · site {commit[:7]}"/>']
         if page.get("sitemap", True):
             head.append(f'<link rel="canonical" href="{canonical}"/>')
