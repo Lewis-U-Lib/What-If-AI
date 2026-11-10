@@ -521,11 +521,16 @@ html[data-motion="paused"] .hdr__logo::after{display:none;}
   .hdr__identity{grid-template-columns:minmax(0,1fr);grid-template-areas:"kicker" "title" "aside";gap:12px;}
   .hdr__aside{padding-left:0;border-left:0;box-shadow:none;}
 }
-@media(max-width:760px){
-  .topbar{position:static;grid-template-columns:minmax(0,1fr) auto;padding:8px 12px;gap:4px 12px;}
+/* too narrow for logo, tabs and buttons in one row: the tabs take a second row and the bar scrolls with the page,
+   so it never grows taller than the space anchors leave for it */
+@media(max-width:1080px){
+  .topbar{position:relative;grid-template-columns:minmax(0,1fr) auto;}
   .topbar .hdr__link{grid-column:1;grid-row:1;}
   .topbar__side{grid-column:2;grid-row:1;}
   .topbar__tabs{grid-column:1 / -1;grid-row:2;justify-content:center;gap:4px 26px;}
+}
+@media(max-width:760px){
+  .topbar{padding:8px 12px;gap:4px 12px;}
   .topbar__tabs a{font-size:18px;}
   .topbar .hdr__logo img{max-width:7.6rem;max-height:2.3rem;}
   /* no room for the motion button here, so the lit bar holds still; only the brief seam pulses remain */
