@@ -172,7 +172,8 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   await page.click('#tourNext');
   const tourFocus = await page.evaluate(() => document.activeElement && document.activeElement.hasAttribute('data-open-tour'));
   check('What If AI: Finish closes the walkthrough and returns focus to its button', !(await page.$eval('#tourDialog', d => d.open)) && tourFocus);
-  await page.click('#wizard [data-open-tour]'); await page.keyboard.press('Escape');
+  check('What If AI: the walkthrough has one button on the page, in the header', await page.$$eval('[data-open-tour]', bs => bs.filter(b => !b.closest('#fabMenu')).map(b => !!b.closest('.hdr')).join()) === 'true');
+  await page.click('.hdr [data-open-tour]'); await page.keyboard.press('Escape');
   check('What If AI: Escape dismisses the walkthrough', !(await page.$eval('#tourDialog', d => d.open)));
   await page.goto('about:blank'); await go(page, 'what-if-ai.html#tour'); await page.waitForTimeout(80);
   check('What If AI: a #tour link opens the walkthrough', await page.$eval('#tourDialog', d => d.open));
@@ -316,14 +317,18 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
     await go(page, 'register.html#' + old); await page.waitForTimeout(60);
     check('The Register: an old #' + old + ' address lands on "' + now + '"', await page.isVisible('#h-' + now));
   }
-  // header: logo in the upper-left of the header, title centered on the page (both pages)
+  // top bar and hero (both pages): the logo sits at the left end of the top bar, the two tools are tabs with the open
+  // one marked, and inside the hero the title sits on the left with the tagline and the two buttons to its right
   for (const f of ['what-if-ai.html', 'register.html']) {
     await go(page, f); await page.waitForTimeout(60);
-    const g = await page.evaluate(() => { const h = document.querySelector('header.hdr').getBoundingClientRect(), l = document.querySelector('.hdr__logo img').getBoundingClientRect(),
-      t = document.querySelector('.hdr__title'), r = document.createRange(); r.selectNodeContents(t); const tr = r.getBoundingClientRect();
-      return { logoLeft: l.left - h.left, logoTop: l.top - h.top, titleMid: (tr.left + tr.right) / 2, page: document.documentElement.clientWidth / 2, overlap: !(l.right < tr.left || l.bottom < tr.top) }; });
-    check(f + ': the logo sits in the upper-left of the header', g.logoLeft < 60 && g.logoTop < 60, JSON.stringify({ l: Math.round(g.logoLeft), t: Math.round(g.logoTop) }));
-    check(f + ': the title is centered on the page and clear of the logo', Math.abs(g.titleMid - g.page) < 6 && !g.overlap, Math.round(g.titleMid) + ' vs ' + g.page);
+    const g = await page.evaluate(() => { const b = document.querySelector('.topbar').getBoundingClientRect(), l = document.querySelector('.topbar .hdr__logo img').getBoundingClientRect(),
+      t = document.querySelector('.hdr__title'), r = document.createRange(); r.selectNodeContents(t); const tr = r.getBoundingClientRect(),
+      a = document.querySelector('.hdr__aside').getBoundingClientRect(), p = document.querySelector('.hdr__identity').getBoundingClientRect();
+      return { logoLeft: l.left - b.left, logoInBar: l.top >= b.top && l.bottom <= b.bottom, titleLeft: tr.left - p.left, beside: a.left >= tr.right && a.top < tr.bottom && a.bottom > tr.top,
+        inside: a.right <= p.right + 1 && tr.left >= p.left, tabs: [...document.querySelectorAll('.topbar__tabs a')].map(x => x.getAttribute('href') + (x.getAttribute('aria-current') === 'page' ? '*' : '')) }; });
+    check(f + ': the logo sits at the left end of the top bar', g.logoLeft < 60 && g.logoInBar, JSON.stringify({ l: Math.round(g.logoLeft), inBar: g.logoInBar }));
+    check(f + ': the top bar offers both tools as tabs and marks this one', g.tabs.join() === (f === 'what-if-ai.html' ? 'what-if-ai.html*,register.html' : 'what-if-ai.html,register.html*'), g.tabs.join());
+    check(f + ': the title sits at the left of the hero with the tagline and buttons beside it', g.titleLeft < 80 && g.beside && g.inside, JSON.stringify({ t: Math.round(g.titleLeft), beside: g.beside, inside: g.inside }));
   }
   await go(page, 'register.html#activities');
   const regTotal = +(await page.textContent('#secnav [data-count="activities"]')).replace(/,/g, '');
@@ -527,8 +532,9 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   const rtb = await mp.evaluate(() => { const r = document.getElementById('rtour'); return { w: Math.round(r.getBoundingClientRect().width), sw: document.documentElement.scrollWidth - document.documentElement.clientWidth }; });
   await mp.click('#rtourNext');
   check('Phone: The Register walkthrough fits the screen and works', rtb.w <= 390 && rtb.sw <= 0 && (await mp.textContent('#rtourPos')) === '2 of 9', JSON.stringify(rtb));
-  const hdrPhone = await mp.evaluate(() => { const l = document.querySelector('.hdr__logo img').getBoundingClientRect(), t = document.querySelector('.hdr__title').getBoundingClientRect(); return l.bottom <= t.top + 1; });
-  check('Phone: the logo moves above the title rather than overlapping it', hdrPhone);
+  const hdrPhone = await mp.evaluate(() => { const l = document.querySelector('.hdr__logo img').getBoundingClientRect(), t = document.querySelector('.hdr__title').getBoundingClientRect(),
+    a = document.querySelector('.hdr__aside').getBoundingClientRect(); return l.bottom <= t.top + 1 && a.top >= t.bottom - 1; });
+  check('Phone: the logo stays above the title and the tagline moves below it', hdrPhone);
   await m.close();
 
   // ══════════════ 200% zoom (reflow) ══════════════

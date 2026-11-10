@@ -376,7 +376,8 @@ document.addEventListener('click', function(e){
 });
 
 function typeCard(t){
-  return '<article class="type type--compact" aria-labelledby="ty-'+t.key+'"><div class="type__head"><div class="type__icon" aria-hidden="true">'+icon(t.icon)+'</div>'+
+  var art = (t.key==='institutional'||t.key==='noai') ? '' : '<span class="type-card__art type-card__art--'+esc(t.key)+'" aria-hidden="true"></span>';
+  return '<article class="type type--compact" aria-labelledby="ty-'+t.key+'">'+art+'<div class="type__head"><div class="type__icon" aria-hidden="true">'+icon(t.icon)+'</div>'+
     '<h4 id="ty-'+t.key+'"><button type="button" class="type-launch" data-open-type="'+t.key+'" aria-haspopup="dialog" aria-controls="aiTypeDialog" aria-describedby="ty-desc-'+t.key+'">'+esc(t.name)+'</button></h4></div>'+
     '<p id="ty-desc-'+t.key+'" class="type-preview">'+esc(t.preview)+'</p><div class="type-launch-hint" aria-hidden="true">'+(t.key==='institutional'||t.key==='noai'?'Explore this choice':'Explore this type')+' <span>↗</span></div></article>';
 }

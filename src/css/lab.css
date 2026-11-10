@@ -1,17 +1,15 @@
 /* ════════════════════════════════════════════════════════════
-   LAB · retro robotics layer (What If AI + The Register)
-   Sits on the crimson-plate base (theme-plate.css). Adds the robot/terminal
-   motifs: line icons, indicator lamps, terminal readouts, the occasional pulse
-   of current along a seam, the header with the logo upper-left, field tags,
-   collapsible AI-system cards, the operating-principles console and the
-   walkthrough. Built from the house tokens; decoration never sits behind text.
+   LAB · instrument layer (What If AI + The Register)
+   Sits on the alloy base (theme-alloy.css). Adds line icons, indicator lamps,
+   terminal readouts, the occasional pulse of light along a seam, the logo's
+   reflection, field tags, the operating-principles console and the walkthroughs.
+   Built from the house tokens; decoration never sits behind text.
 ════════════════════════════════════════════════════════════ */
 
 :root{
-  --lamp-amber:#ffc95c; --lamp-green:#8fe09a; --lamp-red:#ff8f8f; --lamp-off:#5a2330;
-  --glass:#140306;       /* terminal glass: cream text on it is 17:1 */
-  --glass-ink:#f7e8c9;
-  --paper:#fbf3e4;       /* the walkthrough's drawing paper */
+  --lamp-amber:#ffe584; --lamp-green:#8fe09a; --lamp-red:#ff8f8f; --lamp-off:#2f444e;
+  --glass:#070d10;       /* terminal glass: cream text on it is 17:1 */
+  --glass-ink:#e6f3f6;
 }
 
 /* ═══ icons ═══ */
@@ -21,10 +19,10 @@
 .fab-item__icon .ico{width:19px;height:19px;vertical-align:-.25em;}
 .site-foot__links .ico{width:17px;height:17px;margin-right:5px;vertical-align:-.2em;}
 
-/* ═══ header: logo in the upper-left of the plate, identity centered on the page ═══ */
-.hdr--lab .hdr__link{position:absolute;top:22px;left:26px;z-index:2;margin:0;}
-.hdr--lab .hdr__logo img{max-width:clamp(9.5rem,calc(4.85rem + 9.95vw),13.6rem);max-height:6.6rem;}
-/* Match the title's muted blush at rest, without bright gradient peaks or
+/* ═══ logo: in the top bar on the two tools; above the hero on the landing and 404 pages ═══ */
+.hdr > .hdr__link{display:block;width:fit-content;margin:0 0 14px 4px;border-radius:6px;}
+.hdr > .hdr__link .hdr__logo img{max-width:clamp(9.5rem,calc(4.85rem + 9.95vw),13.6rem);max-height:5.2rem;}
+/* Match the title's near-white at rest, without bright gradient peaks or
    filtering. Pointer hover alone illuminates the mark; keyboard focus uses
    the shared visible outline. Reuse the original artwork's alpha as a mask. */
 .hdr__logo{position:relative;filter:none;}
@@ -32,7 +30,7 @@
   filter:none;transform:none;transition:none;will-change:auto;}
 @media(hover:hover){
   .hdr__link:hover .hdr__logo{transition:filter .18s ease;
-    filter:brightness(1.04) drop-shadow(0 0 2px rgba(255,224,170,.3)) drop-shadow(0 0 6px rgba(242,169,0,.14));}
+    filter:brightness(1.04) drop-shadow(0 0 2px rgba(255,241,184,.3)) drop-shadow(0 0 6px rgba(232,196,70,.14));}
 }
 /* Browsers without masks retain the original image and its accessible name. */
 @supports (mask-image:linear-gradient(#000,#000)) or (-webkit-mask-image:linear-gradient(#000,#000)){
@@ -42,7 +40,7 @@
   .hdr__logo::before{background:var(--muted);}
   /* Only the translucent light moves; the artwork and its mask stay fixed. */
   .hdr__logo::after{opacity:0;
-    background:linear-gradient(110deg,rgba(255,239,202,0) 40%,rgba(255,239,202,.18) 46%,rgba(255,250,235,.58) 50%,rgba(255,239,202,.18) 54%,rgba(255,239,202,0) 60%) 100% 0/240% 100% no-repeat;}
+    background:linear-gradient(110deg,rgba(255,246,214,0) 40%,rgba(255,246,214,.18) 46%,rgba(255,251,236,.58) 50%,rgba(255,246,214,.18) 54%,rgba(255,246,214,0) 60%) 100% 0/240% 100% no-repeat;}
 }
 @keyframes logo-pearl-sweep{
   0%{background-position:100% 0;opacity:0;}
@@ -53,32 +51,9 @@
 @media screen and (hover:hover) and (prefers-reduced-motion:no-preference) and (prefers-contrast:no-preference) and (forced-colors:none){
   .hdr__link:hover .hdr__logo::after{animation:logo-pearl-sweep .55s ease-in-out 1;}
 }
-.hdr--lab .hdr__identity{text-align:center;}
-.hdr--lab .hdr__masthead{min-height:6rem;padding:0 250px;display:flex;flex-direction:column;justify-content:center;}
-.hdr--lab .hdr__tagline{max-width:54rem;margin:.6rem auto 0;}
-.hdr--lab .hdr__utility{justify-content:center;}
-.hdr--lab .hdr__lede{position:relative;z-index:1;}
 .hdr-cta{display:inline-flex;align-items:center;gap:8px;}
 button.hdr-cta{font:inherit;font-family:var(--font-h);font-weight:700;letter-spacing:.04em;cursor:pointer;
   font-size:clamp(.9rem,.82rem + .25vw,1rem);line-height:1.15;}
-@media(max-width:1400px){
-  /* too narrow for the logo beside a centered title: the logo keeps its corner and the centered
-     identity starts below it, so the two never overlap at any zoom */
-  .hdr--lab .hdr__link{top:14px;left:16px;}
-  .hdr--lab .hdr__logo img{max-width:clamp(9.5rem,calc(4.85rem + 9.95vw),13.6rem);max-height:6.6rem;}
-  .hdr--lab .hdr__identity{padding:5rem 0 0;}
-  .hdr--lab .hdr__masthead{min-height:0;padding:0;}
-}
-@media(max-width:1100px){
-  .hdr--lab .hdr__identity{padding-top:4.4rem;}
-}
-@media(max-width:980px){
-  .hdr--lab .hdr__identity{padding-top:4.2rem;}
-}
-@media(max-width:760px){
-  .hdr--lab .hdr__logo img{max-width:clamp(9rem,41vw,11rem);max-height:5.5rem;}
-  .hdr--lab .hdr__identity{padding-top:3.9rem;}
-}
 
 /* ═══ current: a short pulse of light that now and then runs along a seam ═══
    Absolutely positioned (no layout shift), animates transform + opacity only,
@@ -86,8 +61,8 @@ button.hdr-cta{font:inherit;font-family:var(--font-h);font-weight:700;letter-spa
    never behind text. Off under reduced motion, more contrast, forced colors and print. */
 .current{position:absolute;left:0;right:0;height:6px;overflow:hidden;pointer-events:none;z-index:3;}
 .current::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;
-  background:linear-gradient(90deg,rgba(242,169,0,0),rgba(242,169,0,.55) 34%,rgba(255,199,44,.92) 58%,#fffaf0 72%,rgba(255,232,160,.85) 78%,rgba(255,199,44,0)) 0 50%/150px 2px no-repeat;
-  filter:drop-shadow(0 0 1.5px rgba(255,214,90,.95)) drop-shadow(0 0 5px rgba(242,169,0,.7));
+  background:linear-gradient(90deg,rgba(115,196,212,0),rgba(115,196,212,.55) 34%,rgba(169,226,236,.92) 58%,#ffffff 72%,rgba(216,238,242,.85) 78%,rgba(115,196,212,0)) 0 50%/150px 2px no-repeat;
+  filter:drop-shadow(0 0 1.5px rgba(169,226,236,.95)) drop-shadow(0 0 5px rgba(115,196,212,.7));
   opacity:0;transform:translateX(-160px);will-change:transform,opacity;
   animation:lab-current var(--cur-dur,21s) cubic-bezier(.42,0,.58,1) var(--cur-delay,4s) infinite;}
 @keyframes lab-current{
@@ -100,65 +75,61 @@ button.hdr-cta{font:inherit;font-family:var(--font-h);font-weight:700;letter-spa
 /* the pulse rests while a dialog or the Ask Us panel is open, so it never runs behind what is being read */
 body:has(dialog[open]) .current::before,body.chat-open .current::before{animation-play-state:paused;opacity:0;}
 .topbar .current--top{bottom:-2px;}
-.current--hdr{bottom:25px;}
-@media(max-width:760px){.current--hdr{bottom:19px;}}
-.site-foot .current--foot{top:-1px;}
+.site-foot .current--foot{top:0;}
 .current--dlg{bottom:-3px;}
 .current--console{top:-3px;left:18px;right:18px;}
 
 /* ═══ question panel icon ═══ */
-.panel__icon{color:var(--gold);}
+.panel__icon{color:var(--ice-lt);}
 .panel__icon .ico{width:28px;height:28px;}
 
 /* ═══ the way into The Register at the foot of an activity's details ═══ */
 .detail .idline a{display:inline-flex;align-items:center;gap:7px;min-height:var(--tap-min);font-size:16px;}
 
-/* ═══ Edison bulbs ═══
+/* ═══ lit marks ═══
    The What If AI bulb icon has a filament (.fil in icons.svg) that lights when its link or button is pointed at or
-   focused. The considerations console and the question rail's current step use small Edison bulbs (--edison). */
+   focused. The considerations console marks each line with a small lit square. */
 .fil{stroke:var(--fil,currentColor);}
-:is(a,button):is(:hover,:focus-visible){--fil:#fff3c4;}
-:is(a,button):is(:hover,:focus-visible) .ico:has(use[href="#i-bulb"]){filter:drop-shadow(0 0 1.5px rgba(255,199,44,.9)) drop-shadow(0 0 5px rgba(242,169,0,.55));}
-.protocols__list .lamp{top:3px;width:14px;height:21px;border-radius:0;background:var(--edison) center/contain no-repeat;box-shadow:none;
-  filter:drop-shadow(0 0 2.5px rgba(255,199,44,.8)) drop-shadow(0 0 7px rgba(242,169,0,.45));}
+:is(a,button):is(:hover,:focus-visible){--fil:#fff6d6;}
+:is(a,button):is(:hover,:focus-visible) .ico:has(use[href="#i-bulb"]){filter:drop-shadow(0 0 1.5px rgba(255,229,132,.9)) drop-shadow(0 0 5px rgba(232,196,70,.55));}
+.protocols__list .lamp{top:-1px;width:9px;height:9px;border-radius:2px;background:var(--lit);box-shadow:0 0 0 1.5px rgba(3,6,8,.7),0 0 7px 1px rgba(255,229,132,.6);}
 
 /* ═══ indicator lamps ═══ */
-.lamp{display:inline-block;flex:none;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 44% 38%,#7a4a2e 0 12%,var(--lamp-off) 46%,#2a0a10 100%);
-  box-shadow:inset 0 1px 1px rgba(255,255,255,.25),0 0 0 1.5px rgba(10,1,3,.7);}
+.lamp{display:inline-block;flex:none;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 44% 38%,#7a4a2e 0 12%,var(--lamp-off) 46%,#111d23 100%);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.25),0 0 0 1.5px rgba(3,6,8,.7);}
 .lamp--on{background:var(--inc-lit);box-shadow:var(--inc-halo);}
 .lamp--green{background:var(--inc-pilot);box-shadow:var(--inc-halo-pilot);}
-.lamps{position:absolute;top:14px;right:34px;display:flex;gap:7px;z-index:2;}
-.rail [aria-current="step"]::after{content:'';flex:none;margin-left:auto;width:14px;height:21px;
-  background:var(--edison) center/contain no-repeat;filter:drop-shadow(0 0 2.5px rgba(255,199,44,.8)) drop-shadow(0 0 7px rgba(242,169,0,.45));}
+/* the question panel's three lamps are retired; the lamp styles remain for readouts */
+.lamps{display:none;}
 
 /* ═══ terminal readouts (result counts) ═══ */
 .countline,.readout{display:block;max-width:none;margin:14px 0;padding:10px 14px 10px 36px;position:relative;border-radius:6px;
   background:var(--glass);color:var(--glass-ink);font-family:var(--font-m);font-size:15px;line-height:1.55;letter-spacing:.01em;
-  box-shadow:inset 0 0 0 1px rgba(222,187,112,.28),inset 0 2px 10px rgba(0,0,0,.7),0 1px 0 rgba(255,230,234,.08);}
+  box-shadow:inset 0 0 0 1px rgba(115,196,212,.28),inset 0 2px 10px rgba(0,0,0,.7),0 1px 0 rgba(236,245,249,.08);}
 .countline::before,.readout::before{content:'';position:absolute;left:14px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;
   background:var(--inc-pilot);box-shadow:var(--inc-halo-pilot);}
-.countline strong,.readout strong{color:#ffe08a;font-weight:600;}
-.countline a{color:#ffe08a;}
+.countline strong,.readout strong{color:#ffe584;font-weight:600;}
+.countline a{color:#ffe584;}
 .countline .btn{margin-left:6px;}
 
 /* ═══ field tags on activity cards ═══ */
 .ftags{display:flex;flex-wrap:wrap;gap:6px;margin:-2px 0 10px;padding:0;list-style:none;}
 .ftags li{max-width:none;}
 .ftag{display:inline-flex;align-items:center;gap:6px;padding:2px 9px 2px 8px;border-radius:4px;font-size:13.5px;font-weight:600;
-  line-height:1.45;color:var(--cream-lt);background:rgba(10,1,3,.42);border:1px solid rgba(222,187,112,.42);letter-spacing:.01em;}
-.ftag::before{content:'';flex:none;width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 1px rgba(10,1,3,.6);}
-.ftag--none{color:var(--ink-2);font-weight:500;border-style:dashed;border-color:rgba(222,187,112,.3);}
+  line-height:1.45;color:var(--cream-lt);background:rgba(3,6,8,.42);border:1px solid rgba(115,196,212,.42);letter-spacing:.01em;}
+.ftag::before{content:'';flex:none;width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 1px rgba(3,6,8,.6);}
+.ftag--none{color:var(--ink-2);font-weight:500;border-style:dashed;border-color:rgba(115,196,212,.3);}
 .ftag--none::before{background:transparent;box-shadow:inset 0 0 0 1px var(--ink-3);}
 
 /* ═══ types of AI systems: collapsed by default, primary description always visible ═══ */
-.type__icon{color:var(--gold);}
+.type__icon{color:var(--ice-lt);}
 .type__icon .ico{width:28px;height:28px;}
 .type__more{margin-top:auto;}
 .type__more > summary{list-style:none;display:flex;align-items:center;gap:10px;min-height:var(--tap-min);padding:8px 14px;
   border-radius:var(--r);cursor:pointer;font-family:var(--font-h);font-size:17px;font-weight:700;letter-spacing:.03em;color:var(--gold);
-  background:rgba(10,1,3,.4);border:1px solid rgba(222,187,112,.4);box-shadow:inset 0 1px 3px rgba(0,0,0,.4);}
+  background:rgba(3,6,8,.4);border:1px solid rgba(115,196,212,.4);box-shadow:inset 0 1px 3px rgba(0,0,0,.4);}
 .type__more > summary::-webkit-details-marker{display:none;}
-.type__more > summary:hover{border-color:var(--gold);background:rgba(10,1,3,.58);color:var(--cream-lt);}
+.type__more > summary:hover{border-color:var(--gold);background:rgba(3,6,8,.58);color:var(--cream-lt);}
 .type__more > summary .ico{margin-left:auto;width:20px;height:20px;transition:transform .2s ease;}
 .type__more[open] > summary .ico{transform:rotate(180deg);}
 .type__more[open] > summary .lamp{background:var(--inc-lit);box-shadow:var(--inc-halo);}
@@ -170,22 +141,21 @@ body:has(dialog[open]) .current::before,body.chat-open .current::before{animatio
 .type p.what{margin-bottom:14px;}
 
 /* ═══ “Whatever the tool”: a system-wide console, not another card ═══ */
-.protocols{position:relative;margin-top:28px;padding:18px 18px 20px;border-radius:var(--r);border:1px solid rgba(0,0,0,.6);
-  background-color:var(--steel-3);background-image:var(--plate);
-  background-size:340px 340px,520px 520px,520px 520px,900px 900px,100% 100%,100% 100%;
-  box-shadow:inset 0 1px 0 rgba(255,230,234,.12),0 10px 28px rgba(0,0,0,.45);}
+.protocols{position:relative;margin-top:28px;padding:18px 18px 20px;border-radius:var(--r);border:1px solid var(--edge);
+  background-color:var(--steel-3);background-image:var(--plate);background-size:var(--tx-size);
+  box-shadow:inset 0 1px 0 rgba(236,245,249,.12),0 10px 28px rgba(0,0,0,.45);}
 .protocols::before{content:'';position:absolute;inset:7px;pointer-events:none;
   background:var(--rivet-sm),var(--rivet-sm),var(--rivet-sm),var(--rivet-sm);background-repeat:no-repeat;background-size:11px 11px;
   background-position:0 0,100% 0,0 100%,100% 100%;}
 .protocols__head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:0 14px 14px;}
 .protocols__head h3{font-size:clamp(24px,2.6vw,30px);font-weight:800;margin:0;color:var(--ink);
-  text-shadow:0 -1px 0 rgba(0,0,0,.55),0 1px 0 rgba(255,230,234,.1);}
+  text-shadow:0 -1px 0 rgba(0,0,0,.55),0 1px 0 rgba(236,245,249,.1);}
 .protocols__head .ico{width:30px;height:30px;color:var(--gold);}
 .protocols__tag{margin-left:auto;font-family:var(--font-h);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-  padding:4px 12px;border-radius:3px;color:var(--brass-ink);background:linear-gradient(180deg,var(--brass-hi),var(--brass) 45%,var(--brass-lo));
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 2px 4px rgba(0,0,0,.4);}
+  padding:4px 12px;border-radius:3px;color:var(--lit);background:rgba(5,10,13,.6);font-family:var(--font-m);font-weight:500;font-size:11.5px;
+  box-shadow:inset 0 0 0 1px rgba(255,229,132,.45);}
 .protocols__screen{margin:0 8px;padding:16px 20px;border-radius:10px;background:var(--glass);
-  box-shadow:inset 0 0 0 2px #2a0a10,inset 0 0 0 5px rgba(222,187,112,.18),inset 0 4px 18px rgba(0,0,0,.8);}
+  box-shadow:inset 0 0 0 2px #111d23,inset 0 0 0 5px rgba(115,196,212,.18),inset 0 4px 18px rgba(0,0,0,.8);}
 .protocols__list{list-style:none;margin:0;padding:0;display:grid;gap:10px;}
 .protocols__list li{display:flex;gap:12px;align-items:baseline;max-width:none;color:var(--glass-ink);font-size:16.5px;line-height:1.55;}
 .protocols__list .lamp{position:relative;}
@@ -195,16 +165,18 @@ body:has(dialog[open]) .current::before,body.chat-open .current::before{animatio
 .tour .dlg__head{position:relative;}
 .tour__slide{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:24px;align-items:center;}
 .tour__slide[hidden]{display:none;}
-.tour__art{padding:10px;border-radius:10px;background:var(--paper);
-  box-shadow:0 0 0 5px #3d0a15,0 0 0 6px rgba(222,187,112,.35),0 10px 24px rgba(0,0,0,.45);}
-.tour__art svg{display:block;width:100%;height:auto;}
+.tour__art{padding:8px;border-radius:8px;background:var(--well);
+  box-shadow:inset 0 0 0 1px rgba(6,9,11,.9),inset 0 2px 10px rgba(0,0,0,.8),0 1px 0 rgba(216,238,242,.14);}
+svg.il{display:block;width:100%;height:auto;}
+/* the one lit element in each drawing */
+.il-lit{filter:drop-shadow(0 0 6px #ffe584);}
 /* How this site works: every slide shares one grid cell, like The Register's walkthrough, so the frame keeps
    the height of the tallest slide and Previous and Next never move */
 .about .tour__slides{display:grid;}
 .about .tour__slide{grid-area:1/1;}
 .about .tour__slide.is-off{visibility:hidden;}
 .about .tour__slide.is-off *{transition:none;}
-.tour__text h3{font-size:clamp(24px,2.6vw,29px);font-weight:800;color:var(--gold);margin:0 0 10px;}
+.tour__text h3{font-size:clamp(24px,2.6vw,29px);font-weight:800;color:var(--ink);margin:0 0 10px;}
 .tour__text p{color:var(--ink);font-size:17px;margin:0 0 10px;}
 .tour__foot{align-items:center;gap:10px 14px;}
 .tour__pos{margin:0 auto 0 4px;padding:6px 12px 6px 30px;font-size:14.5px;}
@@ -212,17 +184,15 @@ body:has(dialog[open]) .current::before,body.chat-open .current::before{animatio
 .tour__dots{display:flex;gap:4px;}
 .tour__dot{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;padding:0;border:0;border-radius:50%;
   background:none;cursor:pointer;}
-.tour__dot .lamp{width:11px;height:11px;box-shadow:inset 0 1px 1px rgba(255,255,255,.25),0 0 0 1.5px #b8975a;}
-.tour__dot[aria-current="step"] .lamp{background:var(--inc-lit);box-shadow:var(--inc-halo);}
-.tour__dot:hover .lamp{box-shadow:0 0 0 2px var(--gold);}
-.tour-cta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:0 0 14px;color:var(--ink-2);font-size:15.5px;}
-.tour-cta .btn{min-height:40px;}
+.tour__dot .lamp{width:9px;height:9px;border-radius:50%;background:#35525e;box-shadow:none;transition:width .18s ease;}
+.tour__dot[aria-current="step"] .lamp{width:20px;border-radius:5px;background:var(--lit);box-shadow:0 0 8px rgba(255,229,132,.7);}
+.tour__dot:hover .lamp{background:var(--ice);}
+.tour__dot[aria-current="step"]:hover .lamp{background:var(--lit);}
 @media(max-width:760px){
   .tour__slide{grid-template-columns:1fr;gap:16px;}
   .tour__art{max-width:380px;width:100%;margin:6px auto 0;}
   .tour__dots{display:none;}
   .tour__pos{margin:0 auto;}
-  .lamps{right:24px;top:10px;}
 }
 
 /* the floating help button sits under any open dialog anyway (dialogs are modal); hide it so it never
@@ -234,7 +204,7 @@ body:has(dialog[open]) .fab-wrap{opacity:0;}
 /* ═══ motion, contrast, forced colors, print ═══ */
 @media(prefers-reduced-motion:reduce){
   .current{display:none;}
-  .type__more > summary .ico{transition:none;}
+  .type__more > summary .ico,.tour__dot .lamp{transition:none;}
   .hdr__logo,.hdr__link:hover .hdr__logo{transition:none;}
   .hdr__logo::after{display:none;}
 }
@@ -243,7 +213,7 @@ body:has(dialog[open]) .fab-wrap{opacity:0;}
   .hdr__logo::before{background:#fff;}
   .hdr__logo::after{display:none;}
   .current,.lamps{display:none;}
-  .protocols{background-image:none;background-color:#44091a;}
+  .protocols{background-image:none;background-color:#152d38;}
   .protocols::before{display:none;}
   .countline{box-shadow:inset 0 0 0 2px var(--gold);}
 }
@@ -258,7 +228,7 @@ body:has(dialog[open]) .fab-wrap{opacity:0;}
   .ftag::before,.lamp{forced-color-adjust:auto;}
 }
 @media print{
-  .current,.lamps,.tour,.tour-cta,.protocols::before{display:none !important;}
+  .current,.lamps,.tour,.protocols::before{display:none !important;}
   .hdr__logo,.hdr__link:hover .hdr__logo,.hdr__link:focus-visible .hdr__logo{filter:none !important;}
   .hdr__logo::before,.hdr__logo::after{display:none !important;}
   .hdr__logo img{opacity:1 !important;filter:brightness(0) !important;}

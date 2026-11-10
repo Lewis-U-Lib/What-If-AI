@@ -14,39 +14,46 @@
 <div id="progress"></div>
 
 <nav class="topbar" aria-label="Site">
-  <div class="topbar__side">
-    <a class="topbar__back" href="what-if-ai.html"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-bulb"/></svg> What If AI</a>
-  </div>
+  <a class="hdr__link" href="https://www.lewisu.edu/academics/library/" target="_blank" rel="noopener noreferrer"
+     aria-label="Lewis University Library homepage (opens in a new tab)">
+    <div class="hdr__logo"><img src="{{asset:img/logo.png}}" alt="Lewis University Library"/></div>
+  </a>
+  <ul class="topbar__tabs">
+    <li><a href="what-if-ai.html"><span class="topbar__n" aria-hidden="true">01</span> What If AI</a></li>
+    <li><a href="register.html" aria-current="page"><span class="topbar__n" aria-hidden="true">02</span> The Register</a></li>
+  </ul>
   <div class="topbar__side">
     <button type="button" class="btn btn--sm saved-btn" data-open-saved aria-haspopup="dialog">
       <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4.5L5 21V4a1 1 0 0 1 1-1z" fill="currentColor"/></svg>
       Saved use-case ideas <span class="count" data-saved-count>0</span>
     </button>
+    <button type="button" class="motion-toggle" data-motion-toggle hidden>Pause motion</button>
   </div>
   <span class="current current--top" aria-hidden="true"></span>
 </nav>
 
 <div class="app">
 <header class="hdr hdr--compact hdr--lab">
-  <a class="hdr__link" href="https://www.lewisu.edu/academics/library/" target="_blank" rel="noopener noreferrer"
-     aria-label="Lewis University Library homepage (opens in a new tab)">
-    <div class="hdr__logo"><img src="{{asset:img/logo.png}}" alt="Lewis University Library"/></div>
-  </a>
-  <div class="hdr__identity">
-    <div class="hdr__masthead">
-      <div class="hdr__kicker">Lewis University Library · Faculty AI Resource</div>
-      <h1 class="hdr__title">The <span>Register</span></h1>
+  <div class="hdr__bezel">
+    <div class="hdr__identity">
+      <div class="hdr__masthead">
+        <div class="hdr__kicker">Lewis University Library · Faculty AI Resource</div>
+        <h1 class="hdr__title">The <span>Register</span></h1>
+      </div>
+      <div class="hdr__aside">
+        <p class="hdr__tagline">Every use-case idea in What If AI, the kinds of AI systems they involve, course policy examples, and the works behind them.</p>
+        <nav class="hdr__utility" aria-label="Related resources">
+          <button type="button" class="hdr-cta hdr-cta--primary" data-open-register-tour aria-haspopup="dialog" aria-controls="rtour"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-manual"/></svg> How to use The Register</button>
+          <button type="button" class="hdr-cta hdr-cta--secondary" data-open-about aria-haspopup="dialog" aria-controls="aboutDialog"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-flow"/></svg> How this site works</button>
+        </nav>
+      </div>
     </div>
-      <p class="hdr__tagline">Every use-case idea in What If AI, the kinds of AI systems they involve, course policy examples, and the works behind them.</p>
-      <p class="hdr__signal"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-flow"/></svg><span>Every entry is a fixed, static record you can read, search, and print; nothing is generated as you browse.</span></p>
-      <nav class="hdr__utility" aria-label="Related resources">
-        <button type="button" class="hdr-cta hdr-cta--primary" data-open-register-tour aria-haspopup="dialog" aria-controls="rtour"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-manual"/></svg> How to use The Register</button>
-        <button type="button" class="hdr-cta hdr-cta--secondary" data-open-about aria-haspopup="dialog" aria-controls="aboutDialog"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-flow"/></svg> How this site works</button>
-      </nav>
+    <span class="current current--hdr" aria-hidden="true"></span>
   </div>
-  <span class="current current--hdr" aria-hidden="true"></span>
+  <p class="hdr__signal"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-flow"/></svg><span>Every entry is a fixed, static record you can read, search, and print; nothing is generated as you browse.</span></p>
 </header>
 
+<div class="secbar">
 <nav aria-label="Sections of The Register">
   <ul class="secnav" id="secnav">
     <li><a href="#activities" data-sec="activities"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-clipboard"/></svg> Use-case ideas <span class="n" data-count="activities"></span></a></li>
@@ -58,6 +65,7 @@
 <div class="gsearch" role="search">
   <label class="sr-only" for="gq">Search use-case ideas and sources</label>
   <input class="input" id="gq" type="search" placeholder="Search use-case ideas and sources…" autocomplete="off"/>
+</div>
 </div>
 
 <main id="main" tabindex="-1">

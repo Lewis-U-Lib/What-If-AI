@@ -143,7 +143,10 @@ async function ready(p){await p.waitForSelector('html[data-ready]',{state:'attac
   // Its embedded lossless source retains the original artwork; native lazy loading
   // may fetch it near the initial viewport. Allow 165 KB per cold visit, including
   // the footer CSS/markup; the site suite separately verifies cross-page caching.
-  for(const [file,budget] of [['what-if-ai.html',1620000],['register.html',1815000]]){
+  // What If AI raised 40 KB on 2026-11-10 for the alloy design: its labels, tab numbers and step numbers use JetBrains Mono,
+  // so the first visit now fetches that font (31.5 KB, already fetched by The Register and cached across both tools);
+  // the theme stylesheet grew 4.4 KB compressed and the three step drawings add about 2 KB.
+  for(const [file,budget] of [['what-if-ai.html',1660000],['register.html',1815000]]){
    const log=[],s=await start({dir:SITE,log}),c=await createContext(browser),q=await c.newPage();
    await q.goto(s.url(file));await ready(q);await q.waitForTimeout(200);
    const paths=[...new Set(log.map(x=>x.path))];
