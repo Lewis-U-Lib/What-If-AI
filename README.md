@@ -70,6 +70,8 @@ Every glow on both tools uses one incandescent palette defined in `src/css/theme
 
 The Library logo is the original white mark. It lifts slightly and glows gold on hover and on keyboard focus; in forced-colors mode it is redrawn in the link color, and it prints in black.
 
+The footer carries the circular Lewis Library emblem (`src/img/library-emblem.webp`), the Library-supplied flat mark tinted to the site gold (`--gold`, #debb70). On hover and on keyboard focus it brightens, its glow widens, and it lifts 2px; the lift is skipped when reduced motion is requested. In forced-colors mode it is redrawn in the link color, and it prints in black.
+
 Edison bulbs appear in a few places rather than everywhere: the What If AI bulb icon (`i-bulb`) has a filament that lights white-hot when its link is pointed at or focused, and small Edison bulbs (`--edison`) mark the considerations console in The Register and the current question in What If AI. The help button is a domed yellow-brass rivet with the ✦ stamped into it; it glows softly at rest and brighter on hover, focus, and while its menu is open. It returns to plain white under "more contrast" and forced colors and prints in black. Help-menu items are opaque in every state and sit in an opaque housing; the footer leaves room so the fixed help button never covers the disclosure. In forced-colors mode the logo is redrawn in the link color. `tests/incandescent-2026-11-02.test.js` measures the logo and menu contrast from rendered pixels and checks that nothing behind a menu item shows through it.
 
 ## Licenses

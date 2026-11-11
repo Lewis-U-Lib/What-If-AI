@@ -62,8 +62,10 @@ The footer symbols in `src/partials/cc-license.svg` use the official CC, BY, NC,
 and ND paths from `https://mirrors.creativecommons.org/presskit/icons/{cc,by,nc,nd}.svg`,
 linked from the same downloads page. The white background circles are omitted;
 the paths use compact decimal precision and the site's gold color and glow.
-The Lewis University Library logo remains subject to its owner's rights. Neither
-logo nor the CC badges are relicensed as original tool artwork.
+The Lewis University Library logo and the Lewis Library emblem in the footer
+(`src/img/library-emblem.webp`, recolored from the Library-supplied flat mark)
+remain subject to their owner's rights. Neither the logo, the emblem, nor the CC
+badges are relicensed as original tool artwork.
 
 ## Fonts and third-party software
 
