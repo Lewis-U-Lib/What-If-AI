@@ -5,8 +5,15 @@
     <div class="site-foot__main">
       <a class="site-foot__brand" href="https://www.lewisu.edu/academics/library/" target="_blank" rel="noopener noreferrer"
          aria-label="Lewis University Library homepage (opens in a new tab)">
-        <img src="{{asset:img/library-footer.svg}}" alt="Lewis Library" width="1024" height="1019" loading="lazy" decoding="async"/>
+        <img src="{{asset:img/library-emblem.webp}}" alt="Lewis Library" width="800" height="800" loading="lazy" decoding="async"/>
       </a>
+      <ul class="site-foot__links">
+        <li><a href="what-if-ai.html"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-bulb"/></svg>What If AI</a></li>
+        <li><a href="register.html"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-crt"/></svg>The Register</a></li>
+        <li><a href="https://lewisu.libguides.com/genaifacultystaff" target="_blank" rel="noopener noreferrer"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-robot"/></svg>Gen AI Faculty &amp; Staff Guide<span class="sr-only"> (opens in a new tab)</span></a></li>
+        <li><a href="https://lewisu.libwizard.com/f/What-If-AI" target="_blank" rel="noopener noreferrer"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-chat"/></svg>Send feedback<span class="sr-only"> (opens in a new tab)</span></a></li>
+        <li><a href="https://lewisu.libwizard.com/f/report-issue" target="_blank" rel="noopener noreferrer"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-alert"/></svg>Report an Issue<span class="sr-only"> (opens in a new tab)</span></a></li>
+      </ul>
       <div class="site-foot__copy">
         <div class="site-foot__license">
           <a class="cc-icons" href="{{license:url}}" target="_blank" rel="license noopener noreferrer"
@@ -15,7 +22,6 @@
           </a>
           <p class="site-foot__text">{{license:scope}} are licensed under the
             <a href="{{license:url}}" target="_blank" rel="license noopener noreferrer">{{license:name}}<span class="sr-only"> (opens in a new tab)</span></a>.</p>
-          <p class="site-foot__meta">Lewis University Library · Tool license: {{license:label}} · <span data-updated>{{updated}}</span></p>
         </div>
         <p class="site-foot__attr" data-license-exceptions>{{license:exceptions}}</p>
         <details class="site-foot__details" id="privacy">
@@ -36,13 +42,7 @@
         </details>
       </div>
     </div>
-    <ul class="site-foot__links">
-      <li><a href="what-if-ai.html"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-bulb"/></svg>What If AI</a></li>
-      <li><a href="register.html"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-crt"/></svg>The Register</a></li>
-      <li><a href="https://lewisu.libguides.com/genaifacultystaff" target="_blank" rel="noopener noreferrer"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-robot"/></svg>Gen AI Faculty &amp; Staff Guide<span class="sr-only"> (opens in a new tab)</span></a></li>
-      <li><a href="https://lewisu.libwizard.com/f/What-If-AI" target="_blank" rel="noopener noreferrer"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-chat"/></svg>Send feedback<span class="sr-only"> (opens in a new tab)</span></a></li>
-      <li><a href="https://lewisu.libwizard.com/f/report-issue" target="_blank" rel="noopener noreferrer"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-alert"/></svg>Report an Issue<span class="sr-only"> (opens in a new tab)</span></a></li>
-    </ul>
     <p class="hcai"><strong>HCAI and HITL Disclosure:</strong> AI assistance was used to realize this resource, utilized for coding, collation, editing, and certain visual elements. Claude Opus 5.5, Claude Fable, ChatGPT GPT-6 Astra, and Canva AI were employed in building the resource and followed a <a href="https://hai.stanford.edu/ai-definitions/what-is-human-centered-ai" target="_blank" rel="noopener noreferrer">Human-Centered AI framework (HCAI)<span class="sr-only"> (opens in a new tab)</span></a> and <a href="https://hai.stanford.edu/ai-definitions/what-is-human-in-the-loop" target="_blank" rel="noopener noreferrer">Human-in-the-Loop deployment (HITL)<span class="sr-only"> (opens in a new tab)</span></a>.</p>
+    <p class="site-foot__meta">Lewis University Library · Tool license: {{license:label}} · <span data-updated>{{updated}}</span></p>
   </div>
 </footer>
