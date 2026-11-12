@@ -7,7 +7,7 @@ Both tools read the same public collection. GitHub Actions builds and tests the 
 1. `tools/check_release.py` verifies the three public data files against `data/release.json` and contract version 2. The contract includes source relationships, synthesis and remix fields, AI operators, and source-access labels.
 2. `tools/ai_type_guide.py` combines the guide in `content/ai-type-guide.json` with the collection's related-idea keys and counts. The guide's 43 references are separate from the collection's 618 sources.
 3. `tools/license_scope.py` clarifies 244 entry license notes using pinned inputs, outputs, and exact replacement counts. Each entry retains its own rights.
-4. `tools/build.py` combines templates and partials, fingerprints data and assets, and writes `_site/`. Identical inputs produce identical output, including `version.json`.
+4. `tools/build.py` combines templates and partials, fingerprints data and assets, and writes `_site/`. While bundling the CSS it calls `tools/palette.py`, which gives every crimson color a steel-blue twin behind a custom property; `src/js/theme.js` and the help menu switch between the two. Identical inputs produce identical output, including `version.json`.
 
 `data/acts.json` contains 1,033 use-case ideas plus the shared labels and filters. `data/register.json` contains source records, policy quotations, and related-idea mappings. `data/guide.json` contains links to the Library's faculty and staff guide. Collection records retain their citations, attributions, licenses, source relationships, and qualifications about evidence and classroom use.
 
