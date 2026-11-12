@@ -74,6 +74,16 @@ The footer carries the circular Lewis Library emblem (`src/img/library-emblem.we
 
 Edison bulbs appear in a few places rather than everywhere: the What If AI bulb icon (`i-bulb`) has a filament that lights white-hot when its link is pointed at or focused, and small Edison bulbs (`--edison`) mark the considerations console in The Register and the current question in What If AI. The help button is a domed yellow-brass rivet with the ✦ stamped into it; it glows softly at rest and brighter on hover, focus, and while its menu is open. It returns to plain white under "more contrast" and forced colors and prints in black. Help-menu items are opaque in every state and sit in an opaque housing; the footer leaves room so the fixed help button never covers the disclosure. In forced-colors mode the logo is redrawn in the link color. `tests/incandescent-2026-11-02.test.js` measures the logo and menu contrast from rendered pixels and checks that nothing behind a menu item shows through it.
 
+## Crimson and steel blue
+
+The help menu ends with a switch between two palettes: crimson, which is the default, and steel blue. Only colors change; layout, wording, textures' grain, gold, and the illustrations are the same in both.
+
+The stylesheets in `src/css` are written once, in crimson. At build time `tools/palette.py` replaces each crimson literal in the CSS bundles with a custom property whose default is that literal and whose value under `html[data-theme="blue"]` is the same color in steel blue at the same relative luminance. Matching luminance keeps every contrast ratio, so text that passes on crimson passes by the same margin on steel. Gold, brass, incandescent yellows, neutrals, and the reds that carry meaning (errors, cautions, the restrictive end of the policy spectrum) are left alone; the list is `KEEP` in that file. `python3 tools/palette.py` prints every translated color. New crimson added to a stylesheet is translated automatically.
+
+`src/js/theme.js` sets the attribute. It loads in the `<head>` without `defer`, so a reader who chose blue never sees crimson first. The choice is kept in this browser's storage only (`lul-whatifai-theme-v1`), carries across both tools and the landing page, and lasts until the page is left if storage is unavailable. Without JavaScript the pages are crimson and the switch stays hidden.
+
+`tests/palette_test.py` checks the translation and `tests/theme.test.js` checks the switch. To run any browser check against the blue palette, set `SITE_THEME=blue`, for example `SITE_THEME=blue npm run test:contrast`.
+
 ## Licenses
 
 The original tools are **CC BY-NC-ND 4.0**, with the exceptions in [LICENSE.md](LICENSE.md) and [NOTICE.md](NOTICE.md). Every use-case idea keeps its own license, including synthesis and remix entries. Separately licensed guide content, policy quotations, sources, fonts, and dependencies retain their own terms. Earlier CC BY-NC-SA permissions remain in effect for earlier releases.

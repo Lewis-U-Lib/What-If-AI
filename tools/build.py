@@ -29,6 +29,7 @@ from check_release import check as check_release  # noqa: E402
 from ai_type_guide import ai_type_guide_files  # noqa: E402
 from license_scope import license_scope_files  # noqa: E402
 from source_links import source_links_bytes  # noqa: E402
+from palette import themed  # noqa: E402
 
 MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August", "September",
           "October", "November", "December")
@@ -114,7 +115,8 @@ def build(out):
 
     for name, files in CFG["bundles"]["css"].items():
         body = "\n".join(f"/* ── {f} ── */\n" + (SRC / "css" / f).read_text(encoding="utf-8") for f in files)
-        site.emit(f"css/{name}.css", css_urls(body).encode("utf-8"), "assets/css")
+        # each crimson literal becomes a token with a steel-blue twin (tools/palette.py); the help menu switches between them
+        site.emit(f"css/{name}.css", themed(css_urls(body)).encode("utf-8"), "assets/css")
     for name, files in CFG["bundles"]["js"].items():
         body = "\n;\n".join(f"/* ── {f} ── */\n" + (SRC / "js" / f).read_text(encoding="utf-8") for f in files)
         site.emit(f"js/{name}.js", body.encode("utf-8"), "assets/js")
@@ -133,7 +135,9 @@ def build(out):
                 '<meta name="referrer" content="strict-origin-when-cross-origin"/>',
                 '<meta name="color-scheme" content="dark"/>',
                 '<meta name="theme-color" content="#5b0a1f"/>',
-                f'<meta name="generator" content="tools/build.py · release {rel["release"]} · site {commit[:7]}"/>']
+                f'<meta name="generator" content="tools/build.py · release {rel["release"]} · site {commit[:7]}"/>',
+                # runs before the page is drawn, so a reader who chose the blue palette never sees a crimson flash
+                f'<script src="{a("js/theme.js")}"></script>']
         if page.get("sitemap", True):
             head.append(f'<link rel="canonical" href="{canonical}"/>')
         head.append(f'<link rel="icon" type="image/png" href="{a("img/logo.png")}"/>')
