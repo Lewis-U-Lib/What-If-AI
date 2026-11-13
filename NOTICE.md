@@ -63,7 +63,7 @@ and ND paths from `https://mirrors.creativecommons.org/presskit/icons/{cc,by,nc,
 linked from the same downloads page. The white background circles are omitted;
 the paths use compact decimal precision and the site's gold color and glow.
 The Lewis University Library logo and the Lewis Library emblem in the footer
-(`src/img/library-emblem.webp`, the Library-supplied logo recolored and set in a ring)
+(`src/img/library-emblem.webp`, the Library-supplied logo recolored)
 remain subject to their owner's rights. Neither the logo, the emblem, nor the CC
 badges are relicensed as original tool artwork.
 
