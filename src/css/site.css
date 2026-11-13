@@ -264,9 +264,10 @@ a.license-mark{min-height:44px;}
 /* Reading order: emblem, the five links, then the license block. Stacked on small screens;
    from 1100px the emblem takes the left column and the links sit above the license block. */
 .site-foot__main{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;width:100%;align-items:start;}
-.site-foot__brand{display:block;position:relative;width:min(100%,150px);justify-self:center;border-radius:10px;}
+/* The logo sits in a plate (drawn in theme-plate.css): --brand-pad is the plate's inner margin, so the logo itself is 150px wide here. */
+.site-foot__brand{--brand-pad-y:16px;--brand-pad-x:18px;display:block;position:relative;box-sizing:border-box;width:min(100%,186px);padding:var(--brand-pad-y) var(--brand-pad-x);justify-self:center;border-radius:10px;}
 .site-foot__brand img{display:block;width:100%;height:auto;}
-.site-foot__brand:focus-visible{outline:2px solid var(--focus);outline-offset:8px;}
+.site-foot__brand:focus-visible{outline:2px solid var(--focus);outline-offset:4px;}
 .site-foot__copy{display:flex;flex-direction:column;gap:14px;min-width:0;text-align:left;}
 .site-foot__license{display:flex;flex-direction:column;align-items:flex-start;gap:12px;}
 .site-foot__copy p{margin:0;}
@@ -275,7 +276,10 @@ a.license-mark{min-height:44px;}
 /* Leave room for the detailed logo and the site's 125% desktop zoom. */
 @media(min-width:1100px){
   .site-foot__main{grid-template-columns:minmax(0,30%) minmax(0,1fr);grid-template-rows:auto 1fr;column-gap:clamp(28px,3vw,48px);row-gap:18px;}
-  .site-foot__brand{grid-column:1;grid-row:1 / span 2;width:100%;max-width:270px;justify-self:center;}
+  /* the plate's left edge lines up with the disclosure box below it, which is centered at up to 1040px */
+  .site-foot__inner{container-type:inline-size;}
+  .site-foot__brand{--brand-pad-y:20px;--brand-pad-x:22px;grid-column:1;grid-row:1 / span 2;width:100%;max-width:300px;justify-self:start;
+    margin-left:calc((100cqw - min(100cqw,1040px)) / 2);}
   .site-foot__links{grid-column:2;grid-row:1;justify-content:flex-start;}
   .site-foot__copy{grid-column:2;grid-row:2;}
 }
@@ -350,7 +354,7 @@ a.license-mark{min-height:44px;}
   body.print-saved .app,body.print-saved .site-foot{display:none !important;}
   body.print-saved #printRoot{display:block !important;}
   .site-foot__main{display:block;}
-  .site-foot__brand{width:32mm;margin:0 0 6mm;break-inside:avoid;}
+  .site-foot__brand{width:32mm;margin:0 0 6mm;padding:0;border:0;background:none;box-shadow:none;break-inside:avoid;}
   .site-foot__brand img{filter:brightness(0) !important;}
   .site-foot__brand::before{display:none !important;}
   #printRoot{color:#111;font-family:Georgia,'Times New Roman',serif;}
