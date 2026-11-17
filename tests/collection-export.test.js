@@ -1,5 +1,4 @@
 const assert = require('node:assert/strict');
-const fs = require('node:fs');
 const {spawnSync} = require('node:child_process');
 const E = require('../src/js/idea-export');
 const W = require('../src/js/word');

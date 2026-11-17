@@ -32,7 +32,7 @@ Open `http://localhost:8080/What-If-AI/`. The pages load their data over HTTP.
 
 ```
 npm ci
-npx playwright install chromium
+npx playwright install chromium firefox
 npm test
 ```
 

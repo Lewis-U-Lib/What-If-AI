@@ -1,11 +1,12 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
-const {chromium} = require('playwright');
+const {chromium, firefox} = require('playwright');
 const {start} = require('./serve');
 const {createContext} = require('./browser');
 
 (async () => {
   const server = await start(), browser = await chromium.launch();
+  let receivingBrowser;
   try {
     const ctx = await createContext(browser), page = await ctx.newPage();
     await page.goto(server.url('register.html'));
@@ -13,7 +14,11 @@ const {createContext} = require('./browser');
     const ids = await page.evaluate(() => SITE.A.slice(0,4).map(a => { SITE.Saved.add(a.id); return a.id; }));
     await page.locator('.topbar [data-open-saved]').click();
     const choices=page.locator('[data-compare-id]');
-    for (let index=0; index<3; index++) await choices.nth(index).check();
+    await choices.nth(0).check(); await choices.nth(1).check();
+    await page.locator('[data-compare-ideas]').click();
+    assert.equal(await page.locator('#compareDialog thead th').count(),3);
+    await page.locator('#compareDialog .dlg__foot button').click();
+    await choices.nth(2).check();
     await choices.nth(3).click();
     assert.equal(await page.locator('[data-compare-id]:checked').count(),3);
     await page.locator('[data-compare-ideas]').click();
@@ -25,7 +30,8 @@ const {createContext} = require('./browser');
     const fileEvent=page.waitForEvent('download'); await page.locator('[data-collection-download]').click();
     const file=await fileEvent, data=fs.readFileSync(await file.path());
     assert.deepEqual(JSON.parse(data).saved,ids);
-    const ctx2=await createContext(browser), q=await ctx2.newPage();
+    receivingBrowser=await firefox.launch();
+    const ctx2=await createContext(receivingBrowser), q=await ctx2.newPage();
     await q.goto(server.url('what-if-ai.html')); await q.waitForSelector('html[data-ready]');
     await q.locator('.topbar [data-open-saved]').click();
     const upload=buffer=>q.locator('[data-collection-file]').setInputFiles({name:'ideas.json',mimeType:'application/json',buffer});
@@ -50,6 +56,6 @@ const {createContext} = require('./browser');
     const word=await wordEvent;
     assert.match(word.suggestedFilename(),/\.docx$/);
     assert.equal(fs.readFileSync(await word.path()).readUInt32LE(0),0x04034b50);
-    console.log('PASS  Compare two or three, restore across browser contexts, both print modes, clipboard, Word.');
-  } finally {await browser.close();await server.close();}
+    console.log('PASS  Compare two or three, restore from Chromium into Firefox, both print modes, clipboard, Word.');
+  } finally {if(receivingBrowser) await receivingBrowser.close(); await browser.close();await server.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});
