@@ -134,7 +134,9 @@
     };reader.onerror=function(){box.textContent='The file could not be read. Nothing was restored.';input.value='';};reader.readAsText(file);
   }
   function restore(){
-    if(!pending)return;var merged=W.merge(snapshot(),pending), total=merged.collection.saved.length;
+    if(!pending)return;var merged;
+    try{merged=W.merge(snapshot(),pending);}catch(e){document.getElementById('restorePreview').textContent='Nothing was restored: '+e.message;pending=null;return;}
+    var total=merged.collection.saved.length;
     write(merged.collection.plans);S.Saved.replace(merged.collection.saved);pending=null;
     var box=document.getElementById('restorePreview');if(box)box.textContent='Collection restored: '+total+' saved ideas. '+merged.kept+' existing trial plan(s) kept. '+localMessage();
     S.announce('Collection restored. '+localMessage());

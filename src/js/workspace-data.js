@@ -8,6 +8,16 @@
   var own=function(o,k){return Object.prototype.hasOwnProperty.call(o,k);};
   function idOK(id){return typeof id==='string' && /^[A-Za-z0-9][A-Za-z0-9_.:-]{0,119}$/.test(id) && ['__proto__','constructor','prototype'].indexOf(id)<0;}
   function object(v){return v!==null && typeof v==='object' && !Array.isArray(v);}
+  function byteLength(text){
+    var bytes=0;
+    for(var i=0;i<text.length;i++){
+      var c=text.charCodeAt(i), next=text.charCodeAt(i+1);
+      if(c<128)bytes++;else if(c<2048)bytes+=2;
+      else if(c>=55296&&c<=56319&&next>=56320&&next<=57343){bytes+=4;i++;}
+      else bytes+=3;
+    }
+    return bytes;
+  }
   function plan(v){
     if(!object(v)) throw new Error('A trial plan must be an object.');
     var out={};
@@ -38,11 +48,11 @@
       plans[key]=p;
     });
     var result={format:'what-if-ai-collection',version:1,saved:saved,plans:plans};
-    if(JSON.stringify(result,null,2).length>1950000) throw new Error('This collection exceeds the 2 MB transfer limit. Shorten trial notes before saving.');
+    if(byteLength(JSON.stringify(result,null,2))>1950000) throw new Error('This collection exceeds the 2 MB transfer limit. Shorten trial notes before saving.');
     return result;
   }
   function parse(text,canonical){
-    if(typeof text!=='string' || text.length>2000000) throw new Error('Choose a collection smaller than 2 MB.');
+    if(typeof text!=='string' || byteLength(text)>2000000) throw new Error('Choose a collection smaller than 2 MB.');
     var value;try{value=JSON.parse(text);}catch(_){throw new Error('This file is not valid JSON. Choose a collection download.');}
     return collection(value,canonical);
   }
@@ -54,7 +64,7 @@
       a.plans[id]=b.plans[id];
     });
     if(a.saved.length>2000 || Object.keys(a.plans).length>2000) throw new Error('The combined collection exceeds 2,000 ideas or plans.');
-    return {collection:a,kept:kept};
+    return {collection:collection(a),kept:kept};
   }
   return {fields:fields,idOK:idOK,plan:plan,collection:collection,parse:parse,merge:merge};
 });
