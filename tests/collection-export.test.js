@@ -14,6 +14,11 @@ async function main() {
   assert.deepEqual(E.comparison({sc:[]},site).map(row => row[1]),Array(5).fill('Not stated'));
   assert.equal(E.comparison({...a,srp:[['goal','A recorded goal.']]},site)[0][1],'A recorded goal.');
   assert.equal(E.comparison(a,site)[4][1],a.gate);
+  const withPreparation = acts.find(record => record.id === 'WIA-S-SOC-B-08');
+  const quote = E.comparison(withPreparation,site)[2][1];
+  assert.match(quote,/^Before the session/);
+  assert.ok(withPreparation.sum.includes(quote));
+  assert.equal(E.comparison({depth:'quick',sum:'In class, compare the two examples.'},site)[2][1],'Not stated');
   const url = 'https://example.org/register.html#act=example';
   const blocks = E.blocks(a,url), text = E.text(blocks);
   assert.ok(E.noDerivatives(a));
