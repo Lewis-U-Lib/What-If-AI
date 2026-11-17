@@ -1,30 +1,35 @@
 /* ════════════════════════════════════════════════════════════
-   THEME · crimson or steel blue
-   The stylesheets carry both palettes (tools/palette.py writes the blue twin of every crimson
-   color at build time). This file chooses between them by setting data-theme="blue" on <html>,
+   THEME · crimson or teal
+   The stylesheets carry both palettes (tools/palette.py writes the teal twin of every crimson
+   color at build time). This file chooses between them by setting data-theme="teal" on <html>,
    or leaving it off for crimson. It is loaded in the <head> without defer so the choice is
    applied before the page is drawn. The choice is kept in this browser only (localStorage);
    if storage is unavailable it lasts until the page is left.
-   The help menu's "Switch to blue" / "Switch to crimson" button is hidden in the markup and
+   The help menu's "Switch to teal" / "Switch to crimson" button is hidden in the markup and
    shown here, so it never appears where it cannot work.
 ════════════════════════════════════════════════════════════ */
 (function(){
   'use strict';
   var KEY = 'lul-whatifai-theme-v1', root = document.documentElement;
-  var BAR = { crimson: '#5b0a1f', blue: '#163442' };       // the browser's toolbar tint (<meta name="theme-color">)
+  var BAR = { crimson: '#5b0a1f', teal: '#12312f' };       // the browser's toolbar tint (<meta name="theme-color">)
 
-  function stored(){ try { return window.localStorage.getItem(KEY) === 'blue' ? 'blue' : 'crimson'; } catch(_){ return 'crimson'; } }
-  function store(theme){ try { if(theme === 'blue') window.localStorage.setItem(KEY, 'blue'); else window.localStorage.removeItem(KEY); } catch(_){} }
-  function current(){ return root.getAttribute('data-theme') === 'blue' ? 'blue' : 'crimson'; }
+  function stored(){
+    try {
+      var value = window.localStorage.getItem(KEY);
+      return value === 'teal' || value === 'blue' ? 'teal' : 'crimson';
+    } catch(_){ return 'crimson'; }
+  }
+  function store(theme){ try { if(theme === 'teal') window.localStorage.setItem(KEY, 'teal'); else window.localStorage.removeItem(KEY); } catch(_){} }
+  function current(){ return root.getAttribute('data-theme') === 'teal' ? 'teal' : 'crimson'; }
 
   function apply(theme){
-    if(theme === 'blue') root.setAttribute('data-theme', 'blue'); else root.removeAttribute('data-theme');
+    if(theme === 'teal') root.setAttribute('data-theme', 'teal'); else root.removeAttribute('data-theme');
     var meta = document.querySelector('meta[name="theme-color"]');
     if(meta) meta.setAttribute('content', BAR[theme]);
     var buttons = document.querySelectorAll('[data-theme-toggle]');
     for(var i = 0; i < buttons.length; i++){
       var label = buttons[i].querySelector('[data-theme-label]');
-      if(label) label.textContent = theme === 'blue' ? 'Switch to crimson' : 'Switch to blue';
+      if(label) label.textContent = theme === 'teal' ? 'Switch to crimson' : 'Switch to teal';
       buttons[i].hidden = false;
     }
   }
@@ -36,7 +41,7 @@
     document.addEventListener('click', function(e){
       var btn = e.target && e.target.closest ? e.target.closest('[data-theme-toggle]') : null;
       if(!btn) return;
-      var next = current() === 'blue' ? 'crimson' : 'blue';
+      var next = current() === 'teal' ? 'crimson' : 'teal';
       apply(next); store(next);
     });
     // another tab or the other tool changed the choice: follow it

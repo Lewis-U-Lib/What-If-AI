@@ -1,9 +1,9 @@
-"""The blue-steel palette, derived at build time from the crimson stylesheets.
+"""The teal palette, derived at build time from the crimson stylesheets.
 
 The stylesheets in src/css are written once, in crimson. The build passes each CSS bundle through
 themed(): every crimson color literal becomes a custom property whose default is the original
-literal and whose value under html[data-theme="blue"] is the same color moved to steel blue at the
-same relative luminance, so every contrast ratio carries over. Nothing else in a rule changes, so the blue site is the crimson site with the hue
+literal and whose value under html[data-theme="teal"] is the same color moved to teal at the
+same relative luminance, so every contrast ratio carries over. Nothing else in a rule changes, so the teal site is the crimson site with the hue
 swapped: same layout, same cascade, same texture, and with no data-theme attribute the computed
 styles are exactly what the source says.
 
@@ -20,8 +20,8 @@ import pathlib
 import re
 import sys
 
-HUE = 199 / 360          # the steel blue of the Library's panel (#2f5f75)
-ATTR = 'html[data-theme="blue"]'
+HUE = 176 / 360          # teal, with the luminosity of each crimson surface
+ATTR = 'html[data-theme="teal"]'
 
 # reds that mean something and therefore stay red in both palettes
 KEEP = {
@@ -45,17 +45,17 @@ def luminance(r, g, b):
     return .2126 * lin(r) + .7152 * lin(g) + .0722 * lin(b)
 
 
-def steel(r, g, b):
-    """A crimson (r, g, b), each 0..1, as the steel blue of the same relative luminance; None for any other color.
+def teal(r, g, b):
+    """A crimson (r, g, b), each 0..1, as the teal of the same relative luminance; None for any other color.
 
     Matching luminance rather than lightness keeps every contrast ratio: text that passes on crimson passes
-    by the same margin on steel. (At equal HSL lightness blue is far brighter than red, and gold text on
+    by the same margin on teal. (At equal HSL lightness teal is far brighter than red, and gold text on
     it would fall below AA.)"""
     h, l, s = colorsys.rgb_to_hls(r, g, b)
     deg = h * 360
     if not ((deg >= 318 or deg <= 14) and s > .12 and (max(r, g, b) - min(r, g, b)) * 255 >= 2):
         return None
-    s2 = min(s * (.58 if l < .6 else .5), .6)      # steel is less saturated than crimson
+    s2 = min(s * (.58 if l < .6 else .5), .6)      # teal is less saturated than crimson
     want, lo, hi = luminance(r, g, b), 0.0, 1.0
     for _ in range(40):                           # luminance rises with lightness: bisect
         mid = (lo + hi) / 2
@@ -71,12 +71,12 @@ def _hex(text):
     full = h if len(h) == 7 else "#" + "".join(c * 2 for c in h[1:])
     if full in KEEP:
         return None
-    c = steel(*(int(full[i:i + 2], 16) / 255 for i in (1, 3, 5)))
+    c = teal(*(int(full[i:i + 2], 16) / 255 for i in (1, 3, 5)))
     return None if c is None else "#%02x%02x%02x" % tuple(round(x * 255) for x in c)
 
 
 def _func(m):
-    c = steel(*(int(m.group(i)) / 255 for i in (1, 2, 3)))
+    c = teal(*(int(m.group(i)) / 255 for i in (1, 2, 3)))
     if c is None:
         return None
     r, g, b = (round(x * 255) for x in c)
@@ -89,7 +89,7 @@ def _texture(url):
         vals = re.findall(NUM, m.group(2))
         if len(vals) != 20 or any(float(vals[i]) for i in (0, 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13)):
             return m.group(0)             # not a flat color: leave it
-        c = steel(*(min(max(float(vals[i]), 0), 1) for i in (4, 9, 14)))
+        c = teal(*(min(max(float(vals[i]), 0), 1) for i in (4, 9, 14)))
         if c is None:
             return m.group(0)
         num = lambda x: ("%.2f" % x).rstrip("0").rstrip(".").replace("0.", ".") or "0"
@@ -107,14 +107,14 @@ def token(literal):
 
 def themed(css, found=None):
     """css with each translated literal replaced by var(--c-…), preceded by the two sets of definitions."""
-    pairs = {}                            # token -> (crimson literal, blue literal), in order of first use
+    pairs = {}                            # token -> (crimson literal, teal literal), in order of first use
 
-    def use(crimson, blue):
+    def use(crimson, teal):
         name = token(crimson)
-        if pairs.setdefault(name, (crimson, blue)) != (crimson, blue):
+        if pairs.setdefault(name, (crimson, teal)) != (crimson, teal):
             raise SystemExit(f"palette: two colors share the token {name}")
         if found is not None:
-            found[crimson] = (blue, found.get(crimson, (blue, 0))[1] + 1)
+            found[crimson] = (teal, found.get(crimson, (teal, 0))[1] + 1)
         return f"var({name})"
 
     def colors(text):
@@ -132,8 +132,8 @@ def themed(css, found=None):
         if part.startswith("/*") or part[0] in "\"'":
             out.append(part)
         elif part.startswith('url("data:'):
-            blue = _texture(part)
-            out.append(use(part, blue) if blue else part)
+            teal = _texture(part)
+            out.append(use(part, teal) if teal else part)
         else:
             # selectors end at "{"; everything from there to "}" is declarations (or a nested rule's selector)
             pieces = re.split(r"([{}])", part)
@@ -152,9 +152,9 @@ def themed(css, found=None):
     if not pairs:
         return css
     crimson = ";".join(f"{k}:{v[0]}" for k, v in pairs.items())
-    blue = ";".join(f"{k}:{v[1]}" for k, v in pairs.items())
-    head = ("/* palette tokens, written by tools/palette.py: the crimson literals of this bundle and their steel-blue twins */\n"
-            f":root{{{crimson}}}\n{ATTR}{{{blue}}}\n")
+    teal = ";".join(f"{k}:{v[1]}" for k, v in pairs.items())
+    head = ("/* palette tokens, written by tools/palette.py: the crimson literals of this bundle and their teal twins */\n"
+            f":root{{{crimson}}}\n{ATTR}{{{teal}}}\n")
     return head + body
 
 
@@ -163,8 +163,8 @@ def main():
     found = {}
     for f in sorted((root / "src" / "css").glob("*.css")):
         themed(f.read_text(encoding="utf-8"), found)
-    for crimson, (blue, n) in sorted(found.items(), key=lambda kv: -kv[1][1]):
-        print(f"{n:4}  {crimson[:60]:<60} {blue[:60]}")
+    for crimson, (teal, n) in sorted(found.items(), key=lambda kv: -kv[1][1]):
+        print(f"{n:4}  {crimson[:60]:<60} {teal[:60]}")
     print(len(found), "colors translated")
 
 

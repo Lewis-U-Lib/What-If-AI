@@ -80,15 +80,15 @@ What If AI's results lead with one group: exact matches when there are any, othe
 
 The landing page, What If AI's first question, and The Register's use-case ideas section each link to `register.html#activities?op=none`, the use-case ideas in which no one operates an AI tool.
 
-## Crimson and steel blue
+## Crimson and teal
 
-The help menu ends with a switch between two palettes: crimson, which is the default, and steel blue. Only colors change; layout, wording, textures' grain, gold, and the illustrations are the same in both.
+The help menu ends with a switch between two palettes: crimson, which is the default, and teal. Only colors change; layout, wording, textures' grain, gold, and the illustrations are the same in both.
 
-The stylesheets in `src/css` are written once, in crimson. At build time `tools/palette.py` replaces each crimson literal in the CSS bundles with a custom property whose default is that literal and whose value under `html[data-theme="blue"]` is the same color in steel blue at the same relative luminance. Matching luminance keeps every contrast ratio, so text that passes on crimson passes by the same margin on steel. Gold, brass, incandescent yellows, neutrals, and the reds that carry meaning (errors, cautions, the restrictive end of the policy spectrum) are left alone; the list is `KEEP` in that file. `python3 tools/palette.py` prints every translated color. New crimson added to a stylesheet is translated automatically.
+The stylesheets in `src/css` are written once, in crimson. At build time `tools/palette.py` replaces each crimson literal in the CSS bundles with a custom property whose default is that literal and whose value under `html[data-theme="teal"]` is the same color in teal at the same relative luminance. Matching luminance keeps every contrast ratio, so text that passes on crimson passes by the same margin on teal. Gold, brass, incandescent yellows, neutrals, and the reds that carry meaning (errors, cautions, the restrictive end of the policy spectrum) are left alone; the list is `KEEP` in that file. `python3 tools/palette.py` prints every translated color. New crimson added to a stylesheet is translated automatically.
 
-`src/js/theme.js` sets the attribute. It loads in the `<head>` without `defer`, so a reader who chose blue never sees crimson first. The choice is kept in this browser's storage only (`lul-whatifai-theme-v1`), carries across both tools and the landing page, and lasts until the page is left if storage is unavailable. Without JavaScript the pages are crimson and the switch stays hidden.
+`src/js/theme.js` sets the attribute. It loads in the `<head>` without `defer`, so a reader who chose teal never sees crimson first. The choice is kept in this browser's storage only (`lul-whatifai-theme-v1`), carries across both tools and the landing page, and lasts until the page is left if storage is unavailable. Without JavaScript the pages are crimson and the switch stays hidden.
 
-`tests/palette_test.py` checks the translation and `tests/theme.test.js` checks the switch. To run any browser check against the blue palette, set `SITE_THEME=blue`, for example `SITE_THEME=blue npm run test:contrast`.
+`tests/palette_test.py` checks the translation and `tests/theme.test.js` checks the switch. To run any browser check against the teal palette, set `SITE_THEME=teal`, for example `SITE_THEME=teal npm run test:contrast`.
 
 ## Licenses
 

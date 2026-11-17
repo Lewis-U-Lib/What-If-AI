@@ -4,9 +4,9 @@ const { analytics } = require('../site.json');
 
 async function createContext(browser, options) {
   const context = await browser.newContext(options);
-  // SITE_THEME=blue runs any browser check against the steel-blue palette, as a reader who chose it would see the pages.
-  if (process.env.SITE_THEME === 'blue') {
-    await context.addInitScript(() => { try { localStorage.setItem('lul-whatifai-theme-v1', 'blue'); } catch (_) { /* storage blocked by the test */ } });
+  // SITE_THEME=teal runs any browser check against the teal palette, as a reader who chose it would see the pages.
+  if (process.env.SITE_THEME === 'teal') {
+    await context.addInitScript(() => { try { localStorage.setItem('lul-whatifai-theme-v1', 'teal'); } catch (_) { /* storage blocked by the test */ } });
   }
   await context.route(analytics.script_url, route => route.fulfill({
     contentType: 'application/javascript', body: '/* Analytics disabled in automated checks. */',

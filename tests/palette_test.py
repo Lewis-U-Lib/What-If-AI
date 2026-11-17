@@ -1,4 +1,4 @@
-"""The steel-blue palette is the crimson one with the hue swapped: same luminance, nothing else touched."""
+"""The teal palette is the crimson one with the hue swapped: same luminance, nothing else touched."""
 from pathlib import Path
 import re
 import sys
@@ -38,30 +38,30 @@ class PaletteTests(unittest.TestCase):
             self.assertIn(kept, palette.themed('a{color:%s}' % kept))
             self.assertNotIn('var(', palette.themed('a{color:%s}' % kept))
 
-    def test_blue_keeps_each_colors_contrast_against_white_gold_and_black(self):
-        """Luminance is matched, so a ratio that passes on crimson passes on steel (within 8-bit rounding)."""
+    def test_teal_keeps_each_colors_contrast_against_white_gold_and_black(self):
+        """Luminance is matched, so a ratio that passes on crimson passes on teal (within 8-bit rounding)."""
         references = {'white': (1, 1, 1), 'gold': rgb('#debb70'), 'black': (0, 0, 0)}
-        for crimson, blue in self.colors.items():
+        for crimson, teal in self.colors.items():
             for name, ref in references.items():
-                before, after = contrast(rgb(crimson), ref), contrast(rgb(blue), ref)
-                self.assertLess(abs(before - after) / before, .06, f'{crimson} -> {blue} against {name}: {before:.2f} vs {after:.2f}')
+                before, after = contrast(rgb(crimson), ref), contrast(rgb(teal), ref)
+                self.assertLess(abs(before - after) / before, .06, f'{crimson} -> {teal} against {name}: {before:.2f} vs {after:.2f}')
                 if before >= 4.5:
-                    self.assertGreaterEqual(after, 4.5 - .05, f'{crimson} -> {blue} against {name}')
+                    self.assertGreaterEqual(after, 4.5 - .05, f'{crimson} -> {teal} against {name}')
 
-    def test_blue_is_blue_and_alpha_is_untouched(self):
-        for crimson, blue in self.colors.items():
-            r, g, b = rgb(blue)
-            self.assertTrue(b >= g >= r, f'{crimson} -> {blue}')
-            self.assertEqual(re.findall(r',([\d.]+)\)$', crimson), re.findall(r',([\d.]+)\)$', blue))
+    def test_teal_is_teal_and_alpha_is_untouched(self):
+        for crimson, teal in self.colors.items():
+            r, g, b = rgb(teal)
+            self.assertTrue(g >= b >= r, f'{crimson} -> {teal}')
+            self.assertEqual(re.findall(r',([\d.]+)\)$', crimson), re.findall(r',([\d.]+)\)$', teal))
 
     def test_textures_keep_their_grain_and_change_only_their_color(self):
         urls = [c for c in self.found if c.startswith('url(')]
         self.assertEqual(len(urls), 4)
         for crimson in urls:
-            blue = self.found[crimson][0]
+            teal = self.found[crimson][0]
             strip = lambda s: re.sub(r"values='[^']*'", lambda m: 'values=' + ' '.join(m.group(0)[8:-1].split()[15:]), s)
-            self.assertEqual(strip(crimson), strip(blue))          # same noise, same alpha row
-            self.assertNotEqual(crimson, blue)
+            self.assertEqual(strip(crimson), strip(teal))          # same noise, same alpha row
+            self.assertNotEqual(crimson, teal)
 
     def test_only_declaration_values_are_rewritten(self):
         css = '#fab,#bad .x{color:#520e20}/* #520e20 */.y::after{content:"#520e20";background:url("data:image/png;base64,AAAA")}'
@@ -76,8 +76,8 @@ class PaletteTests(unittest.TestCase):
         css = (ROOT / 'src' / 'css' / 'theme-plate.css').read_text(encoding='utf-8')
         out = palette.themed(css)
         self.assertEqual(out, palette.themed(css))
-        root_line, blue_line = out.split('\n')[1:3]
-        self.assertTrue(root_line.startswith(':root{') and blue_line.startswith('html[data-theme="blue"]{'))
+        root_line, teal_line = out.split('\n')[1:3]
+        self.assertTrue(root_line.startswith(':root{') and teal_line.startswith('html[data-theme="teal"]{'))
         defaults = dict(re.findall(r'(--c-[0-9a-f]{7}):((?:url\("[^"]*"\)|[^;}])+)', root_line))
         self.assertEqual(set(defaults), set(re.findall(r'var\((--c-[0-9a-f]{7})\)', out)))
         restored = re.sub(r'var\((--c-[0-9a-f]{7})\)', lambda m: defaults[m.group(1)], out.split('\n', 3)[3])
