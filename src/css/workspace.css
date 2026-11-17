@@ -75,13 +75,16 @@ html[data-reading=plain] .hdr__title span{color:#f0cf83;}
 html[data-reading=plain] .count{background-color:#f0cf83!important;color:#171a1d!important;}
 html[data-reading=plain] .fab-toggle__icon{color:#f0cf83!important;}
 html[data-reading=plain] :is(.qstep,.rail__label,.kicker){text-transform:none;letter-spacing:normal;}
+@media(max-width:980px){
+ /* Keep the narrow sticky header compact; reading view remains in Help and navigation. */
+ .topbar .reading-toggle{display:none;}
+}
 @media(max-width:650px){
  .hdr--task-first.hdr--lab .hdr__identity{padding:0;}
  .hdr--task-first.hdr--lab .hdr__link{position:static;display:block;margin:0 0 .6rem;text-align:left;}
  .hdr--task-first.hdr--lab .hdr__logo img{max-width:100px;max-height:55px;}
  .hdr--task-first .hdr__kicker{font-size:.65rem;}
  .hdr--task-first .hdr__utility{flex-wrap:wrap;}
- .topbar .reading-toggle{font-size:.8rem;padding:.3rem .5rem;}
  .workspace-dialog--wide{width:96vw;}
 }
 @media print{

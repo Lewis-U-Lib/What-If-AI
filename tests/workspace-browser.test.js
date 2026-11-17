@@ -52,12 +52,18 @@ const W=require('../src/js/workspace-data');
   await p.evaluate(()=>{window.print=()=>{};});await p.locator('[data-print-brief]').click();
   assert.match(await p.locator('#printRoot').textContent(),/Keep this newer draft/);assert.match(await p.locator('#printRoot').textContent(),/Reference and reuse/);
   await p.evaluate(()=>window.dispatchEvent(new Event('afterprint')));
-  await p.evaluate(()=>SITE.printSaved());
+  const attributedId=await p.evaluate(()=>{
+    const entry=SITE.A.find(a=>a.attr);if(!entry)throw new Error('No attributed entry available for print verification');
+    SITE.Saved.add(entry.id);SITE.printSaved();return entry.id;
+  });
   assert.ok(await p.locator('#printRoot').evaluate((e,id)=>e.textContent.includes(SITE.BYID[id].sum),ids[0]),'full narrative survives planning and printing');
-  assert.ok(await p.locator('#printRoot').evaluate((e,id)=>String(SITE.BYID[id].attr||'').split('\n').filter(Boolean).every(line=>e.textContent.includes(line)),ids[0]));
+  assert.ok(await p.locator('#printRoot').evaluate((e,id)=>SITE.BYID[id].attr.split('\n').filter(Boolean).every(line=>e.textContent.includes(line)),attributedId),'source attribution survives the full collection print');
   await p.evaluate(()=>window.dispatchEvent(new Event('afterprint')));
   await go('what-if-ai.html#act=__proto__');assert.equal(await p.locator('#actDialog').evaluate(d=>d.open),false);
   await p.setViewportSize({width:390,height:844});assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+  assert.equal(await p.locator('.topbar [data-reading-toggle]').isVisible(),false);
+  await p.locator('#fabToggle').click();await p.locator('#fabMenu [data-reading-toggle]').click();
+  assert.notEqual(await p.locator('html').getAttribute('data-reading'),'plain','reading view remains available in the mobile help menu');
   assert.deepEqual(errors,[]);
   await ctx.close();console.log('PASS: focused results, reading/theme independence, compare limit, plans, transfer, conflict preservation, literal text, full print preservation, and accessibility.');
  }finally{await browser.close();await server.close();}
