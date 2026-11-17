@@ -538,6 +538,10 @@ function drawAbout(){
   }).join('');
   rtour.addEventListener('click', function(e){
     var t = e.target;
+    // Following an in-page link chooses a new focus target. Do not restore the
+    // walkthrough opener after the route has focused that section or record.
+    var link = t.closest('a[href^="#"]');
+    if(link && link.getAttribute('href')!=='#about' && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey && e.button===0) rtour._opener = null;
     if(t.closest('#rtourPrev')){ if(ri>0) rtourTo(ri-1); return; }
     if(t.closest('#rtourNext')){ rtourTo(ri<rslides.length-1 ? ri+1 : 0); return; }
     var d = t.closest('[data-rdot]'); if(d){ rtourTo(+d.getAttribute('data-rdot')); return; }
