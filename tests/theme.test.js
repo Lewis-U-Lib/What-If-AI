@@ -69,7 +69,7 @@ const channels = color => (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number)
       const button = page.locator('#fabMenu [data-theme-toggle]');
       assert.ok(await button.isVisible(), file + ': the menu offers the switch');
       assert.equal((await button.innerText()).trim(), 'Switch to blue');
-      assert.equal(await button.evaluate(b => b === document.querySelector('#fabMenu').lastElementChild), true, file + ': the switch is the last item');
+      assert.equal(await button.evaluate(b => b.nextElementSibling === document.querySelector('#fabMenu').lastElementChild && b.nextElementSibling.matches('[data-plain-toggle]')), true, file + ': the two view switches end the menu, palette first');
       await rest(page);
     }
     pass('default: both tools are the crimson site and the help menu ends with "Switch to blue"');

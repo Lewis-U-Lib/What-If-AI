@@ -117,6 +117,14 @@ The stylesheets in `src/css` are written once, in crimson. At build time `tools/
 
 `tests/palette_test.py` checks the translation and `tests/theme.test.js` checks the switch. To run any browser check against the blue palette, set `SITE_THEME=blue`, for example `SITE_THEME=blue npm run test:contrast`.
 
+## Plain reading view
+
+The help menu's last item switches the plain reading view on or off. It is a separate choice from the palette and works in either one. The pages, wording, and controls are the same; `src/css/plain.css` takes off the brushed textures, bolts, seams, lamps, glows, letter shadows, and the moving light, flattens brass to gold, and sets everything in Barlow in sentence case in place of the condensed display face and the monospaced readouts.
+
+`src/js/theme.js` sets `data-plain` on `<html>` before the page is drawn and keeps the choice in this browser's storage only (`lul-whatifai-plain-v1`), across both tools and the landing page. Without JavaScript the pages are textured and the switch stays hidden. The colors in `plain.css` are crimson literals, so `tools/palette.py` gives them steel-blue twins like any others.
+
+`tests/plain.test.js` (run by `npm run test:theme`) checks that the view changes no word and no control, that the tool still works in it, and that it passes axe in both palettes. To run any browser check in the plain view, set `SITE_PLAIN=1`, alone or with `SITE_THEME=blue`.
+
 ## Licenses
 
 The original tools are **CC BY-NC-ND 4.0**, with the exceptions in [LICENSE.md](LICENSE.md) and [NOTICE.md](NOTICE.md). Every use-case idea keeps its own license, including synthesis and remix entries. Separately licensed guide content, policy quotations, sources, fonts, and dependencies retain their own terms. Earlier CC BY-NC-SA permissions remain in effect for earlier releases.
