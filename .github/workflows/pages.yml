@@ -41,12 +41,12 @@ jobs:
         run: |
           npm ci
           npx playwright install --with-deps chromium
-      - name: Faculty workspace, collection transfer, and plain reading
-        run: npm run test:workspace
       - name: Color preferences and persistence
         run: npm run test:theme
       - name: Fixes from the October 2026 audit (field fit, route note, Ask Us focus, print, history)
         run: npm run test:review
+      - name: Faculty workspace, collection transfer, and plain reading
+        run: npm run test:workspace
       - name: Site checks (fingerprints, CSP, loading states, determinism)
         run: node tests/site.test.js
       - name: Tool license and all included-material rights

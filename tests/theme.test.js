@@ -36,7 +36,14 @@ const snapshot = page => page.evaluate(() => {
   };
 });
 /* close the menu and take pointer and focus off the help button, so it is measured at rest */
-const rest = async page => { await page.keyboard.press('Escape'); await page.mouse.move(4, 4); await page.evaluate(() => document.activeElement && document.activeElement.blur()); };
+const rest = async page => {
+  await page.keyboard.press('Escape'); await page.mouse.move(4, 4);
+  await page.evaluate(async () => {
+    if(document.activeElement) document.activeElement.blur();
+    // Wait for finite CSS transitions; decorative animations intentionally keep running.
+    await Promise.all(document.getAnimations().filter(a=>a instanceof CSSTransition).map(a=>a.finished.catch(()=>{})));
+  });
+};
 const channels = color => (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
 
 (async () => {
