@@ -14,6 +14,16 @@
     });
   }
   const note = 'NoDerivatives. This idea is reproduced verbatim. Share the original wording under its stated license. Your own trial notes are separate.';
+  function statedPreparation(a, site) {
+    if (a.preparation) return a.preparation;
+    // Quote only a published sentence explicitly timed before the activity.
+    // Activity scale, duration, and tool choice do not establish preparation.
+    const before = /^Before (?:class|the (?:session|workshop|lesson|meeting))[, ]+(?:the (?:instructor|facilitator|librarian)|faculty|students?|instructors?)\b/i;
+    const inAdvance = /^The (?:instructor|facilitator|teacher|librarian)\b.{1,130}\b(?:before class|beforehand|in advance|ahead of time)\b/i;
+    const sentence = (a.sum || '').split(/(?<=[.!?])\s+/).find(line => before.test(line) || inAdvance.test(line));
+    if (sentence) return sentence;
+    return a.pc === 'institutional_approval_required' && site.L.pc[a.pc] || missing;
+  }
   function comparison(a, site) {
     const goal = (a.srp || []).find(pair => pair[0] === 'goal' && pair[1]);
     const participants = [site.L.actor[a.ac], ...(a.sc || []).map(key => site.L.scale[key])].filter(Boolean);
@@ -21,7 +31,7 @@
     return [
       ['Purpose', a.purpose || (goal && goal[1]) || missing],
       ['Participants', participants.join(' · ') || missing],
-      ['Preparation', a.preparation || missing],
+      ['Preparation', statedPreparation(a,site)],
       ['Access requirements', access.join('. ') || missing],
       ['Human judgment', a.gate || missing]
     ];
