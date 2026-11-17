@@ -115,7 +115,7 @@ def build(out):
 
     for name, files in CFG["bundles"]["css"].items():
         body = "\n".join(f"/* ── {f} ── */\n" + (SRC / "css" / f).read_text(encoding="utf-8") for f in files)
-        # each crimson literal becomes a token with a steel-blue twin (tools/palette.py); the help menu switches between them
+        # each color becomes a token with a twin in every palette (tools/palette.py); the help menu chooses between them
         site.emit(f"css/{name}.css", themed(css_urls(body)).encode("utf-8"), "assets/css")
     for name, files in CFG["bundles"]["js"].items():
         body = "\n;\n".join(f"/* ── {f} ── */\n" + (SRC / "js" / f).read_text(encoding="utf-8") for f in files)
@@ -136,7 +136,7 @@ def build(out):
                 '<meta name="color-scheme" content="dark"/>',
                 '<meta name="theme-color" content="#5b0a1f"/>',
                 f'<meta name="generator" content="tools/build.py · release {rel["release"]} · site {commit[:7]}"/>',
-                # runs before the page is drawn, so a reader who chose the blue palette never sees a crimson flash
+                # runs before the page is drawn, so a reader who chose another palette never sees a crimson flash
                 f'<script src="{a("js/theme.js")}"></script>']
         if page.get("sitemap", True):
             head.append(f'<link rel="canonical" href="{canonical}"/>')

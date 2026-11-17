@@ -74,15 +74,37 @@ The footer carries the Lewis Library logo (`src/img/library-emblem.webp`) in the
 
 Edison bulbs appear in a few places rather than everywhere: the What If AI bulb icon (`i-bulb`) has a filament that lights white-hot when its link is pointed at or focused, and small Edison bulbs (`--edison`) mark the considerations console in The Register and the current question in What If AI. The help button is a domed yellow-brass rivet with the ✦ stamped into it; it glows softly at rest and brighter on hover, focus, and while its menu is open. It returns to plain white under "more contrast" and forced colors and prints in black. Help-menu items are opaque in every state and sit in an opaque housing; the footer leaves room so the fixed help button never covers the disclosure. In forced-colors mode the logo is redrawn in the link color. `tests/incandescent-2026-11-02.test.js` measures the logo and menu contrast from rendered pixels and checks that nothing behind a menu item shows through it.
 
-## Crimson and steel blue
+## The palette family
 
-The help menu ends with a switch between two palettes: crimson, which is the default, and steel blue. Only colors change; layout, wording, textures' grain, gold, and the illustrations are the same in both.
+The help menu ends with a row of swatches, one per palette. Crimson is the default. The other eight take their plate color from the Library's color panel:
 
-The stylesheets in `src/css` are written once, in crimson. At build time `tools/palette.py` replaces each crimson literal in the CSS bundles with a custom property whose default is that literal and whose value under `html[data-theme="blue"]` is the same color in steel blue at the same relative luminance. Matching luminance keeps every contrast ratio, so text that passes on crimson passes by the same margin on steel. Gold, brass, incandescent yellows, neutrals, and the reds that carry meaning (errors, cautions, the restrictive end of the policy spectrum) are left alone; the list is `KEEP` in that file. `python3 tools/palette.py` prints every translated color. New crimson added to a stylesheet is translated automatically.
+| Palette | Plate | Tone | What gold becomes | What the yellow lights become |
+|---|---|---|---|---|
+| Crimson | `#940731` family | dark | gold | incandescent yellow |
+| Steel blue | `#2f5f75` | dark | gold | incandescent yellow |
+| Charcoal | `#51534a` | dark | pale yellow (`#ffe584`) | incandescent yellow |
+| Fern green | `#7c9858` | light | deep crimson (`#940731`) | incandescent yellow |
+| Khaki | `#9b945f` | light | deep teal (`#2f5f75`) | ice blue (`#73c4d4`) |
+| Ice blue | `#73c4d4` | light | crimson (`#940731`) | incandescent yellow |
+| Bone | `#cac7a7` | light | fern green (`#7c9858`) | incandescent yellow |
+| Gold | `#e8c446` | light | crimson (`#940731`) | ice blue (`#73c4d4`) |
+| Pale yellow | `#ffe584` | light | teal (`#2f5f75`) | red (`#c22033`) |
 
-`src/js/theme.js` sets the attribute. It loads in the `<head>` without `defer`, so a reader who chose blue never sees crimson first. The choice is kept in this browser's storage only (`lul-whatifai-theme-v1`), carries across both tools and the landing page, and lasts until the page is left if storage is unavailable. Without JavaScript the pages are crimson and the switch stays hidden.
+Only colors change. Layout, wording, the textures' grain, the bolts, the lamps, and the illustrations are the same in every palette.
 
-`tests/palette_test.py` checks the translation and `tests/theme.test.js` checks the switch. To run any browser check against the blue palette, set `SITE_THEME=blue`, for example `SITE_THEME=blue npm run test:contrast`.
+The stylesheets in `src/css` are written once, in crimson. At build time `tools/palette.py` replaces each color literal in the CSS bundles with a custom property whose default is that literal and whose value under `html[data-theme="<name>"]` is the color's twin in that palette.
+
+- **Steel blue** is a hue swap at the same relative luminance, so every contrast ratio carries over. Gold, the incandescent yellows, neutrals, and the reds that carry meaning (errors, cautions, the restrictive end of the policy spectrum, the red lamp) are left alone.
+- **Charcoal** is the same idea in a neutral hue, with the surfaces lifted toward `#51534a` and gold lightened to the panel's pale yellow so that it still reads.
+- **The six light palettes** put dark ink on light plates. The plate (header, panel heads, footer) is the named color exactly. Surfaces that are darker than the plate in crimson become lighter tints of it, light text becomes dark ink, and dark wells become pale insets. Gold fittings and yellow lights would wash out on most of these plates, so each palette names an accent and, where needed, a glow from the same color panel. Accent and ink luminance are capped so that text passes WCAG AA on the darkest surface the palette produces.
+
+A color's twin depends on what the color is used for, which `palette.py` reads from the declaration: text (`color`, `fill`, `stroke`, `outline`), a shadow, a text shadow, a border, or a fill, with a few custom properties assigned by name (`ROLE_VARS`). Print rules, masks, and the picker's own swatches keep their colors.
+
+`src/js/theme.js` sets `data-theme`, and `data-tone="light"` for the light palettes. It loads in the `<head>` without `defer`, so a reader who chose another palette never sees crimson first. The choice is kept in this browser's storage only (`lul-whatifai-theme-v1`), carries across both tools and the landing page, and lasts until the page is left if storage is unavailable. Without JavaScript the pages are crimson and the swatches stay hidden.
+
+To add or change a palette, edit `PALETTES` in `tools/palette.py`, then the matching rows in `src/js/theme.js`, `src/partials/help.html`, and the `.swatch` rules in `src/css/theme-plate.css`; `tests/palette_test.py` fails if they disagree.
+
+`tests/palette_test.py` checks the translation and `tests/theme.test.js` checks the picker and runs axe on both tools in every palette. To run any browser check against one palette, set `SITE_THEME`, for example `SITE_THEME=gold npm run test:contrast`.
 
 ## Licenses
 
