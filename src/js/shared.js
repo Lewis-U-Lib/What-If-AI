@@ -9,7 +9,7 @@
 "use strict";
 var D = window.SITE_DATA.acts;   /* fetched by boot.js from data/acts.<hash>.json */
 var A = D.acts, IN = D.intake, TOOL_LICENSE = window.TOOL_LICENSE;
-var BYID = {}, ALIAS = {};
+var BYID = Object.create(null), ALIAS = Object.create(null);
 A.forEach(function(a){ BYID[a.id] = a; (a.al||[]).forEach(function(x){ if(!ALIAS[x]) ALIAS[x] = a.id; }); });
 
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
@@ -232,6 +232,7 @@ var Saved = {
   remove: function(id){ id=savedId(id); return writeIds(readIds().filter(function(x){return x!==id;})); },
   toggle: function(id){ if(Saved.has(id)){ Saved.remove(id); return false; } Saved.add(id); return true; },
   clear: function(){ return writeIds([]); },
+  replace: writeIds,
   onChange: function(fn){ listeners.push(fn); }
 };
 window.addEventListener('storage', function(e){
@@ -519,7 +520,7 @@ function openActivity(id, opener){
   var dlg = document.getElementById('actDialog'); if(!dlg) return false;
   dlg.querySelector('[data-dlg-kicker]').textContent = kickerOf(a);
   dlg.querySelector('[data-dlg-title]').textContent = a.t;
-  dlg.querySelector('.dlg__body').innerHTML = detailHTML(a, {inRegister: CTX.page==='register'}) + ActivityFeedback.render(a.id, CTX.page);
+  dlg.querySelector('.dlg__body').innerHTML = detailHTML(a, {inRegister: CTX.page==='register'}) + IdeaCollection.shareHTML(a) + ActivityFeedback.render(a.id, CTX.page);
   ActivityFeedback.mount(dlg.querySelector('.activity-feedback'));
   var foot = dlg.querySelector('.dlg__foot');
   foot.innerHTML = saveButton(a) +
@@ -557,6 +558,7 @@ function renderSaved(){
       '<p>Use the Save button on any use-case idea to keep it here while you browse. You can then review your selection and print it or save it as a PDF.</p></div>'+
       '<p class="privacy">Your selection is kept in this browser only. There is no account, and your saved list is not sent to the library or anyone else.</p>';
     if(foot) foot.hidden = true;
+    IdeaCollection.addControls(box);
     return;
   }
   var h = storageNotice(true)+'<ol class="saved-list">';
@@ -579,6 +581,7 @@ function renderSaved(){
        '<button type="button" class="btn btn--sm btn--quiet" id="clearNo">Keep them</button></div>';
   box.innerHTML = h;
   if(foot) foot.hidden = false;
+  IdeaCollection.addControls(box);
 }
 function syncSaveUI(){
   var ids = Saved.ids();
@@ -601,7 +604,7 @@ function syncSaveUI(){
    attribution, and change notes on paper. Pages under an open dialog are never printed in its place. */
 var printCleanup = null;
 function toolName(){ return CTX.page==='register' ? 'The Register' : 'What If AI'; }
-function fillPrintRoot(ids, single){
+function fillPrintRoot(ids, single, brief){
   var root = document.getElementById('printRoot'); if(!root) return null;
   var today = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   var h;
@@ -610,11 +613,11 @@ function fillPrintRoot(ids, single){
     h = '<h1>'+esc(one.t)+'</h1><div class="pr-sub">'+esc(kickerOf(one))+' · '+toolName()+' · Lewis University Library · printed '+esc(today)+'</div>'+
       '<article>'+detailHTML(one,{print:true})+'</article>';
   } else {
-    h = '<h1>Saved use-case ideas</h1><div class="pr-sub">'+toolName()+' · Lewis University Library · '+num(ids.length)+
+    h = '<h1>'+(brief?'Brief planning sheets':'Saved use-case ideas')+'</h1><div class="pr-sub">'+toolName()+' · Lewis University Library · '+num(ids.length)+
       ' use-case idea'+(ids.length===1?'':'s')+' · printed '+esc(today)+'</div>';
     ids.forEach(function(id){
       var a = BYID[id];
-      h += '<article><div class="kicker">'+esc(kickerOf(a))+'</div><h2>'+esc(a.t)+'</h2>'+detailHTML(a,{print:true})+'</article>';
+      h += '<article><div class="kicker">'+esc(kickerOf(a))+'</div><h2>'+esc(a.t)+'</h2>'+(brief?IdeaCollection.briefHTML(a):detailHTML(a,{print:true}))+'</article>';
     });
   }
   h += '<div class="pr-foot">Tool credit: What If AI and The Register, Lewis University Library. '+
@@ -623,8 +626,8 @@ function fillPrintRoot(ids, single){
   root.innerHTML = h;
   return root;
 }
-function preparePrint(ids, single){
-  var root = fillPrintRoot(ids, single); if(!root) return false;
+function preparePrint(ids, single, brief){
+  var root = fillPrintRoot(ids, single, brief); if(!root) return false;
   document.body.classList.add('print-saved');
   /* the print copy is hidden from assistive technology on screen, but a saved PDF needs its headings
      and reading order, so it is exposed while printing (as the Register walkthrough's print is) */
@@ -637,11 +640,11 @@ function preparePrint(ids, single){
   window.addEventListener('afterprint', done);
   return done;
 }
-function printSaved(){
+function printSaved(brief){
   var ids = Saved.ids().map(function(id){ return BYID[id] ? id : ALIAS[id]; }).filter(function(id, i, all){ return id && BYID[id] && all.indexOf(id) === i; });
   if(!ids.length){ announce('There are no saved use-case ideas to print.'); return; }
   var dr = document.getElementById('savedDrawer'); if(dr && dr.open) closeDialog(dr);
-  var done = preparePrint(ids, false); if(!done) return;
+  var done = preparePrint(ids, false, brief===true); if(!done) return;
   setTimeout(function(){ window.print(); setTimeout(done, 1500); }, 60);
 }
 function printActivity(id){
@@ -698,6 +701,7 @@ function init(ctx){
   var ad = document.getElementById('actDialog'), sd = document.getElementById('savedDrawer'), about = document.getElementById('aboutDialog');
   if(ad) wireDialog(ad);
   if(sd) wireDialog(sd);
+  wireDialog(document.getElementById('compareDialog'));
   var aboutFromStart = null;
   if(about){ wireDialog(about); aboutFromStart = wireAbout(about); }
   document.addEventListener('click', function(e){
@@ -736,7 +740,7 @@ function init(ctx){
       return;
     }
     if(t.closest('[data-open-saved]')){ renderSaved(); openDialog(sd, t.closest('[data-open-saved]')); return; }
-    if(t.closest('#printSaved')){ printSaved(); return; }
+    if(t.closest('#printSaved, #printBrief')){ printSaved(!!t.closest('#printBrief')); return; }
     var pa = t.closest('[data-print-act]');
     if(pa){ printActivity(pa.getAttribute('data-print-act')); return; }
     if(t.closest('#clearSaved')){ var c=document.getElementById('clearConfirm'); if(c){ c.hidden=false; document.getElementById('clearYes').focus(); } return; }
@@ -759,7 +763,7 @@ function copyStatus(btn){
   if(!box){ box = document.createElement('p'); box.className = 'copy-status'; btn.parentNode.insertBefore(box, btn.nextSibling); }
   return box;
 }
-function copyText(text, okMsg, btn){
+function copyText(text, okMsg, btn, textLabel){
   var box = copyStatus(btn);
   function ok(){
     var msg = okMsg || 'Copied.';
@@ -767,15 +771,15 @@ function copyText(text, okMsg, btn){
     announce(msg);
   }
   function fallback(){
-    var msg = 'Copying is not available here. Select the address and copy it:';
+    var msg = textLabel ? 'Select and copy the text below.' : 'Copying is not available here. Select the address and copy it:';
     if(box){
       clearTimeout(box._t); box.textContent = msg + ' ';
-      var input = document.createElement('input');
-      input.type = 'text'; input.readOnly = true; input.className = 'copy-status__url'; input.value = text;
-      input.setAttribute('aria-label', 'Address to copy');
+      var input = document.createElement(textLabel?'textarea':'input');
+      if(!textLabel) input.type = 'text'; input.readOnly = true; input.className = 'copy-status__url'; input.value = text;
+      input.setAttribute('aria-label', textLabel || 'Address to copy');
       box.appendChild(input); input.focus(); input.select();
     }
-    announce(msg + ' ' + text);
+    announce(textLabel ? msg : msg + ' ' + text);
   }
   try{
     navigator.clipboard.writeText(text).then(ok, fallback);

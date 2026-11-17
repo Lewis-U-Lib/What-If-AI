@@ -1,0 +1,55 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const {chromium} = require('playwright');
+const {start} = require('./serve');
+const {createContext} = require('./browser');
+
+(async () => {
+  const server = await start(), browser = await chromium.launch();
+  try {
+    const ctx = await createContext(browser), page = await ctx.newPage();
+    await page.goto(server.url('register.html'));
+    await page.waitForSelector('html[data-ready]');
+    const ids = await page.evaluate(() => SITE.A.slice(0,4).map(a => { SITE.Saved.add(a.id); return a.id; }));
+    await page.locator('.topbar [data-open-saved]').click();
+    const choices=page.locator('[data-compare-id]');
+    for (let index=0; index<3; index++) await choices.nth(index).check();
+    await choices.nth(3).click();
+    assert.equal(await page.locator('[data-compare-id]:checked').count(),3);
+    await page.locator('[data-compare-ideas]').click();
+    const dlg=page.locator('#compareDialog');
+    assert.deepEqual(await dlg.locator('tbody th').allTextContents(),['Purpose','Participants','Preparation','Access requirements','Human judgment']);
+    assert.equal(await dlg.locator('thead th').count(),4);
+    assert.equal(await dlg.locator('tbody tr').nth(2).locator('td').first().innerText(),'Not stated');
+    await dlg.locator('.dlg__foot button').click();
+    const fileEvent=page.waitForEvent('download'); await page.locator('[data-collection-download]').click();
+    const file=await fileEvent, data=fs.readFileSync(await file.path());
+    assert.deepEqual(JSON.parse(data).saved,ids);
+    const ctx2=await createContext(browser), q=await ctx2.newPage();
+    await q.goto(server.url('what-if-ai.html')); await q.waitForSelector('html[data-ready]');
+    await q.locator('.topbar [data-open-saved]').click();
+    const upload=buffer=>q.locator('[data-collection-file]').setInputFiles({name:'ideas.json',mimeType:'application/json',buffer});
+    await upload(Buffer.from('{"bad":true}'));
+    await q.waitForFunction(()=>document.querySelector('[data-restore-preview]').textContent.includes('Choose'));
+    assert.deepEqual(await q.evaluate(()=>SITE.Saved.ids()),[]);
+    await upload(data); await q.locator('[data-restore-confirm]').click();
+    assert.deepEqual(await q.evaluate(()=>SITE.Saved.ids()),ids);
+    await q.evaluate(()=>window.print=()=>{});
+    await q.locator('#printBrief').click(); await q.waitForSelector('body.print-saved',{state:'attached'});
+    assert.match(await q.locator('#printRoot').textContent(),/Brief planning sheets/);
+    await q.evaluate(()=>window.dispatchEvent(new Event('afterprint')));
+    await q.locator('.topbar [data-open-saved]').click(); await q.locator('#printSaved').click();
+    assert.ok(await q.evaluate(id=>document.getElementById('printRoot').textContent.includes(SITE.BYID[id].sum),ids[0]));
+    await q.evaluate(()=>window.dispatchEvent(new Event('afterprint')));
+    await page.locator('[data-open="'+ids[0]+'"]').last().click();
+    await page.locator('#actDialog .idea-export summary').click();
+    await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async text=>{window.copiedAssignment=text;}}}));
+    await page.locator('#actDialog [data-assignment]').click();
+    assert.ok(await page.evaluate(id=>window.copiedAssignment.includes(SITE.BYID[id].attr),ids[0]));
+    const wordEvent=page.waitForEvent('download'); await page.locator('#actDialog [data-word]').click();
+    const word=await wordEvent;
+    assert.match(word.suggestedFilename(),/\.docx$/);
+    assert.equal(fs.readFileSync(await word.path()).readUInt32LE(0),0x04034b50);
+    console.log('PASS  Compare two or three, restore across browser contexts, both print modes, clipboard, Word.');
+  } finally {await browser.close();await server.close();}
+})().catch(error=>{console.error(error);process.exitCode=1;});

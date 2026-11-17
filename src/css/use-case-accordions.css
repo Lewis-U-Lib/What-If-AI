@@ -32,3 +32,20 @@
   /* The print renderer emits plain sections, with no collapsed descendants. */
   #printRoot .detail>section{break-inside:auto;page-break-inside:auto;}
 }
+
+/* Collection and assignment controls use the same palette as the activity detail. */
+.saved-actions,.compare-choice{display:flex;align-items:center;flex-wrap:wrap;gap:.55rem;}
+.compare-choice{cursor:pointer;}
+.compare-choice input{width:1.15rem;height:1.15rem;}
+.collection-files,.idea-export{margin-block:1rem;}
+.idea-export summary{cursor:pointer;font-weight:600;}
+.idea-export .saved-actions{margin-top:.6rem;}
+.collection-input{position:relative;overflow:hidden;}
+.collection-input input{position:absolute;inset:0;opacity:0;width:100%;cursor:pointer;}
+.collection-input:focus-within{outline:3px solid var(--gold);outline-offset:3px;}
+.compare-dialog{width:min(70rem,95vw);}
+.compare-scroll{max-width:100%;overflow:auto;}
+.compare-scroll table{width:100%;border-collapse:collapse;}
+.compare-scroll td,.compare-scroll th{min-width:12rem;vertical-align:top;text-align:left;border:1px solid var(--line);padding:.7rem;overflow-wrap:anywhere;}
+.compare-scroll th:first-child{min-width:8rem;}
+.export-line{white-space:pre-line;overflow-wrap:anywhere;}

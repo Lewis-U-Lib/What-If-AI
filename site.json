@@ -14,7 +14,7 @@
   "js": {
    "boot": ["boot.js"],
    "theme": ["theme.js"],
-   "core": ["source-links.js", "license-badges.js", "matching.js", "linkify.js", "activity-feedback.js", "shared.js"],
+   "core": ["source-links.js", "license-badges.js", "matching.js", "linkify.js", "activity-feedback.js", "shared.js", "idea-export.js", "word.js", "collection.js"],
    "what-if-ai": ["what-if-ai.js"],
    "register": ["register-type-examples.js", "register.js"],
    "engines": ["lul-core.js"],

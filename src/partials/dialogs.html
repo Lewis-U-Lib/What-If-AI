@@ -20,9 +20,22 @@
   </div>
   <div class="dlg__body" id="savedBody"></div>
   <div class="dlg__foot" id="savedFoot" hidden>
-    <button type="button" class="btn btn--sm btn--primary" id="printSaved">Print or save as PDF</button>
+    <button type="button" class="btn btn--sm btn--primary" id="printSaved">Print full references</button>
+    <button type="button" class="btn btn--sm" id="printBrief">Print brief planning sheets</button>
+    <button type="button" class="btn btn--sm" data-word>Download Word document</button>
     <button type="button" class="btn btn--sm" id="clearSaved">Clear all</button>
   </div>
+</dialog>
+
+<dialog class="dlg compare-dialog" id="compareDialog" aria-labelledby="compareTitle">
+  <div class="dlg__head"><h2 id="compareTitle" data-dlg-title>Compare saved ideas</h2>
+    <button type="button" class="dlg__close" data-close aria-label="Close comparison">✕</button></div>
+  <div class="dlg__body"><p>“Not stated” means the record has no separate value for that consideration.</p>
+    <div class="compare-scroll" role="region" aria-label="Saved ideas comparison" tabindex="0">
+      <table><caption class="sr-only">Comparison of selected ideas</caption><thead></thead><tbody></tbody></table>
+    </div>
+  </div>
+  <div class="dlg__foot"><button class="btn btn--sm" type="button" data-close>Done</button></div>
 </dialog>
 
 <aside class="note saved-storage-note" data-storage-warning hidden aria-label="Saved selection storage">
