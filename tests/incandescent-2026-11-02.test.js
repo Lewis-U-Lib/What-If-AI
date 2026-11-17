@@ -188,6 +188,10 @@ async function checkLogoReflection(browser, server, file) {
       /* ── header hierarchy: two buttons, the walkthrough as the one brass primary ── */
       const ctas = await p.$$eval('.hdr .hdr-cta', as => as.map(a => ({ primary: a.classList.contains('hdr-cta--primary'), text: a.textContent.replace(/\s+/g, ' ').trim(), bg: getComputedStyle(a).backgroundImage })));
       assert.equal(ctas.length, 2, file + ': the header keeps two buttons (the rest live in the menu and footer): ' + JSON.stringify(ctas.map(c => c.text)));
+      if(file==='what-if-ai.html'){
+        assert.ok(!ctas[0].primary && ctas[0].text==='Walkthrough','Finder help is secondary to the faculty task');
+        assert.ok(!ctas[1].primary && ctas[1].text==='How this site works');
+      }else{
       assert.ok(ctas[0].primary && /^How to use/.test(ctas[0].text) && ctas[0].bg.includes('rgb(243, 220, 158)'), file + ': the walkthrough is the brass primary: ' + JSON.stringify(ctas[0]));
       assert.ok(!ctas[1].primary && ctas[1].text === 'How this site works');
       const primary = p.locator('.hdr .hdr-cta--primary'), pc = (await primary.evaluate(e => getComputedStyle(e).color)).match(/[\d.]+/g).map(Number);
@@ -196,6 +200,7 @@ async function checkLogoReflection(browser, server, file) {
       await hideInk.evaluate(e => e.remove());
       const pbg = []; for (let y = 0; y < ppx.h; y += 2) for (let x = 0; x < ppx.w; x += 2) pbg.push(lum(ppx.px(x, y)));
       assert.ok(ratio(lum(pc), pct(pbg, 0.1)) >= 4.5, file + ': dark ink on the brass primary reads at AA: ' + ratio(lum(pc), pct(pbg, 0.1)).toFixed(2));
+      }
       // the walkthrough also opens from the floating menu, and closing it returns focus to the menu button
       const tourSel = file === 'register.html' ? '[data-open-register-tour]' : '[data-open-tour]', dlgSel = file === 'register.html' ? '#rtour' : '#tourDialog';
       await p.click('#fabToggle'); await p.click('#fabMenu ' + tourSel); await p.waitForSelector(dlgSel + '[open]');

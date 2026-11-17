@@ -9,12 +9,13 @@
    "what-if-ai": ["what-if-ai.css"],
    "register": ["register.css"],
    "register-types": ["register-types.css"],
-   "theme": ["theme-plate.css", "lab.css", "inline-moved.css"]
+   "theme": ["theme-plate.css", "lab.css", "inline-moved.css"],
+   "workspace": ["workspace.css"]
   },
   "js": {
    "boot": ["boot.js"],
    "theme": ["theme.js"],
-   "core": ["source-links.js", "license-badges.js", "matching.js", "linkify.js", "activity-feedback.js", "shared.js"],
+   "core": ["source-links.js", "license-badges.js", "matching.js", "linkify.js", "activity-feedback.js", "shared.js", "workspace-data.js", "workspace.js"],
    "what-if-ai": ["what-if-ai.js"],
    "register": ["register-type-examples.js", "register.js"],
    "engines": ["lul-core.js"],
@@ -23,16 +24,16 @@
  },
  "_note_bundles": "Order matters. CSS: base, then the page's own rules, then the theme layers (as in the single-file pages). JS runs in list order after the data has loaded.",
  "pages": [
-  {"src": "index.html", "out": "index.html", "css": ["base", "theme"]},
-  {"src": "what-if-ai.html", "out": "what-if-ai.html", "css": ["base", "what-if-ai", "theme"],
+  {"src": "index.html", "out": "index.html", "css": ["base", "theme", "workspace"]},
+  {"src": "what-if-ai.html", "out": "what-if-ai.html", "css": ["base", "what-if-ai", "theme", "workspace"],
    "companion": {"href": "register.html", "label": "The Register", "icon": "i-crt"},
-   "data": ["acts", "guide", "source-links"], "scripts": ["core", "what-if-ai", "engines"]},
-  {"src": "register.html", "out": "register.html", "css": ["base", "register", "theme", "register-types"],
+   "data": ["acts", "guide", "source-links", "editorial"], "scripts": ["core", "what-if-ai", "engines"]},
+  {"src": "register.html", "out": "register.html", "css": ["base", "register", "theme", "register-types", "workspace"],
    "companion": {"href": "what-if-ai.html", "label": "What If AI", "icon": "i-bulb"},
-   "data": ["acts", "register", "guide", "source-links"], "scripts": ["core", "register", "engines"]},
-  {"src": "source-file.html", "out": "source-file.html", "css": ["base", "theme"],
+   "data": ["acts", "register", "guide", "source-links", "editorial"], "scripts": ["core", "register", "engines"]},
+  {"src": "source-file.html", "out": "source-file.html", "css": ["base", "theme", "workspace"],
    "data": ["source-links"], "scripts": ["source-file"], "sitemap": false},
-  {"src": "404.html", "out": "404.html", "css": ["base", "theme"], "absolute": true, "sitemap": false}
+  {"src": "404.html", "out": "404.html", "css": ["base", "theme", "workspace"], "absolute": true, "sitemap": false}
  ],
  "analytics": {
   "script_url": "https://cloud.umami.is/script.js",

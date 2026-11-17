@@ -35,8 +35,7 @@ const TITLES=['What If AI','The Register','What leaves your browser','Ask Us','L
 
       /* What If AI: the header statement, the note beside the questions, and the dialog */
       await p.goto(server.url('what-if-ai.html'));await ready(p);await p.waitForSelector('#wizard .qpanel');
-      assert.equal(norm(await p.textContent('.hdr__lede .hdr__signal')),FINDER);
-      assert.equal(await p.getAttribute('.hdr__signal use','href'),'#i-flow','the statement is not marked with the no-AI-tool robot');
+      assert.equal(await p.locator('.hdr__lede').count(),0,'the task-first header omits the duplicate explanation');
       const notes=await p.evaluate(()=>[...document.querySelectorAll('.rail__note,.qsignal')].filter(e=>e.offsetParent).map(e=>e.textContent.replace(/\s+/g,' ').trim()));
       assert.equal(notes.length,1,'exactly one note beside the questions is displayed at '+width+'px');
       assert.ok(notes[0].startsWith(RAIL),notes[0]);

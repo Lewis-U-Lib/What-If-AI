@@ -11,6 +11,13 @@
 (function(){
   'use strict';
   var KEY = 'lul-whatifai-theme-v1', root = document.documentElement;
+  var READING_KEY='lul-whatifai-reading-v1';
+  function readingStored(){try{return localStorage.getItem(READING_KEY)==='plain';}catch(_){return false;}}
+  function applyReading(plain){
+    if(plain) root.setAttribute('data-reading','plain');else root.removeAttribute('data-reading');
+    [].forEach.call(document.querySelectorAll('[data-reading-toggle]'),function(b){b.hidden=false;b.setAttribute('aria-pressed',String(plain));var label=b.querySelector('[data-reading-label]');if(label)label.textContent=plain?'Use textured view':'Use plain reading view';});
+  }
+  applyReading(readingStored());
   var BAR = { crimson: '#5b0a1f', blue: '#163442' };       // the browser's toolbar tint (<meta name="theme-color">)
 
   function stored(){ try { return window.localStorage.getItem(KEY) === 'blue' ? 'blue' : 'crimson'; } catch(_){ return 'crimson'; } }
@@ -32,15 +39,18 @@
   apply(stored());                                           // before first paint: the attribute and the toolbar tint
 
   function ready(){
+    applyReading(readingStored());
     apply(current());                                        // now the menu exists: label and show its button
     document.addEventListener('click', function(e){
+      var reading=e.target.closest&&e.target.closest('[data-reading-toggle]');
+      if(reading){var plain=root.getAttribute('data-reading')!=='plain';applyReading(plain);try{if(plain)localStorage.setItem(READING_KEY,'plain');else localStorage.removeItem(READING_KEY);}catch(_){}return;}
       var btn = e.target && e.target.closest ? e.target.closest('[data-theme-toggle]') : null;
       if(!btn) return;
       var next = current() === 'blue' ? 'crimson' : 'blue';
       apply(next); store(next);
     });
     // another tab or the other tool changed the choice: follow it
-    window.addEventListener('storage', function(e){ if(e.key === KEY || e.key === null) apply(stored()); });
+    window.addEventListener('storage', function(e){ if(e.key === KEY || e.key === null) apply(stored()); if(e.key===READING_KEY||e.key===null)applyReading(readingStored()); });
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready); else ready();
 })();

@@ -128,8 +128,6 @@ function drawWizard(focusTitle){
     '<div class="qstep">Question '+at+' of '+real.length+'</div>'+
     '<h2 class="panel__title" id="qTitle" tabindex="-1">'+esc(st.q)+'</h2><p class="panel__sub">'+esc(st.sub)+'</p></div></div>';
   h += '<div class="panel__body">';
-  if(step===0) h += '<p class="tour-cta no-print">New to What If AI? <button type="button" class="btn btn--sm" data-open-tour aria-haspopup="dialog">'+
-    icon('i-manual')+' How to use What If AI</button></p>';
   /* below 980px the rail (and its note) is hidden, so the first question carries the same note */
   if(step===0) h += '<p class="qsignal no-print">'+icon('i-flow')+'<span>Matched by fixed rules set by the Library. No AI system reads your answers. '+
     '<button type="button" class="rail__about" data-open-about aria-haspopup="dialog" aria-controls="aboutDialog">How this site works</button></span></p>';
@@ -186,7 +184,7 @@ function matchCard(row){
   if(row.compatible.length){
     var unspecified=row.compatible.filter(function(k){return k!=='disc';});
     var anyCourse=row.activity.disc==='interdisciplinary';
-    notes.push('<strong>Check suitability:</strong> '+(row.compatible.indexOf('disc')>=0?(anyCourse?'Recorded for any course. ':'Consider how this use-case idea fits your field. '):'')+
+    notes.push('<strong>Check suitability:</strong> '+(row.compatible.indexOf('disc')>=0?(anyCourse?'Tagged for any course; this may be a transferable method rather than an activity ready for your discipline. Check subject knowledge, materials, and adaptation. ':'Consider how this use-case idea fits your field. '):'')+
       (unspecified.length?'No specific '+unspecified.map(function(k){return esc(PREFERENCE_LABELS[k]);}).join(' or ')+' is recorded for this use-case idea.':''));
   }
   var note=notes.length?'<div class="match-note">'+notes.map(function(n){return '<p>'+n+'</p>';}).join('')+'</div>':'';
@@ -210,27 +208,34 @@ function recoveryHTML(){
 }
 function drawPlan(focusTitle){
   var p=results(), n=M.keys.filter(function(k){return S[k];}).length;
-  var title=p.near?'Use-case ideas to explore':p.confirmed?'Broader starting points':p.unknown.length?'Some requirements need checking':'No use-case ideas meet these limits';
-  var h='<div class="rhead"><div class="kicker">Your results</div><h2 id="rTitle" tabindex="-1">'+title+'</h2>'+answersHTML()+
-    '<div class="ractions no-print"><button type="button" class="btn" id="redo">Change my answers</button>'+
-    '<button type="button" class="btn" id="copylink">Copy a link to these results</button>'+
-    '<button type="button" class="btn" data-open-saved aria-haspopup="dialog">View saved use-case ideas (<span data-saved-count>0</span>)</button></div></div>';
-  h+='<p class="countline"><strong>'+S_.num(p.exact.length)+'</strong> '+(n?(p.exact.length===1?'exact match':'exact matches'):(p.exact.length===1?'use-case idea to explore':'use-case ideas to explore'))+
-    '; <strong>'+S_.num(p.compatible.length)+'</strong> possible fit'+(p.compatible.length===1?'':'s')+' to check; <strong>'+S_.num(p.close.length)+'</strong> close match'+(p.close.length===1?'':'es')+'.'+
-    (p.unknown.length?' <strong>'+S_.num(p.unknown.length)+'</strong> additional use-case idea'+(p.unknown.length===1?' has':'s have')+' requirements to check.':'')+'</p>';
-  h+='<p class="print-note">This printout lists summaries only. Each use-case idea’s source, license, and attribution are in its full details. To keep them, print an idea from its details, or save ideas and print them from Saved use-case ideas.</p>';
+  var lead=p.exact.length?'exact':p.compatible.length?'compatible':p.close.length?'close':p.broader.length?'broader':null;
+  var titles={exact:n?'Matches your stated preferences':'Use-case ideas to explore',compatible:'Possible fits: check suitability',close:'Close matches: one preference to adjust',broader:'Broader starting points'};
+  var notes={exact:'These match the recorded details and have no unresolved selected limits. Matching does not establish effectiveness.',compatible:'These have no known preference mismatch. Check field adaptation and the notes on each idea before choosing.',close:'Each idea names the preference it misses. Your selected limits remain in force.',broader:'These miss more than one preference. Review the differences before choosing an idea.'};
+  var short={exact:n?'exact matches':'ideas',compatible:'possible fits',close:'close matches',broader:'broader starting points'};
+  var title=lead?'Start with '+S_.num(p[lead].length)+' '+short[lead]:p.unknown.length?'Some requirements need checking':'No use-case ideas meet these limits';
+  var h='<div class="rhead"><div class="kicker">Your results</div><h2 id="rTitle" tabindex="-1">'+title+'</h2>';
+  if(lead)h+='<div class="result-start"><p>'+esc(notes[lead])+'</p><button type="button" class="btn btn--primary" data-review-results="'+lead+'">Review '+(p[lead].length===1?'this idea':'these '+S_.num(p[lead].length)+' ideas')+'</button></div>';
+  h+='<details class="result-overview"><summary>Your answers and all result counts</summary>'+answersHTML()+
+    '<p class="countline"><strong>'+S_.num(p.exact.length)+'</strong> exact matches; <strong>'+S_.num(p.compatible.length)+'</strong> possible fits to check; <strong>'+S_.num(p.close.length)+'</strong> close matches.'+
+    (p.unknown.length?' <strong>'+S_.num(p.unknown.length)+'</strong> additional ideas have requirements to check.':'')+'</p></details>'+
+    '<div class="ractions no-print"><button type="button" class="btn btn--sm" id="redo">Change my answers</button>'+
+    '<button type="button" class="btn btn--sm" id="copylink">Copy a link to these results</button>'+
+    '<button type="button" class="btn btn--sm" data-open-saved aria-haspopup="dialog">View saved use-case ideas (<span data-saved-count>0</span>)</button></div></div>';
+  h+='<p class="print-note">This printout lists summaries only. Each idea’s source, license, and attribution are in its full details. Print full references from Saved use-case ideas to keep them.</p>';
   if(!p.confirmed){
     h+='<div class="empty"><strong>No use-case ideas have all selected limits confirmed.</strong><p>'+
-      (p.unknown.length?'You can inspect the separate group below to see what needs checking. Those use-case ideas are not confirmed matches.':'The collection does not currently establish a fit for these limits. Review them if you want to change your selection.')+
+      (p.unknown.length?'You can inspect the separate group below to see what needs checking. Those ideas are not confirmed matches.':'The collection does not currently establish a fit for these limits.')+
       '</p><button type="button" class="btn" data-goto="'+STEP_OF.limits+'">Review the limits</button></div>';
-  } else {
-    h+=band('exact',n?'Matches your stated preferences':'Use-case ideas to explore','These match the recorded details'+(Object.keys(S.limits).some(function(k){return S.limits[k];})?' and have no unresolved selected limits.':'.'),p.exact);
-    h+=band('compatible','Possible fits: check suitability','These have no known preference mismatch. Check the notes on each use-case idea for details that need your judgment.',p.compatible);
-    h+=band('close','Close matches: one preference to adjust','Each use-case idea names the preference it misses. Selected limits remain in force.',p.close);
-    if(!p.near){ h+=recoveryHTML();h+=band('broader','Broader starting points','These miss more than one preference. Review the differences before choosing a use-case idea.',p.broader); }
+  }else{
+    if(!p.near)h+=recoveryHTML();
+    ['exact','compatible','close','broader'].forEach(function(key){
+      if(!p[key].length || (key==='broader'&&p.near))return;
+      var content=band(key,titles[key],notes[key],p[key]);
+      h+=key===lead?content:'<details class="result-groups" data-result-disclosure="'+key+'"><summary>'+esc(titles[key])+' ('+S_.num(p[key].length)+')</summary>'+content+'</details>';
+    });
   }
   if(p.unknown.length){
-    h+='<details class="requirement-checks"><summary>Check requirements before considering ('+S_.num(p.unknown.length)+')</summary><div class="requirement-checks__body">'+
+    h+='<details class="requirement-checks" data-result-disclosure="unknown"><summary>Check requirements before considering ('+S_.num(p.unknown.length)+')</summary><div class="requirement-checks__body">'+
       band('unknown','Requirements not yet confirmed','These are outside the confirmed results. Each card names the requirement to verify and any preference differences. Known conflicts with your limits are excluded.',p.unknown)+'</div></details>';
   }
   h+='<div class="browse no-print"><p>Want to look further? <a href="register.html#activities">'+icon('i-crt')+' Browse all '+S_.num(A.length)+
@@ -324,13 +329,16 @@ document.addEventListener('click', function(e){
   if(relax){ S[relax.getAttribute('data-relax')]=null; resetShown(); go(true); return; }
   var more=t.closest('[data-more-matches]');
   if(more){
-    var key=more.getAttribute('data-more-matches'), old=shown[key], pending=document.querySelector('.requirement-checks'), wasOpen=pending && pending.open;
+    var key=more.getAttribute('data-more-matches'), old=shown[key];
+    var opened=[].map.call(document.querySelectorAll('[data-result-disclosure][open]'),function(d){return d.dataset.resultDisclosure;});
     shown[key]+=9; drawPlan(false);
-    var again=document.querySelector('.requirement-checks'); if(again) again.open=wasOpen;
+    opened.forEach(function(k){var d=document.querySelector('[data-result-disclosure="'+k+'"]');if(d)d.open=true;});
     var cards=document.querySelectorAll('[data-match-group="'+key+'"] [data-open]');
     if(cards[old]) cards[old].focus();
     return;
   }
+  var review=t.closest('[data-review-results]');
+  if(review){var first=document.querySelector('[data-match-group="'+review.dataset.reviewResults+'"] [data-open]');if(first){first.focus();first.scrollIntoView({block:'center'});}return;}
   if(t.closest('#copylink')){ S_.copyText(location.href.split('#')[0]+'#'+answersHash(), 'Link to these results copied.', t.closest('#copylink')); return; }
 });
 

@@ -25,7 +25,7 @@ const ready = page => page.waitForSelector('html[data-ready]', { state: 'attache
 /* colors and boxes of the parts a reader sees first, plus two tokens */
 const snapshot = page => page.evaluate(() => {
   const css = getComputedStyle(document.documentElement);
-  const parts = ['.topbar', 'header.hdr', '.hdr__title', '.hdr-cta--primary', '.hdr-cta--secondary', '.fab-toggle', '.site-foot', 'main'];
+  const parts = ['.topbar', 'header.hdr', '.hdr__title', '[data-open-tour]', '.hdr-cta--secondary', '.fab-toggle', '.site-foot', 'main'];
   return {
     theme: document.documentElement.getAttribute('data-theme'),
     navy: css.getPropertyValue('--navy').trim(), gold: css.getPropertyValue('--gold').trim(),
@@ -100,7 +100,7 @@ const channels = color => (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number)
       assert.ok(b > r && g > r, sel + ' is blue: ' + ground(sel).bg);
       assert.notEqual(ground(sel).image + ground(sel).bg, crimson['what-if-ai.html'].parts.find(p => p.sel === sel).image + crimson['what-if-ai.html'].parts.find(p => p.sel === sel).bg);
     }
-    for (const sel of ['.hdr-cta--primary', '.fab-toggle']) {
+    for (const sel of ['.fab-toggle']) {
       const was = crimson['what-if-ai.html'].parts.find(p => p.sel === sel);
       assert.equal(ground(sel).image, was.image, sel + ' keeps its gold');
     }

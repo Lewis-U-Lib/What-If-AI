@@ -20,6 +20,7 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
   await ctx.route(/libanswers\.com/,r=>r.fulfill({contentType:'text/html',body:'<!doctype html><title>chat</title><button>Start chat</button>'}));
   const go=async(page,hash)=>{await p.goto('about:blank');await p.goto(server.url(page+hash));await p.waitForSelector('html[data-ready]');await tick(p);};
   const showUntil=async(group,id)=>{
+    const disclosure=p.locator(`[data-result-disclosure="${group}"]`);if(await disclosure.count() && !(await disclosure.evaluate(d=>d.open)))await disclosure.locator(':scope > summary').click();
     for(let i=0;i<60&&!(await p.locator(`[data-match-group="${group}"] [data-card="${id}"]`).count());i++){
       const more=p.locator(`[data-more-matches="${group}"]`);if(!(await more.count()))break;await more.click();await tick(p);}
     return p.locator(`[data-match-group="${group}"] [data-card="${id}"]`);

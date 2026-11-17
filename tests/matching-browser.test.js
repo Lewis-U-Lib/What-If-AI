@@ -23,11 +23,13 @@ async function shot(p,name){if(SHOTS){fs.mkdirSync(SHOTS,{recursive:true});await
   // regression's scale unanswered rather than relying on a skipped question.
   if(await p.locator('[name="q-depth"]').count())await p.click('#skip');
   await p.click('#next');
+  if(await p.locator('[data-result-disclosure="compatible"]:not([open])').count())await p.locator('[data-result-disclosure="compatible"] > summary').click();
   assert.ok(await p.locator('[data-match-group="compatible"] [data-card="CAN-W-workflow-016"]').isVisible());
   assert.ok((await p.locator('[data-card="CAN-W-workflow-016"] .match-note').textContent()).includes('Check suitability'));
   assert.equal(await p.locator('#plan').textContent().then(t=>t.includes('76 activities are open to you')),false);
   await shot(p,'matching-research.png');
   await go('#a=focus:teaching;task:assessment;disc:humanities;depth:module;lvl:firstyear;mod:in_person');
+  if(await p.locator('[data-result-disclosure="compatible"]:not([open])').count())await p.locator('[data-result-disclosure="compatible"] > summary').click();
   assert.ok(await p.locator('[data-match-group="compatible"] [data-card="CAN-B-ASMT-01"]').isVisible());
   assert.equal(await p.locator('[data-match-group="exact"] [data-card="CAN-B-ASMT-01"]').count(),0);
   const detailBase=p.url();
