@@ -151,6 +151,8 @@ const ANSWER_1 = 'Students accept the first interpretation they meet.', ANSWER_2
     assert.equal(await page.inputValue('#plan-q3'), ''); assert.equal(await stored(page, PLANS), null, 'a cleared plan leaves nothing in storage');
     assert.deepEqual(await stored(page, SAVED), [third.id], 'the idea stays saved');
     await page.fill('#plan-q0', 'Again.'); await page.keyboard.press('Escape'); await page.waitForFunction(() => !document.getElementById('planDialog').open);
+    /* the dialog's close event, which saves, is dispatched just after it stops being open */
+    await page.waitForFunction(k => !!localStorage.getItem(k), PLANS);
     assert.ok((await stored(page, PLANS))[third.id], 'closing keeps what was just typed');
     await page.keyboard.press('Escape'); await page.waitForFunction(() => !document.getElementById('actDialog').open);
     await page.click('.topbar [data-open-saved]'); await page.click('#clearSaved');

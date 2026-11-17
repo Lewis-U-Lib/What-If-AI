@@ -107,7 +107,8 @@ const look = page => page.evaluate(PLATES => {
 
     /* accessibility, menu closed and open; remembered across reloads and pages */
     for (const open of [false, true]) {
-      if (open) await page.click('#fabToggle');
+      /* the menu fades in: wait until it is fully drawn before measuring contrast */
+      if (open) { await page.click('#fabToggle'); await page.waitForFunction(() => getComputedStyle(document.getElementById('fabMenu')).opacity === '1'); }
       const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
       assert.deepEqual(result.violations.map(v => v.id + ': ' + v.nodes.map(n => n.target.join(' ')).join(' | ')), [], 'axe in the plain view' + (open ? ', menu open' : ''));
       if (open) await page.keyboard.press('Escape');
@@ -129,7 +130,8 @@ const look = page => page.evaluate(PLATES => {
     assert.ok(b > r && g > r, 'the flat plate is steel blue: ' + now.plates[0]);
     assert.deepEqual(await inventory(page), before['register.html'].inventory, 'The Register: the same words and controls');
     for (const open of [false, true]) {
-      if (open) await page.click('#fabToggle');
+      /* the menu fades in: wait until it is fully drawn before measuring contrast */
+      if (open) { await page.click('#fabToggle'); await page.waitForFunction(() => getComputedStyle(document.getElementById('fabMenu')).opacity === '1'); }
       const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
       assert.deepEqual(result.violations.map(v => v.id + ': ' + v.nodes.map(n => n.target.join(' ')).join(' | ')), [], 'axe on The Register, plain and blue' + (open ? ', menu open' : ''));
       if (open) await page.keyboard.press('Escape');
