@@ -21,7 +21,6 @@ const FRAMEWORKS=[['Human-Centered AI framework (HCAI)','https://hai.stanford.ed
 const shown=(p,sel)=>p.$eval(sel,e=>{const c=e.cloneNode(true);c.querySelectorAll('.sr-only').forEach(n=>n.remove());return c.textContent;}).then(norm);
 const framed=(p,sel)=>p.$$eval(sel+' a',as=>as.map(a=>[a.firstChild.textContent.trim(),a.getAttribute('href'),a.target,a.querySelector('.sr-only')?.textContent.trim()]));
 const ASKUS='During staffed hours, Ask Us connects you to library staff. At other times it shows a set menu of answers written by the Library and a form for leaving your email. No AI system writes the replies.';
-const RAIL='Matched by fixed rules set by the Library. No AI system reads your answers.';
 const TITLES=['What If AI','The Register','What leaves your browser','Ask Us','Links to other sites','How it was made'];
 
 (async()=>{
@@ -35,11 +34,12 @@ const TITLES=['What If AI','The Register','What leaves your browser','Ask Us','L
 
       /* What If AI: the header statement, the note beside the questions, and the dialog */
       await p.goto(server.url('what-if-ai.html'));await ready(p);await p.waitForSelector('#wizard .qpanel');
-      assert.equal(norm(await p.textContent('.hdr__lede .hdr__signal')),FINDER);
-      assert.equal(await p.getAttribute('.hdr__signal use','href'),'#i-flow','the statement is not marked with the no-AI-tool robot');
+      /* the statement sits beside the questions, in full, so the header stays short and the choices sit higher */
+      assert.equal(await p.locator('.hdr__signal').count(),0,'the header no longer repeats the statement');
       const notes=await p.evaluate(()=>[...document.querySelectorAll('.rail__note,.qsignal')].filter(e=>e.offsetParent).map(e=>e.textContent.replace(/\s+/g,' ').trim()));
       assert.equal(notes.length,1,'exactly one note beside the questions is displayed at '+width+'px');
-      assert.ok(notes[0].startsWith(RAIL),notes[0]);
+      assert.ok(notes[0].startsWith(FINDER),notes[0]);
+      assert.equal(await p.getAttribute((wide?'.rail__note':'.qsignal')+' use','href'),'#i-flow','the statement is not marked with the no-AI-tool robot');
       const visibleNote=wide?'.rail__note':'.qsignal';
       await p.click(visibleNote+' [data-open-about]');
       await p.waitForSelector('#aboutDialog[open]');

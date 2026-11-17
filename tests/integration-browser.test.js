@@ -15,6 +15,8 @@ const hash=w=>'#a='+Object.entries(w.state).map(([k,v])=>k+':'+encodeURIComponen
     async function go(file){await p.goto('about:blank');await p.goto(base+file);await p.waitForSelector('html[data-ready]');}
     for(const w of witnesses){
       await go('what-if-ai.html'+hash(w));
+      const fold=p.locator(`details[data-fold="${w.group}"]`);
+      if(await fold.count()&&!(await fold.evaluate(d=>d.open)))await fold.locator('> summary').click();
       const card=p.locator(`[data-match-group="${w.group}"] [data-card="${w.id}"]`);
       for(let n=0;!await card.count()&&n<100;n++)await p.locator(`[data-more-matches="${w.group}"]`).click();
       assert.ok(await card.count(),w.id+' is reachable through result pagination');

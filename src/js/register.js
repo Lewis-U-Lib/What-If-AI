@@ -10,6 +10,7 @@
 "use strict";
 document.documentElement.classList.add('js');
 var S_ = window.SITE, D = S_.D, A = S_.A, IN = S_.IN, L = S_.L, esc = S_.esc, icon = S_.icon;
+var NO_TOOL = A.filter(function(a){ return a.op==='none'; }).length;   /* use-case ideas in which no one operates an AI tool */
 var R = window.SITE_DATA.register;   /* fetched by boot.js from data/register.<hash>.json */
 /* History: an activity opened from the page gets its own history entry (#act=…), so Back closes it and
    the address it came from, filters included, comes back; one opened from inside another replaces it. */
@@ -182,7 +183,8 @@ function drawActivities(){
   var sec = document.getElementById('activities');
   sec.innerHTML = '<div class="sec-head"><div class="sec-eyebrow">The collection</div><h2 id="h-activities" tabindex="-1">Use-case ideas</h2>'+
     '<p>All '+S_.num(A.length)+' use-case ideas in the collection. Each one lists what to consider before using it. '+
-    'Filter by the kind of work, the kind of AI tool, or the course AI policy a use-case idea assumes; open any use-case idea for the full description, or save it to print later.</p></div>'+
+    'Filter by the kind of work, the kind of AI tool, or the course AI policy a use-case idea assumes; open any use-case idea for the full description, or save it to print later.</p>'+
+    (NO_TOOL ? '<p class="quickview">'+icon('i-robot-off')+'<span>Not planning for anyone to use an AI tool? <a href="#activities?op=none">See the '+S_.num(NO_TOOL)+' use-case ideas in which no one uses one</a>.</span></p>' : '')+'</div>'+
     '<div class="catalog"><div><button type="button" class="btn btn--sm filters-toggle" id="filtersToggle" aria-expanded="false" aria-controls="filters">Show filters</button>'+
     '<aside class="filters is-collapsed" aria-labelledby="filtersTitle" id="filters">'+filtersHTML()+'</aside></div>'+
     '<div><div class="toolbar"><div class="field"><label for="f-sort">Sort by</label><select class="select" id="f-sort" data-f="sort">'+

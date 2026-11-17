@@ -177,3 +177,7 @@
 /* route note on cards when "Students use no AI tool" admits an idea through its route without AI */
 .match-note{margin:14px 0 0;padding:12px 0;border-top:1px solid var(--line);color:var(--ink-2);font-size:15px;line-height:1.5;}
 .match-note p{margin:0;max-width:none;}
+
+/* a way in for readers who do not plan for anyone to use an AI tool */
+.quickview{display:flex;align-items:flex-start;gap:8px;margin:10px 0 0;}
+.quickview .ico{flex:none;width:18px;height:18px;margin-top:4px;color:var(--gold);}

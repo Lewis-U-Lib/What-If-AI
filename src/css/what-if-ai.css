@@ -60,7 +60,22 @@ fieldset.opts legend{font-family:var(--font-h);font-size:17px;font-weight:700;co
 .answer .k{color:var(--gold);font-weight:600;}
 .answer .ed{font-size:13px;color:var(--gold);text-decoration:underline;}
 .ractions{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 6px;}
+.rlead{max-width:62ch;margin:0 0 14px;font-size:var(--fluid-step-0);color:var(--ink-2);}
+.rlead strong{color:var(--ink);}
 .band{margin-top:28px;}
+#plan > .band:first-of-type{margin-top:8px;}
+/* what follows the lead group: one counted line, then each further group folded under its heading */
+.further{margin-top:34px;}
+.further__h{font-size:clamp(22px,2.4vw,27px);font-weight:800;margin:0 0 4px;}
+.fold{margin-top:14px;border:1.5px solid var(--line-strong);border-radius:var(--r);background:rgba(0,0,0,.14);}
+.fold>summary{padding:14px 20px;min-height:var(--tap-min);cursor:pointer;color:var(--gold);}
+.fold>summary .band__h{display:inline;font-size:22px;font-weight:700;margin:0;}
+.fold>summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px;}
+.fold__n{font-weight:600;}
+.fold__body{padding:0 20px 20px;}
+.fold .band{margin-top:0;}
+.qalt{display:flex;align-items:flex-start;gap:8px;margin:14px 0 0;color:var(--ink-2);font-size:15.5px;}
+.qalt .ico{flex:none;width:18px;height:18px;margin-top:2px;color:var(--gold);}
 .band__h{font-size:clamp(22px,2.4vw,27px);font-weight:800;margin:0 0 4px;}
 .band__note{color:var(--ink-2);margin:0 0 14px;}
 .browse{margin-top:28px;padding:16px 20px;border:1.5px solid var(--line);border-radius:var(--r);background:rgba(0,0,0,.14);}

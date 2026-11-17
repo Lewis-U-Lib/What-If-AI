@@ -14,6 +14,14 @@ async function shot(p,name){if(SHOTS){fs.mkdirSync(SHOTS,{recursive:true});await
   p.on('pageerror',e=>errors.push(e.message));
   await p.addInitScript(()=>document.addEventListener('securitypolicyviolation',e=>(window.matchCspErrors=window.matchCspErrors||[]).push(e.violatedDirective)));
   const go=async hash=>{await p.goto('about:blank');await p.goto(server.url('what-if-ai.html'+hash));await p.waitForSelector('html[data-ready]');await tick(p);};
+  // Groups after the lead one are folded, six cards at a time: open the group and page until the card is drawn.
+  const reveal=async(group,id)=>{
+    const fold=p.locator(`details[data-fold="${group}"]`);
+    if(await fold.count()&&!(await fold.evaluate(d=>d.open)))await fold.locator('> summary').click();
+    const card=p.locator(`[data-match-group="${group}"] [data-card="${id}"]`);
+    for(let n=0;!await card.count()&&n<100;n++)await p.locator(`[data-more-matches="${group}"]`).click();
+    return card;
+  };
   // The original zero-card path, followed through the normal wizard.
   await go('');await p.check('[name="q-focus"][value="research_own"]');await p.click('#next');
   await p.check('[name="q-task"][value="qualitative"]');await p.click('#next');
@@ -23,12 +31,16 @@ async function shot(p,name){if(SHOTS){fs.mkdirSync(SHOTS,{recursive:true});await
   // regression's scale unanswered rather than relying on a skipped question.
   if(await p.locator('[name="q-depth"]').count())await p.click('#skip');
   await p.click('#next');
-  assert.ok(await p.locator('[data-match-group="compatible"] [data-card="CAN-W-workflow-016"]').isVisible());
+  assert.ok(await (await reveal('compatible','CAN-W-workflow-016')).isVisible());
   assert.ok((await p.locator('[data-card="CAN-W-workflow-016"] .match-note').textContent()).includes('Check suitability'));
   assert.equal(await p.locator('#plan').textContent().then(t=>t.includes('76 activities are open to you')),false);
   await shot(p,'matching-research.png');
   await go('#a=focus:teaching;task:assessment;disc:humanities;depth:module;lvl:firstyear;mod:in_person');
-  assert.ok(await p.locator('[data-match-group="compatible"] [data-card="CAN-B-ASMT-01"]').isVisible());
+  // with no exact match, the possible fits lead the page instead of waiting behind a fold
+  assert.equal(await p.locator('#plan > [data-match-group="compatible"]').count(),1);
+  assert.equal(await p.locator('details[data-fold="compatible"]').count(),0);
+  assert.ok((await p.locator('#rTitle').textContent()).includes('to check'));
+  assert.ok(await (await reveal('compatible','CAN-B-ASMT-01')).isVisible());
   assert.equal(await p.locator('[data-match-group="exact"] [data-card="CAN-B-ASMT-01"]').count(),0);
   const detailBase=p.url();
   await p.locator('[data-card="CAN-B-ASMT-01"] [data-open]').click();await p.keyboard.press('Escape');
@@ -36,6 +48,23 @@ async function shot(p,name){if(SHOTS){fs.mkdirSync(SHOTS,{recursive:true});await
   // before starting the next case so it cannot interrupt that case's navigation.
   await p.waitForURL(detailBase);await tick(p);
   assert.ok(await p.locator('[data-card="CAN-B-ASMT-01"] [data-open]').evaluate(n=>n===document.activeElement));
+  // Exact matches lead with an invitation and six cards; the other groups wait, folded and counted, below them.
+  await go('#a=focus:teaching;task:feedback;disc:humanities');
+  assert.equal(await p.locator('#plan > [data-match-group="exact"]').count(),1);
+  assert.equal(await p.locator('#plan > [data-match-group="exact"] [data-card]').count(),6);
+  assert.match(await p.locator('#rTitle').textContent(),/^\d+ use-case ideas match your answers$/);
+  assert.ok((await p.locator('.rlead').textContent()).includes('View details'));
+  for(const group of ['compatible','close']){
+    const fold=p.locator(`.further details[data-fold="${group}"]`);
+    assert.equal(await fold.getAttribute('open'),null,group+' is folded at first');
+    assert.match(await fold.locator('> summary').textContent(),/\(\d[\d,]*\)$/);
+    assert.equal(await fold.locator('[data-card]').first().isVisible(),false);
+  }
+  await p.locator('details[data-fold="compatible"] > summary').click();
+  assert.ok(await p.locator('[data-match-group="compatible"] [data-card]').first().isVisible());
+  await p.locator('#moreExact').click();await tick(p);
+  assert.equal(await p.locator('#plan > [data-match-group="exact"] [data-card]').count(),12);
+  assert.equal(await p.locator('details[data-fold="compatible"]').getAttribute('open'),'','a group the reader opened stays open when more matches are drawn');
   // A valid but sparse preference set gets a visible recovery state, never a false claim of fit.
   await go('#a=focus:research_own;task:creative;disc:arts;depth:grant_proposal;lvl:grad;mod:hybrid;lim:nopaid');
   assert.ok(await p.locator('.empty').isVisible());

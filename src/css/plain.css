@@ -5,7 +5,7 @@
    and one typeface (Barlow) in sentence case instead of the condensed display face and the
    monospaced readouts. Nothing here changes what a page says or does.
 
-   It is a separate switch from the palette, so it works in crimson and in steel blue: every
+   It is a separate switch from the palette, so it works in crimson and in teal: every
    color below is a crimson literal or a token, which tools/palette.py translates as usual.
    src/js/theme.js sets the attribute; the switch is in the help menu.
 ════════════════════════════════════════════════════════════ */

@@ -35,8 +35,10 @@ S_.init({page:'finder', onOpen:function(id, wasOpen, byUser){
 function blank(){ return {focus:null, task:null, disc:null, lvl:null, mod:null, depth:null, limits:{}}; }
 var S = blank();
 var M = window.FINDER_MATCH;
-var step = 0, shown = {exact:9,compatible:9,close:9,broader:6,unknown:6};
-function resetShown(){ shown={exact:9,compatible:9,close:9,broader:6,unknown:6}; }
+/* Results lead with one group, six cards at a time; the groups after it are folded until asked for (FOLDS). */
+var step = 0, shown = {exact:6,compatible:6,close:6,broader:6,unknown:6}, FOLDS = {};
+function resetShown(){ shown={exact:6,compatible:6,close:6,broader:6,unknown:6}; FOLDS={}; }
+var NO_TOOL = A.filter(function(a){ return a.op==='none'; }).length;
 function results(){ return M.search(A,S); }
 function viable(key){ return M.viable(A,S,key,IN[key]); }
 
@@ -91,7 +93,7 @@ function drawRail(){
   var onPlan = step>=STEPS.length;
   var h = '<div class="rail__label">Your answers</div>'+
     /* beside the questions, where a reader decides whether to answer: how the answers are used */
-    '<p class="rail__note">'+icon('i-flow')+'<span>Matched by fixed rules set by the Library. No AI system reads your answers. '+
+    '<p class="rail__note">'+icon('i-flow')+'<span>Results come from fixed matching rules set by the Library. No AI system reads your answers or generates your results, and your answers stay in this browser. '+
     '<button type="button" class="rail__about" data-open-about aria-haspopup="dialog" aria-controls="aboutDialog">How this site works</button></span></p>';
   realSteps().forEach(function(i, n){
     var st=STEPS[i], ans=answerText(st.key);
@@ -128,10 +130,8 @@ function drawWizard(focusTitle){
     '<div class="qstep">Question '+at+' of '+real.length+'</div>'+
     '<h2 class="panel__title" id="qTitle" tabindex="-1">'+esc(st.q)+'</h2><p class="panel__sub">'+esc(st.sub)+'</p></div></div>';
   h += '<div class="panel__body">';
-  if(step===0) h += '<p class="tour-cta no-print">New to What If AI? <button type="button" class="btn btn--sm" data-open-tour aria-haspopup="dialog">'+
-    icon('i-manual')+' How to use What If AI</button></p>';
   /* below 980px the rail (and its note) is hidden, so the first question carries the same note */
-  if(step===0) h += '<p class="qsignal no-print">'+icon('i-flow')+'<span>Matched by fixed rules set by the Library. No AI system reads your answers. '+
+  if(step===0) h += '<p class="qsignal no-print">'+icon('i-flow')+'<span>Results come from fixed matching rules set by the Library. No AI system reads your answers or generates your results, and your answers stay in this browser. '+
     '<button type="button" class="rail__about" data-open-about aria-haspopup="dialog" aria-controls="aboutDialog">How this site works</button></span></p>';
   h += '<div class="qbar" aria-hidden="true">'+real.map(function(i){
     return '<span class="'+(i===step?'on':(real.indexOf(i)<real.indexOf(step)?'done':''))+'"></span>'; }).join('')+'</div>';
@@ -149,6 +149,9 @@ function drawWizard(focusTitle){
         group('lvl','Who is in the room?', IN.lvl, true) + group('mod','Where does it happen?', IN.mod, false) + '</details>';
     }
   }
+  /* a way in for readers who do not plan for anyone to use an AI tool: the same records, in The Register */
+  if(step===0 && NO_TOOL) h += '<p class="qalt no-print">'+icon('i-robot-off')+'<span>Not planning for anyone to use an AI tool? <a href="register.html#activities?op=none">See the '+
+    S_.num(NO_TOOL)+' use-case ideas in which no one uses one</a>. Many other use-case ideas also describe a route without AI.</span></p>';
   var last = step===STEPS.length-1;
   h += '<div class="qnav">'+(at>1?'<button type="button" class="btn" id="back">← Back</button>':'')+
     '<span class="spacer"></span><button type="button" class="btn btn--quiet" id="skip">'+(st.key==='limits'?'Nothing is off the table':'Skip this question')+'</button>'+
@@ -193,11 +196,19 @@ function matchCard(row){
   // Keep the explanation inside its activity card, before the existing controls.
   return S_.cardHTML(row.activity,{h:4}).replace('<div class="acard__foot',note+'<div class="acard__foot');
 }
-function band(key,title,note,list){
+/* folded: the group sits in a closed disclosure whose summary is its heading and count */
+/* lead: the page title and invitation already introduce the group, so its own heading is kept for structure only */
+function band(key,title,note,list,folded,lead){
   if(!list.length) return '';
   var visible=list.slice(0,shown[key]);
-  return '<section class="band" data-match-group="'+key+'" aria-labelledby="b-'+key+'"><h3 class="band__h" id="b-'+key+'">'+esc(title)+'</h3>'+
-    '<p class="band__note">'+esc(note)+'</p><div class="cards">'+visible.map(matchCard).join('')+'</div>'+
+  var head=folded ? '' : '<h3 class="band__h'+(lead?' sr-only':'')+'" id="b-'+key+'">'+esc(title)+'</h3>';
+  if(lead) note='';
+  var body='<section class="band" data-match-group="'+key+'" aria-labelledby="b-'+key+'">'+head+bandBody(key,note,list,visible);
+  return folded ? '<details class="fold" data-fold="'+key+'"'+(FOLDS[key]?' open':'')+'><summary><h3 class="band__h" id="b-'+key+'">'+esc(title)+
+    ' <span class="fold__n">('+S_.num(list.length)+')</span></h3></summary><div class="fold__body">'+body+'</div></details>' : body;
+}
+function bandBody(key,note,list,visible){
+  return (note?'<p class="band__note">'+esc(note)+'</p>':'')+'<div class="cards">'+visible.map(matchCard).join('')+'</div>'+
     (list.length>visible.length?'<div class="more no-print"><button type="button" class="btn" '+(key==='exact'?'id="moreExact" ':'')+'data-more-matches="'+key+'">Show more '+(key==='unknown'?'use-case ideas to check':'matches')+' ('+S_.num(list.length-visible.length)+' more)</button></div>':'')+'</section>';
 }
 function recoveryHTML(){
@@ -210,29 +221,50 @@ function recoveryHTML(){
 }
 function drawPlan(focusTitle){
   var p=results(), n=M.keys.filter(function(k){return S[k];}).length;
-  var title=p.near?'Use-case ideas to explore':p.confirmed?'Broader starting points':p.unknown.length?'Some requirements need checking':'No use-case ideas meet these limits';
-  var h='<div class="rhead"><div class="kicker">Your results</div><h2 id="rTitle" tabindex="-1">'+title+'</h2>'+answersHTML()+
+  var limited=Object.keys(S.limits).some(function(k){return S.limits[k];});
+  /* the group the page leads with: the closest one that has anything in it */
+  var lead=!p.confirmed ? null : p.exact.length ? 'exact' : p.compatible.length ? 'compatible' : p.close.length ? 'close' : null;
+  var count=function(k,one,many){ return S_.num(p[k].length)+' '+(p[k].length===1?one:many); };
+  var title=lead==='exact' ? (n ? count('exact','use-case idea matches','use-case ideas match')+' your answers' : count('exact','use-case idea','use-case ideas')+' to explore')
+    : lead==='compatible' ? count('compatible','possible fit','possible fits')+' to check'
+    : lead==='close' ? count('close','close match','close matches')
+    : p.confirmed?'Broader starting points':p.unknown.length?'Some requirements need checking':'No use-case ideas meet these limits';
+  var invite=lead==='exact' ? (n ? 'These match the details you gave'+(limited?' and have no unresolved selected limits':'')+'. ' : 'You have not narrowed the collection yet. ')+
+      'Choose <strong>View details</strong> on any one to read the whole use-case idea, or <strong>Save</strong> it to come back to.'
+    : lead==='compatible' ? 'Nothing matches every detail you gave. These have no known mismatch; each card notes what to check. Choose <strong>View details</strong> to read the whole use-case idea.'
+    : lead==='close' ? 'Nothing matches every detail you gave. Each of these names the one preference it misses. Choose <strong>View details</strong> to read the whole use-case idea.' : '';
+  var h='<div class="rhead"><div class="kicker">Your results</div><h2 id="rTitle" tabindex="-1">'+title+'</h2>'+
+    (invite?'<p class="rlead">'+invite+'</p>':'')+answersHTML()+
     '<div class="ractions no-print"><button type="button" class="btn" id="redo">Change my answers</button>'+
     '<button type="button" class="btn" id="copylink">Copy a link to these results</button>'+
     '<button type="button" class="btn" data-open-saved aria-haspopup="dialog">View saved use-case ideas (<span data-saved-count>0</span>)</button></div></div>';
-  h+='<p class="countline"><strong>'+S_.num(p.exact.length)+'</strong> '+(n?(p.exact.length===1?'exact match':'exact matches'):(p.exact.length===1?'use-case idea to explore':'use-case ideas to explore'))+
-    '; <strong>'+S_.num(p.compatible.length)+'</strong> possible fit'+(p.compatible.length===1?'':'s')+' to check; <strong>'+S_.num(p.close.length)+'</strong> close match'+(p.close.length===1?'':'es')+'.'+
-    (p.unknown.length?' <strong>'+S_.num(p.unknown.length)+'</strong> additional use-case idea'+(p.unknown.length===1?' has':'s have')+' requirements to check.':'')+'</p>';
   h+='<p class="print-note">This printout lists summaries only. Each use-case idea’s source, license, and attribution are in its full details. To keep them, print an idea from its details, or save ideas and print them from Saved use-case ideas.</p>';
+  var BANDS={
+    exact:[n?'Matches your stated preferences':'Use-case ideas to explore','These match the recorded details'+(limited?' and have no unresolved selected limits.':'.')],
+    compatible:['Possible fits: check suitability','These have no known preference mismatch. Check the notes on each use-case idea for details that need your judgment.'],
+    close:['Close matches: one preference to adjust','Each use-case idea names the preference it misses. Selected limits remain in force.']
+  };
   if(!p.confirmed){
     h+='<div class="empty"><strong>No use-case ideas have all selected limits confirmed.</strong><p>'+
       (p.unknown.length?'You can inspect the separate group below to see what needs checking. Those use-case ideas are not confirmed matches.':'The collection does not currently establish a fit for these limits. Review them if you want to change your selection.')+
       '</p><button type="button" class="btn" data-goto="'+STEP_OF.limits+'">Review the limits</button></div>';
-  } else {
-    h+=band('exact',n?'Matches your stated preferences':'Use-case ideas to explore','These match the recorded details'+(Object.keys(S.limits).some(function(k){return S.limits[k];})?' and have no unresolved selected limits.':'.'),p.exact);
-    h+=band('compatible','Possible fits: check suitability','These have no known preference mismatch. Check the notes on each use-case idea for details that need your judgment.',p.compatible);
-    h+=band('close','Close matches: one preference to adjust','Each use-case idea names the preference it misses. Selected limits remain in force.',p.close);
-    if(!p.near){ h+=recoveryHTML();h+=band('broader','Broader starting points','These miss more than one preference. Review the differences before choosing a use-case idea.',p.broader); }
+  } else if(lead){
+    h+=band(lead,BANDS[lead][0],BANDS[lead][1],p[lead],false,true);
   }
+  /* everything after the lead group: counted in one line, then folded until asked for */
+  var rest=['exact','compatible','close'].filter(function(k){ return p.confirmed && k!==lead && p[k].length; });
+  var further=rest.length || p.unknown.length || (p.confirmed && !p.near);
+  h+='<section class="further" aria-labelledby="h-further">'+(further?'<h3 class="further__h" id="h-further">Broader possibilities</h3>':'<h3 class="sr-only" id="h-further">All results</h3>');
+  h+='<p class="countline"><strong>'+S_.num(p.exact.length)+'</strong> '+(n?(p.exact.length===1?'exact match':'exact matches'):(p.exact.length===1?'use-case idea to explore':'use-case ideas to explore'))+
+    '; <strong>'+S_.num(p.compatible.length)+'</strong> possible fit'+(p.compatible.length===1?'':'s')+' to check; <strong>'+S_.num(p.close.length)+'</strong> close match'+(p.close.length===1?'':'es')+'.'+
+    (p.unknown.length?' <strong>'+S_.num(p.unknown.length)+'</strong> additional use-case idea'+(p.unknown.length===1?' has':'s have')+' requirements to check.':'')+'</p>';
+  rest.forEach(function(k){ h+=band(k,BANDS[k][0],BANDS[k][1],p[k],true); });
+  if(p.confirmed && !p.near){ h+=recoveryHTML();h+=band('broader','Broader starting points','These miss more than one preference. Review the differences before choosing a use-case idea.',p.broader); }
   if(p.unknown.length){
     h+='<details class="requirement-checks"><summary>Check requirements before considering ('+S_.num(p.unknown.length)+')</summary><div class="requirement-checks__body">'+
       band('unknown','Requirements not yet confirmed','These are outside the confirmed results. Each card names the requirement to verify and any preference differences. Known conflicts with your limits are excluded.',p.unknown)+'</div></details>';
   }
+  h+='</section>';
   h+='<div class="browse no-print"><p>Want to look further? <a href="register.html#activities">'+icon('i-crt')+' Browse all '+S_.num(A.length)+
     ' use-case ideas in The Register</a>, where you can search and filter the whole collection.</p></div>';
   document.getElementById('plan').innerHTML=h;afterDraw(focusTitle);
@@ -325,7 +357,7 @@ document.addEventListener('click', function(e){
   var more=t.closest('[data-more-matches]');
   if(more){
     var key=more.getAttribute('data-more-matches'), old=shown[key], pending=document.querySelector('.requirement-checks'), wasOpen=pending && pending.open;
-    shown[key]+=9; drawPlan(false);
+    shown[key]+=6; drawPlan(false);
     var again=document.querySelector('.requirement-checks'); if(again) again.open=wasOpen;
     var cards=document.querySelectorAll('[data-match-group="'+key+'"] [data-open]');
     if(cards[old]) cards[old].focus();
@@ -333,6 +365,11 @@ document.addEventListener('click', function(e){
   }
   if(t.closest('#copylink')){ S_.copyText(location.href.split('#')[0]+'#'+answersHash(), 'Link to these results copied.', t.closest('#copylink')); return; }
 });
+
+/* toggle does not bubble, so listen in the capture phase */
+document.addEventListener('toggle', function(e){
+  var d=e.target; if(d && d.matches && d.matches('details[data-fold]')) FOLDS[d.getAttribute('data-fold')]=d.open;
+}, true);
 
 /* one router for load, Back/Forward (popstate) and typed or followed links (hashchange); it does nothing
    when the address already matches what is shown, so the two events never double-render */
