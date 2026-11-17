@@ -27,6 +27,8 @@
 .workspace-actions span,.field-help{font-size:.9rem;color:var(--ink-2);}
 .compare-choice{display:flex;align-items:center;gap:.6rem;padding:.25rem 0 .65rem;font-size:1rem;}
 .compare-choice input{width:1.2rem;height:1.2rem;accent-color:var(--gold);}
+/* Disabled controls remain readable; a flat surface and dashed edge mark the state. */
+.btn[data-compare-selected]:disabled{opacity:1;background:var(--steel-1);color:var(--ink);border-color:var(--line-strong);border-style:dashed;box-shadow:none;}
 .import-label{position:relative;overflow:hidden;cursor:pointer;}
 .import-label input{position:absolute;inset:0;opacity:0;width:100%;cursor:pointer;}
 .import-label:focus-within{outline:3px solid var(--gold);outline-offset:3px;}
@@ -61,6 +63,7 @@ html[data-reading=plain] :is(h1,h2,h3,h4,.kicker,.btn,.hdr__title,.hdr__kicker,.
 html[data-reading=plain] :is(.topbar,.hdr,.panel,.panel__head,.panel__body,.dlg,.dlg__head,.dlg__body,.dlg__foot,.acard,.acard__foot,.site-foot,.polpanel,.type,.type__foot,.fab-menu,.chat-modal,.note,.countline,.readout,.railitem,.use-case-accordion,.use-case-accordion__body,.match-note,.opt,.opt__body,.qpanel,.filter,.stat,.facet,.type-detail,.tour__slide){background-color:#21262b!important;color:#f5f4ef;}
 html[data-reading=plain] :is(.btn,.hdr-cta,.fab-item,.fab-toggle,.tab,.answer,.pill,.tag,.chip,.ftag,.type-chip,.tour__dot,.railitem,.option,.opt){color:#f5f4ef!important;background-color:#30363d!important;border-color:#888c90!important;}
 html[data-reading=plain] :is(.btn--primary,[aria-pressed=true],.opt.is-on,.tab[aria-selected=true]){background-color:#f0cf83!important;color:#171a1d!important;}
+html[data-reading=plain] .btn[data-compare-selected]:disabled{background-color:#30363d!important;color:#f5f4ef!important;}
 html[data-reading=plain] :is(a,.link){color:#f0cf83;}
 html[data-reading=plain] :is(.meta-line,.qnote,.band__note,.privacy,.acard__meta,.hdr__tagline,.hdr__lede,.hdr__signal,.field-help){color:#e0dfda!important;}
 html[data-reading=plain] :is(.current,.lamps,.rivets){display:none!important;}
