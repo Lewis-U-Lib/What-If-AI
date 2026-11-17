@@ -576,6 +576,10 @@ function navIntoView(heading){
       (window.requestAnimationFrame || setTimeout)(function(){
         (window.requestAnimationFrame || setTimeout)(function(){
         if(location.hash === hash && !document.querySelector('dialog[open]')){
+          // Native fragment navigation can reset focus after the route handler.
+          // Recover only a lost/default focus target; leave a reader's new control alone.
+          var ae = document.activeElement;
+          if(heading && (!ae || ae===document.body || ae===document.documentElement || ae===heading.closest('.rsec'))) heading.focus({preventScroll:true});
           var bar = document.querySelector('.topbar');
           var clearance = (bar ? bar.getBoundingClientRect().height : 0) + 12;
           window.scrollTo({top:Math.max(0,window.scrollY + nav.getBoundingClientRect().top - clearance),behavior:'instant'});

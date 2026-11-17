@@ -21,7 +21,10 @@ module.exports=async function checkRegisterTour(page,check){
   check('The Register: Tab cycling cannot reach background page controls',await page.evaluate(()=>!!document.activeElement.closest('#rtour')));
   // Internal links retain the existing routes, section heading focus, and Back behavior.
   await step(2);await page.locator('#rtour a[href="#ai-types"]').first().click();
-  await page.waitForFunction(()=>document.activeElement.id==='h-ai-types');
+  await page.waitForFunction(()=>document.activeElement.id==='h-ai-types').catch(async error=>{
+    const state=await page.evaluate(()=>({hash:location.hash,focus:{id:document.activeElement.id,tag:document.activeElement.tagName},dialogs:[...document.querySelectorAll('dialog[open]')].map(d=>d.id),heading:document.getElementById('h-ai-types').outerHTML,fonts:document.fonts.status}));
+    throw new Error('Walkthrough section-link focus: '+JSON.stringify(state),{cause:error});
+  });
   assert.ok(page.url().endsWith('#ai-types'));
   await page.goBack();await page.waitForSelector('#rtour[open]');
   check('The Register: a walkthrough section link closes the dialog and Back opens it at the beginning',(await page.textContent('#rtourPos'))==='1 of 9');
