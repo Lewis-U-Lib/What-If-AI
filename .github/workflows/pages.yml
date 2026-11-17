@@ -40,7 +40,7 @@ jobs:
       - name: Install test tools
         run: |
           npm ci
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps chromium firefox
       - name: Site checks (fingerprints, CSP, loading states, determinism)
         run: node tests/site.test.js
       - name: Tool license and all included-material rights
@@ -66,6 +66,10 @@ jobs:
           if-no-files-found: ignore
       - name: Activity feedback
         run: node tests/feedback.test.js
+      - name: Saved use-case ideas (compare, printouts, moving a list, exports) and trial plans
+        run: npm run test:saved
+      - name: Palettes and the plain reading view
+        run: npm run test:theme
       - name: Accessibility (axe, WCAG 2.2 A/AA)
         run: node tests/a11y.test.js
       - name: Contrast over textured surfaces

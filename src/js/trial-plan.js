@@ -56,7 +56,18 @@ function prune(ids){
   gone.forEach(function(id){ delete all[id]; }); write();
 }
 Saved.onChange(function(ids){ prune(ids); });
-window.addEventListener('storage', function(e){ if(e.key === KEY) mem = null; });
+/* another tab changed a plan: read it again, and show it if this worksheet is open and nothing typed here is waiting to be saved */
+window.addEventListener('storage', function(e){
+  if(e.key !== KEY && e.key !== null) return;
+  mem = null;
+  var dlg = document.getElementById('planDialog');
+  if(dlg && dlg.open && openId && !timer){
+    var plan = planOf(openId);
+    QUESTIONS.forEach(function(_, i){ var el = document.getElementById('plan-q'+i), v = plan ? plan.answers[i] : ''; if(el && el.value !== v) el.value = v; });
+    var box = document.getElementById('planStatus'); if(box) box.textContent = statusText(openId);
+  }
+  refreshMarks();
+});
 
 /* ─────────── what the record already says, beside the questions ─────────── */
 function recordHTML(a){
@@ -126,6 +137,12 @@ function label(id){ var n = answered(planOf(id)); return n ? 'Edit trial plan' :
 function refreshMarks(){
   [].forEach.call(document.querySelectorAll('[data-plan]'), function(b){
     var id = b.getAttribute('data-plan'), t = b.querySelector('.plan-btn__t'); if(t) t.textContent = label(id);
+  });
+  /* the choice to include a plan in a copy or an export appears once there is a plan */
+  [].forEach.call(document.querySelectorAll('[data-plan-opt]'), function(l){
+    var has = answered(planOf(l.getAttribute('data-plan-opt'))) > 0;
+    if(!has){ var c = l.querySelector('input'); if(c) c.checked = false; }
+    l.hidden = !has;
   });
 }
 function itemActionsHTML(a){
@@ -229,5 +246,10 @@ T.printExtra = function(a){ return planHTML(a); };
 T.planBlocks = planBlocks;
 T.fileExtra = fileExtra;
 T.fileRestore = fileRestore;
-T.plans = {of: planOf, questions: QUESTIONS};
+/* how many plans in a file belong to use-case ideas the file would leave saved (ids: the file's ideas still in the collection) */
+T.fileCount = function(data, ids){
+  var plans = data && data.plans; if(!plans || typeof plans!=='object' || Array.isArray(plans)) return 0;
+  return Object.keys(plans).slice(0, 3000).filter(function(key){ var a = T.act(key); return a && ids.indexOf(a.id) >= 0 && clean(plans[key]); }).length;
+};
+T.plans = {of: planOf, has: function(id){ return answered(planOf(id)) > 0; }, questions: QUESTIONS};
 })();

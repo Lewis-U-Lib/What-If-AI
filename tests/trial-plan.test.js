@@ -100,13 +100,21 @@ const ANSWER_1 = 'Students accept the first interpretation they meet.', ANSWER_2
     assert.deepEqual(Object.keys(list.plans), [routed.id]);
     await page.click(`#savedBody [data-open="${routed.id}"]`); await page.waitForSelector('#actDialog[open]');
     assert.equal(norm(await page.locator('#actDialog .trialcta [data-plan]').innerText()), 'Edit trial plan');
+    /* the reader's own notes go with a copy or an export only when asked for */
+    const include = page.locator('#actDialog [data-plan-opt] input');
+    assert.ok(await include.isVisible() && !(await include.isChecked()), 'the choice appears once there is a plan, and starts off');
     await page.click('#actDialog [data-copy-text]');
     await page.waitForFunction(() => /^Copied /.test(document.querySelector('.takeaway__status').textContent));
+    const without = await page.evaluate(() => navigator.clipboard.readText());
+    assert.ok(!without.includes('YOUR PLAN FOR A SMALL TRIAL') && !without.includes(ANSWER_1) && without.includes(routed.t), 'left off, the copied text is the record alone');
+    await include.check();
+    await page.click('#actDialog [data-copy-text]');
+    await page.waitForFunction(() => /and your trial plan\.$/.test(document.querySelector('.takeaway__status').textContent));
     const text = await page.evaluate(() => navigator.clipboard.readText());
     assert.ok(text.includes('YOUR PLAN FOR A SMALL TRIAL') && text.includes(QUESTIONS[0] + '\n' + ANSWER_1) && text.includes('One section, one week.\nI choose the passage'), 'the copied text ends with the plan');
     assert.ok(text.indexOf('YOUR PLAN FOR A SMALL TRIAL') > text.indexOf('SOURCE AND LICENSE') && text.includes('Not part of the use-case idea’s record.'), 'after the record, and marked as the reader’s own notes');
     await page.keyboard.press('Escape'); await page.waitForFunction(() => !document.getElementById('actDialog').open);
-    pass('a plan prints by itself and after its idea in both printouts, travels in the downloaded list, and is added to the exported text');
+    pass('a plan prints by itself and after its idea in both printouts, travels in the downloaded list, and joins the exported text only when the reader chooses');
 
     /* ── restore into another browser: its own answers are never overwritten ── */
     const other = await createContext(browser, { viewport: { width: 390, height: 844 } });
@@ -115,6 +123,10 @@ const ANSWER_1 = 'Students accept the first interpretation they meet.', ANSWER_2
     const phone = await other.newPage();
     await phone.goto(server.url('what-if-ai.html')); await ready(phone); await phone.click('.topbar [data-open-saved]');
     await phone.setInputFiles('#restoreFile', listPath);
+    await phone.waitForSelector('#restorePreview');
+    assert.equal(norm(await phone.locator('#restorePreview p').textContent()), 'This file lists 2 use-case ideas. 1 would be added to your saved list. 1 is already saved. It also carries 1 trial plan; an answer already written in this browser is kept. Nothing already saved here is removed.');
+    assert.deepEqual((await stored(phone, PLANS))[routed.id].answers, ['Mine, written here.', '', '', '', 'After two weeks.'], 'reading the file changes no plan');
+    await phone.click('#restoreConfirm');
     await phone.waitForFunction(() => /^Added 1 /.test(document.getElementById('transferStatus').textContent));
     assert.equal(norm(await phone.locator('#transferStatus').textContent()), 'Added 1 use-case idea from the file. 1 was already saved. 1 trial plan was restored. Where a plan in this browser already had an answer, that answer was kept.');
     assert.deepEqual((await stored(phone, PLANS))[routed.id].answers, ['Mine, written here.', ANSWER_2, '', '', 'After two weeks.']);
@@ -160,6 +172,23 @@ const ANSWER_1 = 'Students accept the first interpretation they meet.', ANSWER_2
     await page.click('#clearYes');
     assert.deepEqual(await stored(page, SAVED), []); assert.equal(await stored(page, PLANS), null);
     pass('a plan can start from an unsaved idea (which saves it), be cleared after asking, and goes when the list is cleared');
+
+    /* ── the same worksheet open in two tabs: what is written in one appears in the other ── */
+    await page.keyboard.press('Escape');
+    await page.goto(server.url('register.html#act=' + third.id)); await ready(page); await page.waitForSelector('#actDialog[open]');
+    await page.click('#actDialog .trialcta [data-plan]'); await page.waitForSelector('#planDialog[open]');
+    await page.fill('#plan-q0', 'Written in the first tab.'); await settle(page);
+    /* opened from the first tab, as a link in a new tab would be (it shares the test's one-time seeding of the saved list) */
+    const [tab] = await Promise.all([context.waitForEvent('page'), page.evaluate(url => { window.open(url); }, server.url('what-if-ai.html'))]);
+    await ready(tab); await tab.click('.topbar [data-open-saved]');
+    await tab.click(`#savedBody [data-plan="${third.id}"]`); await tab.waitForSelector('#planDialog[open]');
+    assert.equal(await tab.inputValue('#plan-q0'), 'Written in the first tab.');
+    await tab.fill('#plan-q1', 'Written in the second tab.'); await settle(tab);
+    await page.waitForFunction(() => document.getElementById('plan-q1').value === 'Written in the second tab.');
+    assert.equal(await page.inputValue('#plan-q0'), 'Written in the first tab.', 'and nothing already there is lost');
+    await tab.close();
+    await page.keyboard.press('Escape'); await page.waitForFunction(() => !document.getElementById('planDialog').open);
+    pass('a worksheet open in two tabs follows what is written in the other');
 
     assert.deepEqual(requests.filter(outbound), [], 'nothing written in a plan is sent anywhere');
     assert.deepEqual(errors, []);

@@ -360,6 +360,10 @@ a.license-mark{min-height:44px;}
 .transfer__actions,.takeaway__actions{display:flex;flex-wrap:wrap;gap:8px;}
 .transfer__status,.takeaway__status{min-height:1.4em;margin:10px 0 0 !important;color:var(--ink) !important;}
 .transfer__status:empty,.takeaway__status:empty{display:none;}
+.transfer__preview{margin-top:10px;}
+.takeaway__plan{margin:0 0 10px;}
+.takeaway__plan[hidden]{display:none;}
+.transfer + .transfer{margin-top:14px;}
 .takeaway{margin:22px 0 0;padding:16px 18px;border:1px solid var(--line-strong);border-radius:8px;background:rgba(0,0,0,.14);}
 .takeaway h3{margin:0 0 6px;font-size:21px;}
 .takeaway p{margin:0 0 12px;color:var(--ink-2);}

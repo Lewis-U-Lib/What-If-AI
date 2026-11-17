@@ -7,9 +7,9 @@
      access requirements, human judgment, and the route without AI. Each cell quotes the record;
      where a record says nothing, the cell says "Not stated" and nothing is inferred.
    · Download the saved list as a small file and restore it in another browser. No account.
-   · Copy one use-case idea as text, or download it as a Word document. The text is the record's
-     own, reproduced as written (detailHTML's planning summary), and always carries the source,
-     license, attribution, and change notes.
+   · Copy one use-case idea as text, or download it (or the whole saved list) as a Word document.
+     The text is the whole record, reproduced as written (the same sections as the full details),
+     and always carries the source, license, attribution, and change notes.
 
    src/js/shared.js calls in through window.SITE_TOOLS and works without this file.
 ════════════════════════════════════════════════════════════ */
@@ -120,13 +120,22 @@ function printCompare(){
 
 /* ─────────── move a saved list between browsers ─────────── */
 var FORMAT = 'what-if-ai-saved-list', lastMessage = '';
+var MAXFILE = 2e6, MAXIDEAS = 3000, IDSHAPE = /^[A-Za-z0-9][A-Za-z0-9_.:-]{0,119}$/;
+var pending = null;                    /* a file that was read and checked, waiting for the reader to add it: {data, summary} */
 function transferHTML(hasItems){
   return '<div class="transfer"><h3 class="transfer__h">Move this list to another browser</h3>'+
     '<p>'+(hasItems ? 'Download the list as a small file, then restore it in another browser or on another device. ' : 'If you downloaded a list of saved use-case ideas, restore it here. ')+
     'The file is read in this browser and is not uploaded anywhere. There is still no account.</p><div class="transfer__actions">'+
     (hasItems ? '<button type="button" class="btn btn--sm" id="downloadSaved">Download this list</button>' : '')+
     '<button type="button" class="btn btn--sm" id="restoreSaved">Restore a list from a file</button></div>'+
-    '<p class="transfer__status" id="transferStatus" role="status">'+esc(lastMessage)+'</p></div>';
+    '<p class="transfer__status" id="transferStatus" role="status">'+esc(lastMessage)+'</p>'+
+    (pending ? '<div class="confirm transfer__preview" id="restorePreview"><p>'+esc(pending.summary)+'</p>'+
+      '<button type="button" class="btn btn--sm" id="restoreConfirm">Add to my saved list</button> <button type="button" class="btn btn--sm btn--quiet" id="restoreCancel">Cancel</button></div>' : '')+
+    '</div>'+
+    (hasItems ? '<div class="transfer"><h3 class="transfer__h">Take the whole list into a document</h3>'+
+      '<p>One Word document with every saved use-case idea as written, each with its source, license, attribution, and change notes'+
+      (window.SITE_TOOLS.plans ? ', followed by any trial plan you have written for it' : '')+'. It is made in this browser.</p>'+
+      '<div class="transfer__actions"><button type="button" class="btn btn--sm" id="docxSaved">Download all as a Word document</button></div></div>' : '');
 }
 function saveBlob(name, blob){
   var url = URL.createObjectURL(blob), a = document.createElement('a');
@@ -150,49 +159,81 @@ function downloadList(){
   saveBlob('saved-use-case-ideas-'+stamp()+'.json', new Blob([JSON.stringify(data, null, 2)], {type:'application/json'}));
   say('Downloaded a list of '+num(data.ideas.length)+' saved use-case idea'+(data.ideas.length===1?'':'s')+'. Restore it from Saved use-case ideas in another browser.');
 }
-/* returns the message shown to the reader */
-function restoreText(text){
+/* Reads and checks a file without changing anything. Returns {error} or {data, summary}; the summary is what the
+   reader sees before choosing to add the file's contents. */
+function inspect(text){
   var data;
-  try { data = JSON.parse(text); } catch(_){ return 'That file could not be read. Choose a list downloaded from Saved use-case ideas.'; }
-  if(!data || data.format !== FORMAT || !Array.isArray(data.ideas)) return 'That file is not a list of saved use-case ideas from this site.';
-  var added = 0, already = 0, gone = 0;
-  data.ideas.slice(0, 2000).forEach(function(x){
-    var id = typeof x==='string' ? x : (x && typeof x.id==='string' ? x.id : ''), a = id && act(id);
-    if(!a){ gone++; return; }
-    if(Saved.has(a.id)){ already++; return; }
-    Saved.add(a.id); added++;
+  try { data = JSON.parse(text); } catch(_){ return {error: 'That file could not be read. Choose a list downloaded from Saved use-case ideas.'}; }
+  if(!data || typeof data!=='object' || data.format !== FORMAT || !Array.isArray(data.ideas)) return {error: 'That file is not a list of saved use-case ideas from this site.'};
+  if(data.version !== 1) return {error: 'That list was made by a different version of this site and cannot be restored here.'};
+  if(data.ideas.length > MAXIDEAS) return {error: 'That file lists more use-case ideas than a saved list can hold.'};
+  var ids = [], bad = false;
+  data.ideas.forEach(function(x){
+    var id = typeof x==='string' ? x : (x && typeof x.id==='string' ? x.id : '');
+    if(!IDSHAPE.test(id)) bad = true; else ids.push(id);
   });
-  var extra = window.SITE_TOOLS.fileRestore ? window.SITE_TOOLS.fileRestore(data) : '';     /* e.g. trial plans */
+  if(bad) return {error: 'That file has an entry that is not a use-case idea from this site, so nothing was added.'};
+  var add = 0, already = 0, gone = 0, seen = {};
+  ids.forEach(function(id){ var a = act(id); if(!a) gone++; else if(seen[a.id]) return; else { seen[a.id] = 1; if(Saved.has(a.id)) already++; else add++; } });
+  var plans = window.SITE_TOOLS.fileCount ? window.SITE_TOOLS.fileCount(data, Object.keys(seen)) : 0;      /* e.g. trial plans */
+  var n = add + already + gone, parts = ['This file lists '+num(n)+' use-case idea'+(n===1?'':'s')+'.'];
+  parts.push(add ? num(add)+' would be added to your saved list.' : 'None of them would be new to your saved list.');
+  if(already) parts.push(num(already)+(already===1?' is':' are')+' already saved.');
+  if(gone) parts.push(num(gone)+(gone===1?' is':' are')+' no longer in the collection and would be left out.');
+  if(plans) parts.push('It also carries '+num(plans)+' trial plan'+(plans===1?'':'s')+'; an answer already written in this browser is kept.');
+  parts.push('Nothing already saved here is removed.');
+  return {data: data, ids: Object.keys(seen), summary: parts.join(' ')};
+}
+/* adds a checked file's contents; returns the message shown to the reader */
+function apply(found){
+  var added = 0, already = 0;
+  found.ids.forEach(function(id){ if(Saved.has(id)){ already++; return; } Saved.add(id); added++; });
+  var extra = window.SITE_TOOLS.fileRestore ? window.SITE_TOOLS.fileRestore(found.data) : '';     /* e.g. trial plans */
   var parts = ['Added '+num(added)+' use-case idea'+(added===1?'':'s')+' from the file.'];
   if(already) parts.push(num(already)+(already===1?' was':' were')+' already saved.');
-  if(gone) parts.push(num(gone)+(gone===1?' is':' are')+' no longer in the collection and '+(gone===1?'was':'were')+' left out.');
   if(extra) parts.push(extra);
   if(!Saved.isPersistent()) parts.push('Browser storage is unavailable, so this list is temporary in this tab.');
   return parts.join(' ');
 }
+/* kept for callers that restore in one step (tests): check, then add */
+function restoreText(text){ var found = inspect(text); return found.error ? found.error : apply(found); }
 function restoreFile(file){
   if(!file) return;
-  if(file.size > 2e6){ say('That file is too large to be a list of saved use-case ideas.'); return; }
+  pending = null;
+  if(file.size > MAXFILE){ S_.renderSaved(); say('That file is too large to be a list of saved use-case ideas (the limit is 2 MB).'); return; }
   var reader = new FileReader();
-  reader.onload = function(){ lastMessage = restoreText(String(reader.result||'')); S_.renderSaved(); say(lastMessage); var b = document.getElementById('restoreSaved'); if(b) b.focus(); };
+  reader.onload = function(){
+    var found = inspect(String(reader.result||''));
+    if(found.error){ S_.renderSaved(); say(found.error); var back = document.getElementById('restoreSaved'); if(back) back.focus(); return; }
+    pending = found; lastMessage = '';
+    S_.renderSaved(); S_.announce(found.summary);
+    var go = document.getElementById('restoreConfirm'); if(go) go.focus();
+  };
   reader.onerror = function(){ say('That file could not be read.'); };
   reader.readAsText(file);
+}
+function finishRestore(add){
+  var found = pending; pending = null; if(!found) return;
+  lastMessage = add ? apply(found) : 'Nothing was added from the file.';
+  S_.renderSaved(); say(lastMessage);
+  var b = document.getElementById('restoreSaved'); if(b) b.focus();
 }
 
 /* ─────────── one use-case idea as text or as a Word document ─────────── */
 function copyLabel(a){ return a.focus==='teaching' ? 'Copy as assignment text' : 'Copy as text'; }
 function exportHTML(a){
   return '<section class="takeaway no-print" aria-labelledby="takeawayTitle"><h3 id="takeawayTitle">Copy or export this use-case idea</h3>'+
-    '<p>Take the use-case idea into an assignment sheet, a syllabus, or a planning document. The text is the record’s own, reproduced as written, and it carries the source, license, attribution, and change notes with it.</p>'+
+    '<p>Take the use-case idea into an assignment sheet, a syllabus, or a planning document. The text is the whole record, reproduced as written, and it carries the source, license, attribution, and change notes with it.</p>'+
+    '<label class="check takeaway__plan" data-plan-opt="'+esc(a.id)+'"'+(window.SITE_TOOLS.plans && window.SITE_TOOLS.plans.has(a.id) ? '' : ' hidden')+'><input type="checkbox" data-include-plan> Include my trial plan for this use-case idea</label>'+
     '<div class="takeaway__actions"><button type="button" class="btn btn--sm" data-copy-text="'+esc(a.id)+'">'+copyLabel(a)+'</button>'+
     '<button type="button" class="btn btn--sm" data-export-docx="'+esc(a.id)+'">Download as a Word document</button></div>'+
-    '<p class="meta-line">License for this use-case idea: '+esc(a.lic || NOT)+'. Keep its attribution when you reuse it, and follow the license if you change the text. '+
-    'Adaptation notes, what the source reports, and the list of works stay in the full details and the printout.</p>'+
+    '<p class="meta-line">License for this use-case idea: '+esc(a.lic || NOT)+'. Keep its attribution when you reuse it, and follow the license if you change the text.</p>'+
     '<p class="takeaway__status" role="status"></p></section>';
 }
-/* the planning summary of the record as a flat list of blocks: {k: title|meta|h2|h3|p|fact|li|small, t, label} */
-function blocks(a){
-  var doc = new DOMParser().parseFromString(S_.detailHTML(a, {print:true, brief:true}), 'text/html');
+/* the whole record as a flat list of blocks: {k: title|meta|h2|h3|p|fact|li|small, t, label}.
+   withPlan adds the reader's own trial plan, if there is one, after the record. */
+function blocks(a, withPlan){
+  var doc = new DOMParser().parseFromString(S_.detailHTML(a, {print:true}), 'text/html');
   var out = [{k:'title', t:a.t}, {k:'meta', t:[S_.kickerOf(a), L.focus[a.focus]||''].filter(Boolean).join(' · ')}];
   function text(el){ return el.textContent.replace(/\s+/g, ' ').trim(); }
   function walk(el){
@@ -211,13 +252,13 @@ function blocks(a){
     });
   }
   walk(doc.body);
-  if(window.SITE_TOOLS.planBlocks) out = out.concat(window.SITE_TOOLS.planBlocks(a));    /* the reader's own trial plan, if any */
+  if(withPlan && window.SITE_TOOLS.planBlocks) out = out.concat(window.SITE_TOOLS.planBlocks(a));
   out.push({k:'small', t:'Exported from What If AI and The Register, Lewis University Library, on '+today()+'. The text is reproduced from the record as written. '+
-    'The complete record, with adaptation notes, what the source reports, and the works it draws on: '+recordURL(a)});
+    'The record online: '+recordURL(a)});
   return out;
 }
-function asText(a){
-  return blocks(a).map(function(b){
+function asText(a, withPlan){
+  return blocks(a, withPlan).map(function(b){
     if(b.k==='title') return b.t+'\n';
     if(b.k==='meta') return b.t+'\n';
     if(b.k==='h2') return '\n'+b.t.toUpperCase()+'\n';
@@ -233,9 +274,11 @@ function status(btn, msg){
   S_.announce(msg);
   return box;
 }
+/* the reader chooses, each time, whether their own trial plan goes with a copy or an export */
+function wantsPlan(btn){ var box = btn && btn.closest('.takeaway') ? btn.closest('.takeaway').querySelector('[data-plan-opt]:not([hidden]) [data-include-plan]') : null; return !!(box && box.checked); }
 function copyIdea(id, btn){
   var a = act(id); if(!a) return;
-  var text = asText(a), ok = function(){ status(btn, 'Copied “'+a.t+'” as text, with its source, license, and attribution.'); };
+  var plan = wantsPlan(btn), text = asText(a, plan), ok = function(){ status(btn, 'Copied “'+a.t+'” as text, with its source, license, and attribution'+(plan?', and your trial plan':'')+'.'); };
   var fallback = function(){
     var box = status(btn, 'Copying is not available here. The text is selected below; copy it from there.');
     if(!box) return;
@@ -278,9 +321,17 @@ function x(s){ return String(s==null?'':s).replace(/[\u0000-\u0008\u000B\u000C\u
 function run(t, bold){ return '<w:r>'+(bold?'<w:rPr><w:b/></w:rPr>':'')+'<w:t xml:space="preserve">'+x(t)+'</w:t></w:r>'; }
 function para(style, runs){ return '<w:p>'+(style?'<w:pPr><w:pStyle w:val="'+style+'"/></w:pPr>':'')+runs+'</w:p>'; }
 var STYLE = {title:'Title', meta:'Subtitle', h2:'Heading1', h3:'Heading2', small:'Small', li:'ListItem'};
-function docxBlob(a){
+function docxBlob(a, withPlan){ return docxOf(blocks(a, withPlan)); }
+/* every saved use-case idea in one document, each starting a new page, with any trial plan written for it */
+function docxAll(ids){
+  var list = [];
+  ids.map(act).filter(Boolean).forEach(function(a, i){ if(i) list.push({k:'break'}); list = list.concat(blocks(a, true)); });
+  return docxOf(list);
+}
+function docxOf(list){
   var W = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"', head = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
-  var body = blocks(a).map(function(b){
+  var body = list.map(function(b){
+    if(b.k==='break') return '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
     if(b.k==='fact') return para('', (b.label ? run(b.label+': ', true) : '')+run(b.t));
     if(b.k==='li') return para(STYLE.li, run('• '+b.t));
     return para(STYLE[b.k]||'', run(b.t));
@@ -311,8 +362,14 @@ function docxBlob(a){
 function fileName(a){ return (a.t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60).replace(/-+$/, '') || 'use-case-idea') + '.docx'; }
 function exportDocx(id, btn){
   var a = act(id); if(!a) return;
-  saveBlob(fileName(a), docxBlob(a));
-  status(btn, 'Downloaded “'+a.t+'” as a Word document, with its source, license, and attribution.');
+  var plan = wantsPlan(btn);
+  saveBlob(fileName(a), docxBlob(a, plan));
+  status(btn, 'Downloaded “'+a.t+'” as a Word document, with its source, license, and attribution'+(plan?', and your trial plan':'')+'.');
+}
+function exportAll(){
+  var ids = Saved.ids().filter(act); if(!ids.length) return;
+  saveBlob('saved-use-case-ideas-'+stamp()+'.docx', docxAll(ids));
+  say('Downloaded '+num(ids.length)+' saved use-case idea'+(ids.length===1?'':'s')+' as one Word document, each with its source, license, and attribution.');
 }
 
 /* ─────────── wiring ─────────── */
@@ -339,6 +396,9 @@ function click(e){
   if(t.closest('#printCompare')){ printCompare(); return true; }
   if(t.closest('#downloadSaved')){ downloadList(); return true; }
   if(t.closest('#restoreSaved')){ var input = document.getElementById('restoreFile'); if(input) input.click(); return true; }
+  if(t.closest('#restoreConfirm')){ finishRestore(true); return true; }
+  if(t.closest('#restoreCancel')){ finishRestore(false); return true; }
+  if(t.closest('#docxSaved')){ exportAll(); return true; }
   if((b = t.closest('[data-copy-text]'))){ copyIdea(b.getAttribute('data-copy-text'), b); return true; }
   if((b = t.closest('[data-export-docx]'))){ exportDocx(b.getAttribute('data-export-docx'), b); return true; }
   if(t.closest('[data-export-jump]')){
@@ -355,5 +415,5 @@ function click(e){
 
 window.SITE_TOOLS = {init:init, click:click, compareBarHTML:compareBarHTML, compareCheckHTML:compareCheckHTML, transferHTML:transferHTML, exportHTML:exportHTML,
   /* for tests and for the trial plan (src/js/trial-plan.js) */
-  facets:facets, blocks:blocks, asText:asText, docxBlob:docxBlob, listFile:listFile, restoreText:restoreText, saveBlob:saveBlob, act:act, para:para, run:run, zip:zip};
+  facets:facets, blocks:blocks, asText:asText, docxBlob:docxBlob, docxAll:docxAll, listFile:listFile, restoreText:restoreText, inspect:inspect, saveBlob:saveBlob, act:act, para:para, run:run, zip:zip};
 })();

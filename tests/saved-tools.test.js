@@ -7,7 +7,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const { execFileSync } = require('child_process');
-const { chromium } = require('playwright');
+const { chromium, firefox } = require('playwright');
 const AxeBuilder = require('@axe-core/playwright').default;
 const { createContext } = require('./browser');
 const { start } = require('./serve');
@@ -139,18 +139,42 @@ const tick = (page, id) => page.check(`input[data-compare="${id}"]`);
     await phone.goto(server.url('register.html')); await ready(phone);
     await phone.click('.topbar [data-open-saved]');
     phone.on('request', r => phoneRequests.push(r.method() + ' ' + r.url()));
+    /* the file is read and described first; nothing changes until the reader says so */
     await phone.setInputFiles('#restoreFile', listPath);
+    await phone.waitForSelector('#restorePreview');
+    assert.equal(norm(await phone.locator('#restorePreview p').textContent()), 'This file lists 4 use-case ideas. 3 would be added to your saved list. 1 is already saved. Nothing already saved here is removed.');
+    assert.ok(await phone.evaluate(() => document.activeElement.id === 'restoreConfirm'), 'focus moves to the choice');
+    assert.deepEqual(await phone.evaluate(k => JSON.parse(localStorage.getItem(k)), KEY), [bare.id], 'reading the file adds nothing');
+    await phone.click('#restoreCancel');
+    assert.equal(norm(await phone.locator('#transferStatus').textContent()), 'Nothing was added from the file.');
+    assert.equal(await phone.locator('#restorePreview').count(), 0);
+    assert.deepEqual(await phone.evaluate(k => JSON.parse(localStorage.getItem(k)), KEY), [bare.id], 'cancelling adds nothing');
+    await phone.setInputFiles('#restoreFile', listPath); await phone.click('#restoreConfirm');
     await phone.waitForFunction(() => /^Added 3 /.test(document.getElementById('transferStatus').textContent));
+    assert.ok(await phone.evaluate(() => document.activeElement.id === 'restoreSaved'), 'focus returns to the restore button');
     assert.equal(norm(await phone.locator('#transferStatus').textContent()), 'Added 3 use-case ideas from the file. 1 was already saved.');
     assert.deepEqual(await phone.evaluate(k => JSON.parse(localStorage.getItem(k)), KEY), [bare.id, rich.id, routed.id, noTool.id], 'the list is added to what was saved');
     assert.equal(norm(await phone.locator('.topbar [data-saved-count]').textContent()), '4');
     const stale = path.join(tmp, 'stale.json'); fs.writeFileSync(stale, JSON.stringify({ format: 'what-if-ai-saved-list', version: 1, ideas: [{ id: 'NO-SUCH-IDEA' }, rich.id] }));
     await phone.setInputFiles('#restoreFile', stale);
+    await phone.waitForSelector('#restorePreview');
+    assert.equal(norm(await phone.locator('#restorePreview p').textContent()), 'This file lists 2 use-case ideas. None of them would be new to your saved list. 1 is already saved. 1 is no longer in the collection and would be left out. Nothing already saved here is removed.');
+    await phone.click('#restoreConfirm');
     await phone.waitForFunction(() => /^Added 0 /.test(document.getElementById('transferStatus').textContent));
-    assert.equal(norm(await phone.locator('#transferStatus').textContent()), 'Added 0 use-case ideas from the file. 1 was already saved. 1 is no longer in the collection and was left out.');
-    for (const [name, body] of [['wrong.json', '{"format":"something else","ideas":[]}'], ['broken.json', '{not json']]) {
+    assert.equal(norm(await phone.locator('#transferStatus').textContent()), 'Added 0 use-case ideas from the file. 1 was already saved.');
+    /* files that are not a list from this site, or are out of bounds, are refused whole */
+    const list1 = o => JSON.stringify(Object.assign({ format: 'what-if-ai-saved-list', version: 1, ideas: [rich.id] }, o));
+    for (const [name, body, says] of [
+      ['wrong.json', '{"format":"something else","ideas":[]}', /^That file is not a list/],
+      ['broken.json', '{not json', /^That file could not be read/],
+      ['version.json', list1({ version: 2 }), /^That list was made by a different version/],
+      ['shape.json', list1({ ideas: [rich.id, '<img src=x onerror=alert(1)>'] }), /^That file has an entry that is not a use-case idea/],
+      ['proto.json', list1({ ideas: [{ id: 42 }] }), /^That file has an entry that is not a use-case idea/],
+      ['many.json', list1({ ideas: Array.from({ length: 3001 }, (_, i) => 'X-' + i) }), /^That file lists more use-case ideas/],
+      ['big.json', list1({ pad: 'x'.repeat(2e6) }), /^That file is too large/]]) {
       const f = path.join(tmp, name); fs.writeFileSync(f, body); await phone.setInputFiles('#restoreFile', f);
-      await phone.waitForFunction(() => /^That file /.test(document.getElementById('transferStatus').textContent));
+      await phone.waitForFunction(src => new RegExp(src).test(document.getElementById('transferStatus').textContent), says.source);
+      assert.equal(await phone.locator('#restorePreview').count(), 0, name + ' offers nothing to add');
     }
     assert.equal((await phone.evaluate(k => JSON.parse(localStorage.getItem(k)), KEY)).length, 4, 'a file that is not a list changes nothing');
     assert.equal(await phone.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, 'no sideways scroll on a phone');
@@ -161,13 +185,27 @@ const tick = (page, id) => page.check(`input[data-compare="${id}"]`);
     await fresh.goto(server.url('what-if-ai.html')); await ready(fresh); await fresh.click('.topbar [data-open-saved]');
     assert.equal(await fresh.locator('#downloadSaved').count(), 0, 'nothing to download from an empty list');
     assert.ok(await fresh.locator('#restoreSaved').isVisible());
-    await fresh.setInputFiles('#restoreFile', listPath);
+    await fresh.setInputFiles('#restoreFile', listPath); await fresh.click('#restoreConfirm');
     await fresh.waitForFunction(() => /^Added 4 /.test(document.getElementById('transferStatus').textContent));
     assert.equal(await fresh.locator('#savedBody .saved-item').count(), 4);
     await empty.close();
     assert.deepEqual(phoneRequests.filter(outbound), [], 'restoring sends nothing anywhere');
+    /* a list downloaded in Chromium restores in Firefox. Firefox is installed for the deploy workflow; where it is
+       not installed (a local run), this one step is skipped and says so. */
+    let fox = null;
+    try { fox = await firefox.launch(); } catch (error) { if (process.env.CI) throw error; console.log('SKIP  Firefox is not installed here: the cross-browser restore runs in the deploy workflow'); }
+    if (fox) {
+      try {
+        const foxPage = await (await fox.newContext({ viewport: { width: 1280, height: 900 } })).newPage();
+        await foxPage.goto(server.url('register.html')); await ready(foxPage); await foxPage.click('.topbar [data-open-saved]');
+        await foxPage.setInputFiles('#restoreFile', listPath); await foxPage.click('#restoreConfirm');
+        await foxPage.waitForFunction(() => /^Added 4 /.test(document.getElementById('transferStatus').textContent));
+        assert.deepEqual(await foxPage.evaluate(k => JSON.parse(localStorage.getItem(k)), KEY), FOUR.map(a => a.id));
+        pass('a list downloaded in Chromium restores in Firefox');
+      } finally { await fox.close(); }
+    }
     await other.close();
-    pass('moving a list: download, restore into another browser (added to what is there), stale and wrong files handled, nothing uploaded');
+    pass('moving a list: download, a preview before anything is added, restore into another browser (added to what is there), stale, malformed and oversized files refused, nothing uploaded');
 
     /* ── copy as text, download as Word ── */
     await page.keyboard.press('Escape');
@@ -183,8 +221,11 @@ const tick = (page, id) => page.check(`input[data-compare="${id}"]`);
       assert.ok(text.startsWith(a.t + '\n'));
       for (const [what, value] of [['description', a.sum], ['judgment', a.gate], ['citation', a.cit.split('\n')[0]], ['license', a.lic], ['attribution', (a.attr || '').split('\n')[0]], ['change notes', a.chg], ['route without AI', a.na || '']])
         assert.ok(flat.includes(norm(value)), `${a.id}: the copied text carries the ${what} as written`);
-      assert.ok(flat.includes('register.html#act=' + encodeURIComponent(a.id)), 'and a link to the complete record');
-      assert.ok(!/^(WORKS IT DRAWS ON|WHAT THE SOURCE REPORTS|ADAPTING IT)$/m.test(text) && /^SOURCE AND LICENSE$/m.test(text), 'reference sections stay in the full details');
+      assert.ok(flat.includes('register.html#act=' + encodeURIComponent(a.id)), 'and a link to the record online');
+      assert.ok(/^SOURCE AND LICENSE$/m.test(text) && (!a.ad || /^ADAPTING IT$/m.test(text)) && (!(a.rel && a.rel.length) || /^WORKS IT DRAWS ON$/m.test(text)), 'the reference sections are exported too');
+      for (const [what, value] of [['adaptation notes', a.ad], ['risks', a.risk], ['what it depends on the tool for', a.dep]])
+        if (value) assert.ok(flat.includes(norm(value)), `${a.id}: the copied text carries the ${what} as written`);
+      assert.ok(await page.locator('#actDialog [data-plan-opt]').isHidden(), 'no trial plan, so no choice about including one');
       const [docx] = await Promise.all([page.waitForEvent('download'), page.click('[data-export-docx]')]);
       assert.match(docx.suggestedFilename(), /^[a-z0-9-]{1,60}\.docx$/);
       const docxPath = path.join(tmp, a.id + '.docx'); await docx.saveAs(docxPath);
@@ -222,6 +263,54 @@ const tick = (page, id) => page.check(`input[data-compare="${id}"]`);
     assert.ok((await page.$eval('.takeaway__text', t => t.value)).startsWith(routed.t));
     assert.ok(await page.evaluate(() => document.activeElement.matches('.takeaway__text')));
     pass('without clipboard access the text is selected in place for copying');
+
+    /* ── every use-case idea in the collection: the export leaves nothing of the record out ── */
+    const gaps = await page.evaluate(() => {
+      const flat = v => String(v).replace(/\s+/g, ' ').trim();
+      const out = { ideas: 0, checked: 0, missing: [] };
+      for (const a of Object.values(window.SITE.BYID)) {
+        const text = flat(window.SITE_TOOLS.asText(a)); out.ideas++;
+        const want = [['title', a.t], ['description', a.sum], ['what is produced', a.dl], ['judgment', a.gate], ['checking', a.chk], ['reflection', a.rf], ['route without AI', a.na],
+          ['evidence', a.evs], ['dependence', a.dep], ['risks', a.risk], ['adapting', a.ad], ['prompt', a.pr], ['license', a.lic], ['change notes', a.chg]];
+        for (const line of String(a.cit || '').split('\n')) want.push(['citation', line]);
+        for (const line of String(a.attr || '').split('\n')) want.push(['attribution', line]);
+        for (const pair of a.pa || []) want.push(['possible adaptation', pair[1]]);
+        for (const item of a.miss || []) want.push(['detail left open', item]);
+        for (const pair of a.srp || []) want.push(['source report', pair[1]]);
+        for (const work of a.rel || []) want.push(['work it draws on', work[2]]);
+        for (const [what, value] of want) {
+          if (typeof value !== 'string' || !flat(value)) continue;
+          out.checked++;
+          if (!text.includes(flat(value)) && out.missing.length < 12) out.missing.push(a.id + ' · ' + what + ' · ' + flat(value).slice(0, 70));
+        }
+      }
+      return out;
+    });
+    assert.equal(gaps.ideas, ACTS.length);
+    assert.deepEqual(gaps.missing, [], 'a record field is missing from an export');
+    pass(`all ${gaps.ideas} use-case ideas export whole: ${gaps.checked.toLocaleString('en-US')} descriptions, notes, citations, licenses and attributions found as written`);
+
+    /* ── the whole saved list as one Word document ── */
+    await page.keyboard.press('Escape');
+    await page.click('.topbar [data-open-saved]');
+    const [all] = await Promise.all([page.waitForEvent('download'), page.click('#docxSaved')]);
+    assert.match(all.suggestedFilename(), /^saved-use-case-ideas-\d{4}-\d{2}-\d{2}\.docx$/);
+    const allPath = path.join(tmp, 'all.docx'); await all.saveAs(allPath);
+    const whole = JSON.parse(execFileSync('python3', ['-c', [
+      'import sys, json, zipfile, xml.etree.ElementTree as ET',
+      'z = zipfile.ZipFile(sys.argv[1]); assert z.testzip() is None',
+      '[ET.fromstring(z.read(n)) for n in z.namelist()]',
+      'W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"',
+      'doc = ET.fromstring(z.read("word/document.xml"))',
+      'titles = ["".join(t.text or "" for t in p.iter(W + "t")) for p in doc.iter(W + "p") if p.find(W + "pPr/" + W + "pStyle") is not None and p.find(W + "pPr/" + W + "pStyle").get(W + "val") == "Title"]',
+      'print(json.dumps({"titles": titles, "breaks": len(list(doc.iter(W + "br"))), "text": " ".join(t.text or "" for t in doc.iter(W + "t"))}))',
+    ].join('\n'), allPath], { encoding: 'utf8' }));
+    assert.deepEqual(whole.titles, FOUR.map(a => a.t), 'every saved idea, in the saved order');
+    assert.equal(whole.breaks, FOUR.length - 1, 'each idea starts a new page');
+    for (const a of FOUR) for (const value of [a.sum, a.lic, a.cit.split('\n')[0]]) assert.ok(norm(whole.text).includes(norm(value)), a.id + ': the combined document carries ' + norm(value).slice(0, 40));
+    assert.ok((await page.locator('#transferStatus').textContent()).startsWith('Downloaded 4 saved use-case ideas as one Word document'));
+    await page.keyboard.press('Escape');
+    pass('the whole saved list downloads as one valid Word document, one idea to a page, each with its source and license');
     assert.deepEqual(errors, []);
     await context.close();
   } finally {

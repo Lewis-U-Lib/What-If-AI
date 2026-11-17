@@ -402,7 +402,7 @@ function detailHTML(a, opts){
   if(a.ev && a.ev.length) ad += '<h4>Also described for</h4><ul>'+a.ev.map(function(v){return '<li>'+esc(v[0])+(v[1]?' ('+esc(v[1])+')':'')+'</li>';}).join('')+'</ul>';
   if(a.var && BYID[a.var]) ad += '<h4>Related use-case idea</h4><p>A variation of '+
       (opts.print ? '“'+esc(BYID[a.var].t)+'”' : '<a href="#" data-open="'+esc(a.var)+'">'+esc(BYID[a.var].t)+'</a>')+'.</p>';
-  /* opts.brief (planning summary, copy and export): the same fields, complete, without the three reference
+  /* opts.brief (planning summary printout and the printed trial plan; copies and exports use the whole record): the same fields, complete, without the three reference
      sections: adaptation notes, what the source reports, and the list of works. Nothing is shortened. */
   if(!opts.brief) h += detailSection('Adapting it', ad, opts);
 
