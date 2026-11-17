@@ -26,6 +26,9 @@ html[data-plain] .site-foot,html[data-plain] .polpanel,html[data-plain] .qpanel 
 html[data-plain] .acard,html[data-plain] .type,html[data-plain] .aside-card,html[data-plain] .saved-item,html[data-plain] .fab-item,html[data-plain] .fab-item:hover,html[data-plain] .fab-item:focus-visible{
   background:#4a0d19;}
 html[data-plain] .fab-menu{background:#22040b;}
+/* Keep menu labels fully legible from the instant the plain menu opens. */
+html[data-plain] :is(.fab-menu,.fab-scrim,.fab-item){transition:none;}
+html[data-plain] .fab-item{color:var(--cream-lt);}
 html[data-plain] .dlg{background:#420b16;}
 
 /* ── hardware off: bolts, seams, lamps, the moving light ── */

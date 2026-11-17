@@ -41,6 +41,8 @@ jobs:
         run: |
           npm ci
           npx playwright install --with-deps chromium
+      - name: Palette and independent reading preferences
+        run: npm run test:theme
       - name: Site checks (fingerprints, CSP, loading states, determinism)
         run: node tests/site.test.js
       - name: Tool license and all included-material rights
