@@ -1,4 +1,5 @@
 /* Faculty tasks, collection workspace, and independent plain-reading preference. */
+:root{--edge:#b89a6b;}
 .hdr.hdr--task-first{padding:18px 24px 14px;margin:12px 0 20px;}
 .hdr.hdr--task-first::after{display:none;}
 .hdr--task-first.hdr--lab .hdr__identity{padding:0 0 0 150px;text-align:left;}
