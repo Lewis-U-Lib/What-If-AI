@@ -43,6 +43,8 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Faculty workspace, collection transfer, and plain reading
         run: npm run test:workspace
+      - name: Color preferences and persistence
+        run: npm run test:theme
       - name: Site checks (fingerprints, CSP, loading states, determinism)
         run: node tests/site.test.js
       - name: Tool license and all included-material rights

@@ -25,7 +25,7 @@ const ready = page => page.waitForSelector('html[data-ready]', { state: 'attache
 /* colors and boxes of the parts a reader sees first, plus two tokens */
 const snapshot = page => page.evaluate(() => {
   const css = getComputedStyle(document.documentElement);
-  const parts = ['.topbar', 'header.hdr', '.hdr__title', '[data-open-tour]', '.hdr-cta--secondary', '.fab-toggle', '.site-foot', 'main'];
+  const parts = ['.topbar', 'header.hdr', '.hdr__title', '.hdr .hdr-cta:first-child', '.hdr-cta--secondary', '.fab-toggle', '.site-foot', 'main'];
   return {
     theme: document.documentElement.getAttribute('data-theme'),
     navy: css.getPropertyValue('--navy').trim(), gold: css.getPropertyValue('--gold').trim(),
