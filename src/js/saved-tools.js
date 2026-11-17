@@ -162,10 +162,11 @@ function restoreText(text){
     if(Saved.has(a.id)){ already++; return; }
     Saved.add(a.id); added++;
   });
-  if(window.SITE_TOOLS.fileRestore) window.SITE_TOOLS.fileRestore(data);
+  var extra = window.SITE_TOOLS.fileRestore ? window.SITE_TOOLS.fileRestore(data) : '';     /* e.g. trial plans */
   var parts = ['Added '+num(added)+' use-case idea'+(added===1?'':'s')+' from the file.'];
   if(already) parts.push(num(already)+(already===1?' was':' were')+' already saved.');
   if(gone) parts.push(num(gone)+(gone===1?' is':' are')+' no longer in the collection and '+(gone===1?'was':'were')+' left out.');
+  if(extra) parts.push(extra);
   if(!Saved.isPersistent()) parts.push('Browser storage is unavailable, so this list is temporary in this tab.');
   return parts.join(' ');
 }
@@ -210,6 +211,7 @@ function blocks(a){
     });
   }
   walk(doc.body);
+  if(window.SITE_TOOLS.planBlocks) out = out.concat(window.SITE_TOOLS.planBlocks(a));    /* the reader's own trial plan, if any */
   out.push({k:'small', t:'Exported from What If AI and The Register, Lewis University Library, on '+today()+'. The text is reproduced from the record as written. '+
     'The complete record, with adaptation notes, what the source reports, and the works it draws on: '+recordURL(a)});
   return out;

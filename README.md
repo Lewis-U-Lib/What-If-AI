@@ -91,6 +91,22 @@ The landing page, What If AI's first question, and The Register's use-case ideas
 
 `tests/saved-tools.test.js` (`npm run test:saved`) checks each of these, including that descriptions, citations, licenses, attribution, and change notes appear whole in both printouts and both exports, that the Word file is a valid archive of well-formed XML whose paragraphs match the copied text, and that nothing leaves the browser.
 
+## Plan a small trial
+
+An optional worksheet a reader can attach to a saved use-case idea, from the saved list or from the idea's details (`src/js/trial-plan.js`, which extends `saved-tools.js`). It asks five questions, in the reader's own voice:
+
+1. What am I trying to improve?
+2. What will I try, and what remains my responsibility?
+3. What preparation and checking will this require?
+4. What would indicate that it helped?
+5. When would I revise or abandon the approach?
+
+Beside the questions, folded until asked for, the worksheet quotes what the record already says: what is produced, the judgment that stays with people, what output is checked against, cost and access, data, the course AI policy it assumes, and its route without AI, for comparison. The Library supplies the questions and the quotations and suggests no answers.
+
+Answers are saved as they are typed, in this browser only (`lul-whatifai-plans-v1`), and are never sent anywhere. A plan belongs to a saved idea: starting one saves the idea, and removing the idea (after a confirmation when something is written) or clearing the list removes its plan. A plan prints by itself with its idea's planning summary, prints after its idea in both saved printouts, is added to the idea's text and Word exports marked as the reader's own notes, and travels in a downloaded list; restoring a list fills only questions left empty in the receiving browser.
+
+`tests/trial-plan.test.js` (run by `npm run test:saved`) covers the worksheet, storage, printing, export, moving, and removal.
+
 ## Crimson and steel blue
 
 The help menu ends with a switch between two palettes: crimson, which is the default, and steel blue. Only colors change; layout, wording, textures' grain, gold, and the illustrations are the same in both.

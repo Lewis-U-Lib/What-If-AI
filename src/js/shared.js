@@ -577,11 +577,12 @@ function renderSaved(){
     }
     h += '<li class="saved-item"><div class="saved-item__t">'+esc(a.t)+'</div><div class="saved-item__m">'+esc(savedMeta(a))+'</div>'+
       '<div class="saved-item__a">'+(TOOLS() ? TOOLS().compareCheckHTML(a) : '')+'<button type="button" class="btn btn--sm" data-open="'+esc(a.id)+'">View<span class="sr-only"> '+esc(a.t)+'</span></button>'+
+      (TOOLS() && TOOLS().itemActionsHTML ? TOOLS().itemActionsHTML(a) : '')+
       '<button type="button" class="btn btn--sm btn--quiet" data-unsave="'+esc(id)+'">Remove<span class="sr-only"> '+esc(a.t)+'</span></button></div></li>';
   });
   h += '</ol>'+printChoiceHTML()+(TOOLS() ? TOOLS().transferHTML(true) : '')+
     '<p class="privacy">Your selection is kept in this browser only. There is no account, and your saved list is not sent to the library or anyone else.</p>';
-  h += '<div class="confirm" id="clearConfirm" hidden><p>Remove '+(ids.length===1?'the saved use-case idea':'all '+num(ids.length)+' saved use-case ideas')+'?</p>'+
+  h += '<div class="confirm" id="clearConfirm" hidden><p>Remove '+(ids.length===1?'the saved use-case idea':'all '+num(ids.length)+' saved use-case ideas')+'?'+(TOOLS() && TOOLS().clearNote ? TOOLS().clearNote() : '')+'</p>'+
        '<button type="button" class="btn btn--sm" id="clearYes">Remove all</button> '+
        '<button type="button" class="btn btn--sm btn--quiet" id="clearNo">Keep them</button></div>';
   box.innerHTML = h;

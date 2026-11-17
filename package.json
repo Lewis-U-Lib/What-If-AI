@@ -16,7 +16,7 @@
     "test:theme": "node tests/theme.test.js",
     "test:types": "node tests/types.test.js",
     "test:feedback": "node tests/feedback.test.js",
-    "test:saved": "node tests/saved-tools.test.js",
+    "test:saved": "node tests/saved-tools.test.js && node tests/trial-plan.test.js",
     "test:a11y": "node tests/a11y.test.js",
     "test:contrast": "node tests/contrast.test.js",
     "test:licensing": "node tests/license-badges.test.js && node tests/licensing-browser.test.js",

@@ -42,6 +42,22 @@
   </div>
 </dialog>
 
+<dialog class="dlg" id="planDialog" aria-labelledby="planTitle">
+  <div class="dlg__head">
+    <div>
+      <div class="kicker">Optional worksheet</div>
+      <h2 id="planTitle" data-dlg-title>Plan a small trial</h2>
+    </div>
+    <button type="button" class="dlg__close" data-close aria-label="Close the trial plan"><span aria-hidden="true">✕</span></button>
+  </div>
+  <div class="dlg__body" id="planBody"></div>
+  <div class="dlg__foot">
+    <button type="button" class="btn btn--sm btn--primary" id="printPlan">Print or save as PDF</button>
+    <button type="button" class="btn btn--sm" id="clearPlan">Clear this plan</button>
+    <button type="button" class="btn btn--sm btn--quiet" data-close>Close</button>
+  </div>
+</dialog>
+
 <aside class="note saved-storage-note" data-storage-warning hidden aria-label="Saved selection storage">
   Saved selections are temporary in this tab because browser storage is unavailable. Changes may be lost when you reload or open the other tool; earlier saved selections may return.
   <button type="button" class="btn btn--sm" data-open-saved>Print or save as PDF now</button>
