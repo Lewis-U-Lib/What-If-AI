@@ -172,7 +172,8 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   await page.click('#tourNext');
   const tourFocus = await page.evaluate(() => document.activeElement && document.activeElement.hasAttribute('data-open-tour'));
   check('What If AI: Finish closes the walkthrough and returns focus to its button', !(await page.$eval('#tourDialog', d => d.open)) && tourFocus);
-  await page.click('#wizard [data-open-tour]'); await page.keyboard.press('Escape');
+  check('What If AI: the first question keeps help in the header without a duplicate action', await page.locator('#wizard [data-open-tour]').count() === 0);
+  await page.click('.hdr [data-open-tour]'); await page.keyboard.press('Escape');
   check('What If AI: Escape dismisses the walkthrough', !(await page.$eval('#tourDialog', d => d.open)));
   await page.goto('about:blank'); await go(page, 'what-if-ai.html#tour'); await page.waitForTimeout(80);
   check('What If AI: a #tour link opens the walkthrough', await page.$eval('#tourDialog', d => d.open));
@@ -202,6 +203,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   check('What If AI: changing the first answer clears a later answer that no longer applies', creativeTeach ? /task:creative/.test(pruned) : !/task:creative/.test(pruned), pruned);
   // a chip for level/setting opens the field question with a sensible position
   await go(page, 'what-if-ai.html#a=focus:teaching;lvl:grad'); await page.waitForTimeout(40);
+  await page.click('.result-overview > summary');
   await page.click('#plan .answer:has-text("Level")');
   const qs = await page.textContent('.qstep');
   check('What If AI: the Level chip opens the field question with a real position', /Question [1-9] of [1-9]/.test(qs) && (await page.textContent('#qTitle')) === 'What is your field?', qs);
@@ -323,7 +325,9 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
       t = document.querySelector('.hdr__title'), r = document.createRange(); r.selectNodeContents(t); const tr = r.getBoundingClientRect();
       return { logoLeft: l.left - h.left, logoTop: l.top - h.top, titleMid: (tr.left + tr.right) / 2, page: document.documentElement.clientWidth / 2, overlap: !(l.right < tr.left || l.bottom < tr.top) }; });
     check(f + ': the logo sits in the upper-left of the header', g.logoLeft < 60 && g.logoTop < 60, JSON.stringify({ l: Math.round(g.logoLeft), t: Math.round(g.logoTop) }));
-    check(f + ': the title is centered on the page and clear of the logo', Math.abs(g.titleMid - g.page) < 6 && !g.overlap, Math.round(g.titleMid) + ' vs ' + g.page);
+    check(f + ': the title is clear of the logo', !g.overlap);
+    if(f === 'register.html') check(f + ': the title is centered on the page', Math.abs(g.titleMid - g.page) < 6, Math.round(g.titleMid) + ' vs ' + g.page);
+    else check(f + ': the compact title aligns with the task introduction', await page.evaluate(() => Math.abs(document.querySelector('.hdr__title').getBoundingClientRect().left-document.querySelector('.hdr__tagline').getBoundingClientRect().left)<2));
   }
   await go(page, 'register.html#activities');
   const regTotal = +(await page.textContent('#secnav [data-count="activities"]')).replace(/,/g, '');

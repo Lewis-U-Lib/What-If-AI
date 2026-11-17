@@ -64,6 +64,30 @@ const W=require('../src/js/workspace-data');
   assert.equal(await p.locator('.topbar [data-reading-toggle]').isVisible(),false);
   await p.locator('#fabToggle').click();await p.locator('#fabMenu [data-reading-toggle]').click();
   assert.notEqual(await p.locator('html').getAttribute('data-reading'),'plain','reading view remains available in the mobile help menu');
+  await p.locator('#fabMenu [data-reading-toggle]').click();await p.keyboard.press('Escape');
+  for(const width of [1440,390]){
+    await p.setViewportSize({width,height:900});
+    for(const section of ['activities','ai-types','policies','sources']){
+      await go('register.html#'+section);
+      axe=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();
+      assert.deepEqual(axe.violations,[],'plain Register '+section+' at '+width);
+    }
+    await go('register.html#act='+ids[0]);
+    await p.locator('#actDialog details').evaluateAll(ds=>ds.forEach(d=>d.open=true));
+    axe=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();
+    assert.deepEqual(axe.violations,[],'plain activity details at '+width);
+    await p.locator('#actDialog [data-plan-trial]').click();
+    axe=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();
+    assert.deepEqual(axe.violations,[],'plain trial worksheet at '+width);
+  }
+  const reviewed=await p.evaluate(id=>{
+    SITE_DATA.editorial.entries[id]={reviewer:'Test reviewer',checkedOn:'2026-11-17',scope:'Test fixture only',uncertainty:'No general effectiveness claim',relevance:{kind:'transferable',note:'Adapt the materials.'},use:{kind:'reported',note:'A specific classroom report.',source:'https://example.org/use'},evidence:{kind:'outcome_report',note:'An outcome claim with stated limits.',source:'https://example.org/evidence'}};
+    const html=FacultyWorkspace.reviewHTML(SITE.BYID[id],false),doc=new DOMParser().parseFromString(html,'text/html');
+    return {text:doc.body.textContent,links:[...doc.querySelectorAll('a')].map(a=>a.href),print:FacultyWorkspace.reviewHTML(SITE.BYID[id],true)};
+  },ids[0]);
+  assert.match(reviewed.text,/Transferable method; adaptation required/);assert.match(reviewed.text,/specific report of use/);assert.match(reviewed.text,/specific outcome claim/);
+  assert.deepEqual(reviewed.links,['https://example.org/use','https://example.org/evidence']);
+  for(const url of reviewed.links)assert.ok(reviewed.print.includes(url),'claim sources survive printing');
   assert.deepEqual(errors,[]);
   await ctx.close();console.log('PASS: focused results, reading/theme independence, compare limit, plans, transfer, conflict preservation, literal text, full print preservation, and accessibility.');
  }finally{await browser.close();await server.close();}

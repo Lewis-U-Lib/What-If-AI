@@ -23,6 +23,11 @@
   function planFor(id){return read()[canonical(id)]||null;}
   function localMessage(){return persistent && S.Saved.isPersistent()?'Saved in this browser. Download a collection to keep a backup.':'Temporary in this tab: browser storage is unavailable. Download the collection before leaving.';}
   function row(k,v){return '<dt>'+esc(k)+'</dt><dd>'+esc(v||'Unknown — check before planning')+'</dd>';}
+  function reviewSource(label,value,print){
+    if(!value||!/^https?:\/\//i.test(value))return '';
+    return print?row(label,value):'<dt>'+esc(label)+'</dt><dd><a href="'+esc(value)+'" target="_blank" rel="noopener noreferrer">'+esc(value)+'<span class="sr-only"> (opens in a new tab)</span></a></dd>';
+  }
+  function judgment(value,labels,fallback){return value?(labels[value.kind]||'Not assessed')+'. '+value.note:fallback;}
   function review(a){return (window.SITE_DATA.editorial||{entries:{}}).entries[a.id]||{};}
   function effort(a){return review(a).effort||{};}
   function context(a){
@@ -32,10 +37,13 @@
   function reviewHTML(a,print){
     var r=review(a), title='Relevance, review, and effort';
     var body='<p>Matching compares recorded attributes with your choices. It does not establish educational effectiveness.</p>'+
-      '<dl class="facts">'+row('Disciplinary fit',r.relevance && r.relevance.note || (a.disc==='interdisciplinary'?'Tagged for any course. This may be a transferable method; check subject knowledge, materials, and adaptation before using it in your field.':'Check the description and adaptation notes for your specific setting.'))+
+      '<dl class="facts">'+row('Disciplinary fit',judgment(r.relevance,{ready:'Ready for the stated discipline and setting',transferable:'Transferable method; adaptation required',unclear:'Relevance remains unclear'},a.disc==='interdisciplinary'?'Tagged for any course. This may be a transferable method; check subject knowledge, materials, and adaptation before using it in your field.':'Check the description and adaptation notes for your specific setting.'))+
+      reviewSource('Relevance source',r.relevance && r.relevance.source,print)+
       row('Editorial review',r.reviewer?'Reviewed by '+r.reviewer+' on '+r.checkedOn+'. '+(r.scope||''):'No structured review record published yet. Existing source and limitation notes remain part of this entry.')+
-      row('Reported use',r.use && r.use.note || 'Not independently assessed in a structured review record. A source may describe use; see its report and limitations.')+
-      row('Outcome evidence',r.evidence && r.evidence.note || 'No separate outcome-evidence judgment is published here. A match, a source review, and a report of use are different claims.')+
+      row('Reported use',judgment(r.use,{reported:'A specific report of use is documented',not_assessed:'Not separately assessed'},'Not independently assessed in a structured review record. A source may describe use; see its report and limitations.'))+
+      reviewSource('Reported-use source',r.use && r.use.source,print)+
+      row('Outcome evidence',judgment(r.evidence,{outcome_report:'A specific outcome claim has evidence to examine',not_assessed:'Not separately assessed'},'No separate outcome-evidence judgment is published here. A match, a source review, and a report of use are different claims.'))+
+      reviewSource('Outcome-evidence source',r.evidence && r.evidence.source,print)+
       (r.uncertainty?row('Still uncertain',r.uncertainty):'')+'</dl>'+context(a);
     return print?'<section><h3>'+title+'</h3>'+body+'</section>':'<details class="use-case-accordion"><summary><h3>'+title+'</h3></summary><div class="use-case-accordion__body">'+body+'</div></details>';
   }

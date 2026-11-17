@@ -74,6 +74,8 @@ html[data-reading=plain] .hdr__title{color:#f5f4ef;}
 html[data-reading=plain] .hdr__title span{color:#f0cf83;}
 html[data-reading=plain] .count{background-color:#f0cf83!important;color:#171a1d!important;}
 html[data-reading=plain] .fab-toggle__icon{color:#f0cf83!important;}
+html[data-reading=plain] .sec-eyebrow{color:#f0cf83;background-color:transparent;font-family:inherit;letter-spacing:normal;text-transform:none;padding:0;}
+html[data-reading=plain] .pos[aria-selected=true] .pos__dot{background-color:#f0cf83;color:#171a1d;}
 html[data-reading=plain] :is(.qstep,.rail__label,.kicker){text-transform:none;letter-spacing:normal;}
 @media(max-width:980px){
  /* Keep the narrow sticky header compact; reading view remains in Help and navigation. */
