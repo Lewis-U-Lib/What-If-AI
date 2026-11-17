@@ -20,7 +20,8 @@
     // Activity scale, duration, and tool choice do not establish preparation.
     const before = /^Before (?:class|the (?:session|workshop|lesson|meeting))[, ]+(?:the (?:instructor|facilitator|librarian)|faculty|students?|instructors?)\b/i;
     const inAdvance = /^The (?:instructor|facilitator|teacher|librarian)\b.{1,130}\b(?:before class|beforehand|in advance|ahead of time)\b/i;
-    const sentence = (a.sum || '').split(/(?<=[.!?])\s+/).find(line => before.test(line) || inAdvance.test(line));
+    const sentences = (a.sum || '').match(/\S[\s\S]*?(?:[.!?](?=\s|$)|$)/g) || [];
+    const sentence = sentences.find(line => before.test(line) || inAdvance.test(line));
     if (sentence) return sentence;
     return a.pc === 'institutional_approval_required' && site.L.pc[a.pc] || missing;
   }

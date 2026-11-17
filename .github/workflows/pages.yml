@@ -40,7 +40,7 @@ jobs:
       - name: Install test tools
         run: |
           npm ci
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps chromium firefox
       - name: Saved collections and Word exports
         run: npm run test:collection
       - name: Palette and independent reading preferences
