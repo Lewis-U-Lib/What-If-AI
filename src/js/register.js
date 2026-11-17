@@ -565,12 +565,13 @@ function drawAbout(){
 function navIntoView(heading){
   var nav = document.getElementById('secnav'); if(!nav) return;
   var hash = location.hash;
+  // Move keyboard focus as part of the section change; font loading must not delay it.
+  if(heading && !document.querySelector('dialog[open]')) heading.focus({preventScroll:true});
   function settle(){
     function align(){
       (window.requestAnimationFrame || setTimeout)(function(){
         (window.requestAnimationFrame || setTimeout)(function(){
         if(location.hash === hash && !document.querySelector('dialog[open]')){
-          if(heading) heading.focus({preventScroll:true});
           var bar = document.querySelector('.topbar');
           var clearance = (bar ? bar.getBoundingClientRect().height : 0) + 12;
           window.scrollTo({top:Math.max(0,window.scrollY + nav.getBoundingClientRect().top - clearance),behavior:'instant'});
