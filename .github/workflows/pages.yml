@@ -16,10 +16,15 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  checks:
+    name: Checks (${{ matrix.suite }})
     # Playwright 1.56 supports Ubuntu 24.04; ubuntu-latest now uses 26.04.
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [workspace, matching, pages, accessibility, contrast]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -36,46 +41,78 @@ jobs:
         run: python3 -m unittest discover -s tests -p '*_test.py'
       - name: Build
         run: python3 tools/build.py
-
       - name: Install test tools
         run: |
           npm ci
           npx playwright install --with-deps chromium
+
+      - name: Faculty workspace, collection transfer, and plain reading
+        if: matrix.suite == 'workspace'
+        run: npm run test:workspace
+      - name: Color preferences and persistence
+        if: matrix.suite == 'workspace'
+        run: npm run test:theme
+      - name: Fixes from the October 2026 audit (field fit, route note, Ask Us focus, print, history)
+        if: matrix.suite == 'workspace'
+        run: npm run test:review
       - name: Site checks (fingerprints, CSP, loading states, determinism)
+        if: matrix.suite == 'workspace'
         run: node tests/site.test.js
       - name: Tool license and all included-material rights
+        if: matrix.suite == 'workspace'
         run: npm run test:licensing
       - name: Source links and download notices
+        if: matrix.suite == 'workspace'
         run: npm run test:source-links
+
       - name: Matching rules, recovery, ranking and broken links
+        if: matrix.suite == 'matching'
         run: npm run test:matching
+
       - name: Page behavior
+        if: matrix.suite == 'pages'
         run: npm run test:pages
-      - name: Fixes from the October 2026 audit (field fit, route note, Ask Us focus, print, history)
-        run: npm run test:review
       - name: AI-system type dialogs
+        if: matrix.suite == 'pages'
         env:
           TYPE_SCREENSHOTS: test-results/type-illustrations
         run: node tests/types.test.js
       - name: Save type-dialog screenshots
-        if: always()
+        if: always() && matrix.suite == 'pages'
         uses: actions/upload-artifact@v4
         with:
           name: type-dialog-screenshots
           path: test-results/type-illustrations
           if-no-files-found: ignore
       - name: Activity feedback
+        if: matrix.suite == 'pages'
         run: node tests/feedback.test.js
+
       - name: Accessibility (axe, WCAG 2.2 A/AA)
+        if: matrix.suite == 'accessibility'
         run: node tests/a11y.test.js
       - name: Contrast over textured surfaces
+        if: matrix.suite == 'contrast'
         run: node tests/contrast.test.js
 
       - name: Upload the site
-        if: github.event_name != 'pull_request'
+        if: matrix.suite == 'workspace' && github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
+
+  # Keep the existing "build" check as a gate over every suite. A failed or
+  # cancelled suite makes this check fail, rather than silently skipping it.
+  build:
+    if: always()
+    needs: checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Require every test suite to pass
+        env:
+          CHECK_RESULT: ${{ needs.checks.result }}
+        run: test "$CHECK_RESULT" = success
 
   deploy:
     # only a push to main publishes; pull requests stop after the tests

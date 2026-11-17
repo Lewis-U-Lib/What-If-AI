@@ -29,6 +29,7 @@ from check_release import check as check_release  # noqa: E402
 from ai_type_guide import ai_type_guide_files  # noqa: E402
 from license_scope import license_scope_files  # noqa: E402
 from source_links import source_links_bytes  # noqa: E402
+from editorial import editorial_bytes
 from palette import themed  # noqa: E402
 
 MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August", "September",
@@ -123,6 +124,8 @@ def build(out):
     for name in ("acts", "register", "guide"):
         site.emit(f"data/{name}.json", public_data[f"{name}.json"], "data")
     site.emit("data/source-links.json", source_links, "data")
+    site.emit("data/editorial.json", editorial_bytes(ROOT / "content" / "editorial-reviews.json",
+              {a["id"] for a in json.loads(public_data["acts.json"])["acts"]}), "data")
     base_url = CFG["base_url"]
     base_path = "/" + base_url.split("://", 1)[1].split("/", 1)[1] if base_url.count("/") > 3 else "/"
     commit = git_commit()

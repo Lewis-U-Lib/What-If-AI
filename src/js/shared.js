@@ -9,7 +9,7 @@
 "use strict";
 var D = window.SITE_DATA.acts;   /* fetched by boot.js from data/acts.<hash>.json */
 var A = D.acts, IN = D.intake, TOOL_LICENSE = window.TOOL_LICENSE;
-var BYID = {}, ALIAS = {};
+var BYID = Object.create(null), ALIAS = Object.create(null);
 A.forEach(function(a){ BYID[a.id] = a; (a.al||[]).forEach(function(x){ if(!ALIAS[x]) ALIAS[x] = a.id; }); });
 
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
@@ -232,10 +232,11 @@ var Saved = {
   remove: function(id){ id=savedId(id); return writeIds(readIds().filter(function(x){return x!==id;})); },
   toggle: function(id){ if(Saved.has(id)){ Saved.remove(id); return false; } Saved.add(id); return true; },
   clear: function(){ return writeIds([]); },
+  replace: function(ids){ return writeIds(ids); },
   onChange: function(fn){ listeners.push(fn); }
 };
 window.addEventListener('storage', function(e){
-  if(e.key !== KEY || !storageOK) return;
+  if(e.key !== KEY && e.key !== null) return;
   mem = null; var ids = readIds(); listeners.forEach(function(fn){ try{ fn(ids); }catch(_){} });
 });
 
@@ -346,6 +347,7 @@ function detailHTML(a, opts){
   if(sourceAccess(a)) f += '<dt>Source item</dt><dd>'+esc(L.sa[a.sa])+'</dd>';
   f += '</dl>';
   h += detailSection('At a glance', f, opts);
+  if(window.FacultyWorkspace) h += FacultyWorkspace.reviewHTML(a,opts.print);
 
   /* 3 · how people and the tool divide the work */
   var how = '';
@@ -523,6 +525,7 @@ function openActivity(id, opener){
   ActivityFeedback.mount(dlg.querySelector('.activity-feedback'));
   var foot = dlg.querySelector('.dlg__foot');
   foot.innerHTML = saveButton(a) +
+    '<button type="button" class="btn btn--sm btn--primary" data-plan-trial="'+esc(a.id)+'">Plan a small trial</button>'+
     '<button type="button" class="btn btn--sm" data-give-feedback>Give feedback</button>'+
     (CTX.page==='register'
       ? '<button type="button" class="btn btn--sm" data-copy-act="'+esc(a.id)+'">Copy a link to this use-case idea</button>'
@@ -557,6 +560,7 @@ function renderSaved(){
       '<p>Use the Save button on any use-case idea to keep it here while you browse. You can then review your selection and print it or save it as a PDF.</p></div>'+
       '<p class="privacy">Your selection is kept in this browser only. There is no account, and your saved list is not sent to the library or anyone else.</p>';
     if(foot) foot.hidden = true;
+    if(window.FacultyWorkspace) FacultyWorkspace.mountSaved(box);
     return;
   }
   var h = storageNotice(true)+'<ol class="saved-list">';
@@ -579,6 +583,7 @@ function renderSaved(){
        '<button type="button" class="btn btn--sm btn--quiet" id="clearNo">Keep them</button></div>';
   box.innerHTML = h;
   if(foot) foot.hidden = false;
+  if(window.FacultyWorkspace) FacultyWorkspace.mountSaved(box);
 }
 function syncSaveUI(){
   var ids = Saved.ids();
@@ -601,20 +606,22 @@ function syncSaveUI(){
    attribution, and change notes on paper. Pages under an open dialog are never printed in its place. */
 var printCleanup = null;
 function toolName(){ return CTX.page==='register' ? 'The Register' : 'What If AI'; }
-function fillPrintRoot(ids, single){
+function fillPrintRoot(ids, single, brief){
   var root = document.getElementById('printRoot'); if(!root) return null;
   var today = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   var h;
-  if(single){
+  if(brief && window.FacultyWorkspace){
+    h=FacultyWorkspace.briefHTML(ids);
+  } else if(single){
     var one = BYID[ids[0]];
     h = '<h1>'+esc(one.t)+'</h1><div class="pr-sub">'+esc(kickerOf(one))+' · '+toolName()+' · Lewis University Library · printed '+esc(today)+'</div>'+
-      '<article>'+detailHTML(one,{print:true})+'</article>';
+      '<article>'+detailHTML(one,{print:true})+(window.FacultyWorkspace?FacultyWorkspace.planPrint(one.id):'')+'</article>';
   } else {
     h = '<h1>Saved use-case ideas</h1><div class="pr-sub">'+toolName()+' · Lewis University Library · '+num(ids.length)+
       ' use-case idea'+(ids.length===1?'':'s')+' · printed '+esc(today)+'</div>';
     ids.forEach(function(id){
       var a = BYID[id];
-      h += '<article><div class="kicker">'+esc(kickerOf(a))+'</div><h2>'+esc(a.t)+'</h2>'+detailHTML(a,{print:true})+'</article>';
+      h += '<article><div class="kicker">'+esc(kickerOf(a))+'</div><h2>'+esc(a.t)+'</h2>'+detailHTML(a,{print:true})+(window.FacultyWorkspace?FacultyWorkspace.planPrint(a.id):'')+'</article>';
     });
   }
   h += '<div class="pr-foot">Tool credit: What If AI and The Register, Lewis University Library. '+
@@ -623,8 +630,8 @@ function fillPrintRoot(ids, single){
   root.innerHTML = h;
   return root;
 }
-function preparePrint(ids, single){
-  var root = fillPrintRoot(ids, single); if(!root) return false;
+function preparePrint(ids, single, brief){
+  var root = fillPrintRoot(ids, single, brief); if(!root) return false;
   document.body.classList.add('print-saved');
   /* the print copy is hidden from assistive technology on screen, but a saved PDF needs its headings
      and reading order, so it is exposed while printing (as the Register walkthrough's print is) */
@@ -637,16 +644,16 @@ function preparePrint(ids, single){
   window.addEventListener('afterprint', done);
   return done;
 }
-function printSaved(){
+function printSaved(brief){
   var ids = Saved.ids().map(function(id){ return BYID[id] ? id : ALIAS[id]; }).filter(function(id, i, all){ return id && BYID[id] && all.indexOf(id) === i; });
   if(!ids.length){ announce('There are no saved use-case ideas to print.'); return; }
   var dr = document.getElementById('savedDrawer'); if(dr && dr.open) closeDialog(dr);
-  var done = preparePrint(ids, false); if(!done) return;
+  var done = preparePrint(ids, false, brief===true); if(!done) return;
   setTimeout(function(){ window.print(); setTimeout(done, 1500); }, 60);
 }
-function printActivity(id){
+function printActivity(id, brief){
   var a = BYID[id] || BYID[ALIAS[id]]; if(!a) return;
-  var done = preparePrint([a.id], true); if(!done) return;
+  var done = preparePrint([a.id], true, brief===true); if(!done) return;
   setTimeout(function(){ window.print(); setTimeout(done, 1500); }, 60);
 }
 /* the browser's own Print command while an idea is open prints that idea, not the page underneath */

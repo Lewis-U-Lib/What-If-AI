@@ -29,6 +29,10 @@ const STATES = [
   ['What If AI · activity details open', 'what-if-ai.html#a=focus:teaching;task:design', async p => { await p.click('#plan [data-open]'); }],
   ['What If AI · every use-case section expanded', 'what-if-ai.html#act=CAN-G-GAP-004', async p => {
     await p.locator('#actDialog details').evaluateAll(ds => ds.forEach(d => d.open = true)); }],
+  ['What If AI · trial worksheet', 'what-if-ai.html#act=CAN-G-GAP-004', async p => {
+    await p.click('#actDialog [data-plan-trial]'); await p.fill('#trial-goal','Check reasoning before and after a small trial.'); }],
+  ['The Register · trial worksheet', 'register.html#act=CAN-G-GAP-004', async p => {
+    await p.click('#actDialog [data-plan-trial]'); await p.fill('#trial-goal','Check reasoning before and after a small trial.'); }],
   ['What If AI · saved drawer with items', 'what-if-ai.html#a=focus:teaching;task:design', async p => {
     const s = await p.$$('#plan button[data-save]'); await s[0].click(); await s[1].click(); await p.click('.topbar [data-open-saved]'); }],
   ['What If AI · walkthrough, first step', 'what-if-ai.html', async p => { await p.click('.hdr [data-open-tour]'); }],

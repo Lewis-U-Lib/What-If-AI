@@ -5,7 +5,7 @@ const { chromium } = require('playwright');
 const { createContext } = require('./browser');
 const { start } = require('./serve');
 const SITE_DIR = path.resolve(process.argv[2] || path.join(__dirname, '..', '_site'));
-const LABELS = ['At a glance', 'How people and the AI tool divide the work',
+const LABELS = ['At a glance', 'Relevance, review, and effort', 'How people and the AI tool divide the work',
   'Before you use it', 'A route without AI', 'Adapting it', 'What the source reports',
   'Source and license', 'Works it draws on'];
 const EXAMPLE = 'CAN-G-GAP-004';

@@ -538,6 +538,10 @@ function drawAbout(){
   }).join('');
   rtour.addEventListener('click', function(e){
     var t = e.target;
+    // Following an in-page link chooses a new focus target. Do not restore the
+    // walkthrough opener after the route has focused that section or record.
+    var link = t.closest('a[href^="#"]');
+    if(link && link.getAttribute('href')!=='#about' && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey && e.button===0) rtour._opener = null;
     if(t.closest('#rtourPrev')){ if(ri>0) rtourTo(ri-1); return; }
     if(t.closest('#rtourNext')){ rtourTo(ri<rslides.length-1 ? ri+1 : 0); return; }
     var d = t.closest('[data-rdot]'); if(d){ rtourTo(+d.getAttribute('data-rdot')); return; }
@@ -561,18 +565,30 @@ function drawAbout(){
 }
 
 /* ═════════════ routing ═════════════ */
-/* Bring the section menu into view just below the sticky top bar (html scroll-padding-top). Deferred one frame so it
-   runs after the browser's own jump to the #section anchor, which would otherwise leave the menu under the bar. */
+/* Place the section menu below the rendered sticky bar after fonts and fragment navigation settle. */
 function navIntoView(heading){
   var nav = document.getElementById('secnav'); if(!nav) return;
   var hash = location.hash;
+  // Move keyboard focus as part of the section change; font loading must not delay it.
+  if(heading && !document.querySelector('dialog[open]')) heading.focus({preventScroll:true});
   function settle(){
-    (window.requestAnimationFrame || setTimeout)(function(){
-      if(location.hash === hash && !document.querySelector('dialog[open]')){
-        if(heading) heading.focus({preventScroll:true});
-        nav.scrollIntoView({block:'start',behavior:'instant'});
-      }
-    });
+    function align(){
+      (window.requestAnimationFrame || setTimeout)(function(){
+        (window.requestAnimationFrame || setTimeout)(function(){
+        if(location.hash === hash && !document.querySelector('dialog[open]')){
+          // Native fragment navigation can reset focus after the route handler.
+          // Recover only a lost/default focus target; leave a reader's new control alone.
+          var ae = document.activeElement;
+          if(heading && (!ae || ae===document.body || ae===document.documentElement || ae===heading.closest('.rsec'))) heading.focus({preventScroll:true});
+          var bar = document.querySelector('.topbar');
+          var clearance = (bar ? bar.getBoundingClientRect().height : 0) + 12;
+          window.scrollTo({top:Math.max(0,window.scrollY + nav.getBoundingClientRect().top - clearance),behavior:'instant'});
+        }
+        });
+      });
+    }
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(align);
+    else align();
   }
   // Initial fragment navigation may run at load, after the asynchronously
   // rendered sections exist. Wait for that jump as well as layout.
