@@ -561,22 +561,23 @@ function drawAbout(){
 }
 
 /* ═════════════ routing ═════════════ */
-/* Bring the section menu into view just below the sticky top bar (html scroll-padding-top). Deferred one frame so it
-   runs after the browser's own jump to the #section anchor, which would otherwise leave the menu under the bar. */
+/* Place the section menu below the rendered sticky bar after fonts and fragment navigation settle. */
 function navIntoView(heading){
   var nav = document.getElementById('secnav'); if(!nav) return;
   var hash = location.hash;
   function settle(){
-    (window.requestAnimationFrame || setTimeout)(function(){
-      if(location.hash === hash && !document.querySelector('dialog[open]')){
-        if(heading) heading.focus({preventScroll:true});
-        // Plain reading and narrow screens can wrap the bar onto another line.
-        // Use its actual rendered height, including the desktop page zoom.
-        var bar = document.querySelector('.topbar');
-        if(bar) document.documentElement.style.scrollPaddingTop = Math.ceil(bar.getBoundingClientRect().height + 12) + 'px';
-        nav.scrollIntoView({block:'start',behavior:'instant'});
-      }
-    });
+    function align(){
+      (window.requestAnimationFrame || setTimeout)(function(){
+        if(location.hash === hash && !document.querySelector('dialog[open]')){
+          if(heading) heading.focus({preventScroll:true});
+          var bar = document.querySelector('.topbar');
+          var clearance = (bar ? bar.getBoundingClientRect().height : 0) + 12;
+          window.scrollTo({top:Math.max(0,window.scrollY + nav.getBoundingClientRect().top - clearance),behavior:'instant'});
+        }
+      });
+    }
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(align);
+    else align();
   }
   // Initial fragment navigation may run at load, after the asynchronously
   // rendered sections exist. Wait for that jump as well as layout.
