@@ -108,7 +108,8 @@ const channels = color => (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number)
 
     /* accessibility in blue, with the menu closed and open */
     for (const open of [false, true]) {
-      if (open) await page.click('#fabToggle');
+      /* the menu fades in: wait until it is fully drawn before measuring contrast */
+      if (open) { await page.click('#fabToggle'); await page.waitForFunction(() => getComputedStyle(document.getElementById('fabMenu')).opacity === '1'); }
       const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
       assert.deepEqual(result.violations.map(v => v.id + ': ' + v.nodes.map(n => n.target.join(' ')).join(' | ')), [], 'axe in blue' + (open ? ', menu open' : ''));
       if (open) await page.keyboard.press('Escape');
