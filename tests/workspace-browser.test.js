@@ -73,7 +73,10 @@ const W=require('../src/js/workspace-data');
     await p.setViewportSize({width,height:900});
     for(const section of ['activities','ai-types','policies','sources']){
       await go('register.html#'+section);
-      await p.waitForFunction(()=>Math.abs(document.getElementById('secnav').getBoundingClientRect().top-document.querySelector('.topbar').getBoundingClientRect().bottom-12)<2);
+      await p.waitForFunction(()=>Math.abs(document.getElementById('secnav').getBoundingClientRect().top-document.querySelector('.topbar').getBoundingClientRect().bottom-12)<2).catch(async error=>{
+        const state=await p.evaluate(()=>({hash:location.hash,ready:document.readyState,fonts:document.fonts.status,bar:document.querySelector('.topbar').getBoundingClientRect().toJSON(),nav:document.getElementById('secnav').getBoundingClientRect().toJSON(),scrollY,zoom:getComputedStyle(document.body).zoom,dialogs:[...document.querySelectorAll('dialog[open]')].map(d=>d.id)}));
+        throw new Error('Section alignment at '+width+' / '+section+': '+JSON.stringify(state),{cause:error});
+      });
       const geometry=await p.evaluate(()=>({bar:document.querySelector('.topbar').getBoundingClientRect().bottom,nav:document.getElementById('secnav').getBoundingClientRect().top}));
       assert.ok(geometry.nav>=geometry.bar-1,'plain section menu clears the header at '+width+': '+JSON.stringify(geometry));
       axe=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();
