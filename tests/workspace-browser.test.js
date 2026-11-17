@@ -10,7 +10,11 @@ const W=require('../src/js/workspace-data');
  try{
   const ctx=await createContext(browser,{viewport:{width:1440,height:900}}),p=await ctx.newPage(),errors=[];
   p.on('pageerror',e=>errors.push(e.message));
-  const go=async file=>{await p.goto(server.url(file));await p.waitForSelector('html[data-ready]');};
+  const go=async file=>{
+    await p.goto(server.url(file));await p.waitForSelector('html[data-ready]');
+    await p.evaluate(()=>document.fonts.ready);
+    await p.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+  };
   await go('what-if-ai.html');
   const first=await p.locator('[name="q-focus"]').first().boundingBox();assert.ok(first.y+first.height<900,'first task choice is above the desktop fold');
   await p.locator('.topbar [data-reading-toggle]').click();
@@ -69,6 +73,8 @@ const W=require('../src/js/workspace-data');
     await p.setViewportSize({width,height:900});
     for(const section of ['activities','ai-types','policies','sources']){
       await go('register.html#'+section);
+      const geometry=await p.evaluate(()=>({bar:document.querySelector('.topbar').getBoundingClientRect().bottom,nav:document.getElementById('secnav').getBoundingClientRect().top}));
+      assert.ok(geometry.nav>=geometry.bar-1,'plain section menu clears the header at '+width+': '+JSON.stringify(geometry));
       axe=await new AxeBuilder({page:p}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();
       assert.deepEqual(axe.violations,[],'plain Register '+section+' at '+width);
     }

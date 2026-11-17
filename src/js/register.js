@@ -570,6 +570,10 @@ function navIntoView(heading){
     (window.requestAnimationFrame || setTimeout)(function(){
       if(location.hash === hash && !document.querySelector('dialog[open]')){
         if(heading) heading.focus({preventScroll:true});
+        // Plain reading and narrow screens can wrap the bar onto another line.
+        // Use its actual rendered height, including the desktop page zoom.
+        var bar = document.querySelector('.topbar');
+        if(bar) document.documentElement.style.scrollPaddingTop = Math.ceil(bar.getBoundingClientRect().height + 12) + 'px';
         nav.scrollIntoView({block:'start',behavior:'instant'});
       }
     });
