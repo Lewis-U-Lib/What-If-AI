@@ -27,6 +27,19 @@
   </div>
 </dialog>
 
+<dialog class="dlg trial-dialog" id="trialDialog" aria-labelledby="trialTitle">
+  <div class="dlg__head"><h2 data-dlg-title id="trialTitle">Plan a small trial</h2>
+    <button type="button" class="dlg__close" data-close aria-label="Close trial plan">✕</button></div>
+  <div class="dlg__body">
+    <h3 data-trial-idea></h3>
+    <p>Your answers save in this browser as you type. Your Word document, printouts, and collection download include these notes.</p>
+    <details data-trial-route><summary>Compare with the route without AI</summary><p></p></details>
+    <div class="trial-fields"></div><p data-trial-state role="status"></p>
+  </div>
+  <div class="dlg__foot"><button class="btn btn--sm" data-trial-word type="button">Download Word document</button>
+    <button class="btn btn--sm" data-close type="button">Done</button></div>
+</dialog>
+
 <dialog class="dlg compare-dialog" id="compareDialog" aria-labelledby="compareTitle">
   <div class="dlg__head"><h2 id="compareTitle" data-dlg-title>Compare saved ideas</h2>
     <button type="button" class="dlg__close" data-close aria-label="Close comparison">✕</button></div>

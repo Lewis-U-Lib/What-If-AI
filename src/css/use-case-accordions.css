@@ -49,3 +49,7 @@
 .compare-scroll td,.compare-scroll th{min-width:12rem;vertical-align:top;text-align:left;border:1px solid var(--line);padding:.7rem;overflow-wrap:anywhere;}
 .compare-scroll th:first-child{min-width:8rem;}
 .export-line{white-space:pre-line;overflow-wrap:anywhere;}
+.trial-fields{display:grid;gap:.45rem;margin-block:1rem;}
+.trial-fields label{font-weight:600;margin-top:.65rem;}
+.trial-fields textarea{box-sizing:border-box;width:100%;padding:.6rem;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:.25rem;font:inherit;resize:vertical;}
+.trial-print p{white-space:pre-wrap;overflow-wrap:anywhere;}

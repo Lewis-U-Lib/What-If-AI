@@ -210,33 +210,60 @@ function normalizeIds(ids){
   return ids.filter(function(id){return typeof id==='string';}).map(savedId)
     .filter(function(id,i,all){return all.indexOf(id)===i;});
 }
-function readIds(){
-  if(mem) return mem.slice();
-  try { var v = JSON.parse(window.localStorage.getItem(KEY)||'[]'); mem = Array.isArray(v) ? normalizeIds(v) : []; }
-  catch(_){ mem = []; storageOK = false; }
-  return mem.slice();
+function savedState(fresh){
+  if(mem && (!fresh || !storageOK)) return mem;
+  try {
+    var v = JSON.parse(window.localStorage.getItem(KEY) || '[]');
+    mem = Array.isArray(v) ? {saved:normalizeIds(v), plans:Object.create(null)} :
+      {saved:normalizeIds(v.saved), plans:TrialPlan.planMap(v.plans, savedId)};
+  } catch(_){ if(!mem) mem={saved:[], plans:Object.create(null)}; storageOK=false; }
+  return mem;
 }
-function writeIds(ids){
-  ids = normalizeIds(ids);
-  mem = ids.slice();
-  try { var value=JSON.stringify(ids); window.localStorage.setItem(KEY,value); storageOK=window.localStorage.getItem(KEY)===value; }
-  catch(_){ storageOK=false; }
-  listeners.forEach(function(fn){ try{ fn(ids.slice(),storageOK); }catch(_){} });
+function readIds(){ return savedState().saved.slice(); }
+function writeState(ids, plans, notify){
+  ids=normalizeIds(ids);
+  TrialPlan.checkSize(ids,plans);
+  mem={saved:ids.slice(),plans:plans};
+  try {
+    // Keep the historical array format for collections without worksheets.
+    var value=JSON.stringify(Object.keys(plans).length ? TrialPlan.file(ids,plans) : ids);
+    window.localStorage.setItem(KEY,value);
+    storageOK=window.localStorage.getItem(KEY)===value;
+  } catch(_){ storageOK=false; }
+  if(notify) listeners.forEach(function(fn){ try{ fn(ids.slice(),storageOK); }catch(_){} });
   return storageOK;
+}
+function editAnswer(id,field,value){
+  var state=savedState(true), plans=Object.assign(Object.create(null),state.plans);
+  id=savedId(id);
+  if(!TrialPlan.validId(id) || !TrialPlan.questions.some(function(q){return q[0]===field;}) ||
+     typeof value!=='string' || value.length>5000) throw Error('The answer could not be saved.');
+  var plan=Object.assign({},plans[id]);
+  if(value) plan[field]=value; else delete plan[field];
+  if(Object.keys(plan).length) plans[id]=plan; else delete plans[id];
+  // An edit in another tab may have removed the idea. Keep the notes attached as the author types.
+  var added=state.saved.indexOf(id)<0;
+  return writeState(added ? state.saved.concat(id) : state.saved, plans, added);
 }
 var Saved = {
   ids: readIds,
-  has: function(id){ return readIds().indexOf(savedId(id)) >= 0; },
-  isPersistent: function(){ readIds(); return storageOK; },
-  add: function(id){ id=savedId(id); var ids=readIds(); if(ids.indexOf(id)<0){ ids.push(id); return writeIds(ids); } return storageOK; },
-  remove: function(id){ id=savedId(id); return writeIds(readIds().filter(function(x){return x!==id;})); },
+  has: function(id){ return savedState().saved.indexOf(savedId(id)) >= 0; },
+  isPersistent: function(){ savedState(); return storageOK; },
+  add: function(id){ id=savedId(id); var state=savedState(true); return state.saved.indexOf(id)<0 ? writeState(state.saved.concat(id),state.plans,true) : storageOK; },
+  remove: function(id){ id=savedId(id); var state=savedState(true); return writeState(state.saved.filter(function(x){return x!==id;}),state.plans,true); },
   toggle: function(id){ if(Saved.has(id)){ Saved.remove(id); return false; } Saved.add(id); return true; },
-  clear: function(){ return writeIds([]); },
-  replace: writeIds,
+  clear: function(){ return writeState([],savedState(true).plans,true); },
+  snapshot: function(){ var state=savedState(true); return TrialPlan.file(state.saved.slice(),Object.assign(Object.create(null),state.plans)); },
+  plan: function(id){return savedState().plans[savedId(id)];},
+  editAnswer: editAnswer,
+  restore: function(incoming){
+    var local=savedState(true), plans=Object.assign(Object.create(null),incoming.plans,local.plans);
+    return writeState(local.saved.concat(incoming.saved),plans,true);
+  },
   onChange: function(fn){ listeners.push(fn); }
 };
 window.addEventListener('storage', function(e){
-  if(e.key !== KEY || !storageOK) return;
+  if((e.key !== KEY && e.key !== null) || !storageOK) return;
   mem = null; var ids = readIds(); listeners.forEach(function(fn){ try{ fn(ids); }catch(_){} });
 });
 
@@ -612,13 +639,13 @@ function fillPrintRoot(ids, single, brief){
   if(single){
     var one = BYID[ids[0]];
     h = '<h1>'+esc(one.t)+'</h1><div class="pr-sub">'+esc(kickerOf(one))+' · '+toolName()+' · Lewis University Library · printed '+esc(today)+'</div>'+
-      '<article>'+detailHTML(one,{print:true})+'</article>';
+      '<article>'+detailHTML(one,{print:true})+IdeaCollection.trialPrint(one.id)+'</article>';
   } else {
     h = '<h1>'+(brief?'Brief planning sheets':'Saved use-case ideas')+'</h1><div class="pr-sub">'+toolName()+' · Lewis University Library · '+num(ids.length)+
       ' use-case idea'+(ids.length===1?'':'s')+' · printed '+esc(today)+'</div>';
     ids.forEach(function(id){
       var a = BYID[id];
-      h += '<article><div class="kicker">'+esc(kickerOf(a))+'</div><h2>'+esc(a.t)+'</h2>'+(brief?IdeaCollection.briefHTML(a):detailHTML(a,{print:true}))+'</article>';
+      h += '<article><div class="kicker">'+esc(kickerOf(a))+'</div><h2>'+esc(a.t)+'</h2>'+(brief?IdeaCollection.briefHTML(a):detailHTML(a,{print:true}))+IdeaCollection.trialPrint(a.id)+'</article>';
     });
   }
   h += '<div class="pr-foot">Tool credit: What If AI and The Register, Lewis University Library. '+
@@ -703,6 +730,7 @@ function init(ctx){
   if(ad) wireDialog(ad);
   if(sd) wireDialog(sd);
   wireDialog(document.getElementById('compareDialog'));
+  wireDialog(document.getElementById('trialDialog'));
   var aboutFromStart = null;
   if(about){ wireDialog(about); aboutFromStart = wireAbout(about); }
   document.addEventListener('click', function(e){
