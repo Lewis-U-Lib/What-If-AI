@@ -568,12 +568,14 @@ function navIntoView(heading){
   function settle(){
     function align(){
       (window.requestAnimationFrame || setTimeout)(function(){
+        (window.requestAnimationFrame || setTimeout)(function(){
         if(location.hash === hash && !document.querySelector('dialog[open]')){
           if(heading) heading.focus({preventScroll:true});
           var bar = document.querySelector('.topbar');
           var clearance = (bar ? bar.getBoundingClientRect().height : 0) + 12;
           window.scrollTo({top:Math.max(0,window.scrollY + nav.getBoundingClientRect().top - clearance),behavior:'instant'});
         }
+        });
       });
     }
     if(document.fonts && document.fonts.ready) document.fonts.ready.then(align);
