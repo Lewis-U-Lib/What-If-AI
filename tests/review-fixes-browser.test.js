@@ -79,9 +79,9 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
   const card=await showUntil('compatible','CAN-B-ARGU-09');
   assert.equal(await card.count(),1,'CAN-B-ARGU-09 is a possible fit');
   const note=await card.locator('.match-note').textContent();
-  assert.ok(note.includes('Recorded for any course')&&!note.includes('Different from your preferences'),note);
+  assert.ok(note.includes('Tagged for any course')&&note.includes('transferable method')&&note.includes('Check subject knowledge, materials, and adaptation')&&!note.includes('Different from your preferences'),note);
   assert.equal(await p.locator('[data-match-group="close"] [data-card="CAN-B-ARGU-09"]').count(),0);
-  pass('WIA-02: an any-course activity is a possible fit with “Recorded for any course”, not a field mismatch');
+  pass('WIA-02: an any-course activity is a possible fit with an explicit adaptation check, not a field mismatch');
 
   // WIA-03: under the first limit, a card that qualifies only through its route without AI says so,
   // and every card says who uses AI.
