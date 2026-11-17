@@ -327,6 +327,7 @@ function detailHTML(a, opts){
 
   /* 1 · the activity */
   h += sec('The use-case idea', p(a.sum, 'lead'));
+  if(opts.print && IdeaExport.noDerivatives(a)) h += '<p>'+esc(IdeaExport.note)+'</p>';
 
   /* 2 · at a glance */
   var f = '<dl class="facts">';

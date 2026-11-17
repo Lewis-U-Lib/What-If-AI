@@ -39,6 +39,21 @@
     section('Checking the work', a.chk);
     section('Reflection or assessment', a.rf);
     section('A route without AI', a.na);
+    if (noDerivatives(a)) {
+      // Retain every additional narrative section in a verbatim export, including reported wording.
+      section('Evidence and limitations', a.evs);
+      section('What it depends on the AI tool for', a.dep);
+      section('Risks and accessibility', a.risk);
+      section('Adapting it', a.ad);
+      for (const [label, value] of a.pa || []) section(label || 'A possible adaptation', value);
+      for (const detail of a.miss || []) section('Detail the source leaves open', detail);
+      for (const [field, value] of a.srp || []) {
+        const label = {goal:'Goal',procedure:'Procedure',expected_output:'Expected output',verification_step:'How results are checked'}[field];
+        section(label || field,value);
+      }
+      section('A prompt the source provides', a.pr);
+      section('Tool named in the source', a.tool);
+    }
     if (a.sa) section('Linked source material', {
       unmodified: 'Use the linked source item as published. It has its own reuse terms.',
       not_open: 'The linked source has no clear open license. Consult the source for its terms.',

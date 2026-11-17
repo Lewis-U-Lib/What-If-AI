@@ -7,7 +7,9 @@ const {acts} = require('../data/acts.json');
 const site = {L:{actor:{},scale:{},pc:{},sa:{}},costLabel:() => ''};
 const a = {id:'example',t:'A & B',sum:'Keep <every> word.\n  Including the second line.',gate:'My judgment.',
   cit:'Source one\nSource two',attr:'Original attribution.',chg:'Published change note.',lic:'CC BY-NC-ND 4.0',
-  licu:'https://creativecommons.org/licenses/by-nc-nd/4.0/',rel:[['R1','Used unmodified','Referenced work','p. 3']]};
+  licu:'https://creativecommons.org/licenses/by-nc-nd/4.0/',evs:'A full evidence caveat.',
+  pa:[['Setting','Exact adaptation text']],miss:['An exact missing detail'],srp:[['procedure','Exact source procedure.']],
+  pr:'An exact quoted prompt.',rel:[['R1','Used unmodified','Referenced work','p. 3']]};
 async function main() {
   assert.deepEqual(E.comparison({sc:[]},site).map(row => row[1]),Array(5).fill('Not stated'));
   assert.equal(E.comparison({...a,srp:[['goal','A recorded goal.']]},site)[0][1],'A recorded goal.');
@@ -17,7 +19,7 @@ async function main() {
   assert.ok(E.noDerivatives(a));
   assert.ok(E.noDerivatives({lic:'A license',licu:'https://creativecommons.org/licenses/by-nd/4.0/'}));
   assert.equal(E.noDerivatives({lic:'CC BY 4.0',sa:'unmodified'}),false);
-  for (const field of [E.note,a.t,a.sum,a.gate,a.attr,a.cit,a.chg,a.lic,a.licu,url,'Referenced work']) assert.ok(text.includes(field));
+  for (const field of [E.note,a.t,a.sum,a.gate,a.attr,a.cit,a.chg,a.lic,a.licu,url,a.evs,a.pa[0][1],a.miss[0],a.srp[0][1],a.pr,'Referenced work']) assert.ok(text.includes(field));
   for (const record of acts) {
     const exported = E.text(E.blocks(record,url));
     for (const field of ['sum','cit','attr','lic','lics','licu','licn','chg']) {

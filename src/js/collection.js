@@ -114,7 +114,8 @@
   }
   function briefHTML(a) {
     // sum is also the full opening narrative. Use it as published and omit secondary sections in this format.
-    return '<p>' + esc(a.sum) + '</p>' + (E.noDerivatives(a) ? '<p>' + esc(E.note) + '</p>' : '') +
+    if (E.noDerivatives(a)) return S.detailHTML(a,{print:true});
+    return '<p>' + esc(a.sum) + '</p>' +
       '<dl class="facts">' + E.comparison(a,S).map(([label,value]) => '<dt>' + esc(label) + '</dt><dd>' + esc(value) + '</dd>').join('') + '</dl>' +
       '<h3>Sources and attribution</h3>' + [a.cr,a.cit,a.loc,a.url,a.lic,a.licu,a.lics,a.licn,a.attr,a.chg,entryURL(a.id)].filter(Boolean)
         .map(line => '<p class="export-line">' + esc(line) + '</p>').join('');
