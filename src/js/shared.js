@@ -402,7 +402,9 @@ function detailHTML(a, opts){
   if(a.ev && a.ev.length) ad += '<h4>Also described for</h4><ul>'+a.ev.map(function(v){return '<li>'+esc(v[0])+(v[1]?' ('+esc(v[1])+')':'')+'</li>';}).join('')+'</ul>';
   if(a.var && BYID[a.var]) ad += '<h4>Related use-case idea</h4><p>A variation of '+
       (opts.print ? '“'+esc(BYID[a.var].t)+'”' : '<a href="#" data-open="'+esc(a.var)+'">'+esc(BYID[a.var].t)+'</a>')+'.</p>';
-  h += detailSection('Adapting it', ad, opts);
+  /* opts.brief (planning summary, copy and export): the same fields, complete, without the three reference
+     sections: adaptation notes, what the source reports, and the list of works. Nothing is shortened. */
+  if(!opts.brief) h += detailSection('Adapting it', ad, opts);
 
   /* 7 · what the source reports */
   var sr = '';
@@ -412,7 +414,7 @@ function detailHTML(a, opts){
   }
   if(a.pr) sr += '<h4>A prompt the source provides</h4><p>“'+G(a.pr)+'”</p>';
   if(a.tool) sr += '<p class="meta-line">Tool named in the source: '+esc(a.tool)+'. Recorded as reported, not as a recommendation.</p>';
-  h += detailSection('What the source reports', sr, opts);
+  if(!opts.brief) h += detailSection('What the source reports', sr, opts);
 
   /* 8 · source, license, attribution */
   var o = ORIGIN[a.cls], T = tierOf(a);
@@ -448,7 +450,7 @@ function detailHTML(a, opts){
   if(!opts.print && !opts.inRegister)
     src += '<p class="idline"><a href="'+reg+'#act='+encodeURIComponent(a.id)+'">'+icon('i-crt')+' Open in The Register</a></p>';
   h += detailSection('Source and license', src, opts);
-  h += detailSection('Works it draws on', works, opts);
+  if(!opts.brief) h += detailSection('Works it draws on', works, opts);
 
   return '<div class="detail">'+h+'</div>';
 }
@@ -514,12 +516,14 @@ function refocusAfterBack(el){
 }
 
 var CTX = {page:'finder'};
+/* compare, move and export (src/js/saved-tools.js) load after this file; pages without them work as before */
+function TOOLS(){ return window.SITE_TOOLS || null; }
 function openActivity(id, opener){
   var a = BYID[id] || BYID[ALIAS[id]]; if(!a) return false;
   var dlg = document.getElementById('actDialog'); if(!dlg) return false;
   dlg.querySelector('[data-dlg-kicker]').textContent = kickerOf(a);
   dlg.querySelector('[data-dlg-title]').textContent = a.t;
-  dlg.querySelector('.dlg__body').innerHTML = detailHTML(a, {inRegister: CTX.page==='register'}) + ActivityFeedback.render(a.id, CTX.page);
+  dlg.querySelector('.dlg__body').innerHTML = detailHTML(a, {inRegister: CTX.page==='register'}) + (TOOLS() ? TOOLS().exportHTML(a) : '') + ActivityFeedback.render(a.id, CTX.page);
   ActivityFeedback.mount(dlg.querySelector('.activity-feedback'));
   var foot = dlg.querySelector('.dlg__foot');
   foot.innerHTML = saveButton(a) +
@@ -528,6 +532,7 @@ function openActivity(id, opener){
       ? '<button type="button" class="btn btn--sm" data-copy-act="'+esc(a.id)+'">Copy a link to this use-case idea</button>'
       : '<a class="btn btn--sm" href="register.html#act='+encodeURIComponent(a.id)+'">'+icon('i-crt')+' Open in The Register</a>') +
     '<button type="button" class="btn btn--sm" data-print-act="'+esc(a.id)+'">Print or save as PDF</button>'+
+    (TOOLS() ? '<button type="button" class="btn btn--sm" data-export-jump>Copy or export</button>' : '')+
     '<button type="button" class="btn btn--sm btn--quiet" data-close>Close</button>'+storageNotice();
   syncStorageUI();
   var wasOpen = dlg.open;
@@ -554,12 +559,13 @@ function renderSaved(){
   var foot = document.getElementById('savedFoot');
   if(!ids.length){
     box.innerHTML = storageNotice(true)+'<div class="saved-empty"><p><strong>No saved use-case ideas yet.</strong></p>'+
-      '<p>Use the Save button on any use-case idea to keep it here while you browse. You can then review your selection and print it or save it as a PDF.</p></div>'+
+      '<p>Use the Save button on any use-case idea to keep it here while you browse. You can then review your selection, compare two or three, and print it or save it as a PDF.</p></div>'+
+      (TOOLS() ? TOOLS().transferHTML(false) : '')+
       '<p class="privacy">Your selection is kept in this browser only. There is no account, and your saved list is not sent to the library or anyone else.</p>';
     if(foot) foot.hidden = true;
     return;
   }
-  var h = storageNotice(true)+'<ol class="saved-list">';
+  var h = storageNotice(true)+(TOOLS() ? TOOLS().compareBarHTML() : '')+'<ol class="saved-list">';
   ids.forEach(function(id){
     /* readIds normalizes earlier-edition identifiers before rendering or changing saved state. */
     var a = BYID[id] || BYID[ALIAS[id]];
@@ -570,15 +576,27 @@ function renderSaved(){
       return;
     }
     h += '<li class="saved-item"><div class="saved-item__t">'+esc(a.t)+'</div><div class="saved-item__m">'+esc(savedMeta(a))+'</div>'+
-      '<div class="saved-item__a"><button type="button" class="btn btn--sm" data-open="'+esc(a.id)+'">View<span class="sr-only"> '+esc(a.t)+'</span></button>'+
+      '<div class="saved-item__a">'+(TOOLS() ? TOOLS().compareCheckHTML(a) : '')+'<button type="button" class="btn btn--sm" data-open="'+esc(a.id)+'">View<span class="sr-only"> '+esc(a.t)+'</span></button>'+
       '<button type="button" class="btn btn--sm btn--quiet" data-unsave="'+esc(id)+'">Remove<span class="sr-only"> '+esc(a.t)+'</span></button></div></li>';
   });
-  h += '</ol><p class="privacy">Your selection is kept in this browser only. There is no account, and your saved list is not sent to the library or anyone else.</p>';
+  h += '</ol>'+printChoiceHTML()+(TOOLS() ? TOOLS().transferHTML(true) : '')+
+    '<p class="privacy">Your selection is kept in this browser only. There is no account, and your saved list is not sent to the library or anyone else.</p>';
   h += '<div class="confirm" id="clearConfirm" hidden><p>Remove '+(ids.length===1?'the saved use-case idea':'all '+num(ids.length)+' saved use-case ideas')+'?</p>'+
        '<button type="button" class="btn btn--sm" id="clearYes">Remove all</button> '+
        '<button type="button" class="btn btn--sm btn--quiet" id="clearNo">Keep them</button></div>';
   box.innerHTML = h;
   if(foot) foot.hidden = false;
+}
+/* two printouts of the saved list: everything in each record, or a planning summary (see detailHTML's opts.brief) */
+var printMode = 'full';
+function printChoiceHTML(){
+  function opt(v, label, text){
+    return '<label class="printopt"><input type="radio" name="print-mode" value="'+v+'"'+(printMode===v?' checked':'')+'><span><strong>'+label+'</strong> '+text+'</span></label>';
+  }
+  return '<fieldset class="printchoice"><legend>Printout</legend>'+
+    opt('full','Full reference.','Everything in each record, one use-case idea to a page.')+
+    opt('brief','Planning summary.','Each complete description with its requirements, cautions, route without AI, source, license, and attribution. Adaptation notes, what the source reports, and the list of works are left out.')+
+    '</fieldset>';
 }
 function syncSaveUI(){
   var ids = Saved.ids();
@@ -601,8 +619,9 @@ function syncSaveUI(){
    attribution, and change notes on paper. Pages under an open dialog are never printed in its place. */
 var printCleanup = null;
 function toolName(){ return CTX.page==='register' ? 'The Register' : 'What If AI'; }
-function fillPrintRoot(ids, single){
+function fillPrintRoot(ids, single, brief){
   var root = document.getElementById('printRoot'); if(!root) return null;
+  root.className = brief ? 'pr-brief' : '';
   var today = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   var h;
   if(single){
@@ -610,11 +629,14 @@ function fillPrintRoot(ids, single){
     h = '<h1>'+esc(one.t)+'</h1><div class="pr-sub">'+esc(kickerOf(one))+' · '+toolName()+' · Lewis University Library · printed '+esc(today)+'</div>'+
       '<article>'+detailHTML(one,{print:true})+'</article>';
   } else {
-    h = '<h1>Saved use-case ideas</h1><div class="pr-sub">'+toolName()+' · Lewis University Library · '+num(ids.length)+
+    h = '<h1>Saved use-case ideas'+(brief?': planning summary':'')+'</h1><div class="pr-sub">'+toolName()+' · Lewis University Library · '+num(ids.length)+
       ' use-case idea'+(ids.length===1?'':'s')+' · printed '+esc(today)+'</div>';
+    if(brief) h += '<p class="pr-note">This planning summary gives each use-case idea’s complete description, requirements, cautions, source, license, and attribution. '+
+      'It leaves out adaptation notes, what each source reports, and the list of works each idea draws on; those are in the full reference printout and in each idea’s details.</p>';
     ids.forEach(function(id){
       var a = BYID[id];
-      h += '<article><div class="kicker">'+esc(kickerOf(a))+'</div><h2>'+esc(a.t)+'</h2>'+detailHTML(a,{print:true})+'</article>';
+      h += '<article><div class="kicker">'+esc(kickerOf(a))+'</div><h2>'+esc(a.t)+'</h2>'+detailHTML(a,{print:true,brief:brief})+
+        (TOOLS() && TOOLS().printExtra ? TOOLS().printExtra(a, brief) : '')+'</article>';
     });
   }
   h += '<div class="pr-foot">Tool credit: What If AI and The Register, Lewis University Library. '+
@@ -623,8 +645,9 @@ function fillPrintRoot(ids, single){
   root.innerHTML = h;
   return root;
 }
-function preparePrint(ids, single){
-  var root = fillPrintRoot(ids, single); if(!root) return false;
+function preparePrint(ids, single, brief, html){
+  var root = html==null ? fillPrintRoot(ids, single, brief) : document.getElementById('printRoot'); if(!root) return false;
+  if(html!=null){ root.className = 'pr-custom'; root.innerHTML = html; }
   document.body.classList.add('print-saved');
   /* the print copy is hidden from assistive technology on screen, but a saved PDF needs its headings
      and reading order, so it is exposed while printing (as the Register walkthrough's print is) */
@@ -641,8 +664,18 @@ function printSaved(){
   var ids = Saved.ids().map(function(id){ return BYID[id] ? id : ALIAS[id]; }).filter(function(id, i, all){ return id && BYID[id] && all.indexOf(id) === i; });
   if(!ids.length){ announce('There are no saved use-case ideas to print.'); return; }
   var dr = document.getElementById('savedDrawer'); if(dr && dr.open) closeDialog(dr);
-  var done = preparePrint(ids, false); if(!done) return;
+  var done = preparePrint(ids, false, printMode==='brief'); if(!done) return;
   setTimeout(function(){ window.print(); setTimeout(done, 1500); }, 60);
+}
+/* print something built elsewhere (the comparison table) through the same print copy */
+function printHTML(html){
+  var done = preparePrint(null, false, false, html); if(!done) return;
+  setTimeout(function(){ window.print(); setTimeout(done, 1500); }, 60);
+}
+function printFooterHTML(){
+  return '<div class="pr-foot">Tool credit: What If AI and The Register, Lewis University Library. '+
+    esc(TOOL_LICENSE.scope)+' are licensed '+licenseHTML(TOOL_LICENSE.label,TOOL_LICENSE.url,true)+'. '+
+    esc(TOOL_LICENSE.exceptions)+' Retain each entry’s own attribution, license, and change notices.</div>';
 }
 function printActivity(id){
   var a = BYID[id] || BYID[ALIAS[id]]; if(!a) return;
@@ -698,10 +731,15 @@ function init(ctx){
   var ad = document.getElementById('actDialog'), sd = document.getElementById('savedDrawer'), about = document.getElementById('aboutDialog');
   if(ad) wireDialog(ad);
   if(sd) wireDialog(sd);
+  if(TOOLS()) TOOLS().init();
   var aboutFromStart = null;
   if(about){ wireDialog(about); aboutFromStart = wireAbout(about); }
+  document.addEventListener('change', function(e){
+    if(e.target && e.target.name==='print-mode' && e.target.checked) printMode = e.target.value==='brief' ? 'brief' : 'full';
+  });
   document.addEventListener('click', function(e){
     var t = e.target;
+    if(TOOLS() && TOOLS().click(e)) return;
     /* "How this site works": the same dialog from the header on both pages and from the Finder's rail */
     var ab = t.closest('[data-open-about]');
     if(ab && about){ if(!about.open) aboutFromStart(); openDialog(about, ab); return; }
@@ -785,5 +823,5 @@ function copyText(text, okMsg, btn){
 window.SITE = {D:D, A:A, IN:IN, BYID:BYID, ALIAS:ALIAS, L:L, ORIGIN:ORIGIN, TIER:TIER, tierOf:tierOf, OPERATOR:OPERATOR, operatorLabel:operatorLabel, noToolForStudents:noToolForStudents, usedItems:usedItems, esc:esc, safeURL:safeURL, externalLink:externalLink, licenseHTML:licenseHTML, sourceLink:sourceLink, costLabel:costLabel, pretty:pretty, G:G, icon:icon, fieldTags:fieldTags,
   taskLabel:taskLabel, depthLabel:depthLabel, discLabel:discLabel, lvlLabel:lvlLabel, modLabel:modLabel, familyLabel:familyLabel, num:num, labelList:labelList,
   cardHTML:cardHTML, detailHTML:detailHTML, openActivity:openActivity, openDialog:openDialog, closeDialog:closeDialog, wireDialog:wireDialog, resetDialogScroll:resetDialogScroll,
-  Saved:Saved, announce:announce, decode:decode, printSaved:printSaved, printActivity:printActivity, refocusAfterBack:refocusAfterBack, copyText:copyText, howItWorks:howItWorks, init:init, kickerOf:kickerOf};
+  Saved:Saved, renderSaved:renderSaved, scaleText:scaleText, sensitive:sensitive, sourceAccess:sourceAccess, dataTool:dataTool, toolName:toolName, printHTML:printHTML, printFooterHTML:printFooterHTML, lines:lines, announce:announce, decode:decode, printSaved:printSaved, printActivity:printActivity, refocusAfterBack:refocusAfterBack, copyText:copyText, howItWorks:howItWorks, init:init, kickerOf:kickerOf};
 })();

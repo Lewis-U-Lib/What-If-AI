@@ -80,6 +80,17 @@ What If AI's results lead with one group: exact matches when there are any, othe
 
 The landing page, What If AI's first question, and The Register's use-case ideas section each link to `register.html#activities?op=none`, the use-case ideas in which no one operates an AI tool.
 
+## Saved use-case ideas: compare, print, move, export
+
+`src/js/saved-tools.js` adds four things to the saved list and to a use-case idea's details. All of them run in the browser; none sends anything anywhere.
+
+- **Compare.** In Saved use-case ideas, tick Compare on two or three and choose Compare selected. The table has one column per idea and six rows: purpose, participants, preparation, access requirements, human judgment, and the route without AI. `facets()` lists the record fields behind each row. Every cell quotes the record; a field the record lacks reads "Not stated", and nothing is inferred. The comparison prints with each idea's citation, license, and attribution.
+- **Two printouts.** Full reference (the default) prints everything in each record, one idea to a page. Planning summary prints each idea's complete description, at-a-glance facts, division of work, cautions, route without AI, and its whole Source and license section, and leaves out three reference sections: Adapting it, What the source reports, and Works it draws on. It is `detailHTML(a, {brief: true})`: sections are omitted, and no field is shortened. The record's shared description field is not touched.
+- **Move a list.** Download this list writes a small JSON file (`format: "what-if-ai-saved-list"`, the saved ids and titles). Restore a list from a file reads one in the browser and adds its ideas to whatever is already saved; ideas no longer in the collection are reported and left out. There is still no account.
+- **Copy or export one idea.** In an idea's details, Copy or export offers the idea as text ("Copy as assignment text" for teaching ideas) or as a Word document. Both are built from the planning summary of the record, reproduced as written, and always include the source, license, attribution, and change notes, plus a link to the complete record. The `.docx` is written in the browser as a ZIP of stored XML parts, with no library.
+
+`tests/saved-tools.test.js` (`npm run test:saved`) checks each of these, including that descriptions, citations, licenses, attribution, and change notes appear whole in both printouts and both exports, that the Word file is a valid archive of well-formed XML whose paragraphs match the copied text, and that nothing leaves the browser.
+
 ## Crimson and steel blue
 
 The help menu ends with a switch between two palettes: crimson, which is the default, and steel blue. Only colors change; layout, wording, textures' grain, gold, and the illustrations are the same in both.
