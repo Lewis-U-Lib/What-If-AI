@@ -15,7 +15,7 @@ Two faculty resources from Lewis University Library:
 - `src/` contains page templates, partials, scripts, styles, fonts, and images.
 - `tools/build.py` checks the collection, combines it with the guide and license notices, and writes fingerprinted files to `_site/`. It needs only Python 3.
 - `tests/` checks data integrity, matching, page behavior, licensing, accessibility, and contrast.
-- `.github/workflows/pages.yml` runs the checks on pull requests and publishes `main` through GitHub Pages.
+- `.github/workflows/pages.yml` runs the checks on pull requests and publishes `main` through GitHub Pages. The browser suites run side by side in five groups (saved, matching, pages, accessibility, contrast); the `build` check passes only when every group does, and only then is `main` published.
 
 See the [architecture](docs/ARCHITECTURE.md), [matching contract](docs/MATCHING.md), [AI guide sources](docs/AI-TYPE-GUIDE-2026-10-08.md), and [license scope](docs/TOOL-LICENSE-2026-10-08.md).
 
