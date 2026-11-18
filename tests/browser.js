@@ -8,6 +8,10 @@ async function createContext(browser, options) {
   if (process.env.SITE_THEME === 'blue') {
     await context.addInitScript(() => { try { localStorage.setItem('lul-whatifai-theme-v1', 'blue'); } catch (_) { /* storage blocked by the test */ } });
   }
+  // SITE_PLAIN=1 runs any browser check in the plain reading view (with either palette).
+  if (process.env.SITE_PLAIN === '1') {
+    await context.addInitScript(() => { try { localStorage.setItem('lul-whatifai-plain-v1', '1'); } catch (_) { /* storage blocked by the test */ } });
+  }
   await context.route(analytics.script_url, route => route.fulfill({
     contentType: 'application/javascript', body: '/* Analytics disabled in automated checks. */',
   }));

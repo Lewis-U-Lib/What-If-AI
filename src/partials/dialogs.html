@@ -23,6 +23,39 @@
     <button type="button" class="btn btn--sm btn--primary" id="printSaved">Print or save as PDF</button>
     <button type="button" class="btn btn--sm" id="clearSaved">Clear all</button>
   </div>
+  <!-- restoring a downloaded list reads the file in this browser; nothing is uploaded (src/js/saved-tools.js) -->
+  <input type="file" id="restoreFile" accept=".json,application/json" hidden aria-label="Choose a downloaded list of saved use-case ideas"/>
+</dialog>
+
+<dialog class="dlg dlg--compare" id="compareDialog" aria-labelledby="compareTitle">
+  <div class="dlg__head">
+    <div>
+      <div class="kicker">Your selection</div>
+      <h2 id="compareTitle" data-dlg-title>Compare use-case ideas</h2>
+    </div>
+    <button type="button" class="dlg__close" data-close aria-label="Close the comparison"><span aria-hidden="true">✕</span></button>
+  </div>
+  <div class="dlg__body" id="compareBody"></div>
+  <div class="dlg__foot">
+    <button type="button" class="btn btn--sm btn--primary" id="printCompare">Print or save as PDF</button>
+    <button type="button" class="btn btn--sm btn--quiet" data-close>Close</button>
+  </div>
+</dialog>
+
+<dialog class="dlg" id="planDialog" aria-labelledby="planTitle">
+  <div class="dlg__head">
+    <div>
+      <div class="kicker">Optional worksheet</div>
+      <h2 id="planTitle" data-dlg-title>Plan a small trial</h2>
+    </div>
+    <button type="button" class="dlg__close" data-close aria-label="Close the trial plan"><span aria-hidden="true">✕</span></button>
+  </div>
+  <div class="dlg__body" id="planBody"></div>
+  <div class="dlg__foot">
+    <button type="button" class="btn btn--sm btn--primary" id="printPlan">Print or save as PDF</button>
+    <button type="button" class="btn btn--sm" id="clearPlan">Clear this plan</button>
+    <button type="button" class="btn btn--sm btn--quiet" data-close>Close</button>
+  </div>
 </dialog>
 
 <aside class="note saved-storage-note" data-storage-warning hidden aria-label="Saved selection storage">
