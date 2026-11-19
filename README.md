@@ -61,6 +61,8 @@ complete explanation. See [the illustration map](docs/AI-TYPE-ILLUSTRATIONS.md).
 
 Plates and cards have a light rim (`--rim`) against a darkened page, outlined controls sit on a dark fill, and one thing at a time is lit with a gold ring (`--halo`): the current question, an open dialog, and the card or door being pointed at or focused. The rules are the "edges" block near the end of `src/css/theme-plate.css`. Steel blue follows automatically; the plain reading view redefines `--halo` as a solid gold line with no glow. `tests/edges.test.js` (run by `npm run test:theme`) checks all three views.
 
+Question 3's optional level-and-setting questions sit behind the same bar as the expandable sections in a use-case idea's details (`.qmore` shares the rules in `src/css/use-case-accordions.css`), with a note of how many choices are inside.
+
 In a Types of AI pop-up, current examples are a slide of their own before References, and an Examples button in the footer jumps to it.
 
 ## Answering Quidsima's questions

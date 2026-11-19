@@ -144,9 +144,10 @@ function drawWizard(focusTitle){
     h += group(st.key, st.q, opts(st.key), st.two, true);
     if(st.key==='disc'){
       var open = S.lvl||S.mod;
-      h += '<details class="qmore"'+(open?' open':'')+'><summary>Optional: level and setting</summary>'+
-        '<p class="qnote">Use-case ideas without a specific level or setting remain possible fits, with a note to check suitability.</p>'+
-        group('lvl','Who is in the room?', IN.lvl, true) + group('mod','Where does it happen?', IN.mod, false) + '</details>';
+      /* the same bar as the expandable sections in a use-case idea's details, with a note of what is inside */
+      h += '<details class="qmore"'+(open?' open':'')+'><summary><span class="qmore__label">Optional: level and setting</span><span class="qmore__hint">2 more choices</span></summary>'+
+        '<div class="use-case-accordion__body"><p class="qnote">Use-case ideas without a specific level or setting remain possible fits, with a note to check suitability.</p>'+
+        group('lvl','Who is in the room?', IN.lvl, true) + group('mod','Where does it happen?', IN.mod, false) + '</div></details>';
     }
   }
   /* a way in for readers who do not plan for anyone to use an AI tool: the same records, in The Register */
