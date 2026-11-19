@@ -65,12 +65,13 @@ module.exports = async function checkDialogScroll(browser, go, check) {
     }
     await page.goto('about:blank'); await go(page, 'register.html#ai-types');
     await page.locator('[data-open-type="conversational"]').click();
-    await page.locator('.type-example-disclosure > summary').click();
+    await page.locator('[data-type-goto]').click();
+    await page.setViewportSize({ width, height: 420 });      /* short enough that the examples slide scrolls */
     assert.ok(await scrollDown('aiTypeDialog') > 0);
     await page.keyboard.press('Escape');
     await page.locator('[data-open-type="conversational"]').click(); await atTop('aiTypeDialog');
-    assert.equal(await page.locator('.type-example-disclosure').evaluate(e => e.open), false);
-    check('The Register @' + width + ': AI-type details reopen at the top with examples collapsed', true);
+    assert.equal(await page.locator('#typePos').textContent(), '1 of 6');
+    check('The Register @' + width + ': AI-type details reopen at the top, on the first slide', true);
     assert.deepEqual(errors, []);
     await context.close();
   }

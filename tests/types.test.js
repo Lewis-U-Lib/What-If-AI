@@ -54,10 +54,10 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
    assert.equal(await page.locator('#aiTypeDialogTitle').textContent(),t.name);
    assert.equal(await page.locator('.type-dialog__description .type-field-text').textContent(),t.what);
    assert.deepEqual(await page.locator('.type-slide .type-field-text').allTextContents(),[t.does,t.io,t.why,t.limits]);
-   /* five slides, one showing at a time: the four explanation fields, then References */
-   assert.deepEqual(await page.locator('.type-slide h3').allTextContents(),['What it does','Inputs and outputs','Illustrative faculty use','Limits and open questions','References']);
-   assert.deepEqual(await page.locator('.type-slide').evaluateAll(ns=>ns.map(n=>n.hidden)),[false,true,true,true,true]);
-   assert.equal(await page.locator('#typePos').textContent(),'1 of 5');
+   /* six slides, one showing at a time: the four explanation fields, Current examples, then References */
+   assert.deepEqual(await page.locator('.type-slide h3').allTextContents(),['What it does','Inputs and outputs','Illustrative faculty use','Limits and open questions','Current examples','References']);
+   assert.deepEqual(await page.locator('.type-slide').evaluateAll(ns=>ns.map(n=>n.hidden)),[false,true,true,true,true,true]);
+   assert.equal(await page.locator('#typePos').textContent(),'1 of 6');
    /* All five watercolor scenes decode locally, keep their proportions, and have clear edges. */
    const art=await page.locator('.type-slide__art').evaluateAll(async ns=>{
      return Promise.all(ns.map(async n=>{
@@ -86,14 +86,14 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
    assert.equal(new Set(art.map(a=>a.position)).size,5,'each slide has its own illustration');
    assert.ok(art[0].url.includes('/types-'+t.key+'.'),'the atlas matches the entry');
    if(out){
-     for(let i=0;i<5;i++){
+     for(let i=0;i<6;i++){
        await page.locator('.type-slide:not([hidden])').scrollIntoViewIfNeeded();
        await screenshot(page,'type-'+t.key+'-'+(i+1)+'.png');
-       if(i<4) await page.locator('#typeNext').click();
+       if(i<5) await page.locator('#typeNext').click();
      }
      await page.keyboard.press('Home');
    }
-   assert.equal(await page.locator('.type-slide').nth(4).locator('.type-sources li').count(),[...new Set(Object.values(t.citations).flat())].length);
+   assert.equal(await page.locator('.type-slide').nth(5).locator('.type-sources li').count(),[...new Set(Object.values(t.citations).flat())].length);
    const cited=[...new Set(Object.values(t.citations).flat())].sort((a,b)=>a-b);
    assert.deepEqual(await page.locator('#aiTypeDialog .type-sources li').evaluateAll(ns=>ns.map(n=>Number(n.value))),cited);
    for(const id of cited) assert.ok(!(await page.locator('#aiTypeDialog .type-sources li[value="'+id+'"]').textContent()).includes(source.sources.find(s=>s.id===id).locator), 'reference annotations stay out of the dialog');
@@ -102,9 +102,14 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
    assert.ok(await page.locator('#aiTypeDialog .type-cite').count()>0);
    assert.equal(await page.locator('.type-example .type-cite').count(),0);
    assert.ok(await page.locator('#aiTypeDialog .type-cite').evaluateAll(ns=>ns.every(n=>n.getAttribute('aria-label').includes('Source ')&&n.getAttribute('aria-label').includes('opens in a new tab'))));
-   assert.equal(await page.locator('.type-example-disclosure').getAttribute('open'),null);
+   /* the examples are a slide of their own: nothing sits under the slides, and they are hidden until their slide shows */
+   assert.equal(await page.locator('#aiTypeDialog details').count(),0);
    assert.equal(await page.locator('.type-example').first().isVisible(),false);
-   const ordered=await page.locator('#aiTypeDialog').evaluate(n=>{const els=[n.querySelector('h2'),n.querySelector('.type-dialog__description'),n.querySelector('.type-info'),n.querySelector('.type-example-disclosure')];return els.slice(1).every((e,i)=>!!(els[i].compareDocumentPosition(e)&Node.DOCUMENT_POSITION_FOLLOWING));});
+   assert.equal(await page.locator('.type-slide--wide .type-slide__art').count(),0,'the examples slide has no illustration');
+   assert.equal(await page.locator('.type-slide__art').count(),5,'the other five slides keep theirs');
+   assert.equal((await page.locator('[data-type-goto]').textContent()).trim(),'Examples (3)');
+   assert.equal(await page.locator('[data-type-goto]').getAttribute('aria-label'),'Current examples: 3 tools');
+   const ordered=await page.locator('#aiTypeDialog').evaluate(n=>{const els=[n.querySelector('h2'),n.querySelector('.type-dialog__description'),n.querySelector('.type-info')];return els.slice(1).every((e,i)=>!!(els[i].compareDocumentPosition(e)&Node.DOCUMENT_POSITION_FOLLOWING));});
    assert.ok(ordered);
    if(t.key==='conversational'){
      /* paging: Next, Previous, arrow keys, End, a dot; the controls stay put; the last Next returns to the types */
@@ -114,7 +119,7 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
      await page.locator('#typePrev').click();assert.equal(await shown(),0);
      assert.equal(await page.locator('#typePrev').getAttribute('aria-disabled'),'true');
      await page.locator('#aiTypeDialog .type-dialog__body').focus();await page.keyboard.press('ArrowRight');assert.equal(await shown(),1);
-     await page.keyboard.press('End');assert.equal(await shown(),4);assert.equal(await navY(),y0);
+     await page.keyboard.press('End');assert.equal(await shown(),5);assert.equal(await navY(),y0);
      assert.equal((await page.locator('#typeNext .tour__nextlabel').textContent()),'Back to types');
      await page.keyboard.press('Home');assert.equal(await shown(),0);
      if(await page.locator('[data-type-dot="2"]').isVisible()){await page.locator('[data-type-dot="2"]').click();assert.equal(await shown(),2);await page.keyboard.press('Home');}
@@ -122,7 +127,7 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
      await page.locator('.type-slide:not([hidden]) a').first().focus();
      await page.keyboard.press('ArrowRight');assert.equal(await shown(),1);
      assert.ok(await page.evaluate(()=>document.activeElement.matches('.type-slide:not([hidden])')));
-     await page.keyboard.press('End');assert.equal(await shown(),4);
+     await page.keyboard.press('End');assert.equal(await shown(),5);
      await page.locator('.type-slide:not([hidden]) a').first().focus();
      await page.keyboard.press('Home');assert.equal(await shown(),0);
      assert.ok(await page.evaluate(()=>document.activeElement.matches('.type-slide:not([hidden])')));
@@ -135,7 +140,10 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
      for(let i=0;i<10;i++){await page.keyboard.press('Tab');assert.ok(await page.evaluate(()=>!!document.activeElement.closest('#aiTypeDialog')));}
    }
    const small=await box(page);
-   await page.locator('.type-example-disclosure > summary').click();await tick(page);
+   /* the footer button jumps to the examples slide; the window and its controls do not move */
+   await page.locator('[data-type-goto]').click();await tick(page);
+   assert.equal(await page.locator('#typePos').textContent(),'5 of 6');
+   assert.equal(await page.locator('.type-slide:not([hidden]) h3').textContent(),'Current examples');
    assert.equal(await page.locator('.type-example').count(),3);
    assert.equal(await page.locator('.type-example').first().isVisible(),true);
    assert.ok(await page.locator('.type-example').evaluateAll(links=>links.every(a=>a.href.startsWith('https://')&&a.rel.includes('noopener')&&a.rel.includes('noreferrer'))));
@@ -172,13 +180,13 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
    assert.ok(b.sw<=b.cw&&b.sh<=b.ch+1,JSON.stringify({width,b}));
    const bodyOverflow=await page.locator('.type-dialog__body').evaluate(n=>n.scrollWidth>n.clientWidth);
    assert.equal(bodyOverflow,false);
-   await page.locator('.type-example-disclosure > summary').click();await tick(page);
+   await page.locator('[data-type-goto]').click();await tick(page);
    const expanded=await box(page);
    assert.deepEqual([expanded.x,expanded.y,expanded.w,expanded.h],[b.x,b.y,b.w,b.h]);
    assert.equal(await page.locator('#aiTypeDialog').evaluate(n=>n.scrollTop),0);
    results.widths.push({width,modalFits:true,noHorizontalOverflow:true,examplesDoNotResize:true});
    if(width===390){
-     await page.locator('.type-example-disclosure > summary').click();
+     await page.keyboard.press('Home');
      await page.locator('.type-dialog__body').evaluate(n=>n.scrollTop=0);
      await screenshot(page,'register-type-popups-mobile.png');
    }
@@ -194,7 +202,7 @@ async function box(page){return page.locator('#aiTypeDialog').evaluate(n=>{const
  assert.equal(await page.locator('html').evaluate(n=>n.classList.contains('type-dialog-open')),false);
  await page.locator('[data-sec="ai-types"]').click();await tick(page);
  await page.locator('[data-open-type="conversational"]').click();
- assert.equal(await page.locator('.type-example-disclosure').getAttribute('open'),null);
+ assert.equal(await page.locator('#typePos').textContent(),'1 of 6','a type reopens on its first slide');
  await page.keyboard.press('Escape');await tick(page);
  // Browser history can leave the type section while a modal is open.
  await page.locator('[data-sec="policies"]').click();await tick(page);

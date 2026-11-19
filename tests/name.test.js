@@ -17,10 +17,12 @@ assert.match(tool, /<title>Quidsima \| Lewis University Library<\/title>/);
 assert.match(tool, /<h1 class="hdr__title">Quid<span>sima<\/span><\/h1>/);
 assert.match(landing, /<title>Quidsima &amp; The Register \| Lewis University Library<\/title>/);
 assert.match(text(register), /Every use-case idea in Quidsima,/);
+assert.match(text(tool), /A context-driven tool for exploring whether and how generative AI could assist given your goals and constraints\. Start with a task from your teaching, research, or administrative work\. No AI experience needed\./);
+assert.match(text(tool), /Lewis University Library · AI Use-Case Explorer for Faculty Quid/);
 pass('the name is Quidsima in the page titles, the header, and The Register');
 
-/* the motto is marked as Latin for screen readers and translated once, in the tool's header */
-assert.match(tool, /<p class="hdr__motto"><i lang="la">Quid si machina\?<\/i> <span>What if a machine\?<\/span><\/p>/);
+/* the tool's header spells out the Latin words behind the name, marked as Latin for screen readers, then gives the question in English */
+assert.match(tool, /<p class="hdr__origin" lang="la">\(Quid \+ si \+ machina\)<\/p>\s*<p class="hdr__motto">What if a machine\?<\/p>/);
 for (const [name, html] of [['landing page', landing], ['tool', tool], ['The Register', register]]) assert.match(html, /<i lang="la">Quid si machina\?<\/i>/, name + ' carries the motto');
 pass('the motto is marked as Latin, translated in the header, and present on each page');
 

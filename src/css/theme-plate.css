@@ -51,8 +51,12 @@
   --inc-glow:0 0 1px 1px rgba(255,232,160,.7),0 0 8px 1px rgba(255,199,44,.48),0 0 20px 2px rgba(242,169,0,.26),0 0 40px 4px rgba(242,169,0,.12);
 
   --panel:linear-gradient(180deg,#541020,var(--steel-2));
-  --line:rgba(222,187,112,.24);
-  --line-strong:rgba(222,187,112,.55);
+  --line:rgba(222,187,112,.36);
+  --line-strong:rgba(232,200,128,.82);
+  /* edges: a light rim where a plate meets the page, and the lit ring around the one thing in focus */
+  --rim:rgba(246,228,190,.46);
+  --rim-strong:rgba(246,228,190,.82);
+  --halo:0 0 0 1px rgba(243,220,158,.85),0 0 26px 4px rgba(226,181,84,.42);
   --bevel:inset 0 1px 0 rgba(255,230,234,.09),inset 0 -1px 0 rgba(0,0,0,.45);
   --r:8px; --r-sm:5px;
 }
@@ -275,6 +279,23 @@ body::before{
 .fab-item:hover{box-shadow:var(--bevel),0 6px 22px rgba(0,0,0,.5),var(--inc-glow);}
 
 /* ═══ phones: smaller hardware, fewer bolts ═══ */
+/* ═══ edges ═══
+   Plates, cards and controls were edged in near-black on a near-black page and ran together. Every plate now has a
+   light rim, the page behind is darker, and outlined controls sit on a darker fill. One thing at a time is lit with
+   a gold ring (--halo): the current question, an open dialog, and the card or door being pointed at or focused. */
+body::before{filter:brightness(.66);}
+.hdr.hdr--compact,.panel,.acard,.type,.aside-card,.polpanel,.saved-item,.filters,.rail a,.rail button.railitem,.door,.rail__note{border-color:var(--rim);}
+.topbar{box-shadow:0 1px 0 var(--rim),0 8px 22px rgba(0,0,0,.55);}
+.site-foot{box-shadow:0 -1px 0 var(--rim);}
+.opt{border-color:var(--line-strong);background:rgba(10,1,3,.46);}
+.btn:not(.btn--primary):not(.btn--quiet),.answer{background-color:rgba(10,1,3,.5);}
+.acard:hover{border-color:var(--rim-strong);}
+/* the thing in focus */
+.qpanel{border-color:rgba(243,220,158,.85);box-shadow:inset 0 1px 0 rgba(255,230,234,.08),var(--halo),0 8px 24px rgba(0,0,0,.4);}
+.dlg[open]{box-shadow:var(--halo),0 0 60px rgba(0,0,0,.6);}
+.acard:hover,.acard:focus-within,.type--compact:hover,.type--compact:focus-within{box-shadow:var(--bevel),var(--halo),0 6px 18px rgba(0,0,0,.32);}
+.door:hover,.door:focus-visible{border-color:rgba(243,220,158,.85);box-shadow:var(--halo);}
+
 @media(max-width:760px){
   .topbar{padding-left:12px;padding-right:12px;}
   .topbar::after{display:none;}

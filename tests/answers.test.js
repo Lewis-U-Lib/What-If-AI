@@ -64,6 +64,14 @@ const norm = value => String(value).replace(/\s+/g, ' ').trim();
       assert.equal(await page.$$eval('input[name="q-task"]:checked', l => l.length), 0, 'the second question clears the same way');
       const after = await page.evaluate(() => location.hash);
       assert.ok(after.includes('teaching') && !after.includes(task), 'only the cleared answer leaves the address: ' + after);
+      /* the optional level-and-setting questions sit behind the same bar as the expandable sections elsewhere */
+      await page.click('#next'); await page.waitForSelector('details.qmore');
+      const bar = await page.$eval('details.qmore', d => { const c = getComputedStyle(d), s = d.querySelector('summary'), chevron = getComputedStyle(s, '::after');
+        return { open: d.open, border: parseFloat(c.borderTopWidth) > 0, radius: parseFloat(c.borderTopLeftRadius), label: s.querySelector('.qmore__label').textContent, hint: s.querySelector('.qmore__hint').textContent,
+          chevron: parseFloat(chevron.width) > 0 && parseFloat(chevron.borderBottomWidth) > 0, tall: s.getBoundingClientRect().height >= 44, groups: d.querySelectorAll('fieldset').length }; });
+      assert.deepEqual(bar, { open: false, border: true, radius: 10, label: 'Optional: level and setting', hint: '2 more choices', chevron: true, tall: true, groups: 2 });
+      await page.click('details.qmore > summary');
+      assert.ok(await page.isVisible('input[name="q-lvl"]') && await page.isVisible('input[name="q-mod"]'), 'opening it shows both optional questions');
       assert.deepEqual(errors, []);
       pass(`@${width}: a selected answer clears on a second click or Space, not on a double-click, and other choices behave as before`);
 

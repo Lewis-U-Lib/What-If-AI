@@ -283,7 +283,8 @@ typeDialog.addEventListener('click', function(e){
     if(typeSlide < n-1) typeSlideTo(typeSlide+1); else S_.closeDialog(typeDialog);
     return;
   }
-  var d = t.closest('[data-type-dot]'); if(d) typeSlideTo(+d.getAttribute('data-type-dot'));
+  var d = t.closest('[data-type-dot]'); if(d){ typeSlideTo(+d.getAttribute('data-type-dot')); return; }
+  var g = t.closest('[data-type-goto]'); if(g) typeSlideTo(+g.getAttribute('data-type-goto'));
 });
 typeDialog.addEventListener('keydown', function(e){
   var n = typeDialog.querySelectorAll('[data-type-slide]').length; if(!n) return;
@@ -313,15 +314,17 @@ function typeActivityLink(t){
   if(t.caps && t.caps.length && t.n) return '<a class="btn btn--sm" data-type-activities href="#activities?cap='+t.caps[0]+'">See '+S_.num(t.n)+' related use-case idea'+(t.n===1?'':'s')+'</a>';
   return '';
 }
-function typeExampleDisclosure(t){
-  var examples = window.REGISTER_TYPE_EXAMPLES;
-  var items = examples.types[t.key] || [];
+/* Current examples are a slide of their own, before References, and a button in the footer jumps to it.
+   (They used to sit in a disclosure under every slide, where they competed with Next.) */
+function typeExampleItems(t){ return (window.REGISTER_TYPE_EXAMPLES.types[t.key] || []); }
+function typeExamplesSlide(t){
+  var examples = window.REGISTER_TYPE_EXAMPLES, items = typeExampleItems(t);
   if(!items.length) return '';
   var arrow = '<svg class="type-example__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 18 18 6M6 6h12v12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  return '<details class="type-example-disclosure"><summary><span class="lamp" aria-hidden="true"></span><span class="type-example-disclosure__title">Current examples</span><span class="type-example-disclosure__count">'+items.length+(items.length===1?' tool':' tools')+'</span>'+icon('i-chevron')+'</summary>'+
-    '<div class="type-example-disclosure__content"><p class="type-example-disclosure__note">Examples may span several types. Inclusion does not indicate Lewis access or approval.</p><ul>'+items.map(function(x){
+  return '<h3>Current examples</h3>'+
+    '<div class="type-examples"><p class="type-examples__note">Examples may span several types. Inclusion does not indicate Lewis access or approval.</p><ul>'+items.map(function(x){
       return '<li>'+S_.externalLink(x[2],'<span class="type-example__name">'+esc(x[0])+'</span><span class="type-example__desc">'+esc(x[1])+'</span>'+arrow+'<span class="sr-only"> (opens in a new tab)</span>',' class="type-example"')+'</li>';
-    }).join('')+'</ul><p class="type-example-disclosure__date">Examples checked <time datetime="'+esc(examples.checked)+'">'+esc(examples.checkedLabel)+'</time></p></div></details>';
+    }).join('')+'</ul><p class="type-examples__date">Examples checked <time datetime="'+esc(examples.checked)+'">'+esc(examples.checkedLabel)+'</time></p></div>';
 }
 function openType(key, opener){
   var t = R.types.types.filter(function(x){return x.key===key;})[0];
@@ -339,18 +342,26 @@ function openType(key, opener){
   var cited = [], foot;
   if(key!=='noai'){
     Object.keys(refs).forEach(function(field){cited=cited.concat(refs[field]);});
-    /* five slides, like the walkthroughs: four explanation fields, then the references they cite */
-    var slides = TYPE_SLIDES.map(function(row){
-      return '<h3>'+esc(row[0])+'</h3><p><span class="type-field-text">'+esc(t[row[1]])+'</span>'+typeCitations(refs[row[1]])+'</p>';
-    }).concat(['<h3>References</h3>'+typeReferences(cited)]);
-    var titles = TYPE_SLIDES.map(function(row){return row[0];}).concat(['References']);
+    /* slides, like the walkthroughs: four explanation fields, current examples where there are any, then the
+       references the fields cite. Each entry: [title, body, illustration (a crop number, or '' for none)] */
+    var deck = TYPE_SLIDES.map(function(row, i){
+      return [row[0], '<h3>'+esc(row[0])+'</h3><p><span class="type-field-text">'+esc(t[row[1]])+'</span>'+typeCitations(refs[row[1]])+'</p>', i];
+    });
+    var examples = typeExamplesSlide(t), examplesAt = -1;
+    if(examples){ examplesAt = deck.length; deck.push(['Current examples', examples, '']); }
+    deck.push(['References', '<h3>References</h3>'+typeReferences(cited), TYPE_SLIDES.length]);
+    var slides = deck.map(function(d){return d[1];}), titles = deck.map(function(d){return d[0];});
     h += '<section class="type-info type-deck" aria-roledescription="carousel" aria-label="'+(key==='institutional'?'More about this choice':'More about this type')+'">'+
       '<div class="type-deck__slides" aria-live="polite">'+slides.map(function(body, i){
-        return '<div class="type-slide" role="group" aria-roledescription="slide" aria-label="'+(i+1)+' of '+slides.length+': '+esc(titles[i])+'" tabindex="-1" data-type-slide'+(i?' hidden':'')+'>'+
-          '<div class="type-slide__art type-slide__art--'+esc(key)+' type-slide__art--'+i+'" aria-hidden="true"></div>'+
+        var art = deck[i][2];
+        return '<div class="type-slide'+(art===''?' type-slide--wide':'')+'" role="group" aria-roledescription="slide" aria-label="'+(i+1)+' of '+slides.length+': '+esc(titles[i])+'" tabindex="-1" data-type-slide'+(i?' hidden':'')+'>'+
+          (art==='' ? '' : '<div class="type-slide__art type-slide__art--'+esc(key)+' type-slide__art--'+art+'" aria-hidden="true"></div>')+
           '<div class="type-slide__text">'+body+'</div></div>';
-      }).join('')+'</div></section>'+typeExampleDisclosure(t);
-    foot = typeActivityLink(t)+'<div class="type-deck__nav">'+
+      }).join('')+'</div></section>';
+    var nEx = typeExampleItems(t).length;
+    foot = '<div class="type-deck__links">'+typeActivityLink(t)+
+      (examplesAt<0 ? '' : '<button type="button" class="btn btn--sm" data-type-goto="'+examplesAt+'" aria-label="Current examples: '+nEx+(nEx===1?' tool':' tools')+'">Examples ('+nEx+')</button>')+
+      '</div><div class="type-deck__nav">'+
       '<button type="button" class="btn btn--sm" id="typePrev" aria-disabled="true">'+icon('i-arrow-left')+' Previous</button>'+
       '<p class="tour__pos readout" id="typePos">1 of '+slides.length+'</p>'+
       '<div class="tour__dots" role="group" aria-label="Go to a slide">'+titles.map(function(title, i){

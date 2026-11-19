@@ -91,10 +91,7 @@ function prune(){
 
 function drawRail(){
   var onPlan = step>=STEPS.length;
-  var h = '<div class="rail__label">Your answers</div>'+
-    /* beside the questions, where a reader decides whether to answer: how the answers are used */
-    '<p class="rail__note">'+icon('i-flow')+'<span>Results come from fixed matching rules set by the Library. No AI system reads your answers or generates your results, and your answers stay in this browser. '+
-    '<button type="button" class="rail__about" data-open-about aria-haspopup="dialog" aria-controls="aboutDialog">How this site works</button></span></p>';
+  var h = '<div class="rail__label">Your answers</div>';
   realSteps().forEach(function(i, n){
     var st=STEPS[i], ans=answerText(st.key);
     h += '<button type="button" class="railitem'+(ans?' is-done':'')+'" data-goto="'+i+'"'+(i===step&&!onPlan?' aria-current="step"':'')+'>'+
@@ -104,6 +101,10 @@ function drawRail(){
   h += '<button type="button" class="railitem" data-goto="plan"'+(onPlan?' aria-current="step"':'')+'>'+
     '<span class="railitem__n" aria-hidden="true">✓</span><span class="railitem__txt"><span>Results</span>'+
     '<span class="railitem__ans">'+(function(n){ return S_.num(n)+(n===1?' match':' matches'); })(results().near)+' to explore</span></span></button>';
+  h +=
+    /* beside the questions, after the list of answers: how the answers are used */
+    '<p class="rail__note">'+icon('i-flow')+'<span>Results come from fixed matching rules set by the Library. No AI system reads your answers or generates your results, and your answers stay in this browser. '+
+    '<button type="button" class="rail__about" data-open-about aria-haspopup="dialog" aria-controls="aboutDialog">How this site works</button></span></p>';
   document.getElementById('rail').innerHTML = h;
 }
 
@@ -144,9 +145,10 @@ function drawWizard(focusTitle){
     h += group(st.key, st.q, opts(st.key), st.two, true);
     if(st.key==='disc'){
       var open = S.lvl||S.mod;
-      h += '<details class="qmore"'+(open?' open':'')+'><summary>Optional: level and setting</summary>'+
-        '<p class="qnote">Use-case ideas without a specific level or setting remain possible fits, with a note to check suitability.</p>'+
-        group('lvl','Who is in the room?', IN.lvl, true) + group('mod','Where does it happen?', IN.mod, false) + '</details>';
+      /* the same bar as the expandable sections in a use-case idea's details, with a note of what is inside */
+      h += '<details class="qmore"'+(open?' open':'')+'><summary><span class="qmore__label">Optional: level and setting</span><span class="qmore__hint">2 more choices</span></summary>'+
+        '<div class="use-case-accordion__body"><p class="qnote">Use-case ideas without a specific level or setting remain possible fits, with a note to check suitability.</p>'+
+        group('lvl','Who is in the room?', IN.lvl, true) + group('mod','Where does it happen?', IN.mod, false) + '</div></details>';
     }
   }
   /* a way in for readers who do not plan for anyone to use an AI tool: the same records, in The Register */
