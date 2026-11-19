@@ -169,7 +169,9 @@ const channels = color => (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number)
     const phoneErrors = [];
     phone.on('pageerror', error => phoneErrors.push(error.message));
     await phone.goto(server.url('register.html')); await phone.waitForSelector('[data-theme-toggle]:not([hidden])', { state: 'attached' });
-    await phone.click('#fabToggle'); await phone.click('#fabMenu [data-theme-toggle]');
+    /* the help button opens its menu only once the page's scripts have run */
+    await phone.waitForSelector('html[data-ready]', { state: 'attached' });
+    await phone.click('#fabToggle'); await phone.waitForSelector('#fabMenu [data-theme-toggle]', { state: 'visible' }); await phone.click('#fabMenu [data-theme-toggle]');
     assert.equal(await phone.locator('html').getAttribute('data-theme'), 'blue');
     assert.ok(await phone.evaluate(() => { const m = document.getElementById('fabMenu').getBoundingClientRect(); return m.left >= 0 && m.right <= innerWidth && m.top >= 0; }), 'the longer menu still fits a phone');
     assert.deepEqual(phoneErrors.filter(e => !/blocked/.test(e)), []);
