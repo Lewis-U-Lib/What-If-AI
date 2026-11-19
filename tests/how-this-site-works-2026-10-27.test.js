@@ -54,6 +54,7 @@ const TITLES=['Quidsima','The Register','What leaves your browser','Ask Us','Lin
       await p.waitForFunction(()=>/Question 2/.test(document.querySelector('.qstep').textContent));
       assert.equal(await p.$$eval('#wizard .qsignal',e=>e.length),0);
       if(wide) assert.equal(await p.$$eval('.rail__note',e=>e.length),1,'the rail note stays while answering');
+      if(wide) assert.equal(await p.$eval('#rail',r=>r.lastElementChild.className),'rail__note','the rail note follows the answer buttons');
       pass('Quidsima @'+width+'px: header statement, one note beside the questions, dialog opens from it and returns focus');
 
       /* the dialog is a six-slide carousel in the walkthroughs' style (changed October 28) */

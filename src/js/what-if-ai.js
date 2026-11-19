@@ -91,10 +91,7 @@ function prune(){
 
 function drawRail(){
   var onPlan = step>=STEPS.length;
-  var h = '<div class="rail__label">Your answers</div>'+
-    /* beside the questions, where a reader decides whether to answer: how the answers are used */
-    '<p class="rail__note">'+icon('i-flow')+'<span>Results come from fixed matching rules set by the Library. No AI system reads your answers or generates your results, and your answers stay in this browser. '+
-    '<button type="button" class="rail__about" data-open-about aria-haspopup="dialog" aria-controls="aboutDialog">How this site works</button></span></p>';
+  var h = '<div class="rail__label">Your answers</div>';
   realSteps().forEach(function(i, n){
     var st=STEPS[i], ans=answerText(st.key);
     h += '<button type="button" class="railitem'+(ans?' is-done':'')+'" data-goto="'+i+'"'+(i===step&&!onPlan?' aria-current="step"':'')+'>'+
@@ -104,6 +101,10 @@ function drawRail(){
   h += '<button type="button" class="railitem" data-goto="plan"'+(onPlan?' aria-current="step"':'')+'>'+
     '<span class="railitem__n" aria-hidden="true">✓</span><span class="railitem__txt"><span>Results</span>'+
     '<span class="railitem__ans">'+(function(n){ return S_.num(n)+(n===1?' match':' matches'); })(results().near)+' to explore</span></span></button>';
+  h +=
+    /* beside the questions, after the list of answers: how the answers are used */
+    '<p class="rail__note">'+icon('i-flow')+'<span>Results come from fixed matching rules set by the Library. No AI system reads your answers or generates your results, and your answers stay in this browser. '+
+    '<button type="button" class="rail__about" data-open-about aria-haspopup="dialog" aria-controls="aboutDialog">How this site works</button></span></p>';
   document.getElementById('rail').innerHTML = h;
 }
 
