@@ -17,6 +17,7 @@ assert.match(tool, /<title>Quidsima \| Lewis University Library<\/title>/);
 assert.match(tool, /<h1 class="hdr__title">Quid<span>sima<\/span><\/h1>/);
 assert.match(landing, /<title>Quidsima &amp; The Register \| Lewis University Library<\/title>/);
 assert.match(text(register), /Every use-case idea in Quidsima,/);
+assert.match(text(tool), /Start with a task from your teaching, research, or administrative work\. Explore whether and how generative AI could assist given your goals and constraints\. No AI experience needed\./);
 pass('the name is Quidsima in the page titles, the header, and The Register');
 
 /* the motto is marked as Latin for screen readers and translated once, in the tool's header */
