@@ -192,7 +192,7 @@ const ANALYTICS = CFG.analytics;
   await wp.goto(ws.url('register.html')); await wp.waitForSelector('html[data-ready]', { state: 'attached' }); await wp.waitForTimeout(400);
   const second = served() - first, again = log.slice(n0).map(x => x.path);
   await wc.close(); await ws.close();
-  console.log(`      What If AI, first visit: ${(first / 1e6).toFixed(2)} MB · then The Register: ${(second / 1e3).toFixed(0)} KB (${again.join(', ')})`);
+  console.log(`      Quidsima, first visit: ${(first / 1e6).toFixed(2)} MB · then The Register: ${(second / 1e3).toFixed(0)} KB (${again.join(', ')})`);
   check('opening the second tool reuses the cached activity data and shared files', !again.some(p => /^data\/acts\.|assets\/css\/base\.|assets\/js\/core\./.test(p)), again.length + ' files fetched');
 
   // Ask Us: exercise the iframe under the real page CSP without depending on live chat

@@ -1,6 +1,6 @@
 /* Browser checks for the fixes made after the October 2026 audit: field compatibility (WIA-02), the
    route note and operator fact (WIA-03), Ask Us focus (WIA-10), the tagged print copy (WIA-11),
-   Back and Forward over an activity in What If AI and The Register (WIA-12), no-tool role wording
+   Back and Forward over an activity in Quidsima and The Register (WIA-12), no-tool role wording
    (WIA-19), the operator-aware data warning (D-13), the footer date (D-09), and the source-access
    labels on synthesis activities whose source item is not openly licensed (WIA-01). */
 const assert=require('assert/strict'),path=require('path');
@@ -241,7 +241,7 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
 
   // WIA-01: synthesis activities whose source item is not openly licensed are published with a label on
   // the card, at a glance, before use (naming the item and linking its terms), and in print; The Register
-  // can leave them out, and its no-cost filter matches What If AI's "Nothing anyone has to pay for".
+  // can leave them out, and its no-cost filter matches Quidsima's "Nothing anyone has to pay for".
   const SA={not_open:'No clear open license',unmodified:'Use only as published',restricted:'Access or permission needed'};
   const saActs=D.acts.filter(a=>a.sa);
   assert.equal(saActs.length,115);
@@ -270,7 +270,7 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
   assert.ok((await p.locator('.activechips').textContent()).includes('Source items open to adapt'));
   const free=D.acts.filter(a=>M.requirement(a,'nopaid')==='confirmed').length;
   await go('register.html','#activities?cost=1');
-  assert.match(await p.locator('#actCount').textContent(),new RegExp('of '+free.toLocaleString('en-US')+' use-case ideas'),'the no-cost filter confirms exactly what What If AI confirms');
+  assert.match(await p.locator('#actCount').textContent(),new RegExp('of '+free.toLocaleString('en-US')+' use-case ideas'),'the no-cost filter confirms exactly what Quidsima confirms');
   assert.ok(D.acts.some(a=>a.sa==='restricted'&&['no_tool_needed','free_tier','institution_provided'].includes(a.eq)),'a restricted activity with a free tool is left out');
   pass('WIA-01: source-access labels on cards, details and print; the open-license and no-cost filters in The Register');
 

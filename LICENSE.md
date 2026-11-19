@@ -1,7 +1,8 @@
-# What If AI and The Register: tool license
+# Quidsima and The Register: tool license
 
 Effective October 8, 2026, the original code, interface text, artwork, and collection
-arrangement of **What If AI** and **The Register** are offered under the
+arrangement of **Quidsima** (named What If AI until November 2026) and **The Register**
+are offered under the
 [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License
 (CC BY-NC-ND 4.0)](https://creativecommons.org/licenses/by-nc-nd/4.0/), to the extent
 Lewis University Library holds copyright or similar rights in that material.
@@ -44,7 +45,7 @@ The current tool license does not revoke permissions already granted for earlier
 releases or impose NoDerivatives terms on copies received under those earlier terms.
 The imported release and historical review records preserve their original notices.
 
-Suggested credit for covered tool material: *What If AI* and *The Register*,
+Suggested credit for covered tool material: *Quidsima* and *The Register*,
 Lewis University Library, CC BY-NC-ND 4.0. Individual entries and source materials
 require their own attribution, as shown with each item.
 

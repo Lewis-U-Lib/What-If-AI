@@ -72,7 +72,7 @@ module.exports=async function checkRegisterTour(page,check){
   const printed=await page.locator('#rtour [data-slide]').evaluateAll(slides=>slides.map(s=>({accessible:!s.inert&&s.getAttribute('aria-hidden')!=='true',visible:getComputedStyle(s).visibility==='visible',art:getComputedStyle(s.querySelector('.tour__art')).display,text:[...s.querySelectorAll('p,dd')].map(n=>getComputedStyle(n).color),top:s.getBoundingClientRect().top,bottom:s.getBoundingClientRect().bottom})));
   check('The Register: printing exposes all eight steps in order without illustrations',printed.length===8&&printed.every((s,i)=>s.accessible&&s.visible&&s.art==='none'&&(!i||s.top>=printed[i-1].bottom-1)));
   check('The Register: printed help uses dark text on paper',printed.every(s=>s.text.every(c=>c==='rgb(17, 17, 17)')));
-  check('The Register: printed help retains the link to What If AI’s walkthrough',await page.locator('#rtour a[href="what-if-ai.html#tour"]').isVisible());
+  check('The Register: printed help retains the link to Quidsima’s walkthrough',await page.locator('#rtour a[href="what-if-ai.html#tour"]').isVisible());
   check('The Register: printed help omits carousel controls',await page.locator('.rtour__foot').evaluate(e=>getComputedStyle(e).display==='none'));
   if(out)await page.locator('#rtour').screenshot({path:path.join(out,'print-layout.png')});
   const pdf=await page.pdf({format:'Letter',printBackground:false,...(out?{path:path.join(out,'register-walkthrough-print.pdf')}:{})});

@@ -70,7 +70,7 @@ const look = page => page.evaluate(PLATES => {
     }
     pass('default: both tools are textured and the help menu ends with "Switch to plain reading view"');
 
-    /* switch it on in What If AI */
+    /* switch it on in Quidsima */
     await page.goto(server.url('what-if-ai.html')); await ready(page);
     await page.click('#fabToggle'); await page.click(TOGGLE);
     assert.equal((await page.locator(TOGGLE).innerText()).trim(), 'Switch to textured view');
@@ -90,7 +90,7 @@ const look = page => page.evaluate(PLATES => {
     assert.equal(now.fab, 'none', 'the help button has no glow gradient');
     assert.deepEqual(now.plates, [now.plates[0], now.plates[0], now.plates[0]], 'plates share one flat color');
     assert.deepEqual(await inventory(page), before['what-if-ai.html'].inventory, 'the same words and the same controls');
-    pass('What If AI: the plain view takes off textures, bolts, glows, motion and display type, and changes no word or control');
+    pass('Quidsima: the plain view takes off textures, bolts, glows, motion and display type, and changes no word or control');
 
     /* the tool still works in it */
     await page.check('[name="q-focus"][value="teaching"]'); await page.click('#next');
@@ -103,7 +103,7 @@ const look = page => page.evaluate(PLATES => {
     await page.locator('#plan button[data-save]').first().click();
     assert.equal((await page.locator('.topbar [data-saved-count]').innerText()).trim(), '1', 'saving works');
     await page.locator('#plan button[data-save]').first().click();
-    pass('What If AI in the plain view: answering, opening details and saving work as before');
+    pass('Quidsima in the plain view: answering, opening details and saving work as before');
 
     /* accessibility, menu closed and open; remembered across reloads and pages */
     for (const open of [false, true]) {

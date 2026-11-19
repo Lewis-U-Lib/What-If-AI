@@ -292,6 +292,14 @@ a.license-mark{min-height:44px;}
 .site-foot__text{font-size:15.5px;color:var(--ink);max-width:none;}
 .site-foot__text a,.site-foot__links a{color:var(--gold);text-decoration:underline;}
 /* closing line: who publishes the tools, the license in short, and when the collection was last updated */
+/* the motto: "Quid si machina?" ("What if a machine?"), the question Quidsima is named for */
+.hdr__motto{margin:.2rem 0 0;text-align:center;font-family:var(--font-h);font-weight:600;font-size:1.2rem;letter-spacing:.14em;color:var(--gold);text-shadow:0 1px 0 rgba(0,0,0,.55);}
+.hdr__motto i,.door__motto i,.site-foot__motto i{font-style:italic;}
+.hdr__motto span{margin-left:.6em;font-family:var(--font-b);font-weight:500;font-size:.8em;letter-spacing:.02em;color:var(--muted);}
+.door__motto{display:block;margin:2px 0 4px;font-family:var(--font-h);font-weight:600;font-size:17px;letter-spacing:.12em;color:var(--gold);}
+.door__motto span{margin-left:.7em;font-family:var(--font-b);font-weight:500;font-size:14.5px;letter-spacing:0;color:var(--ink-2);}
+.site-foot__motto{margin:10px 0 0;text-align:center;font-family:var(--font-h);font-weight:600;font-size:17px;letter-spacing:.14em;color:var(--gold);max-width:none;}
+@media (max-width:480px){.hdr__motto span,.door__motto span{display:block;margin-left:0;}}
 .site-foot__meta{font-size:14.5px;color:var(--ink-2);max-width:none;margin:6px 0 0;text-align:center;}
 .site-foot__attr{font-size:14.5px;color:var(--ink-2);max-width:760px;}
 .site-foot__links{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;font-size:15px;list-style:none;padding:0;margin:0;}
