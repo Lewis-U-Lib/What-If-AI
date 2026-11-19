@@ -230,7 +230,7 @@ function drawPlan(focusTitle){
     : lead==='close' ? count('close','close match','close matches')
     : p.confirmed?'Broader starting points':p.unknown.length?'Some requirements need checking':'No use-case ideas meet these limits';
   var invite=lead==='exact' ? (n ? 'These match the details you gave'+(limited?' and have no unresolved selected limits':'')+'. ' : 'You have not narrowed the collection yet. ')+
-      'Choose <strong>View details</strong> on any one to read the whole use-case idea, or <strong>Save</strong> it to come back to.'
+      'Choose <strong>View details</strong> on any one to read the whole use-case idea, or <strong>Save</strong> it to come back to. Saved use-case ideas can be compared two or three at a time.'
     : lead==='compatible' ? 'Nothing matches every detail you gave. These have no known mismatch; each card notes what to check. Choose <strong>View details</strong> to read the whole use-case idea.'
     : lead==='close' ? 'Nothing matches every detail you gave. Each of these names the one preference it misses. Choose <strong>View details</strong> to read the whole use-case idea.' : '';
   var h='<div class="rhead"><div class="kicker">Your results</div><h2 id="rTitle" tabindex="-1">'+title+'</h2>'+
@@ -329,11 +329,37 @@ function goto(target){
   resetShown();
   go(true);
 }
+/* Selecting the answer that is already selected clears it. A radio button reports no change when it is chosen again,
+   so a pointer is read from the click (the stored answer still equals the option's value only when it was selected
+   before the click) and the keyboard from Space on the selected option. A second click that lands within a moment of
+   the first (a double-click) is ignored. */
+var pickedAt=0;
+function clearAnswer(key, val){
+  S[key]=null;
+  if(key==='disc'){ S.lvl=null; S.mod=null; }
+  if(key==='focus') prune();
+  drawWizard(false); drawRail(); record(false);
+  var again=document.querySelector('input[name="q-'+key+'"][value="'+val+'"]'); if(again) again.focus();
+  S_.announce('Answer cleared.');
+}
+function isAnswer(t){ return t && t.matches && t.matches('input[type="radio"][name^="q-"]'); }
+document.addEventListener('click', function(e){
+  var t=e.target; if(!isAnswer(t)) return;
+  var key=t.name.slice(2);
+  if(S[key]!==t.value || Date.now()-pickedAt<400) return;
+  clearAnswer(key, t.value);
+});
+document.addEventListener('keydown', function(e){
+  var t=e.target; if(e.key!==' ' || !isAnswer(t) || !t.checked || e.repeat) return;
+  var key=t.name.slice(2); if(S[key]!==t.value) return;
+  e.preventDefault(); pickedAt=0;
+  clearAnswer(key, t.value);
+});
 document.addEventListener('change', function(e){
   var t=e.target; if(!t.name || t.name.indexOf('q-')!==0) return;
   var key=t.name.slice(2);
   if(key==='limits'){ S.limits[t.value]=t.checked; drawRail(); record(false); return; }
-  S[key]=t.value;
+  S[key]=t.value; pickedAt=Date.now();
   if(key==='focus') prune();
   /* later questions depend on this answer, so redraw them; keep focus on the option */
   var val=t.value;

@@ -166,7 +166,9 @@ const look = page => page.evaluate(PLATES => {
     await blocked.addInitScript(() => Object.defineProperty(window, 'localStorage', { get() { throw new Error('blocked'); } }));
     const phone = await blocked.newPage();
     await phone.goto(server.url('register.html')); await phone.waitForSelector('[data-plain-toggle]:not([hidden])', { state: 'attached' });
-    await phone.click('#fabToggle'); await phone.click(TOGGLE);
+    /* the help button opens its menu only once the page's scripts have run */
+    await ready(phone);
+    await phone.click('#fabToggle'); await phone.waitForSelector(TOGGLE, { state: 'visible' }); await phone.click(TOGGLE);
     assert.equal(await phone.locator('html').getAttribute('data-plain'), '');
     assert.ok(await phone.evaluate(() => { const m = document.getElementById('fabMenu').getBoundingClientRect(); return m.left >= 0 && m.right <= innerWidth && m.top >= 0; }), 'the longer menu still fits a phone');
     assert.equal(await phone.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, 'no sideways scroll on a phone');

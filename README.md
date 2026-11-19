@@ -57,9 +57,13 @@ one of five measured scene viewports per type and the build fingerprints each as
 decorative and hidden from assistive technology; the adjacent text remains the
 complete explanation. See [the illustration map](docs/AI-TYPE-ILLUSTRATIONS.md).
 
+## Answering Quidsima's questions
+
+Each question takes one answer. Selecting the answer that is already selected clears it, by pointer or with Space on the focused option; a double-click selects once. Skip does the same from the foot of the question. `tests/answers.test.js` (run by `npm run test:pages`) covers this and the walkthrough's steps.
+
 ## Edit the walkthroughs
 
-The Register's header and floating menu open the eight-step walkthrough in `src/partials/register-tour.html`; `#about` links open it too. Quidsima's header and floating menu open the five-step walkthrough in `src/partials/tour.html`. Each header keeps two buttons: the walkthrough, as the one brass primary, and "How this site works"; the companion tool, the Gen AI guide, and feedback are reached from the floating menu and the footer. Page tests cover keyboard operation, focus, links, browser history, printing, and narrow screens.
+The Register's header and floating menu open the nine-step walkthrough in `src/partials/register-tour.html`; `#about` links open it too. Quidsima's header and floating menu open the nine-step walkthrough in `src/partials/tour.html`. Saving, comparing, planning and printing, The Register, and feedback and corrections each have a step in it; both walkthroughs describe comparing two or three saved use-case ideas. Each header keeps two buttons: the walkthrough, as the one brass primary, and "How this site works"; the companion tool, the Gen AI guide, and feedback are reached from the floating menu and the footer. Page tests cover keyboard operation, focus, links, browser history, printing, and narrow screens.
 
 ## Edit "How this site works"
 
