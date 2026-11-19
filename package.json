@@ -13,7 +13,7 @@
     "test:site": "node tests/site.test.js && node tests/name.test.js",
     "test:pages": "node tests/pages.test.js && node tests/use-case-accordions.test.js && node tests/section-links.test.js && node tests/answers.test.js",
     "test:review": "node tests/review-fixes-browser.test.js && node tests/audit-remediation.test.js && node tests/remediation-2026-10-13.test.js && node tests/proofreading-2026-10-15.test.js && node tests/how-this-site-works-2026-10-27.test.js && node tests/incandescent-2026-11-02.test.js",
-    "test:theme": "node tests/theme.test.js && node tests/plain.test.js",
+    "test:theme": "node tests/theme.test.js && node tests/plain.test.js && node tests/edges.test.js",
     "test:types": "node tests/types.test.js",
     "test:feedback": "node tests/feedback.test.js",
     "test:saved": "node tests/saved-tools.test.js && node tests/trial-plan.test.js",

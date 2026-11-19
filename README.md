@@ -57,6 +57,12 @@ one of five measured scene viewports per type and the build fingerprints each as
 decorative and hidden from assistive technology; the adjacent text remains the
 complete explanation. See [the illustration map](docs/AI-TYPE-ILLUSTRATIONS.md).
 
+## Edges and the lit ring
+
+Plates and cards have a light rim (`--rim`) against a darkened page, outlined controls sit on a dark fill, and one thing at a time is lit with a gold ring (`--halo`): the current question, an open dialog, and the card or door being pointed at or focused. The rules are the "edges" block near the end of `src/css/theme-plate.css`. Steel blue follows automatically; the plain reading view redefines `--halo` as a solid gold line with no glow. `tests/edges.test.js` (run by `npm run test:theme`) checks all three views.
+
+In a Types of AI pop-up, current examples are a slide of their own before References, and an Examples button in the footer jumps to it.
+
 ## Answering Quidsima's questions
 
 Each question takes one answer. Selecting the answer that is already selected clears it, by pointer or with Space on the focused option; a double-click selects once. Skip does the same from the foot of the question. `tests/answers.test.js` (run by `npm run test:pages`) covers this and the walkthrough's steps.

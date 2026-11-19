@@ -441,8 +441,8 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   await page.focus('[data-open-type="conversational"]'); await page.keyboard.press('Enter');
   check('The Register: a type opens from the keyboard with full details visible',
     await page.isVisible('#aiTypeDialog .type-info .type-slide:not([hidden])') && await page.textContent('#aiTypeDialogTitle') === REGD.types.types[0].name);
-  check('The Register: current examples start collapsed in the type dialog',
-    !(await page.$eval('#aiTypeDialog details', d => d.open)) && !(await page.isVisible('#aiTypeDialog .type-example')));
+  check('The Register: current examples wait on their own slide in the type dialog',
+    (await page.$$('#aiTypeDialog details')).length === 0 && !(await page.isVisible('#aiTypeDialog .type-example')) && (await page.textContent('#aiTypeDialog [data-type-goto]')).trim() === 'Examples (3)');
   await page.keyboard.press('Escape'); await page.waitForTimeout(60);
   check('The Register: closing a type restores focus to its card',
     !(await page.$eval('#aiTypeDialog', d => d.open)) && (await page.evaluate(() => document.activeElement.getAttribute('data-open-type'))) === 'conversational');
