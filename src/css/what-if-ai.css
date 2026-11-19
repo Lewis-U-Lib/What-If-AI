@@ -2,6 +2,13 @@
 .hdr--explore .hdr__lede{max-width:56rem;font-size:.95rem;line-height:1.5;margin-top:.7rem;text-wrap:pretty;}
 .hdr.hdr--compact.hdr--explore::after{height:36px;margin-top:12px;
   background-size:260px 13px,260px 14px,100% 4px,100% 100%;background-position:176px 0,48px 22px,0 16px,0 0;}
+/* the line above the title: one line where there is room beside the logo, otherwise two whole phrases with no dot */
+.hdr--explore .hdr__kicker span{white-space:nowrap;}
+.hdr--explore .hdr__masthead{container-type:inline-size;}
+@container (max-width:600px){
+  .hdr--explore .hdr__kicker span{display:block;}
+  .hdr--explore .hdr__kicker .hdr__kicker-sep{display:none;}
+}
 @media(min-width:1200px) and (max-width:1400px){
   .hdr--explore.hdr--lab .hdr__identity{padding-top:0;}
   .hdr--explore.hdr--lab .hdr__masthead{min-height:6rem;padding:0 230px;}
