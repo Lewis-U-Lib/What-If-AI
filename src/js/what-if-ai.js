@@ -462,7 +462,7 @@ function openTour(opener){
 }
 if(tour){
   var menu = document.getElementById('fabMenu');
-  if(menu) menu.querySelector('a').insertAdjacentHTML('afterend', '<button type="button" class="fab-item" data-open-tour aria-haspopup="dialog" aria-controls="tourDialog"><span class="fab-item__icon">'+icon('i-manual')+'</span> How to use What If AI</button>');
+  if(menu) menu.querySelector('a').insertAdjacentHTML('afterend', '<button type="button" class="fab-item" data-open-tour aria-haspopup="dialog" aria-controls="tourDialog"><span class="fab-item__icon">'+icon('i-manual')+'</span> How to use Quidsima</button>');
   tour.querySelector('.tour__dots').innerHTML = slides.map(function(s,i){
     return '<button type="button" class="tour__dot" data-dot="'+i+'" aria-label="Step '+(i+1)+': '+esc(titleOf(i))+'"><span class="lamp"></span></button>';
   }).join('');

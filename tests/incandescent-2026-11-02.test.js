@@ -243,8 +243,8 @@ async function checkLogoReflection(browser, server, file) {
         return ratio(pct(v, 0.92), pct(v, 0.2));
       });
       assert.ok(ccRatios.every(r => r >= 4.8), 'CC counters stay distinct from their strokes: ' + ccRatios.map(r => r.toFixed(2)).join(', '));
-      // Edison bulbs: the What If AI bulb icon has a filament that lights on hover; small Edison bulbs mark the considerations
-      // console (The Register) and the question rail's current step (What If AI). The help button is a glowing rivet.
+      // Edison bulbs: the Quidsima bulb icon has a filament that lights on hover; small Edison bulbs mark the considerations
+      // console (The Register) and the question rail's current step (Quidsima). The help button is a glowing rivet.
       assert.ok(await p.$('#i-bulb .fil'), 'the bulb icon has a filament');
       const rest = await p.$eval('#fabToggle', t => [getComputedStyle(t).backgroundImage, getComputedStyle(t).boxShadow]);
       assert.ok(rest[0].includes('rgb(255, 199, 44)') && rest[1].includes('rgba(255, 199, 44'), 'the help rivet is yellow brass and glows softly at rest');

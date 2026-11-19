@@ -1,4 +1,4 @@
-/* Browser checks for What If AI and The Register. Run after `python3 scripts/build.py`:
+/* Browser checks for Quidsima and The Register. Run after `python3 scripts/build.py`:
  *   npm ci && npx playwright install chromium   (first time)
  *   npm run test:pages                            (or: node tests/pages.test.js [distDir])
  * Exits non-zero if any check fails. Every check prints PASS/FAIL with a reason.
@@ -67,15 +67,15 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   page.on('pageerror', e => errors.push(e.message));
   page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
 
-  // ══════════════ What If AI ══════════════
+  // ══════════════ Quidsima ══════════════
   await go(page, 'what-if-ai.html');
-  check('What If AI: document title', (await page.title()) === 'What If AI | Lewis University Library', await page.title());
-  check('What If AI: display title', (await page.textContent('h1')).replace(/\s+/g, ' ').trim() === 'What If AI');
+  check('Quidsima: document title', (await page.title()) === 'Quidsima | Lewis University Library', await page.title());
+  check('Quidsima: display title', (await page.textContent('h1')).replace(/\s+/g, ' ').trim() === 'Quidsima');
   const landmarks = await page.evaluate(() => ['header', 'main', 'footer', 'nav'].map(t => document.querySelectorAll(t).length));
-  check('What If AI: landmarks present (header, main, footer, nav)', landmarks.every(n => n > 0), landmarks.join('/'));
-  check('What If AI: skip link targets main', await page.$eval('.skip', a => a.getAttribute('href') === '#main' && !!document.getElementById('main')));
+  check('Quidsima: landmarks present (header, main, footer, nav)', landmarks.every(n => n > 0), landmarks.join('/'));
+  check('Quidsima: skip link targets main', await page.$eval('.skip', a => a.getAttribute('href') === '#main' && !!document.getElementById('main')));
   const radios = await page.$$('#wizard input[type=radio][name="q-focus"]');
-  check('What If AI: first question offers three real radio options', radios.length === 3, radios.length + ' options');
+  check('Quidsima: first question offers three real radio options', radios.length === 3, radios.length + ' options');
   // no activity counts beside options on any of the four choice questions; every option offered still leads somewhere
   const countsShown = [];
   await page.check('input[value="teaching"]');
@@ -84,45 +84,45 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
     const t = await page.$$eval('#wizard .opt', os => os.map(o => o.textContent));
     if (await page.$('#wizard .opt__n') || t.some(x => /\b\d+\s*(matching\s*)?(?:activit|use-case idea)/i.test(x))) countsShown.push(key);
   }
-  check('What If AI: the four choice questions show no activity counts beside options', countsShown.length === 0, countsShown.join(', ') || 'none shown');
+  check('Quidsima: the four choice questions show no activity counts beside options', countsShown.length === 0, countsShown.join(', ') || 'none shown');
   await go(page, 'what-if-ai.html#q=task&a=focus:teaching'); await page.waitForTimeout(40);
   const taskVals = await page.$$eval('#wizard input[name="q-task"]', is => is.map(i => i.value));
   const deadTasks = [];
   for (const v of taskVals) { await go(page, 'what-if-ai.html#a=focus:teaching;task:' + v); if ((await page.$$('#plan [data-card]')).length === 0) deadTasks.push(v); }
-  check('What If AI: every option offered still leads to activities', taskVals.length > 1 && deadTasks.length === 0, taskVals.length + ' task options, dead: ' + (deadTasks.join(',') || 'none'));
+  check('Quidsima: every option offered still leads to activities', taskVals.length > 1 && deadTasks.length === 0, taskVals.length + ' task options, dead: ' + (deadTasks.join(',') || 'none'));
 
   // keyboard: choose with arrows, advance, focus moves to the new question
   await go(page, 'what-if-ai.html');
   await page.focus('input[value="teaching"]');
   await page.keyboard.press('ArrowDown');
   const sel = await page.$eval('input[name="q-focus"]:checked', i => i.value);
-  check('What If AI: options operate from the keyboard (arrow keys)', sel === 'research_own', 'selected ' + sel);
+  check('Quidsima: options operate from the keyboard (arrow keys)', sel === 'research_own', 'selected ' + sel);
   await page.click('#next');
   const focused = await page.evaluate(() => document.activeElement && document.activeElement.id);
-  check('What If AI: focus moves to the new question heading', focused === 'qTitle', focused);
+  check('Quidsima: focus moves to the new question heading', focused === 'qTitle', focused);
 
   // limits: every activity shown satisfies the rule-out
   await go(page, 'what-if-ai.html#a=focus:teaching;task:design;lim:noai');
   const shownIds = await page.$$eval('#plan [data-card]', cs => cs.map(c => c.getAttribute('data-card')));
   const unknownIds = await page.$$eval('#plan [data-match-group="unknown"] [data-card]', cs => cs.map(c => c.getAttribute('data-card')));
   const BY = {}; ACTS.acts.forEach(a => BY[a.id] = a);
-  check('What If AI: a rule-out removes every activity it names', shownIds.length > 0 && shownIds.every(i => !!BY[i].na || ['faculty_or_staff', 'optional', 'none'].includes(BY[i].op) ||
+  check('Quidsima: a rule-out removes every activity it names', shownIds.length > 0 && shownIds.every(i => !!BY[i].na || ['faculty_or_staff', 'optional', 'none'].includes(BY[i].op) ||
     (unknownIds.includes(i) && BY[i].op === 'not_specified')) && !shownIds.some(i => BY[i].op === 'students' && !BY[i].na), shownIds.length + ' checked, ' + unknownIds.length + ' to verify');
-  check('What If AI: with students using no AI tool, activities where only the instructor uses one are offered', shownIds.some(i => BY[i].op === 'faculty_or_staff' && BY[i].ac === 'student'), shownIds.length + ' checked');
+  check('Quidsima: with students using no AI tool, activities where only the instructor uses one are offered', shownIds.some(i => BY[i].op === 'faculty_or_staff' && BY[i].ac === 'student'), shownIds.length + ' checked');
   // gate: nothing that fails the admission test is recommended
   await go(page, 'what-if-ai.html#a=focus:teaching');
   const allShown = await page.$$eval('#plan [data-card]', cs => cs.map(c => c.getAttribute('data-card')));
-  check('What If AI: activities that fail the admission test are never recommended', allShown.every(i => !['active', 'passive'].includes(BY[i].icap)));
+  check('Quidsima: activities that fail the admission test are never recommended', allShown.every(i => !['active', 'passive'].includes(BY[i].icap)));
 
   // deep links
   await go(page, 'what-if-ai.html#a=focus:teaching;task:feedback');
   const n1 = (await page.$$('#plan [data-card]')).length;
   await go(page, 'what-if-ai.html#a=focus:teaching;task:feedback');
-  check('What If AI: a shared link restores the same results', n1 > 0 && n1 === (await page.$$('#plan [data-card]')).length, n1 + ' cards');
+  check('Quidsima: a shared link restores the same results', n1 > 0 && n1 === (await page.$$('#plan [data-card]')).length, n1 + ' cards');
   await page.goto('about:blank'); await go(page, 'what-if-ai.html#a=focus:nonsense;task:<script>');
-  check('What If AI: a malformed link falls back to the questions', await page.isVisible('#wizard .qpanel'));
+  check('Quidsima: a malformed link falls back to the questions', await page.isVisible('#wizard .qpanel'));
   await go(page, 'what-if-ai.html#a=focus:admin;task:creative;lim:noai+nostudent+nopaid+noaccount+nokit+nodisclose+noapproval');
-  check('What If AI: a very narrow answer set ends in results or a clear empty state',
+  check('Quidsima: a very narrow answer set ends in results or a clear empty state',
     (await page.$$('#plan [data-card]')).length > 0 || await page.isVisible('#plan .empty'));
 
   // detail dialog: opens, shows provenance, Escape closes, focus returns
@@ -130,140 +130,140 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   const opener = await page.$('#plan [data-open]');
   const oid = await opener.getAttribute('data-open');
   await opener.click();
-  check('What If AI: activity details open in a dialog', await page.$eval('#actDialog', d => d.open));
+  check('Quidsima: activity details open in a dialog', await page.$eval('#actDialog', d => d.open));
   const dtext = await page.textContent('#actDialog');
-  check('What If AI: details carry source, license and attribution', /Source and license/.test(dtext) && dtext.includes(BY[oid].lic), BY[oid].lic);
-  check('What If AI: details carry cautions before use', /Before you use it|How people and the AI tool divide the work/.test(dtext));
-  check('What If AI: details no longer show the activity ID', !/Activity ID/i.test(dtext) && !dtext.includes(oid));
+  check('Quidsima: details carry source, license and attribution', /Source and license/.test(dtext) && dtext.includes(BY[oid].lic), BY[oid].lic);
+  check('Quidsima: details carry cautions before use', /Before you use it|How people and the AI tool divide the work/.test(dtext));
+  check('Quidsima: details no longer show the activity ID', !/Activity ID/i.test(dtext) && !dtext.includes(oid));
   const regLink = await page.$eval('#actDialog .idline a', a => ({ href: a.getAttribute('href'), text: a.textContent.trim() })).catch(() => null);
-  check('What If AI: details end with "Open in The Register" linking to that activity', regLink && regLink.text === 'Open in The Register' && regLink.href === 'register.html#act=' + encodeURIComponent(oid), JSON.stringify(regLink));
-  check('What If AI: no blank separator or dangling punctuation at the foot of details', (await page.$eval('#actDialog .idline', p => p.textContent.trim())) === 'Open in The Register');
+  check('Quidsima: details end with "Open in The Register" linking to that activity', regLink && regLink.text === 'Open in The Register' && regLink.href === 'register.html#act=' + encodeURIComponent(oid), JSON.stringify(regLink));
+  check('Quidsima: no blank separator or dangling punctuation at the foot of details', (await page.$eval('#actDialog .idline', p => p.textContent.trim())) === 'Open in The Register');
   await page.keyboard.press('Escape');
   const back = await page.evaluate(() => document.activeElement && document.activeElement.getAttribute('data-open'));
-  check('What If AI: Escape closes the dialog and returns focus to its opener', !(await page.$eval('#actDialog', d => d.open)) && back === oid);
+  check('Quidsima: Escape closes the dialog and returns focus to its opener', !(await page.$eval('#actDialog', d => d.open)) && back === oid);
 
   // field tags on result cards
   const tagInfo = await page.$$eval('#plan [data-card]', cs => cs.map(c => ({ id: c.getAttribute('data-card'), tags: [...c.querySelectorAll('.ftag')].map(t => t.textContent.trim()) })));
-  check('What If AI: every result card shows at least one field tag', tagInfo.length > 0 && tagInfo.every(x => x.tags.length > 0), tagInfo.length + ' cards');
-  check('What If AI: field tags match the activity\'s own field metadata', tagInfo.every(x => (BY[x.id].ft || []).length ? JSON.stringify(x.tags) === JSON.stringify(BY[x.id].ft) : x.tags[0] === 'Field not specified'));
+  check('Quidsima: every result card shows at least one field tag', tagInfo.length > 0 && tagInfo.every(x => x.tags.length > 0), tagInfo.length + ' cards');
+  check('Quidsima: field tags match the activity\'s own field metadata', tagInfo.every(x => (BY[x.id].ft || []).length ? JSON.stringify(x.tags) === JSON.stringify(BY[x.id].ft) : x.tags[0] === 'Field not specified'));
   const crossMisuse = ACTS.acts.filter(a => (a.ft || []).includes('Cross-curricular') && a.ft.length > 1);
-  check('What If AI: "Cross-curricular" is never combined with named fields', crossMisuse.length === 0, crossMisuse.length + ' misuses');
+  check('Quidsima: "Cross-curricular" is never combined with named fields', crossMisuse.length === 0, crossMisuse.length + ' misuses');
   const crossOk = ACTS.acts.filter(a => (a.ft || []).includes('Cross-curricular')).every(a => a.disc === 'interdisciplinary' || /discipline_general|interdisciplinary|Any course|Any field/.test(a.fld || ''));
-  check('What If AI: "Cross-curricular" appears only where the record says so', crossOk);
+  check('Quidsima: "Cross-curricular" appears only where the record says so', crossOk);
   const multi = ACTS.acts.filter(a => (a.ft || []).length > 1).length;
-  check('What If AI: multi-field activities carry each field', multi > 0, multi + ' multi-field activities');
+  check('Quidsima: multi-field activities carry each field', multi > 0, multi + ' multi-field activities');
 
   // walkthrough
   await go(page, 'what-if-ai.html');
   await page.click('.hdr [data-open-tour]');
-  check('What If AI: the walkthrough opens from the header', await page.$eval('#tourDialog', d => d.open));
+  check('Quidsima: the walkthrough opens from the header', await page.$eval('#tourDialog', d => d.open));
   const nSlides = (await page.$$('#tourDialog [data-slide]')).length;
-  check('What If AI: the walkthrough has five steps and shows its position', nSlides === 5 && (await page.textContent('#tourPos')) === '1 of 5', nSlides + ' / ' + await page.textContent('#tourPos'));
+  check('Quidsima: the walkthrough has five steps and shows its position', nSlides === 5 && (await page.textContent('#tourPos')) === '1 of 5', nSlides + ' / ' + await page.textContent('#tourPos'));
   await page.click('#tourNext');
-  check('What If AI: Next moves to step 2 and announces it', (await page.textContent('#tourPos')) === '2 of 5' && await page.$eval('#tourDialog [data-slide]:nth-child(2)', s => !s.hidden && s.getAttribute('aria-label') === '2 of 5'));
+  check('Quidsima: Next moves to step 2 and announces it', (await page.textContent('#tourPos')) === '2 of 5' && await page.$eval('#tourDialog [data-slide]:nth-child(2)', s => !s.hidden && s.getAttribute('aria-label') === '2 of 5'));
   await page.keyboard.press('ArrowRight'); await page.keyboard.press('ArrowRight');
-  check('What If AI: arrow keys move through the walkthrough', (await page.textContent('#tourPos')) === '4 of 5');
+  check('Quidsima: arrow keys move through the walkthrough', (await page.textContent('#tourPos')) === '4 of 5');
   await page.click('#tourPrev');
-  check('What If AI: Previous moves back', (await page.textContent('#tourPos')) === '3 of 5');
+  check('Quidsima: Previous moves back', (await page.textContent('#tourPos')) === '3 of 5');
   await page.keyboard.press('End');
-  check('What If AI: the last step offers Finish', (await page.textContent('#tourNext')).includes('Finish') && (await page.textContent('#tourPos')) === '5 of 5');
+  check('Quidsima: the last step offers Finish', (await page.textContent('#tourNext')).includes('Finish') && (await page.textContent('#tourPos')) === '5 of 5');
   const autoAdvance = await page.textContent('#tourPos'); await page.waitForTimeout(1200);
-  check('What If AI: the walkthrough never advances by itself', (await page.textContent('#tourPos')) === autoAdvance);
+  check('Quidsima: the walkthrough never advances by itself', (await page.textContent('#tourPos')) === autoAdvance);
   await page.click('#tourNext');
   const tourFocus = await page.evaluate(() => document.activeElement && document.activeElement.hasAttribute('data-open-tour'));
-  check('What If AI: Finish closes the walkthrough and returns focus to its button', !(await page.$eval('#tourDialog', d => d.open)) && tourFocus);
+  check('Quidsima: Finish closes the walkthrough and returns focus to its button', !(await page.$eval('#tourDialog', d => d.open)) && tourFocus);
   await page.click('.hdr [data-open-tour]'); await page.keyboard.press('Escape');
-  check('What If AI: Escape dismisses the walkthrough', !(await page.$eval('#tourDialog', d => d.open)));
+  check('Quidsima: Escape dismisses the walkthrough', !(await page.$eval('#tourDialog', d => d.open)));
   await page.goto('about:blank'); await go(page, 'what-if-ai.html#tour'); await page.waitForTimeout(80);
-  check('What If AI: a #tour link opens the walkthrough', await page.$eval('#tourDialog', d => d.open));
+  check('Quidsima: a #tour link opens the walkthrough', await page.$eval('#tourDialog', d => d.open));
   const artText = await page.$$eval('#tourDialog .tour__art svg text', t => t.length);
-  check('What If AI: walkthrough illustrations carry no text and are hidden from assistive technology', artText === 0 && await page.$$eval('#tourDialog .tour__art', as => as.every(a => a.getAttribute('aria-hidden') === 'true')));
+  check('Quidsima: walkthrough illustrations carry no text and are hidden from assistive technology', artText === 0 && await page.$$eval('#tourDialog .tour__art', as => as.every(a => a.getAttribute('aria-hidden') === 'true')));
 
   // history: questions and results have addresses, so Back and Forward work
   await page.goto('about:blank'); await go(page, 'what-if-ai.html');
   await page.check('input[value="teaching"]'); await page.click('#next');
-  check('What If AI: moving to a question gives it an address', /#q=task&a=focus:teaching/.test(page.url()), page.url().split('#')[1]);
+  check('Quidsima: moving to a question gives it an address', /#q=task&a=focus:teaching/.test(page.url()), page.url().split('#')[1]);
   await page.goBack(); await page.waitForTimeout(80);
-  check('What If AI: browser Back returns to the previous question with the answer kept',
+  check('Quidsima: browser Back returns to the previous question with the answer kept',
     (await page.textContent('#qTitle')) === 'What are you working on?' && await page.isChecked('input[value="teaching"]'));
   await page.goForward(); await page.waitForTimeout(80);
-  check('What If AI: browser Forward returns to the next question', (await page.textContent('#qTitle')) === 'What would you like to do?');
+  check('Quidsima: browser Forward returns to the next question', (await page.textContent('#qTitle')) === 'What would you like to do?');
   const fwdFocus = await page.evaluate(() => document.activeElement && document.activeElement.id);
-  check('What If AI: after Back or Forward, focus is on the question heading', fwdFocus === 'qTitle', fwdFocus);
+  check('Quidsima: after Back or Forward, focus is on the question heading', fwdFocus === 'qTitle', fwdFocus);
   await go(page, 'what-if-ai.html#a=focus:teaching;task:feedback'); await page.waitForTimeout(40);
   await page.click('#redo'); await page.waitForTimeout(40);
   await page.goBack(); await page.waitForTimeout(80);
-  check('What If AI: Back from “Change my answers” returns to the results', await page.isVisible('#plan [data-card]'));
+  check('Quidsima: Back from “Change my answers” returns to the results', await page.isVisible('#plan [data-card]'));
   // an answer that no longer applies after an earlier change is cleared, not left hidden
   await go(page, 'what-if-ai.html#q=focus&a=focus:admin;task:creative'); await page.waitForTimeout(40);
   await page.check('input[value="teaching"]');
   const pruned = await page.evaluate(() => location.hash);
   const creativeTeach = ACTS.acts.some(a => a.focus === 'teaching' && a.task.includes('creative') && !['active','passive'].includes(a.icap));
-  check('What If AI: changing the first answer clears a later answer that no longer applies', creativeTeach ? /task:creative/.test(pruned) : !/task:creative/.test(pruned), pruned);
+  check('Quidsima: changing the first answer clears a later answer that no longer applies', creativeTeach ? /task:creative/.test(pruned) : !/task:creative/.test(pruned), pruned);
   // a chip for level/setting opens the field question with a sensible position
   await go(page, 'what-if-ai.html#a=focus:teaching;lvl:grad'); await page.waitForTimeout(40);
   await page.click('#plan .answer:has-text("Level")');
   const qs = await page.textContent('.qstep');
-  check('What If AI: the Level chip opens the field question with a real position', /Question [1-9] of [1-9]/.test(qs) && (await page.textContent('#qTitle')) === 'What is your field?', qs);
+  check('Quidsima: the Level chip opens the field question with a real position', /Question [1-9] of [1-9]/.test(qs) && (await page.textContent('#qTitle')) === 'What is your field?', qs);
 
   // saved activities
   await page.evaluate(() => localStorage.clear());
   await go(page, 'what-if-ai.html#a=focus:teaching;task:feedback');
   let saves = await page.$$('#plan button[data-save]');
   await saves[0].click();
-  check('What If AI: Save marks the activity saved', (await saves[0].getAttribute('aria-pressed')) === 'true' && (await saves[0].textContent()).includes('Saved'));
-  check('What If AI: saved count updates', (await page.textContent('.topbar [data-saved-count]')) === '1');
+  check('Quidsima: Save marks the activity saved', (await saves[0].getAttribute('aria-pressed')) === 'true' && (await saves[0].textContent()).includes('Saved'));
+  check('Quidsima: saved count updates', (await page.textContent('.topbar [data-saved-count]')) === '1');
   await page.waitForTimeout(120);
-  check('What If AI: saving is announced to assistive technology', /Saved:/.test(await page.textContent('#srStatus')), await page.textContent('#srStatus'));
+  check('Quidsima: saving is announced to assistive technology', /Saved:/.test(await page.textContent('#srStatus')), await page.textContent('#srStatus'));
   await saves[0].click();
-  check('What If AI: pressing Save again unsaves (no duplicates)', (await page.textContent('.topbar [data-saved-count]')) === '0');
+  check('Quidsima: pressing Save again unsaves (no duplicates)', (await page.textContent('.topbar [data-saved-count]')) === '0');
   await saves[0].click(); await saves[1].click(); await saves[2].click();
   const savedIds = await page.evaluate(() => SITE.Saved.ids());
-  check('What If AI: saved list has no duplicates', new Set(savedIds).size === savedIds.length && savedIds.length === 3, savedIds.length + ' saved');
+  check('Quidsima: saved list has no duplicates', new Set(savedIds).size === savedIds.length && savedIds.length === 3, savedIds.length + ' saved');
   await page.reload(); await page.waitForSelector('html[data-ready]', { state: 'attached' });
-  check('What If AI: saved activities persist across a reload', (await page.textContent('.topbar [data-saved-count]')) === '3');
+  check('Quidsima: saved activities persist across a reload', (await page.textContent('.topbar [data-saved-count]')) === '3');
   await page.click('.topbar [data-open-saved]');
-  check('What If AI: the saved drawer opens and lists the selection', await page.$eval('#savedDrawer', d => d.open) && (await page.$$('#savedBody .saved-item')).length === 3);
+  check('Quidsima: the saved drawer opens and lists the selection', await page.$eval('#savedDrawer', d => d.open) && (await page.$$('#savedBody .saved-item')).length === 3);
   await page.click('#savedBody [data-open]');
-  check('What If AI: an activity opens from the saved drawer', await page.$eval('#actDialog', d => d.open));
+  check('Quidsima: an activity opens from the saved drawer', await page.$eval('#actDialog', d => d.open));
   await page.keyboard.press('Escape');
   const inDrawer = await page.evaluate(() => !!document.activeElement.closest('#savedDrawer') && document.activeElement.hasAttribute('data-open'));
-  check('What If AI: closing that activity returns focus to its View button in the drawer', inDrawer);
+  check('Quidsima: closing that activity returns focus to its View button in the drawer', inDrawer);
   await page.keyboard.press('Escape');
   const toSavedBtn = await page.evaluate(() => document.activeElement && document.activeElement.hasAttribute('data-open-saved'));
-  check('What If AI: closing the drawer returns focus to the Saved activities button', toSavedBtn);
+  check('Quidsima: closing the drawer returns focus to the Saved activities button', toSavedBtn);
   await page.click('.topbar [data-open-saved]');
   await page.click('#savedBody [data-unsave]');
-  check('What If AI: an item can be removed from the drawer', (await page.$$('#savedBody .saved-item')).length === 2 && (await page.textContent('.topbar [data-saved-count]')) === '2');
+  check('Quidsima: an item can be removed from the drawer', (await page.$$('#savedBody .saved-item')).length === 2 && (await page.textContent('.topbar [data-saved-count]')) === '2');
   // print
   await page.evaluate(() => { window.__printed = 0; window.print = function () { window.__printed++; }; });
   await page.click('#printSaved');
   await page.waitForTimeout(150);
   const pr = await page.evaluate(() => ({ printed: window.__printed, arts: document.querySelectorAll('#printRoot article').length,
     buttons: document.querySelectorAll('#printRoot button').length, cls: document.body.classList.contains('print-saved') }));
-  check('What If AI: Print builds a clean print view of exactly the saved activities', pr.printed === 1 && pr.arts === 2 && pr.buttons === 0, JSON.stringify(pr));
+  check('Quidsima: Print builds a clean print view of exactly the saved activities', pr.printed === 1 && pr.arts === 2 && pr.buttons === 0, JSON.stringify(pr));
   await page.evaluate(() => document.body.classList.add('print-saved'));
   await page.emulateMedia({ media: 'print' });
   const pv = await page.evaluate(() => ({ app: getComputedStyle(document.querySelector('.app')).display,
     root: getComputedStyle(document.getElementById('printRoot')).display, top: getComputedStyle(document.querySelector('.topbar')).display,
     foot: getComputedStyle(document.querySelector('.site-foot')).display }));
-  check('What If AI: in print, only the saved activities appear', pv.app === 'none' && pv.root === 'block' && pv.top === 'none' && pv.foot === 'none', JSON.stringify(pv));
+  check('Quidsima: in print, only the saved activities appear', pv.app === 'none' && pv.root === 'block' && pv.top === 'none' && pv.foot === 'none', JSON.stringify(pv));
   const prText = await page.textContent('#printRoot');
-  check('What If AI: printed activities keep citation and license', /Source and license/.test(prText) && /License/.test(prText));
+  check('Quidsima: printed activities keep citation and license', /Source and license/.test(prText) && /License/.test(prText));
   await page.emulateMedia({ media: 'screen' });
   await page.evaluate(() => document.body.classList.remove('print-saved'));
   // clear all, with confirmation
   await page.click('.topbar [data-open-saved]');
   await page.click('#clearSaved');
-  check('What If AI: Clear all asks for confirmation first', await page.isVisible('#clearConfirm') && (await page.textContent('.topbar [data-saved-count]')) === '2');
+  check('Quidsima: Clear all asks for confirmation first', await page.isVisible('#clearConfirm') && (await page.textContent('.topbar [data-saved-count]')) === '2');
   await page.click('#clearYes');
-  check('What If AI: confirmed Clear all empties the selection', (await page.textContent('.topbar [data-saved-count]')) === '0' && /No saved use-case ideas yet/.test(await page.textContent('#savedBody')));
+  check('Quidsima: confirmed Clear all empties the selection', (await page.textContent('.topbar [data-saved-count]')) === '0' && /No saved use-case ideas yet/.test(await page.textContent('#savedBody')));
   await page.keyboard.press('Escape');
 
   const guideIcons = await page.$$eval('a[href*="genaifacultystaff"]', as => as.map(a => (a.querySelector('use') || {}).getAttribute ? a.querySelector('use').getAttribute('href') : ''));
   // the floating menu and the footer link to the guide (the header's copy was removed on 2026-11-03)
-  check('What If AI: every link to the Gen AI Guide carries the robot icon', guideIcons.length >= 2 && guideIcons.every(h => h === '#i-robot'), guideIcons.join(' '));
-  check('What If AI: no internal project language in the page', leaks(await page.evaluate(() => document.body.innerText)).length === 0,
+  check('Quidsima: every link to the Gen AI Guide carries the robot icon', guideIcons.length >= 2 && guideIcons.every(h => h === '#i-robot'), guideIcons.join(' '));
+  check('Quidsima: no internal project language in the page', leaks(await page.evaluate(() => document.body.innerText)).length === 0,
     leaks(await page.evaluate(() => document.body.innerText)).join(', ') || 'clean');
 
   // ══════════════ The Register ══════════════
@@ -363,7 +363,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   check('The No-AI limit says students will not use an AI tool themselves', noaiLimit[1] === 'My students won’t use an AI tool themselves' && noaiLimit[2] === 'Includes use-case ideas where only the instructor uses an AI tool, use-case ideas that examine AI without one, use-case ideas whose AI step is optional, and use-case ideas with a stated route that uses no AI.');
   await go(page, 'what-if-ai.html#q=limits&a=focus:teaching;task:design');
   const limitsText = await page.textContent('#wizard');
-  check('What If AI: the limit question offers the renamed option and explains it', limitsText.includes('My students won’t use an AI tool themselves') && limitsText.includes('students do not have to operate an AI tool') && limitsText.includes('the AI step is optional') && !/rather my students not use AI at all/.test(limitsText));
+  check('Quidsima: the limit question offers the renamed option and explains it', limitsText.includes('My students won’t use an AI tool themselves') && limitsText.includes('students do not have to operate an AI tool') && limitsText.includes('the AI step is optional') && !/rather my students not use AI at all/.test(limitsText));
   for (const op of ['faculty_or_staff', 'optional', 'none', 'not_specified']) {
     const sample = ACTS.acts.find(a => a.op === op);
     await go(page, 'register.html#act=' + sample.id); await page.waitForSelector('#actDialog[open]');
@@ -505,7 +505,7 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   // ══════════════ phones ══════════════
   const m = await createContext(browser, { viewport: { width: 390, height: 844 } }); const mp = await m.newPage();
   mp.on('pageerror', e => errors.push(e.message));
-  for (const [label, u] of [['What If AI questions', 'what-if-ai.html'], ['What If AI results', 'what-if-ai.html#a=focus:teaching;task:design'],
+  for (const [label, u] of [['Quidsima questions', 'what-if-ai.html'], ['Quidsima results', 'what-if-ai.html#a=focus:teaching;task:design'],
                             ['Register activities', 'register.html#activities'], ['Register AI types', 'register.html#ai-types'],
                             ['Register policies', 'register.html#policies'], ['Register sources', 'register.html#sources'], ['Register how to use', 'register.html#about']]) {
     await go(mp, u); await mp.waitForTimeout(120);
@@ -548,24 +548,24 @@ async function overflow(page) { return page.evaluate(() => document.documentElem
   await page.click('#plan [data-open]'); await page.click('#actDialog .dlg__foot a[href^="register.html#act="]'); await page.waitForLoadState('load'); await page.waitForSelector('html[data-ready]', { state: 'attached' }); await page.waitForTimeout(150);
   check('Cross-page: "Open in The Register" opens the same activity there', /register\.html#act=/.test(page.url()) && await page.$eval('#actDialog', d => d.open) && (await page.textContent('#actDialogTitle')) === BY[xid].t);
   await page.goBack(); await page.waitForLoadState('load'); await page.waitForSelector('html[data-ready]', { state: 'attached' }); await page.waitForTimeout(150);
-  check('Cross-page: Back returns to the same activity, over the same What If AI results', page.url().endsWith('what-if-ai.html#act=' + encodeURIComponent(xid)) &&
+  check('Cross-page: Back returns to the same activity, over the same Quidsima results', page.url().endsWith('what-if-ai.html#act=' + encodeURIComponent(xid)) &&
     await page.$eval('#actDialog', d => d.open) && await page.isVisible('#plan [data-card]'));
   await page.keyboard.press('Escape'); await page.waitForURL(/what-if-ai\.html#a=/); await page.waitForSelector('html[data-ready]', { state: 'attached' }); await page.waitForTimeout(150);
   check('Cross-page: closing it returns to those results', /what-if-ai\.html#a=focus:teaching;task:feedback/.test(page.url()) && await page.isVisible('#plan [data-card]'));
   await page.click('#plan .browse a'); await page.waitForLoadState('load'); await page.waitForSelector('html[data-ready]', { state: 'attached' }); await page.waitForTimeout(120);
   check('Cross-page: "Browse all … in The Register" lands on its activities', /register\.html#activities$/.test(page.url()) && await page.isVisible('#h-activities'));
   await go(page, 'register.html#about'); await page.click('#rtour a[href="what-if-ai.html#tour"]'); await page.waitForLoadState('load'); await page.waitForSelector('html[data-ready]', { state: 'attached' }); await page.waitForTimeout(150);
-  check('Cross-page: The Register\'s walkthrough link opens the walkthrough in What If AI', await page.$eval('#tourDialog', d => d.open));
+  check('Cross-page: The Register\'s walkthrough link opens the walkthrough in Quidsima', await page.$eval('#tourDialog', d => d.open));
   await page.focus('#tourNext'); await page.keyboard.press('Escape');
   await page.waitForFunction(() => !document.getElementById('tourDialog').open && location.hash !== '#tour', null, { timeout: 2000 }).catch(() => {});
   check('Cross-page: closing a walkthrough opened by link leaves a clean address', !/#tour/.test(page.url()), page.url().split('/').pop());
   await go(page, 'register.html#activities'); await page.click('#activities a[href="what-if-ai.html"]'); await page.waitForLoadState('load'); await page.waitForSelector('html[data-ready]', { state: 'attached' });
-  check('Cross-page: "Try What If AI" opens the first question', await page.isVisible('#qTitle') && (await page.textContent('#qTitle')) === 'What are you working on?');
+  check('Cross-page: "Try Quidsima" opens the first question', await page.isVisible('#qTitle') && (await page.textContent('#qTitle')) === 'What are you working on?');
   // Floating navigation is available from either tool, including from the keyboard.
   for (const [width, height] of [[1440, 844], [390, 844], [844, 390]]) {
     const fc = await createContext(browser, { viewport: { width, height } });
     const fp = await fc.newPage();
-    for (const [from, to, label] of [['what-if-ai.html', 'register.html', 'The Register'], ['register.html', 'what-if-ai.html', 'What If AI']]) {
+    for (const [from, to, label] of [['what-if-ai.html', 'register.html', 'The Register'], ['register.html', 'what-if-ai.html', 'Quidsima']]) {
       await go(fp, from);
       const link = fp.locator('#fabMenu').getByRole('link', { name: label, exact: true });
       check('Floating navigation @' + width + ': closed links stay hidden on ' + from, !(await link.isVisible()));

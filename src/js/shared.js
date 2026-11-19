@@ -619,7 +619,7 @@ function syncSaveUI(){
 /* Every printout is built in #printRoot from the full record, so each idea keeps its source, license,
    attribution, and change notes on paper. Pages under an open dialog are never printed in its place. */
 var printCleanup = null;
-function toolName(){ return CTX.page==='register' ? 'The Register' : 'What If AI'; }
+function toolName(){ return CTX.page==='register' ? 'The Register' : 'Quidsima'; }
 function fillPrintRoot(ids, single, brief){
   var root = document.getElementById('printRoot'); if(!root) return null;
   root.className = brief ? 'pr-brief' : '';
@@ -640,7 +640,7 @@ function fillPrintRoot(ids, single, brief){
         (TOOLS() && TOOLS().printExtra ? TOOLS().printExtra(a, brief) : '')+'</article>';
     });
   }
-  h += '<div class="pr-foot">Tool credit: What If AI and The Register, Lewis University Library. '+
+  h += '<div class="pr-foot">Tool credit: Quidsima and The Register, Lewis University Library. '+
     esc(TOOL_LICENSE.scope)+' are licensed '+licenseHTML(TOOL_LICENSE.label,TOOL_LICENSE.url,true)+'. '+
     esc(TOOL_LICENSE.exceptions)+' Retain each entry’s own attribution, license, and change notices.</div>';
   root.innerHTML = h;
@@ -674,7 +674,7 @@ function printHTML(html){
   setTimeout(function(){ window.print(); setTimeout(done, 1500); }, 60);
 }
 function printFooterHTML(){
-  return '<div class="pr-foot">Tool credit: What If AI and The Register, Lewis University Library. '+
+  return '<div class="pr-foot">Tool credit: Quidsima and The Register, Lewis University Library. '+
     esc(TOOL_LICENSE.scope)+' are licensed '+licenseHTML(TOOL_LICENSE.label,TOOL_LICENSE.url,true)+'. '+
     esc(TOOL_LICENSE.exceptions)+' Retain each entry’s own attribution, license, and change notices.</div>';
 }

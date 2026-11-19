@@ -1,4 +1,4 @@
-/* ════ What If AI · compact introduction ════ */
+/* ════ Quidsima · compact introduction ════ */
 .hdr--explore .hdr__lede{max-width:56rem;font-size:.95rem;line-height:1.5;margin-top:.7rem;text-wrap:pretty;}
 .hdr.hdr--compact.hdr--explore::after{height:36px;margin-top:12px;
   background-size:260px 13px,260px 14px,100% 4px,100% 100%;background-position:176px 0,48px 22px,0 16px,0 0;}
@@ -13,7 +13,7 @@
     background-size:180px 11px,180px 12px,100% 4px,100% 100%;background-position:120px 0,30px 18px,0 13px,0 0;}
 }
 
-/* ════ What If AI · questions ════ */
+/* ════ Quidsima · questions ════ */
 .qpanel .panel__body{padding-top:16px;}
 .qstep{font-family:var(--font-h);font-size:15px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);}
 .qbar{display:flex;gap:6px;margin:0 0 4px;}
@@ -49,7 +49,7 @@ fieldset.opts legend{font-family:var(--font-h);font-size:17px;font-weight:700;co
 .qnav .spacer{flex:1;}
 .noai{margin-top:14px;}
 
-/* ════ What If AI · results ════ */
+/* ════ Quidsima · results ════ */
 .rhead{margin-bottom:18px;}
 .rhead h2{font-size:clamp(30px,3.6vw,40px);font-weight:800;margin:4px 0 8px;}
 .answers{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;padding:0;list-style:none;}

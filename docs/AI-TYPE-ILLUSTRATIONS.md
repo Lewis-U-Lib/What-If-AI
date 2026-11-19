@@ -4,7 +4,7 @@ The 55 illustrations supplement the five slides in each of the 11 type dialogs f
 
 ## Visual direction and provenance
 
-Generated and repainted with OpenAI image generation on October 28, 2026, using the existing drawings in both `src/partials/tour.html` (What If AI) and `src/partials/register-tour.html` (The Register) as visual references. The watercolor revision preserves all 55 scenes while replacing the smooth, heavy outlines with soft pigment washes, fine paper grain inside the painted objects, lighter contours, and irregular brush edges. The palette follows both walkthroughs' maroon, mustard gold, cream, steel, sage, and sky-blue washes. Each drawing is an illustrative metaphor rather than a research figure; all factual explanations and citations remain in the adjacent text.
+Generated and repainted with OpenAI image generation on October 28, 2026, using the existing drawings in both `src/partials/tour.html` (Quidsima) and `src/partials/register-tour.html` (The Register) as visual references. The watercolor revision preserves all 55 scenes while replacing the smooth, heavy outlines with soft pigment washes, fine paper grain inside the painted objects, lighter contours, and irregular brush edges. The palette follows both walkthroughs' maroon, mustard gold, cream, steel, sage, and sky-blue washes. Each drawing is an illustrative metaphor rather than a research figure; all factual explanations and citations remain in the adjacent text.
 
 ## Asset contract
 

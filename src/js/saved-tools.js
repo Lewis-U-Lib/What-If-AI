@@ -150,7 +150,7 @@ function say(msg){
 function listFile(){
   var ideas = Saved.ids().map(function(id){ var a = act(id); return {id: a ? a.id : id, title: a ? a.t : ''}; });
   var extra = window.SITE_TOOLS.fileExtra ? window.SITE_TOOLS.fileExtra() : null;      /* e.g. trial plans */
-  var data = {format: FORMAT, version: 1, exported: new Date().toISOString(), from: 'What If AI and The Register, Lewis University Library', ideas: ideas};
+  var data = {format: FORMAT, version: 1, exported: new Date().toISOString(), from: 'Quidsima and The Register, Lewis University Library', ideas: ideas};
   if(extra) Object.keys(extra).forEach(function(k){ data[k] = extra[k]; });
   return data;
 }
@@ -253,7 +253,7 @@ function blocks(a, withPlan){
   }
   walk(doc.body);
   if(withPlan && window.SITE_TOOLS.planBlocks) out = out.concat(window.SITE_TOOLS.planBlocks(a));
-  out.push({k:'small', t:'Exported from What If AI and The Register, Lewis University Library, on '+today()+'. The text is reproduced from the record as written. '+
+  out.push({k:'small', t:'Exported from Quidsima and The Register, Lewis University Library, on '+today()+'. The text is reproduced from the record as written. '+
     'The record online: '+recordURL(a)});
   return out;
 }

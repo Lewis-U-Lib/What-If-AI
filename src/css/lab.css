@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════
-   LAB · retro robotics layer (What If AI + The Register)
+   LAB · retro robotics layer (Quidsima + The Register)
    Sits on the crimson-plate base (theme-plate.css). Adds the robot/terminal
    motifs: line icons, indicator lamps, terminal readouts, the occasional pulse
    of current along a seam, the header with the logo upper-left, field tags,
@@ -114,7 +114,7 @@ body:has(dialog[open]) .current::before,body.chat-open .current::before{animatio
 .detail .idline a{display:inline-flex;align-items:center;gap:7px;min-height:var(--tap-min);font-size:16px;}
 
 /* ═══ Edison bulbs ═══
-   The What If AI bulb icon has a filament (.fil in icons.svg) that lights when its link or button is pointed at or
+   The Quidsima bulb icon has a filament (.fil in icons.svg) that lights when its link or button is pointed at or
    focused. The considerations console and the question rail's current step use small Edison bulbs (--edison). */
 .fil{stroke:var(--fil,currentColor);}
 :is(a,button):is(:hover,:focus-visible){--fil:#fff3c4;}

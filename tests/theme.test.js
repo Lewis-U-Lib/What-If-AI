@@ -74,7 +74,7 @@ const channels = color => (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number)
     }
     pass('default: both tools are the crimson site and the help menu ends with "Switch to blue"');
 
-    /* switch on What If AI */
+    /* switch on Quidsima */
     await page.goto(server.url('what-if-ai.html')); await ready(page);
     await page.click('#fabToggle');
     await page.click('#fabMenu [data-theme-toggle]');
@@ -104,7 +104,7 @@ const channels = color => (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number)
       const was = crimson['what-if-ai.html'].parts.find(p => p.sel === sel);
       assert.equal(ground(sel).image, was.image, sel + ' keeps its gold');
     }
-    pass('What If AI: the switch turns the page steel blue, changes no box, keeps gold, and stays ready to switch back');
+    pass('Quidsima: the switch turns the page steel blue, changes no box, keeps gold, and stays ready to switch back');
 
     /* accessibility in blue, with the menu closed and open */
     for (const open of [false, true]) {
@@ -114,7 +114,7 @@ const channels = color => (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number)
       assert.deepEqual(result.violations.map(v => v.id + ': ' + v.nodes.map(n => n.target.join(' ')).join(' | ')), [], 'axe in blue' + (open ? ', menu open' : ''));
       if (open) await page.keyboard.press('Escape');
     }
-    pass('What If AI in blue: axe finds no violations, menu closed or open');
+    pass('Quidsima in blue: axe finds no violations, menu closed or open');
 
     /* remembered: reload, the other tool, the landing page */
     await page.reload(); await ready(page);
