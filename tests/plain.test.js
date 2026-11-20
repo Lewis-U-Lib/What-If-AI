@@ -72,6 +72,15 @@ const look = page => page.evaluate(PLATES => {
 
     /* switch it on in Quidsima */
     await page.goto(server.url('what-if-ai.html')); await ready(page);
+    const title = page.getByRole('heading', { level: 1, name: /^Quidsima$/i });
+    const wordmark = title.getByRole('img', { name: 'Quidsima' });
+    assert.ok(await wordmark.isVisible(), 'the textured header shows the wordmark');
+    for (const media of [{ forcedColors: 'active' }, { contrast: 'more' }, { media: 'print' }]) {
+      await page.emulateMedia({ media: 'screen', forcedColors: 'none', contrast: 'no-preference', ...media });
+      assert.ok(await title.isVisible() && await title.locator('.quidsima-name').isVisible(), 'the text heading replaces the artwork');
+      assert.equal(await wordmark.count(), 0, 'the artwork is absent from the accessibility tree');
+    }
+    await page.emulateMedia({ media: 'screen', forcedColors: 'none', contrast: 'no-preference' });
     await page.click('#fabToggle'); await page.click(TOGGLE);
     assert.equal((await page.locator(TOGGLE).innerText()).trim(), 'Switch to textured view');
     assert.equal(await page.evaluate(k => localStorage.getItem(k), KEY), '1');
@@ -79,6 +88,7 @@ const look = page => page.evaluate(PLATES => {
     await rest(page);
     let now = await look(page);
     assert.equal(now.plain, true);
+    assert.ok(await title.locator('.quidsima-name').isVisible() && await wordmark.count() === 0, 'plain reading uses the text heading');
     assert.equal(now.theme, null, 'the palette is untouched');
     assert.ok(now.images.every(i => i === 'none'), 'plates carry no texture: ' + now.images.join(' | '));
     assert.ok(!/url\(/.test(now.ground), 'the page ground carries no texture');

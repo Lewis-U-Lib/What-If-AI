@@ -14,7 +14,12 @@ const text = html => html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/st
 const tool = read('what-if-ai.html'), landing = read('index.html'), register = read('register.html'), missing = read('404.html');
 
 assert.match(tool, /<title>Quidsima \| Lewis University Library<\/title>/);
-assert.match(tool, /<h1 class="hdr__title">Quid<span>sima<\/span><\/h1>/);
+const heading = tool.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)[1];
+const mark = heading.match(/<img\b[^>]*\bsrc="([^"]+)"[^>]*\balt="Quidsima"/);
+assert.ok(mark, 'the wordmark names the tool in its heading');
+assert.match(mark[1], /^assets\/img\/quidsima-wordmark\.[\da-f]+\.svg$/);
+assert.ok(fs.existsSync(path.join(SITE_DIR, mark[1])), 'the build publishes the wordmark');
+assert.match(heading, /Quid<span>sima<\/span>/, 'the original text heading is available in reading and print modes');
 assert.match(landing, /<title>Quidsima &amp; The Register \| Lewis University Library<\/title>/);
 assert.match(text(register), /Every use-case idea in Quidsima,/);
 assert.match(text(tool), /A context-driven tool for exploring whether and how generative AI could assist given your goals and constraints\. Start with a task from your teaching, research, or administrative work\. No AI experience needed\./);

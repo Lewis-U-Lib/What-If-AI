@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 74" width="320" height="74">
+  <title>Quidsima</title>
+  <defs>
+    <linearGradient id="brass" gradientUnits="userSpaceOnUse" x1="0" y1="8" x2="0" y2="68">
+      <stop stop-color="#a9712d"/>
+      <stop offset=".43" stop-color="#bd843e"/>
+      <stop offset=".7" stop-color="#cb9046"/>
+      <stop offset=".83" stop-color="#d49746"/>
+      <stop offset=".95" stop-color="#f6b95c"/>
+      <stop offset="1" stop-color="#f6cf7a"/>
+    </linearGradient>
+    <!-- Both bevels fall inside the cut. The panel shows through the counters. -->
+    <filter id="recess" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1.4" result="softEdge"/>
+      <feOffset in="softEdge" dx="1" dy="3.6" result="shadowEdge"/>
+      <feComposite in="SourceAlpha" in2="shadowEdge" operator="out" result="upperWall"/>
+      <feFlood flood-color="#170801"/>
+      <feComposite in2="upperWall" operator="in" result="shadow"/>
+      <feOffset in="SourceAlpha" dx="-.45" dy="-1.2" result="litEdge"/>
+      <feComposite in="SourceAlpha" in2="litEdge" operator="out" result="lowerWall"/>
+      <feFlood flood-color="#ffedb8"/>
+      <feComposite in2="lowerWall" operator="in" result="glint"/>
+      <feMerge>
+        <feMergeNode in="SourceGraphic"/>
+        <feMergeNode in="shadow"/>
+        <feMergeNode in="glint"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="needle" x1="0" y1="1" x2="1" y2="0">
+      <stop stop-color="#8e541a"/>
+      <stop offset=".47" stop-color="#c28c34"/>
+      <stop offset=".56" stop-color="#f0bd56"/>
+      <stop offset="1" stop-color="#a66d25"/>
+    </linearGradient>
+    <radialGradient id="pivot" cx=".38" cy=".34" r=".65">
+      <stop stop-color="#ffe8a0"/>
+      <stop offset=".38" stop-color="#e3b451"/>
+      <stop offset="1" stop-color="#98601e"/>
+    </radialGradient>
+  </defs>
+  <g fill="url(#brass)" fill-rule="evenodd" filter="url(#recess)">
+    <!-- The selector dial forms the Q. Its counter is open to the panel. -->
+    <path d="M36 2a34 35 0 1 1 0 70 34 35 0 1 1 0-70Zm0 15a20 20 0 1 0 0 40 20 20 0 1 0 0-40Z"/>
+    <!-- U I D S I M A -->
+    <path d="M73 8h13v43c0 4 1.3 6 5 6s5-2 5-6V8h12v44c0 11-6 16-17 16s-18-5-18-16Z"/>
+    <path d="M114 8h13v60h-13z"/>
+    <path d="M133 8h17c11 0 16 5 16 15v30c0 10-5 15-16 15h-17Zm12 12v36h5c3 0 4.5-1.5 4.5-5V25c0-3.5-1.5-5-4.5-5Z"/>
+    <path d="M202 29h-12v-5c0-3-1.1-4.5-4-4.5s-4 1.5-4 4.5v3c0 2.3 1 3.8 3.8 5.8l9 6.4c5.1 3.6 7.2 7.1 7.2 13v2c0 9.3-5.1 13.8-15.6 13.8S171 63.7 171 54.3v-5h11.5v4.2c0 3.1 1.4 4.7 4.2 4.7s4.3-1.6 4.3-4.7v-2.2c0-2.5-1.1-4.1-4.4-6.4l-8.4-5.9c-5-3.4-7.2-7.1-7.2-13.2v-4c0-9.4 5.2-14.1 15.4-14.1S202 12.4 202 21.7Z"/>
+    <path d="M207 8h13v60h-13z"/>
+    <path d="M225 8h12l10 24.3L257 8h13v60h-12V33.8l-10.7 21.1h-1.1L237 34v34h-12Z"/>
+    <path d="M287 8h15l17 60h-13.5l-3.2-13.5H286L282.7 68H270.5Zm7.1 16-5.4 21h10.9Z"/>
+  </g>
+  <path d="M36 4v11M4 37.5h10" fill="none" stroke="#39210f" stroke-width="2.2"/>
+  <path d="m35.5 35 4.2-.4 32.8 34.7.5 2.6H62L33.6 39.3Z" fill="url(#needle)"/>
+  <circle cx="35.6" cy="37.6" r="7" fill="url(#pivot)" stroke="#85551f" stroke-width=".8"/>
+</svg>
