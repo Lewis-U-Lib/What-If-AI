@@ -15,7 +15,7 @@ let SRV = null;
 const URL = f => SRV.url(f);
 /* pages with data are ready once boot.js has loaded it; the landing and 404 pages have none */
 async function ready(page) { await page.waitForFunction(() => document.documentElement.hasAttribute('data-ready') || !document.getElementById('site-manifest'), null, { timeout: 15000 }); }
-const SURFACES = '.topbar, .hdr, .panel__head, .dlg__head, .site-foot, .polpanel, .sec-eyebrow, .btn--primary, .secnav a, .save, .rail .railitem, .protocols, .countline, .readout, .ftag, .type--compact, .type-dialog, .type-example-disclosure > summary, .type-bibliography, .tour__text, .activity-feedback, .match-note, .requirement-checks > summary, .use-case-accordion > summary';
+const SURFACES = '.topbar, .hdr, .panel__head, .dlg__head, .site-foot, .polpanel, .sec-eyebrow, .btn--primary, .secnav a, .save, .rail .railitem, .protocols, .countline, .readout, .ftag, .type--compact, .type-dialog, .type-bibliography, .tour__text, .activity-feedback, .match-note, .requirement-checks > summary, .use-case-accordion > summary';
 const PCT = 0.9;   // background percentile compared (0.9 = brighter than 90% of the pixels behind the text)
 
 const STATES = [
@@ -50,7 +50,7 @@ const STATES = [
     await p.$eval('.type-bibliography__list', e => e.scrollIntoView({block:'start'})); }],
   ['register, type details', 'register.html#ai-types', async p => { await p.click('[data-open-type="conversational"]'); }],
   ['register, type examples', 'register.html#ai-types', async p => {
-    await p.click('[data-open-type="conversational"]'); await p.click('.type-example-disclosure > summary');
+    await p.click('[data-open-type="conversational"]'); await p.click('[data-type-goto]');
     await p.$eval('#aiTypeDialog .dlg__body', e => e.scrollTop = e.scrollHeight); }],
   ['finder, walkthrough', 'what-if-ai.html#tour', async p => {}],
   ['register, how to use dialog', 'register.html#about', async p => {}],

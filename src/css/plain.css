@@ -16,6 +16,8 @@ html[data-plain]{
   --inc-halo:0 0 0 1.5px rgba(10,1,3,.7);
   --inc-halo-pilot:0 0 0 1.5px rgba(10,1,3,.7);
   --panel:#4f0e1b;
+  /* the thing in focus gets a solid gold line in place of a glow */
+  --halo:0 0 0 2px var(--gold);
 }
 
 /* ── surfaces: one flat color each ── */

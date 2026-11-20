@@ -91,10 +91,7 @@ function prune(){
 
 function drawRail(){
   var onPlan = step>=STEPS.length;
-  var h = '<div class="rail__label">Your answers</div>'+
-    /* beside the questions, where a reader decides whether to answer: how the answers are used */
-    '<p class="rail__note">'+icon('i-flow')+'<span>Results come from fixed matching rules set by the Library. No AI system reads your answers or generates your results, and your answers stay in this browser. '+
-    '<button type="button" class="rail__about" data-open-about aria-haspopup="dialog" aria-controls="aboutDialog">How this site works</button></span></p>';
+  var h = '<div class="rail__label">Your answers</div>';
   realSteps().forEach(function(i, n){
     var st=STEPS[i], ans=answerText(st.key);
     h += '<button type="button" class="railitem'+(ans?' is-done':'')+'" data-goto="'+i+'"'+(i===step&&!onPlan?' aria-current="step"':'')+'>'+
@@ -104,6 +101,10 @@ function drawRail(){
   h += '<button type="button" class="railitem" data-goto="plan"'+(onPlan?' aria-current="step"':'')+'>'+
     '<span class="railitem__n" aria-hidden="true">✓</span><span class="railitem__txt"><span>Results</span>'+
     '<span class="railitem__ans">'+(function(n){ return S_.num(n)+(n===1?' match':' matches'); })(results().near)+' to explore</span></span></button>';
+  h +=
+    /* beside the questions, after the list of answers: how the answers are used */
+    '<p class="rail__note">'+icon('i-flow')+'<span>Results come from fixed matching rules set by the Library. No AI system reads your answers or generates your results, and your answers stay in this browser. '+
+    '<button type="button" class="rail__about" data-open-about aria-haspopup="dialog" aria-controls="aboutDialog">How this site works</button></span></p>';
   document.getElementById('rail').innerHTML = h;
 }
 
@@ -144,9 +145,10 @@ function drawWizard(focusTitle){
     h += group(st.key, st.q, opts(st.key), st.two, true);
     if(st.key==='disc'){
       var open = S.lvl||S.mod;
-      h += '<details class="qmore"'+(open?' open':'')+'><summary>Optional: level and setting</summary>'+
-        '<p class="qnote">Use-case ideas without a specific level or setting remain possible fits, with a note to check suitability.</p>'+
-        group('lvl','Who is in the room?', IN.lvl, true) + group('mod','Where does it happen?', IN.mod, false) + '</details>';
+      /* the same bar as the expandable sections in a use-case idea's details, with a note of what is inside */
+      h += '<details class="qmore"'+(open?' open':'')+'><summary><span class="qmore__label">Optional: level and setting</span><span class="qmore__hint">2 more choices</span></summary>'+
+        '<div class="use-case-accordion__body"><p class="qnote">Use-case ideas without a specific level or setting remain possible fits, with a note to check suitability.</p>'+
+        group('lvl','Who is in the room?', IN.lvl, true) + group('mod','Where does it happen?', IN.mod, false) + '</div></details>';
     }
   }
   /* a way in for readers who do not plan for anyone to use an AI tool: the same records, in The Register */
@@ -230,7 +232,7 @@ function drawPlan(focusTitle){
     : lead==='close' ? count('close','close match','close matches')
     : p.confirmed?'Broader starting points':p.unknown.length?'Some requirements need checking':'No use-case ideas meet these limits';
   var invite=lead==='exact' ? (n ? 'These match the details you gave'+(limited?' and have no unresolved selected limits':'')+'. ' : 'You have not narrowed the collection yet. ')+
-      'Choose <strong>View details</strong> on any one to read the whole use-case idea, or <strong>Save</strong> it to come back to.'
+      'Choose <strong>View details</strong> on any one to read the whole use-case idea, or <strong>Save</strong> it to come back to. Saved use-case ideas can be compared two or three at a time.'
     : lead==='compatible' ? 'Nothing matches every detail you gave. These have no known mismatch; each card notes what to check. Choose <strong>View details</strong> to read the whole use-case idea.'
     : lead==='close' ? 'Nothing matches every detail you gave. Each of these names the one preference it misses. Choose <strong>View details</strong> to read the whole use-case idea.' : '';
   var h='<div class="rhead"><div class="kicker">Your results</div><h2 id="rTitle" tabindex="-1">'+title+'</h2>'+
@@ -329,11 +331,37 @@ function goto(target){
   resetShown();
   go(true);
 }
+/* Selecting the answer that is already selected clears it. A radio button reports no change when it is chosen again,
+   so a pointer is read from the click (the stored answer still equals the option's value only when it was selected
+   before the click) and the keyboard from Space on the selected option. A second click that lands within a moment of
+   the first (a double-click) is ignored. */
+var pickedAt=0;
+function clearAnswer(key, val){
+  S[key]=null;
+  if(key==='disc'){ S.lvl=null; S.mod=null; }
+  if(key==='focus') prune();
+  drawWizard(false); drawRail(); record(false);
+  var again=document.querySelector('input[name="q-'+key+'"][value="'+val+'"]'); if(again) again.focus();
+  S_.announce('Answer cleared.');
+}
+function isAnswer(t){ return t && t.matches && t.matches('input[type="radio"][name^="q-"]'); }
+document.addEventListener('click', function(e){
+  var t=e.target; if(!isAnswer(t)) return;
+  var key=t.name.slice(2);
+  if(S[key]!==t.value || Date.now()-pickedAt<400) return;
+  clearAnswer(key, t.value);
+});
+document.addEventListener('keydown', function(e){
+  var t=e.target; if(e.key!==' ' || !isAnswer(t) || !t.checked || e.repeat) return;
+  var key=t.name.slice(2); if(S[key]!==t.value) return;
+  e.preventDefault(); pickedAt=0;
+  clearAnswer(key, t.value);
+});
 document.addEventListener('change', function(e){
   var t=e.target; if(!t.name || t.name.indexOf('q-')!==0) return;
   var key=t.name.slice(2);
   if(key==='limits'){ S.limits[t.value]=t.checked; drawRail(); record(false); return; }
-  S[key]=t.value;
+  S[key]=t.value; pickedAt=Date.now();
   if(key==='focus') prune();
   /* later questions depend on this answer, so redraw them; keep focus on the option */
   var val=t.value;
