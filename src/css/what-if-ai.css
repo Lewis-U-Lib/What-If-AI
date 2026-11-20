@@ -1,4 +1,11 @@
 /* ════ Quidsima · compact introduction ════ */
+.quidsima-wordmark{display:none;}
+.hdr__title .quidsima-name{color:inherit;text-shadow:inherit;}
+/* Use the engraved artwork on the instrument panel and the text heading in reading and print modes. */
+@media screen and (forced-colors:none) and (prefers-contrast:no-preference){
+  html:not([data-plain]) .quidsima-wordmark{display:block;width:auto;max-width:100%;height:1.02em;object-fit:contain;margin-inline:auto;}
+  html:not([data-plain]) .quidsima-name{display:none;}
+}
 .hdr--explore .hdr__lede{max-width:56rem;font-size:.95rem;line-height:1.5;margin-top:.7rem;text-wrap:pretty;}
 .hdr.hdr--compact.hdr--explore::after{height:36px;margin-top:12px;
   background-size:260px 13px,260px 14px,100% 4px,100% 100%;background-position:176px 0,48px 22px,0 16px,0 0;}
