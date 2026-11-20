@@ -2,6 +2,7 @@
 
 Two faculty resources from Lewis University Library:
 
+
 - **What If AI.** Answer a few questions about teaching, research, or administrative work to find use-case ideas that use or deliberately leave out generative AI.
 - **The Register.** Browse those ideas with their sources and licenses, a sourced guide to types of AI systems, examples of course AI policies, and the source bibliography.
 
@@ -56,9 +57,21 @@ one of five measured scene viewports per type and the build fingerprints each as
 decorative and hidden from assistive technology; the adjacent text remains the
 complete explanation. See [the illustration map](docs/AI-TYPE-ILLUSTRATIONS.md).
 
+## Edges and the lit ring
+
+Plates and cards have a light rim (`--rim`) against a darkened page, outlined controls sit on a dark fill, and one thing at a time is lit with a gold ring (`--halo`): the current question, an open dialog, and the card or door being pointed at or focused. The rules are the "edges" block near the end of `src/css/theme-plate.css`. Steel blue follows automatically; the plain reading view redefines `--halo` as a solid gold line with no glow. `tests/edges.test.js` (run by `npm run test:theme`) checks all three views.
+
+Question 3's optional level-and-setting questions sit behind the same bar as the expandable sections in a use-case idea's details (`.qmore` shares the rules in `src/css/use-case-accordions.css`), with a note of how many choices are inside.
+
+In a Types of AI pop-up, current examples are a slide of their own before References, and an Examples button in the footer jumps to it.
+
+## Answering What If AI's questions
+
+Each question takes one answer. Selecting the answer that is already selected clears it, by pointer or with Space on the focused option; a double-click selects once. Skip does the same from the foot of the question. `tests/answers.test.js` (run by `npm run test:pages`) covers this and the walkthrough's steps.
+
 ## Edit the walkthroughs
 
-The Register's header and floating menu open the eight-step walkthrough in `src/partials/register-tour.html`; `#about` links open it too. What If AI's header and floating menu open the five-step walkthrough in `src/partials/tour.html`. Each header keeps two buttons: the walkthrough, as the one brass primary, and "How this site works"; the companion tool, the Gen AI guide, and feedback are reached from the floating menu and the footer. Page tests cover keyboard operation, focus, links, browser history, printing, and narrow screens.
+The Register's header and floating menu open the nine-step walkthrough in `src/partials/register-tour.html`; `#about` links open it too. What If AI's header and floating menu open the nine-step walkthrough in `src/partials/tour.html`. Saving, comparing, planning and printing, The Register, and feedback and corrections each have a step in it; both walkthroughs describe comparing two or three saved use-case ideas. Each header keeps two buttons: the walkthrough, as the one brass primary, and "How this site works"; the companion tool, the Gen AI guide, and feedback are reached from the floating menu and the footer. Page tests cover keyboard operation, focus, links, browser history, printing, and narrow screens.
 
 ## Edit "How this site works"
 

@@ -60,12 +60,12 @@ const STATES = [
   ['The Register · AI-system details dialog', 'register.html#ai-types', async p => {
     await p.click('[data-open-type="conversational"]'); }],
   ['The Register · AI-system examples expanded', 'register.html#ai-types', async p => {
-    await p.click('[data-open-type="conversational"]'); await p.click('.type-example-disclosure > summary');
+    await p.click('[data-open-type="conversational"]'); await p.click('[data-type-goto]');
     await p.$eval('#aiTypeDialog .dlg__body', e => e.scrollTop = e.scrollHeight); }],
   ['The Register · course AI policies', 'register.html#policies', async p => {}],
   ['The Register · how this site works', 'register.html', async p => { await p.click('.hdr [data-open-about]'); }],
   ['The Register · sources, one opened', 'register.html#sources', async p => { await p.$$eval('#sources details', ds => ds.slice(0, 3).forEach(d => d.open = true)); }],
-  ...Array.from({length:8}, (_,i) => ['The Register · how to use, step '+(i+1), 'register.html#about', async p => {
+  ...Array.from({length:9}, (_,i) => ['The Register · how to use, step '+(i+1), 'register.html#about', async p => {
     await p.focus('#rtourNext'); for(let n=0;n<i;n++) await p.keyboard.press('ArrowRight'); }]),
   ['Landing page', '', async p => {}],
   ['Page not found (404)', 'no/such/page', async p => {}],
