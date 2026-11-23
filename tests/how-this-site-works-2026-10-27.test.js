@@ -21,7 +21,7 @@ const FRAMEWORKS=[['Human-Centered AI framework (HCAI)','https://hai.stanford.ed
 const shown=(p,sel)=>p.$eval(sel,e=>{const c=e.cloneNode(true);c.querySelectorAll('.sr-only').forEach(n=>n.remove());return c.textContent;}).then(norm);
 const framed=(p,sel)=>p.$$eval(sel+' a',as=>as.map(a=>[a.firstChild.textContent.trim(),a.getAttribute('href'),a.target,a.querySelector('.sr-only')?.textContent.trim()]));
 const ASKUS='During staffed hours, Ask Us connects you to library staff. At other times it shows a set menu of answers written by the Library and a form for leaving your email. No AI system writes the replies.';
-const TITLES=['What If AI','The Register','What leaves your browser','Ask Us','Links to other sites','How it was made'];
+const TITLES=['Quidsima','The Register','What leaves your browser','Ask Us','Links to other sites','How it was made'];
 
 (async()=>{
   const server=await start({dir:SITE}),browser=await engines.chromium.launch();
@@ -32,8 +32,8 @@ const TITLES=['What If AI','The Register','What leaves your browser','Ask Us','L
       const p=await ctx.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
       const wide=width>980;
 
-      /* What If AI: the header statement, the note beside the questions, and the dialog */
-      await p.goto(server.url('what-if-ai.html'));await ready(p);await p.waitForSelector('#wizard .qpanel');
+      /* Quidsima: the header statement, the note beside the questions, and the dialog */
+      await p.goto(server.url('quidsima.html'));await ready(p);await p.waitForSelector('#wizard .qpanel');
       /* the statement sits beside the questions, in full, so the header stays short and the choices sit higher */
       assert.equal(await p.locator('.hdr__signal').count(),0,'the header no longer repeats the statement');
       const notes=await p.evaluate(()=>[...document.querySelectorAll('.rail__note,.qsignal')].filter(e=>e.offsetParent).map(e=>e.textContent.replace(/\s+/g,' ').trim()));
@@ -55,7 +55,7 @@ const TITLES=['What If AI','The Register','What leaves your browser','Ask Us','L
       assert.equal(await p.$$eval('#wizard .qsignal',e=>e.length),0);
       if(wide) assert.equal(await p.$$eval('.rail__note',e=>e.length),1,'the rail note stays while answering');
       if(wide) assert.equal(await p.$eval('#rail',r=>r.lastElementChild.className),'rail__note','the rail note follows the answer buttons');
-      pass('What If AI @'+width+'px: header statement, one note beside the questions, dialog opens from it and returns focus');
+      pass('Quidsima @'+width+'px: header statement, one note beside the questions, dialog opens from it and returns focus');
 
       /* the dialog is a six-slide carousel in the walkthroughs' style (changed October 28) */
       await p.click('.hdr [data-open-about]');await p.waitForSelector('#aboutDialog[open]');
@@ -64,7 +64,7 @@ const TITLES=['What If AI','The Register','What leaves your browser','Ask Us','L
         return {pos:d.querySelector('#aboutPos').textContent,on:ss.filter(s=>getComputedStyle(s).visibility!=='hidden'&&!s.inert).map(s=>s.querySelector('h3').textContent),
           next:d.querySelector('#aboutNext .tour__nextlabel').textContent,prevDisabled:d.querySelector('#aboutPrev').getAttribute('aria-disabled')};});};
       let st=await state();
-      assert.deepEqual(st,{pos:'1 of 6',on:['What If AI'],next:'Next',prevDisabled:'true'});
+      assert.deepEqual(st,{pos:'1 of 6',on:['Quidsima'],next:'Next',prevDisabled:'true'});
       assert.deepEqual(await p.$$eval('#aboutDialog [data-slide] h3',hs=>hs.map(h=>h.textContent)),TITLES);
       const nextY=async()=>Math.round((await p.locator('#aboutNext').boundingBox()).y),y0=await nextY();
       await p.click('#aboutNext');st=await state();
@@ -91,7 +91,7 @@ const TITLES=['What If AI','The Register','What leaves your browser','Ask Us','L
       await p.waitForFunction(()=>!document.getElementById('aboutDialog').open);
       assert.ok(await p.evaluate(()=>document.activeElement.matches('.hdr [data-open-about]')),'✕ returns focus to the button');
       assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth<=0),'no sideways scrolling');
-      pass('What If AI @'+width+'px: six slides with drawings; Next, Previous, arrow keys, End'+(wide?', dots':'')+'; Next stays put; Finish and ✕ close and return focus; reopening starts at slide 1');
+      pass('Quidsima @'+width+'px: six slides with drawings; Next, Previous, arrow keys, End'+(wide?', dots':'')+'; Next stays put; Finish and ✕ close and return focus; reopening starts at slide 1');
 
       /* The Register: the header statement and the same dialog */
       await p.goto(server.url('register.html'));await ready(p);
@@ -118,7 +118,7 @@ const TITLES=['What If AI','The Register','What leaves your browser','Ask Us','L
 
     /* the facts the statements rest on */
     const ctx=await createContext(browser,{viewport:{width:1280,height:900}}),p=await ctx.newPage();
-    for(const f of ['what-if-ai.html','register.html']){
+    for(const f of ['quidsima.html','register.html']){
       await p.goto(server.url(f));await ready(p);
       const csp=await p.$eval('meta[http-equiv="Content-Security-Policy"]',m=>m.content);
       const dir=name=>((csp.split(';').map(s=>s.trim()).find(s=>s.startsWith(name+' '))||'').split(/\s+/).slice(1));
@@ -129,7 +129,7 @@ const TITLES=['What If AI','The Register','What leaves your browser','Ask Us','L
       assert.deepEqual(tag,{search:'true',hash:'true'},f+': visit counting leaves out search text and the answers after #');
     }
     /* the footer's disclosure says the same thing as the dialog's "How it was made", on every page */
-    for(const f of ['','what-if-ai.html','register.html']){
+    for(const f of ['','quidsima.html','register.html']){
       await p.goto(server.url(f));
       assert.equal(await shown(p,'.site-foot .hcai'),'HCAI and HITL Disclosure: '+DISCLOSED,(f||'landing page')+': footer disclosure');
       assert.deepEqual(await framed(p,'.site-foot .hcai'),FRAMEWORKS.map(([t,h])=>[t,h,'_blank','(opens in a new tab)']),(f||'landing page')+': framework links');

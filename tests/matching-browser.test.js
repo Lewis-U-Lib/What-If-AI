@@ -13,7 +13,7 @@ async function shot(p,name){if(SHOTS){fs.mkdirSync(SHOTS,{recursive:true});await
   const ctx=await createContext(browser,{viewport:{width:1440,height:1050},reducedMotion:'reduce'}),p=await ctx.newPage(),errors=[];
   p.on('pageerror',e=>errors.push(e.message));
   await p.addInitScript(()=>document.addEventListener('securitypolicyviolation',e=>(window.matchCspErrors=window.matchCspErrors||[]).push(e.violatedDirective)));
-  const go=async hash=>{await p.goto('about:blank');await p.goto(server.url('what-if-ai.html'+hash));await p.waitForSelector('html[data-ready]');await tick(p);};
+  const go=async hash=>{await p.goto('about:blank');await p.goto(server.url('quidsima.html'+hash));await p.waitForSelector('html[data-ready]');await tick(p);};
   // Groups after the lead one are folded, six cards at a time: open the group and page until the card is drawn.
   const reveal=async(group,id)=>{
     const fold=p.locator(`details[data-fold="${group}"]`);
@@ -95,7 +95,7 @@ async function shot(p,name){if(SHOTS){fs.mkdirSync(SHOTS,{recursive:true});await
   await p.check('[name="q-limits"][value="noai"]');
   for(const token of ['task:creative','disc:arts','lvl:grad','mod:hybrid'])assert.ok(p.url().includes(token));
   // A synthetic minimum dataset verifies the all-unknown and all-excluded UI paths.
-  const manifest=JSON.parse(fs.readFileSync(path.join(SITE,'what-if-ai.html'),'utf8').match(/<script id="site-manifest" type="application\/json">([\s\S]*?)<\/script>/)[1]);
+  const manifest=JSON.parse(fs.readFileSync(path.join(SITE,'quidsima.html'),'utf8').match(/<script id="site-manifest" type="application\/json">([\s\S]*?)<\/script>/)[1]);
   const one={...D,acts:[{...D.acts[0],pc:'not_specified'}]};
   await p.route('**/'+manifest.data.acts,route=>route.fulfill({contentType:'application/json',body:JSON.stringify(one)}));
   await go('#a=focus:teaching;lim:noaccount');assert.ok(await p.locator('.empty').isVisible());assert.equal(await p.locator('[data-match-group="exact"]').count(),0);assert.ok(await p.locator('.requirement-checks > summary').isVisible());

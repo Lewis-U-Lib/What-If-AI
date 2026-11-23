@@ -1,7 +1,7 @@
 {
- "title": "What If AI & The Register",
+ "title": "Quidsima & The Register",
  "org": "Lewis University Library",
- "base_url": "https://lewis-u-lib.github.io/What-If-AI/",
+ "base_url": "https://lewis-u-lib.github.io/Quidsima/",
  "_note_base_url": "Used for canonical links, the sitemap and the 404 page. Change it here (and only here) if the site moves to a custom domain.",
  "bundles": {
   "css": {
@@ -24,11 +24,11 @@
  "_note_bundles": "Order matters. CSS: base, then the page's own rules, then the theme layers (as in the single-file pages). JS runs in list order after the data has loaded.",
  "pages": [
   {"src": "index.html", "out": "index.html", "css": ["base", "theme"]},
-  {"src": "what-if-ai.html", "out": "what-if-ai.html", "css": ["base", "what-if-ai", "theme"],
+  {"src": "quidsima.html", "out": "quidsima.html", "css": ["base", "what-if-ai", "theme"],
    "companion": {"href": "register.html", "label": "The Register", "icon": "i-crt"},
    "data": ["acts", "guide", "source-links"], "scripts": ["core", "what-if-ai", "engines"]},
   {"src": "register.html", "out": "register.html", "css": ["base", "register", "theme", "register-types"],
-   "companion": {"href": "what-if-ai.html", "label": "What If AI", "icon": "i-bulb"},
+   "companion": {"href": "quidsima.html", "label": "Quidsima", "icon": "i-bulb"},
    "data": ["acts", "register", "guide", "source-links"], "scripts": ["core", "register", "engines"]},
   {"src": "source-file.html", "out": "source-file.html", "css": ["base", "theme"],
    "data": ["source-links"], "scripts": ["source-file"], "sitemap": false},

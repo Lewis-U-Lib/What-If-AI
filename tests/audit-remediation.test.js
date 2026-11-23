@@ -27,7 +27,7 @@ async function ready(p){await p.waitForSelector('html[data-ready]',{state:'attac
   const ctx=await createContext(browser,{viewport:{width:1280,height:900},reducedMotion:'reduce'}),p=await ctx.newPage();
   const errors=[];p.on('pageerror',e=>errors.push(e.message));
   const go=async(file,hash='')=>{await p.goto('about:blank');await p.goto(server.url(file+hash));await ready(p);};
-  for(const file of ['what-if-ai.html','register.html']){
+  for(const file of ['quidsima.html','register.html']){
    await go(file,'#act='+optional.id);await p.waitForSelector('#actDialog[open]');
    await p.locator('#actDialog summary').filter({hasText:'A route without AI'}).click();
    assert.match(await p.locator('#actDialog').innerText(),/without a generative AI tool/);
@@ -82,7 +82,7 @@ async function ready(p){await p.waitForSelector('html[data-ready]',{state:'attac
    await q.waitForFunction(()=>window.__printed);assert.equal(await q.evaluate(()=>window.__printed),true);assert.equal(await q.locator('#printRoot article h2').innerText(),D.acts.find(a=>a.id===ID).t);
    await q.evaluate(()=>window.dispatchEvent(new Event('afterprint')));
    await q.reload();await ready(q);assert.equal(await q.evaluate(id=>SITE.Saved.has(id),ID),persistent);
-   await q.goto(server.url('what-if-ai.html'));await ready(q);assert.equal(await q.evaluate(id=>SITE.Saved.has(id),ID),persistent);
+   await q.goto(server.url('quidsima.html'));await ready(q);assert.equal(await q.evaluate(id=>SITE.Saved.has(id),ID),persistent);
    await c.close();
   }
   // A failed removal must not imply the persisted item is gone; storage can recover on a later write.
@@ -96,7 +96,7 @@ async function ready(p){await p.waitForSelector('html[data-ready]',{state:'attac
   assert.equal(await p.locator('#actDialog [data-storage-warning]').isVisible(),false);
   assert.equal(await p.locator('#actDialog [data-save] .save__txt').innerText(),'Saved');
   await p.keyboard.press('Escape');
-  const other=await ctx.newPage();await other.goto(server.url('what-if-ai.html'));await ready(other);
+  const other=await ctx.newPage();await other.goto(server.url('quidsima.html'));await ready(other);
   assert.equal(await other.evaluate(id=>SITE.Saved.has(id),ID),true);
   await p.evaluate(()=>SITE.Saved.clear());await other.waitForFunction(()=>!SITE.Saved.ids().length);
   await other.close();pass('persistent, quota, blocked-read, silent-write, reload, cross-tool, cross-tab, recovered-write, and print behavior');
@@ -137,13 +137,13 @@ async function ready(p){await p.waitForSelector('html[data-ready]',{state:'attac
   assert.deepEqual(errors,[]);await ctx.close();
   // Fixed byte budgets catch material growth; network timing remains an observation, not a portable promise.
   // Raised on 2026-10-13 for the source-checked change notes and attribution lines (+~170 KB compressed).
-  // What If AI raised 5 KB on 2026-11-02: it had 509 bytes of headroom, and the Report an Issue link, the HCAI and
+  // Quidsima raised 5 KB on 2026-11-02: it had 509 bytes of headroom, and the Report an Issue link, the HCAI and
   // HITL disclosure (footer and "How it was made", each with two links), and the logo's filters add ~1.7 KB compressed.
   // The shared footer adds the supplied detailed Library mark (about 160 KB gzip).
   // Its embedded lossless source retains the original artwork; native lazy loading
   // may fetch it near the initial viewport. Allow 165 KB per cold visit, including
   // the footer CSS/markup; the site suite separately verifies cross-page caching.
-  for(const [file,budget] of [['what-if-ai.html',1620000],['register.html',1815000]]){
+  for(const [file,budget] of [['quidsima.html',1620000],['register.html',1815000]]){
    const log=[],s=await start({dir:SITE,log}),c=await createContext(browser),q=await c.newPage();
    await q.goto(s.url(file));await ready(q);await q.waitForTimeout(200);
    const paths=[...new Set(log.map(x=>x.path))];

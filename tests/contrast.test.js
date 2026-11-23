@@ -19,23 +19,23 @@ const SURFACES = '.topbar, .hdr, .panel__head, .dlg__head, .site-foot, .polpanel
 const PCT = 0.9;   // background percentile compared (0.9 = brighter than 90% of the pixels behind the text)
 
 const STATES = [
-  ['finder, first question', 'what-if-ai.html', async p => {}],
-  ['finder, results', 'what-if-ai.html#a=focus:teaching;task:feedback', async p => {}],
-  ['finder, compatibility notes', 'what-if-ai.html#a=focus:research_own;task:qualitative;disc:education;mod:online', async p => {
+  ['finder, first question', 'quidsima.html', async p => {}],
+  ['finder, results', 'quidsima.html#a=focus:teaching;task:feedback', async p => {}],
+  ['finder, compatibility notes', 'quidsima.html#a=focus:research_own;task:qualitative;disc:education;mod:online', async p => {
     await p.$eval('.match-note', e=>e.scrollIntoView({block:'center'})); }],
-  ['finder, requirement notes', 'what-if-ai.html#a=focus:teaching;task:design;lim:noaccount+nodisclose', async p => {
+  ['finder, requirement notes', 'quidsima.html#a=focus:teaching;task:design;lim:noaccount+nodisclose', async p => {
     await p.click('.requirement-checks > summary');
     await p.$eval('[data-match-group="unknown"] .match-note', e=>e.scrollIntoView({block:'center'})); }],
-  ['finder, details open', 'what-if-ai.html#a=focus:teaching;task:feedback', async p => { await p.click('#plan [data-open]'); }],
+  ['finder, details open', 'quidsima.html#a=focus:teaching;task:feedback', async p => { await p.click('#plan [data-open]'); }],
   ['register, use-case accordion buttons', 'register.html#act=CAN-G-GAP-004', async p => {
     await p.locator('#actDialog .use-case-accordion summary').first().scrollIntoViewIfNeeded(); }],
-  ['finder, activity feedback', 'what-if-ai.html#a=focus:teaching;task:feedback', async p => {
+  ['finder, activity feedback', 'quidsima.html#a=focus:teaching;task:feedback', async p => {
     await p.click('#plan [data-open]'); await p.click('[data-give-feedback]');
     await p.check('[name="activity-response"][value="used"]'); await p.check('[value="worked_well"]'); }],
   ['register, feedback reason', 'register.html#activities', async p => {
     await p.click('#activities [data-open]'); await p.click('[data-give-feedback]');
     await p.check('[name="activity-response"][value="not_fit"]'); await p.check('[value="time"]'); }],
-  ['finder, saved drawer', 'what-if-ai.html#a=focus:teaching;task:feedback', async p => {
+  ['finder, saved drawer', 'quidsima.html#a=focus:teaching;task:feedback', async p => {
     const s = await p.$$('#plan button[data-save]'); await s[0].click(); await p.click('.topbar [data-open-saved]'); }],
   ['register, activities', 'register.html#activities', async p => {}],
   ['register, source-access note', 'register.html#act=WIA-S-BUS-B-04', async p => {
@@ -52,7 +52,7 @@ const STATES = [
   ['register, type examples', 'register.html#ai-types', async p => {
     await p.click('[data-open-type="conversational"]'); await p.click('[data-type-goto]');
     await p.$eval('#aiTypeDialog .dlg__body', e => e.scrollTop = e.scrollHeight); }],
-  ['finder, walkthrough', 'what-if-ai.html#tour', async p => {}],
+  ['finder, walkthrough', 'quidsima.html#tour', async p => {}],
   ['register, how to use dialog', 'register.html#about', async p => {}],
   ['register, walkthrough terms', 'register.html#about', async p => {
     await p.focus('#rtourNext'); for(let i=0;i<3;i++) await p.keyboard.press('ArrowRight'); }],

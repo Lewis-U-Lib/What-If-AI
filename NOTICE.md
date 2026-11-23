@@ -3,7 +3,7 @@
 ## Tools and original presentation
 
 The original code, interface text, artwork, and collection arrangement of
-**What If AI** and **The Register** are licensed
+**Quidsima** (named What If AI until November 2026) and **The Register** are licensed
 [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/), effective
 October 8, 2026, to the extent Lewis University Library holds the relevant rights.
 See [LICENSE.md](LICENSE.md) for the grant, exceptions, and earlier-release terms.

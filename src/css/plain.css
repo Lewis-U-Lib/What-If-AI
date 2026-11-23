@@ -71,3 +71,5 @@ html[data-plain] .hdr__title{font-weight:700;font-size:clamp(1.9rem,1.3rem + 2vw
 html[data-plain] h1,html[data-plain] h2,html[data-plain] h3,html[data-plain] h4{font-weight:700;letter-spacing:0;line-height:1.25;}
 html[data-plain] .btn,html[data-plain] .hdr-cta,html[data-plain] .fab-item{font-weight:600;font-size:16px;}
 html[data-plain] .countline,html[data-plain] .readout{font-size:16px;letter-spacing:0;}
+/* the motto in the plain view: one face, no letterspacing or shadow */
+html[data-plain] .hdr__origin,html[data-plain] .hdr__motto,html[data-plain] .door__motto,html[data-plain] .site-foot__motto{letter-spacing:0;text-shadow:none;}

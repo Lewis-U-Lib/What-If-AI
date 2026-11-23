@@ -103,7 +103,7 @@ async function checkLogoReflection(browser, server, file) {
     /* ── footer: Report an Issue sits right after Send feedback, on every page that has the footer ── */
     {
       const ctx = await createContext(browser, { viewport: { width: 1280, height: 900 } }), p = await ctx.newPage();
-      for (const f of ['', 'what-if-ai.html', 'register.html', '404.html']) {
+      for (const f of ['', 'quidsima.html', 'register.html', '404.html']) {
         await p.goto(server.url(f));
         const links = await p.$$eval('.site-foot__links a', as => as.map(a => ({
           text: [...a.childNodes].filter(n => !(n.classList && n.classList.contains('sr-only'))).map(n => n.textContent).join('').trim(),
@@ -129,7 +129,7 @@ async function checkLogoReflection(browser, server, file) {
       pass('footer: Report an Issue (new tab, labeled) follows Send feedback on every page; the help button never covers the disclosure');
     }
 
-    for (const file of ['what-if-ai.html', 'register.html']) {
+    for (const file of ['quidsima.html', 'register.html']) {
       await checkLogoReflection(browser, server, file);
       const ctx = await createContext(browser, { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2, reducedMotion: 'reduce', bypassCSP: true });
       const p = await ctx.newPage(), errors = []; p.on('pageerror', e => errors.push(e.message));
@@ -243,8 +243,8 @@ async function checkLogoReflection(browser, server, file) {
         return ratio(pct(v, 0.92), pct(v, 0.2));
       });
       assert.ok(ccRatios.every(r => r >= 4.8), 'CC counters stay distinct from their strokes: ' + ccRatios.map(r => r.toFixed(2)).join(', '));
-      // Edison bulbs: the What If AI bulb icon has a filament that lights on hover; small Edison bulbs mark the considerations
-      // console (The Register) and the question rail's current step (What If AI). The help button is a glowing rivet.
+      // Edison bulbs: the Quidsima bulb icon has a filament that lights on hover; small Edison bulbs mark the considerations
+      // console (The Register) and the question rail's current step (Quidsima). The help button is a glowing rivet.
       assert.ok(await p.$('#i-bulb .fil'), 'the bulb icon has a filament');
       const rest = await p.$eval('#fabToggle', t => [getComputedStyle(t).backgroundImage, getComputedStyle(t).boxShadow]);
       assert.ok(rest[0].includes('rgb(255, 199, 44)') && rest[1].includes('rgba(255, 199, 44'), 'the help rivet is yellow brass and glows softly at rest');

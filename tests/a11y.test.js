@@ -1,4 +1,4 @@
-/* axe-core audit (WCAG 2.0/2.1/2.2 A and AA) of What If AI and The Register across the states a
+/* axe-core audit (WCAG 2.0/2.1/2.2 A and AA) of Quidsima and The Register across the states a
  * reader actually reaches, at desktop and phone widths. Run after a build:
  *   npm run test:a11y   (or node tests/a11y.test.js [distDir])
  * Exits non-zero on any violation. Automated checks cover part of WCAG only; see docs for manual checks. */
@@ -14,29 +14,29 @@ const URL = f => SRV.url(f);
 async function ready(page) { await page.waitForFunction(() => document.documentElement.hasAttribute('data-ready') || !document.getElementById('site-manifest'), null, { timeout: 15000 }); }
 
 const STATES = [
-  ['What If AI · first question', 'what-if-ai.html', async p => {}],
-  ['What If AI · floating navigation open', 'what-if-ai.html', async p => { await p.click('#fabToggle'); }],
-  ['What If AI · field, with level and setting open', 'what-if-ai.html', async p => {
+  ['Quidsima · first question', 'quidsima.html', async p => {}],
+  ['Quidsima · floating navigation open', 'quidsima.html', async p => { await p.click('#fabToggle'); }],
+  ['Quidsima · field, with level and setting open', 'quidsima.html', async p => {
     await p.check('input[value="teaching"]'); await p.click('#next'); await p.click('#next');
     await p.$$eval('details.qmore', ds => ds.forEach(d => d.open = true)); }],
-  ['What If AI · limits', 'what-if-ai.html', async p => {
+  ['Quidsima · limits', 'quidsima.html', async p => {
     await p.check('input[value="teaching"]'); for (let i = 0; i < 4; i++) await p.click('#next'); }],
-  ['What If AI · results', 'what-if-ai.html#a=focus:teaching;task:design;lim:nopaid', async p => {}],
-  ['What If AI · compatible results', 'what-if-ai.html#a=focus:research_own;task:qualitative;disc:education;mod:online', async p => {}],
-  ['What If AI · broader recovery', 'what-if-ai.html#a=focus:research_own;task:creative;disc:arts;depth:grant_proposal;lvl:grad;mod:hybrid;lim:nopaid', async p => {}],
-  ['What If AI · unconfirmed requirements', 'what-if-ai.html#a=focus:teaching;task:design;lim:noaccount+nodisclose', async p => {
+  ['Quidsima · results', 'quidsima.html#a=focus:teaching;task:design;lim:nopaid', async p => {}],
+  ['Quidsima · compatible results', 'quidsima.html#a=focus:research_own;task:qualitative;disc:education;mod:online', async p => {}],
+  ['Quidsima · broader recovery', 'quidsima.html#a=focus:research_own;task:creative;disc:arts;depth:grant_proposal;lvl:grad;mod:hybrid;lim:nopaid', async p => {}],
+  ['Quidsima · unconfirmed requirements', 'quidsima.html#a=focus:teaching;task:design;lim:noaccount+nodisclose', async p => {
     await p.click('.requirement-checks > summary'); }],
-  ['What If AI · activity details open', 'what-if-ai.html#a=focus:teaching;task:design', async p => { await p.click('#plan [data-open]'); }],
-  ['What If AI · every use-case section expanded', 'what-if-ai.html#act=CAN-G-GAP-004', async p => {
+  ['Quidsima · activity details open', 'quidsima.html#a=focus:teaching;task:design', async p => { await p.click('#plan [data-open]'); }],
+  ['Quidsima · every use-case section expanded', 'quidsima.html#act=CAN-G-GAP-004', async p => {
     await p.locator('#actDialog details').evaluateAll(ds => ds.forEach(d => d.open = true)); }],
-  ['What If AI · saved drawer with items', 'what-if-ai.html#a=focus:teaching;task:design', async p => {
+  ['Quidsima · saved drawer with items', 'quidsima.html#a=focus:teaching;task:design', async p => {
     const s = await p.$$('#plan button[data-save]'); await s[0].click(); await s[1].click(); await p.click('.topbar [data-open-saved]'); }],
-  ['What If AI · walkthrough, first step', 'what-if-ai.html', async p => { await p.click('.hdr [data-open-tour]'); }],
-  ['What If AI · walkthrough, last step', 'what-if-ai.html#tour', async p => { await p.keyboard.press('End'); }],
-  ['What If AI · how this site works', 'what-if-ai.html', async p => { await p.click('.hdr [data-open-about]'); }],
-  ['What If AI · how this site works, last slide', 'what-if-ai.html', async p => { await p.click('.hdr [data-open-about]'); await p.keyboard.press('End'); }],
-  ['What If AI · question two (back navigation available)', 'what-if-ai.html#q=task&a=focus:teaching', async p => {}],
-    ['What If AI · saved drawer empty', 'what-if-ai.html', async p => { await p.evaluate(() => SITE.Saved.clear()); await p.click('.topbar [data-open-saved]'); }],
+  ['Quidsima · walkthrough, first step', 'quidsima.html', async p => { await p.click('.hdr [data-open-tour]'); }],
+  ['Quidsima · walkthrough, last step', 'quidsima.html#tour', async p => { await p.keyboard.press('End'); }],
+  ['Quidsima · how this site works', 'quidsima.html', async p => { await p.click('.hdr [data-open-about]'); }],
+  ['Quidsima · how this site works, last slide', 'quidsima.html', async p => { await p.click('.hdr [data-open-about]'); await p.keyboard.press('End'); }],
+  ['Quidsima · question two (back navigation available)', 'quidsima.html#q=task&a=focus:teaching', async p => {}],
+    ['Quidsima · saved drawer empty', 'quidsima.html', async p => { await p.evaluate(() => SITE.Saved.clear()); await p.click('.topbar [data-open-saved]'); }],
   ['The Register · activities', 'register.html#activities', async p => {}],
   ['The Register · floating navigation open', 'register.html#activities', async p => { await p.click('#fabToggle'); }],
   ['The Register · activities filtered', 'register.html#activities?cap=text_chat&pol=open', async p => {}],
@@ -46,7 +46,7 @@ const STATES = [
   ['The Register · remix set, filtered', 'register.html#activities?set=remix', async p => {}],
   ['The Register · remix activity details open', 'register.html#activities?set=remix', async p => { await p.click('#activities [data-open]'); }],
   ['The Register · who uses an AI tool, filtered', 'register.html#activities?op=faculty_or_staff&noai=1', async p => {}],
-  ['What If AI · the renamed No-AI limit', 'what-if-ai.html#q=limits&a=focus:teaching;task:design', async p => {}],
+  ['Quidsima · the renamed No-AI limit', 'quidsima.html#q=limits&a=focus:teaching;task:design', async p => {}],
   ['The Register · synthesis activity details open', 'register.html#activities?set=synthesis', async p => { await p.click('#activities [data-open]'); }],
   ['The Register · source item that needs access, details open', 'register.html#act=WIA-S-BUS-B-04', async p => {
     await p.locator('#actDialog summary').filter({hasText:'Before you use it'}).click();

@@ -1,6 +1,6 @@
 /* Browser checks for the fixes made after the October 2026 audit: field compatibility (WIA-02), the
    route note and operator fact (WIA-03), Ask Us focus (WIA-10), the tagged print copy (WIA-11),
-   Back and Forward over an activity in What If AI and The Register (WIA-12), no-tool role wording
+   Back and Forward over an activity in Quidsima and The Register (WIA-12), no-tool role wording
    (WIA-19), the operator-aware data warning (D-13), the footer date (D-09), and the source-access
    labels on synthesis activities whose source item is not openly licensed (WIA-01). */
 const assert=require('assert/strict'),path=require('path');
@@ -29,7 +29,7 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
   // and in saved/print output. A source or license alone does not establish effectiveness.
   const evidenceActs=D.acts.filter(a=>a.evs&&a.evs.trim());
   assert.ok(evidenceActs.length>0,'the collection contains evidence statements');
-  for(const page of ['what-if-ai.html','register.html']){
+  for(const page of ['quidsima.html','register.html']){
     await go(page,'');
     const failures=await p.evaluate(()=>{
       const failures=[];
@@ -74,7 +74,7 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
 
   // WIA-02: an activity recorded for any course is a possible fit for a specific field, not a mismatch.
   const argu=BY.get('CAN-B-ARGU-09');assert.equal(argu.disc,'interdisciplinary');
-  await go('what-if-ai.html','#a=focus:teaching;task:discussion;disc:humanities;depth:quick');
+  await go('quidsima.html','#a=focus:teaching;task:discussion;disc:humanities;depth:quick');
   const card=await showUntil('compatible','CAN-B-ARGU-09');
   assert.equal(await card.count(),1,'CAN-B-ARGU-09 is a possible fit');
   const note=await card.locator('.match-note').textContent();
@@ -88,7 +88,7 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
   const state={focus:'teaching',task:'feedback',disc:'humanities',depth:'assignment',limits:{noai:true}};
   const group=['exact','compatible','close'].find(k=>M.search(D.acts,state)[k].some(r=>r.activity.id===eq.id));
   assert.ok(group,'CAN-A1-EQ-018 is a confirmed result under the limit');
-  await go('what-if-ai.html','#a=focus:teaching;task:feedback;disc:humanities;depth:assignment;lim:noai');
+  await go('quidsima.html','#a=focus:teaching;task:feedback;disc:humanities;depth:assignment;lim:noai');
   const eqCard=await showUntil(group,eq.id);
   const eqNote=await eqCard.locator('.match-note').textContent();
   assert.ok(eqNote.includes('Qualifies through its route without AI')&&eqNote.includes(eq.na.split(/(?<=[.!?])\s/)[0]),eqNote);
@@ -110,7 +110,7 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
   const noAct=()=>p.waitForFunction(()=>!/^#act=/.test(location.hash));
   const view=async()=>({url:p.url(),shown:await p.locator('[data-match-group="exact"] [data-card]').count(),
     y:await p.evaluate(()=>Math.round(scrollY)),open:await p.locator('#actDialog').evaluate(d=>d.open)});
-  await go('what-if-ai.html','#a=focus:teaching;task:discussion');
+  await go('quidsima.html','#a=focus:teaching;task:discussion');
   const resultsUrl=p.url();
   await p.locator('[data-more-matches="exact"]').click();await tick(p);
   const shownBefore=await p.locator('[data-match-group="exact"] [data-card]').count();
@@ -190,7 +190,7 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
   pass('WIA-19 and D-13: no-tool activities and no-operator data warnings describe what happens');
 
   // WIA-10: Ask Us is a modal dialog for keyboard users.
-  for(const page of ['what-if-ai.html','register.html']){
+  for(const page of ['quidsima.html','register.html']){
     await go(page,'');
     await p.locator('#fabToggle').focus();await p.keyboard.press('Enter');
     await p.locator('#fabAskUs').focus();await p.keyboard.press('Enter');
@@ -218,9 +218,9 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
   pass('WIA-10: Ask Us takes focus, keeps Tab inside, makes the page inert, and returns focus when closed from its own controls (both tools)');
 
   // WIA-11: the saved-activities print copy is exposed to assistive technology while printing.
-  await go('what-if-ai.html','');
+  await go('quidsima.html','');
   await p.evaluate(ids=>localStorage.setItem('lul-whatifai-saved-v1',JSON.stringify(ids)),D.acts.slice(0,2).map(a=>a.id));
-  await go('what-if-ai.html','');
+  await go('quidsima.html','');
   await p.evaluate(()=>{window.print=()=>{window.__ariaWhilePrinting=document.getElementById('printRoot').getAttribute('aria-hidden');};
     const t=window.setTimeout;window.setTimeout=(f,ms)=>t(f,ms>1000?1e9:ms);});
   await p.locator('[data-open-saved]').first().click();await p.waitForSelector('#savedDrawer[open]');
@@ -232,7 +232,7 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
   pass('WIA-11: the print copy of saved activities is exposed while printing and hidden again afterward');
 
   // D-09: every page's footer gives the month the collection last changed.
-  for(const page of ['index.html','what-if-ai.html','register.html','404.html']){
+  for(const page of ['index.html','quidsima.html','register.html','404.html']){
     await p.goto(server.url(page));
     const t=await p.locator('[data-updated]').textContent();
     assert.match(t,/^Updated (January|February|March|April|May|June|July|August|September|October|November|December) \d{4}$/,page);
@@ -241,7 +241,7 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
 
   // WIA-01: synthesis activities whose source item is not openly licensed are published with a label on
   // the card, at a glance, before use (naming the item and linking its terms), and in print; The Register
-  // can leave them out, and its no-cost filter matches What If AI's "Nothing anyone has to pay for".
+  // can leave them out, and its no-cost filter matches Quidsima's "Nothing anyone has to pay for".
   const SA={not_open:'No clear open license',unmodified:'Use only as published',restricted:'Access or permission needed'};
   const saActs=D.acts.filter(a=>a.sa);
   assert.equal(saActs.length,115);
@@ -270,7 +270,7 @@ async function tick(p){await p.evaluate(()=>new Promise(r=>requestAnimationFrame
   assert.ok((await p.locator('.activechips').textContent()).includes('Source items open to adapt'));
   const free=D.acts.filter(a=>M.requirement(a,'nopaid')==='confirmed').length;
   await go('register.html','#activities?cost=1');
-  assert.match(await p.locator('#actCount').textContent(),new RegExp('of '+free.toLocaleString('en-US')+' use-case ideas'),'the no-cost filter confirms exactly what What If AI confirms');
+  assert.match(await p.locator('#actCount').textContent(),new RegExp('of '+free.toLocaleString('en-US')+' use-case ideas'),'the no-cost filter confirms exactly what Quidsima confirms');
   assert.ok(D.acts.some(a=>a.sa==='restricted'&&['no_tool_needed','free_tier','institution_provided'].includes(a.eq)),'a restricted activity with a free tool is left out');
   pass('WIA-01: source-access labels on cards, details and print; the open-license and no-cost filters in The Register');
 

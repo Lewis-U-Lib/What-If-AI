@@ -18,7 +18,7 @@ const { createContext } = require('./browser');
 const { start } = require('./serve');
 const SITE_DIR = path.resolve(process.argv[2] || path.join(__dirname, '..', '_site'));
 const KEY = 'lul-whatifai-theme-v1';
-const TOOLS = ['what-if-ai.html', 'register.html'];
+const TOOLS = ['quidsima.html', 'register.html'];
 const pass = message => console.log('PASS  ' + message);
 
 const ready = page => page.waitForSelector('html[data-ready]', { state: 'attached' });
@@ -74,14 +74,14 @@ const channels = color => (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number)
     }
     pass('default: both tools are the crimson site and the help menu ends with "Switch to blue"');
 
-    /* switch on What If AI */
-    await page.goto(server.url('what-if-ai.html')); await ready(page);
+    /* switch on Quidsima */
+    await page.goto(server.url('quidsima.html')); await ready(page);
     await page.click('#fabToggle');
     await page.click('#fabMenu [data-theme-toggle]');
     let blue = await snapshot(page);
     assert.equal(blue.theme, 'blue');
     assert.equal(blue.navy, '#162c36', 'the ground is steel blue');
-    assert.equal(blue.gold, crimson['what-if-ai.html'].gold, 'gold is unchanged');
+    assert.equal(blue.gold, crimson['quidsima.html'].gold, 'gold is unchanged');
     assert.equal(blue.bar, '#163442', 'the browser toolbar tint follows');
     assert.equal(await page.evaluate(k => localStorage.getItem(k), KEY), 'blue');
     assert.equal((await page.locator('#fabMenu [data-theme-toggle]').innerText()).trim(), 'Switch to crimson');
@@ -89,22 +89,22 @@ const channels = color => (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number)
       'the menu stays open with focus on the switch, so it can be pressed again');
     await rest(page);
     blue = await snapshot(page);
-    assert.equal(blue.height, crimson['what-if-ai.html'].height, 'the page is the same height');
+    assert.equal(blue.height, crimson['quidsima.html'].height, 'the page is the same height');
     blue.parts.forEach((part, i) => {
-      const was = crimson['what-if-ai.html'].parts[i];
+      const was = crimson['quidsima.html'].parts[i];
       assert.equal(part.box, was.box, part.sel + ' has not moved or changed size');
     });
     const ground = name => blue.parts.find(p => p.sel === name);
     for (const sel of ['.topbar', 'header.hdr', '.site-foot']) {
       const [r, g, b] = channels(ground(sel).bg);
       assert.ok(b > r && g > r, sel + ' is blue: ' + ground(sel).bg);
-      assert.notEqual(ground(sel).image + ground(sel).bg, crimson['what-if-ai.html'].parts.find(p => p.sel === sel).image + crimson['what-if-ai.html'].parts.find(p => p.sel === sel).bg);
+      assert.notEqual(ground(sel).image + ground(sel).bg, crimson['quidsima.html'].parts.find(p => p.sel === sel).image + crimson['quidsima.html'].parts.find(p => p.sel === sel).bg);
     }
     for (const sel of ['.hdr-cta--primary', '.fab-toggle']) {
-      const was = crimson['what-if-ai.html'].parts.find(p => p.sel === sel);
+      const was = crimson['quidsima.html'].parts.find(p => p.sel === sel);
       assert.equal(ground(sel).image, was.image, sel + ' keeps its gold');
     }
-    pass('What If AI: the switch turns the page steel blue, changes no box, keeps gold, and stays ready to switch back');
+    pass('Quidsima: the switch turns the page steel blue, changes no box, keeps gold, and stays ready to switch back');
 
     /* accessibility in blue, with the menu closed and open */
     for (const open of [false, true]) {
@@ -114,7 +114,7 @@ const channels = color => (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number)
       assert.deepEqual(result.violations.map(v => v.id + ': ' + v.nodes.map(n => n.target.join(' ')).join(' | ')), [], 'axe in blue' + (open ? ', menu open' : ''));
       if (open) await page.keyboard.press('Escape');
     }
-    pass('What If AI in blue: axe finds no violations, menu closed or open');
+    pass('Quidsima in blue: axe finds no violations, menu closed or open');
 
     /* remembered: reload, the other tool, the landing page */
     await page.reload(); await ready(page);
@@ -145,7 +145,7 @@ const channels = color => (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number)
     /* a second tab follows the first */
     const shared = await createContext(browser, { viewport: { width: 1280, height: 900 } });
     const one = await shared.newPage(), two = await shared.newPage();
-    await one.goto(server.url('what-if-ai.html')); await ready(one);
+    await one.goto(server.url('quidsima.html')); await ready(one);
     await two.goto(server.url('register.html')); await ready(two);
     await one.click('#fabToggle'); await one.click('#fabMenu [data-theme-toggle]');
     await two.waitForFunction(() => document.documentElement.getAttribute('data-theme') === 'blue');
@@ -156,7 +156,7 @@ const channels = color => (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number)
     /* without JavaScript: crimson, and no button that cannot work */
     const plain = await createContext(browser, { javaScriptEnabled: false });
     const still = await plain.newPage();
-    await still.goto(server.url('what-if-ai.html'));
+    await still.goto(server.url('quidsima.html'));
     assert.equal(await still.locator('[data-theme-toggle]').getAttribute('hidden'), '');
     assert.equal(await still.locator('html').getAttribute('data-theme'), null);
     await plain.close();

@@ -19,7 +19,7 @@ const results = [];
 function check(name, ok, detail) { results.push({ ok: !!ok }); console.log((ok ? 'PASS ' : 'FAIL ') + name + (detail ? ' — ' + detail : '')); }
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 function walk(d, base = d) { return fs.readdirSync(d, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(path.join(d, e.name), base) : [path.relative(base, path.join(d, e.name))]); }
-const PAGES = ['index.html', 'what-if-ai.html', 'register.html', 'source-file.html', '404.html'];
+const PAGES = ['index.html', 'quidsima.html', 'register.html', 'source-file.html', '404.html'];
 const html = f => fs.readFileSync(path.join(SITE, f), 'utf8');
 const CFG = require('../site.json');
 const ANALYTICS = CFG.analytics;
@@ -80,7 +80,7 @@ const ANALYTICS = CFG.analytics;
   await page.addInitScript(() => document.addEventListener('securitypolicyviolation', e => { (window.__csp = window.__csp || []).push(e.violatedDirective + ' ' + e.blockedURI); }));
   let bytes = {};
   page.on('response', async r => { try { const b = await r.body(); bytes[page.url().split('/').pop().split('#')[0] || 'index'] = (bytes[page.url().split('/').pop().split('#')[0] || 'index'] || 0) + b.length; } catch (_) {} });
-  for (const f of ['', 'what-if-ai.html#a=focus:teaching;task:feedback', 'register.html#activities', 'register.html#sources']) {
+  for (const f of ['', 'quidsima.html#a=focus:teaching;task:feedback', 'register.html#activities', 'register.html#sources']) {
     await page.goto(srv.url(f)); await page.waitForTimeout(1200);
     const csp = await page.evaluate(() => window.__csp || []); violations.push(...csp.map(c => (f || 'index') + ': ' + c));
   }
@@ -138,7 +138,7 @@ const ANALYTICS = CFG.analytics;
   const blockedCtx = await createContext(browser);
   const blockedPage = await blockedCtx.newPage();
   await blockedPage.route(ANALYTICS.script_url, route => route.abort('blockedbyclient'));
-  await blockedPage.goto(srv.url('what-if-ai.html'));
+  await blockedPage.goto(srv.url('quidsima.html'));
   await blockedPage.waitForSelector('html[data-ready]', { state: 'attached' });
   check('the activity finder works when analytics is blocked', await blockedPage.isVisible('#wizard'));
   await blockedCtx.close();
@@ -146,7 +146,7 @@ const ANALYTICS = CFG.analytics;
   // landing page
   await page.goto(srv.url(''));
   const doors = await page.$$eval('.door', ds => ds.map(d => d.getAttribute('href')));
-  check('the landing page leads to both tools', JSON.stringify(doors) === JSON.stringify(['what-if-ai.html', 'register.html']), doors.join(', '));
+  check('the landing page leads to both tools', JSON.stringify(doors) === JSON.stringify(['quidsima.html', 'register.html']), doors.join(', '));
   await page.click('.door[href="register.html"]'); await page.waitForSelector('html[data-ready]', { state: 'attached' });
   check('The Register opens from the landing page and loads its data', await page.isVisible('#h-activities'));
 
@@ -166,7 +166,7 @@ const ANALYTICS = CFG.analytics;
   await slow.close();
   const bad = await createContext(browser, { viewport: { width: 1440, height: 900 } }); const bp = await bad.newPage();
   await bp.route('**/data/acts.*.json', route => route.fulfill({ status: 503, body: 'down' }));
-  await bp.goto(srv.url('what-if-ai.html')); await bp.waitForSelector('.boot-msg--error');
+  await bp.goto(srv.url('quidsima.html')); await bp.waitForSelector('.boot-msg--error');
   const fail = await bp.evaluate(() => ({ role: document.getElementById('boot-msg').getAttribute('role'), text: document.getElementById('boot-msg').textContent, retry: !!document.getElementById('boot-retry') }));
   check('if the data cannot load, the reader is told plainly and can try again', fail.role === 'alert' && /could not be loaded/.test(fail.text) && fail.retry, fail.text.trim().slice(0, 60));
   const ax = await new AxeBuilder({ page: bp }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
@@ -187,18 +187,18 @@ const ANALYTICS = CFG.analytics;
   const cacheSession = await wc.newCDPSession(wp);
   await cacheSession.send('Network.enable');
   await cacheSession.send('Network.setBlockedURLs', { urls: [ANALYTICS.script_url] });
-  await wp.goto(ws.url('what-if-ai.html')); await wp.waitForSelector('html[data-ready]', { state: 'attached' }); await wp.waitForTimeout(400);
+  await wp.goto(ws.url('quidsima.html')); await wp.waitForSelector('html[data-ready]', { state: 'attached' }); await wp.waitForTimeout(400);
   const first = served(); const n0 = log.length;
   await wp.goto(ws.url('register.html')); await wp.waitForSelector('html[data-ready]', { state: 'attached' }); await wp.waitForTimeout(400);
   const second = served() - first, again = log.slice(n0).map(x => x.path);
   await wc.close(); await ws.close();
-  console.log(`      What If AI, first visit: ${(first / 1e6).toFixed(2)} MB · then The Register: ${(second / 1e3).toFixed(0)} KB (${again.join(', ')})`);
+  console.log(`      Quidsima, first visit: ${(first / 1e6).toFixed(2)} MB · then The Register: ${(second / 1e3).toFixed(0)} KB (${again.join(', ')})`);
   check('opening the second tool reuses the cached activity data and shared files', !again.some(p => /^data\/acts\.|assets\/css\/base\.|assets\/js\/core\./.test(p)), again.length + ' files fetched');
 
   // Ask Us: exercise the iframe under the real page CSP without depending on live chat
   // availability or opening a conversation with library staff during automated tests.
   const chatURL = 'https://lewisu.libanswers.com/chat/widget/9834cecf0f3b65300e275b111a06f48909feee517a3cfe2daedf5b9229fe58cc';
-  for (const file of ['what-if-ai.html', 'register.html']) {
+  for (const file of ['quidsima.html', 'register.html']) {
     const chatCtx = await createContext(browser);
     const chatPage = await chatCtx.newPage();
     let requests = 0, otherRequests = 0;

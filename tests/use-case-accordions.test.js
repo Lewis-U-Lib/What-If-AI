@@ -14,7 +14,7 @@ const EXAMPLE = 'CAN-G-GAP-004';
   const server = await start({dir:SITE_DIR});
   const browser = await chromium.launch();
   try {
-    for (const file of ['what-if-ai.html', 'register.html']) {
+    for (const file of ['quidsima.html', 'register.html']) {
       for (const viewport of [{width:1440,height:1000},{width:390,height:844}]) {
         const context = await createContext(browser, {viewport});
         const page = await context.newPage();

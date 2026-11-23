@@ -48,7 +48,7 @@ const ANSWER_1 = 'Students accept the first interpretation they meet.', ANSWER_2
     page.on('request', r => requests.push(r.method() + ' ' + r.url()));
 
     /* ── the worksheet ── */
-    await page.goto(server.url('what-if-ai.html')); await ready(page);
+    await page.goto(server.url('quidsima.html')); await ready(page);
     await page.click('.topbar [data-open-saved]');
     const opener = page.locator(`#savedBody [data-plan="${routed.id}"]`);
     assert.equal(norm(await opener.innerText()), 'Plan a small trial for ' + routed.t);
@@ -121,7 +121,7 @@ const ANSWER_1 = 'Students accept the first interpretation they meet.', ANSWER_2
     await other.addInitScript(([s, p, sv, pv]) => { try { if (!localStorage.getItem(s)) { localStorage.setItem(s, sv); localStorage.setItem(p, pv); } } catch (_) {} },
       [SAVED, PLANS, JSON.stringify([routed.id]), JSON.stringify({ [routed.id]: { answers: ['Mine, written here.', '', '', '', 'After two weeks.'], updated: '2026-11-01T12:00:00.000Z' } })]);
     const phone = await other.newPage();
-    await phone.goto(server.url('what-if-ai.html')); await ready(phone); await phone.click('.topbar [data-open-saved]');
+    await phone.goto(server.url('quidsima.html')); await ready(phone); await phone.click('.topbar [data-open-saved]');
     await phone.setInputFiles('#restoreFile', listPath);
     await phone.waitForSelector('#restorePreview');
     assert.equal(norm(await phone.locator('#restorePreview p').textContent()), 'This file lists 2 use-case ideas. 1 would be added to your saved list. 1 is already saved. It also carries 1 trial plan; an answer already written in this browser is kept. Nothing already saved here is removed.');
@@ -179,7 +179,7 @@ const ANSWER_1 = 'Students accept the first interpretation they meet.', ANSWER_2
     await page.click('#actDialog .trialcta [data-plan]'); await page.waitForSelector('#planDialog[open]');
     await page.fill('#plan-q0', 'Written in the first tab.'); await settle(page);
     /* opened from the first tab, as a link in a new tab would be (it shares the test's one-time seeding of the saved list) */
-    const [tab] = await Promise.all([context.waitForEvent('page'), page.evaluate(url => { window.open(url); }, server.url('what-if-ai.html'))]);
+    const [tab] = await Promise.all([context.waitForEvent('page'), page.evaluate(url => { window.open(url); }, server.url('quidsima.html'))]);
     await ready(tab); await tab.click('.topbar [data-open-saved]');
     await tab.click(`#savedBody [data-plan="${third.id}"]`); await tab.waitForSelector('#planDialog[open]');
     assert.equal(await tab.inputValue('#plan-q0'), 'Written in the first tab.');

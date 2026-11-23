@@ -27,7 +27,7 @@ const policy = api.create(data);
   });
   try {
     const page = await context.newPage();
-    for (const tool of ['what-if-ai.html','register.html']) {
+    for (const tool of ['quidsima.html','register.html']) {
       await page.goto(server.url(tool));
       await page.waitForSelector('html[data-ready]');
       const failures = await page.evaluate(({acts,works}) => {

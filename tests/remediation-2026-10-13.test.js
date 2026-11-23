@@ -74,7 +74,7 @@ pass('data: student input, accounts, U.S. Government label, change notes, attrib
 
     // Earlier-edition IDs and current IDs represent one saved idea in both tools, including after reload.
     const aliased=D.acts.find(a=>(a.al||[]).length),legacy=aliased.al[0],missing='unavailable-pr23-test';
-    for(const file of ['what-if-ai.html','register.html']){
+    for(const file of ['quidsima.html','register.html']){
       await go(file);
       await p.evaluate(({legacy,id,missing})=>localStorage.setItem('lul-whatifai-saved-v1',JSON.stringify([legacy,id,legacy,missing,missing,42])),{legacy,id:aliased.id,missing});
       await p.reload();await ready(p);
@@ -95,7 +95,7 @@ pass('data: student input, accounts, U.S. Government label, change notes, attrib
     pass('legacy saves normalize in both tools: correct count and pressed state, no duplicates, alias removal, unavailable IDs retained');
 
     // A details dialog opened from Saved is above the drawer despite occurring first in the DOM.
-    for(const file of ['what-if-ai.html','register.html']){
+    for(const file of ['quidsima.html','register.html']){
       await go(file);
       await p.evaluate(id=>SITE.Saved.add(id),aliased.id);
       await p.locator('[data-open-saved]:visible').first().click();
@@ -121,7 +121,7 @@ pass('data: student input, accounts, U.S. Government label, change notes, attrib
     // no sideways scrolling at 320 px for ideas with long attribution addresses
     await p.setViewportSize({width:320,height:700});
     const long=D.acts.filter(a=>/\S{70,}/.test(a.attr||'')).slice(0,6).map(a=>a.id);
-    for(const file of ['what-if-ai.html','register.html'])for(const id of long){
+    for(const file of ['quidsima.html','register.html'])for(const id of long){
       await go(file,'#act='+encodeURIComponent(id));
       const g=await p.evaluate(()=>{const d=document.getElementById('actDialog');const r=d.getBoundingClientRect();return {over:d.scrollWidth-d.clientWidth,right:r.right,vw:innerWidth};});
       assert.ok(g.over<=1&&g.right<=g.vw+1,file+' '+id+' '+JSON.stringify(g));

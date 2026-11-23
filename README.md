@@ -1,12 +1,12 @@
-# What If AI & The Register
+# Quidsima & The Register
 
-Two faculty resources from Lewis University Library:
+Two faculty resources from Lewis University Library. Quidsima was named What If AI until November 2026; its motto, *Quid si machina?* ("What if a machine?"), keeps the question. The site moved from `lewis-u-lib.github.io/What-If-AI/` to `lewis-u-lib.github.io/Quidsima/` with the name, and the tool's page is `quidsima.html`. Both addresses are on the same host, so the browser storage keys (`lul-whatifai-…`) and the saved-list file format (`what-if-ai-saved-list`) are unchanged and lists saved at the old address still open here. `docs/MOVING.md` covers the move and the redirects left at the old address.
 
 
-- **What If AI.** Answer a few questions about teaching, research, or administrative work to find use-case ideas that use or deliberately leave out generative AI.
+- **Quidsima.** Answer a few questions about teaching, research, or administrative work to find use-case ideas that use or deliberately leave out generative AI.
 - **The Register.** Browse those ideas with their sources and licenses, a sourced guide to types of AI systems, examples of course AI policies, and the source bibliography.
 
-[Open the tools](https://lewis-u-lib.github.io/What-If-AI/).
+[Open the tools](https://lewis-u-lib.github.io/Quidsima/).
 
 ## Repository contents
 
@@ -27,7 +27,7 @@ python3 tools/build.py
 node tests/serve.js
 ```
 
-Open `http://localhost:8080/What-If-AI/`. The pages load their data over HTTP.
+Open `http://localhost:8080/Quidsima/`. The pages load their data over HTTP.
 
 ## Test
 
@@ -65,17 +65,17 @@ Question 3's optional level-and-setting questions sit behind the same bar as the
 
 In a Types of AI pop-up, current examples are a slide of their own before References, and an Examples button in the footer jumps to it.
 
-## Answering What If AI's questions
+## Answering Quidsima's questions
 
 Each question takes one answer. Selecting the answer that is already selected clears it, by pointer or with Space on the focused option; a double-click selects once. Skip does the same from the foot of the question. `tests/answers.test.js` (run by `npm run test:pages`) covers this and the walkthrough's steps.
 
 ## Edit the walkthroughs
 
-The Register's header and floating menu open the nine-step walkthrough in `src/partials/register-tour.html`; `#about` links open it too. What If AI's header and floating menu open the nine-step walkthrough in `src/partials/tour.html`. Saving, comparing, planning and printing, The Register, and feedback and corrections each have a step in it; both walkthroughs describe comparing two or three saved use-case ideas. Each header keeps two buttons: the walkthrough, as the one brass primary, and "How this site works"; the companion tool, the Gen AI guide, and feedback are reached from the floating menu and the footer. Page tests cover keyboard operation, focus, links, browser history, printing, and narrow screens.
+The Register's header and floating menu open the nine-step walkthrough in `src/partials/register-tour.html`; `#about` links open it too. Quidsima's header and floating menu open the nine-step walkthrough in `src/partials/tour.html`. Saving, comparing, planning and printing, The Register, and feedback and corrections each have a step in it; both walkthroughs describe comparing two or three saved use-case ideas. Each header keeps two buttons: the walkthrough, as the one brass primary, and "How this site works"; the companion tool, the Gen AI guide, and feedback are reached from the floating menu and the footer. Page tests cover keyboard operation, focus, links, browser history, printing, and narrow screens.
 
 ## Edit "How this site works"
 
-Both tools state that results come from fixed rules rather than an AI system: The Register in its header, and What If AI beside its questions, so that its header stays short and the first choices sit higher on the page. A "How this site works" button opens the shared six-slide carousel in `src/partials/about.html`: What If AI, The Register, what leaves the browser, Ask Us, links to other sites, and how the site was made. It behaves like the walkthroughs (Previous, Next, dots, arrow keys, Home and End; it never advances by itself), and its slides share one grid cell so the controls never move. Each slide has a painted drawing that uses the `#wc` filter and `wc*` washes defined by the page's walkthrough partial, so a page that includes `about.html` must also include `tour.html` or `register-tour.html`; drawings carry no text and are hidden from assistive technology. The Finder's statement is written in `drawRail` (the rail, on wide screens) and `drawWizard` (the first question, on narrow ones) in `src/js/what-if-ai.js`, and the Ask Us panel in `src/partials/help.html` says when staff answer. These statements must stay literally true. The footer's HCAI and HITL disclosure and the carousel's "How it was made" slide carry the same wording and the same two Stanford HAI links. `tests/how-this-site-works-2026-10-27.test.js` checks the wording and the facts behind it: each page's security policy lets it contact only itself and the visit counter, the only embedded service is Ask Us, and visit counting leaves out answers and search text. If the site starts calling another service, or the library changes how Ask Us answers after hours, revise the wording before changing the test.
+Both tools state that results come from fixed rules rather than an AI system: The Register in its header, and Quidsima beside its questions, so that its header stays short and the first choices sit higher on the page. A "How this site works" button opens the shared six-slide carousel in `src/partials/about.html`: Quidsima, The Register, what leaves the browser, Ask Us, links to other sites, and how the site was made. It behaves like the walkthroughs (Previous, Next, dots, arrow keys, Home and End; it never advances by itself), and its slides share one grid cell so the controls never move. Each slide has a painted drawing that uses the `#wc` filter and `wc*` washes defined by the page's walkthrough partial, so a page that includes `about.html` must also include `tour.html` or `register-tour.html`; drawings carry no text and are hidden from assistive technology. The Finder's statement is written in `drawRail` (the rail, on wide screens) and `drawWizard` (the first question, on narrow ones) in `src/js/what-if-ai.js`, and the Ask Us panel in `src/partials/help.html` says when staff answer. These statements must stay literally true. The footer's HCAI and HITL disclosure and the carousel's "How it was made" slide carry the same wording and the same two Stanford HAI links. `tests/how-this-site-works-2026-10-27.test.js` checks the wording and the facts behind it: each page's security policy lets it contact only itself and the visit counter, the only embedded service is Ask Us, and visit counting leaves out answers and search text. If the site starts calling another service, or the library changes how Ask Us answers after hours, revise the wording before changing the test.
 
 ## Light, logo, and the help menu
 
@@ -85,13 +85,13 @@ The Library logo is the original white mark. It lifts slightly and glows gold on
 
 The footer carries the Lewis Library logo (`src/img/library-emblem.webp`) in the site gold (`--gold`, #debb70), set in a recessed plate like the disclosure box below it. It is made from the logo's own pixels, which become the image's transparency and are scaled once; nothing is redrawn, so every icon matches the logo. To regenerate it, start from the Library's logo file again, not from a traced or generated copy. On hover and on keyboard focus it brightens, its glow widens, and it lifts 2px; the lift is skipped when reduced motion is requested. In forced-colors mode it is redrawn in the link color, and it prints in black. The footer reads in this order: emblem, the five links, the license block with its two collapsible panels, the AI-use disclosure, and a closing line with the tool license and last-updated date. From 1100px wide the emblem takes the left column; below that it stacks at 160px wide.
 
-Edison bulbs appear in a few places rather than everywhere: the What If AI bulb icon (`i-bulb`) has a filament that lights white-hot when its link is pointed at or focused, and small Edison bulbs (`--edison`) mark the considerations console in The Register and the current question in What If AI. The help button is a domed yellow-brass rivet with the ✦ stamped into it; it glows softly at rest and brighter on hover, focus, and while its menu is open. It returns to plain white under "more contrast" and forced colors and prints in black. Help-menu items are opaque in every state and sit in an opaque housing; the footer leaves room so the fixed help button never covers the disclosure. In forced-colors mode the logo is redrawn in the link color. `tests/incandescent-2026-11-02.test.js` measures the logo and menu contrast from rendered pixels and checks that nothing behind a menu item shows through it.
+Edison bulbs appear in a few places rather than everywhere: the Quidsima bulb icon (`i-bulb`) has a filament that lights white-hot when its link is pointed at or focused, and small Edison bulbs (`--edison`) mark the considerations console in The Register and the current question in Quidsima. The help button is a domed yellow-brass rivet with the ✦ stamped into it; it glows softly at rest and brighter on hover, focus, and while its menu is open. It returns to plain white under "more contrast" and forced colors and prints in black. Help-menu items are opaque in every state and sit in an opaque housing; the footer leaves room so the fixed help button never covers the disclosure. In forced-colors mode the logo is redrawn in the link color. `tests/incandescent-2026-11-02.test.js` measures the logo and menu contrast from rendered pixels and checks that nothing behind a menu item shows through it.
 
 ## Results, and the entry for work without an AI tool
 
-What If AI's results lead with one group: exact matches when there are any, otherwise possible fits, otherwise close matches. The title counts that group, one sentence invites the reader to open or save a use-case idea, and six cards are drawn at a time. Every other group sits under "Broader possibilities", folded in a disclosure whose summary is its heading and count; a group the reader opens stays open while more cards are drawn. The matching rules and the groups themselves are unchanged.
+Quidsima's results lead with one group: exact matches when there are any, otherwise possible fits, otherwise close matches. The title counts that group, one sentence invites the reader to open or save a use-case idea, and six cards are drawn at a time. Every other group sits under "Broader possibilities", folded in a disclosure whose summary is its heading and count; a group the reader opens stays open while more cards are drawn. The matching rules and the groups themselves are unchanged.
 
-The landing page, What If AI's first question, and The Register's use-case ideas section each link to `register.html#activities?op=none`, the use-case ideas in which no one operates an AI tool.
+The landing page, Quidsima's first question, and The Register's use-case ideas section each link to `register.html#activities?op=none`, the use-case ideas in which no one operates an AI tool.
 
 ## Saved use-case ideas: compare, print, move, export
 
