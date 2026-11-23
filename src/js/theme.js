@@ -1,34 +1,38 @@
 /* ════════════════════════════════════════════════════════════
-   THEME · crimson or steel blue, textured or plain
-   The stylesheets carry both palettes (tools/palette.py writes the blue twin of every crimson
-   color at build time). This file chooses between them by setting data-theme="blue" on <html>,
-   or leaving it off for crimson. It is loaded in the <head> without defer so the choice is
+   THEME · crimson, steel blue or light; textured or plain
+   The stylesheets carry all three palettes (tools/palette.py writes the steel-blue twin of every
+   crimson color, and the light twin of every color, at build time). This file chooses between
+   them by setting data-theme="blue" or data-theme="light" on <html>, or leaving it off for crimson. It is loaded in the <head> without defer so the choice is
    applied before the page is drawn. The choice is kept in this browser only (localStorage);
    if storage is unavailable it lasts until the page is left.
-   The help menu's "Switch to blue" / "Switch to crimson" button is hidden in the markup and
-   shown here, so it never appears where it cannot work.
+   The help menu's palette button steps through them in order (crimson, blue, light, and back to
+   crimson) and always names the one it will switch to. It is hidden in the markup and shown here,
+   so it never appears where it cannot work.
 
    A second, separate choice is the plain reading view (src/css/plain.css): data-plain on <html>
-   takes the textures, glows and display type off the same pages. It works in either palette and
+   takes the textures, glows and display type off the same pages. It works in any palette and
    is kept the same way, under its own key.
 ════════════════════════════════════════════════════════════ */
 (function(){
   'use strict';
   var KEY = 'lul-whatifai-theme-v1', PLAIN = 'lul-whatifai-plain-v1', root = document.documentElement;
-  var BAR = { crimson: '#5b0a1f', blue: '#163442' };       // the browser's toolbar tint (<meta name="theme-color">)
+  var THEMES = ['crimson', 'blue', 'light'];                // the order the help menu's button steps through
+  var BAR = { crimson: '#5b0a1f', blue: '#163442', light: '#e9e6df' };   // the browser's toolbar tint (<meta name="theme-color">)
 
-  function stored(){ try { return window.localStorage.getItem(KEY) === 'blue' ? 'blue' : 'crimson'; } catch(_){ return 'crimson'; } }
-  function store(theme){ try { if(theme === 'blue') window.localStorage.setItem(KEY, 'blue'); else window.localStorage.removeItem(KEY); } catch(_){} }
-  function current(){ return root.getAttribute('data-theme') === 'blue' ? 'blue' : 'crimson'; }
+  function known(theme){ return THEMES.indexOf(theme) > 0 ? theme : 'crimson'; }
+  function stored(){ try { return known(window.localStorage.getItem(KEY)); } catch(_){ return 'crimson'; } }
+  function store(theme){ try { if(theme === 'crimson') window.localStorage.removeItem(KEY); else window.localStorage.setItem(KEY, theme); } catch(_){} }
+  function current(){ return known(root.getAttribute('data-theme')); }
+  function after(theme){ return THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length]; }
 
   function apply(theme){
-    if(theme === 'blue') root.setAttribute('data-theme', 'blue'); else root.removeAttribute('data-theme');
+    if(theme === 'crimson') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', theme);
     var meta = document.querySelector('meta[name="theme-color"]');
     if(meta) meta.setAttribute('content', BAR[theme]);
     var buttons = document.querySelectorAll('[data-theme-toggle]');
     for(var i = 0; i < buttons.length; i++){
       var label = buttons[i].querySelector('[data-theme-label]');
-      if(label) label.textContent = theme === 'blue' ? 'Switch to crimson' : 'Switch to blue';
+      if(label) label.textContent = 'Switch to ' + after(theme);
       buttons[i].hidden = false;
     }
   }
@@ -57,7 +61,7 @@
       if(plain){ var on = !isPlain(); applyPlain(on); storePlain(on); return; }
       var btn = e.target && e.target.closest ? e.target.closest('[data-theme-toggle]') : null;
       if(!btn) return;
-      var next = current() === 'blue' ? 'crimson' : 'blue';
+      var next = after(current());
       apply(next); store(next);
     });
     // another tab or the other tool changed the choice: follow it

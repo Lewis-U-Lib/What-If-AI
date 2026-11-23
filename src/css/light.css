@@ -1,0 +1,43 @@
+/* ════════════════════════════════════════════════════════════
+   LIGHT PALETTE · the few things the build cannot work out for itself
+   Loaded after the plate and lab layers and before plain.css, so the plain reading view still has the last word.
+
+   Nearly all of the light palette is written by tools/palette.py, which gives every color in the stylesheets a
+   light twin under html[data-theme="light"]: the crimson plates become pale brushed metal, pale lettering becomes
+   ink, gold lettering and lines become Lewis crimson, and shadows stay shadows. This file holds what is left:
+   colors that live in an image's pixels, and effects that only make sense on a dark ground.
+
+   Colors here are written as they should appear. The build leaves any rule that names
+   html[data-theme="light"] exactly as written.
+════════════════════════════════════════════════════════════ */
+
+/* the page ground is dimmed on the dark palettes so the plates stand off it; here it is the lightest thing on the page */
+html[data-theme="light"] body::before{filter:none;}
+
+/* the Library's logo in Lewis crimson, as on the Library's own pages */
+@supports (mask-image:linear-gradient(#000,#000)) or (-webkit-mask-image:linear-gradient(#000,#000)){
+  html[data-theme="light"] .hdr__logo::before{background:#940731;}
+}
+
+/* the footer logo's gold is in the pixels of library-emblem.webp, and gold on a pale plate is too faint to read:
+   draw the same artwork through a mask in crimson (as forced-colors mode already does in the link color) */
+@supports (mask-image:linear-gradient(#000,#000)) or (-webkit-mask-image:linear-gradient(#000,#000)){
+  html[data-theme="light"] .site-foot__brand img,html[data-theme="light"] .site-foot__brand:hover img,html[data-theme="light"] .site-foot__brand:focus-visible img{filter:none;opacity:0;}
+  html[data-theme="light"] .site-foot__brand::before{content:'';position:absolute;inset:var(--brand-pad-y) var(--brand-pad-x);background:#940731;pointer-events:none;
+    -webkit-mask:url('../img/library-emblem.webp') center/contain no-repeat;mask:url('../img/library-emblem.webp') center/contain no-repeat;}
+  html[data-theme="light"] .site-foot__brand:hover::before,html[data-theme="light"] .site-foot__brand:focus-visible::before{background:#7a0526;}
+  @media(prefers-reduced-motion:no-preference){
+    html[data-theme="light"] .site-foot__brand::before{transition:transform .18s ease,background-color .18s ease;}
+    html[data-theme="light"] .site-foot__brand:hover::before,html[data-theme="light"] .site-foot__brand:focus-visible::before{transform:translateY(-2px);}
+  }
+}
+@media print{
+  html[data-theme="light"] .site-foot__brand img{opacity:1;}
+}
+
+/* native controls (checkboxes, select menus, scrollbars) drawn for a light page */
+html[data-theme="light"]{color-scheme:light;}
+html[data-theme="light"] .check input{accent-color:#940731;}
+
+/* the walkthrough drawings are made for their cream drawing paper, so the paper stays paper */
+html[data-theme="light"] .tour__art{--paper:#fbf3e4;}

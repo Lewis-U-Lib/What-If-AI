@@ -1,8 +1,11 @@
-/* The palette switch in the help menu: crimson unless the reader chooses steel blue, which this browser remembers.
+/* The palette switch in the help menu: crimson unless the reader chooses steel blue or light, which this browser remembers.
  *
  *  - with no choice made, the pages are exactly the crimson site: no attribute, the source colors;
- *  - the help menu's button switches to blue and back, says what it will do, and leaves the menu open;
+ *  - the help menu's button steps from crimson to blue to light and back to crimson, says what it will do,
+ *    and leaves the menu open;
  *  - blue changes colors only: every measured box is where it was, gold stays gold, and axe finds nothing;
+ *  - light changes colors only too: pale plates, dark ink, crimson where gold was, the help button still
+ *    yellow brass, and axe finds nothing;
  *  - the choice carries to the other tool and the landing page, survives a reload, and is applied by a
  *    script in the <head> that runs before any stylesheet is drawn;
  *  - without JavaScript the button stays hidden; with storage blocked it still works for the page.
@@ -84,7 +87,7 @@ const channels = color => (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number)
     assert.equal(blue.gold, crimson['what-if-ai.html'].gold, 'gold is unchanged');
     assert.equal(blue.bar, '#163442', 'the browser toolbar tint follows');
     assert.equal(await page.evaluate(k => localStorage.getItem(k), KEY), 'blue');
-    assert.equal((await page.locator('#fabMenu [data-theme-toggle]').innerText()).trim(), 'Switch to crimson');
+    assert.equal((await page.locator('#fabMenu [data-theme-toggle]').innerText()).trim(), 'Switch to light');
     assert.ok(await page.evaluate(() => document.getElementById('fabWrap').classList.contains('open') && document.activeElement.matches('[data-theme-toggle]')),
       'the menu stays open with focus on the switch, so it can be pressed again');
     await rest(page);
@@ -129,7 +132,46 @@ const channels = color => (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number)
     assert.deepEqual(axe.violations.map(v => v.id), [], 'axe on The Register in blue');
     pass('the choice survives a reload and carries to The Register and the landing page; The Register in blue passes axe');
 
-    /* and back, from the keyboard */
+    /* on to light, from the keyboard */
+    const triple = color => /^#[0-9a-f]{6}$/i.test(color) ? [1, 3, 5].map(i => parseInt(color.slice(i, i + 2), 16)) : channels(color);
+    const luminance = color => { const [r, g, b] = triple(color).map(c => { c /= 255; return c <= .04045 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4; }); return .2126 * r + .7152 * g + .0722 * b; };
+    await page.focus('#fabToggle'); await page.keyboard.press('Enter');
+    await page.focus('#fabMenu [data-theme-toggle]'); await page.keyboard.press('Enter');
+    let light = await snapshot(page);
+    assert.equal(light.theme, 'light');
+    assert.equal(light.bar, '#e9e6df', 'the browser toolbar tint follows');
+    assert.equal(await page.evaluate(k => localStorage.getItem(k), KEY), 'light');
+    assert.equal((await page.locator('#fabMenu [data-theme-toggle]').innerText()).trim(), 'Switch to crimson');
+    await rest(page);
+    light = await snapshot(page);
+    assert.equal(light.height, crimson['register.html'].height, 'the page is the same height');
+    light.parts.forEach((part, i) => assert.equal(part.box, crimson['register.html'].parts[i].box, 'register ' + part.sel + ' has not moved in light'));
+    const part = name => light.parts.find(p => p.sel === name);
+    assert.ok(luminance(light.navy) > .7, 'the ground is pale: ' + light.navy);
+    assert.ok(luminance(part('.hdr__title').color) < .05, 'the title is ink: ' + part('.hdr__title').color);
+    const [gr, gg, gb] = triple(light.gold);
+    assert.ok(gr > 90 && gg < 40 && gb < 80, 'what was gold lettering is Lewis crimson: ' + light.gold);
+    assert.equal(part('.fab-toggle').image, crimson['register.html'].parts.find(p => p.sel === '.fab-toggle').image, 'the help button keeps its yellow brass');
+    assert.notEqual(part('.hdr-cta--primary').image, crimson['register.html'].parts.find(p => p.sel === '.hdr-cta--primary').image, 'the primary button is no longer gold');
+    assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme), 'light', 'native controls are drawn for a light page');
+    for (const open of [false, true]) {
+      if (open) { await page.click('#fabToggle'); await page.waitForFunction(() => getComputedStyle(document.getElementById('fabMenu')).opacity === '1'); }
+      const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
+      assert.deepEqual(result.violations.map(v => v.id + ': ' + v.nodes.map(n => n.target.join(' ')).join(' | ')), [], 'axe on The Register in light' + (open ? ', menu open' : ''));
+      if (open) await page.keyboard.press('Escape');
+    }
+    await page.goto(server.url('what-if-ai.html')); await ready(page); await rest(page);
+    const finderLight = await snapshot(page);
+    assert.equal(finderLight.theme, 'light', 'the other tool follows');
+    finderLight.parts.forEach((part, i) => assert.equal(part.box, crimson['what-if-ai.html'].parts[i].box, 'what-if-ai ' + part.sel + ' has not moved in light'));
+    const finderAxe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
+    assert.deepEqual(finderAxe.violations.map(v => v.id), [], 'axe on What If AI in light');
+    await page.goto(server.url('index.html'));
+    assert.equal(await page.evaluate(() => document.documentElement.getAttribute('data-theme')), 'light', 'the landing page follows');
+    pass('a second press turns the pages light: pale plates, dark ink, crimson for gold, no box moved, the help button still brass, and axe finds nothing');
+
+    /* and back to crimson, from the keyboard */
+    await page.goto(server.url('register.html')); await ready(page);
     await page.focus('#fabToggle'); await page.keyboard.press('Enter');
     await page.focus('#fabMenu [data-theme-toggle]'); await page.keyboard.press('Enter');
     const back = await snapshot(page);
@@ -138,7 +180,7 @@ const channels = color => (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number)
     assert.equal((await page.locator('#fabMenu [data-theme-toggle]').innerText()).trim(), 'Switch to blue');
     await rest(page);
     assert.deepEqual(await snapshot(page), crimson['register.html'], 'crimson again, exactly as before');
-    pass('The Register: the keyboard switches back, and the page is exactly the crimson page again');
+    pass('The Register: a third press returns to crimson, and the page is exactly the crimson page again');
     assert.deepEqual(errors, []);
     await context.close();
 
@@ -149,6 +191,9 @@ const channels = color => (color.match(/[\d.]+/g) || []).slice(0, 3).map(Number)
     await two.goto(server.url('register.html')); await ready(two);
     await one.click('#fabToggle'); await one.click('#fabMenu [data-theme-toggle]');
     await two.waitForFunction(() => document.documentElement.getAttribute('data-theme') === 'blue');
+    assert.equal(await two.$eval('[data-theme-label]', el => el.textContent), 'Switch to light');
+    await one.click('#fabMenu [data-theme-toggle]');
+    await two.waitForFunction(() => document.documentElement.getAttribute('data-theme') === 'light');
     assert.equal(await two.$eval('[data-theme-label]', el => el.textContent), 'Switch to crimson');
     await shared.close();
     pass('another open tab follows the choice');

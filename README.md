@@ -59,7 +59,7 @@ complete explanation. See [the illustration map](docs/AI-TYPE-ILLUSTRATIONS.md).
 
 ## Edges and the lit ring
 
-Plates and cards have a light rim (`--rim`) against a darkened page, outlined controls sit on a dark fill, and one thing at a time is lit with a gold ring (`--halo`): the current question, an open dialog, and the card or door being pointed at or focused. The rules are the "edges" block near the end of `src/css/theme-plate.css`. Steel blue follows automatically; the plain reading view redefines `--halo` as a solid gold line with no glow. `tests/edges.test.js` (run by `npm run test:theme`) checks all three views.
+Plates and cards have a light rim (`--rim`) against a darkened page, outlined controls sit on a dark fill, and one thing at a time is lit with a gold ring (`--halo`): the current question, an open dialog, and the card or door being pointed at or focused. The rules are the "edges" block near the end of `src/css/theme-plate.css`. Steel blue follows automatically; the plain reading view redefines `--halo` as a solid gold line with no glow. In the light palette the same rules give a dark rim against a paler page, outlined controls on a pale fill, and the ring in crimson. `tests/edges.test.js` (run by `npm run test:theme`) checks all four views.
 
 Question 3's optional level-and-setting questions sit behind the same bar as the expandable sections in a use-case idea's details (`.qmore` shares the rules in `src/css/use-case-accordions.css`), with a note of how many choices are inside.
 
@@ -121,23 +121,35 @@ Answers are saved as they are typed, in this browser only (`lul-whatifai-plans-v
 
 `tests/trial-plan.test.js` (run by `npm run test:saved`) covers the worksheet, storage, two tabs, printing, export, moving, and removal.
 
-## Crimson and steel blue
+## Crimson, steel blue, and light
 
-The help menu ends with a switch between two palettes: crimson, which is the default, and steel blue. Only colors change; layout, wording, textures' grain, gold, and the illustrations are the same in both.
+The help menu's palette button steps through three palettes: crimson, which is the default, then steel blue, then light, then crimson again. The button always names the palette it will switch to. Only colors change; layout, wording, textures' grain, and the illustrations are the same in all three.
 
 The stylesheets in `src/css` are written once, in crimson. At build time `tools/palette.py` replaces each crimson literal in the CSS bundles with a custom property whose default is that literal and whose value under `html[data-theme="blue"]` is the same color in steel blue at the same relative luminance. Matching luminance keeps every contrast ratio, so text that passes on crimson passes by the same margin on steel. Gold, brass, incandescent yellows, neutrals, and the reds that carry meaning (errors, cautions, the restrictive end of the policy spectrum) are left alone; the list is `KEEP` in that file. `python3 tools/palette.py` prints every translated color. New crimson added to a stylesheet is translated automatically.
 
-`src/js/theme.js` sets the attribute. It loads in the `<head>` without `defer`, so a reader who chose blue never sees crimson first. The choice is kept in this browser's storage only (`lul-whatifai-theme-v1`), carries across both tools and the landing page, and lasts until the page is left if storage is unavailable. Without JavaScript the pages are crimson and the switch stays hidden.
+The light palette (`html[data-theme="light"]`) is derived in the same pass from the same literals, but every color takes part, not only the crimsons (`paper()` in `tools/palette.py`):
 
-`tests/palette_test.py` checks the translation and `tests/theme.test.js` checks the switch. To run any browser check against the blue palette, set `SITE_THEME=blue`, for example `SITE_THEME=blue npm run test:contrast`.
+- Luminance is turned over with `L' = 0.0525 / (L + 0.05) - 0.05`, which exchanges black and white and leaves the WCAG contrast ratio between any two colors exactly as it was. The dark plates become pale and the pale lettering becomes ink.
+- Crimson plates and grounds become a warm off-white metal and are then lifted further toward white. The lift only raises pale grounds, so dark lettering on them gains contrast.
+- Gold lettering, lines, and filled buttons become Lewis crimson (hue of `#940731`), held no darker than the deep maroon so it still reads as crimson. Cream and white lettering becomes near-black ink.
+- Other hues keep their hue: the reds in `KEEP` stay red, green stays green.
+- In `box-shadow`, `text-shadow`, and `filter`, a dark color is a cast shadow and stays dark at about a third of its strength; white highlights stay white.
+- Rules inside `@media print` and `@media (forced-colors)` are left alone, because they already put dark ink on white.
+- `ISLANDS` lists parts that keep their crimson-palette colors in light. It holds one entry, the help button, which stays a yellow-brass rivet.
+
+`src/css/light.css` holds the few things the build cannot derive: the header logo and the footer emblem are drawn through a mask in `#940731` (the emblem's gold is in the image's pixels), the page ground is not dimmed, the walkthrough drawings keep their cream drawing paper, and native controls use `color-scheme: light`. The build leaves any rule that names `html[data-theme="light"]` exactly as written, so colors in that file are written as they should appear. `python3 tools/palette.py light` prints every color and its light twin.
+
+`src/js/theme.js` sets the attribute. It loads in the `<head>` without `defer`, so a reader who chose blue or light never sees crimson first. The choice is kept in this browser's storage only (`lul-whatifai-theme-v1`), carries across both tools and the landing page, and lasts until the page is left if storage is unavailable. Without JavaScript the pages are crimson and the switch stays hidden.
+
+`tests/palette_test.py` checks both translations and `tests/theme.test.js` checks the switch through all three palettes. To run any browser check against another palette, set `SITE_THEME=blue` or `SITE_THEME=light`, for example `SITE_THEME=blue npm run test:contrast`. `npm run test:light` runs the axe and rendered-contrast suites in the light palette, and the workflow runs both on every pull request.
 
 ## Plain reading view
 
-The help menu's last item switches the plain reading view on or off. It is a separate choice from the palette and works in either one. The pages, wording, and controls are the same; `src/css/plain.css` takes off the brushed textures, bolts, seams, lamps, glows, letter shadows, and the moving light, flattens brass to gold, and sets everything in Barlow in sentence case in place of the condensed display face and the monospaced readouts.
+The help menu's last item switches the plain reading view on or off. It is a separate choice from the palette and works in any of the three. The pages, wording, and controls are the same; `src/css/plain.css` takes off the brushed textures, bolts, seams, lamps, glows, letter shadows, and the moving light, flattens brass to gold, and sets everything in Barlow in sentence case in place of the condensed display face and the monospaced readouts.
 
-`src/js/theme.js` sets `data-plain` on `<html>` before the page is drawn and keeps the choice in this browser's storage only (`lul-whatifai-plain-v1`), across both tools and the landing page. Without JavaScript the pages are textured and the switch stays hidden. The colors in `plain.css` are crimson literals, so `tools/palette.py` gives them steel-blue twins like any others.
+`src/js/theme.js` sets `data-plain` on `<html>` before the page is drawn and keeps the choice in this browser's storage only (`lul-whatifai-plain-v1`), across both tools and the landing page. Without JavaScript the pages are textured and the switch stays hidden. The colors in `plain.css` are crimson literals, so `tools/palette.py` gives them steel-blue and light twins like any others.
 
-`tests/plain.test.js` (run by `npm run test:theme`) checks that the view changes no word and no control, that the tool still works in it, and that it passes axe in both palettes. To run any browser check in the plain view, set `SITE_PLAIN=1`, alone or with `SITE_THEME=blue`.
+`tests/plain.test.js` (run by `npm run test:theme`) checks that the view changes no word and no control, that the tool still works in it, and that it passes axe in crimson and steel blue. To run any browser check in the plain view, set `SITE_PLAIN=1`, alone or with `SITE_THEME=blue` or `SITE_THEME=light`.
 
 ## Licenses
 
