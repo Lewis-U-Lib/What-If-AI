@@ -35,12 +35,12 @@ The address is set in one place, `base_url` in `site.json`. Canonical links, the
 
 ## Leaving redirects at the old address
 
-Only after step 4: merge the `redirect-to-quidsima` pull request in `Lewis-U-Lib/What-If-AI`. It replaces the old site with small pages that send each old address to its new one, keeping whatever follows `#` or `?`, so shared results links and links to a single use-case idea still open the same thing:
+Only after step 4: merge the `redirect-to-quidsima` pull request (#59) in `Lewis-U-Lib/What-If-AI`. It replaces the old site with small pages that send each old address to its new one, keeping whatever follows `#` or `?`, so shared results links and links to a single use-case idea still open the same thing:
 
 - `…/What-If-AI/` → `…/Quidsima/`
 - `…/What-If-AI/what-if-ai.html#a=…` → `…/Quidsima/quidsima.html#a=…`
 - `…/What-If-AI/register.html#act=…` → `…/Quidsima/register.html#act=…`
-- anything else under `/What-If-AI/` → the same file name under `/Quidsima/`
+- anything else under `/What-If-AI/` → the new landing page
 
 ## After the move
 
