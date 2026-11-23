@@ -68,6 +68,8 @@ const ratio = (a, b) => { const [hi, lo] = a > b ? [a, b] : [b, a]; return (hi +
   SRV = await start({ dir: SITE });
   const browser = await chromium.launch();
   let fails = 0, checked = 0, worst = null;
+  // CONTRAST_PAIRS=file.json also writes every measured pair (text color, background pixel compared), for tests/vision.test.js
+  const PAIRS = process.env.CONTRAST_PAIRS ? [] : null;
   for (const [name, file, act] of STATES) {
     for (const vp of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
       // bypassCSP: the test injects a style tag to freeze motion; the site's own policy forbids inline styles
@@ -139,6 +141,7 @@ const ratio = (a, b) => { const [hi, lo] = a > b ? [a, b] : [b, a]; return (hi +
           const bg = text > ls[Math.floor(ls.length / 2)] ? ls[Math.floor((ls.length - 1) * PCT)] : ls[Math.floor((ls.length - 1) * (1 - PCT))];
           const cr = ratio(text, bg), need = r.large ? 3 : 4.5;
           checked++;
+          if (PAIRS) PAIRS.push({ where: name + ' @' + vp.width, text: r.t, fg: r.c, bg: px.find(p => lum(p) === bg), need });
           if (!worst || cr / need < worst.cr / worst.need) worst = { cr, need, t: r.t, where: name + ' @' + vp.width };
           if (cr < need) { fails++; console.log(`FAIL ${name} @${vp.width}px  "${r.t}"  ${cr.toFixed(2)}:1 (needs ${need}:1)` + (process.env.DEBUG_SHOTS ? ` pass ${pg} rect ${Math.round(r.x)},${Math.round(r.y)} ${Math.round(r.w)}x${Math.round(r.h)} color ${r.c}` : "")); }
         });
@@ -147,6 +150,7 @@ const ratio = (a, b) => { const [hi, lo] = a > b ? [a, b] : [b, a]; return (hi +
     }
   }
   await browser.close(); await SRV.close();
+  if (PAIRS) require('fs').writeFileSync(process.env.CONTRAST_PAIRS, JSON.stringify(PAIRS));
   console.log(`\n${checked} text runs on textured surfaces checked; ${fails} below AA.`);
   if (worst) console.log(`Tightest: "${worst.t}" (${worst.where}) ${worst.cr.toFixed(2)}:1 against ${worst.need}:1`);
   process.exit(fails ? 1 : 0);

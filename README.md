@@ -151,6 +151,23 @@ The help menu's last item switches the plain reading view on or off. It is a sep
 
 `tests/plain.test.js` (run by `npm run test:theme`) checks that the view changes no word and no control, that the tool still works in it, and that it passes axe in crimson and steel blue. To run any browser check in the plain view, set `SITE_PLAIN=1`, alone or with `SITE_THEME=blue` or `SITE_THEME=light`.
 
+## Low-vision checks
+
+`npm run test:lowvision` measures, from rendered pixels, what axe does not: it runs four tests in each of the six views (crimson, steel blue, and light, each textured and in the plain reading view) and prints one summary. A full run takes about half an hour; `VIEWS=light,light-plain npm run test:lowvision` runs only the views named, and `LOWVISION_OUT=dir` keeps the measurements.
+
+- `tests/contrast.test.js` measures text over the textured surfaces against WCAG AA.
+- `tests/nontext.test.js` measures the boundaries of controls, the indicators of state (a chosen answer, a ticked filter, the question bar, the current tab), and the keyboard focus indicator at every Tab stop, against 3:1 (SC 1.4.11, 2.4.7, 2.4.13).
+- `tests/vision.test.js` takes every pair of colors those two measured and repeats the contrast under simulated protanopia, deuteranopia, and tritanopia (Machado, Oliveira & Fernandes, 2009, at full severity). Having no color vision needs no simulation, because WCAG contrast is already a ratio of luminances.
+- `tests/reflow.test.js` opens each state at 640×512 and 320×256 (a 1280×1024 window at 200% and 400%), and with the text spacing a reader may impose, and checks that nothing scrolls sideways, no text is cut off, and Tab never lands on something wholly covered (SC 1.4.4, 1.4.10, 1.4.12, 2.4.11).
+
+These are not part of `npm test` or the workflow yet. As of November 23, 2026 they report the same three findings in every palette, none of them caused by a palette:
+
+1. After Tab moves past the open help menu, the menu and its backdrop stay up, so the focus ring on the page beneath falls under 3:1, and at 200% and 400% a few stops sit wholly behind the menu.
+2. With a reader's text spacing at desktop width, the last line under "Your answers" ("1,033 matches to explore") is cut off.
+3. In the plain reading view, the walkthrough dots for steps other than the current one do not reach 3:1 against the dialog. "1 of 9", Previous, and Next carry the same information.
+
+The tests do not replace a person using a screen magnifier or a screen reader.
+
 ## Licenses
 
 The original tools are **CC BY-NC-ND 4.0**, with the exceptions in [LICENSE.md](LICENSE.md) and [NOTICE.md](NOTICE.md). Every use-case idea keeps its own license, including synthesis and remix entries. Separately licensed guide content, policy quotations, sources, fonts, and dependencies retain their own terms. Earlier CC BY-NC-SA permissions remain in effect for earlier releases.
