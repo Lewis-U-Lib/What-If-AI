@@ -1,5 +1,7 @@
 # What If AI & The Register
 
+> **This site has moved.** What If AI is now named Quidsima. It and The Register are published from [`Lewis-U-Lib/Quidsima`](https://github.com/Lewis-U-Lib/Quidsima) at <https://lewis-u-lib.github.io/Quidsima/>. This repository publishes only the pages in `redirect/`, which send each old address to its new one and keep whatever follows `#` or `?`. Everything below describes the site as it was at the move.
+
 Two faculty resources from Lewis University Library:
 
 
