@@ -1,9 +1,9 @@
 /* A tiny static server for the tests and for local preview (no dependencies).
  * It mirrors what GitHub Pages does that the site relies on: serves _site/ under the
- * repository path (/What-If-AI/), sends 404.html for unknown paths, and
+ * repository path (/Quidsima/), sends 404.html for unknown paths, and
  * maps a path without an extension to the .html file.
  *
- *   node tests/serve.js [dir] [port]       → http://localhost:8080/What-If-AI/
+ *   node tests/serve.js [dir] [port]       → http://localhost:8080/Quidsima/
  *   const { start } = require('./serve');   → await start({dir, port}) in a test
  */
 const http = require('http');
@@ -12,7 +12,7 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const CFG = JSON.parse(fs.readFileSync(path.join(ROOT, 'site.json'), 'utf8'));
-const BASE = new URL(CFG.base_url).pathname;           // "/What-If-AI/"
+const BASE = new URL(CFG.base_url).pathname;           // "/Quidsima/"
 const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8', '.png': 'image/png', '.webp': 'image/webp', '.woff2': 'font/woff2', '.svg': 'image/svg+xml',
   '.txt': 'text/plain; charset=utf-8', '.xml': 'application/xml; charset=utf-8' };

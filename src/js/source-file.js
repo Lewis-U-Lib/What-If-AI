@@ -8,7 +8,7 @@ function render(){
   try { url = decodeURIComponent(location.hash.slice(1)); } catch(_) {}
   var e = policy.lookup(url), file = policy.file(url);
   if(!e || !file){
-    body.textContent = 'This file link is not recognized. Return to the source in What If AI or The Register.';
+    body.textContent = 'This file link is not recognized. Return to the source in Quidsima or The Register.';
     return;
   }
   function text(tag, value){

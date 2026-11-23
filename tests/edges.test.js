@@ -35,7 +35,7 @@ const layers = value => value.split(/,(?![^(]*\))/).map(s => s.trim()).filter(s 
       const errors = []; page.on('pageerror', error => errors.push(error.message));
       const plain = name === 'plain reading view';
 
-      await page.goto(server.url('what-if-ai.html#a=focus:teaching;task:design')); await ready(page); await page.waitForSelector('.acard');
+      await page.goto(server.url('quidsima.html#a=focus:teaching;task:design')); await ready(page); await page.waitForSelector('.acard');
       /* rims: light, and clearly present */
       for (const selector of ['.hdr.hdr--compact', '.acard', '.rail button.railitem, .rail a']) {
         const rim = await read(page, selector, 'borderTopColor');
@@ -53,7 +53,7 @@ const layers = value => value.split(/,(?![^(]*\))/).map(s => s.trim()).filter(s 
       assert.equal((await lit('.acard')).length, 1, `${name}: the card under the pointer is lit`);
       assert.equal((await lit('.acard:nth-of-type(2)')).length, 0, `${name}: its neighbor is not`);
 
-      await page.goto(server.url('what-if-ai.html')); await ready(page);
+      await page.goto(server.url('quidsima.html')); await ready(page);
       assert.equal((await lit('.qpanel')).length, 1, `${name}: the current question is lit`);
       if (plain) assert.ok(layers(await shadow(page, '.qpanel')).every(l => !(l.gold && l.blur)), 'the plain view draws the ring without a glow');
 

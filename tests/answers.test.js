@@ -1,4 +1,4 @@
-/* What If AI's questions and walkthrough.
+/* Quidsima's questions and walkthrough.
  *  · Selecting the answer that is already selected clears it, by pointer or with Space; a double-click does not.
  *  · The walkthrough gives saving, comparing, planning and printing, The Register, and feedback a step each.
  * Run after `python3 tools/build.py`:  node tests/answers.test.js [site-dir] */
@@ -21,7 +21,7 @@ const norm = value => String(value).replace(/\s+/g, ' ').trim();
       const context = await createContext(browser, { viewport: { width, height: 900 } });
       const page = await context.newPage();
       const errors = []; page.on('pageerror', error => errors.push(error.message));
-      await page.goto(server.url('what-if-ai.html')); await ready(page);
+      await page.goto(server.url('quidsima.html')); await ready(page);
       const checked = () => page.$$eval('input[name="q-focus"]', list => list.filter(i => i.checked).map(i => i.value));
       const option = value => page.locator(`label.opt:has(input[name="q-focus"][value="${value}"])`);
       const other = (await page.$$eval('input[name="q-focus"]', list => list.map(i => i.value))).find(v => v !== 'teaching');
@@ -76,7 +76,7 @@ const norm = value => String(value).replace(/\s+/g, ' ').trim();
       pass(`@${width}: a selected answer clears on a second click or Space, not on a double-click, and other choices behave as before`);
 
       /* ── the walkthrough ── */
-      await page.goto(server.url('what-if-ai.html')); await ready(page);
+      await page.goto(server.url('quidsima.html')); await ready(page);
       await page.click('.hdr [data-open-tour]'); await page.waitForSelector('#tourDialog[open]');
       const titles = await page.$$eval('#tourDialog [data-slide] h3', list => list.map(h => h.textContent.trim()));
       assert.deepEqual(titles, ['What the tool does', 'Describe your work', 'Review the use-case ideas that fit', 'Look inside a use-case idea',

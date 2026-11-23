@@ -14,7 +14,7 @@ const hash=w=>'#a='+Object.entries(w.state).map(([k,v])=>k+':'+encodeURIComponen
     const errors=[];p.on('pageerror',e=>errors.push(e.message));
     async function go(file){await p.goto('about:blank');await p.goto(base+file);await p.waitForSelector('html[data-ready]');}
     for(const w of witnesses){
-      await go('what-if-ai.html'+hash(w));
+      await go('quidsima.html'+hash(w));
       const fold=p.locator(`details[data-fold="${w.group}"]`);
       if(await fold.count()&&!(await fold.evaluate(d=>d.open)))await fold.locator('> summary').click();
       const card=p.locator(`[data-match-group="${w.group}"] [data-card="${w.id}"]`);
@@ -36,10 +36,10 @@ const hash=w=>'#a='+Object.entries(w.state).map(([k,v])=>k+':'+encodeURIComponen
       await go('register.html#act='+w.id);
       assert.equal(await p.locator('#actDialogTitle').textContent(),w.title);
       assert.equal(await p.locator('#actDialog .dlg__body').textContent(),finder,w.id+' content parity');
-      report.push({id:w.id,group:w.group,rank:w.rank,finder:true,register:true,url:base+'what-if-ai.html'+hash(w)});
+      report.push({id:w.id,group:w.group,rank:w.rank,finder:true,register:true,url:base+'quidsima.html'+hash(w)});
     }
     // Both readers label the paid workflows, and unknown deep links cannot open records.
-    for(const file of ['what-if-ai.html','register.html']){
+    for(const file of ['quidsima.html','register.html']){
       for(const id of ['CAN-L-038','CAN-L-039']){
         await go(file+'#act='+id);
         assert.ok((await p.locator('#actDialog .dlg__body').textContent()).includes('Paid tool required'));
@@ -53,7 +53,7 @@ const hash=w=>'#a='+Object.entries(w.state).map(([k,v])=>k+':'+encodeURIComponen
     // Use the wizard itself for each focus and newly represented scale, not just deep links.
     for(const id of ['CAN-L-040','CAN-L-020','CAN-L-060']){
       const w=witnesses.find(w=>w.id===id);
-      await go('what-if-ai.html');
+      await go('quidsima.html');
       await p.check(`[name="q-focus"][value="${w.state.focus}"]`);await p.locator('#next').click();
       await p.check(`[name="q-task"][value="${w.state.task}"]`);await p.locator('#next').click();
       await p.check(`[name="q-disc"][value="${w.state.disc}"]`);await p.locator('#next').click();
@@ -85,7 +85,7 @@ const hash=w=>'#a='+Object.entries(w.state).map(([k,v])=>k+':'+encodeURIComponen
         await visibleMenu();
         assert.equal(await p.evaluate(()=>document.activeElement.id),'h-'+next,`${width} ${section} to ${next}: heading focus`);
       }
-      await go('what-if-ai.html#act=CAN-L-034');
+      await go('quidsima.html#act=CAN-L-034');
       assert.ok(await p.locator('#actDialog').isVisible());
       assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
       if(process.env.PREVIEW_DIR&&[390,1440].includes(width)){

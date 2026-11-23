@@ -100,7 +100,7 @@ function matches(a){
   if(F.pol && a.pol!==F.pol) return false;
   if(F.role && a.ar!==F.role) return false;
   if(F.move && a.hm!==F.move) return false;
-  /* the same test as What If AI's "Nothing anyone has to pay for": a source item that needs a purchase,
+  /* the same test as Quidsima's "Nothing anyone has to pay for": a source item that needs a purchase,
      membership, subscription, or permission first is never confirmed free */
   if(F.cost && FINDER_MATCH.requirement(a,'nopaid')!=='confirmed') return false;
   if(F.op && a.op!==F.op) return false;
@@ -152,7 +152,7 @@ function worksMatching(q){
   });
 }
 /* With "Students use no AI tool" on, an idea whose main design has students (or unnamed people) operating AI
-   qualifies only through its stated route without AI. Say so on the card, as What If AI does. */
+   qualifies only through its stated route without AI. Say so on the card, as Quidsima does. */
 function firstSentence(t){ var m=/^[\s\S]*?[.!?](?=\s|$)/.exec(String(t||'').trim()); return m?m[0]:String(t||'').trim(); }
 function cardWithNote(a){
   var html = S_.cardHTML(a,{h:3});
@@ -172,7 +172,7 @@ function resultsHTML(){
     (ws.length ? ' <a href="#sources" data-goto-sources>'+S_.num(ws.length)+' source'+(ws.length===1?' also matches':'s also match')+' your search</a>.' : '')+'</p>';
   h += '<p class="print-note">This printout lists summaries only. Each use-case idea’s source, license, and attribution are in its full details. To keep them, print an idea from its details, or save ideas and print them from Saved use-case ideas.</p>';
   if(!list.length){
-    return h + '<div class="empty"><strong>No use-case ideas match these filters</strong><p>Try removing a filter, or use What If AI to describe what you are working on.</p>'+
+    return h + '<div class="empty"><strong>No use-case ideas match these filters</strong><p>Try removing a filter, or use Quidsima to describe what you are working on.</p>'+
       '<button type="button" class="btn" id="resetFilters2">Clear all filters</button></div>';
   }
   h += '<div class="cards">'+list.slice(0, shown).map(cardWithNote).join('')+'</div>';
@@ -189,7 +189,7 @@ function drawActivities(){
     '<aside class="filters is-collapsed" aria-labelledby="filtersTitle" id="filters">'+filtersHTML()+'</aside></div>'+
     '<div><div class="toolbar"><div class="field"><label for="f-sort">Sort by</label><select class="select" id="f-sort" data-f="sort">'+
       opt('az','Title (A–Z)',F.sort)+opt('theme','Theme',F.sort)+'</select></div>'+
-      '<a class="btn btn--sm" href="what-if-ai.html">'+icon('i-bulb')+' Not sure where to start? Try What If AI</a></div>'+
+      '<a class="btn btn--sm" href="quidsima.html">'+icon('i-bulb')+' Not sure where to start? Try Quidsima</a></div>'+
     '<div id="actResults" aria-live="off">'+resultsHTML()+'</div></div></div>';
 }
 var countTimer = null;

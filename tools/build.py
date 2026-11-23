@@ -194,7 +194,7 @@ def build(out):
             raise SystemExit(f"{page['src']}: unreplaced placeholder {PH.search(out_html).group(0)}")
         if page.get("absolute"):
             # every local link on a page served at any depth must be absolute
-            out_html = re.sub(r'href="((?:what-if-ai|register|index)\.html[^"]*)"', lambda m: f'href="{base_path}{m.group(1)}"', out_html)
+            out_html = re.sub(r'href="((?:quidsima|register|index)\.html[^"]*)"', lambda m: f'href="{base_path}{m.group(1)}"', out_html)
         (out / page["out"]).write_text(out_html, encoding="utf-8")
         b = out_html.encode("utf-8")
         site.sizes.append((page["out"], len(b), len(gzip.compress(b, 9, mtime=0))))

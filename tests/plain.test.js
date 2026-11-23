@@ -11,7 +11,7 @@ const { start } = require('./serve');
 
 const SITE_DIR = path.resolve(process.argv[2] || path.join(__dirname, '..', '_site'));
 const KEY = 'lul-whatifai-plain-v1', THEME = 'lul-whatifai-theme-v1';
-const TOOLS = ['what-if-ai.html', 'register.html'];
+const TOOLS = ['quidsima.html', 'register.html'];
 const pass = message => console.log('PASS  ' + message);
 const ready = page => page.waitForSelector('html[data-ready]', { state: 'attached' });
 const rest = async page => { await page.keyboard.press('Escape'); await page.mouse.move(4, 4); await page.evaluate(() => document.activeElement && document.activeElement.blur()); await page.waitForTimeout(450); };
@@ -70,8 +70,8 @@ const look = page => page.evaluate(PLATES => {
     }
     pass('default: both tools are textured and the help menu ends with "Switch to plain reading view"');
 
-    /* switch it on in What If AI */
-    await page.goto(server.url('what-if-ai.html')); await ready(page);
+    /* switch it on in Quidsima */
+    await page.goto(server.url('quidsima.html')); await ready(page);
     await page.click('#fabToggle'); await page.click(TOGGLE);
     assert.equal((await page.locator(TOGGLE).innerText()).trim(), 'Switch to textured view');
     assert.equal(await page.evaluate(k => localStorage.getItem(k), KEY), '1');
@@ -89,8 +89,8 @@ const look = page => page.evaluate(PLATES => {
     assert.ok(/^"?Barlow"?,/.test(now.titleFont), 'one typeface: ' + now.titleFont);
     assert.equal(now.fab, 'none', 'the help button has no glow gradient');
     assert.deepEqual(now.plates, [now.plates[0], now.plates[0], now.plates[0]], 'plates share one flat color');
-    assert.deepEqual(await inventory(page), before['what-if-ai.html'].inventory, 'the same words and the same controls');
-    pass('What If AI: the plain view takes off textures, bolts, glows, motion and display type, and changes no word or control');
+    assert.deepEqual(await inventory(page), before['quidsima.html'].inventory, 'the same words and the same controls');
+    pass('Quidsima: the plain view takes off textures, bolts, glows, motion and display type, and changes no word or control');
 
     /* the tool still works in it */
     await page.check('[name="q-focus"][value="teaching"]'); await page.click('#next');
@@ -103,7 +103,7 @@ const look = page => page.evaluate(PLATES => {
     await page.locator('#plan button[data-save]').first().click();
     assert.equal((await page.locator('.topbar [data-saved-count]').innerText()).trim(), '1', 'saving works');
     await page.locator('#plan button[data-save]').first().click();
-    pass('What If AI in the plain view: answering, opening details and saving work as before');
+    pass('Quidsima in the plain view: answering, opening details and saving work as before');
 
     /* accessibility, menu closed and open; remembered across reloads and pages */
     for (const open of [false, true]) {
@@ -150,7 +150,7 @@ const look = page => page.evaluate(PLATES => {
     /* another tab follows; no JavaScript: no switch; storage blocked: still works */
     const shared = await createContext(browser, { viewport: { width: 1280, height: 900 } });
     const one = await shared.newPage(), two = await shared.newPage();
-    await one.goto(server.url('what-if-ai.html')); await ready(one);
+    await one.goto(server.url('quidsima.html')); await ready(one);
     await two.goto(server.url('register.html')); await ready(two);
     await one.click('#fabToggle'); await one.click(TOGGLE);
     await two.waitForFunction(() => document.documentElement.hasAttribute('data-plain'));
@@ -158,7 +158,7 @@ const look = page => page.evaluate(PLATES => {
     await shared.close();
     const plainJs = await createContext(browser, { javaScriptEnabled: false });
     const still = await plainJs.newPage();
-    await still.goto(server.url('what-if-ai.html'));
+    await still.goto(server.url('quidsima.html'));
     assert.equal(await still.locator('[data-plain-toggle]').getAttribute('hidden'), '');
     assert.equal(await still.locator('html').getAttribute('data-plain'), null);
     await plainJs.close();

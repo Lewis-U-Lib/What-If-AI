@@ -17,9 +17,9 @@ const SITE=path.resolve(process.argv[2]||path.join(__dirname,'../_site'));
   const ok=(cond,msg)=>{assert.ok(cond,msg);checks++;};
 
   // 1 · a broken %-escape never blanks the page
-  await go('what-if-ai.html#a=focus:teaching;task:%E0%A4%A');
+  await go('quidsima.html#a=focus:teaching;task:%E0%A4%A');
   ok((await text('#wizard')).includes('What are you working on?'),'Finder falls back to the first question');
-  await go('what-if-ai.html#act=%');
+  await go('quidsima.html#act=%');
   ok(await p.locator('#missingAct').isVisible(),'Finder names a broken activity link');
   ok(!(await p.locator('#actDialog').evaluate(d=>d.open)),'no dialog opens for a broken link');
   ok((await text('#wizard')).includes('What are you working on?'),'questions stay available');
@@ -35,7 +35,7 @@ const SITE=path.resolve(process.argv[2]||path.join(__dirname,'../_site'));
 
   // 2 · unknown activity links say so in both tools
   for(const id of ['UNKNOWN-ACTIVITY','NOPE-123']){
-    for(const f of ['what-if-ai.html','register.html']){
+    for(const f of ['quidsima.html','register.html']){
       await go(f+'#act='+id);
       ok(await p.locator('#missingAct').isVisible(),id+' is reported missing in '+f);
       ok((await text('#missingAct')).includes(id),'the note names '+id);
@@ -43,13 +43,13 @@ const SITE=path.resolve(process.argv[2]||path.join(__dirname,'../_site'));
     }
   }
   // the Finder note goes away once the reader moves on
-  await go('what-if-ai.html#act=NOPE-123');
+  await go('quidsima.html#act=NOPE-123');
   await p.evaluate(()=>{location.hash='#a=focus:teaching;task:feedback';});
   await p.waitForSelector('#plan:not([hidden])');
   ok(await p.locator('#missingAct').count()===0,'the note clears on the next address');
 
   // A broken hash reached while a dialog is open must not leave the old activity on screen.
-  for(const f of ['what-if-ai.html','register.html']){
+  for(const f of ['quidsima.html','register.html']){
     for(const id of ['%','UNKNOWN-ACTIVITY']){
       await go(f+'#act='+D.acts[0].id);
       await p.evaluate(id=>{location.hash='#act='+id;},id);
@@ -63,14 +63,14 @@ const SITE=path.resolve(process.argv[2]||path.join(__dirname,'../_site'));
 
   // 3 · a reclassified record keeps its caution and reads as a licensed adaptation
   const spec=D.acts.find(a=>a.use==='unreported');
-  for(const f of ['what-if-ai.html','register.html']){
+  for(const f of ['quidsima.html','register.html']){
     await go(f+'#act='+spec.id);
     const body=await text('#actDialog .dlg__body');
     ok(body.includes('A published prompt or workflow.')&&body.includes('no results from using it have been reported'),'caution note in '+f);
     ok(body.includes('Licensed Adaptation.')&&!body.includes('Prompt Specification'),'controlled provenance label in '+f);
   }
   const reported=D.acts.find(a=>a.use!=='unreported');
-  await go('what-if-ai.html#act='+reported.id);
+  await go('quidsima.html#act='+reported.id);
   ok(!(await text('#actDialog .dlg__body')).includes('A published prompt or workflow.'),'no caution note on reported activities');
 
   // 4 · a license recorded without a version shows no invented deed link
@@ -81,7 +81,7 @@ const SITE=path.resolve(process.argv[2]||path.join(__dirname,'../_site'));
 
   // The original 2023 collection explicitly links a 4.0 deed; later releases are separate.
   const original=D.acts.find(a=>a.rel.some(r=>r[0]==='CSR-0205'));
-  for(const f of ['what-if-ai.html','register.html']){
+  for(const f of ['quidsima.html','register.html']){
     await go(f+'#act='+original.id);
     ok(await p.locator('#actDialog .dlg__body a[href="https://creativecommons.org/licenses/by-nc/4.0/"]').count()>0,'confirmed 4.0 deed remains available in '+f);
     ok(!(await text('#actDialog .dlg__body')).includes('version not stated'),'original collection attribution agrees with its license in '+f);

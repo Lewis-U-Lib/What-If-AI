@@ -19,7 +19,7 @@ const fixture = 'window.umami = { track: function(){}, getSession: function(){ r
   const server = await start({ dir: SITE });
   const browser = await chromium.launch();
   try {
-    for (const file of ['what-if-ai.html', 'register.html']) {
+    for (const file of ['quidsima.html', 'register.html']) {
       const ctx = await createContext(browser, { viewport: { width: 1440, height: 1000 } });
       await ctx.route(CFG.base_url + '**', async route => {
         const url = new URL(route.request().url());
@@ -103,7 +103,7 @@ const fixture = 'window.umami = { track: function(){}, getSession: function(){ r
       await page.waitForTimeout(600); delay = 0;
       check(file + ': completing another activity does not alter the current form', await form.locator('input:checked').count() === 0 && await form.getByRole('status').innerText() === '');
       // A receipt is shared across the two tools, without creating a visitor ID.
-      const other = file === 'what-if-ai.html' ? 'register.html' : 'what-if-ai.html';
+      const other = file === 'quidsima.html' ? 'register.html' : 'quidsima.html';
       await page.goto(CFG.base_url + other); await page.waitForSelector('html[data-ready]', { state: 'attached' }); await open(ids[0]);
       check(file + ': the other tool restores the same activity response', await form.locator('[value="planning"]').isChecked() && await submit.isDisabled());
       await page.evaluate(id => { SITE.Saved.add(id); window.print = function(){}; SITE.printSaved(); window.dispatchEvent(new Event('afterprint')); }, ids[0]);

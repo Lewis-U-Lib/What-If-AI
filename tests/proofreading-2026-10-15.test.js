@@ -126,7 +126,7 @@ pass('data: curly, paired, non-nested quotation marks; no doubled punctuation or
 
     // The results plan and saved badges use the same count format as the Register.
     await p.evaluate(ids => localStorage.setItem('lul-whatifai-saved-v1', JSON.stringify(ids)), D.acts.map(a => a.id));
-    await p.goto('about:blank'); await p.goto(server.url('what-if-ai.html#a='));
+    await p.goto('about:blank'); await p.goto(server.url('quidsima.html#a='));
     await p.waitForSelector('#plan .browse a');
     assert.ok((await p.locator('#plan .browse a').innerText()).includes('Browse all ' + total + ' use-case ideas'));
     const visible = await p.locator('[data-match-group="exact"] [data-card]').count();

@@ -13,9 +13,9 @@ const SITE = path.join(ROOT, '_site'), license = cfg.tool_license;
   page.on('pageerror', error => errors.push(error.message));
   let footerStates = 0, entryViews = 0;
   try {
-    for (const file of ['index.html','what-if-ai.html','register.html','404.html']) {
+    for (const file of ['index.html','quidsima.html','register.html','404.html']) {
       await page.goto(server.url(file));
-      if (['what-if-ai.html','register.html'].includes(file)) await page.waitForSelector('html[data-ready]');
+      if (['quidsima.html','register.html'].includes(file)) await page.waitForSelector('html[data-ready]');
       assert.equal(await page.locator('head link[rel="license"]').getAttribute('href'), license.url);
       assert.ok((await page.locator('meta[name="dcterms.rights"]').getAttribute('content')).includes(license.exceptions));
       assert.equal(await page.locator('.site-foot__license a[rel~="license"]').count(), 2);
@@ -44,7 +44,7 @@ const SITE = path.join(ROOT, '_site'), license = cfg.tool_license;
     }
     console.log('PASS: all four page footers, metadata, badge, exceptions, and prior-grant notice; eight expanded-footer accessibility/layout states.');
 
-    for (const file of ['what-if-ai.html','register.html']) {
+    for (const file of ['quidsima.html','register.html']) {
       await page.goto(server.url(file)); await page.waitForSelector('html[data-ready]');
       const result = await page.evaluate(() => {
         const bad = [], parser = new DOMParser(); let count = 0;

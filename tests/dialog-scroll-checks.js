@@ -22,7 +22,7 @@ module.exports = async function checkDialogScroll(browser, go, check) {
         return scroller.scrollTop;
       });
     }
-    for (const file of ['what-if-ai.html#a=focus:teaching;task:design', 'register.html#activities']) {
+    for (const file of ['quidsima.html#a=focus:teaching;task:design', 'register.html#activities']) {
       await page.goto('about:blank'); await go(page, file);
       const button = page.locator(file.startsWith('register') ? '#actResults [data-open]' : '#plan [data-open]').first();
       await button.click(); await atTop('actDialog');
@@ -49,9 +49,9 @@ module.exports = async function checkDialogScroll(browser, go, check) {
       check(file + ' @' + width + ': reopened and replaced activities and saved drawers start at the top; nested return preserves its position', true);
     }
     for (const [file, dialog, launch, next] of [
-      ['what-if-ai.html', 'tourDialog', '.hdr [data-open-tour]', '#tourNext'],
+      ['quidsima.html', 'tourDialog', '.hdr [data-open-tour]', '#tourNext'],
       ['register.html', 'rtour', '.hdr [data-open-register-tour]', '#rtourNext'],
-      ['what-if-ai.html', 'aboutDialog', '.hdr [data-open-about]', '#aboutNext'],
+      ['quidsima.html', 'aboutDialog', '.hdr [data-open-about]', '#aboutNext'],
       ['register.html', 'aboutDialog', '.hdr [data-open-about]', '#aboutNext'],
     ]) {
       await page.goto('about:blank'); await go(page, file);

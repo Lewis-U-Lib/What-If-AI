@@ -32,7 +32,7 @@
   /* The print renderer emits plain sections, with no collapsed descendants. */
   #printRoot .detail>section{break-inside:auto;page-break-inside:auto;}
 }
-/* What If AI's optional level-and-setting questions use the same bar. Its summary says how much is inside. */
+/* Quidsima's optional level-and-setting questions use the same bar. Its summary says how much is inside. */
 .qmore{margin-top:18px;}
 .qmore__label{flex:1 1 auto;}
 .qmore__hint{flex:0 0 auto;font-family:var(--font-b);font-size:15px;font-weight:500;letter-spacing:0;color:var(--ink-2);}

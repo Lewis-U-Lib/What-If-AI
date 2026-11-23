@@ -1,6 +1,6 @@
-# Architecture: What If AI & The Register
+# Architecture: Quidsima & The Register
 
-Both tools read the same public collection. GitHub Actions builds and tests the site, then deploys a successful `main` build to [GitHub Pages](https://lewis-u-lib.github.io/What-If-AI/).
+Both tools read the same public collection. GitHub Actions builds and tests the site, then deploys a successful `main` build to [GitHub Pages](https://lewis-u-lib.github.io/Quidsima/).
 
 ## Data and build
 

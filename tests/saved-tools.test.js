@@ -50,7 +50,7 @@ const tick = (page, id) => page.check(`input[data-compare="${id}"]`);
     page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
 
     /* ── compare ── */
-    await page.goto(server.url('what-if-ai.html')); await ready(page);
+    await page.goto(server.url('quidsima.html')); await ready(page);
     await page.click('.topbar [data-open-saved]');
     const compare = page.locator('#compareSaved');
     assert.equal(await compare.getAttribute('aria-disabled'), 'true', 'nothing is compared until two are ticked');
@@ -182,7 +182,7 @@ const tick = (page, id) => page.check(`input[data-compare="${id}"]`);
     /* an empty list can still be restored into */
     const empty = await createContext(browser, { viewport: { width: 1280, height: 900 } });
     const fresh = await empty.newPage();
-    await fresh.goto(server.url('what-if-ai.html')); await ready(fresh); await fresh.click('.topbar [data-open-saved]');
+    await fresh.goto(server.url('quidsima.html')); await ready(fresh); await fresh.click('.topbar [data-open-saved]');
     assert.equal(await fresh.locator('#downloadSaved').count(), 0, 'nothing to download from an empty list');
     assert.ok(await fresh.locator('#restoreSaved').isVisible());
     await fresh.setInputFiles('#restoreFile', listPath); await fresh.click('#restoreConfirm');
@@ -209,7 +209,7 @@ const tick = (page, id) => page.check(`input[data-compare="${id}"]`);
 
     /* ── copy as text, download as Word ── */
     await page.keyboard.press('Escape');
-    for (const [file, a] of [['what-if-ai.html', rich], ['register.html', routed]]) {
+    for (const [file, a] of [['quidsima.html', rich], ['register.html', routed]]) {
       await page.goto(server.url(file + '#act=' + a.id)); await ready(page); await page.waitForSelector('#actDialog[open]');
       await page.click('#actDialog [data-export-jump]');
       assert.ok(await page.evaluate(() => document.activeElement.matches('[data-copy-text]')), 'Copy or export moves to the block');
