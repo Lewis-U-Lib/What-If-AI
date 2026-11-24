@@ -162,11 +162,9 @@ The help menu's last item switches the plain reading view on or off. It is a sep
 - `tests/vision.test.js` takes every pair of colors those two measured and repeats the contrast under simulated protanopia, deuteranopia, and tritanopia (Machado, Oliveira & Fernandes, 2009, at full severity). Having no color vision needs no simulation, because WCAG contrast is already a ratio of luminances.
 - `tests/reflow.test.js` opens each state at 640×512 and 320×256 (a 1280×1024 window at 200% and 400%), and with the text spacing a reader may impose, and checks that nothing scrolls sideways, no text is cut off, and Tab never lands on something wholly covered (SC 1.4.4, 1.4.10, 1.4.12, 2.4.11).
 
-These are not part of `npm test` or the workflow yet. As of November 23, 2026 they report the same three findings in every palette, none of them caused by a palette:
+The workflow runs them on every pull request and every push to `main`, one job for each of the six views (`Checks (lowvision-light)` and so on), and nothing is published unless all six pass. Each job saves its measurements as an artifact. They are not part of `npm test`, which would take half an hour longer.
 
-1. After Tab moves past the open help menu, the menu and its backdrop stay up, so the focus ring on the page beneath falls under 3:1, and at 200% and 400% a few stops sit wholly behind the menu.
-2. With a reader's text spacing at desktop width, the last line under "Your answers" ("1,033 matches to explore") is cut off.
-3. In the plain reading view, the walkthrough dots for steps other than the current one do not reach 3:1 against the dialog. "1 of 9", Previous, and Next carry the same information.
+When they were first run, on November 23, 2026, they reported the same three findings in every palette: focus carrying on beneath the open help menu, a line under "Your answers" cut off by a reader's text spacing, and walkthrough dots in the plain reading view that could not be seen. All three are fixed (see "Light, logo, and the help menu"), and `tests/reader.test.js` checks each directly.
 
 The tests do not replace a person using a screen magnifier or a screen reader.
 
