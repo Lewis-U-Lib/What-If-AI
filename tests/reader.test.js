@@ -55,11 +55,15 @@ const ratio = (a, b) => (Math.max(lum(a), lum(b)) + 0.05) / (Math.min(lum(a), lu
       for (let k = 0; k < 3 && await open(); k++) await page.keyboard.press('Tab');
       assert.equal(await open(), false, file + ': opened with the mouse, it closes once Tab reaches the page');
 
-      /* and what it already did still works */
-      await page.click('#fabToggle'); await page.click('#fabMenu [data-theme-toggle]');
+      /* and what it already did still works: a palette control leaves the menu open (one switch, or one tile for each palette) */
+      await page.click('#fabToggle');
+      const before = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
+      const tiles = await page.locator('#fabMenu [data-theme-choice]').count();
+      await page.click(tiles ? '#fabMenu [data-theme-choice][aria-pressed="false"]' : '#fabMenu [data-theme-toggle]');
       assert.ok(await open(), file + ': choosing a palette leaves the menu open');
-      await page.click('#fabMenu [data-theme-toggle]');
-      while ((await page.evaluate(() => document.documentElement.getAttribute('data-theme'))) !== (process.env.SITE_THEME === 'blue' || process.env.SITE_THEME === 'light' ? process.env.SITE_THEME : null)) await page.click('#fabMenu [data-theme-toggle]');
+      assert.notEqual(await page.evaluate(() => document.documentElement.getAttribute('data-theme')), before);
+      if (tiles) await page.click(`#fabMenu [data-theme-choice="${before || 'crimson'}"]`); else await page.click('#fabMenu [data-theme-toggle]');
+      assert.equal(await page.evaluate(() => document.documentElement.getAttribute('data-theme')), before, file + ': and the palette is back as it was');
       await page.keyboard.press('Escape');
       assert.equal(await open(), false, file + ': Escape closes it');
     }
