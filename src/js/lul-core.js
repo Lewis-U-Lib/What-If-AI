@@ -232,6 +232,11 @@ document.querySelectorAll('.flip').forEach(function(f){
     }
   });
   if(fabScrim) fabScrim.addEventListener('click', fabClose);
+  /* The menu closes when focus moves to anything outside it. Otherwise Tab carries on through the page beneath
+     the open menu and its backdrop, where the focus ring is dimmed and, at high zoom, hidden behind the menu. */
+  document.addEventListener('focusin', function(e){
+    if(fabWrap.classList.contains('open') && !fabWrap.contains(e.target)) fabClose();
+  });
   if(fabMenu) fabMenu.addEventListener('click', function(e){
     if(e.target.closest('[data-open-register-tour],[data-open-tour]')) fabClose();
   });
