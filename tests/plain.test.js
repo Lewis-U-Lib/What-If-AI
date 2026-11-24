@@ -121,7 +121,7 @@ const look = page => page.evaluate(PLATES => {
 
     /* with steel blue: the two choices are independent */
     await page.goto(server.url('register.html')); await ready(page);
-    await page.click('#fabToggle'); await page.click('#fabMenu [data-theme-toggle]'); await rest(page);
+    await page.click('#fabToggle'); await page.click('#fabMenu [data-theme-choice="blue"]'); await rest(page);
     now = await look(page);
     assert.equal(now.plain, true, 'changing the palette keeps the plain view');
     assert.equal(now.theme, 'blue');
@@ -141,7 +141,7 @@ const look = page => page.evaluate(PLATES => {
     assert.equal(now.plain, false); assert.equal(now.theme, 'blue', 'leaving the plain view keeps the palette');
     assert.equal(await page.evaluate(k => localStorage.getItem(k), KEY), null, 'nothing is left in storage for the textured view');
     assert.ok(now.images.every(i => i !== 'none'), 'textures return');
-    await page.click('#fabToggle'); await page.click('#fabMenu [data-theme-toggle]'); await rest(page);
+    await page.click('#fabToggle'); await page.click('#fabMenu [data-theme-choice="crimson"]'); await rest(page);
     assert.deepEqual(await look(page), before['register.html'].look, 'crimson and textured again, exactly as before');
     pass('The Register: the plain view works in steel blue, passes axe, and each switch leaves the other alone');
     assert.deepEqual(errors, []);

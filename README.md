@@ -59,7 +59,7 @@ complete explanation. See [the illustration map](docs/AI-TYPE-ILLUSTRATIONS.md).
 
 ## Edges and the lit ring
 
-Plates and cards have a light rim (`--rim`) against a darkened page, outlined controls sit on a dark fill, and one thing at a time is lit with a gold ring (`--halo`): the current question, an open dialog, and the card or door being pointed at or focused. The rules are the "edges" block near the end of `src/css/theme-plate.css`. Steel blue follows automatically; the plain reading view redefines `--halo` as a solid gold line with no glow. `tests/edges.test.js` (run by `npm run test:theme`) checks all three views.
+Plates and cards have a light rim (`--rim`) against a darkened page, outlined controls sit on a dark fill, and one thing at a time is lit with a gold ring (`--halo`): the current question, an open dialog, and the card or door being pointed at or focused. The rules are the "edges" block near the end of `src/css/theme-plate.css`. Steel blue follows automatically; the plain reading view redefines `--halo` as a solid gold line with no glow. In the light palette the same rules give a dark rim against a paler page, outlined controls on a pale fill, and the ring in crimson. `tests/edges.test.js` (run by `npm run test:theme`) checks all four views.
 
 Question 3's optional level-and-setting questions sit behind the same bar as the expandable sections in a use-case idea's details (`.qmore` shares the rules in `src/css/use-case-accordions.css`), with a note of how many choices are inside.
 
@@ -86,6 +86,8 @@ The Library logo is the original white mark. It lifts slightly and glows gold on
 The footer carries the Lewis Library logo (`src/img/library-emblem.webp`) in the site gold (`--gold`, #debb70), set in a recessed plate like the disclosure box below it. It is made from the logo's own pixels, which become the image's transparency and are scaled once; nothing is redrawn, so every icon matches the logo. To regenerate it, start from the Library's logo file again, not from a traced or generated copy. On hover and on keyboard focus it brightens, its glow widens, and it lifts 2px; the lift is skipped when reduced motion is requested. In forced-colors mode it is redrawn in the link color, and it prints in black. The footer reads in this order: emblem, the five links, the license block with its two collapsible panels, the AI-use disclosure, and a closing line with the tool license and last-updated date. From 1100px wide the emblem takes the left column; below that it stacks at 160px wide.
 
 Edison bulbs appear in a few places rather than everywhere: the What If AI bulb icon (`i-bulb`) has a filament that lights white-hot when its link is pointed at or focused, and small Edison bulbs (`--edison`) mark the considerations console in The Register and the current question in What If AI. The help button is a domed yellow-brass rivet with the ✦ stamped into it; it glows softly at rest and brighter on hover, focus, and while its menu is open. It returns to plain white under "more contrast" and forced colors and prints in black. Help-menu items are opaque in every state and sit in an opaque housing; the footer leaves room so the fixed help button never covers the disclosure. In forced-colors mode the logo is redrawn in the link color. `tests/incandescent-2026-11-02.test.js` measures the logo and menu contrast from rendered pixels and checks that nothing behind a menu item shows through it.
+
+The help menu closes when focus moves to anything outside it, as well as on Escape and on a click outside. Tab therefore never carries on through the page beneath the open menu and its backdrop. In the plain reading view the walkthrough dots for steps other than the current one keep a 2px outline, since the glow that marks them elsewhere is off. The lines under "Your answers" wrap instead of ending in an ellipsis, so a reader's own text spacing cannot cut them off. `tests/reader.test.js` (run by `npm run test:theme`) checks all three.
 
 ## Results, and the entry for work without an AI tool
 
@@ -121,23 +123,50 @@ Answers are saved as they are typed, in this browser only (`lul-whatifai-plans-v
 
 `tests/trial-plan.test.js` (run by `npm run test:saved`) covers the worksheet, storage, two tabs, printing, export, moving, and removal.
 
-## Crimson and steel blue
+## Crimson, steel blue, and light
 
-The help menu ends with a switch between two palettes: crimson, which is the default, and steel blue. Only colors change; layout, wording, textures' grain, gold, and the illustrations are the same in both.
+The help menu has a "Color palette" row with three tiles: Crimson, which is the default, Blue (steel blue), and Light. Each is one click away. The current palette's tile is filled and shows a check mark in place of its swatch, and is the pressed one (`aria-pressed`) for assistive technology. The swatch colors are attributes in the markup, not CSS, so the palette pass leaves them the same in every palette. Only colors change; layout, wording, textures' grain, and the illustrations are the same in all three.
 
 The stylesheets in `src/css` are written once, in crimson. At build time `tools/palette.py` replaces each crimson literal in the CSS bundles with a custom property whose default is that literal and whose value under `html[data-theme="blue"]` is the same color in steel blue at the same relative luminance. Matching luminance keeps every contrast ratio, so text that passes on crimson passes by the same margin on steel. Gold, brass, incandescent yellows, neutrals, and the reds that carry meaning (errors, cautions, the restrictive end of the policy spectrum) are left alone; the list is `KEEP` in that file. `python3 tools/palette.py` prints every translated color. New crimson added to a stylesheet is translated automatically.
 
-`src/js/theme.js` sets the attribute. It loads in the `<head>` without `defer`, so a reader who chose blue never sees crimson first. The choice is kept in this browser's storage only (`lul-whatifai-theme-v1`), carries across both tools and the landing page, and lasts until the page is left if storage is unavailable. Without JavaScript the pages are crimson and the switch stays hidden.
+The light palette (`html[data-theme="light"]`) is derived in the same pass from the same literals, but every color takes part, not only the crimsons (`paper()` in `tools/palette.py`):
 
-`tests/palette_test.py` checks the translation and `tests/theme.test.js` checks the switch. To run any browser check against the blue palette, set `SITE_THEME=blue`, for example `SITE_THEME=blue npm run test:contrast`.
+- Luminance is turned over with `L' = 0.0525 / (L + 0.05) - 0.05`, which exchanges black and white and leaves the WCAG contrast ratio between any two colors exactly as it was. The dark plates become pale and the pale lettering becomes ink.
+- Crimson plates and grounds become a warm off-white metal and are then lifted further toward white. The lift only raises pale grounds, so dark lettering on them gains contrast.
+- Gold lettering, lines, and filled buttons become Lewis crimson (hue of `#940731`), held no darker than the deep maroon so it still reads as crimson. Cream and white lettering becomes near-black ink.
+- Other hues keep their hue: the reds in `KEEP` stay red, green stays green.
+- In `box-shadow`, `text-shadow`, and `filter`, a dark color is a cast shadow and stays dark at about a third of its strength; white highlights stay white.
+- Rules inside `@media print` and `@media (forced-colors)` are left alone, because they already put dark ink on white.
+- `ISLANDS` lists parts that keep their crimson-palette colors in light. It holds one entry, the help button, which stays a yellow-brass rivet.
+
+`src/css/light.css` holds the few things the build cannot derive: the header logo and the footer emblem are drawn through a mask in `#940731` (the emblem's gold is in the image's pixels), the page ground is not dimmed, the walkthrough drawings keep their cream drawing paper, and native controls use `color-scheme: light`. The build leaves any rule that names `html[data-theme="light"]` exactly as written, so colors in that file are written as they should appear. `python3 tools/palette.py light` prints every color and its light twin.
+
+`src/js/theme.js` sets the attribute. It loads in the `<head>` without `defer`, so a reader who chose blue or light never sees crimson first. The choice is kept in this browser's storage only (`lul-whatifai-theme-v1`), carries across both tools and the landing page, and lasts until the page is left if storage is unavailable. Without JavaScript the pages are crimson and the switch stays hidden.
+
+`tests/palette_test.py` checks both translations and `tests/theme.test.js` checks the switch through all three palettes. To run any browser check against another palette, set `SITE_THEME=blue` or `SITE_THEME=light`, for example `SITE_THEME=blue npm run test:contrast`. `npm run test:light` runs the axe and rendered-contrast suites in the light palette, and the workflow runs both on every pull request.
 
 ## Plain reading view
 
-The help menu's last item switches the plain reading view on or off. It is a separate choice from the palette and works in either one. The pages, wording, and controls are the same; `src/css/plain.css` takes off the brushed textures, bolts, seams, lamps, glows, letter shadows, and the moving light, flattens brass to gold, and sets everything in Barlow in sentence case in place of the condensed display face and the monospaced readouts.
+The help menu's last item switches the plain reading view on or off. It is a separate choice from the palette and works in any of the three. The pages, wording, and controls are the same; `src/css/plain.css` takes off the brushed textures, bolts, seams, lamps, glows, letter shadows, and the moving light, flattens brass to gold, and sets everything in Barlow in sentence case in place of the condensed display face and the monospaced readouts.
 
-`src/js/theme.js` sets `data-plain` on `<html>` before the page is drawn and keeps the choice in this browser's storage only (`lul-whatifai-plain-v1`), across both tools and the landing page. Without JavaScript the pages are textured and the switch stays hidden. The colors in `plain.css` are crimson literals, so `tools/palette.py` gives them steel-blue twins like any others.
+`src/js/theme.js` sets `data-plain` on `<html>` before the page is drawn and keeps the choice in this browser's storage only (`lul-whatifai-plain-v1`), across both tools and the landing page. Without JavaScript the pages are textured and the switch stays hidden. The colors in `plain.css` are crimson literals, so `tools/palette.py` gives them steel-blue and light twins like any others.
 
-`tests/plain.test.js` (run by `npm run test:theme`) checks that the view changes no word and no control, that the tool still works in it, and that it passes axe in both palettes. To run any browser check in the plain view, set `SITE_PLAIN=1`, alone or with `SITE_THEME=blue`.
+`tests/plain.test.js` (run by `npm run test:theme`) checks that the view changes no word and no control, that the tool still works in it, and that it passes axe in crimson and steel blue. To run any browser check in the plain view, set `SITE_PLAIN=1`, alone or with `SITE_THEME=blue` or `SITE_THEME=light`.
+
+## Low-vision checks
+
+`npm run test:lowvision` measures, from rendered pixels, what axe does not: it runs four tests in each of the six views (crimson, steel blue, and light, each textured and in the plain reading view) and prints one summary. A full run takes about half an hour; `VIEWS=light,light-plain npm run test:lowvision` runs only the views named, and `LOWVISION_OUT=dir` keeps the measurements.
+
+- `tests/contrast.test.js` measures text over the textured surfaces against WCAG AA.
+- `tests/nontext.test.js` measures the boundaries of controls, the indicators of state (a chosen answer, a ticked filter, the question bar, the current tab), and the keyboard focus indicator at every Tab stop, against 3:1 (SC 1.4.11, 2.4.7, 2.4.13).
+- `tests/vision.test.js` takes every pair of colors those two measured and repeats the contrast under simulated protanopia, deuteranopia, and tritanopia (Machado, Oliveira & Fernandes, 2009, at full severity). Having no color vision needs no simulation, because WCAG contrast is already a ratio of luminances.
+- `tests/reflow.test.js` opens each state at 640×512 and 320×256 (a 1280×1024 window at 200% and 400%), and with the text spacing a reader may impose, and checks that nothing scrolls sideways, no text is cut off, and Tab never lands on something wholly covered (SC 1.4.4, 1.4.10, 1.4.12, 2.4.11).
+
+The workflow runs them on every pull request and every push to `main`, one job for each of the six views (`Checks (lowvision-light)` and so on), and nothing is published unless all six pass. Each job saves its measurements as an artifact. They are not part of `npm test`, which would take half an hour longer.
+
+When they were first run, on November 23, 2026, they reported the same three findings in every palette: focus carrying on beneath the open help menu, a line under "Your answers" cut off by a reader's text spacing, and walkthrough dots in the plain reading view that could not be seen. All three are fixed (see "Light, logo, and the help menu"), and `tests/reader.test.js` checks each directly.
+
+The tests do not replace a person using a screen magnifier or a screen reader.
 
 ## Licenses
 

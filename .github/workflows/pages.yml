@@ -25,7 +25,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [saved, matching, pages, accessibility, contrast]
+        suite:
+          - saved
+          - matching
+          - pages
+          - accessibility
+          - contrast
+          # the low-vision checks, one job for each palette and view
+          - lowvision-crimson
+          - lowvision-crimson-plain
+          - lowvision-blue
+          - lowvision-blue-plain
+          - lowvision-light
+          - lowvision-light-plain
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -96,9 +108,38 @@ jobs:
       - name: Accessibility (axe, WCAG 2.2 A/AA)
         if: matrix.suite == 'accessibility'
         run: node tests/a11y.test.js
+      - name: Accessibility in the light palette
+        if: matrix.suite == 'accessibility'
+        env:
+          SITE_THEME: light
+        run: node tests/a11y.test.js
       - name: Contrast over textured surfaces
         if: matrix.suite == 'contrast'
         run: node tests/contrast.test.js
+      - name: Contrast over textured surfaces in the light palette
+        if: matrix.suite == 'contrast'
+        env:
+          SITE_THEME: light
+        run: node tests/contrast.test.js
+
+      # Text contrast, non-text contrast and keyboard focus, color-vision simulation, zoom and text spacing
+      # (tests/lowvision.js), in the palette and view this job is named for.
+      - name: Low-vision checks
+        if: startsWith(matrix.suite, 'lowvision-')
+        env:
+          LOWVISION_OUT: test-results/lowvision
+          SUITE: ${{ matrix.suite }}
+        run: VIEWS="${SUITE#lowvision-}" node tests/lowvision.js
+      - name: Print the low-vision findings
+        if: failure() && startsWith(matrix.suite, 'lowvision-')
+        run: grep -h "^FAIL" test-results/lowvision/*.log || true
+      - name: Save the low-vision measurements
+        if: always() && startsWith(matrix.suite, 'lowvision-')
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.suite }}-measurements
+          path: test-results/lowvision
+          if-no-files-found: ignore
 
       - name: Upload the site
         if: matrix.suite == 'saved' && github.event_name != 'pull_request'

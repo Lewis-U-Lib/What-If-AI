@@ -1,36 +1,37 @@
 /* ════════════════════════════════════════════════════════════
-   THEME · crimson or steel blue, textured or plain
-   The stylesheets carry both palettes (tools/palette.py writes the blue twin of every crimson
-   color at build time). This file chooses between them by setting data-theme="blue" on <html>,
-   or leaving it off for crimson. It is loaded in the <head> without defer so the choice is
+   THEME · crimson, steel blue or light; textured or plain
+   The stylesheets carry all three palettes (tools/palette.py writes the steel-blue twin of every
+   crimson color, and the light twin of every color, at build time). This file chooses between
+   them by setting data-theme="blue" or data-theme="light" on <html>, or leaving it off for crimson. It is loaded in the <head> without defer so the choice is
    applied before the page is drawn. The choice is kept in this browser only (localStorage);
    if storage is unavailable it lasts until the page is left.
-   The help menu's "Switch to blue" / "Switch to crimson" button is hidden in the markup and
-   shown here, so it never appears where it cannot work.
+   The help menu shows the three as a row of tiles; the current one is pressed (aria-pressed) and
+   carries a check mark. The row is hidden in the markup and shown here, so it never appears where
+   it cannot work.
 
    A second, separate choice is the plain reading view (src/css/plain.css): data-plain on <html>
-   takes the textures, glows and display type off the same pages. It works in either palette and
+   takes the textures, glows and display type off the same pages. It works in any palette and
    is kept the same way, under its own key.
 ════════════════════════════════════════════════════════════ */
 (function(){
   'use strict';
   var KEY = 'lul-whatifai-theme-v1', PLAIN = 'lul-whatifai-plain-v1', root = document.documentElement;
-  var BAR = { crimson: '#5b0a1f', blue: '#163442' };       // the browser's toolbar tint (<meta name="theme-color">)
+  var THEMES = ['crimson', 'blue', 'light'];
+  var BAR = { crimson: '#5b0a1f', blue: '#163442', light: '#e9e6df' };   // the browser's toolbar tint (<meta name="theme-color">)
 
-  function stored(){ try { return window.localStorage.getItem(KEY) === 'blue' ? 'blue' : 'crimson'; } catch(_){ return 'crimson'; } }
-  function store(theme){ try { if(theme === 'blue') window.localStorage.setItem(KEY, 'blue'); else window.localStorage.removeItem(KEY); } catch(_){} }
-  function current(){ return root.getAttribute('data-theme') === 'blue' ? 'blue' : 'crimson'; }
+  function known(theme){ return THEMES.indexOf(theme) > 0 ? theme : 'crimson'; }
+  function stored(){ try { return known(window.localStorage.getItem(KEY)); } catch(_){ return 'crimson'; } }
+  function store(theme){ try { if(theme === 'crimson') window.localStorage.removeItem(KEY); else window.localStorage.setItem(KEY, theme); } catch(_){} }
+  function current(){ return known(root.getAttribute('data-theme')); }
 
   function apply(theme){
-    if(theme === 'blue') root.setAttribute('data-theme', 'blue'); else root.removeAttribute('data-theme');
+    if(theme === 'crimson') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', theme);
     var meta = document.querySelector('meta[name="theme-color"]');
     if(meta) meta.setAttribute('content', BAR[theme]);
-    var buttons = document.querySelectorAll('[data-theme-toggle]');
-    for(var i = 0; i < buttons.length; i++){
-      var label = buttons[i].querySelector('[data-theme-label]');
-      if(label) label.textContent = theme === 'blue' ? 'Switch to crimson' : 'Switch to blue';
-      buttons[i].hidden = false;
-    }
+    var tiles = document.querySelectorAll('[data-theme-choice]');
+    for(var i = 0; i < tiles.length; i++) tiles[i].setAttribute('aria-pressed', tiles[i].getAttribute('data-theme-choice') === theme ? 'true' : 'false');
+    var rows = document.querySelectorAll('[data-theme-choices]');
+    for(var j = 0; j < rows.length; j++) rows[j].hidden = false;
   }
 
   function storedPlain(){ try { return window.localStorage.getItem(PLAIN) === '1'; } catch(_){ return false; } }
@@ -50,14 +51,14 @@
   applyPlain(storedPlain());
 
   function ready(){
-    apply(current());                                        // now the menu exists: label and show its buttons
+    apply(current());                                        // now the menu exists: mark the current tile and show the row
     applyPlain(isPlain());
     document.addEventListener('click', function(e){
       var plain = e.target && e.target.closest ? e.target.closest('[data-plain-toggle]') : null;
       if(plain){ var on = !isPlain(); applyPlain(on); storePlain(on); return; }
-      var btn = e.target && e.target.closest ? e.target.closest('[data-theme-toggle]') : null;
-      if(!btn) return;
-      var next = current() === 'blue' ? 'crimson' : 'blue';
+      var tile = e.target && e.target.closest ? e.target.closest('[data-theme-choice]') : null;
+      if(!tile) return;
+      var next = known(tile.getAttribute('data-theme-choice'));
       apply(next); store(next);
     });
     // another tab or the other tool changed the choice: follow it
