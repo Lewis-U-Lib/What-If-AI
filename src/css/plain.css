@@ -71,3 +71,6 @@ html[data-plain] .hdr__title{font-weight:700;font-size:clamp(1.9rem,1.3rem + 2vw
 html[data-plain] h1,html[data-plain] h2,html[data-plain] h3,html[data-plain] h4{font-weight:700;letter-spacing:0;line-height:1.25;}
 html[data-plain] .btn,html[data-plain] .hdr-cta,html[data-plain] .fab-item{font-weight:600;font-size:16px;}
 html[data-plain] .countline,html[data-plain] .readout{font-size:16px;letter-spacing:0;}
+/* the current palette tile stays filled in the plain view */
+html[data-plain] .fab-choice[aria-pressed="true"],html[data-plain] .fab-choice[aria-pressed="true"]:hover,html[data-plain] .fab-choice[aria-pressed="true"]:focus-visible{background:#debb70;color:#22040b;}
+html[data-plain] .fab-choice{font-size:15px;}

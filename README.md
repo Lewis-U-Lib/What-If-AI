@@ -123,7 +123,7 @@ Answers are saved as they are typed, in this browser only (`lul-whatifai-plans-v
 
 ## Crimson, steel blue, and light
 
-The help menu's palette button steps through three palettes: crimson, which is the default, then steel blue, then light, then crimson again. The button always names the palette it will switch to. Only colors change; layout, wording, textures' grain, and the illustrations are the same in all three.
+The help menu has a "Color palette" row with three tiles: Crimson, which is the default, Blue (steel blue), and Light. Each is one click away. The current palette's tile is filled and shows a check mark in place of its swatch, and is the pressed one (`aria-pressed`) for assistive technology. The swatch colors are attributes in the markup, not CSS, so the palette pass leaves them the same in every palette. Only colors change; layout, wording, textures' grain, and the illustrations are the same in all three.
 
 The stylesheets in `src/css` are written once, in crimson. At build time `tools/palette.py` replaces each crimson literal in the CSS bundles with a custom property whose default is that literal and whose value under `html[data-theme="blue"]` is the same color in steel blue at the same relative luminance. Matching luminance keeps every contrast ratio, so text that passes on crimson passes by the same margin on steel. Gold, brass, incandescent yellows, neutrals, and the reds that carry meaning (errors, cautions, the restrictive end of the policy spectrum) are left alone; the list is `KEEP` in that file. `python3 tools/palette.py` prints every translated color. New crimson added to a stylesheet is translated automatically.
 

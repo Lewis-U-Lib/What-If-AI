@@ -277,6 +277,19 @@ body::before{
   box-shadow:var(--bevel),0 4px 16px rgba(0,0,0,.45);}
 .fab-item:hover,.fab-item:focus-visible{background:linear-gradient(180deg,#2c050d,#22040b);border-color:var(--inc-bulb);color:var(--cream-lt);}
 .fab-item:hover{box-shadow:var(--bevel),0 6px 22px rgba(0,0,0,.5),var(--inc-glow);}
+/* the palette choices: three tiles in one row of the help menu. The current one is filled and shows a check mark
+   in place of its swatch, so the state does not rest on color. */
+.fab-palette{display:flex;flex-direction:column;gap:6px;}
+.fab-palette[hidden]{display:none;}
+.fab-palette__label{font-family:var(--font-h);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cream-lt);}
+.fab-palette__row{display:flex;gap:8px;}
+.fab-choice{flex:1 1 0;min-width:0;flex-direction:column;justify-content:center;gap:5px;padding:9px 6px;min-height:44px;font-size:14px;text-align:center;}
+.fab-choice__swatch,.fab-choice__check{width:18px;height:18px;flex:none;}
+.fab-choice__check{display:none;}
+.fab-choice[aria-pressed="true"] .fab-choice__swatch{display:none;}
+.fab-choice[aria-pressed="true"] .fab-choice__check{display:block;}
+.fab-choice[aria-pressed="true"],.fab-choice[aria-pressed="true"]:hover,.fab-choice[aria-pressed="true"]:focus-visible{
+  background:linear-gradient(180deg,#f3dc9e,#debb70);border-color:var(--inc-bulb);color:#22040b;}
 
 /* ═══ phones: smaller hardware, fewer bolts ═══ */
 /* ═══ edges ═══

@@ -12,10 +12,17 @@
       <span class="fab-item__icon"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-calendar"/></svg></span> Make an Appointment
     </a>
     <a class="fab-item" href="https://lewisu.libguides.com/genaifacultystaff" target="_blank" rel="noopener noreferrer"><span class="fab-item__icon"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-robot"/></svg></span> Gen AI Guide</a>
-    <!-- steps the palette from crimson to steel blue to light and back (src/js/theme.js); hidden until the script can act on it -->
-    <button class="fab-item" type="button" data-theme-toggle hidden>
-      <span class="fab-item__icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></span> <span data-theme-label>Switch to blue</span>
-    </button>
+    <!-- chooses the palette: crimson, steel blue or light (src/js/theme.js); hidden until the script can act on it.
+         The current palette is the filled tile with the check mark. The swatch colors are attributes, not CSS,
+         so the build's palette pass (tools/palette.py) leaves them the same in every palette. -->
+    <div class="fab-palette" role="group" aria-labelledby="fabPaletteLabel" data-theme-choices hidden>
+      <span class="fab-palette__label" id="fabPaletteLabel">Color palette</span>
+      <div class="fab-palette__row">
+      <button class="fab-item fab-choice" type="button" data-theme-choice="crimson" aria-pressed="true"><svg class="fab-choice__swatch" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><circle cx="9" cy="9" r="8.5" fill="#1b090f"/><circle cx="9" cy="9" r="7.2" fill="#ffffff"/><circle cx="9" cy="9" r="5.8" fill="#7a0526"/></svg><svg class="fab-choice__check" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M3.5 9.5l3.6 3.6 7.4-8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Crimson</span></button>
+      <button class="fab-item fab-choice" type="button" data-theme-choice="blue" aria-pressed="false"><svg class="fab-choice__swatch" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><circle cx="9" cy="9" r="8.5" fill="#1b090f"/><circle cx="9" cy="9" r="7.2" fill="#ffffff"/><circle cx="9" cy="9" r="5.8" fill="#2f5f75"/></svg><svg class="fab-choice__check" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M3.5 9.5l3.6 3.6 7.4-8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Blue</span></button>
+      <button class="fab-item fab-choice" type="button" data-theme-choice="light" aria-pressed="false"><svg class="fab-choice__swatch" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><circle cx="9" cy="9" r="8.5" fill="#1b090f"/><circle cx="9" cy="9" r="7.2" fill="#ffffff"/><circle cx="9" cy="9" r="5.8" fill="#f4f2ee"/></svg><svg class="fab-choice__check" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M3.5 9.5l3.6 3.6 7.4-8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Light</span></button>
+      </div>
+    </div>
     <!-- turns the plain reading view on or off (src/js/theme.js, src/css/plain.css); works in any palette; hidden until the script can act on it -->
     <button class="fab-item" type="button" data-plain-toggle hidden>
       <span class="fab-item__icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 6.5h14M5 12h14M5 17.5h9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span> <span data-plain-label>Switch to plain reading view</span>
