@@ -96,7 +96,7 @@ img{max-width:100%;}
   border-radius:50%;border:1.5px solid var(--gold);color:var(--gold);font-size:14px;flex:none;}
 .rail .railitem__txt{display:flex;flex-direction:column;min-width:0;}
 .rail .railitem__ans{font-family:var(--font-b);font-weight:500;font-size:14px;color:var(--ink-2);
-  letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px;}
+  letter-spacing:0;overflow-wrap:anywhere;max-width:150px;}   /* wraps; never cut off, whatever spacing the reader sets (SC 1.4.12) */
 .rail .railitem.is-done .railitem__n{background:var(--gold);color:#2a0610;}
 .rail .count{margin-left:auto;font-family:var(--font-b);font-size:13.5px;font-weight:600;color:var(--gold);}
 /* how the answers are used, beside the questions: in the rail on wide screens, in the first question

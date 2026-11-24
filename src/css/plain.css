@@ -54,6 +54,8 @@ html[data-plain] .fab-toggle,html[data-plain] .fab-toggle:hover,html[data-plain]
   background:var(--gold);box-shadow:0 0 0 3px #22040b,0 0 0 5px var(--gold);}
 html[data-plain] .fab-item:hover{box-shadow:0 4px 16px rgba(0,0,0,.45);}
 html[data-plain] .lamp,html[data-plain] .lamp--on,html[data-plain] .lamp--green{box-shadow:none;}
+/* the walkthrough dots are buttons: without the glow, a step that is not the current one still needs an outline to be seen (SC 1.4.11) */
+html[data-plain] .tour__dot:not([aria-current="step"]) .lamp{box-shadow:0 0 0 2px var(--gold);}
 
 /* ── fittings: flat gold in place of brass ── */
 html[data-plain] .btn--primary,html[data-plain] .save[aria-pressed="true"],html[data-plain] .hdr-cta--primary,html[data-plain] .secnav a[aria-current="page"],
